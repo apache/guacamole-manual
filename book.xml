@@ -4,7 +4,20 @@
 <book>
     <title>Guacamole User's Guide</title>
 
-    <xi:include href="chapters/0001-guacamole.xml"
+    <xi:include href="chapters/components.xml"
         xmlns:xi="http://www.w3.org/2001/XInclude"/>
+
+    <xi:include href="agpl.dbk"
+        xmlns:xi="http://www.w3.org/2001/XInclude"/>
+
+    <xi:include href="gpl-2.0.dbk"
+        xmlns:xi="http://www.w3.org/2001/XInclude"/>
+
+    <xi:include href="lgpl-2.1.dbk"
+        xmlns:xi="http://www.w3.org/2001/XInclude"/>
+
+    <xi:include href="mpl.dbk"
+        xmlns:xi="http://www.w3.org/2001/XInclude"/>
+
 </book>
 

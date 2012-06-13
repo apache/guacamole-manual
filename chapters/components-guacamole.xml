@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
     "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
-<chapter id="guacamole">
-    <title>Guacamole (web application)</title>
+<section id="guacamole">
+    <title>Guacamole</title>
 
     <para>
         Guacamole is a web application which uses the API provided by the
         Guacamole project (<literal>guacamole-common</literal>,
         <literal>guacamole-common-ext</literal>, and
-        <literal>guacamole-common-js</literal>) to implement a universal
-        remote desktop gateway and client.
+        <literal>guacamole-common-js</literal>) to implement a universal remote
+        desktop gateway and client.
     </para>
 
     <para>
-        Guacamole is written in Java and is released under the
-        GNU Affero General Public License v3.
+        Guacamole is written in Java and is released under the <link
+            linkend="agpl">GNU Affero General Public License v3.</link>
     </para>
 
     <section>
@@ -91,4 +91,4 @@
 
         </orderedlist>
     </section>
-</chapter>
+</section>

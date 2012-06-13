@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+    "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<chapter id="components">
+    <title>Components</title>
+
+    <para>
+        Guacamole is not simply a web application. The Guacamole project
+        encompasses several subprojects which make up the Guacamole core. The
+        web application commonly known as "Guacamole" is simply a free and
+        open-source remote desktop application powered by the core. The
+        Guacamole core APIs are what make the web application possible.
+    </para>
+
+    <xi:include href="components-guacamole.xml"
+        xmlns:xi="http://www.w3.org/2001/XInclude"/>
+
+</chapter>
