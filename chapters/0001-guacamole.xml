@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+    "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<chapter id="guacamole">
+    <title>Guacamole (web application)</title>
+
+    <para>
+        Guacamole is a web application which uses the API provided by the
+        Guacamole project (guacamole-common, guacamole-common-ext,
+        guacamole-common-js) to implement a universal remote desktop
+        gateway and client.
+    </para>
+
+    <para>
+        Guacamole is written in Java and is released under the
+        GNU Affero General Public License v3.
+    </para>
+
+    <section>
+        <title>Downloading Guacamole</title>
+
+        <para>
+            Pre-compiled packages may be available for your distribution
+            from the files section of the main project page. If
+            pre-compiled packages are not available for your distribution,
+            or you wish to compile Guacamole from source, you can download
+            the source from SourceForge, or from the project git
+            repositories:
+        </para>
+
+        <blockquote><para><literal>
+git clone git://guacamole.git.sourceforge.net/gitroot/guacamole/guacamole
+        </literal></para></blockquote>
+
+        <para>
+            The `master` branch will have the latest stable, released code,
+            while the `unstable` branch will have the latest development
+            code.
+        </para>
+    </section>
+
+    <section>
+        <title>Compiling and installing Guacamole</title>
+
+        <para>
+            Guacamole is built using Maven. Building Guacamole compiles all
+            classes and packages them into a deployable `.war` file.
+            This `.war` file can be installed and deployed under servlet
+            containers like Apache Tomcat or Jetty.
+        </para>
+
+        <orderedlist>
+
+            <listitem>
+                <para>Run `mvn package`</para>
+                <para>$ mvn package</para>
+
+                <para>
+Maven will download any needed dependencies for building the `.war` file.
+Once  all dependencies have been downloaded, the `.war` file will be
+created in the `target/` subdirectory of the current directory.
+                </para>
+            </listitem>
+
+            <listitem>
+                <para>Copy the `.war` file as directed in the instructions provided with your
+                    servlet container.</para>
+
+                <para>
+Apache Tomcat, Jetty, and other servlet containers have specific and
+varying locations that `.war` files must be placed for the web application
+to be deployed.
+</para>
+
+<para>
+You will likely need to do this as root.
+</para>
+</listitem>
+</orderedlist>
+</section>
+</chapter>
