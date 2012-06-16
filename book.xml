@@ -4,19 +4,23 @@
 <book>
     <title>Guacamole User's Guide</title>
 
+    <!-- CHAPTERS -->
+
     <xi:include href="chapters/components.xml"
         xmlns:xi="http://www.w3.org/2001/XInclude"/>
 
-    <xi:include href="agpl.dbk"
+    <!-- APPENDICES -->
+
+    <xi:include href="appendices/agpl.xml"
         xmlns:xi="http://www.w3.org/2001/XInclude"/>
 
-    <xi:include href="gpl-2.0.dbk"
+    <xi:include href="appendices/gpl.xml"
         xmlns:xi="http://www.w3.org/2001/XInclude"/>
 
-    <xi:include href="lgpl-2.1.dbk"
+    <xi:include href="appendices/lgpl.xml"
         xmlns:xi="http://www.w3.org/2001/XInclude"/>
 
-    <xi:include href="mpl.dbk"
+    <xi:include href="appendices/mpl.xml"
         xmlns:xi="http://www.w3.org/2001/XInclude"/>
 
 </book>
