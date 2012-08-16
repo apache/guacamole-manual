@@ -8,4 +8,34 @@
 
     <title>Extending Guacamole</title>
 
+    <!--
+    - Protocols
+    -->
+
+    <section id="customprotocol">
+
+        <title>Adding New Protocols</title>
+
+    </section>
+
+    <!--
+    - Authentication
+    -->
+
+    <section id="customauth">
+
+        <title>Custom Authentication</title>
+
+    </section>
+
+    <!--
+    - Hooks
+    -->
+
+    <section id="customhooks">
+
+        <title>Event Handlers</title>
+
+    </section>
+
 </chapter>

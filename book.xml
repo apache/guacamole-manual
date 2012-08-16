@@ -22,6 +22,7 @@
     <xi:include href="chapters/installing.xml"/>
     <xi:include href="chapters/using.xml"/>
     <xi:include href="chapters/extending.xml"/>
+    <xi:include href="chapters/yourown.xml"/>
 
     <!-- APPENDICES -->
 
