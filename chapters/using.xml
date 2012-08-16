@@ -8,4 +8,44 @@
 
     <title>Using Guacamole</title>
 
+    <!--
+    - Logging in
+    -->
+
+    <section id="login">
+
+        <title>Logging In</title>
+
+    </section>
+
+    <!--
+    - Selecting connection
+    -->
+
+    <section id="connect">
+
+        <title>Selecting a Connection</title>
+
+    </section>
+
+    <!--
+    - Using Touch Devices
+    -->
+
+    <section id="touch">
+
+        <title>Using Touch Devices</title>
+
+    </section>
+
+    <!--
+    - The OSK
+    -->
+
+    <section id="osk">
+
+        <title>Typing with Special Keys</title>
+
+    </section>
+
 </chapter>
