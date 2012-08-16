@@ -5,7 +5,14 @@
 <book xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude">
 
-    <title>Guacamole User's Guide</title>
+    <info>
+        <title>Guacamole User's Guide</title>
+        <author>
+            <firstname>Michael</firstname>
+            <surname>Jumper</surname>
+            <email>mike.jumper@guac-dev.org</email>
+        </author>
+    </info>
 
     <!-- CHAPTERS -->
 

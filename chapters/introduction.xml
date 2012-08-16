@@ -8,4 +8,34 @@
 
     <title>Introduction</title>
 
+    <!--
+    - Guacamole History
+    -->
+
+    <section id="history">
+
+        <title>History</title>
+
+    </section>
+
+    <!--
+    - What is Guacamole?
+    -->
+
+    <section id="whatguac">
+
+        <title>What is Guacamole?</title>
+
+    </section>
+
+    <!--
+    - Why use Guacamole?
+    -->
+
+    <section id="whyguac">
+
+        <title>Why should I (or anyone) use Guacamole?</title>
+
+    </section>
+
 </chapter>

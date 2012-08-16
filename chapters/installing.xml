@@ -8,4 +8,34 @@
 
     <title>Installing Guacamole</title>
 
+    <!--
+    - From packages 
+    -->
+
+    <section id="getpackages">
+
+        <title>Pre-built Packages</title>
+
+    </section>
+
+    <!--
+    - From source
+    -->
+
+    <section id="getsource">
+
+        <title>Building Guacamole from Source</title>
+
+    </section>
+
+    <!--
+    - From git 
+    -->
+
+    <section id="getgit">
+
+        <title>The Absolute Latest</title>
+
+    </section>
+
 </chapter>
