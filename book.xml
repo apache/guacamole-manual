@@ -8,8 +8,10 @@
     <info>
         <title>Guacamole User's Guide</title>
         <author>
-            <firstname>Michael</firstname>
-            <surname>Jumper</surname>
+            <personname>
+                <firstname>Michael</firstname>
+                <surname>Jumper</surname>
+            </personname>
             <email>mike.jumper@guac-dev.org</email>
         </author>
     </info>
