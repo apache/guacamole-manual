@@ -26,6 +26,44 @@
 
         <title>Building Guacamole from Source</title>
 
+        <section>
+            <title>Compiling libguac</title>
+        </section>
+
+        <section>
+            <title>Protocol support and guacd</title>
+        </section>
+
+        <section>
+            <title>Building the web application (guacamole.war)</title>
+
+            <para>
+                Guacamole is built using Maven. Building Guacamole compiles all
+                classes and packages them into a deployable
+                <filename>.war</filename> file. This <filename>.war</filename>
+                file can be installed and deployed under servlet containers like
+                Apache Tomcat or Jetty.
+            </para>
+
+            <para>
+                To build Guacamole using maven, simply run
+                <command>mvn <option>package</option></command>.
+            </para>
+
+            <programlisting>
+<prompt>$</prompt> <command>mvn <option>package</option></command>
+            </programlisting>
+
+            <para>
+                Maven will download any needed dependencies for building
+                the <filename>.war</filename> file. Once all dependencies
+                have been downloaded, the <filename>.war</filename> file
+                will be created in the <filename>target/</filename>
+                subdirectory of the current directory.
+            </para>
+
+        </section>
+
     </section>
 
     <!--
