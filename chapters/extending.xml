@@ -14,7 +14,7 @@
 
     <section id="customprotocol">
 
-        <title>Adding New Protocols</title>
+        <title>Adding new protocols</title>
 
     </section>
 
@@ -24,7 +24,7 @@
 
     <section id="customauth">
 
-        <title>Custom Authentication</title>
+        <title>Custom authentication</title>
 
     </section>
 
@@ -34,7 +34,7 @@
 
     <section id="customhooks">
 
-        <title>Event Handlers</title>
+        <title>Event handlers</title>
 
     </section>
 

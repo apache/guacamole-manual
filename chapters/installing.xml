@@ -14,7 +14,7 @@
 
     <section id="getpackages">
 
-        <title>Pre-built Packages</title>
+        <title>Pre-built packages</title>
 
     </section>
 
@@ -24,7 +24,7 @@
 
     <section id="getsource">
 
-        <title>Building Guacamole from Source</title>
+        <title>Building Guacamole from source</title>
 
         <section>
             <title>Compiling libguac</title>
@@ -72,7 +72,7 @@
 
     <section id="getgit">
 
-        <title>The Absolute Latest</title>
+        <title>The absolute latest</title>
 
     </section>
 
