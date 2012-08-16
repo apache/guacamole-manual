@@ -5,4 +5,30 @@
 
     <title>FAQ</title>
 
+    <qandaset>
+
+        <qandaentry>
+            <question>
+                <para>
+                    What is does "clientless" mean?
+                </para>
+            </question>
+            <answer>
+                <para>
+                The term "clientless" means that no specific client is needed.
+                A Guacamole user needs only have an HTML5 web browser
+                installed, which is exceedingly common; virtually all modern
+                computers and mobile devices have such a browser installed by
+                default.
+                </para>
+                <para>
+                    In this sense, Guacamole is "clientless" in that it does
+                    not require any additional software to be installed
+                    beyond what is considered standard for any computer.
+                </para>
+            </answer>
+        </qandaentry>
+
+    </qandaset>
+
 </appendix>
