@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<appendix id="glossary" 
+<glossary id="glossary" 
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude">
 
     <title>Glossary</title>
 
-</appendix>
+    <glossdiv><title>G</title>
+
+        <glossentry>
+            <glossterm>Guacamole</glossterm>
+            <glossdef>
+                <para>
+                    definition...
+                </para>
+            </glossdef>
+        </glossentry>
+
+    </glossdiv>
+
+</glossary>
