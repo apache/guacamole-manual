@@ -16,6 +16,10 @@
     <section id="history">
 
         <title>History</title>
+        <indexterm>
+            <primary>Guacamole</primary>
+            <secondary>history</secondary>
+        </indexterm>
 
         <para>
             Guacamole began as a purely text-based Telnet client written in
@@ -65,6 +69,10 @@
     <section id="whatguac">
 
         <title>What is Guacamole?</title>
+        <indexterm>
+            <primary>Guacamole</primary>
+            <secondary>definition</secondary>
+        </indexterm>
 
         <para>
             Guacamole is a project that provides an HTML5 web application of
@@ -112,6 +120,10 @@
     <section id="whyguac">
 
         <title>Why should I (or anyone) use Guacamole?</title>
+        <indexterm>
+            <primary>Guacamole</primary>
+            <secondary>reasons for using</secondary>
+        </indexterm>
 
         <para>
             If you want to access one or more desktops from anywhere remotely,
