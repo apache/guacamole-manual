@@ -38,18 +38,76 @@
             need to build everything yourself from source.
         </para>
 
-        <section id="debian">
+        <section id="supported">
 
-            <title>Debian and Ubuntu packages</title>
+            <title>Supported distribution versions</title>
 
             <para>
-                Packages for all stable versions of Ubuntu and Debian are
-                available from the Guacamole project site at
-                http://guac-dev.org/. Only versions which are supported
-                officially by Ubuntu and Debian are supported by the Guacamole
-                project, though older versions of Guacamole can still be
-                downloaded for older unsupported versions of Ubuntu and Debian.
+                The Guacamole project supports all stable versions of Debian,
+                Ubuntu, and Fedora which have not reached end-of-life. The
+                only exception to this is when a particular version cannot
+                be supported because the upstream repository is missing a
+                critical dependency, in which case some or all of the
+                packages built by the Guacamole project will not be available
+                for that distribution.
             </para>
+
+            <para>
+                Packages for all supported versions of Linux distributions are
+                available from the Guacamole project site at
+                http://guac-dev.org/.
+            </para>
+
+        </section>
+
+        <section id="bindepends">
+
+            <title>Installing Dependencies</title>
+
+            <para>
+                Different components of Guacamole depend on different packages
+                provided by your distribution in order to function.
+            </para>
+
+            <para>
+                The Guacamole web application depends on a servlet container
+                like Apache Tomcat. This guide assumes you are using Apache
+                Tomcat as your servlet container, but others will work as well.
+                You will need to consult the documentation of your chosen
+                servlet container for any details regarding installation of web
+                applications.
+            </para>
+
+            <para>
+                For Debian and Ubuntu, Apache Tomcat is provided by the
+                <package>tomcat6</package> package, while the VNC library
+                required for VNC support is provided by
+                <package>libvncserver0</package>, and RDP support is provided
+                by <package>libfreerdp1</package>.
+            </para>
+
+            <example>
+                <title>Installing Guacamole dependencies on Debian or Ubuntu</title>
+                <programlisting>
+<prompt>$</prompt> <command>sudo <option>apt-get</option> <option>install</option> <option>tomcat6</option> <option>libvncserver0</option> <option>libfreerdp1</option></command>
+                </programlisting>
+            </example>
+
+            <para>
+                The Apache Tomcat package for Fedora is also called
+                <package>tomcat6</package>. VNC support is provided by
+                <package>libvncserver</package>, and RDP support is provided by
+                <package>freerdp</package>.
+            </para>
+
+            <example>
+                <title>Installing Guacamole dependencies on Fedora</title>
+                <programlisting>
+<prompt>$</prompt> <command>su</command>
+<prompt>Password:</prompt> <replaceable>password</replaceable>
+<prompt>#</prompt> <command>yum <option>install</option> <option>tomcat6</option> <option>libvncserver</option> <option>freerdp</option></command>
+                </programlisting>
+            </example>
 
         </section>
 
