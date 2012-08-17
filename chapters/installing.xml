@@ -16,6 +16,43 @@
 
         <title>Pre-built packages</title>
 
+        <para>
+            By far, the easiest way to install Guacamole is through pre-built
+            binary packages. Binary packages are provided with every Guacamole
+            release for several Linux distributions, and there may be Guacamole
+            packages available in the official repository of your distribution.
+        </para>
+
+        <para>
+            If your distribution provides Guacamole packages for you, this is
+            the preferred method of installing Guacamole. Install your
+            distribution's Guacamole package, and then follow the common
+            instructions here for configuring Guacamole once it is installed.
+        </para>
+
+        <para>
+            If your distribution does not provide Guacamole packages, or the
+            packages provided are too old, you can try the packages built by
+            the Guacamole project with every release. If the Guacamole project
+            does not provide packages for your specific distribution, you will
+            need to build everything yourself from source.
+        </para>
+
+        <section id="debian">
+
+            <title>Debian and Ubuntu packages</title>
+
+            <para>
+                Packages for all stable versions of Ubuntu and Debian are
+                available from the Guacamole project site at
+                http://guac-dev.org/. Only versions which are supported
+                officially by Ubuntu and Debian are supported by the Guacamole
+                project, though older versions of Guacamole can still be
+                downloaded for older unsupported versions of Ubuntu and Debian.
+            </para>
+
+        </section>
+
     </section>
 
     <!--
