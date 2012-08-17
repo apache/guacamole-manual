@@ -8,10 +8,88 @@
 
     <title>Glossary</title>
 
+    <glossdiv><title>A</title>
+
+        <glossentry>
+            <glossterm>authentication provider</glossterm>
+            <glossdef>
+                <para>
+                    definition...
+                </para>
+            </glossdef>
+        </glossentry>
+
+    </glossdiv>
+
+    <glossdiv><title>C</title>
+
+        <glossentry>
+            <glossterm>client plugin</glossterm>
+            <glossdef>
+                <para>
+                    definition...
+                </para>
+            </glossdef>
+        </glossentry>
+
+    </glossdiv>
+
     <glossdiv><title>G</title>
 
         <glossentry>
             <glossterm>Guacamole</glossterm>
+            <glossdef>
+                <para>
+                    definition...
+                </para>
+            </glossdef>
+        </glossentry>
+
+    </glossdiv>
+
+    <glossdiv><title>I</title>
+
+        <glossentry>
+            <glossterm>instruction</glossterm>
+            <glossdef>
+                <para>
+                    definition...
+                </para>
+            </glossdef>
+        </glossentry>
+
+    </glossdiv>
+
+    <glossdiv><title>J</title>
+
+        <glossentry>
+            <glossterm>JavaScript client</glossterm>
+            <glossdef>
+                <para>
+                    definition...
+                </para>
+            </glossdef>
+        </glossentry>
+
+    </glossdiv>
+
+    <glossdiv><title>M</title>
+
+        <glossentry>
+            <glossterm>message</glossterm>
+            <glossdef>
+                <para>
+                    definition...
+                </para>
+            </glossdef>
+        </glossentry>
+
+    </glossdiv>
+
+    <glossdiv><title>T</title>
+
+        <glossentry>
+            <glossterm>tunnel</glossterm>
             <glossdef>
                 <para>
                     definition...
