@@ -4,6 +4,7 @@
 
 <chapter id="installing" 
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xl="http://www.w3.org/1999/xlink"
     xmlns:xi="http://www.w3.org/2001/XInclude">
 
     <title>Installing Guacamole</title>
@@ -54,8 +55,8 @@
 
             <para>
                 Packages for all supported versions of Linux distributions are
-                available from the Guacamole project site at
-                http://guac-dev.org/.
+                available from the <link
+                    xl:href="http://guac-dev.org/">Guacamole web site</link>.
             </para>
 
         </section>
@@ -108,6 +109,26 @@
 <prompt>#</prompt> <command>yum <option>install</option> <option>tomcat6</option> <option>libvncserver</option> <option>freerdp</option></command>
                 </programlisting>
             </example>
+
+        </section>
+
+        <section>
+            
+            <title>Installing Guacamole packages</title>
+
+            <para>
+                Once dependencies are installed, the official Guacamole
+                packages can be installed.  Guacamole is split into multiple
+                packages, one package providing the web application, others
+                providing the native components (proxy daemon and library) or
+                support for specific protocols (VNC and RDP).
+            </para>
+
+            <para>
+                The easiest way to obtain all packages in one fell swoop is to
+                download the "bundle" archive of the latest release from the
+                <link xl:href="http://guac-dev.org/">Guacamole web site</link>.
+            </para>
 
         </section>
 
