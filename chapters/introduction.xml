@@ -26,6 +26,15 @@
 
         <title>What is Guacamole?</title>
 
+        <para>
+            Guacamole is an HTML5 web application that provides access to
+            desktop environments using remote desktop protocols such as VNC or
+            RDP. A centralized server acts as a tunnel and proxy, allowing
+            access to multiple desktops through a web browser. No plugins are
+            needed: the client requires nothing more than a web browser
+            supporting HTML5 and AJAX.
+        </para>
+
     </section>
 
     <!--

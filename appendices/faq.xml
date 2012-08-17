@@ -13,6 +13,14 @@
         <qandaentry>
             <question>
                 <para>
+                    Where does the name "Guacamole" come from?
+                </para>
+            </question>
+        </qandaentry>
+
+        <qandaentry>
+            <question>
+                <para>
                     What is does "clientless" mean?
                 </para>
             </question>
@@ -30,6 +38,98 @@
                     beyond what is considered standard for any computer.
                 </para>
             </answer>
+        </qandaentry>
+
+        <qandaentry>
+            <question>
+                <para>
+                    Why does Guacamole not use WebSocket?
+                </para>
+            </question>
+        </qandaentry>
+
+        <qandaentry>
+            <question>
+                <para>
+                    I have Tomcat (or some other servlet container) set up
+                    behind a proxy (like mod_proxy) and cannot connect to
+                    Guacamole. Why? How do I solve this?
+                </para>
+            </question>
+        </qandaentry>
+
+        <qandaentry>
+            <question>
+                <para>
+                    I connect to the internet through a web proxy, and cannot
+                    connect to Guacamole. I cannot reconfigure the proxy. How
+                    do I solve this?
+                </para>
+            </question>
+        </qandaentry>
+
+        <qandaentry>
+            <question>
+                <para>
+                    Can I buy special licensing of the Guacamole code base,
+                    such that I can use it in my own product, without providing
+                    the source to my users, without contributing back, and
+                    without acknowledging the project?
+                </para>
+            </question>
+            <answer>
+                <para>
+                    No.
+                </para>
+            </answer>
+        </qandaentry>
+
+        <qandaentry>
+            <question>
+                <para>
+                    Can I pay for custom Guacamole work, or for help
+                    integrating Guacamole into my product, if the open source
+                    nature and licenses are preserved?
+                </para>
+            </question>
+            <answer>
+                <para>
+                    Yes. We love to be paid to work on Guacamole,
+                    especially if that work remains open source.
+                </para>
+            </answer>
+        </qandaentry>
+
+        <qandaentry>
+            <question>
+                <para>
+                    How can I contribute to the project?
+                </para>
+            </question>
+        </qandaentry>
+
+        <qandaentry>
+            <question>
+                <para>
+                    How can I become an official member of the project?
+                </para>
+            </question>
+        </qandaentry>
+
+        <qandaentry>
+            <question>
+                <para>
+                    I think I've found a bug. How do I report it?
+                </para>
+            </question>
+        </qandaentry>
+
+        <qandaentry>
+            <question>
+                <para>
+                    I need help! Where can I find some?
+                </para>
+            </question>
         </qandaentry>
 
     </qandaset>
