@@ -89,9 +89,9 @@
 
             <example>
                 <title>Installing Guacamole dependencies on Debian or Ubuntu</title>
-                <programlisting>
+                <screen>
 <prompt>$</prompt> <command>sudo <option>apt-get</option> <option>install</option> <option>tomcat6</option> <option>libvncserver0</option> <option>libfreerdp1</option></command>
-                </programlisting>
+                </screen>
             </example>
 
             <para>
@@ -103,11 +103,11 @@
 
             <example>
                 <title>Installing Guacamole dependencies on Fedora</title>
-                <programlisting>
+                <screen>
 <prompt>$</prompt> <command>su</command>
 <prompt>Password:</prompt> <replaceable>password</replaceable>
 <prompt>#</prompt> <command>yum <option>install</option> <option>tomcat6</option> <option>libvncserver</option> <option>freerdp</option></command>
-                </programlisting>
+                </screen>
             </example>
 
         </section>
@@ -129,6 +129,36 @@
                 download the "bundle" archive of the latest release from the
                 <link xl:href="http://guac-dev.org/">Guacamole web site</link>.
             </para>
+
+            <example>
+                <title>Installing Guacamole packages on Debian or Ubuntu</title>
+<screen>
+<prompt>$</prompt> <command>tar -xzf guacamole-0.6.2-ubuntu-12.04-amd64.tar.gz</command>
+<prompt>$</prompt> <command>cd guacamole-0.6.2-ubuntu-12.04-amd64/</command>
+<prompt>$</prompt> <command>ls</command>
+<computeroutput>guacamole_0.6.1-1_all.deb         libguac-client-rdp0_0.6.1-1_amd64.deb
+guacamole-tomcat_0.6.1-1_all.deb  libguac-client-vnc0_0.6.0-1_amd64.deb
+guacd_0.6.1-1_amd64.deb           libguac-dev_0.6.2-1_amd64.deb
+libguac3_0.6.2-1_amd64.deb</computeroutput>
+<prompt>$</prompt> <command>sudo dpkg -i *.deb</command>
+</screen>
+            </example>
+
+            <example>
+                <title>Installing Guacamole packages on Fedora</title>
+<screen>
+<prompt>$</prompt> <command>tar -xzf guacamole-0.6.2-fedora-17-x86_64.tar.gz</command>
+<prompt>$</prompt> <command>cd guacamole-0.6.2-fedora-17-x86_64/</command>
+<prompt>$</prompt> <command>ls</command>
+<computeroutput>guacamole-0.6.1-1.noarch.rpm  libguac3-devel-0.6.2-1.x86_64.rpm
+guacd-0.6.1-1.x86_64.rpm      libguac-client-rdp-0.6.1-1.x86_64.rpm
+libguac3-0.6.2-1.x86_64.rpm
+libguac-client-vnc0-0.6.0-1.x86_64.rpm</computeroutput>
+<prompt>$</prompt> <command>su</command>
+<prompt>Password:</prompt> <replaceable>password</replaceable>
+<prompt>#</prompt> <command>rpm -i *.rpm</command>
+</screen>
+            </example>
 
         </section>
 
@@ -166,9 +196,9 @@
                 <command>mvn <option>package</option></command>.
             </para>
 
-            <programlisting>
+            <screen>
 <prompt>$</prompt> <command>mvn <option>package</option></command>
-            </programlisting>
+            </screen>
 
             <para>
                 Maven will download any needed dependencies for building
