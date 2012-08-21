@@ -436,7 +436,7 @@ libguac-client-vnc0-0.6.0-1.x86_64.rpm</computeroutput>
         <example>
             <title>Checking out Guacamole from git</title>
             <screen>
-$ git clone git://REPOSITORY -b unstable
+$ git clone <uri>git://REPOSITORY -b unstable</uri>
             </screen>
         </example>
 
@@ -444,6 +444,55 @@ $ git clone git://REPOSITORY -b unstable
             As there are several repositories, you will run this git command to
             clone each of the repositories you wish to build.
         </para>
+
+        <table>
+            <title>Guacamole git repositories</title>
+
+            <tgroup cols="2">
+                <thead>
+                    <row>
+                        <entry>Component</entry>
+                        <entry>Repository URL</entry>
+                    </row>
+                </thead>
+
+                <tbody>
+                    <row>
+                        <entry>libguac</entry>
+                        <entry><uri>git://guacamole.git.sourceforge.net/gitroot/guacamole/libguac</uri></entry>
+                    </row>
+                    <row>
+                        <entry>libguac-client-vnc</entry>
+                        <entry><uri>git://guacamole.git.sourceforge.net/gitroot/guacamole/libguac-client-vnc</uri></entry>
+                    </row>
+                    <row>
+                        <entry>libguac</entry>
+                        <entry><uri>git://guacamole.git.sourceforge.net/gitroot/guacamole/libguac-client-rdp</uri></entry>
+                    </row>
+                    <row>
+                        <entry>guacd</entry>
+                        <entry><uri>git://guacamole.git.sourceforge.net/gitroot/guacamole/guacd</uri></entry>
+                    </row>
+                    <row>
+                        <entry>guacamole-common</entry>
+                        <entry><uri>git://guacamole.git.sourceforge.net/gitroot/guacamole/guacamole</uri></entry>
+                    </row>
+                    <row>
+                        <entry>guacamole-common-js</entry>
+                        <entry><uri>git://guacamole.git.sourceforge.net/gitroot/guacamole/guacamole-common-js</uri></entry>
+                    </row>
+                    <row>
+                        <entry>guacamole-ext</entry>
+                        <entry><uri>git://guacamole.git.sourceforge.net/gitroot/guacamole/guacamole-ext</uri></entry>
+                    </row>
+                    <row>
+                        <entry>guacamole</entry>
+                        <entry><uri>git://guacamole.git.sourceforge.net/gitroot/guacamole/guacamole</uri></entry>
+                    </row>
+                </tbody>
+            </tgroup>
+
+        </table>
 
     </section>
 
