@@ -50,6 +50,7 @@
     <!-- APPENDICES -->
 
     <part id="appendices">
+        <title>Appendices</title>
         <xi:include href="appendices/faq.xml"/>
         <index></index>
     </part>
