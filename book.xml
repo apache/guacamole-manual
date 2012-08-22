@@ -17,21 +17,42 @@
         </author>
     </info>
 
-    <!-- CHAPTERS -->
+    <!-- ABOUT -->
 
-    <xi:include href="chapters/introduction.xml"/>
-    <xi:include href="chapters/installing.xml"/>
-    <xi:include href="chapters/configuring.xml"/>
-    <xi:include href="chapters/using.xml"/>
-    <xi:include href="chapters/extending.xml"/>
-    <xi:include href="chapters/yourown.xml"/>
+    <part id="about">
+        <title>About Guacamole</title>
+        <xi:include href="chapters/introduction.xml"/>
+    </part>
+
+    <!-- ADMINISTRATION -->
+
+    <part id="admin">
+        <title>Administration</title>
+        <xi:include href="chapters/installing.xml"/>
+        <xi:include href="chapters/configuring.xml"/>
+        <xi:include href="chapters/using.xml"/>
+    </part>
+
+
+    <!-- DEVELOPMENT -->
+
+    <part id="development">
+        <title>Extension and Development</title>
+        <xi:include href="chapters/extending.xml"/>
+        <xi:include href="chapters/yourown.xml"/>
+    </part>
+
+    <!-- REFERENCE -->
+    <part id="reference">
+        <title>Reference</title>
+    </part>
 
     <!-- APPENDICES -->
 
-    <xi:include href="appendices/faq.xml"/>
-
-    <!-- INDEX -->
-    <index></index>
+    <part id="appendices">
+        <xi:include href="appendices/faq.xml"/>
+        <index></index>
+    </part>
 
 </book>
 
