@@ -8,6 +8,10 @@
     xmlns:xi="http://www.w3.org/2001/XInclude">
 
     <title>Installing Guacamole</title>
+    <indexterm>
+        <primary>Guacamole</primary>
+        <secondary>installing</secondary>
+    </indexterm>
 
     <!--
     - From packages 
@@ -16,6 +20,10 @@
     <section id="getpackages">
 
         <title>Pre-built packages</title>
+        <indexterm>
+            <primary>packages</primary>
+            <secondary>pre-built</secondary>
+        </indexterm>
 
         <para>
             By far, the easiest way to install Guacamole is through pre-built
@@ -42,6 +50,10 @@
         <section id="supported">
 
             <title>Supported distribution versions</title>
+            <indexterm>
+                <primary>Linux</primary>
+                <secondary>supported versions</secondary>
+            </indexterm>
 
             <para>
                 The Guacamole project supports all stable versions of Debian,
@@ -57,6 +69,10 @@
                 Packages for all supported versions of Linux distributions are
                 available from the <link
                     xl:href="http://guac-dev.org/">Guacamole web site</link>.
+                <indexterm>
+                    <primary>Guacamole</primary>
+                    <secondary>downloading</secondary>
+                </indexterm>
             </para>
 
         </section>
@@ -64,6 +80,10 @@
         <section id="bindepends">
 
             <title>Installing Dependencies</title>
+            <indexterm>
+                <primary>Guacamole</primary>
+                <secondary>dependencies</secondary>
+            </indexterm>
 
             <para>
                 Different components of Guacamole depend on different packages
@@ -80,6 +100,16 @@
             </para>
 
             <para>
+                <indexterm>
+                    <primary>Guacamole</primary>
+                    <secondary>dependencies</secondary>
+                    <tertiary>Debian</tertiary>
+                </indexterm>
+                <indexterm>
+                    <primary>Guacamole</primary>
+                    <secondary>dependencies</secondary>
+                    <tertiary>Ubuntu</tertiary>
+                </indexterm>
                 For Debian and Ubuntu, Apache Tomcat is provided by the
                 <package>tomcat6</package> package, while the VNC library
                 required for VNC support is provided by
@@ -95,6 +125,11 @@
             </example>
 
             <para>
+                <indexterm>
+                    <primary>Guacamole</primary>
+                    <secondary>dependencies</secondary>
+                    <tertiary>Fedora</tertiary>
+                </indexterm>
                 The Apache Tomcat package for Fedora is also called
                 <package>tomcat6</package>. VNC support is provided by
                 <package>libvncserver</package>, and RDP support is provided by
@@ -115,6 +150,11 @@
         <section id="installingpackages">
             
             <title>Installing Guacamole packages</title>
+            <indexterm>
+                <primary>Guacamole</primary>
+                <secondary>packages</secondary>
+                <tertiary>installing</tertiary>
+            </indexterm>
 
             <para>
                 Once dependencies are installed, the official Guacamole
@@ -128,6 +168,11 @@
                 The easiest way to obtain all packages in one fell swoop is to
                 download the "bundle" archive of the latest release from the
                 <link xl:href="http://guac-dev.org/">Guacamole web site</link>.
+                <indexterm>
+                    <primary>Guacamole</primary>
+                    <secondary>downloading</secondary>
+                    <tertiary>bundles</tertiary>
+                </indexterm>
             </para>
 
             <example>
@@ -171,6 +216,10 @@ libguac-client-vnc0-0.6.0-1.x86_64.rpm</computeroutput>
     <section id="getsource">
 
         <title>Building Guacamole from source</title>
+        <indexterm>
+            <primary>compiling</primary>
+            <secondary>Guacamole</secondary>
+        </indexterm>
 
         <para>
             Building the components of Guacamole from source is not difficult,
@@ -191,7 +240,12 @@ libguac-client-vnc0-0.6.0-1.x86_64.rpm</computeroutput>
         </para>
 
         <section id="compilinglibguac">
+
             <title>Compiling libguac</title>
+            <indexterm>
+                <primary>compiling</primary>
+                <secondary>libguac</secondary>
+            </indexterm>
 
             The core Guacamole C library, libguac, is a common dependency of
             all native components of Guacamole. It depends on Cairo, a graphics
@@ -213,7 +267,12 @@ libguac-client-vnc0-0.6.0-1.x86_64.rpm</computeroutput>
         </section>
 
         <section id="compilingguacd">
+
             <title>Compiling guacd</title>
+            <indexterm>
+                <primary>compiling</primary>
+                <secondary>guacd</secondary>
+            </indexterm>
 
             <para>
                 Once libguac is compiled and installed, guacd and protocol
@@ -245,6 +304,10 @@ libguac-client-vnc0-0.6.0-1.x86_64.rpm</computeroutput>
             </example>
 
             <para>
+                <indexterm>
+                    <primary>guacd</primary>
+                    <secondary>startup script</secondary>
+                </indexterm>
                 If you do not wish guacd to start automatically at boot, leave
                 off the --with-init-dir=/etc/init.d option. If the directory
                 containing your distribution's startup scripts differs from the
@@ -273,6 +336,10 @@ libguac-client-vnc0-0.6.0-1.x86_64.rpm</computeroutput>
             </para>
 
             <para>
+                <indexterm>
+                    <primary>compiling</primary>
+                    <secondary>VNC</secondary>
+                </indexterm>
                 Building the VNC support plugin, libguac-client-vnc, requires
                 libvncclient, which is part of libvncserver, a library that
                 provides a client and server implementation of VNC.
@@ -296,6 +363,10 @@ libguac-client-vnc0-0.6.0-1.x86_64.rpm</computeroutput>
             <title>RDP support</title>
 
             <para>
+                <indexterm>
+                    <primary>compiling</primary>
+                    <secondary>RDP</secondary>
+                </indexterm>
                 RDP support in Guacamole requires FreeRDP, specifically FreeRDP
                 version 1.0 or newer. The API of FreeRDP changed significantly
                 after 1.0 (it was completely rewritten), thus Guacamole's RDP
@@ -319,6 +390,10 @@ libguac-client-vnc0-0.6.0-1.x86_64.rpm</computeroutput>
 
         <section id="compilingwar">
             <title>Building the web application (guacamole.war)</title>
+            <indexterm>
+                <primary>compiling</primary>
+                <secondary>guacamole.war</secondary>
+            </indexterm>
 
             <para>
                 To compile the Java and Maven components of Guacamole
@@ -418,6 +493,9 @@ libguac-client-vnc0-0.6.0-1.x86_64.rpm</computeroutput>
     <section id="getgit">
 
         <title>The absolute latest</title>
+        <indexterm>
+            <primary>git</primary>
+        </indexterm>
 
         <para>
             If you wish to, at your own risk, build the absolute latest
