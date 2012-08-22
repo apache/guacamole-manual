@@ -29,7 +29,6 @@
     <!-- APPENDICES -->
 
     <xi:include href="appendices/faq.xml"/>
-    <xi:include href="appendices/glossary.xml"/>
 
     <!-- INDEX -->
     <index></index>
