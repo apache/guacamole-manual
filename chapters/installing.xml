@@ -112,7 +112,7 @@
 
         </section>
 
-        <section>
+        <section id="installingpackages">
             
             <title>Installing Guacamole packages</title>
 
@@ -190,7 +190,7 @@ libguac-client-vnc0-0.6.0-1.x86_64.rpm</computeroutput>
             packages. These will usually end in a "-dev" or "-devel" suffix.
         </para>
 
-        <section>
+        <section id="compilinglibguac">
             <title>Compiling libguac</title>
 
             The core Guacamole C library, libguac, is a common dependency of
@@ -212,8 +212,8 @@ libguac-client-vnc0-0.6.0-1.x86_64.rpm</computeroutput>
 
         </section>
 
-        <section>
-            <title>guacd</title>
+        <section id="compilingguacd">
+            <title>Compiling guacd</title>
 
             <para>
                 Once libguac is compiled and installed, guacd and protocol
@@ -263,7 +263,7 @@ libguac-client-vnc0-0.6.0-1.x86_64.rpm</computeroutput>
 
         </section>
 
-        <section>
+        <section id="compilingvnc">
             <title>VNC support</title>
 
             <para>
@@ -292,7 +292,7 @@ libguac-client-vnc0-0.6.0-1.x86_64.rpm</computeroutput>
 
         </section>
 
-        <section>
+        <section id="compilingrdp">
             <title>RDP support</title>
 
             <para>
@@ -317,7 +317,7 @@ libguac-client-vnc0-0.6.0-1.x86_64.rpm</computeroutput>
 
         </section>
 
-        <section>
+        <section id="compilingwar">
             <title>Building the web application (guacamole.war)</title>
 
             <para>
