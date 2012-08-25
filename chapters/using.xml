@@ -39,6 +39,132 @@
 
         <title>Selecting a connection</title>
 
+        <!-- Connection list screenshot -->
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/connection-list.png" format="PNG"
+                    contentwidth="4in"/>
+            </imageobject>
+            <caption>
+                <para>
+                    List of available connections.
+                </para>
+            </caption>
+        </mediaobject>
+
+    </section>
+
+    <section id="interact">
+
+        <title>Interacting with the remote desktop</title>
+
+        <!-- VNC screenshot -->
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/vnc.png" format="PNG"
+                    contentwidth="4in"/>
+            </imageobject>
+            <caption>
+                <para>
+                    List of available connections.
+                </para>
+            </caption>
+        </mediaobject>
+
+        <!--
+        - The menu 
+        -->
+
+        <section id="menu">
+
+            <title>The yellow bar</title>
+
+            <!--Yellow bar screenshot -->
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/yellow-bar.png" format="PNG"
+                        contentwidth="3in"/>
+                </imageobject>
+                <caption>
+                    <para>
+                        The yellow bar menu.
+                    </para>
+                </caption>
+            </mediaobject>
+
+        </section>
+
+        <!--
+        - The clipboard
+        -->
+
+        <section id="clipboard">
+
+            <title>Using the clipboard</title>
+
+            <!-- Clipboard screenshot -->
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/clipboard.png" format="PNG"
+                        contentwidth="3in"/>
+                </imageobject>
+                <caption>
+                    <para>
+                        The editable clipboard contents, accessible from the
+                        yellow menu.
+                    </para>
+                </caption>
+            </mediaobject>
+
+        </section>
+
+        <!--
+        - The OSK
+        -->
+
+        <section id="osk">
+
+            <title>Typing with special keys</title>
+
+            <!-- OSK screenshot -->
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/osk.png" format="PNG"
+                        contentwidth="4in"/>
+                </imageobject>
+                <caption>
+                    <para>
+                        The on-screen keyboard.
+                    </para>
+                </caption>
+            </mediaobject>
+
+        </section>
+
+        <!--
+        - Logging out
+        -->
+
+        <section id="logout">
+
+            <title>Logging out</title>
+
+            <!-- Logout screenshot -->
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/logout-warning.png"
+                        format="PNG"
+                        contentwidth="4in"/>
+                </imageobject>
+                <caption>
+                    <para>
+                        Warning displayed when logging out.
+                    </para>
+                </caption>
+            </mediaobject>
+
+        </section>
+
     </section>
 
     <!--
@@ -48,16 +174,6 @@
     <section id="touch">
 
         <title>Using touch devices</title>
-
-    </section>
-
-    <!--
-    - The OSK
-    -->
-
-    <section id="osk">
-
-        <title>Typing with special keys</title>
 
     </section>
 
