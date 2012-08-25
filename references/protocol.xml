@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
+
+<reference id="protocol" 
+    xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <title>Guacamole protocol reference</title>
+
+    <refentry>
+
+        <refmeta>
+            <refentrytitle>args</refentrytitle>
+        </refmeta>
+
+        <refnamediv>
+            <refname>args</refname>
+            <refpurpose>
+                Reports the expected format of the argument list for the
+                protocol requested by the client.
+            </refpurpose>
+        </refnamediv>
+
+        <refsection>
+            <title>Description</title>
+            <para>
+                Reports the expected format of the argument list for the
+                protocol requested by the client. This message can be sent by
+                the server during the connect phase only.
+            </para>
+        </refsection>
+
+        <refsynopsisdiv>
+
+            <title>Synopsis</title>
+
+            <para>
+                <command>
+                    args
+                    <parameter>ARG1</parameter>
+                    <parameter>ARG2</parameter>
+                    <parameter>ARG3</parameter>
+                    <parameter>...</parameter>
+                </command>
+            </para>
+
+        </refsynopsisdiv>
+
+        <refsection>
+
+            <title>Example</title>
+
+            <programlisting>4.args,8.hostname,4.port;</programlisting>
+
+        </refsection>
+
+    </refentry>
+
+</reference>

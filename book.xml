@@ -45,6 +45,7 @@
     <!-- REFERENCE -->
     <part id="reference">
         <title>Reference</title>
+        <xi:include href="references/protocol.xml"/>
     </part>
 
     <!-- APPENDICES -->
