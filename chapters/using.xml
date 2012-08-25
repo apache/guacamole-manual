@@ -16,6 +16,19 @@
 
         <title>Logging in</title>
 
+        <!-- Login screenshot -->
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/login.png" format="PNG"
+                    contentwidth="4in"/>
+            </imageobject>
+            <caption>
+                <para>
+                    The Guacamole login screen.
+                </para>
+            </caption>
+        </mediaobject>
+
     </section>
 
     <!--
