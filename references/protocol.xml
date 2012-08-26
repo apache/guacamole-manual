@@ -8,53 +8,7 @@
 
     <title>Guacamole protocol reference</title>
 
-    <refentry>
-
-        <refmeta>
-            <refentrytitle>args</refentrytitle>
-        </refmeta>
-
-        <refnamediv>
-            <refname>args</refname>
-            <refpurpose>
-                Reports the expected format of the argument list for the
-                protocol requested by the client.
-            </refpurpose>
-        </refnamediv>
-
-        <refsection>
-            <title>Description</title>
-            <para>
-                Reports the expected format of the argument list for the
-                protocol requested by the client. This message can be sent by
-                the server during the connect phase only.
-            </para>
-        </refsection>
-
-        <refsynopsisdiv>
-
-            <title>Synopsis</title>
-
-            <para>
-                <command>
-                    args
-                    <parameter>ARG1</parameter>
-                    <parameter>ARG2</parameter>
-                    <parameter>ARG3</parameter>
-                    <parameter>...</parameter>
-                </command>
-            </para>
-
-        </refsynopsisdiv>
-
-        <refsection>
-
-            <title>Example</title>
-
-            <programlisting>4.args,8.hostname,4.port;</programlisting>
-
-        </refsection>
-
-    </refentry>
+    <!-- Instructions -->
+    <xi:include href="instructions/args.xml"/>
 
 </reference>
