@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
+
+<refentry id="curve" 
+    xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <refmeta>
+        <refentrytitle>curve</refentrytitle>
+    </refmeta>
+
+    <refnamediv>
+        <refname>curve</refname>
+        <refpurpose>Adds the specified cubic bezier curve subpath.</refpurpose>
+    </refnamediv>
+
+    <refsynopsisdiv>
+
+        <title>Synopsis</title>
+
+        <para>
+            <command>
+                curve
+                <parameter>LAYER</parameter>
+                <parameter>CP1X</parameter>
+                <parameter>CP1Y</parameter>
+                <parameter>CP2X</parameter>
+                <parameter>CP2Y</parameter>
+                <parameter>X</parameter>
+                <parameter>Y</parameter>
+            </command>
+        </para>
+
+    </refsynopsisdiv>
+
+    <refsection>
+        <title>Description</title>
+        <para>Adds the specified cubic bezier curve subpath.</para>
+    </refsection>
+
+    <refsection>
+
+        <title>Example</title>
+
+        <programlisting>[example]</programlisting>
+
+    </refsection>
+
+</refentry>

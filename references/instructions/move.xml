@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
+
+<refentry id="move" 
+    xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <refmeta>
+        <refentrytitle>move</refentrytitle>
+    </refmeta>
+
+    <refnamediv>
+        <refname>move</refname>
+        <refpurpose>Moves the given layer to the given location within the specified parent layer.</refpurpose>
+    </refnamediv>
+
+    <refsynopsisdiv>
+
+        <title>Synopsis</title>
+
+        <para>
+            <command>
+                move
+                <parameter>LAYER</parameter>
+                <parameter>PARENT</parameter>
+                <parameter>X</parameter>
+                <parameter>Y</parameter>
+                <parameter>Z</parameter>
+            </command>
+        </para>
+
+    </refsynopsisdiv>
+
+    <refsection>
+        <title>Description</title>
+        <para>Moves the given layer to the given location within the specified parent layer. This operation is applicable only to layers, and cannot be applied to buffers (layers with negative indices). Applying this operation to the default layer (layer 0) also has no effect.</para>
+    </refsection>
+
+    <refsection>
+
+        <title>Example</title>
+
+        <programlisting>[example]</programlisting>
+
+    </refsection>
+
+</refentry>

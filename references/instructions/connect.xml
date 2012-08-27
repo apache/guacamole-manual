@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
+
+<refentry id="connect" 
+    xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <refmeta>
+        <refentrytitle>connect</refentrytitle>
+    </refmeta>
+
+    <refnamediv>
+        <refname>connect</refname>
+        <refpurpose>Begins the connection using the previously specified protocol with the given arguments.</refpurpose>
+    </refnamediv>
+
+    <refsynopsisdiv>
+
+        <title>Synopsis</title>
+
+        <para>
+            <command>
+                connect
+                <parameter>VAL1</parameter>
+                <parameter>VAL2</parameter>
+                <parameter>VAL3</parameter>
+                <parameter>...</parameter>
+            </command>
+        </para>
+
+    </refsynopsisdiv>
+
+    <refsection>
+        <title>Description</title>
+        <para>Begins the connection using the previously specified protocol with the given arguments. This message can be sent by the client during the connect phase only, in response to the server's args message.</para>
+    </refsection>
+
+    <refsection>
+
+        <title>Example</title>
+
+        <programlisting>[example]</programlisting>
+
+    </refsection>
+
+</refentry>

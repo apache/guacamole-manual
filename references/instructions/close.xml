@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
+
+<refentry id="close" 
+    xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <refmeta>
+        <refentrytitle>close</refentrytitle>
+    </refmeta>
+
+    <refnamediv>
+        <refname>close</refname>
+        <refpurpose>Closes the current path by connecting the start and end points with a straight line.</refpurpose>
+    </refnamediv>
+
+    <refsynopsisdiv>
+
+        <title>Synopsis</title>
+
+        <para>
+            <command>
+                close
+                <parameter>LAYER</parameter>
+            </command>
+        </para>
+
+    </refsynopsisdiv>
+
+    <refsection>
+        <title>Description</title>
+        <para>Closes the current path by connecting the start and end points with a straight line.</para>
+    </refsection>
+
+    <refsection>
+
+        <title>Example</title>
+
+        <programlisting>[example]</programlisting>
+
+    </refsection>
+
+</refentry>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
+
+<refentry id="transfer" 
+    xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <refmeta>
+        <refentrytitle>transfer</refentrytitle>
+    </refmeta>
+
+    <refnamediv>
+        <refname>transfer</refname>
+        <refpurpose>Transfers image data from the specified rectangle of the specified layer or buffer to a different location of another specified layer or buffer, using the specified transfer function.</refpurpose>
+    </refnamediv>
+
+    <refsynopsisdiv>
+
+        <title>Synopsis</title>
+
+        <para>
+            <command>
+                transfer
+                <parameter>SRCLAYER</parameter>
+                <parameter>SRCX</parameter>
+                <parameter>SRCY</parameter>
+                <parameter>SRCWIDTH</parameter>
+                <parameter>SRCHEIGHT</parameter>
+                <parameter>FUNCTION</parameter>
+                <parameter>DSTLAYER</parameter>
+                <parameter>DSTX</parameter>
+                <parameter>DSTY</parameter>
+            </command>
+        </para>
+
+    </refsynopsisdiv>
+
+    <refsection>
+        <title>Description</title>
+        <para>Transfers image data from the specified rectangle of the specified layer or buffer to a different location of another specified layer or buffer, using the specified transfer function. For a list of available functions guacamole/protocol.h.</para>
+    </refsection>
+
+    <refsection>
+
+        <title>Example</title>
+
+        <programlisting>[example]</programlisting>
+
+    </refsection>
+
+</refentry>

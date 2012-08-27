@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
+
+<refentry id="set" 
+    xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <refmeta>
+        <refentrytitle>set</refentrytitle>
+    </refmeta>
+
+    <refnamediv>
+        <refname>set</refname>
+        <refpurpose>Sets the given client-side property to the specified value.</refpurpose>
+    </refnamediv>
+
+    <refsynopsisdiv>
+
+        <title>Synopsis</title>
+
+        <para>
+            <command>
+                set
+                <parameter>LAYER</parameter>
+                <parameter>PROPERTY</parameter>
+                <parameter>VALUE</parameter>
+            </command>
+        </para>
+
+    </refsynopsisdiv>
+
+    <refsection>
+        <title>Description</title>
+        <para>Sets the given client-side property to the specified value. Currently there is only one property: miter-limit, the maximum distance between the  inner and outer points of a miter joint, proportional to stroke width (if miter-limit is set to 10.0, the default, then the maximum distance between the points of the joint is 10 times the stroke width).</para>
+    </refsection>
+
+    <refsection>
+
+        <title>Example</title>
+
+        <programlisting>[example]</programlisting>
+
+    </refsection>
+
+</refentry>

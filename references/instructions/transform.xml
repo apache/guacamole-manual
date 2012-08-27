@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
+
+<refentry id="transform" 
+    xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <refmeta>
+        <refentrytitle>transform</refentrytitle>
+    </refmeta>
+
+    <refnamediv>
+        <refname>transform</refname>
+        <refpurpose>Applies the specified transformation matrix to future operations.</refpurpose>
+    </refnamediv>
+
+    <refsynopsisdiv>
+
+        <title>Synopsis</title>
+
+        <para>
+            <command>
+                transform
+                <parameter>LAYER</parameter>
+                <parameter>A</parameter>
+                <parameter>B</parameter>
+                <parameter>C</parameter>
+                <parameter>D</parameter>
+                <parameter>E</parameter>
+                <parameter>F</parameter>
+            </command>
+        </para>
+
+    </refsynopsisdiv>
+
+    <refsection>
+        <title>Description</title>
+        <para>Applies the specified transformation matrix to future operations. Unlike distort, this operation is dependent on any previously sent transformation matrices, and only affects future operations. This operation can be undone by setting the layer's transformation matrix to the identity matrix using identity, but image data already drawn will not be affected.</para>
+    </refsection>
+
+    <refsection>
+
+        <title>Example</title>
+
+        <programlisting>[example]</programlisting>
+
+    </refsection>
+
+</refentry>

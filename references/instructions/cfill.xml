@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
+
+<refentry id="cfill" 
+    xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <refmeta>
+        <refentrytitle>cfill</refentrytitle>
+    </refmeta>
+
+    <refnamediv>
+        <refname>cfill</refname>
+        <refpurpose>Fills the current path with the specified color.</refpurpose>
+    </refnamediv>
+
+    <refsynopsisdiv>
+
+        <title>Synopsis</title>
+
+        <para>
+            <command>
+                cfill
+                <parameter>MASK</parameter>
+                <parameter>LAYER</parameter>
+                <parameter>R</parameter>
+                <parameter>G</parameter>
+                <parameter>B</parameter>
+                <parameter>A</parameter>
+            </command>
+        </para>
+
+    </refsynopsisdiv>
+
+    <refsection>
+        <title>Description</title>
+        <para>Fills the current path with the specified color. This instruction completes the current path. Future path instructions will begin a new path.</para>
+    </refsection>
+
+    <refsection>
+
+        <title>Example</title>
+
+        <programlisting>[example]</programlisting>
+
+    </refsection>
+
+</refentry>

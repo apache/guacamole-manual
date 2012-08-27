@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
+
+<refentry id="cursor" 
+    xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <refmeta>
+        <refentrytitle>cursor</refentrytitle>
+    </refmeta>
+
+    <refnamediv>
+        <refname>cursor</refname>
+        <refpurpose>Sets the client's cursor to the image data from the specified rectangle of a layer, with the specified hotspot.</refpurpose>
+    </refnamediv>
+
+    <refsynopsisdiv>
+
+        <title>Synopsis</title>
+
+        <para>
+            <command>
+                cursor
+                <parameter>X</parameter>
+                <parameter>Y</parameter>
+                <parameter>SRCLAYER</parameter>
+                <parameter>SRCX</parameter>
+                <parameter>SRCY</parameter>
+                <parameter>SRCWIDTH</parameter>
+                <parameter>SRCHEIGHT</parameter>
+            </command>
+        </para>
+
+    </refsynopsisdiv>
+
+    <refsection>
+        <title>Description</title>
+        <para>Sets the client's cursor to the image data from the specified rectangle of a layer, with the specified hotspot.</para>
+    </refsection>
+
+    <refsection>
+
+        <title>Example</title>
+
+        <programlisting>[example]</programlisting>
+
+    </refsection>
+
+</refentry>

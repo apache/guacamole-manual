@@ -9,6 +9,40 @@
     <title>Guacamole protocol reference</title>
 
     <!-- Instructions -->
+    <xi:include href="instructions/arc.xml"/>
     <xi:include href="instructions/args.xml"/>
+    <xi:include href="instructions/cfill.xml"/>
+    <xi:include href="instructions/clipboard.xml"/>
+    <xi:include href="instructions/clip.xml"/>
+    <xi:include href="instructions/close.xml"/>
+    <xi:include href="instructions/connect.xml"/>
+    <xi:include href="instructions/copy.xml"/>
+    <xi:include href="instructions/cstroke.xml"/>
+    <xi:include href="instructions/cursor.xml"/>
+    <xi:include href="instructions/curve.xml"/>
+    <xi:include href="instructions/disconnect.xml"/>
+    <xi:include href="instructions/dispose.xml"/>
+    <xi:include href="instructions/distort.xml"/>
+    <xi:include href="instructions/error.xml"/>
+    <xi:include href="instructions/identity.xml"/>
+    <xi:include href="instructions/key.xml"/>
+    <xi:include href="instructions/lfill.xml"/>
+    <xi:include href="instructions/line.xml"/>
+    <xi:include href="instructions/lstroke.xml"/>
+    <xi:include href="instructions/mouse.xml"/>
+    <xi:include href="instructions/move.xml"/>
+    <xi:include href="instructions/png.xml"/>
+    <xi:include href="instructions/pop.xml"/>
+    <xi:include href="instructions/push.xml"/>
+    <xi:include href="instructions/rect.xml"/>
+    <xi:include href="instructions/reset.xml"/>
+    <xi:include href="instructions/select.xml"/>
+    <xi:include href="instructions/set.xml"/>
+    <xi:include href="instructions/shade.xml"/>
+    <xi:include href="instructions/size.xml"/>
+    <xi:include href="instructions/start.xml"/>
+    <xi:include href="instructions/sync.xml"/>
+    <xi:include href="instructions/transfer.xml"/>
+    <xi:include href="instructions/transform.xml"/>
 
 </reference>

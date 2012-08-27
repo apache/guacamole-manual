@@ -18,15 +18,6 @@
         </refpurpose>
     </refnamediv>
 
-    <refsection>
-        <title>Description</title>
-        <para>
-            Reports the expected format of the argument list for the
-            protocol requested by the client. This message can be sent by
-            the server during the connect phase only.
-        </para>
-    </refsection>
-
     <refsynopsisdiv>
 
         <title>Synopsis</title>
@@ -42,6 +33,15 @@
         </para>
 
     </refsynopsisdiv>
+
+    <refsection>
+        <title>Description</title>
+        <para>
+            Reports the expected format of the argument list for the
+            protocol requested by the client. This message can be sent by
+            the server during the connect phase only.
+        </para>
+    </refsection>
 
     <refsection>
 

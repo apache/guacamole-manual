@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
+
+<refentry id="cstroke" 
+    xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <refmeta>
+        <refentrytitle>cstroke</refentrytitle>
+    </refmeta>
+
+    <refnamediv>
+        <refname>cstroke</refname>
+        <refpurpose>Strokes the current path with the specified color.</refpurpose>
+    </refnamediv>
+
+    <refsynopsisdiv>
+
+        <title>Synopsis</title>
+
+        <para>
+            <command>
+                cstroke
+                <parameter>MASK</parameter>
+                <parameter>LAYER</parameter>
+                <parameter>CAP</parameter>
+                <parameter>JOIN</parameter>
+                <parameter>THICKNESS</parameter>
+                <parameter>R</parameter>
+                <parameter>G</parameter>
+                <parameter>B</parameter>
+                <parameter>A</parameter>
+            </command>
+        </para>
+
+    </refsynopsisdiv>
+
+    <refsection>
+        <title>Description</title>
+        <para>Strokes the current path with the specified color. This instruction completes the current path. Future path instructions will begin a new path.</para>
+    </refsection>
+
+    <refsection>
+
+        <title>Example</title>
+
+        <programlisting>[example]</programlisting>
+
+    </refsection>
+
+</refentry>
