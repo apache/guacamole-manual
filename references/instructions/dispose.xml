@@ -6,13 +6,17 @@
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude">
 
+    <indexterm>
+        <primary>dispose</primary>
+    </indexterm>
+
     <refmeta>
         <refentrytitle>dispose</refentrytitle>
     </refmeta>
 
     <refnamediv>
         <refname>dispose</refname>
-        <refpurpose>Layer instructions differ from Drawing Instructions|drawing instructions in that they do not affect the image within the layer - they only affect the layer itself.</refpurpose>
+        <refpurpose>Removes the specified layer.</refpurpose>
     </refnamediv>
 
     <refsynopsisdiv>
@@ -30,7 +34,7 @@
 
     <refsection>
         <title>Description</title>
-        <para>Layer instructions differ from Drawing Instructions|drawing instructions in that they do not affect the image within the layer - they only affect the layer itself. They may affect how the image is displayed, but this is done in a reversible way. For example, you can render a layer completely transparent by setting its opacity to 0 with shade, but changing the opacity back to 255 (fully opaque) with shade will restore the layer to its previous state, with the original image still intact.Removes the specified layer. The specified layer will be recreated as a new layer if it is referenced again.</para>
+        <para>Removes the specified layer. The specified layer will be recreated as a new layer if it is referenced again.</para>
     </refsection>
 
     <refsection>
