@@ -16,6 +16,32 @@
 
         <title>Logging in</title>
 
+        <para>
+            When you visit a Guacamole instance for the first time, you will
+            see the login screen. This screen authenticates you with Guacamole,
+            allowing you to use Guacamole to interact with one or more remote
+            desktops.
+        </para>
+
+        <para>
+            Enter your username and password and click "login". You will then
+            be given a list of available remote desktop connections to choose
+            from or, if you only have access to one desktop, you will be sent
+            to that desktop immediately. If you enter your username or
+            password incorrectly, the error message "Invalid Login" will
+            appear, and you can try again.
+        </para>
+
+        <para>
+            Keep in mind this is the login for Guacamole, and not necessarily 
+            the login for the remote desktop you wish to connect to. The
+            username and password you give Guacamole grants you access to the
+            Guacamole system only. The usernames and passwords required for the
+            remote desktops you have access to through Guacamole are
+            independent.
+        </para>
+
+
         <!-- Login screenshot -->
         <mediaobject>
             <imageobject>
