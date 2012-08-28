@@ -47,6 +47,51 @@
 
     <refsection>
 
+        <title>Parameters</title>
+
+        <variablelist>
+            <varlistentry>
+                 <term><parameter>SRCLAYER</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>SRCX</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>SRCY</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>SRCWIDTH</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>SRCHEIGHT</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>FUNCTION</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>DSTLAYER</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>DSTX</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>DSTY</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+        </variablelist>
+
+    </refsection>
+
+    <refsection>
+
         <title>Example</title>
 
         <programlisting>[example]</programlisting>

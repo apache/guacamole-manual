@@ -42,6 +42,31 @@
 
     <refsection>
 
+        <title>Parameters</title>
+
+        <variablelist>
+            <varlistentry>
+                 <term><parameter>VAL1</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>VAL2</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>VAL3</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>...</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+        </variablelist>
+
+    </refsection>
+
+    <refsection>
+
         <title>Example</title>
 
         <programlisting>[example]</programlisting>

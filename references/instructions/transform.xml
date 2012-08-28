@@ -45,6 +45,43 @@
 
     <refsection>
 
+        <title>Parameters</title>
+
+        <variablelist>
+            <varlistentry>
+                 <term><parameter>LAYER</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>A</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>B</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>C</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>D</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>E</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>F</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+        </variablelist>
+
+    </refsection>
+
+    <refsection>
+
         <title>Example</title>
 
         <programlisting>[example]</programlisting>

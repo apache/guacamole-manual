@@ -38,6 +38,15 @@
 
     <refsection>
 
+        <title>Parameters</title>
+
+        <variablelist>
+        </variablelist>
+
+    </refsection>
+
+    <refsection>
+
         <title>Example</title>
 
         <programlisting>[example]</programlisting>

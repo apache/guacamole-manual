@@ -47,6 +47,51 @@
 
     <refsection>
 
+        <title>Parameters</title>
+
+        <variablelist>
+            <varlistentry>
+                 <term><parameter>MASK</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>LAYER</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>CAP</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>JOIN</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>THICKNESS</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>R</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>G</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>B</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>A</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+        </variablelist>
+
+    </refsection>
+
+    <refsection>
+
         <title>Example</title>
 
         <programlisting>[example]</programlisting>

@@ -39,6 +39,19 @@
 
     <refsection>
 
+        <title>Parameters</title>
+
+        <variablelist>
+            <varlistentry>
+                 <term><parameter>TIMESTAMP</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+        </variablelist>
+
+    </refsection>
+
+    <refsection>
+
         <title>Example</title>
 
         <programlisting>[example]</programlisting>

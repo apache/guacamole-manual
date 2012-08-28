@@ -40,6 +40,23 @@
 
     <refsection>
 
+        <title>Parameters</title>
+
+        <variablelist>
+            <varlistentry>
+                 <term><parameter>KEYSYM</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+            <varlistentry>
+                 <term><parameter>PRESSED</parameter></term>
+                 <listitem><para></para></listitem>
+             </varlistentry>
+        </variablelist>
+
+    </refsection>
+
+    <refsection>
+
         <title>Example</title>
 
         <programlisting>[example]</programlisting>
