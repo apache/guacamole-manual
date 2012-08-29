@@ -4,10 +4,13 @@
 
 <programlisting id="ball-01-Makefile.am"
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
-    xmlns:xi="http://www.w3.org/2001/XInclude">
+    xmlns:xi="http://www.w3.org/2001/XInclude"><!--
 
-<!-- Makefile.am (step 1) -->
-<![CDATA[
+    Tutorial: libguac-client-ball
+    Step:     1
+    File:     Makefile.am
+
+--><![CDATA[
 AUTOMAKE_OPTIONS = foreign
 
 ACLOCAL_AMFLAGS = -I m4

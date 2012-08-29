@@ -4,10 +4,13 @@
 
 <programlisting id="ball-01-ball_client.c"
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
-    xmlns:xi="http://www.w3.org/2001/XInclude">
+    xmlns:xi="http://www.w3.org/2001/XInclude"><!--
 
-<!-- src/ball_client.c (step 1) -->
-<![CDATA[
+    Tutorial: libguac-client-ball
+    Step:     1
+    File:     src/ball_client.c
+
+--><![CDATA[
 #include <stdlib.h>
 #include <guacamole/client.h>
 

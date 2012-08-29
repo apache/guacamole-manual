@@ -4,10 +4,13 @@
 
 <programlisting id="ball-01-configure.in"
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
-    xmlns:xi="http://www.w3.org/2001/XInclude">
+    xmlns:xi="http://www.w3.org/2001/XInclude"><!--
 
-<!-- configure.in (step 1) -->
-<![CDATA[
+    Tutorial: libguac-client-ball
+    Step:     1
+    File:     configure.in
+
+--><![CDATA[
 # Project information
 AC_INIT(src/ball_client.c)
 AM_INIT_AUTOMAKE([libguac-client-ball], 0.1.0)
