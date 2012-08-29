@@ -26,13 +26,13 @@
         <para>
             <command>
                 curve
-                <parameter>LAYER</parameter>
-                <parameter>CP1X</parameter>
-                <parameter>CP1Y</parameter>
-                <parameter>CP2X</parameter>
-                <parameter>CP2Y</parameter>
-                <parameter>X</parameter>
-                <parameter>Y</parameter>
+                <parameter>layer</parameter>
+                <parameter>cp1x</parameter>
+                <parameter>cp1y</parameter>
+                <parameter>cp2x</parameter>
+                <parameter>cp2y</parameter>
+                <parameter>x</parameter>
+                <parameter>y</parameter>
             </command>
         </para>
 
@@ -49,32 +49,32 @@
 
         <variablelist>
             <varlistentry>
-                 <term><parameter>LAYER</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>layer</parameter></term>
+                 <listitem><para>The layer which should have the specified curve subpath added.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>CP1X</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>cp1x</parameter></term>
+                 <listitem><para>The X coordinate of the first control point of the curve.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>CP1Y</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>cp1y</parameter></term>
+                 <listitem><para>The Y coordinate of the first control point of the curve.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>CP2X</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>cp2x</parameter></term>
+                 <listitem><para>The X coordinate of the second control point of the curve.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>CP2Y</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>cp2y</parameter></term>
+                 <listitem><para>The Y coordinate of the second control point of the curve.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>X</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>x</parameter></term>
+                 <listitem><para>The X coordinate of the endpoint of the curve.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>Y</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>y</parameter></term>
+                 <listitem><para>The Y coordinate of the endpoint of the curve.</para></listitem>
              </varlistentry>
         </variablelist>
 

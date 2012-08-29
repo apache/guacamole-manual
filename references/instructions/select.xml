@@ -26,7 +26,7 @@
         <para>
             <command>
                 select
-                <parameter>PROTOCOL</parameter>
+                <parameter>protocol</parameter>
             </command>
         </para>
 
@@ -43,8 +43,8 @@
 
         <variablelist>
             <varlistentry>
-                 <term><parameter>PROTOCOL</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>protocol</parameter></term>
+                 <listitem><para>The protocol to use.</para></listitem>
              </varlistentry>
         </variablelist>
 

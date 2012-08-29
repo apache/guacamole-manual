@@ -26,7 +26,7 @@
         <para>
             <command>
                 clipboard
-                <parameter>DATA</parameter>
+                <parameter>data</parameter>
             </command>
         </para>
 
@@ -43,8 +43,8 @@
 
         <variablelist>
             <varlistentry>
-                 <term><parameter>DATA</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>data</parameter></term>
+                 <listitem><para>The data the clipboard should be set to.</para></listitem>
              </varlistentry>
         </variablelist>
 

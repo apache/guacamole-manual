@@ -26,9 +26,9 @@
         <para>
             <command>
                 lfill
-                <parameter>MASK</parameter>
-                <parameter>LAYER</parameter>
-                <parameter>SRCLAYER</parameter>
+                <parameter>mask</parameter>
+                <parameter>layer</parameter>
+                <parameter>srclayer</parameter>
             </command>
         </para>
 
@@ -45,16 +45,16 @@
 
         <variablelist>
             <varlistentry>
-                 <term><parameter>MASK</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>mask</parameter></term>
+                 <listitem><para>The channel mask to apply when filling the current path in the specified layer.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>LAYER</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>layer</parameter></term>
+                 <listitem><para>The layer whose path should be filled.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>SRCLAYER</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>srclayer</parameter></term>
+                 <listitem><para>The layer to use as the pattern.</para></listitem>
              </varlistentry>
         </variablelist>
 

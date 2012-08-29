@@ -26,12 +26,12 @@
         <para>
             <command>
                 cfill
-                <parameter>MASK</parameter>
-                <parameter>LAYER</parameter>
-                <parameter>R</parameter>
-                <parameter>G</parameter>
-                <parameter>B</parameter>
-                <parameter>A</parameter>
+                <parameter>mask</parameter>
+                <parameter>layer</parameter>
+                <parameter>r</parameter>
+                <parameter>g</parameter>
+                <parameter>b</parameter>
+                <parameter>a</parameter>
             </command>
         </para>
 
@@ -48,28 +48,28 @@
 
         <variablelist>
             <varlistentry>
-                 <term><parameter>MASK</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>mask</parameter></term>
+                 <listitem><para>The channel mask to apply when filling the current path in the specified layer.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>LAYER</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>layer</parameter></term>
+                 <listitem><para>The layer whose path should be filled.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>R</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>r</parameter></term>
+                 <listitem><para>The red component of the color to use to fill the current path in the specified layer.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>G</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>g</parameter></term>
+                 <listitem><para>The green component of the color to use to fill the current path in the specified layer.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>B</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>b</parameter></term>
+                 <listitem><para>The blue component of the color to use to fill the current path in the specified layer.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>A</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>a</parameter></term>
+                 <listitem><para>The alpha component of the color to use to fill the current path in the specified layer.</para></listitem>
              </varlistentry>
         </variablelist>
 

@@ -26,8 +26,8 @@
         <para>
             <command>
                 shade
-                <parameter>LAYER</parameter>
-                <parameter>OPACITY</parameter>
+                <parameter>layer</parameter>
+                <parameter>opacity</parameter>
             </command>
         </para>
 
@@ -44,12 +44,12 @@
 
         <variablelist>
             <varlistentry>
-                 <term><parameter>LAYER</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>layer</parameter></term>
+                 <listitem><para>The layer whose opacity should be set.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>OPACITY</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>opacity</parameter></term>
+                 <listitem><para>The opacity of the layer, where 0 is completely transparent, and 255 is completely opaque.</para></listitem>
              </varlistentry>
         </variablelist>
 

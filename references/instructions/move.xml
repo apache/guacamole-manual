@@ -26,11 +26,11 @@
         <para>
             <command>
                 move
-                <parameter>LAYER</parameter>
-                <parameter>PARENT</parameter>
-                <parameter>X</parameter>
-                <parameter>Y</parameter>
-                <parameter>Z</parameter>
+                <parameter>layer</parameter>
+                <parameter>parent</parameter>
+                <parameter>x</parameter>
+                <parameter>y</parameter>
+                <parameter>z</parameter>
             </command>
         </para>
 
@@ -47,24 +47,24 @@
 
         <variablelist>
             <varlistentry>
-                 <term><parameter>LAYER</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>layer</parameter></term>
+                 <listitem><para>The layer to move.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>PARENT</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>parent</parameter></term>
+                 <listitem><para>The layer that should be the parent of the given layer.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>X</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>x</parameter></term>
+                 <listitem><para>The X coordinate to move the layer to.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>Y</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>y</parameter></term>
+                 <listitem><para>The Y coordinate to move the layer to.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>Z</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>z</parameter></term>
+                 <listitem><para>The relative Z-ordering of this layer. Layers with larger values will appear above layers with smaller values.</para></listitem>
              </varlistentry>
         </variablelist>
 

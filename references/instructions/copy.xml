@@ -26,15 +26,15 @@
         <para>
             <command>
                 copy
-                <parameter>SRCLAYER</parameter>
-                <parameter>SRCX</parameter>
-                <parameter>SRCY</parameter>
-                <parameter>SRCWIDTH</parameter>
-                <parameter>SRCHEIGHT</parameter>
-                <parameter>MASK</parameter>
-                <parameter>DSTLAYER</parameter>
-                <parameter>DSTX</parameter>
-                <parameter>DSTY</parameter>
+                <parameter>srclayer</parameter>
+                <parameter>srcx</parameter>
+                <parameter>srcy</parameter>
+                <parameter>srcwidth</parameter>
+                <parameter>srcheight</parameter>
+                <parameter>mask</parameter>
+                <parameter>dstlayer</parameter>
+                <parameter>dstx</parameter>
+                <parameter>dsty</parameter>
             </command>
         </para>
 
@@ -51,40 +51,40 @@
 
         <variablelist>
             <varlistentry>
-                 <term><parameter>SRCLAYER</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>srclayer</parameter></term>
+                 <listitem><para>The index of the layer to copy image data from.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>SRCX</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>srcx</parameter></term>
+                 <listitem><para>The X coordinate of the upper-left corner of the source rectangle within the source layer.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>SRCY</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>srcy</parameter></term>
+                 <listitem><para>The Y coordinate of the upper-left corner of the source rectangle within the source layer.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>SRCWIDTH</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>srcwidth</parameter></term>
+                 <listitem><para>The width of the source rectangle within the source layer.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>SRCHEIGHT</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>srcheight</parameter></term>
+                 <listitem><para>The height of the source rectangle within the source layer.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>MASK</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>mask</parameter></term>
+                 <listitem><para>The channel mask to apply when drawing the image data on the destination layer.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>DSTLAYER</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>dstlayer</parameter></term>
+                 <listitem><para>The index of the layer to draw the image data to.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>DSTX</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>dstx</parameter></term>
+                 <listitem><para>The X coordinate of the upper-left corner of the destination within the destination layer.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>DSTY</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>dsty</parameter></term>
+                 <listitem><para>The Y coordinate of the upper-left corner of the destination within the destination layer.</para></listitem>
              </varlistentry>
         </variablelist>
 

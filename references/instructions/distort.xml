@@ -26,13 +26,13 @@
         <para>
             <command>
                 distort
-                <parameter>LAYER</parameter>
-                <parameter>A</parameter>
-                <parameter>B</parameter>
-                <parameter>C</parameter>
-                <parameter>D</parameter>
-                <parameter>E</parameter>
-                <parameter>F</parameter>
+                <parameter>layer</parameter>
+                <parameter>a</parameter>
+                <parameter>b</parameter>
+                <parameter>c</parameter>
+                <parameter>d</parameter>
+                <parameter>e</parameter>
+                <parameter>f</parameter>
             </command>
         </para>
 
@@ -40,7 +40,7 @@
 
     <refsection>
         <title>Description</title>
-        <para>Sets the given affine transformation matrix to the layer. Unlike transform, this operation is independent of any previously sent transformation matrix. This operation can be undone by setting the layer's transformation matrix to the identity matrix using distort.</para>
+        <para>Sets the given affine transformation matrix to the layer. Unlike transform, this operation is independent of any previously sent transformation matrix. This operation can be undone by setting the layer's transformation matrix to the identity matrix using distort</para>
     </refsection>
 
     <refsection>
@@ -49,32 +49,32 @@
 
         <variablelist>
             <varlistentry>
-                 <term><parameter>LAYER</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>layer</parameter></term>
+                 <listitem><para>The layer to distort.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>A</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>a</parameter></term>
+                 <listitem><para>The matrix value in row 1, column 1.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>B</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>b</parameter></term>
+                 <listitem><para>The matrix value in row 2, column 1.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>C</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>c</parameter></term>
+                 <listitem><para>The matrix value in row 1, column 2.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>D</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>d</parameter></term>
+                 <listitem><para>The matrix value in row 2, column 2.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>E</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>e</parameter></term>
+                 <listitem><para>The matrix value in row 1, column 3.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>F</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>f</parameter></term>
+                 <listitem><para>The matrix value in row 2, column 3.</para></listitem>
              </varlistentry>
         </variablelist>
 

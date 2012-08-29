@@ -26,9 +26,9 @@
         <para>
             <command>
                 connect
-                <parameter>VAL1</parameter>
-                <parameter>VAL2</parameter>
-                <parameter>VAL3</parameter>
+                <parameter>val1</parameter>
+                <parameter>val2</parameter>
+                <parameter>val3</parameter>
                 <parameter>...</parameter>
             </command>
         </para>
@@ -46,15 +46,15 @@
 
         <variablelist>
             <varlistentry>
-                 <term><parameter>VAL1</parameter></term>
+                 <term><parameter>val1</parameter></term>
                  <listitem><para></para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>VAL2</parameter></term>
+                 <term><parameter>val2</parameter></term>
                  <listitem><para></para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>VAL3</parameter></term>
+                 <term><parameter>val3</parameter></term>
                  <listitem><para></para></listitem>
              </varlistentry>
             <varlistentry>

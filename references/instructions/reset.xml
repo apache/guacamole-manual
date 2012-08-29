@@ -26,7 +26,7 @@
         <para>
             <command>
                 reset
-                <parameter>LAYER</parameter>
+                <parameter>layer</parameter>
             </command>
         </para>
 
@@ -43,8 +43,8 @@
 
         <variablelist>
             <varlistentry>
-                 <term><parameter>LAYER</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>layer</parameter></term>
+                 <listitem><para>The layer whose state should be reset.</para></listitem>
              </varlistentry>
         </variablelist>
 

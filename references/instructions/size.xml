@@ -26,9 +26,9 @@
         <para>
             <command>
                 size
-                <parameter>LAYER</parameter>
-                <parameter>WIDTH</parameter>
-                <parameter>HEIGHT</parameter>
+                <parameter>layer</parameter>
+                <parameter>width</parameter>
+                <parameter>height</parameter>
             </command>
         </para>
 
@@ -45,16 +45,16 @@
 
         <variablelist>
             <varlistentry>
-                 <term><parameter>LAYER</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>layer</parameter></term>
+                 <listitem><para>The layer to resize.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>WIDTH</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>width</parameter></term>
+                 <listitem><para>The new width of the layer</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>HEIGHT</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>height</parameter></term>
+                 <listitem><para>The new height of the layer</para></listitem>
              </varlistentry>
         </variablelist>
 

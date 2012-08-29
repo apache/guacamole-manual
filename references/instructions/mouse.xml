@@ -26,9 +26,9 @@
         <para>
             <command>
                 mouse
-                <parameter>X</parameter>
-                <parameter>Y</parameter>
-                <parameter>MASK</parameter>
+                <parameter>x</parameter>
+                <parameter>y</parameter>
+                <parameter>mask</parameter>
             </command>
         </para>
 
@@ -45,16 +45,16 @@
 
         <variablelist>
             <varlistentry>
-                 <term><parameter>X</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>x</parameter></term>
+                 <listitem><para>The current X coordinate of the mouse pointer.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>Y</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>y</parameter></term>
+                 <listitem><para>The current Y coordinate of the mouse pointer.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>MASK</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>mask</parameter></term>
+                 <listitem><para>The button mask, representing the pressed or released status of each mouse button.</para></listitem>
              </varlistentry>
         </variablelist>
 

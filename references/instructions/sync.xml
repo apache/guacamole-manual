@@ -26,7 +26,7 @@
         <para>
             <command>
                 sync
-                <parameter>TIMESTAMP</parameter>
+                <parameter>timestamp</parameter>
             </command>
         </para>
 
@@ -43,8 +43,8 @@
 
         <variablelist>
             <varlistentry>
-                 <term><parameter>TIMESTAMP</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>timestamp</parameter></term>
+                 <listitem><para>A valid server-relative timestamp.</para></listitem>
              </varlistentry>
         </variablelist>
 

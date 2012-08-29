@@ -26,13 +26,13 @@
         <para>
             <command>
                 cursor
-                <parameter>X</parameter>
-                <parameter>Y</parameter>
-                <parameter>SRCLAYER</parameter>
-                <parameter>SRCX</parameter>
-                <parameter>SRCY</parameter>
-                <parameter>SRCWIDTH</parameter>
-                <parameter>SRCHEIGHT</parameter>
+                <parameter>x</parameter>
+                <parameter>y</parameter>
+                <parameter>srclayer</parameter>
+                <parameter>srcx</parameter>
+                <parameter>srcy</parameter>
+                <parameter>srcwidth</parameter>
+                <parameter>srcheight</parameter>
             </command>
         </para>
 
@@ -49,32 +49,32 @@
 
         <variablelist>
             <varlistentry>
-                 <term><parameter>X</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>x</parameter></term>
+                 <listitem><para>The X coordinate of the cursor's hotspot.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>Y</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>y</parameter></term>
+                 <listitem><para>The Y coordinate of the cursor's hotspot.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>SRCLAYER</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>srclayer</parameter></term>
+                 <listitem><para>The index of the layer to copy image data from.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>SRCX</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>srcx</parameter></term>
+                 <listitem><para>The X coordinate of the upper-left corner of the source rectangle within the source layer.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>SRCY</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>srcy</parameter></term>
+                 <listitem><para>The Y coordinate of the upper-left corner of the source rectangle within the source layer.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>SRCWIDTH</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>srcwidth</parameter></term>
+                 <listitem><para>The width of the source rectangle within the source layer.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>SRCHEIGHT</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>srcheight</parameter></term>
+                 <listitem><para>The height of the source rectangle within the source layer.</para></listitem>
              </varlistentry>
         </variablelist>
 

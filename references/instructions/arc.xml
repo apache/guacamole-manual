@@ -26,13 +26,13 @@
         <para>
             <command>
                 arc
-                <parameter>LAYER</parameter>
-                <parameter>X</parameter>
-                <parameter>Y</parameter>
-                <parameter>RADIUS</parameter>
-                <parameter>START</parameter>
-                <parameter>END</parameter>
-                <parameter>NEGATIVE</parameter>
+                <parameter>layer</parameter>
+                <parameter>x</parameter>
+                <parameter>y</parameter>
+                <parameter>radius</parameter>
+                <parameter>start</parameter>
+                <parameter>end</parameter>
+                <parameter>negative</parameter>
             </command>
         </para>
 
@@ -49,32 +49,32 @@
 
         <variablelist>
             <varlistentry>
-                 <term><parameter>LAYER</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>layer</parameter></term>
+                 <listitem><para>The layer which should have the specified arc subpath added.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>X</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>x</parameter></term>
+                 <listitem><para>The X coordinate of the center of the circle containing the arc to be drawn.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>Y</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>y</parameter></term>
+                 <listitem><para>The Y coordinate of the center of the circle containing the arc to be drawn.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>RADIUS</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>radius</parameter></term>
+                 <listitem><para>The radius of the circle containing the arc to be drawn, in pixels.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>START</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>start</parameter></term>
+                 <listitem><para>The starting angle of the arc to be drawn, in radians.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>END</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>end</parameter></term>
+                 <listitem><para>The ending angle of the arc to be drawn, in radians.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>NEGATIVE</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>negative</parameter></term>
+                 <listitem><para>Non-zero if the arc should be drawn from START to END in order of decreasing angle, zero otherwise.</para></listitem>
              </varlistentry>
         </variablelist>
 

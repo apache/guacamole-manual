@@ -26,8 +26,8 @@
         <para>
             <command>
                 key
-                <parameter>KEYSYM</parameter>
-                <parameter>PRESSED</parameter>
+                <parameter>keysym</parameter>
+                <parameter>pressed</parameter>
             </command>
         </para>
 
@@ -44,12 +44,12 @@
 
         <variablelist>
             <varlistentry>
-                 <term><parameter>KEYSYM</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>keysym</parameter></term>
+                 <listitem><para>The [[http://www.x.org/wiki/KeySyms|X11 keysym of the key being pressed or released.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>PRESSED</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>pressed</parameter></term>
+                 <listitem><para>0 if the key is not pressed, 1 if the key is pressed.</para></listitem>
              </varlistentry>
         </variablelist>
 

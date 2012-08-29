@@ -26,9 +26,9 @@
         <para>
             <command>
                 set
-                <parameter>LAYER</parameter>
-                <parameter>PROPERTY</parameter>
-                <parameter>VALUE</parameter>
+                <parameter>layer</parameter>
+                <parameter>property</parameter>
+                <parameter>value</parameter>
             </command>
         </para>
 
@@ -45,16 +45,16 @@
 
         <variablelist>
             <varlistentry>
-                 <term><parameter>LAYER</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>layer</parameter></term>
+                 <listitem><para>The layer whose property should be set.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>PROPERTY</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>property</parameter></term>
+                 <listitem><para>The name of the property to set.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>VALUE</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>value</parameter></term>
+                 <listitem><para>The value to set the given property to.</para></listitem>
              </varlistentry>
         </variablelist>
 

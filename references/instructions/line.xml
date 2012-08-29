@@ -26,9 +26,9 @@
         <para>
             <command>
                 line
-                <parameter>LAYER</parameter>
-                <parameter>X</parameter>
-                <parameter>Y</parameter>
+                <parameter>layer</parameter>
+                <parameter>x</parameter>
+                <parameter>y</parameter>
             </command>
         </para>
 
@@ -45,16 +45,16 @@
 
         <variablelist>
             <varlistentry>
-                 <term><parameter>LAYER</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>layer</parameter></term>
+                 <listitem><para>The layer which should have the specified line subpath added.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>X</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>x</parameter></term>
+                 <listitem><para>The X coordinate of the endpoint of the line.</para></listitem>
              </varlistentry>
             <varlistentry>
-                 <term><parameter>Y</parameter></term>
-                 <listitem><para></para></listitem>
+                 <term><parameter>y</parameter></term>
+                 <listitem><para>The Y coordinate of the endpoint of the line.</para></listitem>
              </varlistentry>
         </variablelist>
 
