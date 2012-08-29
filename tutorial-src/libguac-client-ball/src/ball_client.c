@@ -1,4 +1,7 @@
 
+#include <stdlib.h>
+#include <guacamole/client.h>
+
 /* Client plugin arguments */
 const char* GUAC_CLIENT_ARGS[] = { NULL };
 

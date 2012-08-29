@@ -18,11 +18,11 @@ AC_CHECK_LIB([cairo], [cairo_create],,
       AC_MSG_ERROR("cairo is required for drawing"))
 
 # Checks for header files.
-AC_CHECK_HEADERS([stdlib.h
-                  string.h
-                  syslog.h
-                  guacamole/client.h
-                  guacamole/socket.h
+AC_CHECK_HEADERS([stdlib.h \
+                  string.h \
+                  syslog.h \
+                  guacamole/client.h \
+                  guacamole/socket.h \
                   guacamole/protocol.h])
 
 # Checks for library functions.
