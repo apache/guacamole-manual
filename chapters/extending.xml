@@ -16,6 +16,76 @@
 
         <title>Adding new protocols</title>
 
+        <programlisting>
+<![CDATA[
+# Project information
+AC_INIT(src/ball_client.c)
+AM_INIT_AUTOMAKE([libguac-client-ball], 0.1.0)
+AC_CONFIG_MACRO_DIR([m4])
+
+# Checks for required build tools
+AC_PROG_CC
+AC_PROG_LIBTOOL
+
+# Check for libguac (http://guac-dev.org/)
+AC_CHECK_LIB([guac], [guac_client_plugin_open],,
+      AC_MSG_ERROR("libguac is required for communication via "
+                   "the guacamole protocol"))
+
+# Check for Cairo (http://www.cairo-graphics.org)
+AC_CHECK_LIB([cairo], [cairo_create],,
+      AC_MSG_ERROR("cairo is required for drawing"))
+
+# Checks for header files.
+AC_CHECK_HEADERS([stdlib.h \
+                  string.h \
+                  syslog.h \
+                  guacamole/client.h \
+                  guacamole/socket.h \
+                  guacamole/protocol.h])
+
+# Checks for library functions.
+AC_FUNC_MALLOC
+
+AC_CONFIG_FILES([Makefile])
+AC_OUTPUT
+]]>
+        </programlisting>
+
+        <programlisting>
+<![CDATA[
+AUTOMAKE_OPTIONS = foreign
+
+ACLOCAL_AMFLAGS = -I m4
+AM_CFLAGS = -Werror -Wall -pedantic -Iinclude
+
+lib_LTLIBRARIES = libguac-client-ball.la
+
+# All source files of libguac-client-ball
+libguac_client_ball_la_SOURCES = src/ball_client.c
+
+# libtool versioning information
+libguac_client_ball_la_LDFLAGS = -version-info 0:0:0
+]]>
+        </programlisting>
+
+        <programlisting>
+<![CDATA[
+#include <stdlib.h>
+#include <guacamole/client.h>
+
+/* Client plugin arguments */
+const char* GUAC_CLIENT_ARGS[] = { NULL };
+
+int guac_client_init(guac_client* client, int argc, char** argv) {
+
+    /* Do nothing ... for now */
+    return 0;
+
+}
+]]>
+        </programlisting>
+
     </section>
 
     <!--
