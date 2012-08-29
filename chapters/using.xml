@@ -65,6 +65,14 @@
 
         <title>Selecting a connection</title>
 
+        <para>
+            Once logged in, you may be presented with a list of connections.
+            This list will only appear if you have more than one connection
+            associated with your user. If you have only one connection, you
+            will be taken to that connection immediately, rather than seeing a
+            list.
+        </para>
+
         <!-- Connection list screenshot -->
         <mediaobject>
             <imageobject>
@@ -77,12 +85,39 @@
                 </para>
             </caption>
         </mediaobject>
+        
+        <para>
+            Click a connection to open that connection and see the
+            corresponding remote desktop. You can open connections in new
+            windows or tabs and thus interact with multiple desktops
+            simultaneously.
+        </para>
+
+        <para>
+            If you don't wish to connect to any desktops, you can also logout
+            from this screen by clicking the "logout" button. Beware that this
+            will disconnect you from any of your open desktops, if you have
+            any.
+        </para>
 
     </section>
 
     <section id="interact">
 
         <title>Interacting with the remote desktop</title>
+
+        <para>
+            Once you open a connection, you will see an image of a desktop. You
+            can interact with this image just as you would your normal desktop,
+            or any remote desktop client.
+        </para>
+
+        <para>
+            Clicking on parts of the image will affect the remote desktop as if
+            you were clicking on the desktop directly. Typing causes keys to be
+            typed remotely as if you were using a keyboard connected directly
+            to the remote machine.
+        </para>
 
         <!-- VNC screenshot -->
         <mediaobject>
@@ -92,7 +127,7 @@
             </imageobject>
             <caption>
                 <para>
-                    List of available connections.
+                    An active remote desktop.
                 </para>
             </caption>
         </mediaobject>
@@ -104,6 +139,21 @@
         <section id="menu">
 
             <title>The yellow bar</title>
+
+            <para>
+                Useful functions for interacting with the remote desktop can be
+                accessed from the yellow bar at the top of the screen. The
+                yellow bar can be used to edit clipboard contents, display or
+                hide the on-screen keyboard, and logout.
+            </para>
+
+            <para>
+                The yellow bar automatically hides to stay out of your way when
+                you are using the remote desktop. If the yellow bar is not
+                visible at the top of the screen, move the mouse up to the top
+                of the screen to reshow it. The yellow bar will automatically
+                rehide itself when you are done.
+            </para>
 
             <!--Yellow bar screenshot -->
             <mediaobject>
@@ -127,6 +177,21 @@
         <section id="clipboard">
 
             <title>Using the clipboard</title>
+
+            <para>
+                The clipboard can be manipulated using the clipboard editor
+                accessible by clicking "Show Clipboard" from the yellow bar.
+            </para>
+
+            <para>
+                Web browsers don't provide access to clipboard data, thus true
+                synchronization between your local clipboard and the remote
+                clipboard is impossible. Instead, the clipboard editor acts as
+                an intermediary. You can paste text from your clipboard into the
+                editor, and it will be sent to the remote clipboard. If you cut
+                or copy text remotely, that text will be visible in the
+                clipboard editor locally, where you can then select and copy it.
+            </para>
 
             <!-- Clipboard screenshot -->
             <mediaobject>
@@ -152,6 +217,32 @@
 
             <title>Typing with special keys</title>
 
+            <para>
+                Certain key combinations are impossible to press within a web
+                application like Guacamole because they are reserved by the
+                operating system (Ctrl-Alt-Del or Alt-Tab, for example) or by
+                the web browser. If you press one of these reserved
+                combinations, the effect will be observed locally, not
+                remotely, and the remote desktop will receive only some of the
+                keys.
+            </para>
+
+            <para>
+                For convenience, a Ctrl-Alt-Del button is provided in the
+                yellow bar. Clicking this button sends the Ctrl-Alt-Del key
+                combination without requiring you to type it yourself.
+            </para>
+
+            <para>
+                For other combinations, an on-screen keyboard is provided. You
+                can show the on-screen keyboard by clicking "Show Keyboard"
+                from the yellow bar. Clicking on the buttons of the on-screen
+                keyboard has the same effect as pressing the same buttons on a
+                real keyboard, except that the operating system and browser
+                will not intercept these keypresses; they will only be sent
+                remotely.
+            </para>
+
             <!-- OSK screenshot -->
             <mediaobject>
                 <imageobject>
@@ -174,6 +265,30 @@
         <section id="logout">
 
             <title>Logging out</title>
+
+            <para>
+                When you are done and wish to logout of Guacamole completely,
+                clicking the "logout" button within the yellow bar will close
+                all current connections and end your Guacamole session.
+            </para>
+
+            <para>
+                Note that this is not the same as disconnecting from a single
+                connection. To disconnect, simply close the tab or window with
+                the remote desktop in it. Closing a tab or window automatically
+                disconnects from the associated remote desktop without logging
+                you out of Guacamole completely.
+            </para>
+
+            <para>
+                If you logout of Guacamole, all active connections are closed,
+                and can only be accessed by logging in again and reconnecting.
+                Because of the potential for confusion between disconnecting
+                (closing the window or tab) and logging out (clicking the
+                logout button), Guacamole will display a warning if you click
+                "logout" from within a remote desktop display, confirming that
+                you actually want to logout.
+            </para>
 
             <!-- Logout screenshot -->
             <mediaobject>
