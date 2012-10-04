@@ -8,7 +8,7 @@
     <xsl:import href="/usr/share/xml/docbook/stylesheet/nwalsh/xhtml/chunk.xsl"/>
 
     <xsl:param name="toc.max.depth">1</xsl:param>
-    <xsl:param name="html.stylesheet" select="'/jumper/test/site.css'"/>
+    <xsl:param name="html.stylesheet" select="'../../styles/guacamole.css'"/>
 
     <xsl:template name="user.header.navigation">
         <xsl:text disable-output-escaping="yes"><![CDATA[
@@ -21,7 +21,7 @@
                         <h1>Guacamole</h1>
                         <h2>HTML5 Clientless Remote Desktop</h2>
                     </div>
-                    <div id="logo"><img src="/jumper/test/logo.png" alt="\_GUAC_/"/></div>
+                    <div id="logo"><img src="../../images/logo.png" alt="\_GUAC_/"/></div>
                 </div>
             </div>
 

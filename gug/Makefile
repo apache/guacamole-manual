@@ -3,23 +3,20 @@ CHAPTERS   := chapters
 APPENDICES := appendices
 REFERENCES := references 
 
-HEADER=`cat header.html`
-FOOTER=`cat footer.html`
-
-html: book
+all: html pdf
 	
-pdf: book.pdf
+pdf: gug.pdf
 
 clean:
-	$(RM) -R book/
+	$(RM) -R html/
 	$(RM) *.pdf *.fo
 
-book: book.xml $(wildcard $(CHAPTERS)/*.xml) $(wildcard $(APPENDICES)/*.xml) $(wildcard $(REFERENCES)/*.xml) site.xslt
-	xsltproc -o book/ --xinclude site.xslt book.xml
+html: gug.xml $(wildcard $(CHAPTERS)/*.xml) $(wildcard $(APPENDICES)/*.xml) $(wildcard $(REFERENCES)/*.xml) site.xslt
+	xsltproc -o html/ --xinclude site.xslt gug.xml
 
-book.fo: book.xml $(wildcard $(CHAPTERS)/*.xml) $(wildcard $(APPENDICES)/*.xml) $(wildcard $(REFERENCES)/*.xml)
-	xsltproc -o book.fo --xinclude /usr/share/xml/docbook/stylesheet/docbook-xsl-ns/fo/docbook.xsl book.xml
+gug.fo: gug.xml $(wildcard $(CHAPTERS)/*.xml) $(wildcard $(APPENDICES)/*.xml) $(wildcard $(REFERENCES)/*.xml)
+	xsltproc -o gug.fo --xinclude /usr/share/xml/docbook/stylesheet/docbook-xsl-ns/fo/docbook.xsl gug.xml
 
-book.pdf: book.fo
-	fop -fo book.fo -pdf book.pdf
+gug.pdf: gug.fo
+	fop -fo gug.fo -pdf gug.pdf
 
