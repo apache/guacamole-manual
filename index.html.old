@@ -32,7 +32,7 @@
                     <object width="425" height="344"> 
                         <param name="movie" value="http://www.youtube.com/v/CHqgBfNiYh8&rel=0&fs=1"></param>
                         <param name="rel" value="0"></param>
-                        <param name="wmode" value="transparent">
+                        <param name="wmode" value="transparent"></param>
                         <param name="allowFullScreen" value="true"></param>
                         <embed src="http://www.youtube.com/v/CHqgBfNiYh8&fs=1&rel=0"
                         wmode="transparent"
@@ -44,7 +44,9 @@
                     </object>
 
                     <p class="youtube_link" style="display:none;">
-                    <a href="http://www.youtube.com/v/CHqgBfNiYh8&fs=1&rel=0">View the video on YouTube.</a>
+                    <a href="http://www.youtube.com/v/CHqgBfNiYh8&fs=1&rel=0">
+                        View the video on YouTube.
+                    </a>
                     </p>
 
                 </div>
