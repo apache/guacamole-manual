@@ -1,0 +1,146 @@
+
+body {
+
+    color: black;
+    background: white;
+
+    font-family: sans-serif;
+    text-align: justify;
+
+    margin: 0;
+    padding: 0;
+
+}
+
+div#banner {
+
+    background: #709B60;
+    background-image: url('../images/lines.png');
+    border-bottom: 0.5em solid rgba(0, 0, 0, 0.25);
+
+    margin-bottom: 32px;
+
+}
+
+div#header {
+    text-align: right;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 25cm;
+}
+
+div#header h1 {
+    margin: 0;
+    font-size: 3em;
+}
+
+div#header h2 {
+    position: relative;
+    margin: 0;
+    font-weight: normal;
+    font-size: 1.5em;
+}
+
+div#title {
+    display: inline-block;
+    text-align: right;
+    margin: 0.5em;
+    vertical-align: bottom;
+}
+
+div#logo {
+    display: inline-block;
+    margin: 0.5em;
+    margin-bottom: -64px;
+    vertical-align: bottom;
+}
+
+div#donations {
+    float: left;
+}
+
+div#donations img {
+    vertical-align: middle;
+}
+
+div#page {
+
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 25cm;
+    background: white;
+    color: black;
+
+}
+
+div#content {
+
+
+    margin-top: 0;
+    margin-bottom: 0;
+
+    padding: 1em;
+
+    vertical-align: top;
+
+}
+
+div.youtube {
+    float: right;
+    margin: 1em;
+    border: 1px solid black;
+    box-shadow: 0.25em 0.25em 0.5em black;
+}
+
+div#footer {
+    text-align: center;
+    font-style: italic;
+    padding: 1em;
+}
+
+.latest {
+    font-weight: bold;
+}
+
+/* DOCBOOK */
+
+.navheader hr, .navfooter hr {
+    border: 0;
+    border-bottom: 1px solid black;
+}
+
+.programlisting, .screen {
+    background: #FFE;
+    padding: 1em;
+    border: 1px solid #FFC;
+    border-radius: 0.5em;
+}
+
+.book .titlepage {
+    border: 1px solid black;
+    text-align: center;
+    padding: 2em;
+    box-shadow: 0.15em 0.15em 0.4em rgba(0, 0, 0, 0.5);
+}
+
+.titlepage hr {
+    display: none;
+}
+
+.mediaobject {
+    float: right;
+    margin: 1em;
+}
+
+.navfooter, .section {
+    clear: both;
+}
+
+.table-contents table {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.table-contents td, .table-contents th {
+    padding: 0.5em;
+}
