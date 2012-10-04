@@ -95,6 +95,11 @@ div.youtube {
     box-shadow: 0.25em 0.25em 0.5em black;
 }
 
+.caption {
+    font-size: 0.8em;
+    font-style: italic;
+}
+
 div#footer {
     text-align: center;
     font-style: italic;
@@ -113,10 +118,15 @@ div#footer {
 }
 
 .programlisting, .screen {
-    background: #FFE;
-    padding: 1em;
-    border: 1px solid #FFC;
+
+    border: 1px solid black;
     border-radius: 0.5em;
+    box-shadow: 0.1em 0.1em 0.4em rgba(0, 0, 0, 0.5);
+    background: white;
+    color: black;
+
+    padding: 1em;
+
 }
 
 .book .titlepage {
