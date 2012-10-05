@@ -4,13 +4,12 @@
 <document xmlns="http://guac-dev.org/">
 
     <section>
-        <title>What is Guacamole?</title>
+        <notice>
+            <title>What is Guacamole?</title>
 
         <!-- Demo video -->
         <youtube video="CHqgBfNiYh8">
-            <para>
-                Demo video of Guacamole 0.6.0.
-            </para>
+            <para>Demo video of Guacamole 0.6.0.</para>
         </youtube>
 
         <para>
@@ -21,6 +20,8 @@
             needed: the client requires nothing more than a web browser
             supporting HTML5 and AJAX.
         </para>
+
+        </notice>
     </section>
 
     <section>

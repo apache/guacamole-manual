@@ -47,27 +47,37 @@
                     </div>
                 </div>
 
-                <!-- FOOTER -->
-
-                <div id="footer">
-                    <p>This is a test footer.</p>
-                </div>
-
             </body>
         </html>
     </xsl:template>
 
+    <xsl:template name="titled-section">
+        <xsl:if test="guac:title">
+            <h1><xsl:value-of select="guac:title"/></h1>
+        </xsl:if>
+
+        <xsl:apply-templates/>
+    </xsl:template>
+
     <!-- Sections (guac:section) -->
     <xsl:template match="guac:section">
-
         <div class="section">
-            <xsl:if test="guac:title">
-                <h1><xsl:value-of select="guac:title"/></h1>
-            </xsl:if>
-
-            <xsl:apply-templates/>
+            <xsl:call-template name="titled-section"/>
         </div>
+    </xsl:template>
 
+    <!-- Notices (guac:notice) -->
+    <xsl:template match="guac:notice">
+        <div class="notice">
+            <xsl:call-template name="titled-section"/>
+        </div>
+    </xsl:template>
+
+    <!-- Sections (guac:section) -->
+    <xsl:template match="guac:tile">
+        <div class="tile">
+            <xsl:call-template name="titled-section"/>
+        </div>
     </xsl:template>
 
     <!-- Paragraphs (guac:para) -->
