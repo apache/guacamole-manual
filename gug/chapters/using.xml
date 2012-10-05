@@ -2,7 +2,7 @@
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
     "http://docbook.org/xml/5.0/dtd/docbook.dtd">
 
-<chapter id="using" 
+<chapter id="using-guacamole" 
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude">
 
@@ -12,7 +12,7 @@
     - Logging in
     -->
 
-    <section id="login">
+    <section id="logging-into-guacamole">
 
         <title>Logging in</title>
 
@@ -61,7 +61,7 @@
     - Selecting connection
     -->
 
-    <section id="connect">
+    <section id="selecting-a-connection">
 
         <title>Selecting a connection</title>
 
@@ -102,7 +102,7 @@
 
     </section>
 
-    <section id="interact">
+    <section id="interacting-with-the-desktop">
 
         <title>Interacting with the remote desktop</title>
 
@@ -136,7 +136,7 @@
         - The menu 
         -->
 
-        <section id="menu">
+        <section id="using-the-menu">
 
             <title>The yellow bar</title>
 
@@ -174,7 +174,7 @@
         - The clipboard
         -->
 
-        <section id="clipboard">
+        <section id="using-the-clipboard">
 
             <title>Using the clipboard</title>
 
@@ -213,7 +213,7 @@
         - The OSK
         -->
 
-        <section id="osk">
+        <section id="using-the-osk">
 
             <title>Typing with special keys</title>
 
@@ -262,7 +262,7 @@
         - Logging out
         -->
 
-        <section id="logout">
+        <section id="logging-out-of-guacamole">
 
             <title>Logging out</title>
 
@@ -312,7 +312,7 @@
     - Using Touch Devices
     -->
 
-    <section id="touch">
+    <section id="using-touch-devices">
 
         <title>Using touch devices</title>
 

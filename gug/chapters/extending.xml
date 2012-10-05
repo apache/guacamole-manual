@@ -2,7 +2,7 @@
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
     "http://docbook.org/xml/5.0/dtd/docbook.dtd">
 
-<chapter id="extending" 
+<chapter id="extending-guacamole" 
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude">
 
@@ -12,7 +12,7 @@
     - Protocols
     -->
 
-    <section id="customprotocol">
+    <section id="custom-protocols">
 
         <title>Adding new protocols</title>
 
@@ -26,7 +26,7 @@
     - Authentication
     -->
 
-    <section id="customauth">
+    <section id="custom-authentication">
 
         <title>Custom authentication</title>
 
@@ -36,7 +36,7 @@
     - Hooks
     -->
 
-    <section id="customhooks">
+    <section id="custom-hooks">
 
         <title>Event handlers</title>
 

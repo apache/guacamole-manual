@@ -2,7 +2,7 @@
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
     "http://docbook.org/xml/5.0/dtd/docbook.dtd">
 
-<chapter id="installing" 
+<chapter id="installing-guacamole" 
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xl="http://www.w3.org/1999/xlink"
     xmlns:xi="http://www.w3.org/2001/XInclude">
@@ -17,7 +17,7 @@
     - From packages 
     -->
 
-    <section id="getpackages">
+    <section id="binary-packages">
 
         <title>Pre-built packages</title>
         <indexterm>
@@ -47,7 +47,7 @@
             need to build everything yourself from source.
         </para>
 
-        <section id="supported">
+        <section id="linux-support">
 
             <title>Supported distribution versions</title>
             <indexterm>
@@ -77,7 +77,7 @@
 
         </section>
 
-        <section id="bindepends">
+        <section id="binary-dependencies">
 
             <title>Installing Dependencies</title>
             <indexterm>
@@ -147,7 +147,7 @@
 
         </section>
 
-        <section id="installingpackages">
+        <section id="installing-guacamole-packages">
             
             <title>Installing Guacamole packages</title>
             <indexterm>
@@ -213,7 +213,7 @@ libguac-client-vnc0-0.6.0-1.x86_64.rpm</computeroutput>
     - From source
     -->
 
-    <section id="getsource">
+    <section id="building-guacamole-from-source">
 
         <title>Building Guacamole from source</title>
         <indexterm>
@@ -239,7 +239,7 @@ libguac-client-vnc0-0.6.0-1.x86_64.rpm</computeroutput>
             packages. These will usually end in a "-dev" or "-devel" suffix.
         </para>
 
-        <section id="compilinglibguac">
+        <section id="compiling-libguac">
 
             <title>Compiling libguac</title>
             <indexterm>
@@ -266,7 +266,7 @@ libguac-client-vnc0-0.6.0-1.x86_64.rpm</computeroutput>
 
         </section>
 
-        <section id="compilingguacd">
+        <section id="compiling-guacd">
 
             <title>Compiling guacd</title>
             <indexterm>
@@ -326,7 +326,7 @@ libguac-client-vnc0-0.6.0-1.x86_64.rpm</computeroutput>
 
         </section>
 
-        <section id="compilingvnc">
+        <section id="compiling-libguac-client-vnc">
             <title>VNC support</title>
 
             <para>
@@ -359,7 +359,7 @@ libguac-client-vnc0-0.6.0-1.x86_64.rpm</computeroutput>
 
         </section>
 
-        <section id="compilingrdp">
+        <section id="compiling-libguac-client-rdp">
             <title>RDP support</title>
 
             <para>
@@ -388,7 +388,7 @@ libguac-client-vnc0-0.6.0-1.x86_64.rpm</computeroutput>
 
         </section>
 
-        <section id="compilingwar">
+        <section id="compiling-guacamole-war">
             <title>Building the web application (guacamole.war)</title>
             <indexterm>
                 <primary>compiling</primary>
@@ -490,7 +490,7 @@ libguac-client-vnc0-0.6.0-1.x86_64.rpm</computeroutput>
     - From git 
     -->
 
-    <section id="getgit">
+    <section id="git-repositories">
 
         <title>The absolute latest</title>
         <indexterm>

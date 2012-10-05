@@ -2,7 +2,7 @@
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
     "http://docbook.org/xml/5.0/dtd/docbook.dtd">
 
-<chapter id="configuring" 
+<chapter id="configuring-guacamole" 
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude">
 
@@ -12,9 +12,11 @@
     - Initial setup
     -->
 
-    <section id="initialsetup">
+    <section id="initial-setup">
 
         <title>Initial setup</title>
+
+        <xi:include href="conf/guacamole.properties.xml"/>
 
     </section>
 
@@ -22,7 +24,7 @@
     - Authentication
     -->
 
-    <section id="authsetup">
+    <section id="authentication-setup">
 
         <title>Authentication</title>
 
@@ -32,9 +34,11 @@
     - Adding users and connections
     -->
 
-    <section id="adduser">
+    <section id="connection-setup">
 
         <title>Adding users and connections</title>
+
+        <xi:include href="conf/user-mapping.xml.xml"/>
 
     </section>
 
