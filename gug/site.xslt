@@ -17,7 +17,7 @@
     <xsl:param name="chunk.section.depth">0</xsl:param>
 
     <!-- Custom stylesheet -->
-    <xsl:param name="html.stylesheet" select="'../../styles/guacamole.css'"/>
+    <xsl:param name="html.stylesheet" select="'../styles/guacamole.css'"/>
 
     <!-- Custom header -->
     <xsl:template name="user.header.navigation">
@@ -31,7 +31,7 @@
                         <h1>Guacamole</h1>
                         <h2>HTML5 Clientless Remote Desktop</h2>
                     </div>
-                    <div id="logo"><img src="../../images/logo.png" alt="\_GUAC_/"/></div>
+                    <div id="logo"><img src="../images/logo.png" alt="\_GUAC_/"/></div>
                 </div>
             </div>
 
