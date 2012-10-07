@@ -13,9 +13,6 @@
         doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"
         indent="yes"/>
 
-    <!-- Output nothing by default -->
-    <xsl:template match="node()"/>
-
     <!-- Root of document model -->
     <xsl:template match="/guac:document">
         <html>
@@ -43,7 +40,7 @@
 
                 <div id="page">
                     <div id="content">
-                        <xsl:apply-templates match="guac:section"/>
+                        <xsl:call-template name="block-content"/>
                     </div>
                 </div>
 
@@ -51,12 +48,24 @@
         </html>
     </xsl:template>
 
+    <xsl:template name="block-content">
+        <xsl:apply-templates match="./guac:section|./guac:para|./guac:notice"/>
+    </xsl:template>
+
+    <xsl:template name="inline-content">
+        <xsl:apply-templates match="./text()|./guac:guide"/>
+    </xsl:template>
+
+    <!-- NOP for meta-data elements -->
+    <xsl:template match="guac:title"/>
+
     <xsl:template name="titled-section">
+
         <xsl:if test="guac:title">
             <h1><xsl:value-of select="guac:title"/></h1>
         </xsl:if>
 
-        <xsl:apply-templates/>
+        <xsl:call-template name="block-content"/>
     </xsl:template>
 
     <!-- Sections (guac:section) -->
@@ -82,8 +91,20 @@
 
     <!-- Paragraphs (guac:para) -->
     <xsl:template match="guac:para">
-        <p><xsl:value-of select="."/></p>
+        <p><xsl:call-template name="inline-content"/></p>
     </xsl:template>
+
+    <!-- Links to the GUG (guac:guide) -->
+    <xsl:template match="guac:guide">
+
+        <xsl:variable name="id" select="@id"/>
+
+        <a href="gug/{$id}.html">
+            <xsl:value-of select="."/>
+        </a>
+
+    </xsl:template>
+
 
     <!-- YouTube videos (guac:youtube) -->
     <xsl:template match="guac:youtube">
@@ -118,12 +139,21 @@
             <!-- Output caption if given -->
             <xsl:if test="*">
                 <div class="caption">
-                    <xsl:apply-templates/>
+                    <xsl:call-template name="block-content"/>
                 </div>
             </xsl:if>
 
         </div>
 
+    </xsl:template>
+
+    <!-- Catch-all warning -->
+    <xsl:template match="*">
+        <xsl:message terminate="no">
+            WARNING: Unmatched element: <xsl:value-of select="name()"/>
+        </xsl:message>
+
+        <xsl:apply-templates/>
     </xsl:template>
 
 </xsl:stylesheet>
