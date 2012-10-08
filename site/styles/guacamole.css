@@ -4,7 +4,7 @@ body {
     color: black;
     background: white;
 
-    font-family: sans-serif;
+    font-family: FreeSans, Helvetica, Arial, sans-serif;
     text-align: justify;
 
     margin: 0;
@@ -32,6 +32,7 @@ div#header {
 div#header h1 {
     margin: 0;
     font-size: 3em;
+    font-weight: 900;
 }
 
 div#header h2 {
