@@ -11,7 +11,7 @@
     <xsl:param name="use.id.as.filename">1</xsl:param>
 
     <!-- Limit TOC to only top-level children -->
-    <xsl:param name="toc.max.depth">1</xsl:param>
+    <xsl:param name="toc.max.depth">2</xsl:param>
 
     <!-- Only chunk up to the chapter level -->
     <xsl:param name="chunk.section.depth">0</xsl:param>
