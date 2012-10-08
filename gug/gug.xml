@@ -19,9 +19,11 @@
 
     <!-- ABOUT -->
 
-    <part id="about">
-        <title>About Guacamole</title>
-        <xi:include href="chapters/introduction.xml"/>
+    <part id="introduction">
+        <title>Introduction</title>
+        <xi:include href="chapters/history.xml"/>
+        <xi:include href="chapters/what-is-guacamole.xml"/>
+        <xi:include href="chapters/why-use-guacamole.xml"/>
     </part>
 
     <!-- ADMINISTRATION -->

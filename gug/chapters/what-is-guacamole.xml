@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
+
+<chapter id="what-is-guacamole"
+    xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xl="http://www.w3.org/1999/xlink"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <title>What is Guacamole?</title>
+    <indexterm>
+        <primary>Guacamole</primary>
+        <secondary>definition</secondary>
+    </indexterm>
+
+    <para>
+        Guacamole is a project that provides an HTML5 web application of
+        the same name that provides access to desktop environments using
+        remote desktop protocols (such as VNC or RDP). The project also
+        provides an API that drives the flagship application, and can be
+        used to power other similar applications or services.
+    </para>
+
+    <para>
+        As a web application, Guacamole provides a centralized server which
+        acts as a tunnel and proxy. Being written in JavaScript and using
+        only HTML5 and other standards, Guacamole requires nothing more
+        than a modern web browser or web-enabled device when accessing any
+        of the desktops served.
+    </para>
+
+    <para>
+        As an API, Guacamole provides a common and efficient means of
+        streaming text data over a JavaScript-based tunnel (which need not
+        use WebSocket), and a client implementation which supports the
+        Guacamole protocol and renders the remote display when combined
+        with a Guacamole protocol stream from the tunnel.
+    </para>
+
+    <para>
+        It provides cross-browser mouse and keyboard events, an XML-driven
+        on-screen keyboard, and synchronized nestable layers with
+        hardware-accelerated compositing.
+    </para>
+
+    <para>
+        Projects that wish to provide remote desktop support over HTML5 can
+        leverage the years of research and development that went into
+        Guacamole by incorporating the API into their application or
+        service.
+    </para>
+
+</chapter>

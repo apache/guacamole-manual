@@ -16,6 +16,14 @@
 
         <title>Initial setup</title>
 
+        <para>
+            The Guacamole web application uses one main configuration file
+            called guacamole.properties which must be in the classpath of your
+            servlet container.  This file provides the hostname and port that
+            the proxy daemon guacd is listening on,  and configures the
+            authentication method.
+        </para>
+
         <xi:include href="conf/guacamole.properties.xml"/>
 
     </section>
@@ -27,6 +35,11 @@
     <section id="authentication-setup">
 
         <title>Authentication</title>
+
+        <para>
+            Authentication is configured by editing guacamole.properties and
+            setting the authentication provider property: auth-provider.
+        </para>
 
     </section>
 

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
+
+<chapter id="why-should-i-use-guacamole" 
+    xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xl="http://www.w3.org/1999/xlink"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <title>Why should I (or anyone) use Guacamole?</title>
+    <indexterm>
+        <primary>Guacamole</primary>
+        <secondary>reasons for using</secondary>
+    </indexterm>
+
+    <para>
+        If you want to access one or more desktops from anywhere remotely,
+        without having to install a client, particularly when installing a
+        client is not possible, Guacamole is an excellent solution. By
+        setting up a Guacamole server, you can provide access to any other
+        computer on the network from virtually any other computer on the
+        internet, anywhere in the world. Even mobile phones or tablets can
+        be used, without having to install anything.
+    </para>
+
+    <para>
+        Another common reason is the presence of a corporate firewall at
+        the workplace preventing SSH or other access to remote machines.
+        Usually, such a firewall prevents access to anything other than
+        HTTP or HTTPS, and corporate policies prohibit intentionally
+        circumventing these restrictions (by changing port numbers, for
+        example).
+    </para>
+
+    <para>
+        As a true web application whose communication is over HTTP or HTTPS
+        only, Guacamole allows you to access your machines from anywhere
+        without violating the policy of your workplace, and without
+        requiring the installation of special clients.
+    </para>
+
+</chapter>
