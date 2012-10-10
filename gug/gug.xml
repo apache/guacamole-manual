@@ -28,8 +28,8 @@
 
     <!-- ADMINISTRATION -->
 
-    <part id="admin">
-        <title>Administration</title>
+    <part id="guacamole">
+        <title>Guacamole</title>
         <xi:include href="chapters/installing.xml"/>
         <xi:include href="chapters/configuring.xml"/>
         <xi:include href="chapters/using.xml"/>
@@ -38,7 +38,7 @@
 
     <!-- DEVELOPMENT -->
 
-    <part id="development">
+    <part id="guacamole-development">
         <title>Extension and Development</title>
         <xi:include href="chapters/extending.xml"/>
         <xi:include href="chapters/yourown.xml"/>
