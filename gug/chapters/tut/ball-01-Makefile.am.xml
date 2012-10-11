@@ -23,6 +23,5 @@ libguac_client_ball_la_SOURCES = src/ball_client.c
 
 # libtool versioning information
 libguac_client_ball_la_LDFLAGS = -version-info 0:0:0
-]]>
-</programlisting>
+]]></programlisting>
 

@@ -23,7 +23,5 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
     return 0;
 
 }
-]]>
-
-</programlisting>
+]]></programlisting>
 

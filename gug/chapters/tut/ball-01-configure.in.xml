@@ -42,6 +42,4 @@ AC_FUNC_MALLOC
 
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
-]]>
-
-</programlisting>
+]]></programlisting>

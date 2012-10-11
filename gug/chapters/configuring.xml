@@ -19,12 +19,64 @@
         <para>
             The Guacamole web application uses one main configuration file
             called guacamole.properties which must be in the classpath of your
-            servlet container.  This file provides the hostname and port that
-            the proxy daemon guacd is listening on,  and configures the
-            authentication method.
+            servlet container. This file is the common location for all
+            configuration properties read by Guacamole or any extension of
+            Guacamole, including authentication providers.
         </para>
 
-        <xi:include href="conf/guacamole.properties.xml"/>
+        <para>
+            At the bare minimum, the guacamole.properties file provides four 
+            basic properties:
+        </para>
+
+        <variablelist>
+            <varlistentry>
+                <term><parameter>guacd-host</parameter></term>
+                <listitem>
+                    <para>
+                        The host the Guacamole proxy daemon (guacd) is
+                        listening on. This is most likely localhost.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><parameter>guacd-port</parameter></term>
+                <listitem>
+                    <para>
+                        The port the Guacamole proxy daemon (guacd) is
+                        listening on. This is port 4822 by default.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><parameter>auth-provider</parameter></term>
+                <listitem>
+                    <para>
+                        The authentication provider to use when
+                        authenticating. Normally, this will be set to,
+                        net.sourceforge.guacamole.net.basic.BasicFileAuthenticationProvider
+                        which is the default authentication provider provided
+                        with Guacamole.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><parameter>lib-directory</parameter></term>
+                <listitem>
+                    <para>
+                        The directory to load extensions to Guacamole from.
+                        If you wish to use a custom authentication provider or
+                        custom hooks, the .jar file and all dependencies must
+                        be placed in the directory specified here.
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+
+        <example>
+            <title>Minimal guacamole.properties</title>
+            <xi:include href="conf/guacamole.properties.xml"/>
+        </example>
 
     </section>
 

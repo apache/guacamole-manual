@@ -19,6 +19,4 @@ lib-directory:  /var/lib/guacamole/classpath
 # Auth provider class (authenticates user/pass combination, needed if using the provided login screen)
 auth-provider: net.sourceforge.guacamole.net.basic.BasicFileAuthenticationProvider
 basic-user-mapping: /etc/guacamole/user-mapping.xml
-]]>
-
-</programlisting>
+]]></programlisting>
