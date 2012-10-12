@@ -30,11 +30,11 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
     guac_protocol_send_size(client->socket, ball, 128, 128);
 
     /* Fill with solid color */
-    guac_protocol_send_rect(client->socket, GUAC_DEFAULT_LAYER,
+    guac_protocol_send_rect(client->socket, ball,
             0, 0, 128, 128);
 
     guac_protocol_send_cfill(client->socket,
-            GUAC_COMP_OVER, GUAC_DEFAULT_LAYER,
+            GUAC_COMP_OVER, ball,
             0x00, 0x80, 0x80, 0xFF);
 
     /* Flush buffer */
