@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
+
+<chapter id="custom-authentication" 
+    xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <title>Custom authentication</title>
+
+</chapter>
