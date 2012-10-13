@@ -177,21 +177,130 @@
     </section>
 
     <section id="libguac-client-ball-bounce">
+
         <title>Making the ball bounce</title>
+
+        <para>
+            To make the ball bounce, we need to track the ball's state,
+            including current position and velocity. This state information
+            needs to be stored with the client such that it becomes available
+            to all client handlers.
+        </para>
+
+        <para>
+            The best way to do this is to create a data structure that contains
+            all the information we need, and store it in the "data" member of
+            the guac_client. We create a header file to declare the structure:
+        </para>
+
         <xi:include href="tut/ball/04/ball_client.h.xml"/>
+
+        <para>
+            And we update guac_client_init to initialize the structure, store
+            it in the client, and register our new event handler.
+        </para>
+
+        <para>
+            guacd will call the handle_messages handler of the guac_client
+            repeatedly, if defined. It will stop calling handle_messages
+            temporarily if the remote display appears to be lagging behind due
+            to a slow network or slow browser or computer, so there is no
+            guarantee that handle_messages will be called as frequently as we
+            would like, but for now, we assume there will be essentially no
+            delay between calls, and we include our own delay of 30ms between
+            frames.
+        </para>
+
         <xi:include href="tut/ball/04/ball_client.c.xml"/>
+
+        <para>
+            Because we now have header files, we need to update Makefile.am to
+            include our header and the directory it's in:
+        </para>
+
         <xi:include href="tut/ball/04/Makefile.am.xml"/>
+
+        <para>
+            Once built and installed, our ball client now has a bouncing ball,
+            albeit a very square and plain one.
+        </para>
+
     </section>
 
     <section id="libguac-client-ball-pretty">
+
         <title>A prettier ball</title>
+
+        <para>
+            Now that we have our ball bouncing, we might as well try to make it
+            actually look like a ball, and try applying some of the fancier
+            graphics features that Guacamole offers.
+        </para>
+
+        <para>
+            Guacamole provides instructions common to most 2D drawing APIs,
+            including HTML5's canvas and Cairo. This means you can draw arcs,
+            curves, apply fill and stroke, and even use the contents of another
+            layer or buffer as the pattern for a fill or stroke.
+        </para>
+
+        <para>
+            We will try creating a simple gray checkerboard pattern in a buffer
+            and use that for the background instead of the previous gray
+            rectangle.
+        </para>
+
+        <para>
+            We will also modify the ball, removing the rectangle, and replacing
+            it with an arc, in this case a circle, complete with stroke
+            (border) and translucent-blue fill.
+        </para>
+
         <xi:include href="tut/ball/05/ball_client.c.xml"/>
+
+        <para>
+            Again, because we put the ball in its own layer, we don't have to
+            worry about compositing it ourselves. The remote display will
+            handle this, and will likely do so with hardware acceleration.
+        </para>
+
+        <para>
+            Build and install the ball client after this step, and you will
+            have a rather nice-looking bouncing ball.
+        </para>
+
     </section>
 
     <section id="libguac-client-ball-time">
+
         <title>Handling the passage of time</title>
+
+        <para>
+            Because the handle_messages handler will only be called as guacd
+            deems appropriate, we cannot rely on instantaneous return of
+            control. The server may experience load, causing guacd to lose
+            priority and delay handling of messages, or the remote display may
+            lag due to network or software issues, forcing guacd to temporarily
+            pause updates.
+        </para>
+
+        <para>
+            We must modify our ball state to include the time the last update
+            took place. We can then modify the message handler to check the
+            last update time, and update the ball's position based on its
+            current velocity and the elapsed time.
+        </para>
+
         <xi:include href="tut/ball/06/ball_client.h.xml"/>
         <xi:include href="tut/ball/06/ball_client.c.xml"/>
+
+        <para>
+            At this point, we now have a robust Guacamole client plugin. It
+            properly handles the lack of time guarantees for message handler
+            calls, meanwhile providing the user with a seamlessly bouncing
+            ball.
+        </para>
+
     </section>
 
 </chapter>
