@@ -2,7 +2,7 @@
 <!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
     "http://docbook.org/xml/5.0/dtd/docbook.dtd">
 
-<programlisting id="ball-01-ball_client.c"
+<programlisting id="ball-04-ball_client.h"
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude"><!--
 
