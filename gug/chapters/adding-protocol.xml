@@ -8,21 +8,172 @@
 
     <title>Adding new protocols</title>
 
+    <para>
+        In this tutorial, we implement a simple "client" which renders a
+        bouncing ball using the Guacamole protocol. After completing the
+        tutorial and installing the result, you will be able to add a
+        connection to your Guacamole configuration using the "ball" protocol,
+        and any users using that connection will see a bouncing ball.
+    </para>
+
+    <para>
+        This example client plugin doesn't actually act as a client, but this
+        isn't important. The Guacamole client is really just a remote display,
+        and this client plugin functions as a simple example application which
+        renders to this display, just as the VNC or RDP support plugins
+        function as VNC or RDP clients which render to the remote display.
+    </para>
+
+    <para>
+        Each step of this tutorial is intended to excercise a new concept,
+        while also progressing towards the goal of a nifty bouncing ball. At
+        the end of each step, you will have a buildable and working client
+        plugin.
+    </para>    
+
     <section id="libguac-client-ball-skeleton">
+
         <title>Minimal skeleton client</title>
+
+        <para>
+            Very little needs too be done to implement the most basic client
+            plugin possible:
+        </para>
+
         <xi:include href="tut/ball/01/ball_client.c.xml"/>
+
+        <para>
+            Notice the structure of this file. There is exactly one function,
+            guac_client_init, which is the entry point for all Guacamole client
+            plugins. Just as a typical C program has a main function which is
+            executed when the program is run, a Guacamole client plugin has
+            guac_client_init which is called when guacd loads the plugin when a
+            new connection is made and your protocol is selected.
+        </para>
+
+        <para>
+            guac_client_init receives a single guac_client and the same argc
+            and argv arguments that are typical of a C entry point.
+        </para>
+
+        <para>
+            The guac_client given will live until the connection with the
+            remote display closes. Your guac_client_function is expected to
+            parse any arguments in argv and initialized the given guac_client,
+            returning a success code (zero) if the client was initialized
+            successfully.
+        </para>
+
+        <para>
+            Place this code in a file called ball_client.c in a subdirectory
+            called src. The build files provided by this tutorial assume this
+            is the location of all source code.
+        </para>
+
+        <para>
+            This tutorial, as well as all other C-based Guacamole projects,
+            uses the GNU Automake build system due to its ubiquity and ease of
+            use. The minimal build files required for a libguac-based project
+            that uses GNU Automake are fairly simple:
+        </para>
+
         <xi:include href="tut/ball/01/configure.in.xml"/>
+
         <xi:include href="tut/ball/01/Makefile.am.xml"/>
+
+        <para>
+            The GNU Automake files will remain largely unchanged throughout the
+            rest of the tutorial.
+        </para>
+
+        <para>
+            Once you have created all of the above files, you will have a
+            functioning client plugin. It doesn't do anything yet, but it does
+            work, and guacd will load it when requested, and unload it when the
+            connection terminates.
+        </para>
+
     </section>
 
     <section id="libguac-client-ball-display-init">
+
         <title>Initializing the remote display</title>
+
+        <para>
+            Now that we have a basic functioning skeleton, we need to actually
+            do something with the remote display. A good first step would be
+            initializing the display - giving the connection a name, setting
+            the remote display size, and providing a basic background.
+        </para>
+
+        <para>
+            In this case, we name our connection "Bouncing Ball", set the
+            display to a nice default of 1024x768, and fil the background with
+            a simple gray.
+        </para>
+
         <xi:include href="tut/ball/02/ball_client.c.xml"/>
+
+        <para>
+            Note how communication is done with the remote display. The
+            guac_client given to guac_client_init has a member, socket, which
+            is used for bidirectional communication. Guacamole protocol
+            functions, all starting with "guac_protocol_send_", provide a
+            slightly high-level mechanism for sending specific Guacamole
+            protocol instructions to the remote display over the client's
+            socket.
+        </para>
+
+        <para>
+            Here, we set the name of the connection using a "name" instruction
+            (using guac_protocol_send_name), we resize the display using a
+            "size" instruction (using guac_protocol_send_size), and we then
+            draw to the display using drawing instructions (rect and cfill).
+        </para>
+
     </section>
 
     <section id="libguac-client-ball-layer">
+
         <title>Adding the ball</title>
+
+        <para>
+            This tutorial is about making a bouncing ball "client", so
+            naturally we need a ball to bounce.
+        </para>
+
+        <para>
+            While we could repeatedly draw and erase a ball on the remote
+            display, a more efficient technique would be to leverage
+            Guacamole's layers.
+        </para>
+
+        <para>
+            The remote display has a single root layer, GUAC_DEFAULT_LAYER, but
+            there can be infinitely many other child layers, which can have
+            themselves have child layers, and so on. Each layer can be
+            dynamically repositioned within and relative to another layer.
+            Because the compositing of these layers is handled by the remote
+            display, and is likely hardware-accelerated, this is a much better
+            way to repeatedly reposition something we expect to move a lot.
+        </para>
+
         <xi:include href="tut/ball/03/ball_client.c.xml"/>
+
+        <para>
+            Beyond layers, Guacamole has the concept of buffers, which are
+            identical in use to layers except they are invisible. Buffers are
+            used to store image data for the sake of caching or drawing
+            operations. We will use them later when we try to make this
+            tutorial prettier.
+        </para>
+
+        <para>
+            If you build and install the ball client as is now, you will see a
+            large gray rectangle (the root layer) with a small blue square in
+            the upper left corner (the ball layer).
+        </para>
+
     </section>
 
     <section id="libguac-client-ball-bounce">
