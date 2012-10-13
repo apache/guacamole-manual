@@ -13,9 +13,6 @@
     <!-- Limit TOC to only top-level children -->
     <xsl:param name="toc.max.depth">2</xsl:param>
 
-    <!-- Only chunk up to the chapter level -->
-    <xsl:param name="chunk.section.depth">0</xsl:param>
-
     <!-- Custom stylesheet -->
     <xsl:param name="html.stylesheet" select="'../styles/guacamole.css'"/>
 
