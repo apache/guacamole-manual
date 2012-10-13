@@ -14,7 +14,7 @@
 AUTOMAKE_OPTIONS = foreign
 
 ACLOCAL_AMFLAGS = -I m4
-AM_CFLAGS = -Werror -Wall -pedantic -Iinclude
+AM_CFLAGS = -Werror -Wall -pedantic
 
 lib_LTLIBRARIES = libguac-client-ball.la
 
