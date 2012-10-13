@@ -16,9 +16,9 @@
 
         <title>Adding new protocols</title>
 
-        <xi:include href="tut/ball-01-ball_client.c.xml"/>
-        <xi:include href="tut/ball-01-configure.in.xml"/>
-        <xi:include href="tut/ball-01-Makefile.am.xml"/>
+        <xi:include href="tut/ball/01/ball_client.c.xml"/>
+        <xi:include href="tut/ball/01/configure.in.xml"/>
+        <xi:include href="tut/ball/01/Makefile.am.xml"/>
 
     </section>
 
