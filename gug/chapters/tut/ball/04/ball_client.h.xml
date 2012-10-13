@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
+    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
+
+<programlisting id="ball-01-ball_client.c"
+    xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude"><!--
+
+    Tutorial: libguac-client-ball
+    Step:     4
+    File:     src/ball_client.h
+
+--><![CDATA[
+#ifndef _BALL_CLIENT_H
+#define _BALL_CLIENT_H
+
+#include <guacamole/client.h>
+
+typedef struct ball_client_data {
+
+    guac_layer* ball;
+
+    int ball_x;
+    int ball_y;
+
+    int ball_velocity_x;
+    int ball_velocity_y;
+
+} ball_client_data;
+
+int ball_client_handle_messages(guac_client* client);
+
+#endif
+]]></programlisting>
+

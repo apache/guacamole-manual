@@ -20,6 +20,19 @@
         <xi:include href="tut/ball/01/configure.in.xml"/>
         <xi:include href="tut/ball/01/Makefile.am.xml"/>
 
+        <xi:include href="tut/ball/02/ball_client.c.xml"/>
+
+        <xi:include href="tut/ball/03/ball_client.c.xml"/>
+
+        <xi:include href="tut/ball/04/ball_client.h.xml"/>
+        <xi:include href="tut/ball/04/ball_client.c.xml"/>
+        <xi:include href="tut/ball/04/Makefile.am.xml"/>
+
+        <xi:include href="tut/ball/05/ball_client.c.xml"/>
+
+        <xi:include href="tut/ball/06/ball_client.h.xml"/>
+        <xi:include href="tut/ball/06/ball_client.c.xml"/>
+
     </section>
 
     <!--
