@@ -10,7 +10,7 @@
     Step:     2
     File:     src/ball_client.c
 
---><![CDATA[
+    --><![CDATA[
 #include <stdlib.h>
 #include <guacamole/client.h>
 #include <guacamole/protocol.h>
@@ -19,7 +19,7 @@
 const char* GUAC_CLIENT_ARGS[] = { NULL };
 
 int guac_client_init(guac_client* client, int argc, char** argv) {
-
+]]><emphasis><![CDATA[
     /* Send the name of the connection */
     guac_protocol_send_name(client->socket, "Bouncing Ball");
 
@@ -36,7 +36,7 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
 
     /* Flush buffer */
     guac_socket_flush(client->socket);
-
+]]></emphasis><![CDATA[
     /* Done */
     return 0;
 

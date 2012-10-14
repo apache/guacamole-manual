@@ -183,3 +183,8 @@ div#footer {
 .table-contents td, .table-contents th {
     padding: 0.5em;
 }
+
+pre.programlisting em {
+    font-style: normal;
+    font-weight: bold;
+}

@@ -70,7 +70,9 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
     /* Move at a reasonable pace to the lower right */
     data->ball_velocity_x = 200; /* pixels per second */
     data->ball_velocity_y = 200;   /* pixels per second */
+]]><emphasis><![CDATA[
     data->last_update = guac_protocol_get_timestamp();
+]]></emphasis><![CDATA[
 
     guac_protocol_send_size(client->socket, data->ball, 128, 128);
 
@@ -102,6 +104,7 @@ int ball_client_handle_messages(guac_client* client) {
     /* Get data */
     ball_client_data* data = (ball_client_data*) client->data;
 
+]]><emphasis><![CDATA[
     guac_timestamp current;
     int delta_t;
 
@@ -115,6 +118,7 @@ int ball_client_handle_messages(guac_client* client) {
     /* Update position */
     data->ball_x += data->ball_velocity_x * delta_t / 1000;
     data->ball_y += data->ball_velocity_y * delta_t / 1000;
+]]></emphasis><![CDATA[
 
     /* Bounce if necessary */
     if (data->ball_x < 0) {
@@ -138,8 +142,10 @@ int ball_client_handle_messages(guac_client* client) {
     guac_protocol_send_move(client->socket, data->ball,
             GUAC_DEFAULT_LAYER, data->ball_x, data->ball_y, 0);
 
+]]><emphasis><![CDATA[
     /* Update timestamp */
     data->last_update = current;
+]]></emphasis><![CDATA[
 
     return 0;
 

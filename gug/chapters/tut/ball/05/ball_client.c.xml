@@ -33,6 +33,7 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
     /* Send the display size */
     guac_protocol_send_size(client->socket, GUAC_DEFAULT_LAYER, 1024, 768);
 
+]]><emphasis><![CDATA[
     /* Create background tile */
     texture = guac_client_alloc_buffer(client);
 
@@ -47,14 +48,17 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
     guac_protocol_send_rect(client->socket, texture, 32, 32, 32, 32);
     guac_protocol_send_cfill(client->socket, GUAC_COMP_OVER, texture,
             0xDD, 0xDD, 0xDD, 0xFF);
+]]></emphasis><![CDATA[
 
     /* Fill with solid color */
     guac_protocol_send_rect(client->socket, GUAC_DEFAULT_LAYER,
             0, 0, 1024, 768);
 
+]]><emphasis><![CDATA[
     guac_protocol_send_lfill(client->socket,
             GUAC_COMP_OVER, GUAC_DEFAULT_LAYER,
             texture);
+]]></emphasis><![CDATA[
 
     /* Set up client data and handlers */
     client->data = data;
@@ -73,6 +77,7 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
 
     guac_protocol_send_size(client->socket, data->ball, 128, 128);
 
+]]><emphasis><![CDATA[
     /* Fill with solid color */
     guac_protocol_send_arc(client->socket, data->ball,
             64, 64, 62, 0, 6.28, 0);
@@ -87,6 +92,7 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
     guac_protocol_send_cfill(client->socket,
             GUAC_COMP_OVER, data->ball,
             0x00, 0x80, 0x80, 0x80);
+]]></emphasis><![CDATA[
 
     /* Flush buffer */
     guac_socket_flush(client->socket);
