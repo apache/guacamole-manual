@@ -10,8 +10,8 @@ clean:
 html/index.html: $(FILES) site.xslt
 	xsltproc -o html/ --xinclude site.xslt gug.xml
 
-gug.fo: $(FILES) 
-	xsltproc -o gug.fo --xinclude /usr/share/xml/docbook/stylesheet/docbook-xsl-ns/fo/docbook.xsl gug.xml
+gug.fo: $(FILES) book.xslt
+	xsltproc -o gug.fo --xinclude book.xslt gug.xml
 
 gug.pdf: gug.fo
 	fop -fo gug.fo -pdf gug.pdf
