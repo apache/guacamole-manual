@@ -9,6 +9,14 @@
     <title>Adding new protocols</title>
 
     <para>
+        While Guacamole as a bundle ships with support for multiple remote
+        desktop protocols (VNC and RDP), this support is provided through
+        plugins which guacd loads dynamically. The Guacamole API has been
+        designed such that protocol support is easy to create, especially when
+        a C library exists providing a basic client implementation.
+    </para>
+
+    <para>
         In this tutorial, we implement a simple "client" which renders a
         bouncing ball using the Guacamole protocol. After completing the
         tutorial and installing the result, you will be able to add a
@@ -40,7 +48,12 @@
             plugin possible:
         </para>
 
-        <xi:include href="tut/ball/01/ball_client.c.xml"/>
+        <example>
+            <title>
+                The absolute minimal client plugin.
+            </title>
+            <xi:include href="tut/ball/01/ball_client.c.xml"/>
+        </example>
 
         <para>
             Notice the structure of this file. There is exactly one function,
@@ -53,7 +66,11 @@
 
         <para>
             guac_client_init receives a single guac_client and the same argc
-            and argv arguments that are typical of a C entry point.
+            and argv arguments that are typical of a C entry point. While we
+            won't be using arguments in this tutorial, a typical client plugin
+            implementation would register its arguments by specifying them in
+            the GUAC_CLIENT_ARGS static variable, and would receive their
+            values as received from the remote client through argv.
         </para>
 
         <para>
@@ -77,9 +94,21 @@
             that uses GNU Automake are fairly simple:
         </para>
 
-        <xi:include href="tut/ball/01/configure.in.xml"/>
+        <example>
+            <title>
+                Basic configure.in for libguac-client-ball, simply checking
+                for the presence of libguac and other dependencies.
+            </title>
+            <xi:include href="tut/ball/01/configure.in.xml"/>
+        </example>
 
-        <xi:include href="tut/ball/01/Makefile.am.xml"/>
+        <example>
+            <title>
+                Makefile.am, describing which files should be built to build
+                libguac-client-ball.
+            </title>
+            <xi:include href="tut/ball/01/Makefile.am.xml"/>
+        </example>
 
         <para>
             The GNU Automake files will remain largely unchanged throughout the
@@ -112,7 +141,13 @@
             a simple gray.
         </para>
 
-        <xi:include href="tut/ball/02/ball_client.c.xml"/>
+        <example>
+            <title>
+                A still-minimal client plugin implementation which now
+                initializes the remote display.
+            </title>
+            <xi:include href="tut/ball/02/ball_client.c.xml"/>
+        </example>
 
         <para>
             Note how communication is done with the remote display. The
@@ -158,7 +193,12 @@
             way to repeatedly reposition something we expect to move a lot.
         </para>
 
-        <xi:include href="tut/ball/03/ball_client.c.xml"/>
+        <example>
+            <title>
+                Adding a ball to libguac-client-ball.
+            </title>
+            <xi:include href="tut/ball/03/ball_client.c.xml"/>
+        </example>
 
         <para>
             Beyond layers, Guacamole has the concept of buffers, which are
@@ -193,7 +233,13 @@
             the guac_client. We create a header file to declare the structure:
         </para>
 
-        <xi:include href="tut/ball/04/ball_client.h.xml"/>
+        <example>
+            <title>
+                Header file containing a simple data structure for maintaining
+                the state of a bouncing ball.
+            </title>
+            <xi:include href="tut/ball/04/ball_client.h.xml"/>
+        </example>
 
         <para>
             And we update guac_client_init to initialize the structure, store
@@ -211,14 +257,24 @@
             frames.
         </para>
 
-        <xi:include href="tut/ball/04/ball_client.c.xml"/>
+        <example>
+            <title>
+                Actually making the ball bounce through a message handler.
+            </title>
+            <xi:include href="tut/ball/04/ball_client.c.xml"/>
+        </example>
 
         <para>
             Because we now have header files, we need to update Makefile.am to
             include our header and the directory it's in:
         </para>
 
-        <xi:include href="tut/ball/04/Makefile.am.xml"/>
+        <example>
+            <title>
+                Adding our new header file to Makefile.am.
+            </title>
+            <xi:include href="tut/ball/04/Makefile.am.xml"/>
+        </example>
 
         <para>
             Once built and installed, our ball client now has a bouncing ball,
@@ -256,7 +312,10 @@
             (border) and translucent-blue fill.
         </para>
 
-        <xi:include href="tut/ball/05/ball_client.c.xml"/>
+        <example>
+            <title>Making the ball pretty through draw instructions.</title>
+            <xi:include href="tut/ball/05/ball_client.c.xml"/>
+        </example>
 
         <para>
             Again, because we put the ball in its own layer, we don't have to
@@ -291,8 +350,20 @@
             current velocity and the elapsed time.
         </para>
 
-        <xi:include href="tut/ball/06/ball_client.h.xml"/>
-        <xi:include href="tut/ball/06/ball_client.c.xml"/>
+        <example>
+            <title>
+                The ball data structure, now with the time of last update.
+            </title>
+            <xi:include href="tut/ball/06/ball_client.h.xml"/>
+        </example>
+
+        <example>
+            <title>
+                Modified ball client, properly updating the ball based on
+                time elapsed since last frame.
+            </title>
+            <xi:include href="tut/ball/06/ball_client.c.xml"/>
+        </example>
 
         <para>
             At this point, we now have a robust Guacamole client plugin. It

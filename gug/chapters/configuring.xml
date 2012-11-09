@@ -52,11 +52,10 @@
                 <term><parameter>auth-provider</parameter></term>
                 <listitem>
                     <para>
-                        The authentication provider to use when
-                        authenticating. Normally, this will be set to,
-                        net.sourceforge.guacamole.net.basic.BasicFileAuthenticationProvider
-                        which is the default authentication provider provided
-                        with Guacamole.
+                        The authentication provider to use when authenticating.
+                        Normally, this will be set to,
+                        BasicFileAuthenticationProvider which is the default
+                        authentication provider provided with Guacamole.
                     </para>
                 </listitem>
             </varlistentry>
@@ -89,8 +88,23 @@
         <title>Authentication</title>
 
         <para>
+            Guacamole's authentication model is simple and consists of a
+            mapping of usernames to configurations. Each username has a
+            corresponding password and associated set of configurations, and
+            each configuration has a protocol and protocol-specific set of
+            parameters. The example user-mapping.xml file included with
+            Guacamole is a fairly good example of this concept.
+        </para>
+
+        <para>
             Authentication is configured by editing guacamole.properties and
             setting the authentication provider property: auth-provider.
+        </para>
+
+        <para>
+            Guacamole comes with an authentication provider,
+            BasicFileAuthProvider, which simply reads usernames and passwords
+            from an XML file.
         </para>
 
     </section>
@@ -103,7 +117,21 @@
 
         <title>Adding users and connections</title>
 
-        <xi:include href="conf/user-mapping.xml.xml"/>
+        <para>
+            The default authentication provider used by Guacamole reads all
+            username, password, and configuration information from a file
+            called the "user mapping" (typically named user-mapping.xml). Other
+            authentication providers can be written which read authentication
+            information from other sources, but those are not documented here.
+            To learn how to configure an authentication provider not included
+            in the main Guacamole bundle, consult the documentation provided
+            with that authentication provider.
+        </para>
+
+        <example>
+            <title>A simple user-mapping.xml</title>
+            <xi:include href="conf/user-mapping.xml.xml"/>
+        </example>
 
     </section>
 
