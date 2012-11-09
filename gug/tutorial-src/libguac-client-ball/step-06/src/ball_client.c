@@ -58,7 +58,7 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
     /* Move at a reasonable pace to the lower right */
     data->ball_velocity_x = 200; /* pixels per second */
     data->ball_velocity_y = 200;   /* pixels per second */
-    data->last_update = guac_protocol_get_timestamp();
+    data->last_update = guac_timestamp_current();
 
     guac_protocol_send_size(client->socket, data->ball, 128, 128);
 
@@ -95,7 +95,7 @@ int ball_client_handle_messages(guac_client* client) {
 
     /* Sleep for a bit, then get timestamp */
     usleep(30000);
-    current = guac_protocol_get_timestamp();
+    current = guac_timestamp_current();
 
     /* Calculate change in time */
     delta_t = current - data->last_update;
