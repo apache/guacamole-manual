@@ -16,21 +16,16 @@
 
     <section>
         <title>RealMint</title>
-        <para>
-            Guacamole is now a generalized remote desktop gateway, but this was
-            not always the case. Guacamole began as a purely text-based Telnet
-            client written in JavaScript called
-
-            <application
+        <para> Guacamole is now a generalized remote desktop gateway, but this
+            was not always the case. Guacamole began as a purely text-based
+            Telnet client written in JavaScript called <application
                 xl:href="http://sourceforge.net/projects/realmint"
-                >RealMint</application>
-
-            ("RealMint" is an anagram for "terminal"). It was written mainly as
-            a demonstration and, while intended to be useful, its main claim to
-            fame was only that it was pure JavaScript.
-        </para>
+                >RealMint</application> ("RealMint" is an anagram for
+            "terminal"). It was written mainly as a demonstration and, while
+            intended to be useful, its main claim to fame was only that it was
+            pure JavaScript. </para>
         <para>
-            The tunnel used by RealMint was written in PHP. In conntrast to
+            The tunnel used by RealMint was written in PHP. In contrast to
             Guacamole's HTTP tunnel, RealMint's tunnel used only simple
             long-polling and was inefficient. RealMint had a decent keyboard
             implementation which lives on now in parts of Guacamole's keyboard
