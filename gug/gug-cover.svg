@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.5"
-     inkscape:cx="902.75342"
-     inkscape:cy="545.44099"
+     inkscape:zoom="0.54736842"
+     inkscape:cx="695.37061"
+     inkscape:cy="427.5"
      inkscape:document-units="in"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -402,23 +402,23 @@
     <text
        transform="matrix(0,-1,1,0,0,0)"
        id="text4580"
-       y="1375.1127"
-       x="-1037.11"
+       y="1366.6511"
+       x="-1029.4946"
        style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
        xml:space="preserve"><tspan
-         y="1375.1127"
-         x="-1037.11"
+         y="1366.6511"
+         x="-1029.4946"
          id="tspan4582"
          sodipodi:role="line">MICHAEL JUMPER</tspan></text>
     <text
        transform="matrix(0,1,-1,0,0,0)"
        xml:space="preserve"
        style="font-size:13.26043129px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
-       x="222.60245"
+       x="224.60245"
        y="-691.00012"
        id="text2980-74-9"><tspan
          sodipodi:role="line"
-         x="222.60245"
+         x="224.60245"
          y="-691.00012"
          id="tspan2984-7-6"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;font-family:Liberation Mono;-inkscape-font-specification:Liberation Mono Bold">0.7.0</tspan></text>
