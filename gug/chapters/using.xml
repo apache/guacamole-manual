@@ -237,6 +237,15 @@
                 the display. This will reveal a rectangular magnifier that can
                 be dragged around the screen, revealing detail below it at full
                 resolution.</para>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/android-magnifier.png"
+                        format="PNG" contentwidth="4in"/>
+                </imageobject>
+                <caption>
+                    <para>The magnifier tool in use</para>
+                </caption>
+            </mediaobject>
             <para>Tapping outside this magnifier closes the magnifier, while
                 tapping inside engages a typing mode.</para>
         </section>
@@ -275,6 +284,16 @@
                             screen will put Guacamole in typing mode, allowing
                             you to type and use your native on-screen keyboard
                             (if any).</para>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/android-panning.png"
+                                    format="PNG" contentwidth="4in"/>
+                            </imageobject>
+                            <caption>
+                                <para>Panning mode</para>
+                            </caption>
+                        </mediaobject>
                     </listitem>
                     <listitem>
                         <para>Bring up the magnifier, tap to put Guacamole in
