@@ -1,61 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
-    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
 
-<refentry id="clip-instruction" 
+<section xml:id="clip-instruction" 
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>clip</title>
 
     <indexterm>
         <primary>clip</primary>
     </indexterm>
+    <para>Applies the current path as the clipping path. Future operations will
+        only draw within the current path. Note that future clip instructions
+        will also be limited by this path. To set a completely new clipping path,
+        you must first reset the layer with a reset instruction. If you wish to
+        only reset the clipping path, but preserve the current transform matrix,
+        push the layer state before setting the clipping path, and pop the layer
+        state to reset.</para>
+    <variablelist>
+        <varlistentry>
+            <term><parameter>layer</parameter></term>
+            <listitem>
+                <para>The layer whose clipping path should be set.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
 
-    <refmeta>
-        <refentrytitle>clip</refentrytitle>
-    </refmeta>
-
-    <refnamediv>
-        <refname>clip</refname>
-        <refpurpose>Applies the current path as the clipping path.</refpurpose>
-    </refnamediv>
-
-    <refsynopsisdiv>
-
-        <title>Synopsis</title>
-
-        <para>
-            <command>
-                clip
-                <parameter>layer</parameter>
-            </command>
-        </para>
-
-    </refsynopsisdiv>
-
-    <refsection>
-        <title>Description</title>
-        <para>Applies the current path as the clipping path. Future operations will only draw within the current path. Note that future clip instructions willalso be limited by this path. To set a completely new clipping path, you must first reset the layer with a reset instruction. If you wish to only reset the clipping path, but preserve the current transform matrix, push the layer state before setting the clipping path, and pop the layer state to reset.</para>
-    </refsection>
-
-    <refsection>
-
-        <title>Parameters</title>
-
-        <variablelist>
-            <varlistentry>
-                 <term><parameter>layer</parameter></term>
-                 <listitem><para>The layer whose clipping path should be set.</para></listitem>
-             </varlistentry>
-        </variablelist>
-
-    </refsection>
-
-    <refsection>
-
-        <title>Example</title>
-
-        <programlisting>[example]</programlisting>
-
-    </refsection>
-
-</refentry>
+</section>

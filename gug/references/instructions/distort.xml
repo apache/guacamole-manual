@@ -1,91 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
-    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
 
-<refentry id="distort-instruction" 
+<section xml:id="distort-instruction" 
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>distort</title>
 
     <indexterm>
         <primary>distort</primary>
     </indexterm>
+    <para>Sets the given affine transformation matrix to the layer. Unlike
+        transform, this operation is independent of any previously sent
+        transformation matrix. This operation can be undone by setting the
+        layer's transformation matrix to the identity matrix using
+        distort</para>
+    <variablelist>
+        <varlistentry>
+            <term><parameter>layer</parameter></term>
+            <listitem>
+                <para>The layer to distort.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>a</parameter></term>
+            <listitem>
+                <para>The matrix value in row 1, column 1.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>b</parameter></term>
+            <listitem>
+                <para>The matrix value in row 2, column 1.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>c</parameter></term>
+            <listitem>
+                <para>The matrix value in row 1, column 2.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>d</parameter></term>
+            <listitem>
+                <para>The matrix value in row 2, column 2.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>e</parameter></term>
+            <listitem>
+                <para>The matrix value in row 1, column 3.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>f</parameter></term>
+            <listitem>
+                <para>The matrix value in row 2, column 3.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
 
-    <refmeta>
-        <refentrytitle>distort</refentrytitle>
-    </refmeta>
-
-    <refnamediv>
-        <refname>distort</refname>
-        <refpurpose>Sets the given affine transformation matrix to the layer.</refpurpose>
-    </refnamediv>
-
-    <refsynopsisdiv>
-
-        <title>Synopsis</title>
-
-        <para>
-            <command>
-                distort
-                <parameter>layer</parameter>
-                <parameter>a</parameter>
-                <parameter>b</parameter>
-                <parameter>c</parameter>
-                <parameter>d</parameter>
-                <parameter>e</parameter>
-                <parameter>f</parameter>
-            </command>
-        </para>
-
-    </refsynopsisdiv>
-
-    <refsection>
-        <title>Description</title>
-        <para>Sets the given affine transformation matrix to the layer. Unlike transform, this operation is independent of any previously sent transformation matrix. This operation can be undone by setting the layer's transformation matrix to the identity matrix using distort</para>
-    </refsection>
-
-    <refsection>
-
-        <title>Parameters</title>
-
-        <variablelist>
-            <varlistentry>
-                 <term><parameter>layer</parameter></term>
-                 <listitem><para>The layer to distort.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>a</parameter></term>
-                 <listitem><para>The matrix value in row 1, column 1.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>b</parameter></term>
-                 <listitem><para>The matrix value in row 2, column 1.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>c</parameter></term>
-                 <listitem><para>The matrix value in row 1, column 2.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>d</parameter></term>
-                 <listitem><para>The matrix value in row 2, column 2.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>e</parameter></term>
-                 <listitem><para>The matrix value in row 1, column 3.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>f</parameter></term>
-                 <listitem><para>The matrix value in row 2, column 3.</para></listitem>
-             </varlistentry>
-        </variablelist>
-
-    </refsection>
-
-    <refsection>
-
-        <title>Example</title>
-
-        <programlisting>[example]</programlisting>
-
-    </refsection>
-
-</refentry>
+</section>

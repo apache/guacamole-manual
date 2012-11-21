@@ -1,55 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
-    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
 
-<refentry id="disconnect-instruction" 
+<section xml:id="disconnect-instruction" 
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>disconnect</title>
 
     <indexterm>
         <primary>disconnect</primary>
     </indexterm>
+    <para>Notifies the server that the connection is about to be closed by the
+        client. This message can be sent by the client during any phase, and
+        takes no parameters.</para>
 
-    <refmeta>
-        <refentrytitle>disconnect</refentrytitle>
-    </refmeta>
-
-    <refnamediv>
-        <refname>disconnect</refname>
-        <refpurpose>Notifies the server that the connection is about to be closed by the client.</refpurpose>
-    </refnamediv>
-
-    <refsynopsisdiv>
-
-        <title>Synopsis</title>
-
-        <para>
-            <command>
-                disconnect
-            </command>
-        </para>
-
-    </refsynopsisdiv>
-
-    <refsection>
-        <title>Description</title>
-        <para>Notifies the server that the connection is about to be closed by the client. This message can be sent by the client during any phase, and takes no parameters.</para>
-    </refsection>
-
-    <refsection>
-
-        <title>Parameters</title>
-
-        <para>No parameters.</para>
-
-    </refsection>
-
-    <refsection>
-
-        <title>Example</title>
-
-        <programlisting>[example]</programlisting>
-
-    </refsection>
-
-</refentry>
+</section>

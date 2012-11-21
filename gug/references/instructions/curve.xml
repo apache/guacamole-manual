@@ -1,91 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
-    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
 
-<refentry id="curve-instruction" 
-    xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
-    xmlns:xi="http://www.w3.org/2001/XInclude">
-
+<section xml:id="curve-instruction" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>curve</title>
     <indexterm>
         <primary>curve</primary>
     </indexterm>
-
-    <refmeta>
-        <refentrytitle>curve</refentrytitle>
-    </refmeta>
-
-    <refnamediv>
-        <refname>curve</refname>
-        <refpurpose>Adds the specified cubic bezier curve subpath.</refpurpose>
-    </refnamediv>
-
-    <refsynopsisdiv>
-
-        <title>Synopsis</title>
-
-        <para>
-            <command>
-                curve
-                <parameter>layer</parameter>
-                <parameter>cp1x</parameter>
-                <parameter>cp1y</parameter>
-                <parameter>cp2x</parameter>
-                <parameter>cp2y</parameter>
-                <parameter>x</parameter>
-                <parameter>y</parameter>
-            </command>
-        </para>
-
-    </refsynopsisdiv>
-
-    <refsection>
-        <title>Description</title>
-        <para>Adds the specified cubic bezier curve subpath.</para>
-    </refsection>
-
-    <refsection>
-
-        <title>Parameters</title>
-
-        <variablelist>
-            <varlistentry>
-                 <term><parameter>layer</parameter></term>
-                 <listitem><para>The layer which should have the specified curve subpath added.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>cp1x</parameter></term>
-                 <listitem><para>The X coordinate of the first control point of the curve.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>cp1y</parameter></term>
-                 <listitem><para>The Y coordinate of the first control point of the curve.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>cp2x</parameter></term>
-                 <listitem><para>The X coordinate of the second control point of the curve.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>cp2y</parameter></term>
-                 <listitem><para>The Y coordinate of the second control point of the curve.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>x</parameter></term>
-                 <listitem><para>The X coordinate of the endpoint of the curve.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>y</parameter></term>
-                 <listitem><para>The Y coordinate of the endpoint of the curve.</para></listitem>
-             </varlistentry>
-        </variablelist>
-
-    </refsection>
-
-    <refsection>
-
-        <title>Example</title>
-
-        <programlisting>[example]</programlisting>
-
-    </refsection>
-
-</refentry>
+    <para>Adds the specified cubic bezier curve subpath.</para>
+    <variablelist>
+        <varlistentry>
+            <term><parameter>layer</parameter></term>
+            <listitem>
+                <para>The layer which should have the specified curve subpath
+                    added.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>cp1x</parameter></term>
+            <listitem>
+                <para>The X coordinate of the first control point of the
+                    curve.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>cp1y</parameter></term>
+            <listitem>
+                <para>The Y coordinate of the first control point of the
+                    curve.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>cp2x</parameter></term>
+            <listitem>
+                <para>The X coordinate of the second control point of the
+                    curve.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>cp2y</parameter></term>
+            <listitem>
+                <para>The Y coordinate of the second control point of the
+                    curve.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>x</parameter></term>
+            <listitem>
+                <para>The X coordinate of the endpoint of the curve.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>y</parameter></term>
+            <listitem>
+                <para>The Y coordinate of the endpoint of the curve.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
+</section>

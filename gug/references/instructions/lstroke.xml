@@ -1,86 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
-    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
 
-<refentry id="lstroke-instruction" 
+<section xml:id="lstroke-instruction" 
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>lstroke</title>
 
     <indexterm>
         <primary>lstroke</primary>
     </indexterm>
+    <para>Strokes the current path with a tiled pattern of the image data from
+        the specified layer. This instruction completes the current path. Future
+        path instructions will begin a new path.</para>
+    <variablelist>
+        <varlistentry>
+            <term><parameter>mask</parameter></term>
+            <listitem>
+                <para>The channel mask to apply when filling the current path in
+                    the specified layer.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>layer</parameter></term>
+            <listitem>
+                <para>The layer whose path should be filled.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>cap</parameter></term>
+            <listitem>
+                <para>The index of the line cap style to use. This can be either
+                    butt (0), round (1), or square (2).</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>join</parameter></term>
+            <listitem>
+                <para>The index of the line join style to use. This can be
+                    either bevel (0), miter (1), or round (2).</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>thickness</parameter></term>
+            <listitem>
+                <para>The thickness of the stroke to draw, in pixels.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>srclayer</parameter></term>
+            <listitem>
+                <para>The layer to use as the pattern.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
 
-    <refmeta>
-        <refentrytitle>lstroke</refentrytitle>
-    </refmeta>
-
-    <refnamediv>
-        <refname>lstroke</refname>
-        <refpurpose>Strokes the current path with a tiled pattern of the image data from the specified layer.</refpurpose>
-    </refnamediv>
-
-    <refsynopsisdiv>
-
-        <title>Synopsis</title>
-
-        <para>
-            <command>
-                lstroke
-                <parameter>mask</parameter>
-                <parameter>layer</parameter>
-                <parameter>cap</parameter>
-                <parameter>join</parameter>
-                <parameter>thickness</parameter>
-                <parameter>srclayer</parameter>
-            </command>
-        </para>
-
-    </refsynopsisdiv>
-
-    <refsection>
-        <title>Description</title>
-        <para>Strokes the current path with a tiled pattern of the image data from the specified layer. This instruction completes the current path. Future path instructions will begin a new path.</para>
-    </refsection>
-
-    <refsection>
-
-        <title>Parameters</title>
-
-        <variablelist>
-            <varlistentry>
-                 <term><parameter>mask</parameter></term>
-                 <listitem><para>The channel mask to apply when filling the current path in the specified layer.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>layer</parameter></term>
-                 <listitem><para>The layer whose path should be filled.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>cap</parameter></term>
-                 <listitem><para>The index of the line cap style to use. This can be either butt (0), round (1), or square (2).</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>join</parameter></term>
-                 <listitem><para>The index of the line join style to use. This can be either bevel (0), miter (1), or round (2).</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>thickness</parameter></term>
-                 <listitem><para>The thickness of the stroke to draw, in pixels.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>srclayer</parameter></term>
-                 <listitem><para>The layer to use as the pattern.</para></listitem>
-             </varlistentry>
-        </variablelist>
-
-    </refsection>
-
-    <refsection>
-
-        <title>Example</title>
-
-        <programlisting>[example]</programlisting>
-
-    </refsection>
-
-</refentry>
+</section>

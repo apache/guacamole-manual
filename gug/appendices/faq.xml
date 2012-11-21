@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
-    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
 
-<appendix id="faq" 
+<appendix xml:id="faq" 
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude">
 
@@ -41,7 +39,7 @@
                 </para>
 
                 <para>
-                    The name had a nice ring, we weren't embarassed to use it,
+                    The name had a nice ring, we weren't embarrassed to use it,
                     and it stuck.
                 </para>
 
@@ -127,7 +125,7 @@
 
                 <para>
                     Most proxies, including mod_proxy, buffer data received
-                    from the server, and will not flush this data in realtime.
+                    from the server, and will not flush this data in real-time.
                     Each proxy has an option to force flushing of each packet
                     automatically, as this is necessary for streaming
                     applications like Guacamole, but this is usually not

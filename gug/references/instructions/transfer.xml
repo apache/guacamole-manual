@@ -1,101 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
-    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
 
-<refentry id="transfer-instruction" 
+<section xml:id="transfer-instruction" 
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>transfer</title>
 
     <indexterm>
         <primary>transfer</primary>
     </indexterm>
+    <para>Transfers image data from the specified rectangle of the specified
+        layer or buffer to a different location of another specified layer or
+        buffer, using the specified transfer function. For a list of available
+        functions, see
+        [[http://guac-dev.org/trac/browser/libguac/include/protocol.h|guacamole/protocol.h.</para>
+    <variablelist>
+        <varlistentry>
+            <term><parameter>srclayer</parameter></term>
+            <listitem>
+                <para>The index of the layer to transfer image data from.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>srcx</parameter></term>
+            <listitem>
+                <para>The X coordinate of the upper-left corner of the source
+                    rectangle within the source layer.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>srcy</parameter></term>
+            <listitem>
+                <para>The Y coordinate of the upper-left corner of the source
+                    rectangle within the source layer.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>srcwidth</parameter></term>
+            <listitem>
+                <para>The width of the source rectangle within the source
+                    layer.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>srcheight</parameter></term>
+            <listitem>
+                <para>The height of the source rectangle within the source
+                    layer.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>function</parameter></term>
+            <listitem>
+                <para>The index of the transfer function to use. For a list of
+                    available functions, see
+                    [[http://guac-dev.org/trac/browser/libguac/include/protocol.h|guacamole/protocol.h.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>dstlayer</parameter></term>
+            <listitem>
+                <para>The index of the layer to draw the image data to.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>dstx</parameter></term>
+            <listitem>
+                <para>The X coordinate of the upper-left corner of the
+                    destination within the destination layer.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>dsty</parameter></term>
+            <listitem>
+                <para>The Y coordinate of the upper-left corner of the
+                    destination within the destination layer.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
 
-    <refmeta>
-        <refentrytitle>transfer</refentrytitle>
-    </refmeta>
-
-    <refnamediv>
-        <refname>transfer</refname>
-        <refpurpose>Transfers image data from the specified rectangle of the specified layer or buffer to a different location of another specified layer or buffer, using the specified transfer function.</refpurpose>
-    </refnamediv>
-
-    <refsynopsisdiv>
-
-        <title>Synopsis</title>
-
-        <para>
-            <command>
-                transfer
-                <parameter>srclayer</parameter>
-                <parameter>srcx</parameter>
-                <parameter>srcy</parameter>
-                <parameter>srcwidth</parameter>
-                <parameter>srcheight</parameter>
-                <parameter>function</parameter>
-                <parameter>dstlayer</parameter>
-                <parameter>dstx</parameter>
-                <parameter>dsty</parameter>
-            </command>
-        </para>
-
-    </refsynopsisdiv>
-
-    <refsection>
-        <title>Description</title>
-        <para>Transfers image data from the specified rectangle of the specified layer or buffer to a different location of another specified layer or buffer, using the specified transfer function. For a list of available functions, see [[http://guac-dev.org/trac/browser/libguac/include/protocol.h|guacamole/protocol.h.</para>
-    </refsection>
-
-    <refsection>
-
-        <title>Parameters</title>
-
-        <variablelist>
-            <varlistentry>
-                 <term><parameter>srclayer</parameter></term>
-                 <listitem><para>The index of the layer to transfer image data from.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>srcx</parameter></term>
-                 <listitem><para>The X coordinate of the upper-left corner of the source rectangle within the source layer.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>srcy</parameter></term>
-                 <listitem><para>The Y coordinate of the upper-left corner of the source rectangle within the source layer.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>srcwidth</parameter></term>
-                 <listitem><para>The width of the source rectangle within the source layer.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>srcheight</parameter></term>
-                 <listitem><para>The height of the source rectangle within the source layer.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>function</parameter></term>
-                 <listitem><para>The index of the transfer function to use. For a list of available functions, see [[http://guac-dev.org/trac/browser/libguac/include/protocol.h|guacamole/protocol.h.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>dstlayer</parameter></term>
-                 <listitem><para>The index of the layer to draw the image data to.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>dstx</parameter></term>
-                 <listitem><para>The X coordinate of the upper-left corner of the destination within the destination layer.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>dsty</parameter></term>
-                 <listitem><para>The Y coordinate of the upper-left corner of the destination within the destination layer.</para></listitem>
-             </varlistentry>
-        </variablelist>
-
-    </refsection>
-
-    <refsection>
-
-        <title>Example</title>
-
-        <programlisting>[example]</programlisting>
-
-    </refsection>
-
-</refentry>
+</section>

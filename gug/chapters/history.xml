@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
-    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
-
-<chapter id="history-of-guacamole"
+<chapter xml:id="history-of-guacamole"
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xl="http://www.w3.org/1999/xlink"
     xmlns:xi="http://www.w3.org/2001/XInclude">
@@ -16,75 +13,60 @@
 
     <section>
         <title>RealMint</title>
-        <para> Guacamole is now a generalized remote desktop gateway, but this
+        <para>Guacamole is now a generalized remote desktop gateway, but this
             was not always the case. Guacamole began as a purely text-based
             Telnet client written in JavaScript called <application
                 xl:href="http://sourceforge.net/projects/realmint"
                 >RealMint</application> ("RealMint" is an anagram for
             "terminal"). It was written mainly as a demonstration and, while
             intended to be useful, its main claim to fame was only that it was
-            pure JavaScript. </para>
-        <para>
-            The tunnel used by RealMint was written in PHP. In contrast to
+            pure JavaScript.</para>
+        <para>The tunnel used by RealMint was written in PHP. In contrast to
             Guacamole's HTTP tunnel, RealMint's tunnel used only simple
             long-polling and was inefficient. RealMint had a decent keyboard
             implementation which lives on now in parts of Guacamole's keyboard
             code, but this was really the extent of RealMint's features and
-            usability.
-        </para>
-        <para>
-            Given that it was just an implementation of a legacy protocol, and
+            usability.</para>
+        <para>Given that it was just an implementation of a legacy protocol, and
             that several other JavaScript terminal emulators exist, most of
-            which well-established and stable, the project was dropped.
-        </para>
+            which well-established and stable, the project was dropped.</para>
     </section>
 
     <section>
         <title>VNC Client</title>
-        <para>
-            Once the developers learned of the HTML5 canvas tag, and saw that
+        <para>Once the developers learned of the HTML5 canvas tag, and saw that
             it was already implemented in Firefox and Chrome, work started
-            instead on a proof-of-concept JavaScript VNC client.
-        </para>
-        <para>
-            This client was purely JavaScript with a Java server component, and
-            worked by translating VNC into an XML-based version of the same.
+            instead on a proof-of-concept JavaScript VNC client.</para>
+        <para>This client was purely JavaScript with a Java server component,
+            and worked by translating VNC into an XML-based version of the same.
             Its development was naturally driven by VNC's features, and its
             scope was limited to forwarding a single connection to a set of
             users. Although relatively slow, the proof-of-concept worked well
             enough that the project needed an online place to live, and was
-            registered with SourceForge as "Guacamole" - an HTML5 VNC client.
-        </para>
-        <para>
-            As Guacamole grew and became more than a proof-of-concept, the need
-            for speed increased, and the old RealMint-style long polling was
-            dropped, as was the use of XML.
-        </para>
-        <para>
-            As WebSocket could not be trusted to be supported at the time, and
+            registered with SourceForge as "Guacamole" - an HTML5 VNC
+            client.</para>
+        <para>As Guacamole grew and became more than a proof-of-concept, the
+            need for speed increased, and the old RealMint-style long polling
+            was dropped, as was the use of XML.</para>
+        <para>As WebSocket could not be trusted to be supported at the time, and
             Java had no WebSocket standard for servlets, an equivalent
-            HTTP-based tunnel was developed.
-        </para>
+            HTTP-based tunnel was developed.</para>
     </section>
 
     <section>
         <title>Remote Desktop Gateway</title>
-        <para>
-            A faster text-based protocol was developed which could present the
+        <para>A faster text-based protocol was developed which could present the
             features of multiple remote desktop protocols, not just VNC. The
-            entire system was rearchitected into a standard daemon, guacd, and
-            a common library, libguac, which drove both the daemon and protocol
-            support, which became extendable.
-        </para>
-        <para>
-            The scope of the project expanded from an adequate VNC client to a
+            entire system was rearchitected into a standard daemon, guacd, and a
+            common library, libguac, which drove both the daemon and protocol
+            support, which became extendable.</para>
+        <para>The scope of the project expanded from an adequate VNC client to a
             performant HTML5 remote desktop gateway and general API. In its
             current state, Guacamole can be used as a central gateway to access
             any number of machines running different remote desktop servers. It
             provides extendable authentication, and in the case you need
             something more specialized, a general API for HTML5-based remote
-            access.
-        </para>
+            access.</para>
     </section>
 
 </chapter>

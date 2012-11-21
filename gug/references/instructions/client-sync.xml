@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="client-sync-instruction" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>sync</title>
+    <indexterm>
+        <primary>sync</primary>
+    </indexterm>
+    <para>Reports that all operations as of the given server-relative timestamp
+        have been completed.When sent by the server, sync indicates that the
+        given timestamp is the current timestamp as of all previous operations.
+        When sent by the client, sync indicates that all operations prior to the
+        given timestamp have been completed.Both client and server are expected
+        to occasionally send sync to report on current operation execution
+        state. If a sync is received from the server, the client should respond
+        with a corresponding sync once all previous operations have been
+        completed, or the server may stop sending updates until the client
+        catches up.For the client, sending a sync with a timestamp newer than
+        any timestamp received from the server is an error.</para>
+    <variablelist>
+        <varlistentry>
+            <term><parameter>timestamp</parameter></term>
+            <listitem>
+                <para>A valid server-relative timestamp.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
+</section>

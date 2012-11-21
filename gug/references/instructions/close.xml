@@ -1,61 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
-    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
 
-<refentry id="close-instruction" 
+<section xml:id="close-instruction" 
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>close</title>
 
     <indexterm>
         <primary>close</primary>
     </indexterm>
+    <para>Closes the current path by connecting the start and end points with a
+        straight line.</para>
+    <variablelist>
+        <varlistentry>
+            <term><parameter>layer</parameter></term>
+            <listitem>
+                <para>The layer whose path should be closed.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
 
-    <refmeta>
-        <refentrytitle>close</refentrytitle>
-    </refmeta>
-
-    <refnamediv>
-        <refname>close</refname>
-        <refpurpose>Closes the current path by connecting the start and end points with a straight line.</refpurpose>
-    </refnamediv>
-
-    <refsynopsisdiv>
-
-        <title>Synopsis</title>
-
-        <para>
-            <command>
-                close
-                <parameter>layer</parameter>
-            </command>
-        </para>
-
-    </refsynopsisdiv>
-
-    <refsection>
-        <title>Description</title>
-        <para>Closes the current path by connecting the start and end points with a straight line.</para>
-    </refsection>
-
-    <refsection>
-
-        <title>Parameters</title>
-
-        <variablelist>
-            <varlistentry>
-                 <term><parameter>layer</parameter></term>
-                 <listitem><para>The layer whose path should be closed.</para></listitem>
-             </varlistentry>
-        </variablelist>
-
-    </refsection>
-
-    <refsection>
-
-        <title>Example</title>
-
-        <programlisting>[example]</programlisting>
-
-    </refsection>
-
-</refentry>
+</section>

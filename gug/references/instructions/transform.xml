@@ -1,91 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
-    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
 
-<refentry id="transform-instruction" 
+<section xml:id="transform-instruction" 
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>transform</title>
 
     <indexterm>
         <primary>transform</primary>
     </indexterm>
+    <para>Applies the specified transformation matrix to future operations.
+        Unlike distort, this operation is dependent on any previously sent
+        transformation matrices, and only affects future operations. This
+        operation can be undone by setting the layer's transformation matrix to
+        the identity matrix using identity, but image data already drawn will
+        not be affected.</para>
+    <variablelist>
+        <varlistentry>
+            <term><parameter>layer</parameter></term>
+            <listitem>
+                <para>The layer to apply the given transformation matrix
+                    to.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>a</parameter></term>
+            <listitem>
+                <para>The matrix value in row 1, column 1.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>b</parameter></term>
+            <listitem>
+                <para>The matrix value in row 2, column 1.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>c</parameter></term>
+            <listitem>
+                <para>The matrix value in row 1, column 2.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>d</parameter></term>
+            <listitem>
+                <para>The matrix value in row 2, column 2.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>e</parameter></term>
+            <listitem>
+                <para>The matrix value in row 1, column 3.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>f</parameter></term>
+            <listitem>
+                <para>The matrix value in row 2, column 3.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
 
-    <refmeta>
-        <refentrytitle>transform</refentrytitle>
-    </refmeta>
-
-    <refnamediv>
-        <refname>transform</refname>
-        <refpurpose>Applies the specified transformation matrix to future operations.</refpurpose>
-    </refnamediv>
-
-    <refsynopsisdiv>
-
-        <title>Synopsis</title>
-
-        <para>
-            <command>
-                transform
-                <parameter>layer</parameter>
-                <parameter>a</parameter>
-                <parameter>b</parameter>
-                <parameter>c</parameter>
-                <parameter>d</parameter>
-                <parameter>e</parameter>
-                <parameter>f</parameter>
-            </command>
-        </para>
-
-    </refsynopsisdiv>
-
-    <refsection>
-        <title>Description</title>
-        <para>Applies the specified transformation matrix to future operations. Unlike distort, this operation is dependent on any previously sent transformation matrices, and only affects future operations. This operation can be undone by setting the layer's transformation matrix to the identity matrix using identity, but image data already drawn will not be affected.</para>
-    </refsection>
-
-    <refsection>
-
-        <title>Parameters</title>
-
-        <variablelist>
-            <varlistentry>
-                 <term><parameter>layer</parameter></term>
-                 <listitem><para>The layer to apply the given transformation matrix to.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>a</parameter></term>
-                 <listitem><para>The matrix value in row 1, column 1.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>b</parameter></term>
-                 <listitem><para>The matrix value in row 2, column 1.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>c</parameter></term>
-                 <listitem><para>The matrix value in row 1, column 2.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>d</parameter></term>
-                 <listitem><para>The matrix value in row 2, column 2.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>e</parameter></term>
-                 <listitem><para>The matrix value in row 1, column 3.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>f</parameter></term>
-                 <listitem><para>The matrix value in row 2, column 3.</para></listitem>
-             </varlistentry>
-        </variablelist>
-
-    </refsection>
-
-    <refsection>
-
-        <title>Example</title>
-
-        <programlisting>[example]</programlisting>
-
-    </refsection>
-
-</refentry>
+</section>

@@ -1,71 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
-    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
 
-<refentry id="mouse-instruction" 
+<section xml:id="mouse-instruction" 
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>mouse</title>
 
     <indexterm>
         <primary>mouse</primary>
     </indexterm>
+    <para>Sends the specified mouse movement or button press or release event (or
+        combination thereof).</para>
+    <variablelist>
+        <varlistentry>
+            <term><parameter>x</parameter></term>
+            <listitem>
+                <para>The current X coordinate of the mouse pointer.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>y</parameter></term>
+            <listitem>
+                <para>The current Y coordinate of the mouse pointer.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>mask</parameter></term>
+            <listitem>
+                <para>The button mask, representing the pressed or released
+                    status of each mouse button.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
 
-    <refmeta>
-        <refentrytitle>mouse</refentrytitle>
-    </refmeta>
-
-    <refnamediv>
-        <refname>mouse</refname>
-        <refpurpose>Sends the specified mouse movement or button press or release event (or combination thereof).</refpurpose>
-    </refnamediv>
-
-    <refsynopsisdiv>
-
-        <title>Synopsis</title>
-
-        <para>
-            <command>
-                mouse
-                <parameter>x</parameter>
-                <parameter>y</parameter>
-                <parameter>mask</parameter>
-            </command>
-        </para>
-
-    </refsynopsisdiv>
-
-    <refsection>
-        <title>Description</title>
-        <para>Sends the specified mouse movement or button press or release event (or combination thereof).</para>
-    </refsection>
-
-    <refsection>
-
-        <title>Parameters</title>
-
-        <variablelist>
-            <varlistentry>
-                 <term><parameter>x</parameter></term>
-                 <listitem><para>The current X coordinate of the mouse pointer.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>y</parameter></term>
-                 <listitem><para>The current Y coordinate of the mouse pointer.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>mask</parameter></term>
-                 <listitem><para>The button mask, representing the pressed or released status of each mouse button.</para></listitem>
-             </varlistentry>
-        </variablelist>
-
-    </refsection>
-
-    <refsection>
-
-        <title>Example</title>
-
-        <programlisting>[example]</programlisting>
-
-    </refsection>
-
-</refentry>
+</section>

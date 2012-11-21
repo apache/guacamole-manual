@@ -1,101 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
-    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
 
-<refentry id="cstroke-instruction" 
+<section xml:id="cstroke-instruction" 
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>cstroke</title>
 
     <indexterm>
         <primary>cstroke</primary>
     </indexterm>
+    <para>Strokes the current path with the specified color. This instruction
+        completes the current path. Future path instructions will begin a new
+        path.</para>
+    <variablelist>
+        <varlistentry>
+            <term><parameter>mask</parameter></term>
+            <listitem>
+                <para>The channel mask to apply when stroking the current path
+                    in the specified layer.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>layer</parameter></term>
+            <listitem>
+                <para>The layer whose path should be stroked.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>cap</parameter></term>
+            <listitem>
+                <para>The index of the line cap style to use. This can be either
+                    butt (0), round (1), or square (2).</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>join</parameter></term>
+            <listitem>
+                <para>The index of the line join style to use. This can be
+                    either bevel (0), miter (1), or round (2).</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>thickness</parameter></term>
+            <listitem>
+                <para>The thickness of the stroke to draw, in pixels.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>r</parameter></term>
+            <listitem>
+                <para>The red component of the color to use to stroke the
+                    current path in the specified layer.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>g</parameter></term>
+            <listitem>
+                <para>The green component of the color to use to stroke the
+                    current path in the specified layer.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>b</parameter></term>
+            <listitem>
+                <para>The blue component of the color to use to stroke the
+                    current path in the specified layer.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>a</parameter></term>
+            <listitem>
+                <para>The alpha component of the color to use to stroke the
+                    current path in the specified layer.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
 
-    <refmeta>
-        <refentrytitle>cstroke</refentrytitle>
-    </refmeta>
-
-    <refnamediv>
-        <refname>cstroke</refname>
-        <refpurpose>Strokes the current path with the specified color.</refpurpose>
-    </refnamediv>
-
-    <refsynopsisdiv>
-
-        <title>Synopsis</title>
-
-        <para>
-            <command>
-                cstroke
-                <parameter>mask</parameter>
-                <parameter>layer</parameter>
-                <parameter>cap</parameter>
-                <parameter>join</parameter>
-                <parameter>thickness</parameter>
-                <parameter>r</parameter>
-                <parameter>g</parameter>
-                <parameter>b</parameter>
-                <parameter>a</parameter>
-            </command>
-        </para>
-
-    </refsynopsisdiv>
-
-    <refsection>
-        <title>Description</title>
-        <para>Strokes the current path with the specified color. This instruction completes the current path. Future path instructions will begin a new path.</para>
-    </refsection>
-
-    <refsection>
-
-        <title>Parameters</title>
-
-        <variablelist>
-            <varlistentry>
-                 <term><parameter>mask</parameter></term>
-                 <listitem><para>The channel mask to apply when stroking the current path in the specified layer.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>layer</parameter></term>
-                 <listitem><para>The layer whose path should be stroked.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>cap</parameter></term>
-                 <listitem><para>The index of the line cap style to use. This can be either butt (0), round (1), or square (2).</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>join</parameter></term>
-                 <listitem><para>The index of the line join style to use. This can be either bevel (0), miter (1), or round (2).</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>thickness</parameter></term>
-                 <listitem><para>The thickness of the stroke to draw, in pixels.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>r</parameter></term>
-                 <listitem><para>The red component of the color to use to stroke the current path in the specified layer.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>g</parameter></term>
-                 <listitem><para>The green component of the color to use to stroke the current path in the specified layer.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>b</parameter></term>
-                 <listitem><para>The blue component of the color to use to stroke the current path in the specified layer.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>a</parameter></term>
-                 <listitem><para>The alpha component of the color to use to stroke the current path in the specified layer.</para></listitem>
-             </varlistentry>
-        </variablelist>
-
-    </refsection>
-
-    <refsection>
-
-        <title>Example</title>
-
-        <programlisting>[example]</programlisting>
-
-    </refsection>
-
-</refentry>
+</section>

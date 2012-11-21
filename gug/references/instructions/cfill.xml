@@ -1,86 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
-    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
 
-<refentry id="cfill-instruction" 
-    xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
-    xmlns:xi="http://www.w3.org/2001/XInclude">
-
+<section xml:id="cfill-instruction" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>cfill</title>
     <indexterm>
         <primary>cfill</primary>
     </indexterm>
-
-    <refmeta>
-        <refentrytitle>cfill</refentrytitle>
-    </refmeta>
-
-    <refnamediv>
-        <refname>cfill</refname>
-        <refpurpose>Fills the current path with the specified color.</refpurpose>
-    </refnamediv>
-
-    <refsynopsisdiv>
-
-        <title>Synopsis</title>
-
-        <para>
-            <command>
-                cfill
-                <parameter>mask</parameter>
-                <parameter>layer</parameter>
-                <parameter>r</parameter>
-                <parameter>g</parameter>
-                <parameter>b</parameter>
-                <parameter>a</parameter>
-            </command>
-        </para>
-
-    </refsynopsisdiv>
-
-    <refsection>
-        <title>Description</title>
-        <para>Fills the current path with the specified color. This instruction completes the current path. Future path instructions will begin a new path.</para>
-    </refsection>
-
-    <refsection>
-
-        <title>Parameters</title>
-
-        <variablelist>
-            <varlistentry>
-                 <term><parameter>mask</parameter></term>
-                 <listitem><para>The channel mask to apply when filling the current path in the specified layer.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>layer</parameter></term>
-                 <listitem><para>The layer whose path should be filled.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>r</parameter></term>
-                 <listitem><para>The red component of the color to use to fill the current path in the specified layer.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>g</parameter></term>
-                 <listitem><para>The green component of the color to use to fill the current path in the specified layer.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>b</parameter></term>
-                 <listitem><para>The blue component of the color to use to fill the current path in the specified layer.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>a</parameter></term>
-                 <listitem><para>The alpha component of the color to use to fill the current path in the specified layer.</para></listitem>
-             </varlistentry>
-        </variablelist>
-
-    </refsection>
-
-    <refsection>
-
-        <title>Example</title>
-
-        <programlisting>[example]</programlisting>
-
-    </refsection>
-
-</refentry>
+    <para>Fills the current path with the specified color. This instruction
+        completes the current path. Future path instructions will begin a new
+        path.</para>
+    <variablelist>
+        <varlistentry>
+            <term><parameter>mask</parameter></term>
+            <listitem>
+                <para>The channel mask to apply when filling the current path in
+                    the specified layer.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>layer</parameter></term>
+            <listitem>
+                <para>The layer whose path should be filled.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>r</parameter></term>
+            <listitem>
+                <para>The red component of the color to use to fill the current
+                    path in the specified layer.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>g</parameter></term>
+            <listitem>
+                <para>The green component of the color to use to fill the
+                    current path in the specified layer.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>b</parameter></term>
+            <listitem>
+                <para>The blue component of the color to use to fill the current
+                    path in the specified layer.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>a</parameter></term>
+            <listitem>
+                <para>The alpha component of the color to use to fill the
+                    current path in the specified layer.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
+</section>

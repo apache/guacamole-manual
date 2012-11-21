@@ -1,71 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
-    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
 
-<refentry id="line-instruction" 
+<section xml:id="line-instruction" 
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>line</title>
 
     <indexterm>
         <primary>line</primary>
     </indexterm>
+    <para>Adds the specified line subpath.</para>
+    <variablelist>
+        <varlistentry>
+            <term><parameter>layer</parameter></term>
+            <listitem>
+                <para>The layer which should have the specified line subpath
+                    added.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>x</parameter></term>
+            <listitem>
+                <para>The X coordinate of the endpoint of the line.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>y</parameter></term>
+            <listitem>
+                <para>The Y coordinate of the endpoint of the line.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
 
-    <refmeta>
-        <refentrytitle>line</refentrytitle>
-    </refmeta>
-
-    <refnamediv>
-        <refname>line</refname>
-        <refpurpose>Adds the specified line subpath.</refpurpose>
-    </refnamediv>
-
-    <refsynopsisdiv>
-
-        <title>Synopsis</title>
-
-        <para>
-            <command>
-                line
-                <parameter>layer</parameter>
-                <parameter>x</parameter>
-                <parameter>y</parameter>
-            </command>
-        </para>
-
-    </refsynopsisdiv>
-
-    <refsection>
-        <title>Description</title>
-        <para>Adds the specified line subpath.</para>
-    </refsection>
-
-    <refsection>
-
-        <title>Parameters</title>
-
-        <variablelist>
-            <varlistentry>
-                 <term><parameter>layer</parameter></term>
-                 <listitem><para>The layer which should have the specified line subpath added.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>x</parameter></term>
-                 <listitem><para>The X coordinate of the endpoint of the line.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>y</parameter></term>
-                 <listitem><para>The Y coordinate of the endpoint of the line.</para></listitem>
-             </varlistentry>
-        </variablelist>
-
-    </refsection>
-
-    <refsection>
-
-        <title>Example</title>
-
-        <programlisting>[example]</programlisting>
-
-    </refsection>
-
-</refentry>
+</section>

@@ -1,54 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
-    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
 
-<refentry id="args-instruction" 
+<section xml:id="args-instruction" 
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude">
 
-    <refmeta>
-        <refentrytitle>args</refentrytitle>
-    </refmeta>
 
-    <refnamediv>
-        <refname>args</refname>
-        <refpurpose>
-            Reports the expected format of the argument list for the
-            protocol requested by the client.
-        </refpurpose>
-    </refnamediv>
+    <title>args</title>
+    <para> Reports the expected format of the argument list for the protocol
+        requested by the client. This message can be sent by the server during
+        the connect phase only.</para>
+    <para>The parameters of the args function are only the names of all
+        parameters accepted by the server for the protocol in effect, in order.
+        The responding connect instruction must provide exactly these
+        parameters, in order.</para>
 
-    <refsynopsisdiv>
-
-        <title>Synopsis</title>
-
-        <para>
-            <command>
-                args
-                <parameter>ARG1</parameter>
-                <parameter>ARG2</parameter>
-                <parameter>ARG3</parameter>
-                <parameter>...</parameter>
-            </command>
-        </para>
-
-    </refsynopsisdiv>
-
-    <refsection>
-        <title>Description</title>
-        <para>
-            Reports the expected format of the argument list for the
-            protocol requested by the client. This message can be sent by
-            the server during the connect phase only.
-        </para>
-    </refsection>
-
-    <refsection>
-
-        <title>Example</title>
-
-        <programlisting>4.args,8.hostname,4.port;</programlisting>
-
-    </refsection>
-
-</refentry>
+</section>

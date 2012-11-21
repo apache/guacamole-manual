@@ -1,81 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
-    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
 
-<refentry id="png-instruction" 
+<section xml:id="png-instruction" 
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>png</title>
 
     <indexterm>
         <primary>png</primary>
     </indexterm>
+    <para>Loads PNG data into the specified location of the specified layer or
+        buffer.</para>
+    <variablelist>
+        <varlistentry>
+            <term><parameter>mask</parameter></term>
+            <listitem>
+                <para>The channel mask to apply when drawing the image
+                    data.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>layer</parameter></term>
+            <listitem>
+                <para>The destination layer.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>x</parameter></term>
+            <listitem>
+                <para>The X coordinate of the upper-left corner of the
+                    destination within the destination layer.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>y</parameter></term>
+            <listitem>
+                <para>The Y coordinate of the upper-left corner of the
+                    destination within the destination layer.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>data</parameter></term>
+            <listitem>
+                <para>Base64-encoded PNG data.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
 
-    <refmeta>
-        <refentrytitle>png</refentrytitle>
-    </refmeta>
-
-    <refnamediv>
-        <refname>png</refname>
-        <refpurpose>Loads PNG data into the specified location of the specified layer or buffer.</refpurpose>
-    </refnamediv>
-
-    <refsynopsisdiv>
-
-        <title>Synopsis</title>
-
-        <para>
-            <command>
-                png
-                <parameter>mask</parameter>
-                <parameter>layer</parameter>
-                <parameter>x</parameter>
-                <parameter>y</parameter>
-                <parameter>data</parameter>
-            </command>
-        </para>
-
-    </refsynopsisdiv>
-
-    <refsection>
-        <title>Description</title>
-        <para>Loads PNG data into the specified location of the specified layer or buffer.</para>
-    </refsection>
-
-    <refsection>
-
-        <title>Parameters</title>
-
-        <variablelist>
-            <varlistentry>
-                 <term><parameter>mask</parameter></term>
-                 <listitem><para>The channel mask to apply when drawing the image data.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>layer</parameter></term>
-                 <listitem><para>The destination layer.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>x</parameter></term>
-                 <listitem><para>The X coordinate of the upper-left corner of the destination within the destination layer.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>y</parameter></term>
-                 <listitem><para>The Y coordinate of the upper-left corner of the destination within the destination layer.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>data</parameter></term>
-                 <listitem><para>Base64-encoded PNG data.</para></listitem>
-             </varlistentry>
-        </variablelist>
-
-    </refsection>
-
-    <refsection>
-
-        <title>Example</title>
-
-        <programlisting>[example]</programlisting>
-
-    </refsection>
-
-</refentry>
+</section>

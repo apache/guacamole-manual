@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
-    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
 
-<chapter id="using-guacamole" 
+<chapter xml:id="using-guacamole" 
     xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude">
 
@@ -12,36 +10,27 @@
     - Logging in
     -->
 
-    <section id="logging-into-guacamole">
-
+    <section xml:id="logging-into-guacamole">
         <title>Logging in</title>
-
-        <para>
-            When you visit a Guacamole instance for the first time, you will
+        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+            <primary>Guacamole</primary>
+            <secondary>logging in</secondary>
+        </indexterm>
+        <para>When you visit a Guacamole instance for the first time, you will
             see the login screen. This screen authenticates you with Guacamole,
             allowing you to use Guacamole to interact with one or more remote
-            desktops.
-        </para>
-
-        <para>
-            Enter your username and password and click "login". You will then
+            desktops. </para>
+        <para>Enter your username and password and click "login". You will then
             be given a list of available remote desktop connections to choose
-            from or, if you only have access to one desktop, you will be sent
-            to that desktop immediately. If you enter your username or
-            password incorrectly, the error message "Invalid Login" will
-            appear, and you can try again.
-        </para>
-
-        <para>
-            Keep in mind this is the login for Guacamole, and not necessarily 
+            from. If you have used Guacamole in that specific web browser
+            before, you will also see thumbnails of the screens of recently used
+            connections. </para>
+        <para>Keep in mind this is the login for Guacamole, and not necessarily
             the login for the remote desktop you wish to connect to. The
             username and password you give Guacamole grants you access to the
             Guacamole system only. The usernames and passwords required for the
             remote desktops you have access to through Guacamole are
-            independent.
-        </para>
-
-
+            independent. </para>
         <!-- Login screenshot -->
         <mediaobject>
             <imageobject>
@@ -49,30 +38,27 @@
                     contentwidth="4in"/>
             </imageobject>
             <caption>
-                <para>
-                    The Guacamole login screen.
-                </para>
+                <para> The Guacamole login screen. </para>
             </caption>
         </mediaobject>
-
     </section>
 
     <!--
     - Selecting connection
     -->
 
-    <section id="selecting-a-connection">
-
+    <section xml:id="selecting-a-connection">
         <title>Selecting a connection</title>
-
-        <para>
-            Once logged in, you may be presented with a list of connections.
-            This list will only appear if you have more than one connection
-            associated with your user. If you have only one connection, you
-            will be taken to that connection immediately, rather than seeing a
-            list.
-        </para>
-
+        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+            <primary>Guacamole</primary>
+            <secondary>choosing a connection</secondary>
+        </indexterm>
+        <para>Once logged in, you may be presented with a list of connections.
+            Selecting a connection from this list will open that connection in a
+            new window or tab. The connection list interface will remain open
+            and running in the previous window or tab, as it is the only access
+            point for other connections, the clipboard, and settings.</para>
+        <para>Multiple connections can be used simultaneously. </para>
         <!-- Connection list screenshot -->
         <mediaobject>
             <imageobject>
@@ -80,45 +66,28 @@
                     contentwidth="4in"/>
             </imageobject>
             <caption>
-                <para>
-                    List of available connections.
-                </para>
+                <para> List of available connections. </para>
             </caption>
         </mediaobject>
-        
-        <para>
-            Click a connection to open that connection and see the
-            corresponding remote desktop. You can open connections in new
-            windows or tabs and thus interact with multiple desktops
-            simultaneously.
-        </para>
-
-        <para>
-            If you don't wish to connect to any desktops, you can also logout
+        <para>If you don't wish to connect to any desktops, you can also logout
             from this screen by clicking the "logout" button. Beware that this
-            will disconnect you from any of your open desktops, if you have
-            any.
+            will disconnect you from any of your open desktops, if you have any.
         </para>
-
     </section>
 
-    <section id="interacting-with-the-desktop">
-
+    <section xml:id="interacting-with-the-desktop">
         <title>Interacting with the remote desktop</title>
-
-        <para>
-            Once you open a connection, you will see an image of a desktop. You
-            can interact with this image just as you would your normal desktop,
-            or any remote desktop client.
-        </para>
-
-        <para>
-            Clicking on parts of the image will affect the remote desktop as if
-            you were clicking on the desktop directly. Typing causes keys to be
-            typed remotely as if you were using a keyboard connected directly
-            to the remote machine.
-        </para>
-
+        <indexterm>
+            <primary>Guacamole</primary>
+            <secondary>using</secondary>
+        </indexterm>
+        <para>Once you open a connection, you will see an image of a desktop.
+            You can interact with this image just as you would your normal
+            desktop, or any remote desktop client. </para>
+        <para>Clicking on parts of the image will affect the remote desktop as
+            if you were clicking on the desktop directly. Typing causes keys to
+            be typed remotely as if you were using a keyboard connected directly
+            to the remote machine. </para>
         <!-- VNC screenshot -->
         <mediaobject>
             <imageobject>
@@ -126,73 +95,36 @@
                     contentwidth="4in"/>
             </imageobject>
             <caption>
-                <para>
-                    An active remote desktop.
-                </para>
+                <para> An active remote desktop. </para>
             </caption>
         </mediaobject>
-
         <!--
         - The menu 
         -->
-
-        <section id="using-the-menu">
-
-            <title>The yellow bar</title>
-
-            <para>
-                Useful functions for interacting with the remote desktop can be
-                accessed from the yellow bar at the top of the screen. The
-                yellow bar can be used to edit clipboard contents, display or
-                hide the on-screen keyboard, and logout.
-            </para>
-
-            <para>
-                The yellow bar automatically hides to stay out of your way when
-                you are using the remote desktop. If the yellow bar is not
-                visible at the top of the screen, move the mouse up to the top
-                of the screen to reshow it. The yellow bar will automatically
-                rehide itself when you are done.
-            </para>
-
-            <!--Yellow bar screenshot -->
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="../images/yellow-bar.png" format="PNG"
-                        contentwidth="3in"/>
-                </imageobject>
-                <caption>
-                    <para>
-                        The yellow bar menu.
-                    </para>
-                </caption>
-            </mediaobject>
-
-        </section>
-
         <!--
         - The clipboard
         -->
-
-        <section id="using-the-clipboard">
-
+        <section xml:id="using-the-clipboard">
             <title>Using the clipboard</title>
-
-            <para>
-                The clipboard can be manipulated using the clipboard editor
-                accessible by clicking "Show Clipboard" from the yellow bar.
-            </para>
-
-            <para>
-                Web browsers don't provide access to clipboard data, thus true
+            <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+                <primary>Guacamole</primary>
+                <secondary>clipboard</secondary>
+            </indexterm>
+            <para>The clipboard can be manipulated using the clipboard editor
+                accessible near the bottom of the connection list
+                interface.</para>
+            <para>Web browsers don't provide access to clipboard data, thus true
                 synchronization between your local clipboard and the remote
                 clipboard is impossible. Instead, the clipboard editor acts as
                 an intermediary. You can paste text from your clipboard into the
                 editor, and it will be sent to the remote clipboard. If you cut
                 or copy text remotely, that text will be visible in the
-                clipboard editor locally, where you can then select and copy it.
-            </para>
-
+                clipboard editor locally, where you can then select and copy
+                it.</para>
+            <para>All open Guacamole connections use this common clipboard, thus
+                copying and pasting between connections is seamless; you do not
+                need to visit the clipboard editor to copy and paste from one
+                connection to another.</para>
             <!-- Clipboard screenshot -->
             <mediaobject>
                 <imageobject>
@@ -200,49 +132,38 @@
                         contentwidth="3in"/>
                 </imageobject>
                 <caption>
-                    <para>
-                        The editable clipboard contents, accessible from the
-                        yellow menu.
-                    </para>
+                    <para> The editable clipboard contents, accessible from the
+                        connection list interface. </para>
                 </caption>
             </mediaobject>
-
         </section>
-
         <!--
         - The OSK
         -->
-
-        <section id="using-the-osk">
-
+        <section xml:id="using-the-osk">
             <title>Typing with special keys</title>
-
-            <para>
-                Certain key combinations are impossible to press within a web
+            <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+                <primary>Guacamole</primary>
+                <secondary>on-screen keyboard</secondary>
+            </indexterm>
+            <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+                <primary>on-screen keyboard</primary>
+            </indexterm>
+            <para>Certain key combinations are impossible to press within a web
                 application like Guacamole because they are reserved by the
                 operating system (Ctrl-Alt-Del or Alt-Tab, for example) or by
                 the web browser. If you press one of these reserved
-                combinations, the effect will be observed locally, not
-                remotely, and the remote desktop will receive only some of the
-                keys.
-            </para>
-
-            <para>
-                For convenience, a Ctrl-Alt-Del button is provided in the
-                yellow bar. Clicking this button sends the Ctrl-Alt-Del key
-                combination without requiring you to type it yourself.
-            </para>
-
-            <para>
-                For other combinations, an on-screen keyboard is provided. You
-                can show the on-screen keyboard by clicking "Show Keyboard"
-                from the yellow bar. Clicking on the buttons of the on-screen
-                keyboard has the same effect as pressing the same buttons on a
-                real keyboard, except that the operating system and browser
-                will not intercept these keypresses; they will only be sent
-                remotely.
-            </para>
-
+                combinations, the effect will be observed locally, not remotely,
+                and the remote desktop will receive only some of the keys. </para>
+            <para>Guacamole provides an on-screen keyboard such that key events
+                can be sent to the remote machine without affecting the local
+                browser. You can show the on-screen keyboard by pressing
+                Ctrl-Alt-Shift. Pressing the Ctrl-Alt-Shift again will hide the
+                on-screen keyboard.</para>
+            <para>Clicking on the buttons of the on-screen keyboard has the same
+                effect as pressing the same buttons on a real keyboard, except
+                that the operating system and browser will not intercept these
+                keypresses; they will only be sent remotely. </para>
             <!-- OSK screenshot -->
             <mediaobject>
                 <imageobject>
@@ -250,72 +171,180 @@
                         contentwidth="4in"/>
                 </imageobject>
                 <caption>
-                    <para>
-                        The on-screen keyboard.
-                    </para>
+                    <para> The on-screen keyboard. </para>
                 </caption>
             </mediaobject>
-
         </section>
-
         <!--
         - Logging out
         -->
-
-        <section id="logging-out-of-guacamole">
-
+        <section xml:id="logging-out-of-guacamole">
             <title>Logging out</title>
-
-            <para>
-                When you are done and wish to logout of Guacamole completely,
-                clicking the "logout" button within the yellow bar will close
-                all current connections and end your Guacamole session.
-            </para>
-
-            <para>
-                Note that this is not the same as disconnecting from a single
+            <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+                <primary>Guacamole</primary>
+                <secondary>logging out</secondary>
+            </indexterm>
+            <para>When you are done and wish to logout of Guacamole completely,
+                find the original connection interface tab and clicking the
+                "logout". Beware that this will close all current connections
+                and end your Guacamole session. </para>
+            <para>Note that this is not the same as disconnecting from a single
                 connection. To disconnect, simply close the tab or window with
                 the remote desktop in it. Closing a tab or window automatically
                 disconnects from the associated remote desktop without logging
-                you out of Guacamole completely.
-            </para>
-
-            <para>
-                If you logout of Guacamole, all active connections are closed,
-                and can only be accessed by logging in again and reconnecting.
-                Because of the potential for confusion between disconnecting
-                (closing the window or tab) and logging out (clicking the
-                logout button), Guacamole will display a warning if you click
-                "logout" from within a remote desktop display, confirming that
-                you actually want to logout.
-            </para>
-
-            <!-- Logout screenshot -->
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="../images/logout-warning.png"
-                        format="PNG"
-                        contentwidth="4in"/>
-                </imageobject>
-                <caption>
-                    <para>
-                        Warning displayed when logging out.
-                    </para>
-                </caption>
-            </mediaobject>
-
+                you out of Guacamole completely. </para>
+            <para>If you logout of Guacamole, all active connections are closed,
+                and can only be accessed by logging in again and
+                reconnecting.</para>
         </section>
-
     </section>
 
     <!--
     - Using Touch Devices
     -->
 
-    <section id="using-touch-devices">
-
+    <section xml:id="using-touch-devices">
         <title>Using touch devices</title>
-
+        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+            <primary>touch devices</primary>
+        </indexterm>
+        <para>Guacamole can be used on devices that have touchscreens, even when
+            those touchscreens are the sole means of input, such as most tablets
+            and mobile phones.</para>
+        <section>
+            <title>Moving the mouse</title>
+            <para>As a finger makes for a very inaccurate pointing device,
+                especially for mouse-driven applications designed for precise
+                input, the default mode for touch-based mouse input in Guacamole
+                is touchpad emulation.</para>
+            <para>Guacamole's touchpad emulation is similar in behavior to the
+                touchpad present on most modern laptops. Drag your finger across
+                the display to move the mouse pointer, and tap the display to
+                left-click. Right-clicking is accomplished with a two-finger
+                tap, and middle-clicking with a three-finger tap.</para>
+            <para>Click-and-drag by tapping the screen and then quickly placing
+                your finger back down. This gesture only causes the mouse button
+                to press down, but does not release it again until you lift your
+                finger back up.</para>
+            <para>The mouse scroll wheel can be operated by dragging two fingers
+                up or down.</para>
+        </section>
+        <section>
+            <title>Zooming in</title>
+            <para>Many touch-enabled devices have small screens, which makes the
+                larger screens of a typical remote desktop hard to see and
+                interact with. If you want to temporarily zoom in, long-press on
+                the display. This will reveal a rectangular magnifier that can
+                be dragged around the screen, revealing detail below it at full
+                resolution.</para>
+            <para>Tapping outside this magnifier closes the magnifier, while
+                tapping inside engages a typing mode.</para>
+        </section>
+        <section>
+            <title>Typing</title>
+            <para>In most cases, if your device has a hardware keyboard or you
+                use a bluetooth keyboard, you will not need to do anything
+                special in order to type; you can just press keys and expect the
+                same effect you would have on a desktop.</para>
+            <para>For devices that lack a hardware keyboard, you need to bring
+                Guacamole into "typing mode" by long-pressing on the display to
+                bring up the magnifier. Tap on the magnifier to bring up your
+                device's on-screen keyboard.</para>
+        </section>
+        <section>
+            <title>Panning</title>
+            <para>Because Guacamole uses all touch events to drive mouse input,
+                the normal gestures for scrolling the screen will not work.
+                Depending on how big your screen is, and whether the display is
+                currently zoomed, you have three options for panning the screen:<orderedlist>
+                    <listitem>
+                        <para>Move the mouse</para>
+                        <para>Moving the mouse beyond the bounds of the screen
+                            of the device will cause the display to
+                            automatically scroll until the mouse pointer is in
+                            view again. This will only work if the screen is not
+                            already fully visible.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Long-press to bring up panning mode</para>
+                        <para>If the remote display is already fully visible,
+                            long-pressing will not bring up the magnifier, but
+                            will instead put Guacamole in a panning mode. Arrows
+                            will appear at the sides of the screen, and you can
+                            drag around the screen as normal. Tapping on the
+                            screen will put Guacamole in typing mode, allowing
+                            you to type and use your native on-screen keyboard
+                            (if any).</para>
+                    </listitem>
+                    <listitem>
+                        <para>Bring up the magnifier, tap to put Guacamole in
+                            typing/panning mode, and then drag the screen</para>
+                        <para>When in typing mode, dragging your finger on the
+                            screen will cause the screen to pan as it normally
+                            would. This is useful while typing, especially if
+                            what you're typing starts to run off the visible
+                            area of your device's screen.</para>
+                    </listitem>
+                </orderedlist></para>
+        </section>
+    </section>
+    <section>
+        <title>Changing settings</title>
+        <indexterm>
+            <primary>Guacamole</primary>
+            <secondary>settings</secondary>
+        </indexterm>
+        <indexterm>
+            <primary>settings</primary>
+        </indexterm>
+        <para>As of version 0.7.0, Guacamole now has a settings section within
+            the connection interface which affects the behavior of all active
+            and future Guacamole connections. Unless specified otherwise,
+            changing a setting affects current Guacamole connections
+            immediately.</para>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/settings.png" format="PNG"
+                    contentwidth="3in"/>
+            </imageobject>
+            <caption>
+                <para>Guacamole settings, accessible from the connection list
+                    interface. </para>
+            </caption>
+        </mediaobject>
+        <section>
+            <title>Disabling sound</title>
+            <indexterm>
+                <primary>audio</primary>
+                <secondary>disabling</secondary>
+            </indexterm>
+            <indexterm>
+                <primary>sound</primary>
+                <secondary>disabling</secondary>
+            </indexterm>
+            <para>Sound can sometimes cause problems if your browser is too slow
+                or if you lack sufficient network bandwidth. In some cases,
+                browsers do not actually support sound, but misreport that they
+                do to Guacamole, causing wasted bandwidth when Guacamole sends
+                audio data that can't actually be played.</para>
+            <para>To disable sound, check the "Disable sound" checkbox in the
+                settings section.</para>
+        </section>
+        <section>
+            <title>Disabling auto-fit of the display</title>
+            <indexterm>
+                <primary>auto-fit</primary>
+                <secondary>disabling</secondary>
+            </indexterm>
+            <para>Normally, scrolling around the screen is troublesome and
+                distracting if the remote display you're using is larger than
+                the display of your device. Because of this, the remote display
+                will automatically fit itself to the available space by default.
+                If this is undesirable, you can manually disable this on a
+                per-browser basis in the setting section.</para>
+            <para>To disable auto-fit, uncheck the "Auto-fit display to browser
+                window" checkbox in the settings section.</para>
+        </section>
     </section>
 
 </chapter>

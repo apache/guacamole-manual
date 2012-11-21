@@ -1,91 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
-    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
-
-<refentry id="arc-instruction" 
-    xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
-    xmlns:xi="http://www.w3.org/2001/XInclude">
-
+<section xml:id="arc-instruction" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>arc</title>
     <indexterm>
         <primary>arc</primary>
     </indexterm>
-
-    <refmeta>
-        <refentrytitle>arc</refentrytitle>
-    </refmeta>
-
-    <refnamediv>
-        <refname>arc</refname>
-        <refpurpose>Adds the specified arc subpath.</refpurpose>
-    </refnamediv>
-
-    <refsynopsisdiv>
-
-        <title>Synopsis</title>
-
-        <para>
-            <command>
-                arc
-                <parameter>layer</parameter>
-                <parameter>x</parameter>
-                <parameter>y</parameter>
-                <parameter>radius</parameter>
-                <parameter>start</parameter>
-                <parameter>end</parameter>
-                <parameter>negative</parameter>
-            </command>
-        </para>
-
-    </refsynopsisdiv>
-
-    <refsection>
-        <title>Description</title>
-        <para>Adds the specified arc subpath.</para>
-    </refsection>
-
-    <refsection>
-
-        <title>Parameters</title>
-
-        <variablelist>
-            <varlistentry>
-                 <term><parameter>layer</parameter></term>
-                 <listitem><para>The layer which should have the specified arc subpath added.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>x</parameter></term>
-                 <listitem><para>The X coordinate of the center of the circle containing the arc to be drawn.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>y</parameter></term>
-                 <listitem><para>The Y coordinate of the center of the circle containing the arc to be drawn.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>radius</parameter></term>
-                 <listitem><para>The radius of the circle containing the arc to be drawn, in pixels.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>start</parameter></term>
-                 <listitem><para>The starting angle of the arc to be drawn, in radians.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>end</parameter></term>
-                 <listitem><para>The ending angle of the arc to be drawn, in radians.</para></listitem>
-             </varlistentry>
-            <varlistentry>
-                 <term><parameter>negative</parameter></term>
-                 <listitem><para>Non-zero if the arc should be drawn from START to END in order of decreasing angle, zero otherwise.</para></listitem>
-             </varlistentry>
-        </variablelist>
-
-    </refsection>
-
-    <refsection>
-
-        <title>Example</title>
-
-        <programlisting>[example]</programlisting>
-
-    </refsection>
-
-</refentry>
+    <para>The arc instruction adds the specified arc subpath to the existing
+        path, creating a new path if no path exists. The path created can be
+        modified further by other path-type instructions, and finally stroked,
+        filled, and/or closed.</para>
+    <variablelist>
+        <varlistentry>
+            <term><parameter>layer</parameter></term>
+            <listitem>
+                <para>The layer which should have the specified arc subpath
+                    added.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>x</parameter></term>
+            <listitem>
+                <para>The X coordinate of the center of the circle containing
+                    the arc to be drawn.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>y</parameter></term>
+            <listitem>
+                <para>The Y coordinate of the center of the circle containing
+                    the arc to be drawn.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>radius</parameter></term>
+            <listitem>
+                <para>The radius of the circle containing the arc to be drawn,
+                    in pixels.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>start</parameter></term>
+            <listitem>
+                <para>The starting angle of the arc to be drawn, in
+                    radians.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>end</parameter></term>
+            <listitem>
+                <para>The ending angle of the arc to be drawn, in
+                    radians.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>negative</parameter></term>
+            <listitem>
+                <para>Non-zero if the arc should be drawn from START to END in
+                    order of decreasing angle, zero otherwise.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
+</section>

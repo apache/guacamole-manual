@@ -1,48 +1,126 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE reference PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
-    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
 
-<reference id="protocol" 
-    xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
-    xmlns:xi="http://www.w3.org/2001/XInclude">
-
+<appendix xml:id="protocol" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude">
     <title>Guacamole protocol reference</title>
-
-    <!-- Instructions -->
-    <xi:include href="instructions/arc.xml"/>
-    <xi:include href="instructions/args.xml"/>
-    <xi:include href="instructions/cfill.xml"/>
-    <xi:include href="instructions/clipboard.xml"/>
-    <xi:include href="instructions/clip.xml"/>
-    <xi:include href="instructions/close.xml"/>
-    <xi:include href="instructions/connect.xml"/>
-    <xi:include href="instructions/copy.xml"/>
-    <xi:include href="instructions/cstroke.xml"/>
-    <xi:include href="instructions/cursor.xml"/>
-    <xi:include href="instructions/curve.xml"/>
-    <xi:include href="instructions/disconnect.xml"/>
-    <xi:include href="instructions/dispose.xml"/>
-    <xi:include href="instructions/distort.xml"/>
-    <xi:include href="instructions/error.xml"/>
-    <xi:include href="instructions/identity.xml"/>
-    <xi:include href="instructions/key.xml"/>
-    <xi:include href="instructions/lfill.xml"/>
-    <xi:include href="instructions/line.xml"/>
-    <xi:include href="instructions/lstroke.xml"/>
-    <xi:include href="instructions/mouse.xml"/>
-    <xi:include href="instructions/move.xml"/>
-    <xi:include href="instructions/png.xml"/>
-    <xi:include href="instructions/pop.xml"/>
-    <xi:include href="instructions/push.xml"/>
-    <xi:include href="instructions/rect.xml"/>
-    <xi:include href="instructions/reset.xml"/>
-    <xi:include href="instructions/select.xml"/>
-    <xi:include href="instructions/set.xml"/>
-    <xi:include href="instructions/shade.xml"/>
-    <xi:include href="instructions/size.xml"/>
-    <xi:include href="instructions/start.xml"/>
-    <xi:include href="instructions/sync.xml"/>
-    <xi:include href="instructions/transfer.xml"/>
-    <xi:include href="instructions/transform.xml"/>
-
-</reference>
+    <section>
+        <title>The protocol</title>
+        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+            <primary>Guacamole</primary>
+            <secondary>protocol</secondary>
+        </indexterm>
+        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+            <primary>protocol refference</primary>
+        </indexterm>
+        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+            <primary>instructions</primary>
+        </indexterm>
+        <para>The Guacamole protocol is a streamed list of text particles called
+            "elements" which have a corresponding length prefix and terminating
+            character. The terminating character determines whether the element
+            is part of an instruction that continues in the following element,
+            or whether the element is the final element of the current
+            instruction.</para>
+        <para>Each instruction in the Guacamole protocol is atomic and consists
+            of an opcode (the first element in the instruction) followed by any
+            number of parameters, where the number of required parameters is
+            dictated by the opcode used.</para>
+        <para>Documented here is an exhaustive list of all Guacamole protocol
+            instructions. Each instruction is handled by the client, server, or
+            both, and has a corresponding helper function in libguac for sending
+            that instruction.</para>
+    </section>
+    <section>
+        <title>Drawing instructions</title>
+        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+            <primary>drawing instructions</primary>
+        </indexterm>
+        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+            <primary>instructions</primary>
+            <secondary>drawing</secondary>
+        </indexterm>
+        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+            <primary>server instructions</primary>
+            <secondary>drawing</secondary>
+        </indexterm>
+        <xi:include href="instructions/arc.xml"/>
+        <xi:include href="instructions/cfill.xml"/>
+        <xi:include href="instructions/clip.xml"/>
+        <xi:include href="instructions/close.xml"/>
+        <xi:include href="instructions/copy.xml"/>
+        <xi:include href="instructions/cstroke.xml"/>
+        <xi:include href="instructions/cursor.xml"/>
+        <xi:include href="instructions/curve.xml"/>
+        <xi:include href="instructions/dispose.xml"/>
+        <xi:include href="instructions/distort.xml"/>
+        <xi:include href="instructions/identity.xml"/>
+        <xi:include href="instructions/lfill.xml"/>
+        <xi:include href="instructions/line.xml"/>
+        <xi:include href="instructions/lstroke.xml"/>
+        <xi:include href="instructions/move.xml"/>
+        <xi:include href="instructions/png.xml"/>
+        <xi:include href="instructions/pop.xml"/>
+        <xi:include href="instructions/push.xml"/>
+        <xi:include href="instructions/rect.xml"/>
+        <xi:include href="instructions/reset.xml"/>
+        <xi:include href="instructions/set.xml"/>
+        <xi:include href="instructions/shade.xml"/>
+        <xi:include href="instructions/size.xml"/>
+        <xi:include href="instructions/start.xml"/>
+        <xi:include href="instructions/transfer.xml"/>
+        <xi:include href="instructions/transform.xml"/>
+    </section>
+    <section>
+        <title>Client control instructions</title>
+        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+            <primary>control instructions</primary>
+        </indexterm>
+        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+            <primary>instructions</primary>
+            <secondary>control</secondary>
+        </indexterm>
+        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+            <primary>client instructions</primary>
+            <secondary>control</secondary>
+        </indexterm>
+        <xi:include href="instructions/connect.xml"/>
+        <xi:include href="instructions/disconnect.xml"/>
+        <xi:include href="instructions/select.xml"/>
+        <xi:include href="instructions/client-sync.xml"/>
+    </section>
+    <section>
+        <title>Server control instructions</title>
+        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+            <primary>server instructions</primary>
+            <secondary>control</secondary>
+        </indexterm>
+        <xi:include href="instructions/args.xml"/>
+        <xi:include href="instructions/error.xml"/>
+        <xi:include href="instructions/server-sync.xml"/>
+    </section>
+    <section>
+        <title>Client events</title>
+        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+            <primary>events</primary>
+        </indexterm>
+        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+            <primary>instructions</primary>
+            <secondary>events</secondary>
+        </indexterm>
+        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+            <primary>client instructions</primary>
+            <secondary>events</secondary>
+        </indexterm>
+        <xi:include href="instructions/client-clipboard.xml"/>
+        <xi:include href="instructions/key.xml"/>
+        <xi:include href="instructions/mouse.xml"/>
+    </section>
+    <section>
+        <title>Server events</title>
+        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+            <primary>server instructions</primary>
+            <secondary>events</secondary>
+        </indexterm>
+        <xi:include href="instructions/server-clipboard.xml"/>
+    </section>
+</appendix>

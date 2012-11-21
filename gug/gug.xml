@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
-    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
-
 <book xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude">
 
@@ -9,27 +6,45 @@
         <title>Guacamole User's Guide</title>
         <edition>0.7.0</edition>
         <author>
-            <personname>
-                <firstname>Michael</firstname>
-                <surname>Jumper</surname>
-            </personname>
+            <personname><firstname>Michael</firstname>
+                <surname>Jumper</surname></personname>
             <email>mike.jumper@guac-dev.org</email>
         </author>
     </info>
-
-    <!-- ABOUT -->
-
-    <part id="introduction">
-        <title>Introduction</title>
-        <xi:include href="chapters/history.xml"/>
-        <xi:include href="chapters/what-is-guacamole.xml"/>
-        <xi:include href="chapters/why-use-guacamole.xml"/>
-    </part>
-
+    <preface xmlns:xlink="http://www.w3.org/1999/xlink">
+        <title>About this book</title>
+        <para>This book is the official Guacamole manual, written by the
+            upstream developers of the Guacamole project. It is also the
+            official general documentation, intended to replace the wiki
+            previously housed at <link xlink:href="http://guac-dev.org/"
+                >http://guac-dev.org/</link>. It is a work in progress which
+            will be continuously updated as Guacamole changes with each
+            release.</para>
+        <para>There is an awful lot that can be done with the Guacamole web
+            application as-written, and even more that can be done with the
+            API.</para>
+        <para>For the sake of users and administrators, we have provided a
+            high-level overview of Guacamole's architecture and technical
+            design, as well as basic usage instructions and installation
+            instructions for common platforms.</para>
+        <para>For the sake of developers, we have provided a protocol reference
+            and tutorials for common tasks (implementing protocol support,
+            integrating Guacamole into your own application, etc.) to give a
+            good starting point beyond simply looking at the Guacamole
+            codebase.</para>
+        <para>This particular edition of the <citetitle>Guacamole User's
+                Guide</citetitle> covers Guacamole version 0.7.0. New releases
+            which create new features or break compatibility will result in new
+            editions of the user's guide, as will any necessary corrections. As
+            the official documentation for the project, this book will always be
+            freely available in its entirety online.</para>
+    </preface>
     <!-- ADMINISTRATION -->
 
-    <part id="guacamole">
+    <part>
         <title>Guacamole</title>
+        <xi:include href="chapters/what-is-guacamole.xml"/>
+        <xi:include href="chapters/why-use-guacamole.xml"/>
         <xi:include href="chapters/installing.xml"/>
         <xi:include href="chapters/configuring.xml"/>
         <xi:include href="chapters/using.xml"/>
@@ -38,25 +53,19 @@
 
     <!-- DEVELOPMENT -->
 
-    <part id="guacamole-development">
-        <title>Extension and Development</title>
+    <part>
+        <title>Extension and development</title>
         <xi:include href="chapters/adding-protocol.xml"/>
         <xi:include href="chapters/custom-auth.xml"/>
-        <xi:include href="chapters/hooks.xml"/>
         <xi:include href="chapters/yourown.xml"/>
-    </part>
-
-    <!-- REFERENCE -->
-    <part id="reference">
-        <title>Reference</title>
-        <xi:include href="references/protocol.xml"/>
     </part>
 
     <!-- APPENDICES -->
 
-    <part id="appendices">
+    <part>
         <title>Appendices</title>
         <xi:include href="appendices/faq.xml"/>
+        <xi:include href="references/protocol.xml"/>
         <index></index>
     </part>
 

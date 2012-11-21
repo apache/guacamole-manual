@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE programlisting PUBLIC "-//OASIS//DTD DocBook V5.0//EN"
-    "http://docbook.org/xml/5.0/dtd/docbook.dtd">
 
-<programlisting id="guacamole.properties"
-    xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
-    xmlns:xi="http://www.w3.org/2001/XInclude"><!--
+<programlisting xml:id="guacamole.properties" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude"><!--
 
     File:     guacamole.properties
 
---><![CDATA[
-# Hostname and port of guacamole proxy
+--><![CDATA[# Hostname and port of guacamole proxy
 guacd-hostname: localhost
 guacd-port:     4822
 
 # Location to read extra .jar's from
 lib-directory:  /var/lib/guacamole/classpath
 
-# Auth provider class (authenticates user/pass combination, needed if using the provided login screen)
-auth-provider: net.sourceforge.guacamole.net.basic.BasicFileAuthenticationProvider
-basic-user-mapping: /etc/guacamole/user-mapping.xml
-]]></programlisting>
+# Authentication provider class
+auth-provider: \
+    net.sourceforge.guacamole.net.basic.\
+    BasicFileAuthenticationProvider
+
+# Properties used by BasicFileAuthenticationProvider
+basic-user-mapping: /etc/guacamole/user-mapping.xml]]></programlisting>
