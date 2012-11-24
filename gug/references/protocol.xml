@@ -1,35 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<appendix xml:id="protocol" xmlns="http://docbook.org/ns/docbook" version="5.0"
-    xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude">
+<appendix xml:id="protocol-reference" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude">
     <title>Guacamole protocol reference</title>
-    <section>
-        <title>The protocol</title>
-        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
-            <primary>Guacamole</primary>
-            <secondary>protocol</secondary>
-        </indexterm>
-        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
-            <primary>protocol refference</primary>
-        </indexterm>
-        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
-            <primary>instructions</primary>
-        </indexterm>
-        <para>The Guacamole protocol is a streamed list of text particles called
-            "elements" which have a corresponding length prefix and terminating
-            character. The terminating character determines whether the element
-            is part of an instruction that continues in the following element,
-            or whether the element is the final element of the current
-            instruction.</para>
-        <para>Each instruction in the Guacamole protocol is atomic and consists
-            of an opcode (the first element in the instruction) followed by any
-            number of parameters, where the number of required parameters is
-            dictated by the opcode used.</para>
-        <para>Documented here is an exhaustive list of all Guacamole protocol
-            instructions. Each instruction is handled by the client, server, or
-            both, and has a corresponding helper function in libguac for sending
-            that instruction.</para>
-    </section>
+    <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+        <primary>Guacamole</primary>
+        <secondary>protocol</secondary>
+    </indexterm>
+    <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+        <primary>protocol refference</primary>
+    </indexterm>
+    <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+        <primary>instructions</primary>
+    </indexterm>
     <section>
         <title>Drawing instructions</title>
         <indexterm xmlns:xl="http://www.w3.org/1999/xlink">

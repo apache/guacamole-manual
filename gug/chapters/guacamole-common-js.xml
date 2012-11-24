@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xml:id="guacamole-common-js" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en" xmlns:xl="http://www.w3.org/1999/xlink"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>JavaScript API</title>
+    <indexterm>
+        <primary>API</primary>
+        <secondary>JavaScript</secondary>
+    </indexterm>
+    <indexterm>
+        <primary>guacamole-common-js</primary>
+    </indexterm>
+    <section>
+        <title>guacamole-common-js</title>
+        <para>The Guacamole project provides a JavaScript API for interfacing
+            with other components that conform to the design of Guacamole, such
+            as projects using libguac or guacamole-common. This API is called
+            guacamole-common-js.</para>
+        <para>guacamole-common-js provides a JavaScript implementation of a
+            Guacamole client, as well as tunneling mechanisms for getting
+            protocol data out of JavaScript and into guacd or the server side of
+            a web application.</para>
+        <para>For convenience, it also provides mouse and keyboard abstraction
+            objects that translate JavaScipt mouse, touch, and keyboard events
+            into consistent data that Guacamole can more easily digest. The
+            extendable on-screen keyboard that was developed for the Guacamole
+            web application is also included.</para>
+    </section>
+</chapter>

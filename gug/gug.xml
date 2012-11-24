@@ -48,6 +48,7 @@
         <xi:include href="chapters/installing.xml"/>
         <xi:include href="chapters/configuring.xml"/>
         <xi:include href="chapters/using.xml"/>
+        <xi:include href="chapters/troubleshooting.xml"/>
     </part>
 
 
@@ -55,6 +56,10 @@
 
     <part>
         <title>Extension and development</title>
+        <xi:include href="chapters/protocol.xml"/>
+        <xi:include href="chapters/libguac.xml"/>
+        <xi:include href="chapters/guacamole-common.xml"/>
+        <xi:include href="chapters/guacamole-common-js.xml"/>
         <xi:include href="chapters/adding-protocol.xml"/>
         <xi:include href="chapters/custom-auth.xml"/>
         <xi:include href="chapters/yourown.xml"/>
