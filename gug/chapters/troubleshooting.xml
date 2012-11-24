@@ -533,23 +533,30 @@ guacd[19666]: Listening on host 127.0.0.1, port 4823</screen>
                 invalid attempt will be logged.</para>
             <section>
                 <title>Cannot connect - user not logged in</title>
-                <para/>
+                <para>A user attempted to connect using the HTTP tunnel, and
+                    while the tunnel does exist and is attached to their
+                    session, they are not actually logged in. Normally, this
+                    isn't strictly possible, as a user has to have logged in for
+                    a tunnel to be attached to their session, but as it isn't an
+                    impossibility, this error does exist. If you see this error,
+                    it could mean that the user logged out at the same time that
+                    they made a connection attempt.</para>
             </section>
             <section>
                 <title>Requested configuration is not authorized</title>
-                <para/>
-            </section>
-            <section>
-                <title>Unknown configuration ID</title>
-                <para/>
-            </section>
-            <section>
-                <title>No authorized configurations</title>
-                <para/>
+                <para>A user attempted to connect to a configuration with a
+                    given ID, and while that configuration does exist, they are
+                    not authorized to use it. This could mean that the user is
+                    trying to access things they have no privileges for, or that
+                    they are trying to access configurations they legitimately
+                    should, but are actually logged out.</para>
             </section>
             <section>
                 <title>User has no session</title>
-                <para/>
+                <para>A user attempted to access a page that needs data from
+                    their session, but their session does not actually exist.
+                    This usually means the user has not logged in, as sessions
+                    are created through the login process.</para>
             </section>
         </section>
         <section>
@@ -568,7 +575,11 @@ guacd[19666]: Listening on host 127.0.0.1, port 4823</screen>
             </section>
             <section>
                 <title>No tunnel created</title>
-                <para/>
+                <para>A connection attempt for a specific configuration was
+                    made, but the connection failed, and no tunnel was created.
+                    This is usually because the user was not authorized to use
+                    that connection, and thus no tunnel was created for access
+                    to that connection.</para>
             </section>
             <section>
                 <title>No query string provided</title>
@@ -593,10 +604,6 @@ guacd[19666]: Listening on host 127.0.0.1, port 4823</screen>
                     has not yet settled down and is still making read attempts.
                     As there can be lags between when connections close and when
                     the client realizes it, this can be safely ignored.</para>
-            </section>
-            <section>
-                <title>Disconnected</title>
-                <para/>
             </section>
             <section>
                 <title>End of stream during initial handshake</title>
