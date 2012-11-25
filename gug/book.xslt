@@ -64,6 +64,7 @@
     <!-- Chapter title page styling -->
     <xsl:attribute-set name="component.title.properties">
         <xsl:attribute name="border-bottom">1pt solid black</xsl:attribute>
+        <xsl:attribute name="margin-bottom">0.5in</xsl:attribute>
     </xsl:attribute-set>
     
     <xsl:attribute-set name="component.label.properties">
