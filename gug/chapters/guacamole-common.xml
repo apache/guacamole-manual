@@ -2,7 +2,7 @@
 <chapter xml:id="guacamole-common" xmlns="http://docbook.org/ns/docbook"
     version="5.0" xml:lang="en" xmlns:xl="http://www.w3.org/1999/xlink"
     xmlns:xi="http://www.w3.org/2001/XInclude">
-    <title>Java API</title>
+    <title>guacamole-common</title>
     <indexterm>
         <primary>API</primary>
         <secondary>Java</secondary>
@@ -10,11 +10,12 @@
     <indexterm>
         <primary>guacamole-common</primary>
     </indexterm>
+    <para>The Java API provided by the Guacamole project is called
+        guacamole-common. It provides a basic means of tunneling data between
+        the JavaScript client provided by guacamole-common-js and the native
+        proxy daemon, guacd.</para>
     <section>
-        <title>guacamole-common</title>
-        <para>The Java API provided by the Guacamole project is called
-            guacamole-common. It provides a basic means of tunneling data
-            between the JavaScript client provided by guacamole-common-js and
-            the native proxy daemon, guacd.</para>
+        <title>HTTP tunnel</title>
+        <para/>
     </section>
 </chapter>

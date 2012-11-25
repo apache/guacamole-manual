@@ -2,7 +2,7 @@
 <chapter xml:id="guacamole-common-js" xmlns="http://docbook.org/ns/docbook"
     version="5.0" xml:lang="en" xmlns:xl="http://www.w3.org/1999/xlink"
     xmlns:xi="http://www.w3.org/2001/XInclude">
-    <title>JavaScript API</title>
+    <title>guacamole-common-js</title>
     <indexterm>
         <primary>API</primary>
         <secondary>JavaScript</secondary>
@@ -10,20 +10,95 @@
     <indexterm>
         <primary>guacamole-common-js</primary>
     </indexterm>
+    <para>The Guacamole project provides a JavaScript API for interfacing with
+        other components that conform to the design of Guacamole, such as
+        projects using libguac or guacamole-common. This API is called
+        guacamole-common-js.</para>
+    <para>guacamole-common-js provides a JavaScript implementation of a
+        Guacamole client, as well as tunneling mechanisms for getting protocol
+        data out of JavaScript and into guacd or the server side of a web
+        application.</para>
+    <para>For convenience, it also provides mouse and keyboard abstraction
+        objects that translate JavaScipt mouse, touch, and keyboard events into
+        consistent data that Guacamole can more easily digest. The extendable
+        on-screen keyboard that was developed for the Guacamole web application
+        is also included.</para>
     <section>
-        <title>guacamole-common-js</title>
-        <para>The Guacamole project provides a JavaScript API for interfacing
-            with other components that conform to the design of Guacamole, such
-            as projects using libguac or guacamole-common. This API is called
-            guacamole-common-js.</para>
-        <para>guacamole-common-js provides a JavaScript implementation of a
-            Guacamole client, as well as tunneling mechanisms for getting
-            protocol data out of JavaScript and into guacd or the server side of
-            a web application.</para>
-        <para>For convenience, it also provides mouse and keyboard abstraction
-            objects that translate JavaScipt mouse, touch, and keyboard events
-            into consistent data that Guacamole can more easily digest. The
-            extendable on-screen keyboard that was developed for the Guacamole
-            web application is also included.</para>
+        <title>Guacamole client</title>
+        <para>The main benefit to using the JavaScript API is the full Guacamole
+            client implementation, which implements all Guacamole instructions,
+            and makes use of the tunnel implementations provided by both the
+            JavaScript and Java APIs.</para>
+        <para>Using the Guacamole client is straightforward. The client, like
+            all other objects within the JavaScript API, is within the
+                <code>Guacamole</code> namespace. It is instantiated given an
+            existing, unconnected tunnel:</para>
+        <programlisting>var client = new Guacamole.Client(tunnel);</programlisting>
+        <para>Once you have the client, it won't immediately appear within the
+            DOM. You need to add its display element manually:</para>
+        <programlisting>document.body.appendChild(client.getDisplay());</programlisting>
+        <para>At this point, the client will be visible, rendering all updates
+            as soon as they are received through the tunnel.</para>
+        <programlisting>client.connect();</programlisting>
+        <para>It is possible to pass arbitrary data to the tunnel during
+            connection which can be used for authentication or for choosing a
+            particular connection. When the <methodname>connect()</methodname>
+            function of the Guacamole client is called, it in turn calls the
+                <methodname>connect()</methodname> function of the tunnel
+            originally given to the client, establishing a connection.</para>
+        <important>
+            <para>When creating the <classname>Guacamole.Client</classname>, the
+                tunnel used must not already be connected. The
+                    <classname>Guacamole.Client</classname> will call the
+                    <methodname>connect()</methodname> function for you when its
+                own <methodname>connect()</methodname> function is invoked. If
+                the tunnel is already connected when it is given to the
+                    <classname>Guacamole.Client</classname>, connection may not
+                work at all.</para>
+        </important>
+        <para>In general, all instructions available within the Guacamole
+            protocol are automatically handled by the Guacamole client,
+            including instructions related to audio and video. The only
+            instructions which you must handle yourself are "name" (used to name
+            the connection), "clipboard" (used to update clipboard data on the
+            client side), and "error" (used when something goes wrong
+            server-side). Each of these instructions has a corresponding event
+            handler; you need only supply functions to handle these events. If
+            any of these event handlers are left unset, the corresponding
+            instructions are simply ignored.</para>
+    </section>
+    <section>
+        <title>HTTP tunnel</title>
+        <para>Both the Java and JavaScript API implement corresponding ends of
+            an HTTP tunnel, based on
+            <classname>XMLHttpRequest</classname>.</para>
+        <para>The tunnel is a true stream - there is no polling. An initial
+            request is made from the JavaScript side, and this request is
+            handled on the Java side. While this request is open, data is
+            streamed along the connection, and instructions within this stream
+            are handled as soon as they are received by the client.</para>
+        <para>While data is being streamed along this existing connection, a
+            second connection attempt is made. Data continues to be streamed
+            along the original connection until the server receives and handles
+            the second request, at which point the original connection closes
+            and the stream is transferred to the new connection.</para>
+        <para>This process repeats, alternating between active streams, thus
+            creating an unbroken sequence of instructions, while also allowing
+            JavaScript to free any memory used by the previously active
+            connection.</para>
+        <para>The tunnel is created by supplying the relative URL to the
+            server-side tunnel servlet:</para>
+        <programlisting>var tunnel = new Guacamole.Tunnel("tunnel");</programlisting>
+        <para>Once created, the tunnel can be passed to a
+                <classname>Guacamole.Client</classname> for use in a Guacamole
+            connection.</para>
+    </section>
+    <section>
+        <title>Input abstraction</title>
+        <para/>
+    </section>
+    <section>
+        <title>On-screen keyboard</title>
+        <para/>
     </section>
 </chapter>

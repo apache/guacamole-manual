@@ -7,7 +7,7 @@
         <primary>troubleshooting</primary>
     </indexterm>
     <indexterm>
-        <secondary>errors</secondary>
+        <primary>errors</primary>
     </indexterm>
     <section>
         <title>It isn't working</title>
@@ -28,7 +28,7 @@
     <section>
         <title>syslog</title>
         <indexterm>
-            <secondary>syslog</secondary>
+            <primary>syslog</primary>
         </indexterm>
         <para>guacd and libguac-based programs (such as all client plugins) log
             informational messages and errors to syslog. Specifically, guacd

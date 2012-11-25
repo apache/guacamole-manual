@@ -3,6 +3,8 @@
 <!-- Stylesheet for translating DocBook into XHTML -->
 <xsl:stylesheet
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:fo="http://www.w3.org/1999/XSL/Format"
+    xmlns:axf="http://www.antennahouse.com/names/XSL/Extensions"
     version="1.0">
 
     <xsl:import href="/usr/share/xml/docbook/stylesheet/docbook-xsl-ns/fo/docbook.xsl"/> 
@@ -47,5 +49,49 @@
 
     <!-- Not draft mode -->
     <xsl:param name="draft.mode">no</xsl:param>
+
+    <!-- Include admonition graphics -->
+    <xsl:param name="admon.textlabel">0</xsl:param>
+    <xsl:param name="admon.graphics">1</xsl:param>
+    <xsl:param name="admon.graphics.path">images/</xsl:param>
+    <xsl:param name="admon.graphics.extension">.png</xsl:param>
+    <!--<xsl:attribute-set name="admonition.properties">
+        <xsl:attribute name="border">2pt solid black</xsl:attribute>
+        <xsl:attribute name="background-color">#CCCCCC</xsl:attribute>
+        <xsl:attribute name="padding">0.1in</xsl:attribute>
+    </xsl:attribute-set>-->
+
+    <!-- Chapter title page styling -->
+    <xsl:attribute-set name="component.title.properties">
+        <xsl:attribute name="border-bottom">1pt solid black</xsl:attribute>
+    </xsl:attribute-set>
+    
+    <xsl:attribute-set name="component.label.properties">
+        <xsl:attribute name="font-size">48pt</xsl:attribute>
+    </xsl:attribute-set>
+    
+    <!-- Chapter title layout -->
+    <xsl:template name="component.title">
+        <xsl:param name="node" select="."/>
+
+        <!-- CHAPTER + NUMBER -->
+        <fo:block xsl:use-attribute-sets="component.label.properties">
+            <xsl:if test="local-name(.)='title'">
+                <xsl:call-template name="gentext">
+                    <xsl:with-param name="key">
+                        <xsl:value-of select="local-name(..)"/>
+                    </xsl:with-param>
+                </xsl:call-template>
+                <xsl:text> </xsl:text>
+            </xsl:if>
+            <xsl:apply-templates select="$node" mode="label.markup"/>
+        </fo:block>
+
+        <!-- TITLE -->
+        <fo:block xsl:use-attribute-sets="component.title.properties">
+            <xsl:apply-templates select="$node" mode="title.markup"/>
+        </fo:block>
+
+    </xsl:template>
 
 </xsl:stylesheet>

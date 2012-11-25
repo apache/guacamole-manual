@@ -15,19 +15,41 @@
         consult the protocol reference included with the appendices.</para>
     <section>
         <title>Design</title>
-        <para>The Guacamole protocol is a streamed list of text particles called
-            "elements" which have a corresponding length prefix and terminating
-            character. The terminating character determines whether the element
-            is part of an instruction that continues in the following element,
-            or whether the element is the final element of the current
-            instruction.</para>
-        <para>Each instruction in the Guacamole protocol is atomic and consists
-            of an opcode (the first element in the instruction) followed by any
-            number of parameters, where the number of required parameters is
-            dictated by the opcode used.</para>
-        <para>Each instruction is handled by the client, server, or both, and
-            has a corresponding helper function in libguac for sending that
-            instruction.</para>
+        <para>The Guacamole protocol consists of instructions. Each instruction
+            is a comma-delimited list followed by a terminating semicolon, where
+            the first element of the list is the instruction opcode, and all
+            following elements are the arguments for that instruction:</para>
+        <programlisting><replaceable>OPCODE</replaceable>,<replaceable>ARG1</replaceable>,<replaceable>ARG2</replaceable>,<replaceable>ARG3</replaceable>,<replaceable>...</replaceable>;</programlisting>
+        <para>Each element of the list has a positive decimal integer length
+            prefix separated by the value of the element by a period. This
+            length denotes the number of Unicode characters in the value of the
+            element, which is encoded in UTF-8:</para>
+        <programlisting><replaceable>LENGTH</replaceable>.<replaceable>VALUE</replaceable></programlisting>
+        <para>Any number of complete instructions make up a message which is
+            sent from client to server or from server to client. Client to
+            server instructions are generally control instructions (for
+            connecting or disconnecting) and events (mouse and keyboard). Server
+            to client instructions are generally drawing instructions (caching,
+            clipping, drawing images), using the client as a remote
+            display.</para>
+        <para>For example, a complete and valid instruction for setting the
+            display size to 1024x768 would be:</para>
+        <programlisting>4.size,1.0,4.1024,3.768;</programlisting>
+        <para>Here, the instruction would be decoded into four elements: "size",
+            the opcode of the size instruction, "0", the index of the default
+            layer, "1024", the desired width in pixels, and "768", the desired
+            height in pixels.</para>
+        <para>The structure of the Guacamole protocol is important as it allows
+            the protocol to be streamed while also being easily parsable by
+            JavaScript. JavaScript does have native support for
+            conceptually-similar structures like XML or JSON, but neither of
+            those formats is natively supported in a way that can be streamed;
+            JavaScript requires the entirety of the XML or JSON message to be
+            available at the time of decoding. The Guacamole protocol, on the
+            other hand, can be parsed as it is received, and the presence of
+            length prefixes within each instruction element means that the
+            parser can quickly skip around from instruction to instruction
+            without having to iterate over every character.</para>
     </section>
     <section>
         <title>Handshake phase</title>
@@ -89,9 +111,187 @@
     <section>
         <title>Drawing</title>
         <section>
+            <title>Compositing</title>
+            <para>The Guacamole protocol provides compositing operations through
+                the use of "channel masks". The term "channel mask" is simply a
+                description of the mechanism used while designing the protocol
+                to conceptualize and fully enumerate all possible compositing
+                operations based on four different sources of image data: source
+                image data where the destination is opaque, source image data
+                where the destination is transparent, destination image data
+                where the source is opaque, and destination image data where the
+                source is transparent. Assigning a binary value to each of these
+                "channels" creates a unique integer ID for every possible
+                compositing operation, where these operations parallel the
+                operations described by Porter and Duff in their paper. As the
+                HTML5 canvas tag also uses Porter/Duff to describe their
+                compositing operations (as do other graphical APIs), the
+                Guacamole protocol is conveniently similar to the compositing
+                support already present in web browsers, with some operations
+                not yet supported. The following operations are all implemented
+                and known to work correctly in all browsers:</para>
+            <variablelist>
+                <varlistentry>
+                    <term>B out A (0x02)</term>
+                    <listitem>
+                        <para>Clears the destination where the source is opaque,
+                            but otherwise draws nothing. This is useful for
+                            masking.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>A atop B (0x06)</term>
+                    <listitem>
+                        <para>Fills with the source where the destination is
+                            opaque only.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>A xor B (0x0A)</term>
+                    <listitem>
+                        <para>As with logical XOR. Note that this is a
+                            compositing operation, not a bitwise operation. It
+                            draws the source where the destination is
+                            transparent, and draws the destination where the
+                            source is transparent.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>B over A (0x0B)</term>
+                    <listitem>
+                        <para>What you would typically expect when drawing, but
+                            reversed. The source appears only where the
+                            destination is transparent, as if you were
+                            attempting to draw the destination over the source,
+                            rather than the source over the destination.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>A over B (0x0E)</term>
+                    <listitem>
+                        <para>The most common and sensible compositing
+                            operation, this draws the source everywhere, but
+                            includes the destination where the source is
+                            transparent.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>A + B (0x0F)</term>
+                    <listitem>
+                        <para>Simply adds the components of the source image to
+                            the destination image, capping the result at pure
+                            white.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <para>The following operations are all implemented, but may work
+                incorrectly in WebKit browsers which always include the
+                destination image where the source is transparent:</para>
+            <variablelist>
+                <varlistentry>
+                    <term>B in A (0x01)</term>
+                    <listitem>
+                        <para>Draws the destination only where the source is
+                            opaque, clearing anywhere the source or destination
+                            are transparent.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>A in B (0x04)</term>
+                    <listitem>
+                        <para>Draws the source only where the destination is
+                            opaque, clearing anywhere the source or destination
+                            are transparent.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>A out B (0x08)</term>
+                    <listitem>
+                        <para>Draws the source only where the destination is
+                            transparent, clearing anywhere the source or
+                            destination are opaque.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>B atop A (0x09)</term>
+                    <listitem>
+                        <para>Fills with the destination where the source is
+                            opaque only.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>A (0x0C)</term>
+                    <listitem>
+                        <para>Fills with the source, ignoring the destination
+                            entirely.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <para>The following operations are defined, but not implemented, and
+                do not exist as operations within the HTML5 canvas:</para>
+            <variablelist>
+                <varlistentry>
+                    <term>Clear (0x00)</term>
+                    <listitem>
+                        <para>Clears all existing image data in the
+                            destination.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>B (0x03)</term>
+                    <listitem>
+                        <para>Does nothing.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>A xnor B (0x05)</term>
+                    <listitem>
+                        <para>Adds the source to the destination where the
+                            destination or source are opaque, clearing anywhere
+                            the source or destination are transparent. This is
+                            similar to A + B except the aspect of transparency
+                            is also additive.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>(A + B) atop B (0x07)</term>
+                    <listitem>
+                        <para>Adds the source to the destination where the
+                            destination is opaque, preserving the destination
+                            otherwise.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>(A + B) atop A (0x0D)</term>
+                    <listitem>
+                        <para>Adds the destination to the source where the
+                            source is opaque, copying the source
+                            otherwise.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </section>
+        <section>
             <title>Image data</title>
-            <para>Raw image data is sent within PNG chunks using the "png"
-                instruction.</para>
+            <para>The Guacamole protocol, like many remote desktop protocols,
+                provides a method of sending an arbitrary rectangle of image
+                data and placing it either within a buffer or in a visible
+                rectangle of the screen. Raw image data in the Guacamole
+                protocol is sent within PNG chunks using the "png" instruction,
+                and thus provides the same level of image compression and color
+                representation. Image updates sent in this way can be RGB or
+                RGBA (alpha transparency) and are automatically palettized if
+                sent using libguac.</para>
+            <para>Image data in the Guacamole protocol is sent base64-encoded,
+                as the Guacamole protocol is entirely text-based. This works out
+                well, because all browsers have native support for base64, and
+                are required to at least support PNG, thus the Guacamole "png"
+                instruction is one of the more efficient ways to stream image
+                data to a browser.</para>
+            <para>Each chunk of image data can be sent to any specified
+                rectangle within a layer or buffer. Sending the data to a layer
+                means that the image becomes immediately visible, while sending
+                the data to a buffer allows that data to be reused later.</para>
         </section>
         <section>
             <title>Copying image data between layers</title>
@@ -99,6 +299,16 @@
                 layer or buffer. This is often used for scrolling (where most of
                 the result of the graphical update is identical to the previous
                 state) or for caching parts of an image.</para>
+            <para>Both VNC and RDP provide a means of copying a region of screen
+                data and placing it somewhere else within the same screen. RDP
+                provides an additional means of copying data to a cache, or
+                recalling data from that cache and placing it on the screen.
+                Guacamole takes this concept and reduces it further, as both
+                on-screen and off-screen image storage is the same. The
+                Guacamole "copy" instruction allows you to copy a rectangle of
+                image data, and place it within another layer, whether that
+                layer is the same as the source layer, a different visible
+                layer, or an off-screen buffer.</para>
         </section>
         <section>
             <title>Graphical primitives</title>
@@ -119,16 +329,24 @@
                 When this integer is negative, the layer is not visible, and can
                 be used for storage or caching of image data. In this case, the
                 layer is referred to within the code and within documentation as
-                a "buffer".</para>
+                a "buffer". Layers are created automatically when they are first
+                referenced in an instruction.</para>
             <para>There is one main layer which is always present called the
                 "default layer". This layer has an index of 0. Resizing this
-                layer resizes the entire remote display.</para>
+                layer resizes the entire remote display. Other layers default to
+                the size of the default layer upon creation, while buffers are
+                always created with a size of 0x0, automatically resizing
+                themselves to fit their contents.</para>
             <para>Non-buffer layers can be moved and nested within each other.
                 In this way, layers provide a simple means of
                 hardware-accelerated compositing. If you need a window to appear
                 above others, or you have some object which will be moving or
                 you need the data beneath it automatically preserved, a layer is
-                a good way of accomplishing this.</para>
+                a good way of accomplishing this. If a layer is nested within
+                another layer, its position is relative to that of its parent.
+                When the parent is moved or reordered, the child moves with it.
+                If the child extends beyond the parents bounds, it will be
+                clipped.</para>
         </section>
     </section>
     <section>
