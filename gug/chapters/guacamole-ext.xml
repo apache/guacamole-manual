@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xml:id="guacamole-ext" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en" xmlns:xl="http://www.w3.org/1999/xlink"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>guacamole-ext</title>
+    <indexterm>
+        <primary>API</primary>
+        <secondary>Java</secondary>
+    </indexterm>
+    <indexterm>
+        <primary>guacamole-ext</primary>
+    </indexterm>
+    <para>While not strictly part of the Java API provided by the Guacamole
+        project, guacamole-ext is a subset of the API used by the Guacamole web
+        application, exposed within a separate project such that extensions,
+        specifically authentication providers, can be written to tweak Guacamole
+        to fit well in existing deployments.</para>
+    <section>
+        <title>Authentication providers</title>
+        <para/>
+    </section>
+</chapter>
