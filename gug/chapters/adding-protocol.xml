@@ -29,9 +29,7 @@
         <title>Minimal skeleton client</title>
         <para> Very little needs too be done to implement the most basic client
             plugin possible: </para>
-        <example>
-            <title> The absolute minimal client plugin. </title>
-            <programlisting xml:id="ball-01-ball_client.c" version="5.0" xml:lang="en"><!--
+        <programlisting xml:id="ball-01-ball_client.c" version="5.0" xml:lang="en"><!--
 
     Tutorial: libguac-client-ball
     Step:     1
@@ -49,7 +47,6 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
     return 0;
 
 }]]></programlisting>
-        </example>
         <para>Notice the structure of this file. There is exactly one function,
                 <methodname>guac_client_init</methodname>, which is the entry
             point for all Guacamole client plugins. Just as a typical C program
@@ -80,12 +77,10 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
         <para>This tutorial, as well as all other C-based Guacamole projects,
             uses the GNU Automake build system due to its ubiquity and ease of
             use. The minimal build files required for a libguac-based project
-            that uses GNU Automake are fairly simple:</para>
-        <example>
-            <title> Basic <filename>configure.in</filename> for
-                libguac-client-ball, simply checking for the presence of libguac
-                and other dependencies. </title>
-            <programlisting xml:id="ball-01-configure.in" version="5.0" xml:lang="en"><!--
+            that uses GNU Automake are fairly simple. We need a file called
+                <filename>configure.in</filename> which describes the name of
+            the project and what it needs configuration-wise:</para>
+        <programlisting xml:id="ball-01-configure.in" version="5.0" xml:lang="en"><!--
 
     Tutorial: libguac-client-ball
     Step:     1
@@ -122,12 +117,7 @@ AC_FUNC_MALLOC
 
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT]]></programlisting>
-        </example>
-        <example>
-            <title>
-                <filename>Makefile.am</filename>, describing which files should
-                be built to build libguac-client-ball. </title>
-            <programlisting xml:id="ball-01-Makefile.am" version="5.0" xml:lang="en"><!--
+        <para>We also need a <filename>Makefile.am</filename><programlisting xml:id="ball-01-Makefile.am" version="5.0" xml:lang="en"><!--
 
     Tutorial: libguac-client-ball
     Step:     1
@@ -144,8 +134,9 @@ lib_LTLIBRARIES = libguac-client-ball.la
 libguac_client_ball_la_SOURCES = src/ball_client.c
 
 # libtool versioning information
-libguac_client_ball_la_LDFLAGS = -version-info 0:0:0]]></programlisting>
-        </example>
+libguac_client_ball_la_LDFLAGS = -version-info 0:0:0]]></programlisting>,
+            describing which files should be built and how when building
+            libguac-client-ball:</para>
         <para>The GNU Automake files will remain largely unchanged throughout
             the rest of the tutorial. </para>
         <para>Once you have created all of the above files, you will have a
@@ -160,25 +151,15 @@ libguac_client_ball_la_LDFLAGS = -version-info 0:0:0]]></programlisting>
             initializing the display - giving the connection a name, setting the
             remote display size, and providing a basic background.</para>
         <para>In this case, we name our connection "Bouncing Ball", set the
-            display to a nice default of 1024x768, and fill the background with a
-            simple gray.</para>
-        <example>
-            <title> A still-minimal client plugin implementation which now
-                initializes the remote display. </title>
-            <programlisting xml:id="ball-02-ball_client.c" version="5.0" xml:lang="en"><!--
+            display to a nice default of 1024x768, and fill the background with
+            a simple gray:</para>
+        <programlisting xml:id="ball-02-ball_client.c" version="5.0" xml:lang="en"><!--
 
     Tutorial: libguac-client-ball
     Step:     2
     File:     src/ball_client.c
 
-    --><![CDATA[#include <stdlib.h>
-#include <guacamole/client.h>
-#include <guacamole/protocol.h>
-
-/* Client plugin arguments */
-const char* GUAC_CLIENT_ARGS[] = { NULL };
-
-int guac_client_init(guac_client* client, int argc, char** argv) {
+    --><![CDATA[int guac_client_init(guac_client* client, int argc, char** argv) {
 ]]><emphasis><![CDATA[
     /* Send the name of the connection */
     guac_protocol_send_name(client->socket, "Bouncing Ball");
@@ -201,7 +182,6 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
     return 0;
 
 }]]></programlisting>
-        </example>
         <para>Note how communication is done with the remote display. The
                 <classname>guac_client</classname> given to
                 <methodname>guac_client_init</methodname> has a member, socket,
@@ -232,43 +212,20 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
             within and relative to another layer. Because the compositing of
             these layers is handled by the remote display, and is likely
             hardware-accelerated, this is a much better way to repeatedly
-            reposition something we expect to move a lot.</para>
-        <example>
-            <title> Adding a ball to libguac-client-ball. </title>
-            <programlisting xml:id="ball-03-ball_client.c" version="5.0" xml:lang="en"><!--
+            reposition something we expect to move a lot:</para>
+        <programlisting xml:id="ball-03-ball_client.c" version="5.0" xml:lang="en"><!--
 
     Tutorial: libguac-client-ball
     Step:     3
     File:     src/ball_client.c
 
---><![CDATA[#include <stdlib.h>
-#include <guacamole/client.h>
-#include <guacamole/protocol.h>
-
-/* Client plugin arguments */
-const char* GUAC_CLIENT_ARGS[] = { NULL };
-
-int guac_client_init(guac_client* client, int argc, char** argv) {
+--><![CDATA[int guac_client_init(guac_client* client, int argc, char** argv) {
 
 ]]><emphasis><![CDATA[
     /* The layer which will contain our ball */
     guac_layer* ball;
 ]]></emphasis><![CDATA[
-
-    /* Send the name of the connection */
-    guac_protocol_send_name(client->socket, "Bouncing Ball");
-
-    /* Send the display size */
-    guac_protocol_send_size(client->socket, GUAC_DEFAULT_LAYER, 1024, 768);
-
-    /* Fill with solid color */
-    guac_protocol_send_rect(client->socket, GUAC_DEFAULT_LAYER,
-            0, 0, 1024, 768);
-
-    guac_protocol_send_cfill(client->socket,
-            GUAC_COMP_OVER, GUAC_DEFAULT_LAYER,
-            0x80, 0x80, 0x80, 0xFF);
-
+...
 ]]><emphasis><![CDATA[
     /* Set up our ball layer */
     ball = guac_client_alloc_layer(client);
@@ -282,15 +239,7 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
             GUAC_COMP_OVER, ball,
             0x00, 0x80, 0x80, 0xFF);
 ]]></emphasis><![CDATA[
-
-    /* Flush buffer */
-    guac_socket_flush(client->socket);
-
-    /* Done */
-    return 0;
-
-}]]></programlisting>
-        </example>
+...]]></programlisting>
         <para>Beyond layers, Guacamole has the concept of buffers, which are
             identical in use to layers except they are invisible. Buffers are
             used to store image data for the sake of caching or drawing
@@ -311,10 +260,7 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
                 <varname>data</varname> member of the
                 <classname>guac_client</classname>. We create a header file to
             declare the structure:</para>
-        <example>
-            <title> Header file containing a simple data structure for
-                maintaining the state of a bouncing ball. </title>
-            <programlisting xml:id="ball-04-ball_client.h" version="5.0" xml:lang="en"><!--
+        <programlisting xml:id="ball-04-ball_client.h" version="5.0" xml:lang="en"><!--
 
     Tutorial: libguac-client-ball
     Step:     4
@@ -340,61 +286,60 @@ typedef struct ball_client_data {
 int ball_client_handle_messages(guac_client* client);
 
 #endif]]></programlisting>
-        </example>
-        <para>And we update <methodname>guac_client_init</methodname> to
+        <para>We also need to implement an event handler for the handle_messages
+            event triggered by guacd when the client plugin needs to handle any
+            server messages received or, in this case, update the ball
+            position:</para>
+        <programlisting version="5.0" xml:lang="en">int ball_client_handle_messages(guac_client* client) {
+
+    /* Get data */
+    ball_client_data* data = (ball_client_data*) client->data;
+
+    /* Sleep a bit */
+    usleep(30000);
+
+    /* Update position */
+    data->ball_x += data->ball_velocity_x * 30 / 1000;
+    data->ball_y += data->ball_velocity_y * 30 / 1000;
+
+    /* Bounce if necessary */
+    if (data->ball_x &lt; 0) {
+        data->ball_x = -data->ball_x;
+        data->ball_velocity_x = -data->ball_velocity_x;
+    }
+    else if (data->ball_x >= 1024-128) {
+        data->ball_x = (2*(1024-128)) - data->ball_x;
+        data->ball_velocity_x = -data->ball_velocity_x;
+    }
+
+    if (data->ball_y &lt; 0) {
+        data->ball_y = -data->ball_y;
+        data->ball_velocity_y = -data->ball_velocity_y;
+    }
+    else if (data->ball_y >= (768-128)) {
+        data->ball_y = (2*(768-128)) - data->ball_y;
+        data->ball_velocity_y = -data->ball_velocity_y;
+    }
+
+    guac_protocol_send_move(client->socket, data->ball,
+            GUAC_DEFAULT_LAYER, data->ball_x, data->ball_y, 0);
+
+    return 0;
+
+}</programlisting>
+        <para>We also must update <methodname>guac_client_init</methodname> to
             initialize the structure, store it in the client, and register our
-            new event handler.</para>
-        <para>guacd will call the <methodname>handle_messages</methodname>
-            handler of the <classname>guac_client</classname> repeatedly, if
-            defined. It will stop calling
-                <methodname>handle_messages</methodname> temporarily if the
-            remote display appears to be lagging behind due to a slow network or
-            slow browser or computer, so there is no guarantee that
-                <methodname>handle_messages</methodname> will be called as
-            frequently as we would like, but for now, we assume there will be
-            essentially no delay between calls, and we include our own delay of
-            30ms between frames.</para>
-        <example>
-            <title> Actually making the ball bounce through a message handler. </title>
-            <programlisting xml:id="ball-04-ball_client.c" version="5.0" xml:lang="en"><!--
-
-    Tutorial: libguac-client-ball
-    Step:     4
-    File:     src/ball_client.c
-
---><![CDATA[#include <stdlib.h>
-#include <time.h>
-#include <unistd.h>
-#include <guacamole/client.h>
-#include <guacamole/protocol.h>
-
-]]><emphasis><![CDATA[
-#include "ball_client.h"
+            new event handler:</para>
+        <programlisting xml:id="ball-04-ball_client.c" version="5.0" xml:lang="en"><emphasis><![CDATA[#include "ball_client.h"
 ]]></emphasis><![CDATA[
-
-/* Client plugin arguments */
-const char* GUAC_CLIENT_ARGS[] = { NULL };
+...
 
 int guac_client_init(guac_client* client, int argc, char** argv) {
 
 ]]><emphasis><![CDATA[
     ball_client_data* data = malloc(sizeof(ball_client_data));
 ]]></emphasis><![CDATA[
-
-    /* Send the name of the connection */
-    guac_protocol_send_name(client->socket, "Bouncing Ball");
-
-    /* Send the display size */
-    guac_protocol_send_size(client->socket, GUAC_DEFAULT_LAYER, 1024, 768);
-
-    /* Fill with solid color */
-    guac_protocol_send_rect(client->socket, GUAC_DEFAULT_LAYER,
-            0, 0, 1024, 768);
-
-    guac_protocol_send_cfill(client->socket,
-            GUAC_COMP_OVER, GUAC_DEFAULT_LAYER,
-            0x80, 0x80, 0x80, 0xFF);
-
+...
 ]]><emphasis><![CDATA[
     /* Set up client data and handlers */
     client->data = data;
@@ -411,90 +356,29 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
     data->ball_velocity_x = 200; /* pixels per second */
     data->ball_velocity_y = 200;   /* pixels per second */
 ]]></emphasis><![CDATA[
+...
 
-    guac_protocol_send_size(client->socket, data->ball, 128, 128);
-
-    /* Fill with solid color */
-    guac_protocol_send_rect(client->socket, data->ball,
-            0, 0, 128, 128);
-
-    guac_protocol_send_cfill(client->socket,
-            GUAC_COMP_OVER, data->ball,
-            0x00, 0x80, 0x80, 0xFF);
-
-    /* Flush buffer */
-    guac_socket_flush(client->socket);
-
-    /* Done */
-    return 0;
-
-}
-
-]]><emphasis><![CDATA[
-int ball_client_handle_messages(guac_client* client) {
-
-    /* Get data */
-    ball_client_data* data = (ball_client_data*) client->data;
-
-    /* Sleep a bit */
-    usleep(30000);
-
-    /* Update position */
-    data->ball_x += data->ball_velocity_x * 30 / 1000;
-    data->ball_y += data->ball_velocity_y * 30 / 1000;
-
-    /* Bounce if necessary */
-    if (data->ball_x < 0) {
-        data->ball_x = -data->ball_x;
-        data->ball_velocity_x = -data->ball_velocity_x;
-    }
-    else if (data->ball_x >= 1024-128) {
-        data->ball_x = (2*(1024-128)) - data->ball_x;
-        data->ball_velocity_x = -data->ball_velocity_x;
-    }
-
-    if (data->ball_y < 0) {
-        data->ball_y = -data->ball_y;
-        data->ball_velocity_y = -data->ball_velocity_y;
-    }
-    else if (data->ball_y >= (768-128)) {
-        data->ball_y = (2*(768-128)) - data->ball_y;
-        data->ball_velocity_y = -data->ball_velocity_y;
-    }
-
-    guac_protocol_send_move(client->socket, data->ball,
-            GUAC_DEFAULT_LAYER, data->ball_x, data->ball_y, 0);
-
-    return 0;
-
-}]]></emphasis></programlisting>
-        </example>
+}]]></programlisting>
+        <para>guacd will call the <methodname>handle_messages</methodname>
+            handler of the <classname>guac_client</classname> repeatedly, if
+            defined. It will stop calling
+                <methodname>handle_messages</methodname> temporarily if the
+            remote display appears to be lagging behind due to a slow network or
+            slow browser or computer, so there is no guarantee that
+                <methodname>handle_messages</methodname> will be called as
+            frequently as we would like, but for now, we assume there will be
+            essentially no delay between calls, and we include our own delay of
+            30ms between frames</para>
         <para>Because we now have header files, we need to update
                 <filename>Makefile.am</filename> to include our header and the
             directory it's in:</para>
-        <example>
-            <title> Adding our new header file to
-                    <filename>Makefile.am</filename>. </title>
-            <programlisting xml:id="ball-04-Makefile.am" version="5.0" xml:lang="en"><!--
+        <programlisting xml:id="ball-04-Makefile.am" version="5.0" xml:lang="en"><!--
 
     Tutorial: libguac-client-ball
     Step:     4
     File:     Makefile.am
 
---><![CDATA[AUTOMAKE_OPTIONS = foreign
-
-ACLOCAL_AMFLAGS = -I m4
-AM_CFLAGS = -Werror -Wall -pedantic -Iinclude
-
-lib_LTLIBRARIES = libguac-client-ball.la
-
-# All source files of libguac-client-ball
-libguac_client_ball_la_SOURCES = src/ball_client.c
-noinst_HEADERS = include/ball_client.h
-
-# libtool versioning information
-libguac_client_ball_la_LDFLAGS = -version-info 0:0:0]]></programlisting>
-        </example>
+--><![CDATA[noinst_HEADERS = include/ball_client.h]]></programlisting>
         <para>Once built and installed, our ball client now has a bouncing ball,
             albeit a very square and plain one.</para>
     </section>
@@ -513,36 +397,19 @@ libguac_client_ball_la_LDFLAGS = -version-info 0:0:0]]></programlisting>
         <para>We will also modify the ball, removing the rectangle, and
             replacing it with an arc, in this case a circle, complete with
             stroke (border) and translucent-blue fill.</para>
-        <example>
-            <title>Making the ball pretty through draw instructions.</title>
-            <programlisting xml:id="ball-05-ball_client.c" version="5.0" xml:lang="en"><!--
+        <programlisting xml:id="ball-05-ball_client.c" version="5.0" xml:lang="en"><!--
 
     Tutorial: libguac-client-ball
     Step:     5
     File:     src/ball_client.c
 
---><![CDATA[#include <stdlib.h>
-#include <time.h>
-#include <unistd.h>
-#include <guacamole/client.h>
-#include <guacamole/protocol.h>
+--><![CDATA[int guac_client_init(guac_client* client, int argc, char** argv) {
 
-#include "ball_client.h"
+...
 
-/* Client plugin arguments */
-const char* GUAC_CLIENT_ARGS[] = { NULL };
-
-int guac_client_init(guac_client* client, int argc, char** argv) {
-
-    ball_client_data* data = malloc(sizeof(ball_client_data));
     guac_layer* texture;
 
-    /* Send the name of the connection */
-    guac_protocol_send_name(client->socket, "Bouncing Ball");
-
-    /* Send the display size */
-    guac_protocol_send_size(client->socket, GUAC_DEFAULT_LAYER, 1024, 768);
-
+...
 ]]><emphasis><![CDATA[
     /* Create background tile */
     texture = guac_client_alloc_buffer(client);
@@ -569,24 +436,7 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
             GUAC_COMP_OVER, GUAC_DEFAULT_LAYER,
             texture);
 ]]></emphasis><![CDATA[
-
-    /* Set up client data and handlers */
-    client->data = data;
-    client->handle_messages = ball_client_handle_messages;
-
-    /* Set up our ball layer */
-    data->ball = guac_client_alloc_layer(client);
-
-    /* Start ball at upper left */
-    data->ball_x = 0;
-    data->ball_y = 0;
-
-    /* Move at a reasonable pace to the lower right */
-    data->ball_velocity_x = 200; /* pixels per second */
-    data->ball_velocity_y = 200;   /* pixels per second */
-
-    guac_protocol_send_size(client->socket, data->ball, 128, 128);
-
+...
 ]]><emphasis><![CDATA[
     /* Fill with solid color */
     guac_protocol_send_arc(client->socket, data->ball,
@@ -603,53 +453,9 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
             GUAC_COMP_OVER, data->ball,
             0x00, 0x80, 0x80, 0x80);
 ]]></emphasis><![CDATA[
-
-    /* Flush buffer */
-    guac_socket_flush(client->socket);
-
-    /* Done */
-    return 0;
-
-}
-
-int ball_client_handle_messages(guac_client* client) {
-
-    /* Get data */
-    ball_client_data* data = (ball_client_data*) client->data;
-
-    /* Sleep a bit */
-    usleep(30000);
-
-    /* Update position */
-    data->ball_x += data->ball_velocity_x * 30 / 1000;
-    data->ball_y += data->ball_velocity_y * 30 / 1000;
-
-    /* Bounce if necessary */
-    if (data->ball_x < 0) {
-        data->ball_x = -data->ball_x;
-        data->ball_velocity_x = -data->ball_velocity_x;
-    }
-    else if (data->ball_x >= 1024-128) {
-        data->ball_x = (2*(1024-128)) - data->ball_x;
-        data->ball_velocity_x = -data->ball_velocity_x;
-    }
-
-    if (data->ball_y < 0) {
-        data->ball_y = -data->ball_y;
-        data->ball_velocity_y = -data->ball_velocity_y;
-    }
-    else if (data->ball_y >= (768-128)) {
-        data->ball_y = (2*(768-128)) - data->ball_y;
-        data->ball_velocity_y = -data->ball_velocity_y;
-    }
-
-    guac_protocol_send_move(client->socket, data->ball,
-            GUAC_DEFAULT_LAYER, data->ball_x, data->ball_y, 0);
-
-    return 0;
+...
 
 }]]></programlisting>
-        </example>
         <para>Again, because we put the ball in its own layer, we don't have to
             worry about compositing it ourselves. The remote display will handle
             this, and will likely do so with hardware acceleration.</para>
@@ -665,138 +471,49 @@ int ball_client_handle_messages(guac_client* client) {
             lag due to network or software issues, forcing guacd to temporarily
             pause updates.</para>
         <para>We must modify our ball state to include the time the last update
-            took place. We can then modify the message handler to check the last
-            update time, and update the ball's position based on its current
-            velocity and the elapsed time.</para>
-        <example>
-            <title> The ball data structure, now with the time of last update. </title>
-            <programlisting xml:id="ball-06-ball_client.h" version="5.0" xml:lang="en"><!--
+            took place:</para>
+        <programlisting xml:id="ball-06-ball_client.h" version="5.0" xml:lang="en"><!--
 
     Tutorial: libguac-client-ball
     Step:     6
     File:     src/ball_client.h
 
---><![CDATA[#ifndef _BALL_CLIENT_H
-#define _BALL_CLIENT_H
+--><![CDATA[typedef struct ball_client_data {
 
-#include <guacamole/client.h>
-
-typedef struct ball_client_data {
-
-    guac_layer* ball;
-
-    int ball_x;
-    int ball_y;
-
-    int ball_velocity_x;
-    int ball_velocity_y;
+...
 
     guac_timestamp last_update;
 
-} ball_client_data;
-
-int ball_client_handle_messages(guac_client* client);
-
-#endif]]></programlisting>
-        </example>
-        <example>
-            <title> Modified ball client, properly updating the ball based on
-                time elapsed since last frame. </title>
-            <programlisting xml:id="ball-06-ball_client.c" version="5.0" xml:lang="en"><!--
+} ball_client_data;]]></programlisting>
+        <para>Naturally, this new structure member must be initialized within
+                <methodname>guac_client_init</methodname>:</para>
+        <programlisting xml:id="ball-06-ball_client.c" version="5.0" xml:lang="en"><!--
 
     Tutorial: libguac-client-ball
     Step:     6
     File:     src/ball_client.c
 
---><![CDATA[#include <stdlib.h>
-#include <time.h>
-#include <unistd.h>
-#include <guacamole/client.h>
-#include <guacamole/protocol.h>
-
-#include "ball_client.h"
-
-/* Client plugin arguments */
-const char* GUAC_CLIENT_ARGS[] = { NULL };
-
-int guac_client_init(guac_client* client, int argc, char** argv) {
+--><![CDATA[int guac_client_init(guac_client* client, int argc, char** argv) {
 
     ball_client_data* data = malloc(sizeof(ball_client_data));
-    guac_layer* texture;
 
-    /* Send the name of the connection */
-    guac_protocol_send_name(client->socket, "Bouncing Ball");
-
-    /* Send the display size */
-    guac_protocol_send_size(client->socket, GUAC_DEFAULT_LAYER, 1024, 768);
-
-    /* Create background tile */
-    texture = guac_client_alloc_buffer(client);
-
-    guac_protocol_send_rect(client->socket, texture, 0, 0, 64, 64);
-    guac_protocol_send_cfill(client->socket, GUAC_COMP_OVER, texture,
-            0x88, 0x88, 0x88, 0xFF);
-
-    guac_protocol_send_rect(client->socket, texture, 0, 0, 32, 32);
-    guac_protocol_send_cfill(client->socket, GUAC_COMP_OVER, texture,
-            0xDD, 0xDD, 0xDD, 0xFF);
-
-    guac_protocol_send_rect(client->socket, texture, 32, 32, 32, 32);
-    guac_protocol_send_cfill(client->socket, GUAC_COMP_OVER, texture,
-            0xDD, 0xDD, 0xDD, 0xFF);
-
-    /* Fill with solid color */
-    guac_protocol_send_rect(client->socket, GUAC_DEFAULT_LAYER,
-            0, 0, 1024, 768);
-
-    guac_protocol_send_lfill(client->socket,
-            GUAC_COMP_OVER, GUAC_DEFAULT_LAYER,
-            texture);
-
-    /* Set up client data and handlers */
-    client->data = data;
-    client->handle_messages = ball_client_handle_messages;
-
-    /* Set up our ball layer */
-    data->ball = guac_client_alloc_layer(client);
-
-    /* Start ball at upper left */
-    data->ball_x = 0;
-    data->ball_y = 0;
-
-    /* Move at a reasonable pace to the lower right */
-    data->ball_velocity_x = 200; /* pixels per second */
-    data->ball_velocity_y = 200;   /* pixels per second */
+...
 ]]><emphasis><![CDATA[
     data->last_update = guac_protocol_get_timestamp();
-]]></emphasis><![CDATA[
 
-    guac_protocol_send_size(client->socket, data->ball, 128, 128);
+...]]></emphasis><![CDATA[
 
-    /* Fill with solid color */
-    guac_protocol_send_arc(client->socket, data->ball,
-            64, 64, 62, 0, 6.28, 0);
+}]]></programlisting>
+        <para>And we need to modify the message handler to check the last update
+            time, updating the ball's position based on its current velocity and
+            the elapsed time:</para>
+        <programlisting version="5.0" xml:lang="en"><!--
 
-    guac_protocol_send_close(client->socket, data->ball);
+    Tutorial: libguac-client-ball
+    Step:     6
+    File:     src/ball_client.c
 
-    guac_protocol_send_cstroke(client->socket,
-            GUAC_COMP_OVER, data->ball,
-            GUAC_LINE_CAP_ROUND, GUAC_LINE_JOIN_ROUND, 4,
-            0x00, 0x00, 0x00, 0xFF);
-
-    guac_protocol_send_cfill(client->socket,
-            GUAC_COMP_OVER, data->ball,
-            0x00, 0x80, 0x80, 0x80);
-
-    /* Flush buffer */
-    guac_socket_flush(client->socket);
-
-    /* Done */
-    return 0;
-
-}
-
-int ball_client_handle_messages(guac_client* client) {
+--><![CDATA[int ball_client_handle_messages(guac_client* client) {
 
     /* Get data */
     ball_client_data* data = (ball_client_data*) client->data;
@@ -816,29 +533,7 @@ int ball_client_handle_messages(guac_client* client) {
     data->ball_x += data->ball_velocity_x * delta_t / 1000;
     data->ball_y += data->ball_velocity_y * delta_t / 1000;
 ]]></emphasis><![CDATA[
-
-    /* Bounce if necessary */
-    if (data->ball_x < 0) {
-        data->ball_x = -data->ball_x;
-        data->ball_velocity_x = -data->ball_velocity_x;
-    }
-    else if (data->ball_x >= 1024-128) {
-        data->ball_x = (2*(1024-128)) - data->ball_x;
-        data->ball_velocity_x = -data->ball_velocity_x;
-    }
-
-    if (data->ball_y < 0) {
-        data->ball_y = -data->ball_y;
-        data->ball_velocity_y = -data->ball_velocity_y;
-    }
-    else if (data->ball_y >= (768-128)) {
-        data->ball_y = (2*(768-128)) - data->ball_y;
-        data->ball_velocity_y = -data->ball_velocity_y;
-    }
-
-    guac_protocol_send_move(client->socket, data->ball,
-            GUAC_DEFAULT_LAYER, data->ball_x, data->ball_y, 0);
-
+...
 ]]><emphasis><![CDATA[
     /* Update timestamp */
     data->last_update = current;
@@ -847,7 +542,6 @@ int ball_client_handle_messages(guac_client* client) {
     return 0;
 
 }]]></programlisting>
-        </example>
         <para>At this point, we now have a robust Guacamole client plugin. It
             properly handles the lack of time guarantees for message handler
             calls, meanwhile providing the user with a seamlessly bouncing
