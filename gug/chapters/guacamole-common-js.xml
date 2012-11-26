@@ -248,7 +248,7 @@ keyboard.onkeyup = function(keysym) {
                 the keyboard. The "a" key has two caps: one lowercase (the
                 default) and one uppercase (which requires the shift modifier to
                 be active).</para>
-            <para>Notive that the shift key needed the keysym explicitly
+            <para>Notice that the shift key needed the keysym explicitly
                 specified, while the "a" key did not. This is because the
                 on-screen keyboard will automatically derive the correct keysym
                 from the text of the key cap if the text contains only a single

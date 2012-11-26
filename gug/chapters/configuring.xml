@@ -152,7 +152,7 @@
         <title>VNC</title>
         <para>The VNC protocol is the simplest and first protocol supported by
             Guacamole. Although generally not as fast as RDP, many VNC servers
-            are adequte, and VNC over Guacamole tends to be faster than VNC by
+            are adequate, and VNC over Guacamole tends to be faster than VNC by
             itself due to decreased bandwidth usage.</para>
         <para>VNC support for Guacamole is provided by the libguac-client-vnc
             library, installed by default.</para>
@@ -291,7 +291,7 @@
                 <varlistentry>
                     <term>width</term>
                     <listitem>
-                        <para>The width of the display to requst, in pixels.
+                        <para>The width of the display to request, in pixels.
                             This parameter is optional. If this value is not
                             specified, the width of the connecting client
                             display will be used instead.</para>

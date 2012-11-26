@@ -17,7 +17,7 @@
         plugins).</para>
     <para>libguac is used mainly for developing client plugins like
         libguac-client-vnc or libguac-client-rdp, or for developing a proxy
-        supporting the Guacamole protocol like guacd. This chapted is intended
+        supporting the Guacamole protocol like guacd. This chapter is intended
         to give an overview of how libguac is used, and how to use it for
         general communication with the Guacamole protocol.</para>
     <section>
@@ -178,7 +178,7 @@
                 <classname>guac_socket</classname> which writes data to nest
             instructions to its parent <classname>guac_socket</classname>,
             rather than to the client's stream directly. By using this and the
-            piecemeal versions of the instruction-sending functions requred,
+            piecemeal versions of the instruction-sending functions required,
             audio or video data can be stretched over multiple instructions
             rather than one single instruction:</para>
         <programlisting>/* Get nested socket */
@@ -209,7 +209,7 @@ guac_socket_close(nested_socket);</programlisting>
                 duration of audio or video data must be known beforehand. If
                 audio or video data must be streamed in real-time, it will need
                 to be divided into individual self-contained chunks. Smaller
-                chunks have a greater chance of causing noticible gaps due to
+                chunks have a greater chance of causing noticeable gaps due to
                 network hiccups, but are more responsive and will seem more
                 in-line with what is happening from the user's perspective,
                 while larger chunks will be less vulnerable to network issues,
@@ -312,7 +312,7 @@ client->mouse_handler = mouse_handler;</programlisting>
         <section>
             <title>Clipboard events</title>
             <para>If the client sends data which should be sent to the clipboard
-                of the remote deskop, guacd will trigger the clipboard handler
+                of the remote desktop, guacd will trigger the clipboard handler
                 installed in the <property>clipboard_handler</property> member
                 of the <classname>guac_client</classname>.</para>
             <programlisting>int clipboard_handler(guac_client* client, char* text) {

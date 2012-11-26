@@ -61,7 +61,7 @@
             the unique identifier of this tunnel to the JavaScript client,
             allowing its own tunnel implementation to continue to communicate
             with the tunnel existing on the Java side.</para>
-        <para>Intances of <classname>GuacamoleTunnel</classname> are created
+        <para>Instances of <classname>GuacamoleTunnel</classname> are created
             associated with a <classname>GuacamoleSocket</classname>, which is
             the abstract interface surrounding the low-level connection to
             guacd. Overall, there is a socket
@@ -69,11 +69,11 @@
             connection to guacd. This socket is exposed to
                 <classname>GuacamoleTunnel</classname>, which provides abstract
             protocol access around what is actually (but secretly, through the
-            abstration of the API) a TCP socket. The
+            abstraction of the API) a TCP socket. The
                 <classname>GuacamoleSession</classname> allows instances of
                 <classname>GuacamoleTunnel</classname> to be shared across
             requests, and <classname>GuacamoleHTTPTunnelServlet</classname>
-            pulls these tunnels from the session as necessary to fulfull
+            pulls these tunnels from the session as necessary to fulfill
             requests made by the JavaScript client.</para>
         <para>The Guacamole web application extends this tunnel servlet in order
             to implement authentication at the lowest possible level,
@@ -155,7 +155,7 @@
                 abstract version called
                     <methodname>writeInstruction()</methodname> which writes
                 instances of <classname>GuacamoleInstruction</classname>. These
-                functions are analagous to the <methodname>read()</methodname>
+                functions are analogous to the <methodname>read()</methodname>
                 and <methodname>readInstruction()</methodname> functions
                 provided by <classname>GuacamoleReader</classname>, and have
                 similar restrictions: the contract imposed by

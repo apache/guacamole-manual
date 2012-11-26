@@ -48,7 +48,7 @@ guacd[19666]: Listening on host 127.0.0.1, port 4823</screen>
         <para>Each entry relevant to Guacamole has the prefix "guacd", denoting
             the program that produced the entry, followed by the process ID,
             followed by the message. The entries above show guacamole starting
-            sucessfully and listenening on a non-default port 4823.</para>
+            successfully and listening on a non-default port 4823.</para>
         <section>
             <title>guacd errors</title>
             <indexterm>
@@ -245,7 +245,7 @@ guacd[19666]: Listening on host 127.0.0.1, port 4823</screen>
                     reason, such as the connection already being closed, you
                     will see this error. Normally, this error does not indicate
                     a problem, but rather that the client has simply closed the
-                    connction.</para>
+                    connection.</para>
             </section>
             <section>
                 <title>Error handling server messages</title>
@@ -529,7 +529,7 @@ guacd[19666]: Listening on host 127.0.0.1, port 4823</screen>
             <title>Authentication errors</title>
             <para>If someone attempts to login with invalid credentials, or
                 someone attempts to access a resource or connection that does
-                not exist or they do not have acess to, errors regarding the
+                not exist or they do not have access to, errors regarding the
                 invalid attempt will be logged.</para>
             <section>
                 <title>Cannot connect - user not logged in</title>
@@ -568,7 +568,7 @@ guacd[19666]: Listening on host 127.0.0.1, port 4823</screen>
                 <title>No such tunnel</title>
                 <para>An attempt was made to use a tunnel which does not
                     actually exist. This is usually just the JavaScript client
-                    sending a leftover messge or two while it hasn't realized
+                    sending a leftover message or two while it hasn't realized
                     that the server has disconnected. If this error happens
                     consistently and is associated with Guacamole generally not
                     working, it could be a bug.</para>

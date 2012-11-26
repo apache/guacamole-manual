@@ -20,7 +20,23 @@
         <para/>
     </section>
     <section>
-        <title>Event hooks</title>
+        <title>Event listeners</title>
         <para/>
+        <section>
+            <title><classname>TunnelConnectListener</classname></title>
+            <para/>
+        </section>
+        <section>
+            <title><classname>TunnelCloseListener</classname></title>
+            <para/>
+        </section>
+        <section>
+            <title><classname>AuthenticationSuccessListener</classname></title>
+            <para/>
+        </section>
+        <section>
+            <title><classname>AuthenticationFailureListener</classname></title>
+            <para/>
+        </section>
     </section>
 </chapter>
