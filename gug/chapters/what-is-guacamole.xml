@@ -72,7 +72,14 @@
         <para>Guacamole is not a self-contained web application and is made up
             of many parts. The web application is actually intended to be simple
             and minimal, with the majority of the gruntwork performed by
-            lower-level components.</para>
+            lower-level components.<informalfigure>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/guac-arch.png"
+                            width="2.5in"/>
+                    </imageobject>
+                </mediaobject>
+            </informalfigure></para>
         <section>
             <title>The Guacamole protocol </title>
             <indexterm>
