@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="audio-stream-instruction" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>audio</title>
+    <indexterm>
+        <primary>audio</primary>
+    </indexterm>
+    <para>Sends a full chunk of audio data to the client. This chunk must be a
+        full, self-contained, audio file encoded with the codec specified by the
+        mimetype given, which must be a mimetype previously specified by the
+        client during the handshake procedure.</para>
+    <variablelist>
+        <varlistentry>
+            <term><parameter>channel</parameter></term>
+            <listitem>
+                <para>The index of the audio channel to use. All audio chunks
+                    within the same channel play sequentially, while audio
+                    chunks in separate channels play in parallel. This is not
+                    the same as the left or right audio channel, and refers only
+                    to a channel to which audio data is streamed, where that
+                    audio data consists of chunks that may themselves consist of
+                    multiple channels in the usual sense of the word. This
+                    number is completely arbitrary, and denotes only how audio
+                    data should be scheduled for playback.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>mimetype</parameter></term>
+            <listitem>
+                <para>The mimetype of the audio data being sent.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>duration</parameter></term>
+            <listitem>
+                <para>The duration of the audio data being sent, in
+                    milliseconds. This value may be a decimal, and need not be
+                    expressed in whole milliseconds. This is particularly
+                    important for audio formats that do not encode their own
+                    durations losslessly (MP3, for example), as well as for
+                    scheduling playback of future chunks within the same
+                    channel.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>data</parameter></term>
+            <listitem>
+                <para>The actual audio data, base64-encoded.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
+</section>

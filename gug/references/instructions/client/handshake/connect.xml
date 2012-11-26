@@ -9,8 +9,8 @@
         <primary>connect</primary>
     </indexterm>
     <para>Begins the connection using the previously specified protocol with the
-        given arguments. This message can be sent by the client during the
-        connect phase only, in response to the server's args message.</para>
+        given arguments.  This is the last instruction sent during the handshake
+        phase.</para>
     <para>The parameters of this instruction correspond exactly to the
         parameters of the received args instruction. If the received args
         instruction has, for example, three parameters, the responding connect

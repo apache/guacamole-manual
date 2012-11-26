@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="video-handshake-instruction"
+    xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>video</title>
+    <indexterm>
+        <primary>video</primary>
+    </indexterm>
+    <para>Specifies which video mimetypes are supported by the client. Each
+        parameter must be a single mimetype, listed in order of client
+        preference, with the optimal mimetype being the first parameter. This is
+        the fourth instruction sent during the handshake phase.</para>
+</section>

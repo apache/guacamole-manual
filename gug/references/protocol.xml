@@ -26,37 +26,47 @@
             <primary>server instructions</primary>
             <secondary>drawing</secondary>
         </indexterm>
-        <xi:include href="instructions/client/drawing/arc.xml"/>
-        <xi:include href="instructions/client/drawing/cfill.xml"/>
-        <xi:include href="instructions/client/drawing/clip.xml"/>
-        <xi:include href="instructions/client/drawing/close.xml"/>
-        <xi:include href="instructions/client/drawing/copy.xml"/>
-        <xi:include href="instructions/client/drawing/cstroke.xml"/>
-        <xi:include href="instructions/client/drawing/cursor.xml"/>
-        <xi:include href="instructions/client/drawing/curve.xml"/>
-        <xi:include href="instructions/client/drawing/dispose.xml"/>
-        <xi:include href="instructions/client/drawing/distort.xml"/>
-        <xi:include href="instructions/client/drawing/identity.xml"/>
-        <xi:include href="instructions/client/drawing/lfill.xml"/>
-        <xi:include href="instructions/client/drawing/line.xml"/>
-        <xi:include href="instructions/client/drawing/lstroke.xml"/>
-        <xi:include href="instructions/client/drawing/move.xml"/>
-        <xi:include href="instructions/client/drawing/png.xml"/>
-        <xi:include href="instructions/client/drawing/pop.xml"/>
-        <xi:include href="instructions/client/drawing/push.xml"/>
-        <xi:include href="instructions/client/drawing/rect.xml"/>
-        <xi:include href="instructions/client/drawing/reset.xml"/>
-        <xi:include href="instructions/client/drawing/set.xml"/>
-        <xi:include href="instructions/client/drawing/shade.xml"/>
-        <xi:include href="instructions/client/drawing/size.xml"/>
-        <xi:include href="instructions/client/drawing/start.xml"/>
-        <xi:include href="instructions/client/drawing/transfer.xml"/>
-        <xi:include href="instructions/client/drawing/transform.xml"/>
+        <xi:include href="instructions/server/drawing/arc.xml"/>
+        <xi:include href="instructions/server/drawing/cfill.xml"/>
+        <xi:include href="instructions/server/drawing/clip.xml"/>
+        <xi:include href="instructions/server/drawing/close.xml"/>
+        <xi:include href="instructions/server/drawing/copy.xml"/>
+        <xi:include href="instructions/server/drawing/cstroke.xml"/>
+        <xi:include href="instructions/server/drawing/cursor.xml"/>
+        <xi:include href="instructions/server/drawing/curve.xml"/>
+        <xi:include href="instructions/server/drawing/dispose.xml"/>
+        <xi:include href="instructions/server/drawing/distort.xml"/>
+        <xi:include href="instructions/server/drawing/identity.xml"/>
+        <xi:include href="instructions/server/drawing/lfill.xml"/>
+        <xi:include href="instructions/server/drawing/line.xml"/>
+        <xi:include href="instructions/server/drawing/lstroke.xml"/>
+        <xi:include href="instructions/server/drawing/move.xml"/>
+        <xi:include href="instructions/server/drawing/png.xml"/>
+        <xi:include href="instructions/server/drawing/pop.xml"/>
+        <xi:include href="instructions/server/drawing/push.xml"/>
+        <xi:include href="instructions/server/drawing/rect.xml"/>
+        <xi:include href="instructions/server/drawing/reset.xml"/>
+        <xi:include href="instructions/server/drawing/set.xml"/>
+        <xi:include href="instructions/server/drawing/shade.xml"/>
+        <xi:include href="instructions/server/drawing/size.xml"/>
+        <xi:include href="instructions/server/drawing/start.xml"/>
+        <xi:include href="instructions/server/drawing/transfer.xml"/>
+        <xi:include href="instructions/server/drawing/transform.xml"/>
+    </section>
+    <section>
+        <title>Streaming instructions</title>
+        <xi:include href="instructions/server/stream/audio.xml"/>
+        <xi:include href="instructions/server/stream/file.xml"/>
+        <xi:include href="instructions/server/stream/nest.xml"/>
+        <xi:include href="instructions/server/stream/video.xml"/>
     </section>
     <section>
         <title>Client handshake instructions</title>
+        <xi:include href="instructions/client/handshake/audio.xml"/>
         <xi:include href="instructions/client/handshake/connect.xml"/>
         <xi:include href="instructions/client/handshake/select.xml"/>
+        <xi:include href="instructions/client/handshake/size.xml"/>
+        <xi:include href="instructions/client/handshake/video.xml"/>
     </section>
     <section>
         <title>Server handshake instructions</title>

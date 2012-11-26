@@ -10,8 +10,7 @@
     <indexterm>
         <primary>clipboard</primary>
     </indexterm>
-    <para>Sets the client or server clipboard to the given data. Both the client
-        and server can send this instruction.</para>
+    <para>Sets the server-side clipboard to the given data.</para>
     <variablelist>
         <varlistentry>
             <term><parameter>data</parameter></term>

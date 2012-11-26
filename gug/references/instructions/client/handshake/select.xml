@@ -8,8 +8,8 @@
     <indexterm>
         <primary>select</primary>
     </indexterm>
-    <para>Requests that the connection be made using the specified protocol. This
-        message can be sent by the client during the connect phase only.</para>
+    <para>Requests that the connection be made using the specified protocol.
+        This is the first instruction sent during the handshake phase.</para>
     <variablelist>
         <varlistentry>
             <term><parameter>protocol</parameter></term>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="video-stream-instruction" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>video</title>
+    <indexterm>
+        <primary>video</primary>
+    </indexterm>
+    <para>Sends a full chunk of audio video to the client. This chunk must be a
+        full, self-contained, video file encoded with the codec specified by the
+        mimetype given, which must be a mimetype previously specified by the
+        client during the handshake procedure.</para>
+    <variablelist>
+        <varlistentry>
+            <term><parameter>layer</parameter></term>
+            <listitem>
+                <para>The index of the layer to stream the video data into.
+                    Future drawing operations into this layer will block until
+                    the video has finished playing. Playback of this video will
+                    not block operations in other layers.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>mimetype</parameter></term>
+            <listitem>
+                <para>The mimetype of the video data being sent.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>duration</parameter></term>
+            <listitem>
+                <para>The duration of the video data being sent, in
+                    milliseconds. This value may be a decimal, and need not be
+                    expressed in whole milliseconds.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>data</parameter></term>
+            <listitem>
+                <para>The actual video data, base64-encoded.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
+</section>

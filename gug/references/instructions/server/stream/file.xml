@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="file-stream-instruction" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>file</title>
+    <indexterm>
+        <primary>file</primary>
+    </indexterm>
+    <para>Sends a file to the client.</para>
+    <variablelist>
+        <varlistentry>
+            <term><parameter>name</parameter></term>
+            <listitem>
+                <para>A human-readable name associated with the file.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>mimetype</parameter></term>
+            <listitem>
+                <para>The mimetype of the file being sent.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>data</parameter></term>
+            <listitem>
+                <para>The actual audio data, base64-encoded.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
+</section>
