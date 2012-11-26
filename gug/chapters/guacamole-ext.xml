@@ -19,4 +19,8 @@
         <title>Authentication providers</title>
         <para/>
     </section>
+    <section>
+        <title>Event hooks</title>
+        <para/>
+    </section>
 </chapter>

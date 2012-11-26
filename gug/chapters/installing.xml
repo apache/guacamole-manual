@@ -39,6 +39,20 @@
             Guacamole project with every release. If the Guacamole project does
             not provide packages for your specific distribution, you will need
             to build everything yourself from source.</para>
+        <important>
+            <para>Be aware that Guacamole is a remote desktop gateway, and
+                cannot access your desktop's display without a remote desktop
+                server of some kind to connect to. Guacamole does not contain
+                its own VNC or RDP server, and these installation procedures
+                will not walk you through the installation of a VNC or RDP
+                server.</para>
+            <para>Your distribution of choice will provide documentation for
+                setting up VNC, as will the documentation provided by those that
+                created the VNC server you wish to use. If you are going to use
+                RDP to connect to Windows computers, Microsoft (and many others
+                on the internet) provides documentation describing how to set up
+                remote desktop.</para>
+        </important>
 
         <section xml:id="linux-support">
 
