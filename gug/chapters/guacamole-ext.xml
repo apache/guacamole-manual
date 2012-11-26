@@ -17,26 +17,110 @@
         to fit well in existing deployments.</para>
     <section>
         <title>Authentication providers</title>
-        <para/>
+        <para>The main use of guacamole-ext is to provide custom authentication
+            for Guacamole through the implementation of authentication
+            providers. An authentication provider is any class which implements
+            the <classname>AuthenticationProvider</classname> interface,
+            implementing the only function defined by that interface:
+                <methodname>getAuthorizedConfigurations()</methodname>. This
+            function is required to return a <classname>Map</classname> of
+            unique IDs to configurations, where these configurations are all
+            configurations accessible with the provided credentials. The
+            credentials given are abstract and while Guacamole the web
+            application implements a username/password driven login screen, you
+            are not required to user usernames and passwords; the
+                <classname>Credentials</classname> class given to the
+            authentication provider provides access to all HTTP parameters in
+            general, as well as cookies and SSL information.</para>
+        <para>The configurations referred to by the function name are instances
+            of <classname>GuacamoleConfiguration</classname> (part of
+            guacamole-common), which is just a wrapper around a protocol name
+            and set of parameter name/value pairs. The name of the protocol to
+            use and a set of parameters is the minimum information required for
+            other parts of the Guacamole API to complete the handshake required
+            by the Guacamole protocol.</para>
+        <para>The Guacamole web application includes a basic authentication
+            provider implementation which parses an XML file to determine which
+            users exist, their corresponding passwords, and what configurations
+            those users have access to. This is the part of Guacamole that reads
+            the <filename>user-mapping.xml</filename> file. If you use a custom
+            authentication provider for your authentication, this file will
+            probably not be required.</para>
+        <para>The community has implemented authentication providers which
+            access databases, use LDAP, or even perform no authentication at
+            all, redirecting all users to a single configuration specified in
+                <filename>guacamole.properties</filename>.</para>
+        <para>A minimal authentication provider is implemented in the tutorials
+            later, and the upstream authentication provider implemented within
+            Guacamole, as well as the authentication providers implemented by
+            the community, are good examples for how authentication can be
+            extended without having to implement a whole new web
+            application.</para>
     </section>
     <section>
         <title>Event listeners</title>
-        <para/>
+        <para>Although not used internally by the web application, the web
+            application provides an event system which can be hooked into with
+            listener objects, such that a class within the classpath of
+            Guacamole can receive events when something noteworthy happens in
+            the application layer, and take some sort of action.</para>
+        <para>Currently, the web application provides events for when the tunnel
+            is opened or closed, and when an authentication attempt succeeds or
+            fails. In most cases, the class listening for these events can also
+            cancel whatever action just occurred.</para>
         <section>
             <title><classname>TunnelConnectListener</classname></title>
-            <para/>
+            <para>When a tunnel is connected to by the JavaScript client,
+                Guacamole informs all installed instances of
+                    <classname>TunnelConnectListener</classname> by calling
+                their <methodname>tunnelConnected()</methodname> function with a
+                new <classname>TunnelConnectEvent</classname>, which contains
+                the tunnel that was just connected, as well as any associated
+                credentials. If <methodname>tunnelConnected()</methodname>
+                returns <constant>false</constant>, the connect attempt will be
+                overridden and denied.</para>
         </section>
         <section>
             <title><classname>TunnelCloseListener</classname></title>
-            <para/>
+            <para>When a tunnel is connected to by the JavaScript client,
+                Guacamole informs all installed instances of
+                    <classname>TunnelCloseListener</classname> by calling their
+                    <methodname>tunnelClosed()</methodname> function with a new
+                    <classname>TunnelCloseEvent</classname>, which contains the
+                tunnel that is about to be closed, as well as any associated
+                credentials. If <methodname>tunnelClosed()</methodname> returns
+                    <constant>false</constant>, the attempt close the tunnel
+                will be overridden and denied, and the tunnel will remain
+                open.</para>
         </section>
         <section>
             <title><classname>AuthenticationSuccessListener</classname></title>
-            <para/>
+            <para>If a user successfully authenticates with the web application,
+                Guacamole informs all installed instances of
+                    <classname>AuthenticationSuccessListener</classname> by
+                calling their <methodname>authenticationSucceeded()</methodname>
+                function with a new
+                    <classname>AuthenticationSuccessEvent</classname> which
+                contains the credentials used. The implementation of this
+                function has the opportunity to cancel the authentication
+                attempt, effectively denying access despite being otherwise
+                valid, by returning <constant>false</constant>.</para>
         </section>
         <section>
             <title><classname>AuthenticationFailureListener</classname></title>
-            <para/>
+            <para>If a user fails to authenticate with the web application,
+                Guacamole informs all installed instances of
+                    <classname>AuthenticationFailureListener</classname> by
+                calling their <methodname>authenticationFailed()</methodname>
+                function with a new
+                    <classname>AuthenticationFailureEvent</classname> which
+                contains the credentials used. Unlike other listeners, this
+                event cannot be canceled by returning
+                <constant>false</constant>. All failed authentication attempts
+                "succeed" in failing, and an implementation of
+                    <classname>AuthenticationFailureListener</classname> cannot
+                force an authentication attempt to succeed by denying that
+                failure.</para>
         </section>
     </section>
 </chapter>

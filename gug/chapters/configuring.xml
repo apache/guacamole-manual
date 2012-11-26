@@ -72,6 +72,19 @@
                         placed in the directory specified here. </para>
                 </listitem>
             </varlistentry>
+            <varlistentry>
+                <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+                        <primary>event-listeners</primary>
+                    </indexterm><parameter>event-listeners</parameter></term>
+                <listitem>
+                    <para>A comma-delimited list of event listeners which should
+                        be loaded and installed such that they are informed of
+                        Guacamole-related events. These classes must be in the
+                        classpath, preferably by having their corresponding .jar
+                        files placed within the directory specified by the
+                            <property>lib-directory</property> property.</para>
+                </listitem>
+            </varlistentry>
         </variablelist>
         <example>
             <title>Minimal <filename>guacamole.properties</filename></title>
