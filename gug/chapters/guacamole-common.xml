@@ -182,6 +182,77 @@
     </section>
     <section>
         <title>Reading properties</title>
-        <para/>
+        <para>The Guacamole Java API provides simple access to
+                <filename>guacamole.properties</filename> for convenience,
+            although such support is not strictly required. This support is
+            provided through the <classname>GuacamoleProperies</classname>
+            utility class, which cannot be instantiated and provides two simple
+            property retrieval functions: <methodname>getProperty()</methodname>
+            and <methodname>getRequiredProperty()</methodname>, the difference
+            being that the former can return <constant>null</constant> if a
+            property is not defined, while the latter will throw an exception
+            instead. These functions are generic and typesafe and will return
+            the correct Java class or type when given an instance of a
+            property.</para>
+        <para>In Guacamole, each property is declared as an implementation of
+                <classname>GuacamoleProperty</classname>, and must provide an
+            implementation of <methodname>getName()</methodname>, which returns
+            the name of the property as it should exist within
+                <filename>guacamole.properties</filename>, and
+                <methodname>parseValue()</methodname>, which is given the
+                <classname>String</classname> value of the property as read from
+                <filename>guacamole.properties</filename>, and must return the
+            declared type of the <classname>GuacamoleProperty</classname>
+            implementation. A good example of how this works is the
+                <classname>IntegerGuacamoleProperty</classname> implementation
+            included within guacamole-common:</para>
+        <programlisting>public abstract class IntegerGuacamoleProperty implements GuacamoleProperty&lt;Integer> {
+
+    @Override
+    public Integer parseValue(String value) throws GuacamoleException {
+
+        // If no property provided, return null.
+        if (value == null)
+            return null;
+
+        try {
+            Integer integer = new Integer(value);
+            return integer;
+        }
+        catch (NumberFormatException e) {
+            throw new GuacamoleServerException("Property \"" + getName() +
+                "\" must be an integer.", e);
+        }
+
+    }
+
+}</programlisting>
+        <para>Notice that this implementation does not actually provide
+                <methodname>getName()</methodname>. Instead, it only implements
+                <methodname>parseValue()</methodname>, the intent being to make
+            other developers' lives easier when they need to retrieve an integer
+            property from <filename>guacamole.properties</filename>. Using this
+            class, retrieving an integer property is simple:</para>
+        <programlisting>public class MyClass {
+
+    public static final IntegerGuacamoleProperty IMPORTANT_INT =
+        new IntegerGuacamoleProperty() {
+
+        @Override
+        public String getName() { return "important-int"; }
+
+    };
+
+}
+
+... later on within MyClass ...
+
+int important = GuacamoleProperties.getRequiredProperty(IMPORTANT_INT);</programlisting>
+        <para>guacamole-common provides a couple of similar classes for
+            retrieving common types of properties, such as a
+                <classname>String</classname> or <classname>File</classname>,
+            and implementing your own to facilitate properties that parse into
+            arrays or a <classname>List</classname>, etc. should be reasonably
+            simple.</para>
     </section>
 </chapter>
