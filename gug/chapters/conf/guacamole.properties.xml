@@ -12,9 +12,7 @@ guacd-port:     4822
 lib-directory:  /var/lib/guacamole/classpath
 
 # Authentication provider class
-auth-provider: \
-    net.sourceforge.guacamole.net.basic.\
-    BasicFileAuthenticationProvider
+auth-provider: net.sourceforge.guacamole.net.basic.BasicFileAuthenticationProvider
 
 # Properties used by BasicFileAuthenticationProvider
 basic-user-mapping: /etc/guacamole/user-mapping.xml]]></programlisting>

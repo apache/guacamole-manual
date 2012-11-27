@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<programlisting xml:id="user-mapping.xml"
-    xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
-    xmlns:xi="http://www.w3.org/2001/XInclude"><!--
+<programlisting xml:id="user-mapping.xml" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude"><!--
 
     File:     user-mapping.xml
 
@@ -25,7 +23,7 @@
             encoding="md5">
 
         <!-- First authorized connection -->
-		<connection name="localhost">
+        <connection name="localhost">
             <protocol>vnc</protocol>
             <param name="hostname">localhost</param>
             <param name="port">5901</param>
@@ -33,14 +31,14 @@
         </connection>
 
         <!-- Second authorized connection -->
-   		<connection name="otherhost">
+        <connection name="otherhost">
             <protocol>vnc</protocol>
             <param name="hostname">otherhost</param>
             <param name="port">5900</param>
             <param name="password">VNCPASS</param>
         </connection>
 
- </authorize>
+    </authorize>
 
 </user-mapping>
 ]]></programlisting>

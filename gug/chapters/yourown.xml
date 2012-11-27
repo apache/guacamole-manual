@@ -12,7 +12,7 @@
         is by building your own Guacamole-driven web application, integrating
         HTML5 remote desktop into whatever you think needs it.</para>
     <para>The Guacamole project provides an example of doing this called
-        "guacamole-example", but this example is already completed for you, but
+        "guacamole-example", but this example is already completed for you, and
         from a quick glance at this example, it may not be obvious just how easy
         it is to integrate remote access into a web application. This tutorial
         will walk you through the basic steps of building an HTML5 remote
@@ -52,7 +52,7 @@
                         own tunneling mechanism, perhaps WebSocket, this is
                         fine; the JavaScript object mentioned above implements a
                         common interface which you can also implement, and the
-                        JavaScript Guacamole client also part of
+                        Guacamole JavaScript client which is also part of
                         guacamole-common-js will happily use your implementation
                         as long as it provides that interface.</para>
                 </listitem>
@@ -92,7 +92,7 @@
             Guacamole-based application using Maven is much easier; Maven will
             download and use the Guacamole API automatically. You need a
                 <filename>pom.xml</filename> which specifies the upstream
-            repository, and explicitly declares guacamole-common and
+            repository and explicitly declares guacamole-common and
             guacamole-common-js as dependencies.</para>
         <example>
             <title>Barebones Guacamole-based project
@@ -202,15 +202,15 @@
             only function you should implement; the other functions involved are
             already optimized for tunneling the Guacamole protocol.</para>
         <para>The <methodname>doConnect()</methodname> function returns a
-                <classname>GuacamoleConfiguration</classname>, which contains
-            all the information necessary for
-                <classname>GuacamoleHTTPTunnelServlet</classname> to connect to
-            guacd and initiate a connection with some arbitrary remote desktop
-            using some arbitrary remote desktop protocol. In our simple tunnel,
-            this configuration will be hard-coded, and no authentication will be
-            attempted. Any user accessing this web application will be
-            immediately given a functional remote desktop, no questions
-            asked.</para>
+                <classname>GuacamoleTunnel</classname>, which provides a
+            persistent communication channel for
+                <classname>GuacamoleHTTPTunnelServlet</classname> to use when
+            talking with guacd and initiating a connection with some arbitrary
+            remote desktop using some arbitrary remote desktop protocol. In our
+            simple tunnel, this configuration will be hard-coded, and no
+            authentication will be attempted. Any user accessing this web
+            application will be immediately given a functional remote desktop,
+            no questions asked.</para>
         <example>
             <title>A simple tunnel, implementing only
                     <methodname>doConnnect()</methodname></title>

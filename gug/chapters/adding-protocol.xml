@@ -50,8 +50,8 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
         <para>Notice the structure of this file. There is exactly one function,
                 <methodname>guac_client_init</methodname>, which is the entry
             point for all Guacamole client plugins. Just as a typical C program
-            has a main function which is executed when the program is run, a
-            Guacamole client plugin has
+            has a <methodname>main</methodname> function which is executed when
+            the program is run, a Guacamole client plugin has
                 <methodname>guac_client_init</methodname> which is called when
             guacd loads the plugin when a new connection is made and your
             protocol is selected.</para>
@@ -67,9 +67,9 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
         <para>The <classname>guac_client</classname> given will live until the
             connection with the remote display closes. Your
                 <methodname>guac_client_init</methodname> function is expected
-            to parse any arguments in <varname>argv</varname> and initialized
-            the given <classname>guac_client</classname>, returning a success
-            code (zero) if the client was initialized successfully.</para>
+            to parse any arguments in <varname>argv</varname> and initialize the
+            given <classname>guac_client</classname>, returning a success code
+            (zero) if the client was initialized successfully.</para>
         <para>Place this code in a file called
                 <filename>ball_client.c</filename> in a subdirectory called
                 <filename>src</filename>. The build files provided by this
@@ -184,9 +184,9 @@ libguac_client_ball_la_LDFLAGS = -version-info 0:0:0]]></programlisting>,
 }]]></programlisting>
         <para>Note how communication is done with the remote display. The
                 <classname>guac_client</classname> given to
-                <methodname>guac_client_init</methodname> has a member, socket,
-            which is used for bidirectional communication. Guacamole protocol
-            functions, all starting with
+                <methodname>guac_client_init</methodname> has a member,
+                <property>socket</property>, which is used for bidirectional
+            communication. Guacamole protocol functions, all starting with
                 "<methodname>guac_protocol_send_</methodname>", provide a
             slightly high-level mechanism for sending specific Guacamole
             protocol instructions to the remote display over the client's
@@ -225,7 +225,7 @@ libguac_client_ball_la_LDFLAGS = -version-info 0:0:0]]></programlisting>,
     /* The layer which will contain our ball */
     guac_layer* ball;
 ]]></emphasis><![CDATA[
-...
+    ...
 ]]><emphasis><![CDATA[
     /* Set up our ball layer */
     ball = guac_client_alloc_layer(client);
@@ -239,13 +239,13 @@ libguac_client_ball_la_LDFLAGS = -version-info 0:0:0]]></programlisting>,
             GUAC_COMP_OVER, ball,
             0x00, 0x80, 0x80, 0xFF);
 ]]></emphasis><![CDATA[
-...]]></programlisting>
+    ...]]></programlisting>
         <para>Beyond layers, Guacamole has the concept of buffers, which are
             identical in use to layers except they are invisible. Buffers are
             used to store image data for the sake of caching or drawing
             operations. We will use them later when we try to make this tutorial
             prettier.</para>
-        <para>If you build and install the ball client as is now, you will see a
+        <para>If you build and install the ball client as-is now, you will see a
             large gray rectangle (the root layer) with a small blue square in
             the upper left corner (the ball layer).</para>
     </section>
@@ -256,7 +256,7 @@ libguac_client_ball_la_LDFLAGS = -version-info 0:0:0]]></programlisting>,
             needs to be stored with the client such that it becomes available to
             all client handlers.</para>
         <para>The best way to do this is to create a data structure that
-            contains all the information we need, and store it in the
+            contains all the information we need and store it in the
                 <varname>data</varname> member of the
                 <classname>guac_client</classname>. We create a header file to
             declare the structure:</para>
@@ -339,7 +339,7 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
 ]]><emphasis><![CDATA[
     ball_client_data* data = malloc(sizeof(ball_client_data));
 ]]></emphasis><![CDATA[
-...
+    ...
 ]]><emphasis><![CDATA[
     /* Set up client data and handlers */
     client->data = data;
@@ -356,7 +356,7 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
     data->ball_velocity_x = 200; /* pixels per second */
     data->ball_velocity_y = 200;   /* pixels per second */
 ]]></emphasis><![CDATA[
-...
+    ...
 
 }]]></programlisting>
         <para>guacd will call the <methodname>handle_messages</methodname>
@@ -378,7 +378,13 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
     Step:     4
     File:     Makefile.am
 
---><![CDATA[noinst_HEADERS = include/ball_client.h]]></programlisting>
+-->...
+
+<![CDATA[AM_CFLAGS = -Werror -Wall -pedantic -Iinclude
+
+...
+
+noinst_HEADERS = include/ball_client.h]]></programlisting>
         <para>Once built and installed, our ball client now has a bouncing ball,
             albeit a very square and plain one.</para>
     </section>
@@ -394,7 +400,7 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
         <para>We will try creating a simple gray checkerboard pattern in a
             buffer and use that for the background instead of the previous gray
             rectangle.</para>
-        <para>We will also modify the ball, removing the rectangle, and
+        <para>We will also modify the ball by removing the rectangle and
             replacing it with an arc, in this case a circle, complete with
             stroke (border) and translucent-blue fill.</para>
         <programlisting xml:id="ball-05-ball_client.c" version="5.0" xml:lang="en"><!--
@@ -405,11 +411,11 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
 
 --><![CDATA[int guac_client_init(guac_client* client, int argc, char** argv) {
 
-...
+    ...
 
     guac_layer* texture;
 
-...
+    ...
 ]]><emphasis><![CDATA[
     /* Create background tile */
     texture = guac_client_alloc_buffer(client);
@@ -436,7 +442,7 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
             GUAC_COMP_OVER, GUAC_DEFAULT_LAYER,
             texture);
 ]]></emphasis><![CDATA[
-...
+    ...
 ]]><emphasis><![CDATA[
     /* Fill with solid color */
     guac_protocol_send_arc(client->socket, data->ball,
@@ -453,7 +459,7 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
             GUAC_COMP_OVER, data->ball,
             0x00, 0x80, 0x80, 0x80);
 ]]></emphasis><![CDATA[
-...
+    ...
 
 }]]></programlisting>
         <para>Again, because we put the ball in its own layer, we don't have to
@@ -464,12 +470,12 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
     </section>
     <section xml:id="libguac-client-ball-time">
         <title>Handling the passage of time</title>
-        <para>Because the handle_messages handler will only be called as guacd
-            deems appropriate, we cannot rely on instantaneous return of
-            control. The server may experience load, causing guacd to lose
-            priority and delay handling of messages, or the remote display may
-            lag due to network or software issues, forcing guacd to temporarily
-            pause updates.</para>
+        <para>Because the <methodname>handle_messages</methodname> handler will
+            only be called as guacd deems appropriate, we cannot rely on
+            instantaneous return of control. The server may experience load,
+            causing guacd to lose priority and delay handling of messages, or
+            the remote display may lag due to network or software issues,
+            forcing guacd to temporarily pause updates.</para>
         <para>We must modify our ball state to include the time the last update
             took place:</para>
         <programlisting xml:id="ball-06-ball_client.h" version="5.0" xml:lang="en"><!--
@@ -480,7 +486,7 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
 
 --><![CDATA[typedef struct ball_client_data {
 
-...
+    ...
 
     guac_timestamp last_update;
 
@@ -497,11 +503,11 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
 
     ball_client_data* data = malloc(sizeof(ball_client_data));
 
-...
+    ...
 ]]><emphasis><![CDATA[
     data->last_update = guac_protocol_get_timestamp();
 
-...]]></emphasis><![CDATA[
+    ...]]></emphasis><![CDATA[
 
 }]]></programlisting>
         <para>And we need to modify the message handler to check the last update
@@ -533,7 +539,7 @@ int guac_client_init(guac_client* client, int argc, char** argv) {
     data->ball_x += data->ball_velocity_x * delta_t / 1000;
     data->ball_y += data->ball_velocity_y * delta_t / 1000;
 ]]></emphasis><![CDATA[
-...
+    ...
 ]]><emphasis><![CDATA[
     /* Update timestamp */
     data->last_update = current;

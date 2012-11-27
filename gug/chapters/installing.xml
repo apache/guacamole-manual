@@ -87,37 +87,29 @@
                 <secondary>dependencies</secondary>
             </indexterm>
 
-            <para>
-                Different components of Guacamole depend on different packages
-                provided by your distribution in order to function.
-            </para>
+            <para>Different components of Guacamole depend on different packages
+                provided by your distribution in order to function. </para>
 
-            <para>
-                The Guacamole web application depends on a servlet container
+            <para>The Guacamole web application depends on a servlet container
                 like Apache Tomcat. This guide assumes you are using Apache
                 Tomcat as your servlet container, but others will work as well.
                 You will need to consult the documentation of your chosen
                 servlet container for any details regarding installation of web
-                applications.
-            </para>
+                applications. </para>
 
-            <para>
-                <indexterm>
+            <para><indexterm>
                     <primary>Guacamole</primary>
                     <secondary>dependencies</secondary>
                     <tertiary>Debian</tertiary>
-                </indexterm>
-                <indexterm>
+                </indexterm><indexterm>
                     <primary>Guacamole</primary>
                     <secondary>dependencies</secondary>
                     <tertiary>Ubuntu</tertiary>
-                </indexterm>
-                For Debian and Ubuntu, Apache Tomcat is provided by the
-                <package>tomcat6</package> package, while the VNC library
+                </indexterm>For Debian and Ubuntu, Apache Tomcat is provided by
+                the <package>tomcat6</package> package, while the VNC library
                 required for VNC support is provided by
-                <package>libvncserver0</package>, and RDP support is provided
-                by <package>libfreerdp1</package>.
-            </para>
+                    <package>libvncserver0</package>, and RDP support is
+                provided by <package>libfreerdp1</package>. </para>
 
             <example>
                 <title>Installing Guacamole dependencies on Debian or Ubuntu</title>
@@ -284,10 +276,9 @@ libguac-client-rdp-0.6.1-1.x86_64.rpm</computeroutput>
                 <title>Building guacd from source</title>
                 <screen><prompt>$</prompt> tar -xzf guacd-0.6.1.tar.gz
 <prompt>$</prompt> cd guacd-0.6.1/
-<prompt>$</prompt> ./configure
+<prompt>$</prompt> ./configure --with-init-dir=/etc/init.d
 <prompt>$</prompt> make
-<prompt>$</prompt> sudo make install
-<prompt>$</prompt> sudo ldconfig              </screen>
+<prompt>$</prompt> sudo make install             </screen>
             </example>
             <para>
                 <indexterm>
@@ -310,8 +301,8 @@ libguac-client-rdp-0.6.1-1.x86_64.rpm</computeroutput>
         </section>
         <section xml:id="compiling-libguac-client-vnc">
             <title>VNC support</title>
-            <para> All protocol support in Guacamole is modular, even VNC, the
-                first protocol supported by Guacamole, and the protocol provided
+            <para>All protocol support in Guacamole is modular, even VNC, the
+                first protocol supported by Guacamole and the protocol provided
                 by default in all Guacamole installations. </para>
             <indexterm>
                 <primary>compiling</primary>
@@ -396,26 +387,24 @@ libguac-client-rdp-0.6.1-1.x86_64.rpm</computeroutput>
                 into the directory required by your servlet container.</para>
             <example>
                 <title>Installing Guacamole after building from source</title>
-                <screen><prompt>$</prompt> sudo cp target/guacamole-0.6.0.war \
-    /var/lib/tomcat6/webapps/guacamole.war             </screen>
+                <screen><prompt>$</prompt> sudo cp target/guacamole-0.6.0.war /var/lib/tomcat6/webapps/guacamole.war             </screen>
             </example>
             <para>The Guacamole web application also depends on a configuration
                 file, <filename>guacamole.properties</filename>, to tell it the
-                type of authentication to use, and how to connect to guacd. A
-                functional example guacamole.properties is contained in the
-                    <filename>doc/</filename> subdirectory; you can simply copy
-                this somewhere (like <filename>/etc/guacamole</filename>) and
-                then create a symbolic link to it somewhere in your servlet
-                container's classpath. Again, the precise location of the
-                classpath will vary by distribution and servlet
-                container.</para>
+                type of authentication to use and how to connect to guacd. A
+                functional example <filename>guacamole.properties</filename> is
+                contained in the <filename>doc/</filename> subdirectory; you can
+                simply copy this somewhere (like
+                    <filename>/etc/guacamole</filename>) and then create a
+                symbolic link to it somewhere in your servlet container's
+                classpath. Again, the precise location of the classpath will
+                vary by distribution and servlet container.</para>
             <example>
-                <title>Installing guacamole.properties</title>
+                <title>Installing
+                    <filename>guacamole.properties</filename></title>
                 <screen><prompt>$</prompt> sudo mkdir /etc/guacamole
-<prompt>$</prompt> sudo cp doc/guacamole.properties \
-    /etc/guacamole/guacamole.properties
-<prompt>$</prompt> sudo ln -s /etc/guacamole/guacamole.properties \
-    /usr/share/tomcat6/lib/            </screen>
+<prompt>$</prompt> sudo cp doc/guacamole.properties /etc/guacamole/guacamole.properties
+<prompt>$</prompt> sudo ln -s /etc/guacamole/guacamole.properties /usr/share/tomcat6/lib/            </screen>
             </example>
             <para>You will need to edit
                     <filename>guacamole.properties</filename> to be sure that
@@ -450,9 +439,8 @@ libguac-client-rdp-0.6.1-1.x86_64.rpm</computeroutput>
         <indexterm>
             <primary>unstable source</primary>
         </indexterm>
-        <para>If you wish to, at your own risk, build the absolute latest
-            unstable code, you can do so by downloading the latest Guacamole
-            code from git.</para>
+        <para>If you wish to build the absolute latest unstable code, you can do
+            so by downloading the latest Guacamole code from git.</para>
         <para>The Guacamole project maintains each of its components in separate
             git repositories, which each have master (stable) and unstable
             (development) branches. To build and install the latest source, you

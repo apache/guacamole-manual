@@ -16,7 +16,7 @@
     <!-- Margins (see
          https://www.createspace.com/Products/Book/InteriorPDF.jsp, as these
          dimensions are page-count-specific) -->
-    <xsl:param name="page.margin.inner">0.625in</xsl:param>
+    <xsl:param name="page.margin.inner">0.875in</xsl:param>
     <xsl:param name="page.margin.outer">0.50in</xsl:param>
     <xsl:param name="page.margin.top">0.75in</xsl:param>   
     <xsl:param name="page.margin.bottom">0.75in</xsl:param>

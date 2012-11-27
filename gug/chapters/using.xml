@@ -53,7 +53,7 @@
             <primary>Guacamole</primary>
             <secondary>choosing a connection</secondary>
         </indexterm>
-        <para>Once logged in, you may be presented with a list of connections.
+        <para>Once logged in, you will be presented with a list of connections.
             Selecting a connection from this list will open that connection in a
             new window or tab. The connection list interface will remain open
             and running in the previous window or tab, as it is the only access
@@ -185,9 +185,9 @@
                 <secondary>logging out</secondary>
             </indexterm>
             <para>When you are done and wish to logout of Guacamole completely,
-                find the original connection interface tab and clicking the
-                "logout". Beware that this will close all current connections
-                and end your Guacamole session. </para>
+                find the original connection interface tab and click the
+                "logout" button. Beware that this will close all current
+                connections and end your Guacamole session. </para>
             <para>Note that this is not the same as disconnecting from a single
                 connection. To disconnect, simply close the tab or window with
                 the remote desktop in it. Closing a tab or window automatically
@@ -360,7 +360,7 @@
                 the display of your device. Because of this, the remote display
                 will automatically fit itself to the available space by default.
                 If this is undesirable, you can manually disable this on a
-                per-browser basis in the setting section.</para>
+                per-browser basis in the settings section.</para>
             <para>To disable auto-fit, uncheck the "Auto-fit display to browser
                 window" checkbox in the settings section.</para>
         </section>

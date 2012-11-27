@@ -87,14 +87,14 @@
                 <secondary>protocol</secondary>
             </indexterm>
             <para>The web application does not understand any remote desktop
-                protocol at all; the web application does not contain support
-                for VNC nor for RDP. It actually only understands the Guacamole
-                protocol, which is a protocol for remote display rendering and
-                event transport. While a protocol with those properties would
-                naturally have the same abilities as a remote desktop protocol,
-                the design principles behind a remote desktop protocol and the
-                Guacamole protocol are different: the Guacamole protocol is not
-                intended to implement the features of a specific desktop
+                protocol at all and does not contain support for VNC nor for
+                RDP. It actually only understands the Guacamole protocol, which
+                is a protocol for remote display rendering and event transport.
+                While a protocol with those properties would naturally have the
+                same abilities as a remote desktop protocol, the design
+                principles behind a remote desktop protocol and the Guacamole
+                protocol are different: the Guacamole protocol is not intended
+                to implement the features of a specific desktop
                 environment.</para>
             <para>As a remote display and interaction protocol, Guacamole
                 effectively implements a superset of existing remote desktop

@@ -123,7 +123,7 @@
 &lt;/project></programlisting>
         </example>
         <para>We won't need to update this <filename>pom.xml</filename>
-            throughout the rest of the tutorial; even after adding new files,
+            throughout the rest of the tutorial. Even after adding new files,
             Maven will just find them and compile as necessary.</para>
         <para>Naturally, we need the actual authentication plugin skeleton code.
             While you can put this in whatever file and package you want, for
@@ -181,20 +181,20 @@ public class TutorialAuthenticationProvider implements AuthenticationProvider {
             authentication information for the sake of this tutorial).</para>
         <para>We will define four properties:<variablelist>
                 <varlistentry>
-                    <term>tutorial-user</term>
+                    <term><property>tutorial-user</property></term>
                     <listitem>
                         <para>The name of the only user we accept.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term>tutorial-password</term>
+                    <term><property>tutorial-password</property></term>
                     <listitem>
                         <para>The password we require for the user specified to
                             be authenticated.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term>tutorial-protocol</term>
+                    <term><property>tutorial-protocol</property></term>
                     <listitem>
                         <para>The protocol of the configuration this user is
                             authorized to use, which will be sent to guacd when
@@ -203,7 +203,7 @@ public class TutorialAuthenticationProvider implements AuthenticationProvider {
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term>tutorial-parameters</term>
+                    <term><property>tutorial-parameters</property></term>
                     <listitem>
                         <para>A comma-delimited list of
                                     <code><replaceable>name</replaceable>=<replaceable>value</replaceable></code>
@@ -302,7 +302,7 @@ tutorial-password: <replaceable>password</replaceable>
 
 # Connection information
 tutorial-protocol:   <replaceable>vnc</replaceable>
-totorial-parameters: <replaceable>hostname=localhost, port=5900</replaceable></programlisting>
+tutorial-parameters: <replaceable>hostname=localhost, port=5900</replaceable></programlisting>
         </example>
         <para>Once these properties and their accessor class are in place, it's
             simple enough to read the properties within
@@ -310,45 +310,31 @@ totorial-parameters: <replaceable>hostname=localhost, port=5900</replaceable></p
             authenticate the user based on their username and password.</para>
         <example>
             <title>Checking the credentials against the properties</title>
-            <programlisting>package net.sourceforge.guacamole.auth;
+            <programlisting>@Override
+public Map&lt;String, GuacamoleConfiguration>
+    getAuthorizedConfigurations(Credentials credentials)
+    throws GuacamoleException {
 
-import java.util.Map;
-import java.util.HashMap;
-import net.sourceforge.guacamole.GuacamoleException;
-import net.sourceforge.guacamole.net.auth.AuthenticationProvider;
-import net.sourceforge.guacamole.net.auth.Credentials;
-import net.sourceforge.guacamole.properties.GuacamoleProperties;
-import net.sourceforge.guacamole.protocol.GuacamoleConfiguration;
+    // Get username
+    String username = GuacamoleProperties.getRequiredProperty(
+        TutorialProperties.TUTORIAL_USER
+    );      
 
-public class TutorialAuthenticationProvider implements AuthenticationProvider {
-       
-    @Override
-    public Map&lt;String, GuacamoleConfiguration>
-        getAuthorizedConfigurations(Credentials credentials)
-        throws GuacamoleException {
+    // If wrong username, fail
+    if (!username.equals(credentials.getUsername()))
+        return null;
 
-        // Get username
-        String username = GuacamoleProperties.getRequiredProperty(
-            TutorialProperties.TUTORIAL_USER
-        );      
+    // Get password
+    String password = GuacamoleProperties.getRequiredProperty(
+        TutorialProperties.TUTORIAL_PASSWORD
+    );      
 
-        // If wrong username, fail
-        if (!username.equals(credentials.getUsername()))
-            return null;
+    // If wrong password, fail
+    if (!password.equals(credentials.getPassword()))
+        return null;
 
-        // Get password
-        String password = GuacamoleProperties.getRequiredProperty(
-            TutorialProperties.TUTORIAL_PASSWORD
-        );      
-
-        // If wrong password, fail
-        if (!password.equals(credentials.getPassword()))
-            return null;
-
-        // Successful login. Return configurations (STUB)
-        return new HashMap&lt;String, GuacamoleConfiguration>();
-
-    }
+    // Successful login. Return configurations (STUB)
+    return new HashMap&lt;String, GuacamoleConfiguration>();
 
 }</programlisting>
         </example>
@@ -369,76 +355,62 @@ public class TutorialAuthenticationProvider implements AuthenticationProvider {
         <example>
             <title>Parsing and returning a
                     <classname>GuacamoleConfiguration</classname></title>
-            <programlisting>package net.sourceforge.guacamole.auth;
+            <programlisting>@Override
+public Map&lt;String, GuacamoleConfiguration>
+    getAuthorizedConfigurations(Credentials credentials)
+    throws GuacamoleException {
 
-import java.util.Map;
-import java.util.HashMap;
-import net.sourceforge.guacamole.GuacamoleException;
-import net.sourceforge.guacamole.net.auth.AuthenticationProvider;
-import net.sourceforge.guacamole.net.auth.Credentials;
-import net.sourceforge.guacamole.properties.GuacamoleProperties;
-import net.sourceforge.guacamole.protocol.GuacamoleConfiguration;
+    // Get username
+    String username = GuacamoleProperties.getRequiredProperty(
+        TutorialProperties.TUTORIAL_USER
+    );      
 
-public class TutorialAuthenticationProvider implements AuthenticationProvider {
-       
-    @Override
-    public Map&lt;String, GuacamoleConfiguration>
-        getAuthorizedConfigurations(Credentials credentials)
-        throws GuacamoleException {
+    // If wrong username, fail
+    if (!username.equals(credentials.getUsername()))
+        return null;
 
-        // Get username
-        String username = GuacamoleProperties.getRequiredProperty(
-            TutorialProperties.TUTORIAL_USER
-        );      
+    // Get password
+    String password = GuacamoleProperties.getRequiredProperty(
+        TutorialProperties.TUTORIAL_PASSWORD
+    );      
 
-        // If wrong username, fail
-        if (!username.equals(credentials.getUsername()))
-            return null;
+    // If wrong password, fail
+    if (!password.equals(credentials.getPassword()))
+        return null;
 
-        // Get password
-        String password = GuacamoleProperties.getRequiredProperty(
-            TutorialProperties.TUTORIAL_PASSWORD
-        );      
+    // Successful login. Return configurations.
+    Map&lt;String, GuacamoleConfiguration> configs = 
+        new HashMap&lt;String, GuacamoleConfiguration>();
 
-        // If wrong password, fail
-        if (!password.equals(credentials.getPassword()))
-            return null;
+    // Create new configuration
+    GuacamoleConfiguration config = new GuacamoleConfiguration();
 
-        // Successful login. Return configurations.
-        Map&lt;String, GuacamoleConfiguration> configs = 
-            new HashMap&lt;String, GuacamoleConfiguration>();
+    // Set protocol specified in properties
+    config.setProtocol(GuacamoleProperties.getRequiredProperty(
+        TutorialProperties.TUTORIAL_PROTOCOL
+    ));
 
-        // Create new configuration
-        GuacamoleConfiguration config = new GuacamoleConfiguration();
+    // Set all parameters, splitting at commas
+    for (String parameterValue : GuacamoleProperties.getRequiredProperty(
+        TutorialProperties.TUTORIAL_PARAMETERS
+    ).split(",\\s*")) {
 
-        // Set protocol specified in properties
-        config.setProtocol(GuacamoleProperties.getRequiredProperty(
-            TutorialProperties.TUTORIAL_PROTOCOL
-        ));
+        // Find the equals sign
+        int equals = parameterValue.indexOf('=');
+        if (equals == -1)
+            throw new GuacamoleException("Required equals sign missing");
 
-        // Set all parameters, splitting at commas
-        for (String parameterValue : GuacamoleProperties.getRequiredProperty(
-            TutorialProperties.TUTORIAL_PARAMETERS
-        ).split(",\\s*")) {
+        // Get name and value from parameter string
+        String name = parameterValue.substring(0, equals);
+        String value = parameterValue.substring(equals+1);
 
-            // Find the equals sign
-            int equals = parameterValue.indexOf('=');
-            if (equals == -1)
-                throw new GuacamoleException("Required equals sign missing");
-
-            // Get name and value from parameter string
-            String name = parameterValue.substring(0, equals);
-            String value = parameterValue.substring(equals+1);
-
-            // Set parameter as specified
-            config.setParameter(name, value);
-
-        }
-
-        configs.put("DEFAULT", config);
-        return configs;
+        // Set parameter as specified
+        config.setParameter(name, value);
 
     }
+
+    configs.put("DEFAULT", config);
+    return configs;
 
 }</programlisting>
         </example>

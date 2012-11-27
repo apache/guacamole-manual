@@ -110,9 +110,10 @@
             each configuration has a protocol and protocol-specific set of
             parameters. The example <filename>user-mapping.xml</filename> file
             included with Guacamole is a fairly good example of this concept. </para>
-        <para>Authentication is configured by editing guacamole.properties and
-            setting the authentication provider property:
-                <property>auth-provider</property>. </para>
+        <para>Authentication is configured by editing
+                <filename>guacamole.properties</filename> and setting the
+            authentication provider property:
+            <property>auth-provider</property>. </para>
         <para>Guacamole comes with an authentication provider,
                 <classname>BasicFileAuthenticationProvider</classname>, which
             simply reads usernames and passwords from an XML file. </para>
@@ -140,7 +141,26 @@
             other sources, but those are not documented here. To learn how to
             configure an authentication provider not included in the main
             Guacamole bundle, consult the documentation provided with that
-            authentication provider. </para>
+            authentication provider.</para>
+        <para>When using <classname>BasicFileAuthenticationProvider</classname>,
+            username/password pairs are specified with
+                <code>&lt;authorize></code> tags, which each have a
+                <code>username</code> and <code>password</code> attribute. Each
+                <code>&lt;authorize></code> tag authorizes a specific
+            username/password pair to access all connections within the
+            tag.</para>
+        <para>To specify a connection within an <code>&lt;authorize></code> tag,
+            you can either list a single protocol and set of parameters
+            (specified with a <code>&lt;protocol></code> tag and any number of
+                <code>&lt;param></code> tags), in which case that user will have
+            access to only one connection named "DEFAULT", or you can specify
+            one or more connections with one or more
+                <code>&lt;connection></code> tags, each of which can be named
+            and contains a <code>&lt;protocol></code> tag and any number of
+                <code>&lt;param></code> tags.</para>
+        <para>Both of these possibilities are shown in the example
+                <code>user-mapping.xml</code> below. A similar example is
+            included with Guacamole.</para>
         <example>
             <title>A simple <filename>user-mapping.xml</filename></title>
             <xi:include href="conf/user-mapping.xml.xml"/>
