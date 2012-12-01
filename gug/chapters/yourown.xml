@@ -17,7 +17,7 @@
         it is to integrate remote access into a web application. This tutorial
         will walk you through the basic steps of building an HTML5 remote
         desktop application using the Guacamole API and Maven.</para>
-    <section>
+    <section xml:id="basic-guacamole-architecture">
         <title>The basics</title>
         <para>Guacamole's architecture is made up of many components, but it's
             actually straightforward, especially from the perspective of the web
@@ -84,7 +84,7 @@
             guacd, and you have the JavaScript client itself, with the hard part
             already provided within guacamole-common-js.</para>
     </section>
-    <section>
+    <section xml:id="guacamole-skeleton">
         <title>Guacamole project skeleton</title>
         <para>This tutorial will use Maven, which is the same build system used
             by the upstream Guacamole project. As the Guacamole project has a
@@ -188,7 +188,7 @@
 &lt;/project></programlisting>
         </example>
     </section>
-    <section>
+    <section xml:id="simple-tunnel">
         <title>The simplest tunnel possible</title>
         <para>As with the other tutorials in this book, we will keep this simple
             for the sake of demonstrating the principles behind a
@@ -265,7 +265,7 @@ public class TutorialGuacamoleTunnelServlet
 }</programlisting>
         </example>
     </section>
-    <section>
+    <section xml:id="simple-client">
         <title>The simplest client possible</title>
         <para>As the Guacamole JavaScript API already provides functional client
             and tunnel implementations, as well as mouse and keyboard input
@@ -366,7 +366,7 @@ public class TutorialGuacamoleTunnelServlet
 &lt;/html></programlisting>
         </example>
     </section>
-    <section>
+    <section xml:id="next-steps">
         <title>Where to go from here</title>
         <para>At this point, we now have a fully functional Guacamole-based web
             application. This web application inherits all the functionality

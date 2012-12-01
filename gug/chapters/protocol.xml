@@ -13,7 +13,7 @@
         instructions. The intent is only to list the general types and usage. If
         you are looking for the syntax or purpose of a specific instruction,
         consult the protocol reference included with the appendices.</para>
-    <section>
+    <section xml:id="guacamole-protocol-design">
         <title>Design</title>
         <para>The Guacamole protocol consists of instructions. Each instruction
             is a comma-delimited list followed by a terminating semicolon, where
@@ -51,7 +51,7 @@
             parser can quickly skip around from instruction to instruction
             without having to iterate over every character.</para>
     </section>
-    <section>
+    <section xml:id="guacamole-protocol-handshake">
         <title>Handshake phase</title>
         <para>The handshake phase is the phase of the protocol entered
             immediately upon connection. It begins with a "select" instruction
@@ -83,7 +83,7 @@
             interactive phase begins, and drawing and event instructions pass
             back and forth until the connection is closed.</para>
     </section>
-    <section>
+    <section xml:id="guacamole-protocol-nesting">
         <title>Nesting and interleaving</title>
         <para>The Guacamole protocol can be nested within itself, such that long
             instructions or independent streams of multiple instructions need
@@ -108,9 +108,9 @@
             disturb the responsiveness of the connection, and the delay before
             other instructions can be sent becomes negligible.</para>
     </section>
-    <section>
+    <section xml:id="guacamole-protocol-drawing">
         <title>Drawing</title>
-        <section>
+        <section xml:id="guacamole-protocol-compositing">
             <title>Compositing</title>
             <para>The Guacamole protocol provides compositing operations through
                 the use of "channel masks". The term "channel mask" is simply a
@@ -271,7 +271,7 @@
                 </varlistentry>
             </variablelist>
         </section>
-        <section>
+        <section xml:id="guacamole-protocol-images">
             <title>Image data</title>
             <para>The Guacamole protocol, like many remote desktop protocols,
                 provides a method of sending an arbitrary rectangle of image
@@ -293,7 +293,7 @@
                 means that the image becomes immediately visible, while sending
                 the data to a buffer allows that data to be reused later.</para>
         </section>
-        <section>
+        <section xml:id="guacamole-protocol-copying-images">
             <title>Copying image data between layers</title>
             <para>Image data can be copied from one layer or buffer into another
                 layer or buffer. This is often used for scrolling (where most of
@@ -310,7 +310,7 @@
                 layer is the same as the source layer, a different visible
                 layer, or an off-screen buffer.</para>
         </section>
-        <section>
+        <section xml:id="guacamole-graphical-primitives">
             <title>Graphical primitives</title>
             <para>The Guacamole protocol provides basic graphics operations
                 similar to those of Cairo or the HTML5 canvas. In many cases,
@@ -322,7 +322,7 @@
                 on a lower-performance machine like a mobile phone or
                 tablet.</para>
         </section>
-        <section>
+        <section xml:id="guacamole-protocol-layers">
             <title>Buffers and layers</title>
             <para>All drawing operations in the Guacamole protocol affect a
                 layer, and each layer has an integer index which identifies it.
@@ -349,7 +349,7 @@
                 clipped.</para>
         </section>
     </section>
-    <section>
+    <section xml:id="guacamole-audio-video">
         <title>Audio and video</title>
         <para>As of the 0.7.0 release, Guacamole supports transfer of both audio
             and video data. By the nature of the Guacamole protocol, you must
@@ -359,13 +359,13 @@
             responsiveness and stability. Sending large audio or video chunks is
             one of the main uses of protocol nesting.</para>
     </section>
-    <section>
+    <section xml:id="guacamole-protocol-events">
         <title>Events</title>
         <para>When something changes on either side, client or server, such as a
             key being pressed, the mouse moving, or clipboard data changing, an
             instruction describing the event is sent.</para>
     </section>
-    <section>
+    <section xml:id="guacamole-protocol-disconnecting">
         <title>Disconnecting</title>
         <para>The server and client can end the connection at any time. There is
             no requirement for the server or the client to communicate that the

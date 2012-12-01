@@ -7,7 +7,7 @@
         <primary>Guacamole</primary>
         <secondary>history</secondary>
     </indexterm>
-    <section>
+    <section xml:id="guacamole-web-application">
         <title>Guacamole is a web application</title>
         <indexterm>
             <primary>Guacamole</primary>
@@ -38,7 +38,7 @@
             proof-of-concept, Guacamole is now performant enough for daily use,
             and all Guacamole development is done over Guacamole.</para>
     </section>
-    <section>
+    <section xml:id="guacamole-api">
         <title>Guacamole is an API</title>
         <para>Guacamole is more than just a web application. The Guacamole
             project develops an API which is used to develop the web application
@@ -59,7 +59,7 @@
             Guacamole by incorporating the API into their application or
             service.</para>
     </section>
-    <section>
+    <section xml:id="guacamole-architecture">
         <title>Implementation and architecture</title>
         <indexterm>
             <primary>Guacamole</primary>
@@ -80,7 +80,7 @@
                     </imageobject>
                 </mediaobject>
             </informalfigure></para>
-        <section>
+        <section xml:id="guacamole-protocol-architecture">
             <title>The Guacamole protocol </title>
             <indexterm>
                 <primary>Guacamole</primary>
@@ -108,7 +108,7 @@
             <para>The middle layer that handles this translation is
                 guacd.</para>
         </section>
-        <section>
+        <section xml:id="guacd">
             <title>guacd</title>
             <indexterm>
                 <primary>guacd</primary>
@@ -138,7 +138,7 @@
                 libguac, which makes communication via the Guacamole protocol
                 easier and a bit more abstract.</para>
         </section>
-        <section>
+        <section xml:id="web-application">
             <title>The web application</title>
             <indexterm>
                 <primary>web application</primary>

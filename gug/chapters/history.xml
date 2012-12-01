@@ -11,7 +11,7 @@
         <secondary>history</secondary>
     </indexterm>
 
-    <section>
+    <section xml:id="realmint">
         <title>RealMint</title>
         <para>Guacamole is now a generalized remote desktop gateway, but this
             was not always the case. Guacamole began as a purely text-based
@@ -32,7 +32,7 @@
             which well-established and stable, the project was dropped.</para>
     </section>
 
-    <section>
+    <section xml:id="javascript-vnc-client">
         <title>VNC Client</title>
         <para>Once the developers learned of the HTML5 canvas tag, and saw that
             it was already implemented in Firefox and Chrome, work started
@@ -53,7 +53,7 @@
             HTTP-based tunnel was developed.</para>
     </section>
 
-    <section>
+    <section xml:id="remote-desktop-gateway">
         <title>Remote Desktop Gateway</title>
         <para>A faster text-based protocol was developed which could present the
             features of multiple remote desktop protocols, not just VNC. The

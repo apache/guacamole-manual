@@ -166,7 +166,7 @@
             <xi:include href="conf/user-mapping.xml.xml"/>
         </example>
     </section>
-    <section>
+    <section xml:id="client-plugins">
         <title>Protocols</title>
         <para>Support for individual protocols is provided by libraries called
             "client plugins" which are all named according to the
@@ -181,7 +181,7 @@
                 <filename>user-mapping.xml</filename> above for examples of how
             these tags should be written.</para>
     </section>
-    <section>
+    <section xml:id="vnc-support">
         <title>VNC</title>
         <para>The VNC protocol is the simplest and first protocol supported by
             Guacamole. Although generally not as fast as RDP, many VNC servers
@@ -189,7 +189,7 @@
             itself due to decreased bandwidth usage.</para>
         <para>VNC support for Guacamole is provided by the libguac-client-vnc
             library, installed by default.</para>
-        <section>
+        <section xml:id="vnc-parameters">
             <title>Configuration parameters</title>
             <variablelist>
                 <varlistentry>
@@ -257,7 +257,7 @@
             </variablelist>
         </section>
     </section>
-    <section>
+    <section xml:id="rdp-support">
         <title>RDP</title>
         <para>The RDP protocol is more complicated than VNC and was the second
             protocol officially supported by Guacamole. RDP tends to be faster
@@ -270,7 +270,7 @@
             libguac-client-rdp package for you. You will need to build and
             install a recent version of FreeRDP, and then build and install
             libguac-client-rdp from source.</para>
-        <section>
+        <section xml:id="rdp-parameters">
             <title>Configuration parameters</title>
             <variablelist>
                 <varlistentry>

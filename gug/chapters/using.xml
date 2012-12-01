@@ -211,7 +211,7 @@
         <para>Guacamole can be used on devices that have touchscreens, even when
             those touchscreens are the sole means of input, such as most tablets
             and mobile phones.</para>
-        <section>
+        <section xml:id="using-mouse">
             <title>Moving the mouse</title>
             <para>As a finger makes for a very inaccurate pointing device,
                 especially for mouse-driven applications designed for precise
@@ -229,7 +229,7 @@
             <para>The mouse scroll wheel can be operated by dragging two fingers
                 up or down.</para>
         </section>
-        <section>
+        <section xml:id="zooming">
             <title>Zooming in</title>
             <para>Many touch-enabled devices have small screens, which makes the
                 larger screens of a typical remote desktop hard to see and
@@ -249,7 +249,7 @@
             <para>Tapping outside this magnifier closes the magnifier, while
                 tapping inside engages a typing mode.</para>
         </section>
-        <section>
+        <section xml:id="typing">
             <title>Typing</title>
             <para>In most cases, if your device has a hardware keyboard or you
                 use a bluetooth keyboard, you will not need to do anything
@@ -260,7 +260,7 @@
                 bring up the magnifier. Tap on the magnifier to bring up your
                 device's on-screen keyboard.</para>
         </section>
-        <section>
+        <section xml:id="panning">
             <title>Panning</title>
             <para>Because Guacamole uses all touch events to drive mouse input,
                 the normal gestures for scrolling the screen will not work.
@@ -307,7 +307,7 @@
                 </orderedlist></para>
         </section>
     </section>
-    <section>
+    <section xml:id="changing-settings">
         <title>Changing settings</title>
         <indexterm>
             <primary>Guacamole</primary>
@@ -331,7 +331,7 @@
                     interface. </para>
             </caption>
         </mediaobject>
-        <section>
+        <section xml:id="disabling-sound">
             <title>Disabling sound</title>
             <indexterm>
                 <primary>audio</primary>
@@ -349,7 +349,7 @@
             <para>To disable sound, check the "Disable sound" checkbox in the
                 settings section.</para>
         </section>
-        <section>
+        <section xml:id="disabling-auto-fit">
             <title>Disabling auto-fit of the display</title>
             <indexterm>
                 <primary>auto-fit</primary>

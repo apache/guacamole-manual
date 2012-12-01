@@ -13,7 +13,7 @@
     <indexterm>
         <primary>instructions</primary>
     </indexterm>
-    <section>
+    <section xml:id="drawing-instructions">
         <title>Drawing instructions</title>
         <indexterm>
             <primary>drawing instructions</primary>
@@ -53,14 +53,14 @@
         <xi:include href="instructions/server/drawing/transfer.xml"/>
         <xi:include href="instructions/server/drawing/transform.xml"/>
     </section>
-    <section>
+    <section xml:id="streaming-instructions">
         <title>Streaming instructions</title>
         <xi:include href="instructions/server/stream/audio.xml"/>
         <xi:include href="instructions/server/stream/file.xml"/>
         <xi:include href="instructions/server/stream/nest.xml"/>
         <xi:include href="instructions/server/stream/video.xml"/>
     </section>
-    <section>
+    <section xml:id="client-handshake-instructions">
         <title>Client handshake instructions</title>
         <xi:include href="instructions/client/handshake/audio.xml"/>
         <xi:include href="instructions/client/handshake/connect.xml"/>
@@ -68,11 +68,11 @@
         <xi:include href="instructions/client/handshake/size.xml"/>
         <xi:include href="instructions/client/handshake/video.xml"/>
     </section>
-    <section>
+    <section xml:id="server-handshake-instructions">
         <title>Server handshake instructions</title>
         <xi:include href="instructions/server/handshake/args.xml"/>
     </section>
-    <section>
+    <section xml:id="client-control-instructions">
         <title>Client control instructions</title>
         <indexterm>
             <primary>control instructions</primary>
@@ -88,7 +88,7 @@
         <xi:include href="instructions/client/control/disconnect.xml"/>
         <xi:include href="instructions/client/control/sync.xml"/>
     </section>
-    <section>
+    <section xml:id="server-control-instructions">
         <title>Server control instructions</title>
         <indexterm>
             <primary>server instructions</primary>
@@ -97,7 +97,7 @@
         <xi:include href="instructions/server/control/error.xml"/>
         <xi:include href="instructions/server/control/sync.xml"/>
     </section>
-    <section>
+    <section xml:id="client-events">
         <title>Client events</title>
         <indexterm>
             <primary>events</primary>
@@ -114,7 +114,7 @@
         <xi:include href="instructions/client/event/key.xml"/>
         <xi:include href="instructions/client/event/mouse.xml"/>
     </section>
-    <section>
+    <section xml:id="server-events">
         <title>Server events</title>
         <indexterm>
             <primary>server instructions</primary>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter xml:id="history-of-guacamole" xmlns="http://docbook.org/ns/docbook"
+<chapter xml:id="troubleshooting" xmlns="http://docbook.org/ns/docbook"
     version="5.0" xml:lang="en" xmlns:xl="http://www.w3.org/1999/xlink"
     xmlns:xi="http://www.w3.org/2001/XInclude">
     <title>Troubleshooting</title>
@@ -9,7 +9,7 @@
     <indexterm>
         <primary>errors</primary>
     </indexterm>
-    <section>
+    <section xml:id="not-working">
         <title>It isn't working</title>
         <para>If Guacamole isn't working, chances are something isn't configured
             properly, or something is wrong with the network. Thankfully,
@@ -25,7 +25,7 @@
             bug, and the best place to handle such things is through consulting
             this guide or the forums.</para>
     </section>
-    <section>
+    <section xml:id="syslog">
         <title>syslog</title>
         <indexterm>
             <primary>syslog</primary>
@@ -49,7 +49,7 @@ guacd[19666]: Listening on host 127.0.0.1, port 4823</screen>
             the program that produced the entry, followed by the process ID,
             followed by the message. The entries above show guacamole starting
             successfully and listening on a non-default port 4823.</para>
-        <section>
+        <section xml:id="guacd-errors">
             <title>guacd errors</title>
             <indexterm>
                 <primary>errors</primary>
@@ -338,7 +338,7 @@ guacd[19666]: Listening on host 127.0.0.1, port 4823</screen>
                     connection in use at the time.</para>
             </section>
         </section>
-        <section>
+        <section xml:id="libguac-client-vnc-errors">
             <title>libguac-client-vnc errors</title>
             <section>
                 <title>Error waiting for VNC message</title>
@@ -368,7 +368,7 @@ guacd[19666]: Listening on host 127.0.0.1, port 4823</screen>
                     connecting to guacd, most likely the web application.</para>
             </section>
         </section>
-        <section>
+        <section xml:id="libguac-client-rdp-errors">
             <title>libguac-client-rdp errors</title>
             <section>
                 <title>Invalid <replaceable>parameter</replaceable></title>
@@ -413,14 +413,14 @@ guacd[19666]: Listening on host 127.0.0.1, port 4823</screen>
             </section>
         </section>
     </section>
-    <section>
+    <section xml:id="servlet-container-logs">
         <title>Servlet container logs</title>
         <para>Your servlet container will have logs which the web application
             side of Guacamole will log errors to. In the case of Tomcat, this is
             usually <filename>catalina.out</filename> or
                     <filename><replaceable>HOSTNAME</replaceable>.log</filename>
             (for example, <filename>localhost.log</filename>).</para>
-        <section>
+        <section xml:id="user-mapping-xml-errors">
             <title><filename>user-mapping.xml</filename> errors</title>
             <para>Errors in the relating to the
                     <filename>user-mapping.xml</filename> file usually indicate
@@ -470,7 +470,7 @@ guacd[19666]: Listening on host 127.0.0.1, port 4823</screen>
                     container.</para>
             </section>
         </section>
-        <section>
+        <section xml:id="guacamole-properties-errors">
             <title><filename>guacamole.properties</filename> errors</title>
             <para>If a property is malformed or a required property is missing,
                 an error describing the problem will be logged.</para>
@@ -525,7 +525,7 @@ guacd[19666]: Listening on host 127.0.0.1, port 4823</screen>
                     servlet container, and try again.</para>
             </section>
         </section>
-        <section>
+        <section xml:id="guacamole-auth-errors">
             <title>Authentication errors</title>
             <para>If someone attempts to login with invalid credentials, or
                 someone attempts to access a resource or connection that does
@@ -559,7 +559,7 @@ guacd[19666]: Listening on host 127.0.0.1, port 4823</screen>
                     are created through the login process.</para>
             </section>
         </section>
-        <section>
+        <section xml:id="guacamole-tunnel-errors">
             <title>Tunnel errors</title>
             <para>The tunnel frequently returns errors if guacd is killed, the
                 connection is closed, or the client abruptly closes the

@@ -26,7 +26,7 @@
         file.</para>
     <para>All other authentication plugins for Guacamole will use the principles
         demonstrated here.</para>
-    <section>
+    <section xml:id="auth-model">
         <title>Guacamole's authentication model</title>
         <para>When you view any page in Guacamole, whether that be the login
             screen or the client interface, the page makes an authentication
@@ -43,7 +43,7 @@
             corresponding map of all configurations associated with those
             credentials, if any.</para>
     </section>
-    <section>
+    <section xml:id="client-plugin-skeleton">
         <title>A Guacamole plugin skeleton</title>
         <para>For simplicity's sake, and because this is how things are done
             upstream in the Guacamole project, we will use Maven to build our
@@ -173,7 +173,7 @@ public class TutorialAuthenticationProvider implements AuthenticationProvider {
             configurations, while the latter indicates the credentials are not
             authorized at all.</para>
     </section>
-    <section>
+    <section xml:id="user-auth-example">
         <title>Actually authenticating the user</title>
         <para>Once we receive credentials, we need to validate those credentials
             against the associated properties in
@@ -347,7 +347,7 @@ public Map&lt;String, GuacamoleConfiguration>
             has been authenticated, and return that configuration to the web
             application.</para>
     </section>
-    <section>
+    <section xml:id="parse-conf-example">
         <title>Parsing the configuration</title>
         <para>The only remaining task before we have a fully-functioning
             authentication provider is to parse the configuration from the

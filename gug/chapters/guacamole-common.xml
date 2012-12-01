@@ -18,7 +18,7 @@
             <filename>guacamole.properties</filename> easier, but in general,
         the purpose of this library is to facilitate the creation of custom
         tunnels between the JavaScript client and guacd.</para>
-    <section>
+    <section xml:id="java-http-tunnel">
         <title>HTTP tunnel</title>
         <para>The Guacamole Java API implements the HTTP tunnel using a servlet
             called <classname>GuacamoleHTTPTunnelServlet</classname>. This
@@ -105,7 +105,7 @@
 
 }</programlisting>
     </section>
-    <section>
+    <section xml:id="java-protocol-usage">
         <title>Using the Guacamole protocol</title>
         <para>guacamole-common provides basic low-level support for the
             Guacamole protocol. This low-level support is leveraged by the HTTP
@@ -118,7 +118,7 @@
                 <classname>Writer</classname> classes, except that they deal
             with the Guacamole protocol specifically, and thus have slightly
             different contracts.</para>
-        <section>
+        <section xml:id="java-reading-protocol">
             <title><classname>GuacamoleReader</classname></title>
             <para><classname>GuacamoleReader</classname> provides a very basic
                     <methodname>read()</methodname> function which is required
@@ -148,7 +148,7 @@
                 any <classname>GuacamoleSocket</classname> or
                     <classname>GuacamoleTunnel</classname>.</para>
         </section>
-        <section>
+        <section xml:id="java-writing-protocol">
             <title><classname>GuacamoleWriter</classname></title>
             <para><classname>GuacamoleWriter</classname> provides a very basic
                     <methodname>write()</methodname> function and a more
@@ -180,7 +180,7 @@
                 sufficient.</para>
         </section>
     </section>
-    <section>
+    <section xml:id="reading-properties">
         <title>Reading properties</title>
         <para>The Guacamole Java API provides simple access to
                 <filename>guacamole.properties</filename> for convenience,

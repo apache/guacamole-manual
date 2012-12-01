@@ -11,7 +11,7 @@
             <email>mike.jumper@guac-dev.org</email>
         </author>
     </info>
-    <preface xmlns:xlink="http://www.w3.org/1999/xlink">
+    <preface xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="preface">
         <title>About this book</title>
         <para>This book is the official Guacamole manual, written by the
             upstream developers of the Guacamole project. It is also the
@@ -41,7 +41,7 @@
     </preface>
     <!-- ADMINISTRATION -->
 
-    <part>
+    <part xml:id="guacamole">
         <title>Guacamole</title>
         <xi:include href="chapters/what-is-guacamole.xml"/>
         <xi:include href="chapters/why-use-guacamole.xml"/>
@@ -54,7 +54,7 @@
 
     <!-- DEVELOPMENT -->
 
-    <part>
+    <part xml:id="extension-and-development">
         <title>Extension and development</title>
         <xi:include href="chapters/protocol.xml"/>
         <xi:include href="chapters/libguac.xml"/>
@@ -68,11 +68,11 @@
 
     <!-- APPENDICES -->
 
-    <part>
+    <part xml:id="appendices">
         <title>Appendices</title>
         <xi:include href="appendices/faq.xml"/>
         <xi:include href="references/protocol.xml"/>
-        <index></index>
+        <index xml:id="book-index"></index>
     </part>
 
 </book>

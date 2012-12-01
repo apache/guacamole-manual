@@ -9,7 +9,7 @@
         <primary>Guacamole</primary>
         <secondary>reasons for using</secondary>
     </indexterm>
-    <section>
+    <section xml:id="access-from-anywhere">
         <title>Access your computers from anywhere</title>
         <para>If you want to access one or more desktops from anywhere remotely,
             without having to install a client, particularly when installing a
@@ -29,7 +29,7 @@
             anywhere without violating the policy of your workplace, and without
             requiring the installation of special clients.</para>
     </section>
-    <section>
+    <section xml:id="access-from-anything">
         <title>Access your computers from any device</title>
         <para>As Guacamole requires only a reasonably-fast, standards-compliant
             browser, Guacamole will run on many devices, including mobile phones
@@ -47,7 +47,7 @@
         <para>Barring bugs, you should be able to use Guacamole on just about
             any modern device with a web browser.</para>
     </section>
-    <section>
+    <section xml:id="non-physical-computer">
         <title>Keep a computer in the "cloud"</title>
         <para>Ignoring the buzzword, it's often useful to have a computer that
             has no dedicated physical hardware, where its processing and storage
@@ -62,7 +62,7 @@
             want to ensure Guacamole is always performant enough for daily
             use.</para>
     </section>
-    <section>
+    <section xml:id="group-access">
         <title>Providing easy access to a group</title>
         <para>Guacamole allows you to centralize access to a large group of
             machines, and specify on a per-user basis which machines are
@@ -75,7 +75,7 @@
             provide that access while also ensuring that access is available
             from anywhere.</para>
     </section>
-    <section>
+    <section xml:id="adding-remote-access">
         <title>Adding HTML5 remote access to your existing
             infrastructure</title>
         <para>As Guacamole is an API, not just a web application, the core

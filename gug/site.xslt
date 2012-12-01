@@ -13,25 +13,32 @@
     <!-- Limit TOC to only top-level children -->
     <xsl:param name="toc.max.depth">2</xsl:param>
 
+    <xsl:param name="generate.toc">
+        appendix  toc,title
+        article/appendix  nop
+        article   toc,title
+        book      toc,title
+        chapter   toc,title
+        part      toc,title
+        preface   toc,title
+        qandadiv  toc
+        qandaset  toc
+        reference toc,title
+        sect1     toc
+        sect2     toc
+        sect3     toc
+        sect4     toc
+        sect5     toc
+        section   toc
+        set       toc,title
+    </xsl:param>
+
     <!-- Custom stylesheet -->
-    <xsl:param name="html.stylesheet" select="'../styles/guacamole.css'"/>
+    <xsl:param name="html.stylesheet" select="'../../guac.css'"/>
 
     <!-- Custom header -->
     <xsl:template name="user.header.navigation">
         <xsl:text disable-output-escaping="yes"><![CDATA[
-
-            <!-- HEADER -->
-
-            <div id="banner">
-                <div id="header">
-                    <div id="title">
-                        <h1>Guacamole</h1>
-                        <h2>HTML5 Clientless Remote Desktop</h2>
-                    </div>
-                    <div id="logo"><img src="../images/logo.png" alt="\_GUAC_/"/></div>
-                </div>
-            </div>
-
             <!-- CONTENT -->
 
             <div id="page"><div id="content">

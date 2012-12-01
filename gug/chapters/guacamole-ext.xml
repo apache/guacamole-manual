@@ -15,7 +15,7 @@
         application, exposed within a separate project such that extensions,
         specifically authentication providers, can be written to tweak Guacamole
         to fit well in existing deployments.</para>
-    <section>
+    <section xml:id="auth-providers">
         <title>Authentication providers</title>
         <para>The main use of guacamole-ext is to provide custom authentication
             for Guacamole through the implementation of authentication
@@ -57,7 +57,7 @@
             extended without having to implement a whole new web
             application.</para>
     </section>
-    <section>
+    <section xml:id="event-listeners">
         <title>Event listeners</title>
         <para>Although not used internally by the web application, the web
             application provides an event system which can be hooked into with
@@ -68,7 +68,7 @@
             is opened or closed, and when an authentication attempt succeeds or
             fails. In most cases, the class listening for these events can also
             cancel whatever action just occurred.</para>
-        <section>
+        <section xml:id="tunnel-connect-listener">
             <title><classname>TunnelConnectListener</classname></title>
             <para>When a tunnel is connected to by the JavaScript client,
                 Guacamole informs all installed instances of
@@ -80,7 +80,7 @@
                 returns <constant>false</constant>, the connect attempt will be
                 overridden and denied.</para>
         </section>
-        <section>
+        <section xml:id="tunnel-close-listener">
             <title><classname>TunnelCloseListener</classname></title>
             <para>When a tunnel is connected to by the JavaScript client,
                 Guacamole informs all installed instances of
@@ -93,7 +93,7 @@
                 will be overridden and denied, and the tunnel will remain
                 open.</para>
         </section>
-        <section>
+        <section xml:id="authentication-success-listener">
             <title><classname>AuthenticationSuccessListener</classname></title>
             <para>If a user successfully authenticates with the web application,
                 Guacamole informs all installed instances of
@@ -106,7 +106,7 @@
                 attempt, effectively denying access despite being otherwise
                 valid, by returning <constant>false</constant>.</para>
         </section>
-        <section>
+        <section xml:id="authentication-failure-listener">
             <title><classname>AuthenticationFailureListener</classname></title>
             <para>If a user fails to authenticate with the web application,
                 Guacamole informs all installed instances of
