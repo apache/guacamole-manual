@@ -95,7 +95,7 @@
                 Tomcat as your servlet container, but others will work as well.
                 You will need to consult the documentation of your chosen
                 servlet container for any details regarding installation of web
-                applications. </para>
+                applications.</para>
 
             <para><indexterm>
                     <primary>Guacamole</primary>
@@ -109,11 +109,14 @@
                 the <package>tomcat6</package> package, while the VNC library
                 required for VNC support is provided by
                     <package>libvncserver0</package>, and RDP support is
-                provided by <package>libfreerdp1</package>. </para>
+                provided by <package>libfreerdp1</package>. Support for Ogg
+                Vorbis encoding is provided by <package>libvorbisenc2</package>
+                which is used by libguac-client-rdp to provide sound to browsers
+                supporting Ogg Vorbis audio.</para>
 
             <example>
                 <title>Installing Guacamole dependencies on Debian or Ubuntu</title>
-                <screen><prompt>$</prompt> sudo  apt-get install tomcat6 libvncserver0 libfreerdp1</screen>
+                <screen><prompt>$</prompt> sudo apt-get install tomcat6 libvncserver0 libfreerdp1 libvorbisenc2</screen>
             </example>
 
             <para>
@@ -121,18 +124,18 @@
                     <primary>Guacamole</primary>
                     <secondary>dependencies</secondary>
                     <tertiary>Fedora</tertiary>
-                </indexterm>
-                The Apache Tomcat package for Fedora is also called
-                <package>tomcat6</package>. VNC support is provided by
-                <package>libvncserver</package>, and RDP support is provided by
-                <package>freerdp</package>.
-            </para>
+                </indexterm> The Apache Tomcat package for Fedora is also called
+                    <package>tomcat6</package>. VNC support is provided by
+                    <package>libvncserver</package>, and RDP support is provided
+                by <package>freerdp</package>. Just as with libguac-client-rdp
+                on Debian and Ubuntu, support for Ogg Vorbis encoding is needed,
+                and is provided by <package>libvorbis</package>.</para>
 
             <example>
                 <title>Installing Guacamole dependencies on Fedora</title>
                 <screen><prompt>$</prompt> su
 <prompt>Password:</prompt> <replaceable>password</replaceable>
-<prompt>#</prompt> yum install tomcat6 libvncserver freerdp</screen>
+<prompt>#</prompt> yum install tomcat6 libvncserver freerdp libvorbis</screen>
             </example>
 
         </section>

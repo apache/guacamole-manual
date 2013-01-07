@@ -193,14 +193,14 @@
             <title>Configuration parameters</title>
             <variablelist>
                 <varlistentry>
-                    <term>hostname</term>
+                    <term><parameter>hostname</parameter></term>
                     <listitem>
                         <para>The hostname or IP address of the VNC server
                             Guacamole should connect to.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term>port</term>
+                    <term><parameter>port</parameter></term>
                     <listitem>
                         <para>The port the VNC server is listening on, usually
                             5900 or 5900 + <replaceable>display
@@ -211,7 +211,7 @@
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term>password</term>
+                    <term><parameter>password</parameter></term>
                     <listitem>
                         <para>The password to use when attempting
                             authentication, if any. This parameter is
@@ -219,7 +219,7 @@
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term>read-only</term>
+                    <term><parameter>read-only</parameter></term>
                     <listitem>
                         <para>Whether this connection should be read-only. If
                             set to "true", no input will be accepted on the
@@ -229,7 +229,7 @@
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term>swap-red-blue</term>
+                    <term><parameter>swap-red-blue</parameter></term>
                     <listitem>
                         <para>If the colors of your display appear wrong (blues
                             appear orange or red, etc.), it may be that your VNC
@@ -241,7 +241,7 @@
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term>encodings</term>
+                    <term><parameter>encodings</parameter></term>
                     <listitem>
                         <para>A space-delimited list of VNC encodings to use.
                             The format of this parameter is dictated by
@@ -274,14 +274,14 @@
             <title>Configuration parameters</title>
             <variablelist>
                 <varlistentry>
-                    <term>hostname</term>
+                    <term><parameter>hostname</parameter></term>
                     <listitem>
                         <para>The hostname or IP address of the RDP server
                             Guacamole should connect to.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term>port</term>
+                    <term><parameter>port</parameter></term>
                     <listitem>
                         <para>The port the RDP server is listening on, usually
                             3389. This parameter is optional. If this is not
@@ -289,14 +289,14 @@
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term>username</term>
+                    <term><parameter>username</parameter></term>
                     <listitem>
                         <para>The username to use to authenticate, if any. This
                             parameter is optional.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term>password</term>
+                    <term><parameter>password</parameter></term>
                     <listitem>
                         <para>The password to use when attempting
                             authentication, if any. This parameter is
@@ -304,14 +304,14 @@
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term>domain</term>
+                    <term><parameter>domain</parameter></term>
                     <listitem>
                         <para>The domain to use when attempting authentication,
                             if any. This parameter is optional.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term>color-depth</term>
+                    <term><parameter>color-depth</parameter></term>
                     <listitem>
                         <para>The color depth to request, in bits-per-pixel.
                             This parameter is optional. If specified, this must
@@ -322,7 +322,7 @@
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term>width</term>
+                    <term><parameter>width</parameter></term>
                     <listitem>
                         <para>The width of the display to request, in pixels.
                             This parameter is optional. If this value is not
@@ -331,7 +331,7 @@
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term>height</term>
+                    <term><parameter>height</parameter></term>
                     <listitem>
                         <para>The height of the display to request, in pixels.
                             This parameter is optional. If this value is not
@@ -340,7 +340,7 @@
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term>disable-audio</term>
+                    <term><parameter>disable-audio</parameter></term>
                     <listitem>
                         <para>As of Guacamole version 0.7.0, audio is officially
                             support and enabled by default in both the client
@@ -348,6 +348,23 @@
                             about bandwidth usage, or sound is causing problems,
                             you can explicitly disable sound by setting this
                             parameter to "true".</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>console</parameter></term>
+                    <listitem>
+                        <para>If set to "true", you will be connected to the
+                            console (admin) session of the RDP server.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>console-audio</parameter></term>
+                    <listitem>
+                        <para>If set to "true", audio will be explicitly enabled
+                            in the console (admin) session of the RDP server.
+                            Setting this option to "true" only makes sense if
+                            the <parameter>console</parameter> parameter is also
+                            set to "true".</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
