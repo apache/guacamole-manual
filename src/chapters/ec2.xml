@@ -6,5 +6,17 @@
 
     <title>Running desktops in EC2</title>
     <para/>
+    <section>
+        <title>Creating a Guacamole server</title>
+        <para/>
+    </section>
+    <section>
+        <title>Adding a Linux desktop</title>
+        <para/>
+    </section>
+    <section>
+        <title>Adding a Windows desktop</title>
+        <para/>
+    </section>
 
 </chapter>

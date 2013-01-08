@@ -52,6 +52,7 @@
     </part>
     <part>
         <title xml:id="use-cases">Common use cases</title>
+        <xi:include href="chapters/home-desktop.xml"/>
         <xi:include href="chapters/ec2.xml"/>
         <xi:include href="chapters/mod-proxy.xml"/>
     </part>
