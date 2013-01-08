@@ -84,19 +84,19 @@
             guacd, and you have the JavaScript client itself, with the hard part
             already provided within guacamole-common-js.</para>
     </section>
-    <section xml:id="guacamole-skeleton">
-        <title>Guacamole project skeleton</title>
+    <section>
+        <title>Web application skeleton</title>
+        <para>As with most tutorials, this tutorial begins with creating a
+            project skeleton that establishes a minimal base for the tutorial to
+            enhance in subsequent steps.</para>
         <para>This tutorial will use Maven, which is the same build system used
             by the upstream Guacamole project. As the Guacamole project has a
             Maven repository for both the Java and JavaScript APIs, writing a
             Guacamole-based application using Maven is much easier; Maven will
-            download and use the Guacamole API automatically. You need a
-                <filename>pom.xml</filename> which specifies the upstream
-            repository and explicitly declares guacamole-common and
-            guacamole-common-js as dependencies.</para>
-        <example>
-            <title>Barebones Guacamole-based project
-                    <filename>pom.xml</filename></title>
+            download and use the Guacamole API automatically.</para>
+        <section>
+            <title><filename>pom.xml</filename></title>
+            <para/>
             <programlisting>&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
@@ -113,6 +113,56 @@
     &lt;properties>
         &lt;project.build.sourceEncoding>UTF-8&lt;/project.build.sourceEncoding>
     &lt;/properties>
+
+&lt;/project></programlisting>
+        </section>
+        <section>
+            <title><filename>web.xml</filename></title>
+            <para/>
+            <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?>
+
+&lt;web-app version="2.5"
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+    &lt;!-- Basic config -->
+    &lt;welcome-file-list>
+        &lt;welcome-file>index.html&lt;/welcome-file>
+    &lt;/welcome-file-list>
+
+&lt;/web-app></programlisting>
+        </section>
+        <section>
+            <title><filename>index.html</filename></title>
+            <para/>
+            <programlisting>&lt;!DOCTYPE HTML>
+
+&lt;html>
+
+    &lt;head>
+        &lt;title>Guacamole Tutorial&lt;/title>
+    &lt;/head>
+
+    &lt;body>
+
+        &lt;p>Hello World&lt;/p>
+
+    &lt;/body>
+
+&lt;/html></programlisting>
+        </section>
+    </section>
+    <section xml:id="guacamole-skeleton">
+        <title>Guacamole project skeleton</title>
+        <para/>
+    </section>
+    <section>
+        <title>Project descriptor (<filename>pom.xml</filename>)</title>
+        <para>You need a <filename>pom.xml</filename> which specifies the
+            upstream repository and explicitly declares guacamole-common and
+            guacamole-common-js as dependencies.</para>
+        <programlisting>    ...
 
     &lt;build>
         &lt;plugins>
@@ -146,6 +196,10 @@
 
     &lt;/build>
 
+    ...</programlisting>
+        <para/>
+        <programlisting>    ...
+
     &lt;dependencies>
 
         &lt;!-- Servlet API -->
@@ -175,6 +229,10 @@
 
     &lt;/dependencies>
 
+    ...</programlisting>
+        <para/>
+        <programlisting>    ...
+
     &lt;repositories>
 
         &lt;!-- Main Guacamole repository -->
@@ -185,8 +243,8 @@
 
     &lt;/repositories>
 
-&lt;/project></programlisting>
-        </example>
+    ...</programlisting>
+        <para/>
     </section>
     <section xml:id="simple-tunnel">
         <title>The simplest tunnel possible</title>
@@ -211,10 +269,7 @@
             authentication will be attempted. Any user accessing this web
             application will be immediately given a functional remote desktop,
             no questions asked.</para>
-        <example>
-            <title>A simple tunnel, implementing only
-                    <methodname>doConnnect()</methodname></title>
-            <programlisting>
+        <programlisting>
 package net.sourceforge.guacamole.net.example;
 
 import javax.servlet.http.HttpServletRequest;
@@ -263,7 +318,21 @@ public class TutorialGuacamoleTunnelServlet
     }
 
 }</programlisting>
-        </example>
+        <programlisting>    ...
+
+    &lt;!-- Guacamole Tunnel Servlet -->
+    &lt;servlet>
+        &lt;description>Tunnel servlet.&lt;/description>
+        &lt;servlet-name>Tunnel&lt;/servlet-name>
+        &lt;servlet-class>net.sourceforge.guacamole.net.example.TutorialGuacamoleTunnelServlet&lt;/servlet-class>
+    &lt;/servlet>
+
+    &lt;servlet-mapping>
+        &lt;servlet-name>Tunnel&lt;/servlet-name>
+        &lt;url-pattern>/tunnel&lt;/url-pattern>
+    &lt;/servlet-mapping>
+
+    ...</programlisting>
     </section>
     <section xml:id="simple-client">
         <title>The simplest client possible</title>
@@ -283,26 +352,7 @@ public class TutorialGuacamoleTunnelServlet
             handlers to handle their corresponding input events, calling
             whichever function of the Guacamole client is appropriate to send
             the input event through the tunnel to guacd.</para>
-        <example>
-            <title>A full Guacamole-based client interface</title>
-            <programlisting>&lt;!DOCTYPE HTML>
-
-&lt;html>
-
-    &lt;head>
-        &lt;title>Guacamole Tutorial&lt;/title>
-    &lt;/head>
-
-    &lt;body>
-
-        &lt;!-- Display -->
-        &lt;div id="display">&lt;/div>
-
-        &lt;!-- Input abstractions -->
-        &lt;script type="text/javascript"
-            src="guacamole-common-js/keyboard.js">&lt;/script>
-        &lt;script type="text/javascript"
-            src="guacamole-common-js/mouse.js">&lt;/script>
+        <programlisting>        ...
 
         &lt;!-- Client core scripts -->
         &lt;script type="text/javascript"
@@ -311,6 +361,9 @@ public class TutorialGuacamoleTunnelServlet
             src="guacamole-common-js/tunnel.js">&lt;/script>
         &lt;script type="text/javascript"
             src="guacamole-common-js/guacamole.js">&lt;/script>
+
+        &lt;!-- Display -->
+        &lt;div id="display">&lt;/div>
 
         &lt;!-- Init -->
         &lt;script type="text/javascript"> /* &lt;![CDATA[ */
@@ -339,6 +392,30 @@ public class TutorialGuacamoleTunnelServlet
                 guac.disconnect();
             }
 
+        /* ]]&gt; */ &lt;/script></programlisting>
+        <programlisting>        ...
+
+        &lt;!-- Input abstractions -->
+        &lt;script type="text/javascript"
+            src="guacamole-common-js/keyboard.js">&lt;/script>
+        &lt;script type="text/javascript"
+            src="guacamole-common-js/mouse.js">&lt;/script>
+
+        &lt;!-- Client core scripts -->
+        &lt;script type="text/javascript"
+            src="guacamole-common-js/layer.js">&lt;/script>
+        &lt;script type="text/javascript"
+            src="guacamole-common-js/tunnel.js">&lt;/script>
+        &lt;script type="text/javascript"
+            src="guacamole-common-js/guacamole.js">&lt;/script>
+
+        ...
+
+        &lt;!-- Init -->
+        &lt;script type="text/javascript"> /* &lt;![CDATA[ */
+
+            ...
+
             // Mouse
             var mouse = new Guacamole.Mouse(guac.getDisplay());
 
@@ -359,12 +436,7 @@ public class TutorialGuacamoleTunnelServlet
                 guac.sendKeyEvent(0, keysym);
             };
 
-        /* ]]&gt; */ &lt;/script>
-
-    &lt;/body>
-
-&lt;/html></programlisting>
-        </example>
+        /* ]]&gt; */ &lt;/script></programlisting>
     </section>
     <section xml:id="next-steps">
         <title>Where to go from here</title>
