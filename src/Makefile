@@ -14,5 +14,5 @@ gug.fo: $(FILES) book.xslt
 	xsltproc -o gug.fo --xinclude book.xslt gug.xml
 
 gug.pdf: gug.fo
-	fop -fo gug.fo -pdf gug.pdf
+	fop -c fop-conf.xml -fo gug.fo -pdf gug.pdf
 

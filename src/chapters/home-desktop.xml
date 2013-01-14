@@ -5,6 +5,74 @@
     xmlns:xi="http://www.w3.org/2001/XInclude">
 
     <title>Accessing computers at home</title>
-    <para/>
+    <para>The main purpose of Guacamole is to provide access to your computers
+        from anywhere. As such, it can definitely be installed on a home
+        computer, and from there can provide access to any of the computers on
+        your network, including the computer it is installed on.</para>
+    <para>If you already have a Linux desktop or server at home, installing
+        Guacamole and serving computers on your network is not a complex
+        task.</para>
+    <para>If you do not have any Linux computers, you will need to install Linux
+        somehow, whether that be on a spare computer, on a virtual machine using
+        software like VirtualBox or VMWare, or on an existing computer in a
+        dual-boot arrangement. If you have never used Linux before, there will
+        be a bit of a learning curve, but it's well worth it.</para>
+    <para>Another possibility for those without Linux computers is to leverage
+        an online computing service like EC2, using a compute instance from such
+        a service to serve Guacamole and allow yourself or others access to
+        computers in your household. This is discussed later.</para>
+    <section xml:id="vnc-vs-rdp">
+        <title>VNC or RDP</title>
+        <para>Guacamole currently supports the VNC and RDP protocols, each of
+            which having advantages and disadvantages. Other protocols such as
+            SSH and SPICE are under development, but your stable options for the
+            time being are VNC and RDP.</para>
+        <para>VNC has a bad reputation for being slow, but it can actually be
+            quite fast depending on the VNC server used. It wins over RDP in its
+            ubiquity, as a VNC server can be found on almost any
+            platform.</para>
+        <para>RDP is the protocol used by Windows Remote Desktop, and is
+            proprietary. Because of its proprietary nature, RDP servers are not
+            as widespread, though open-source alternatives do exist. The RDP
+            protocol is usually faster than VNC because it makes use of caching
+            and off-screen rendering. As Guacamole also supports caching and
+            off-screen rendering, it can take advantage of these
+            features.</para>
+        <para>Certain features of Guacamole like audio are only provided by RDP
+            as VNC has no such support.</para>
+    </section>
+    <section>
+        <title>Installing a VNC server</title>
+        <para>Choice of VNC server is important if you want adequate
+            performance. The default VNC server included in your distribution or
+            desktop environment may not be reasonably fast. If the computer you
+            intend to serve is a virtual machine whose display is provided by
+            VNC, it may not perform well because such a VNC server cannot be
+            aware of the same things as a VNC server running on the machine
+            itself, such as the existence of windows and the movement of windows
+            and their contents.</para>
+        <para>In general, we recommend installing either the open-source version
+            of Real VNC, or Tiger VNC, depending on what is available from your
+            distribution's repositories. If you need to be able to access your
+            computer locally while simultaneously having that same display
+            available over the network via VNC, a VNC server that attaches to an
+            existing display like x11vnc is what you're looking for.</para>
+        <section>
+            <title>VNC on Debian and Ubuntu</title>
+            <para/>
+        </section>
+        <section>
+            <title>VNC on Fedora</title>
+            <para/>
+        </section>
+    </section>
+    <section>
+        <title>Installing Guacamole</title>
+        <para/>
+    </section>
+    <section>
+        <title>Accessing Guacamole remotely</title>
+        <para/>
+    </section>
 
 </chapter>
