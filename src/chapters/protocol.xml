@@ -19,12 +19,16 @@
             is a comma-delimited list followed by a terminating semicolon, where
             the first element of the list is the instruction opcode, and all
             following elements are the arguments for that instruction:</para>
-        <programlisting><replaceable>OPCODE</replaceable>,<replaceable>ARG1</replaceable>,<replaceable>ARG2</replaceable>,<replaceable>ARG3</replaceable>,<replaceable>...</replaceable>;</programlisting>
+        <informalexample>
+            <programlisting><replaceable>OPCODE</replaceable>,<replaceable>ARG1</replaceable>,<replaceable>ARG2</replaceable>,<replaceable>ARG3</replaceable>,<replaceable>...</replaceable>;</programlisting>
+        </informalexample>
         <para>Each element of the list has a positive decimal integer length
             prefix separated by the value of the element by a period. This
             length denotes the number of Unicode characters in the value of the
             element, which is encoded in UTF-8:</para>
-        <programlisting><replaceable>LENGTH</replaceable>.<replaceable>VALUE</replaceable></programlisting>
+        <informalexample>
+            <programlisting><replaceable>LENGTH</replaceable>.<replaceable>VALUE</replaceable></programlisting>
+        </informalexample>
         <para>Any number of complete instructions make up a message which is
             sent from client to server or from server to client. Client to
             server instructions are generally control instructions (for
@@ -34,7 +38,9 @@
             display.</para>
         <para>For example, a complete and valid instruction for setting the
             display size to 1024x768 would be:</para>
-        <programlisting>4.size,1.0,4.1024,3.768;</programlisting>
+        <informalexample>
+            <programlisting>4.size,1.0,4.1024,3.768;</programlisting>
+        </informalexample>
         <para>Here, the instruction would be decoded into four elements: "size",
             the opcode of the size instruction, "0", the index of the default
             layer, "1024", the desired width in pixels, and "768", the desired
@@ -57,20 +63,26 @@
             immediately upon connection. It begins with a "select" instruction
             sent by the client which tells the server which protocol will be
             loaded:</para>
-        <programlisting>6.select,3.vnc;</programlisting>
+        <informalexample>
+            <programlisting>6.select,3.vnc;</programlisting>
+        </informalexample>
         <para>After receiving the "select" instruction, the server will load the
             associated client support and respond with a list of accepted
             parameter names using an "args" instruction:</para>
-        <programlisting>4.args,8.hostname,4.port,8.password,13.swap-red-blue,9.read-only;</programlisting>
+        <informalexample>
+            <programlisting>4.args,8.hostname,4.port,8.password,13.swap-red-blue,9.read-only;</programlisting>
+        </informalexample>
         <para>After receiving the list of arguments, the client is required to
             respond with the list of supported audio and video mimetypes, the
             optimal display size, and the values for all arguments available,
             even if blank. If any of these requirements are left out, the
             connection will close:</para>
-        <programlisting>4.size,4.1024,3.768;
+        <informalexample>
+            <programlisting>4.size,4.1024,3.768;
 5.audio,9.audio/ogg;
 5.video;
 7.connect,9.localhost,4.5900,0.,0.,0.;</programlisting>
+        </informalexample>
         <para>For clarity, we've put each instruction on its own line, but in
             the real protocol, no newlines exist between instructions. In fact,
             if there is anything after an instruction other than the start of a

@@ -33,13 +33,19 @@
             all other objects within the JavaScript API, is within the
                 <code>Guacamole</code> namespace. It is instantiated given an
             existing, unconnected tunnel:</para>
-        <programlisting>var client = new Guacamole.Client(tunnel);</programlisting>
+        <informalexample>
+            <programlisting>var client = new Guacamole.Client(tunnel);</programlisting>
+        </informalexample>
         <para>Once you have the client, it won't immediately appear within the
             DOM. You need to add its display element manually:</para>
-        <programlisting>document.body.appendChild(client.getDisplay());</programlisting>
+        <informalexample>
+            <programlisting>document.body.appendChild(client.getDisplay());</programlisting>
+        </informalexample>
         <para>At this point, the client will be visible, rendering all updates
             as soon as they are received through the tunnel.</para>
-        <programlisting>client.connect();</programlisting>
+        <informalexample>
+            <programlisting>client.connect();</programlisting>
+        </informalexample>
         <para>It is possible to pass arbitrary data to the tunnel during
             connection which can be used for authentication or for choosing a
             particular connection. When the <methodname>connect()</methodname>
@@ -88,7 +94,9 @@
             connection.</para>
         <para>The tunnel is created by supplying the relative URL to the
             server-side tunnel servlet:</para>
-        <programlisting>var tunnel = new Guacamole.Tunnel("tunnel");</programlisting>
+        <informalexample>
+            <programlisting>var tunnel = new Guacamole.Tunnel("tunnel");</programlisting>
+        </informalexample>
         <para>Once created, the tunnel can be passed to a
                 <classname>Guacamole.Client</classname> for use in a Guacamole
             connection.</para>
@@ -122,7 +130,8 @@
                 across browsers. This object only response. to true mouse
                 events. Mouse events which are actually the result of touch
                 events are ignored.</para>
-            <programlisting>var element = document.getElementById("some-arbitrary-id");
+            <informalexample>
+                <programlisting>var element = document.getElementById("some-arbitrary-id");
 var mouse = new Guacamole.Mouse(element);
 
 mouse.onmousedown =
@@ -132,6 +141,7 @@ mouse.onmouseup   = function(state) {
     // Do something with the mouse state received ...
 
 };</programlisting>
+            </informalexample>
             <para>The handles of each event are given an instance of
                     <classname>Guacamole.Mouse.State</classname> which
                 represents the current state of the mouse, containing the state
@@ -149,7 +159,8 @@ mouse.onmouseup   = function(state) {
                 flexibility and mouse-like features, including scrollwheel and
                 clicking with different buttons, but your preferences may
                 differ.</para>
-            <programlisting>var element = document.getElementById("some-arbitrary-id");
+            <informalexample>
+                <programlisting>var element = document.getElementById("some-arbitrary-id");
 var touch = new Guacamole.Touchpad(element); // or Guacamole.Touchscreen
 
 touch.onmousedown =
@@ -159,6 +170,7 @@ touch.onmouseup   = function(state) {
     // Do something with the mouse state received ...
 
 };</programlisting>
+            </informalexample>
             <para>Note that even though these objects are touch-specific, they
                 still provide mouse events. The state object given to the event
                 handlers of each event is still an instance of
@@ -193,7 +205,8 @@ touch.onmouseup   = function(state) {
                     <classname>Guacamole.Keyboard</classname> requires a DOM
                 element as an event target. Only key events directed at this
                 element will be handled.</para>
-            <programlisting>var keyboard = new Guacamole.Keyboard(document);
+            <informalexample>
+                <programlisting>var keyboard = new Guacamole.Keyboard(document);
 
 keyboard.onkeydown = function(keysym) {
     // Do something ...
@@ -202,6 +215,7 @@ keyboard.onkeydown = function(keysym) {
 keyboard.onkeyup = function(keysym) {
     // Do something ...
 };</programlisting>
+            </informalexample>
             <para>In this case, we are using <classname>document</classname> as
                 the event target, thus receiving all key events while the
                 browser window (or tab) has focus.</para>
@@ -231,7 +245,8 @@ keyboard.onkeyup = function(keysym) {
                 Each cap can be associated with any combination of arbitrary
                 modifier flags which dictate when that cap is active.</para>
             <para>For example:</para>
-            <programlisting>&lt;keyboard lang="en_US" layout="example" size="5">
+            <informalexample>
+                <programlisting>&lt;keyboard lang="en_US" layout="example" size="5">
     &lt;row>
         &lt;key size="4">
             &lt;cap modifier="shift" keysym="0xFFE1">Shift&lt;/cap>
@@ -242,6 +257,7 @@ keyboard.onkeyup = function(keysym) {
         &lt;/key>
     &lt;/row>
 &lt;/keyboard></programlisting>
+            </informalexample>
             <para>Here we have a very simple keyboard which defines only two
                 keys: "shift" (a modifier) and the letter "a". When "shift" is
                 pressed, it sets the "shift" modifier, affecting other keys in
@@ -258,12 +274,14 @@ keyboard.onkeyup = function(keysym) {
             <title>Displaying the keyboard</title>
             <para>Once you have a keyboard layout available, adding an on-screen
                 keyboard to your application is simple:</para>
-            <programlisting>// Add keyboard to body
+            <informalexample>
+                <programlisting>// Add keyboard to body
 var keyboard = new Guacamole.OnScreenKeyboard("path/to/layout.xml");
 document.body.appendChild(keyboard.getElement());
 
 // Set size of keyboard to 100 pixels
 keyboard.resize(100);</programlisting>
+            </informalexample>
             <para>Here, we have explicitly specified the width of the keyboard
                 as 100 pixels. Normally, you would determine this by inspecting
                 the width of the containing component, or by deciding on a
@@ -395,7 +413,8 @@ keyboard.resize(100);</programlisting>
                 to those of <classname>Guacamole.Keyboard</classname> in that
                 they consist only of a single X11 keysym. Only keyup and keydown
                 events exist, as before; there is no keypress event.</para>
-            <programlisting>// Assuming we have an instance of Guacamole.OnScreenKeyboard already
+            <informalexample>
+                <programlisting>// Assuming we have an instance of Guacamole.OnScreenKeyboard already
 // called "keyboard"
 
 keyboard.onkeydown = function(keysym) {
@@ -405,6 +424,7 @@ keyboard.onkeydown = function(keysym) {
 keyboard.onkeyup = function(keysym) {
     // Do something ...
 };</programlisting>
+            </informalexample>
         </section>
     </section>
 </chapter>

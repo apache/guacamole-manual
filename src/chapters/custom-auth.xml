@@ -59,6 +59,7 @@
         <example>
             <title>Barebones <filename>pom.xml</filename> required for a simple
                 authentication plugin.</title>
+            <?dbfo keep-together="auto"?>
             <programlisting>&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
@@ -223,6 +224,7 @@ public class TutorialAuthenticationProvider implements AuthenticationProvider {
         <example>
             <title><filename>TutorialProperties.java</filename>, a class
                 containing property definitions</title>
+            <?dbfo keep-together="auto"?>
             <programlisting>package net.sourceforge.guacamole.auth;
 
 import net.sourceforge.guacamole.properties.StringGuacamoleProperty;
@@ -355,6 +357,7 @@ public Map&lt;String, GuacamoleConfiguration>
         <example>
             <title>Parsing and returning a
                     <classname>GuacamoleConfiguration</classname></title>
+        <?dbfo keep-together="auto"?>
             <programlisting>@Override
 public Map&lt;String, GuacamoleConfiguration>
     getAuthorizedConfigurations(Credentials credentials)

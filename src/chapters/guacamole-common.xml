@@ -81,7 +81,8 @@
             remote desktops unless they have properly authenticated. Your own
             implementation can be considerably simpler, especially if you don't
             need authentication:</para>
-        <programlisting>public class MyGuacamoleTunnelServlet
+        <informalexample>
+            <programlisting>public class MyGuacamoleTunnelServlet
     extends GuacamoleHTTPTunnelServlet {
 
     @Override
@@ -104,6 +105,7 @@
     }
 
 }</programlisting>
+        </informalexample>
     </section>
     <section xml:id="java-protocol-usage">
         <title>Using the Guacamole protocol</title>
@@ -206,7 +208,8 @@
             implementation. A good example of how this works is the
                 <classname>IntegerGuacamoleProperty</classname> implementation
             included within guacamole-common:</para>
-        <programlisting>public abstract class IntegerGuacamoleProperty implements GuacamoleProperty&lt;Integer> {
+        <informalexample>
+            <programlisting>public abstract class IntegerGuacamoleProperty implements GuacamoleProperty&lt;Integer> {
 
     @Override
     public Integer parseValue(String value) throws GuacamoleException {
@@ -227,13 +230,15 @@
     }
 
 }</programlisting>
+        </informalexample>
         <para>Notice that this implementation does not actually provide
                 <methodname>getName()</methodname>. Instead, it only implements
                 <methodname>parseValue()</methodname>, the intent being to make
             other developers' lives easier when they need to retrieve an integer
             property from <filename>guacamole.properties</filename>. Using this
             class, retrieving an integer property is simple:</para>
-        <programlisting>public class MyClass {
+        <informalexample>
+            <programlisting>public class MyClass {
 
     public static final IntegerGuacamoleProperty IMPORTANT_INT =
         new IntegerGuacamoleProperty() {
@@ -248,6 +253,7 @@
 ... later on within MyClass ...
 
 int important = GuacamoleProperties.getRequiredProperty(IMPORTANT_INT);</programlisting>
+        </informalexample>
         <para>guacamole-common provides a couple of similar classes for
             retrieving common types of properties, such as a
                 <classname>String</classname> or <classname>File</classname>,

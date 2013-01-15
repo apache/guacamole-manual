@@ -38,13 +38,15 @@
             exposed by guacd, in this case syslog.</para>
         <para>Once you guacd is started, you'll see entries like the following
             in syslog:</para>
-        <screen>guacd[19663]: Guacamole proxy daemon (guacd) version 0.7.0
+        <informalexample>
+            <screen>guacd[19663]: Guacamole proxy daemon (guacd) version 0.7.0
 guacd[19663]: Unable to bind socket to host ::1, port 4823: Address family
               not supported by protocol
 guacd[19663]: Successfully bound socket to host 127.0.0.1, port 4823
 guacd[19663]: Exiting and passing control to PID 19665
 guacd[19665]: Exiting and passing control to PID 19666
 guacd[19666]: Listening on host 127.0.0.1, port 4823</screen>
+        </informalexample>
         <para>Each entry relevant to Guacamole has the prefix "guacd", denoting
             the program that produced the entry, followed by the process ID,
             followed by the message. The entries above show guacamole starting
