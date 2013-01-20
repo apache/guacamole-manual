@@ -2,13 +2,13 @@
 <chapter xml:id="guacamole-common" xmlns="http://docbook.org/ns/docbook"
     version="5.0" xml:lang="en" xmlns:xl="http://www.w3.org/1999/xlink"
     xmlns:xi="http://www.w3.org/2001/XInclude">
-    <title>guacamole-common</title>
+    <title><package>guacamole-common</package></title>
     <indexterm>
         <primary>API</primary>
         <secondary>Java</secondary>
     </indexterm>
     <indexterm>
-        <primary>guacamole-common</primary>
+        <primary><package>guacamole-common</package></primary>
     </indexterm>
     <para>The Java API provided by the Guacamole project is called
         guacamole-common. It provides a basic means of tunneling data between

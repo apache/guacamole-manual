@@ -13,7 +13,7 @@
     <section xml:id="initial-setup">
         <title>Initial setup</title>
         <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
-            <primary>guacamole.properties</primary>
+            <primary><filename>guacamole.properties</filename></primary>
         </indexterm>
         <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
             <primary>configuration</primary>
@@ -36,8 +36,9 @@
                         <primary>guacd-host</primary>
                     </indexterm><parameter>guacd-host</parameter></term>
                 <listitem>
-                    <para>The host the Guacamole proxy daemon (guacd) is
-                        listening on. This is most likely localhost. </para>
+                    <para>The host the Guacamole proxy daemon
+                            (<package>guacd</package>) is listening on. This is
+                        most likely localhost. </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -45,8 +46,9 @@
                         <primary>guacd-port</primary>
                     </indexterm><parameter>guacd-port</parameter></term>
                 <listitem>
-                    <para>The port the Guacamole proxy daemon (guacd) is
-                        listening on. This is port 4822 by default. </para>
+                    <para>The port the Guacamole proxy daemon
+                            (<package>guacd</package>) is listening on. This is
+                        port 4822 by default. </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -68,8 +70,9 @@
                 <listitem>
                     <para>The directory to load extensions to Guacamole from. If
                         you wish to use a custom authentication provider or
-                        custom hooks, the .jar file and all dependencies must be
-                        placed in the directory specified here. </para>
+                        custom hooks, the <filename>.jar</filename> file and all
+                        dependencies must be placed in the directory specified
+                        here. </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -80,8 +83,9 @@
                     <para>A comma-delimited list of event listeners which should
                         be loaded and installed such that they are informed of
                         Guacamole-related events. These classes must be in the
-                        classpath, preferably by having their corresponding .jar
-                        files placed within the directory specified by the
+                        classpath, preferably by having their corresponding
+                            <filename>.jar</filename> files placed within the
+                        directory specified by the
                             <property>lib-directory</property> property.</para>
                 </listitem>
             </varlistentry>
@@ -187,8 +191,9 @@
             Guacamole. Although generally not as fast as RDP, many VNC servers
             are adequate, and VNC over Guacamole tends to be faster than VNC by
             itself due to decreased bandwidth usage.</para>
-        <para>VNC support for Guacamole is provided by the libguac-client-vnc
-            library, installed by default.</para>
+        <para>VNC support for Guacamole is provided by the
+                <package>libguac-client-vnc</package> library, installed by
+            default.</para>
         <section xml:id="vnc-parameters">
             <title>Configuration parameters</title>
             <variablelist>
@@ -247,8 +252,8 @@
                             The format of this parameter is dictated by
                             libvncclient and thus doesn't really follow the form
                             of other Guacamole parameters. This parameter is
-                            optional, and libguac-client-vnc will use any
-                            supported encoding by default.</para>
+                            optional, and <package>libguac-client-vnc</package>
+                            will use any supported encoding by default.</para>
                         <para>Beware that this parameter is intended to be
                             replaced with individual, encoding-specific
                             parameters in a future release.</para>
@@ -263,13 +268,15 @@
             protocol officially supported by Guacamole. RDP tends to be faster
             than VNC due to the use of caching, which Guacamole does take
             advantage of.</para>
-        <para>RDP support for Guacamole is provided by the libguac-client-rdp
-            library, which depends on a recent version of FreeRDP (version 1.0
-            or higher). If your distribution does not have a recent enough
-            version of FreeRDP, the Guacamole project will not build a
-            libguac-client-rdp package for you. You will need to build and
-            install a recent version of FreeRDP, and then build and install
-            libguac-client-rdp from source.</para>
+        <para>RDP support for Guacamole is provided by the
+                <package>libguac-client-rdp</package> library, which depends on
+            a recent version of FreeRDP (version 1.0 or higher). If your
+            distribution does not have a recent enough version of FreeRDP, the
+            Guacamole project will not build a
+                <package>libguac-client-rdp</package> package for you. You will
+            need to build and install a recent version of FreeRDP, and then
+            build and install <package>libguac-client-rdp</package> from
+            source.</para>
         <section xml:id="rdp-parameters">
             <title>Configuration parameters</title>
             <variablelist>

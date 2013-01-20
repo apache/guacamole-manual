@@ -131,8 +131,9 @@
                 between itself and the web application until the client plugin
                 terminates.</para>
             <indexterm>
-                <primary>libguac</primary>
-                <secondary>relationship with guacd</secondary>
+                <primary><package>libguac</package></primary>
+                <secondary>relationship with
+                    <package>guacd</package></secondary>
             </indexterm>
             <para>guacd and all client plugins depend on a common library,
                 libguac, which makes communication via the Guacamole protocol
