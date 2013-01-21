@@ -234,7 +234,8 @@ guacd-0.7.0-1.x86_64.rpm      libguac-client-vnc0-0.7.0-1.x86_64.rpm</computerou
 <prompt>#</prompt> service guacd start
 <computeroutput>Starting guacd: SUCCESS
 guacd[6229]: INFO:  Guacamole proxy daemon (guacd) version 0.7.0
-guacd[6229]: INFO:  Unable to bind socket to host ::1, port 4822: Address family not supported by protocol
+guacd[6229]: INFO:  Unable to bind socket to host ::1, port 4822: Address family not supported by
+protocol
 guacd[6229]: INFO:  Successfully bound socket to host 127.0.0.1, port 4822
 guacd[6229]: INFO:  Exiting and passing control to PID 6230
 guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput></screen>
