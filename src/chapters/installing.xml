@@ -216,14 +216,42 @@ guacd-0.7.0-1.x86_64.rpm      libguac-client-vnc0-0.7.0-1.x86_64.rpm</computerou
                 classpath, such that Guacamole can find it once it runs. This
                 must be done as root:</para>
             <informalexample>
-                <screen># ln -s /var/lib/guacamole/guacamole.war /var/lib/tomcat6/webapps
-# ln -s /etc/guacamole/guacamole.properties /usr/share/tomcat6/lib</screen>
+                <screen><prompt>#</prompt> ln -s /var/lib/guacamole/guacamole.war /var/lib/tomcat6/webapps
+<prompt>#</prompt> ln -s /etc/guacamole/guacamole.properties /usr/share/tomcat6/lib</screen>
             </informalexample>
             <para>Thankfully, Debian and Fedora both agree on the location for
                 web applications and Tomcat's classpath. If you are using a
                 different servlet container or you installed Tomcat manually
                 (without using your distribution's packages), or you are not
                 using Debian or Fedora, these locations may be different.</para>
+            <para>Once Guacamole has been deployed, Tomcat must be restarted (as
+                    <filename>guacamole.properties</filename> will only be read
+                on servlet container start) and the guacd daemon must be started
+                if it isn't running already:</para>
+            <informalexample>
+                <screen><prompt>#</prompt> service tomcat6 restart
+<computeroutput>Redirecting to /bin/systemctl tomcat6  restart.service</computeroutput>
+<prompt>#</prompt> service guacd start
+<computeroutput>Starting guacd: SUCCESS
+guacd[6229]: INFO:  Guacamole proxy daemon (guacd) version 0.7.0
+guacd[6229]: INFO:  Unable to bind socket to host ::1, port 4822: Address family not supported by protocol
+guacd[6229]: INFO:  Successfully bound socket to host 127.0.0.1, port 4822
+guacd[6229]: INFO:  Exiting and passing control to PID 6230
+guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput></screen>
+            </informalexample>
+            <para>After restarting Tomcat and starting guacd, Guacamole is
+                successfully installed and running.</para>
+            <para>If you want Guacamole to start on boot, you will need to
+                configure the tomcat6 and guacd services to run automatically.
+                On Debian, this will be the default. On Fedora, you can do this
+                using <command>chkconfig</command>:</para>
+            <informalexample>
+                <screen><prompt>#</prompt> chkconfig tomcat6 on
+<computeroutput>Note: forwarding request to 'systemctl enable tomcat6.service'
+ln -s '/usr/lib/systemd/system/tomcat6.service'
+    '/etc/systemd/system/multi-user.target.wants/tomcat6.service'</computeroutput>
+<prompt>#</prompt> chkconfig guacd on</screen>
+            </informalexample>
         </section>
 
     </section>
