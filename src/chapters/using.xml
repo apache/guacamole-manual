@@ -356,6 +356,14 @@
     <section xml:id="guacamole-admin-ui">
         <title>Administration</title>
         <para/>
+        <section>
+            <title>Adding users or connections</title>
+            <para/>
+        </section>
+        <section>
+            <title>Modifying users or connections</title>
+            <para/>
+        </section>
     </section>
 
 </chapter>

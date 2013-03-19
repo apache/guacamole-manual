@@ -5,10 +5,43 @@
     xmlns:xi="http://www.w3.org/2001/XInclude">
 
     <title>Configuring Guacamole</title>
-    <para/>
-    <section>
+    <para>After installing Guacamole, it will be minimally configured to use the
+        default authentication. You can modify this configuration if you need to
+        use a different authentication module (such as the MySQL authentication,
+        which is discussed in a separate chapter) or if you need to veer from
+        the defaults.</para>
+    <para>Guacamole's configuration consists of two main pieces: a directory
+        referred to as <varname>GUACAMOLE_HOME</varname>, which is the primary
+        search location for configuration files, and
+            <filename>guacamole.properties</filename>, the main configuration
+        file used by Guacamole and its extensions.</para>
+    <section xml:id="guacamole-home">
         <title><varname>GUACAMOLE_HOME</varname></title>
-        <para/>
+        <para>As of release 0.8.0, Guacamole now reads files from its own
+            configuration directory by default, resorting to the classpath only
+            when this directory cannot be found. When locating this directory,
+            Guacamole will try, in order:</para>
+        <orderedlist>
+            <listitem>
+                <para>The directory specified within the system property
+                        <property>guacamole.home</property>.</para>
+            </listitem>
+            <listitem>
+                <para>The directory specified within the environment variable
+                        <varname>GUACAMOLE_HOME</varname>.</para>
+            </listitem>
+            <listitem>
+                <para>The directory <filename>.guacamole</filename>, located
+                    within the home directory of the user running the servlet
+                    container.</para>
+            </listitem>
+        </orderedlist>
+        <para>This directory will be referred to as
+                <varname>GUACAMOLE_HOME</varname> elsewhere in the
+            documentation.</para>
+        <para>Guacamole uses <varname>GUACAMOLE_HOME</varname> as the primary
+            search location for configuration file like
+                <filename>guacamole.properties</filename>.</para>
     </section>
 
     <section xml:id="initial-setup">
@@ -25,12 +58,28 @@
             <secondary>configuring</secondary>
         </indexterm>
         <para>The Guacamole web application uses one main configuration file
-            called <filename>guacamole.properties</filename> which must be in
-            the classpath of your servlet container. This file is the common
-            location for all configuration properties read by Guacamole or any
-            extension of Guacamole, including authentication providers. </para>
+            called <filename>guacamole.properties</filename>. This file is the
+            common location for all configuration properties read by Guacamole
+            or any extension of Guacamole, including authentication
+            providers.</para>
+        <para>In previous releases, this file had to be in the classpath of your
+            servlet container. Now, the location of
+                <filename>guacamole.properties</filename> can be explicitly
+            defined with environment variables or system properties, and the
+            classpath is only used as a last resort. When searching for
+                <filename>guacamole.properties</filename>, Guacamole will check,
+            in order:</para>
+        <orderedlist>
+            <listitem>
+                <para>Within <varname>GUACAMOLE_HOME</varname>, as defined
+                    above.</para>
+            </listitem>
+            <listitem>
+                <para>The classpath of the servlet container.</para>
+            </listitem>
+        </orderedlist>
         <para>At the bare minimum, the <filename>guacamole.properties</filename>
-            file provides four basic properties: </para>
+            file provides five basic properties: </para>
         <variablelist>
             <varlistentry>
                 <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
@@ -112,22 +161,20 @@
             set to the fully-qualified name of
                 <classname>BasicFileAuthenticationProvider</classname><footnote>
                 <para><classname>net.sourceforge.guacamole.net.basic.BasicFileAuthenticationProvider</classname></para>
-            </footnote>. This is the case within the example
+            </footnote>This is the case within the example
                 <filename>guacamole.properties</filename> file shown above, and
             in the <filename>guacamole.properties</filename> file included with
             Guacamole. Unless you have already tried another authentication
             module, you will not need to edit this value yourself if you are
             using the configuration files that come with Guacamole.</para>
-        <section xml:id="connection-setup">
-            <title>Adding users and connections</title>
-            <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
-                <primary>users</primary>
-                <secondary>adding</secondary>
-            </indexterm>
-            <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
-                <primary>connections</primary>
-                <secondary>adding</secondary>
-            </indexterm>
+        <para>There are other authentication modules available. The Guacamole
+            project now provides a MySQL-backed authentication module with extra
+            features (like the ability to manage connections and users from the
+            web interface), and other authentication modules can be created
+            using the extension API provided along with the Guacamole web
+            application, <package>guacamole-ext</package>.</para>
+        <section>
+            <title><filename>user-mapping.xml</filename></title>
             <para>The default authentication provider used by Guacamole reads
                 all username, password, and configuration information from a
                 file called the "user mapping" (typically named
@@ -161,6 +208,22 @@
                 <title>A simple <filename>user-mapping.xml</filename></title>
                 <xi:include href="conf/user-mapping.xml.xml"/>
             </example>
+            <section xml:id="connection-setup">
+                <title>Adding users</title>
+                <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+                    <primary>users</primary>
+                    <secondary>adding</secondary>
+                </indexterm>
+                <para/>
+            </section>
+            <section>
+                <title>Adding connections to a user</title>
+                <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+                    <primary>connections</primary>
+                    <secondary>adding</secondary>
+                </indexterm>
+                <para/>
+            </section>
         </section>
     </section>
 

@@ -34,23 +34,16 @@
             providers. An authentication provider is any class which implements
             the <classname>AuthenticationProvider</classname> interface,
             implementing the only function defined by that interface:
-                <methodname>getAuthorizedConfigurations()</methodname>. This
-            function is required to return a <classname>Map</classname> of
-            unique IDs to configurations, where these configurations are all
-            configurations accessible with the provided credentials. The
-            credentials given are abstract and while Guacamole the web
+                <methodname>getUserContext()</methodname>. This function is
+            required to return a "context" which provides access to only those
+            users and configurations accessible with the given credentials, and
+            enforces its own security model.</para>
+        <para>The credentials given are abstract and while Guacamole the web
             application implements a username/password driven login screen, you
             are not required to user usernames and passwords; the
                 <classname>Credentials</classname> class given to the
             authentication provider provides access to all HTTP parameters in
             general, as well as cookies and SSL information.</para>
-        <para>The configurations referred to by the function name are instances
-            of <classname>GuacamoleConfiguration</classname> (part of
-            guacamole-common), which is just a wrapper around a protocol name
-            and set of parameter name/value pairs. The name of the protocol to
-            use and a set of parameters is the minimum information required for
-            other parts of the Guacamole API to complete the handshake required
-            by the Guacamole protocol.</para>
         <para>The Guacamole web application includes a basic authentication
             provider implementation which parses an XML file to determine which
             users exist, their corresponding passwords, and what configurations
@@ -70,11 +63,57 @@
             application.</para>
         <section>
             <title><classname>SimpleAuthenticationProvider</classname></title>
-            <para/>
+            <para>The <classname>SimpleAuthenticationProvider</classname> class
+                provides a much simpler means of implementing authentication
+                when you do not require the ability to add and remove users and
+                connections. It is an abstract class and requires only one
+                function implementation:
+                    <methodname>getAuthorizedConfigurations()</methodname>.</para>
+            <para>This function is required to return a
+                    <classname>Map</classname> of unique IDs to configurations,
+                where these configurations are all configurations accessible
+                with the provided credentials. As before, the credentials given
+                are abstract. You are not required to use usernames and
+                passwords.</para>
+            <para>The configurations referred to by the function name are
+                instances of <classname>GuacamoleConfiguration</classname> (part
+                of guacamole-common), which is just a wrapper around a protocol
+                name and set of parameter name/value pairs. The name of the
+                protocol to use and a set of parameters is the minimum
+                information required for other parts of the Guacamole API to
+                complete the handshake required by the Guacamole
+                protocol.</para>
+            <para>When a class that extends
+                    <classname>SimpleAuthenticationProvider</classname> is asked
+                for more advanced operations by the web application,
+                    <classname>SimpleAuthenticationProvider</classname> simply
+                returns that there is no permission to do so. This effectively
+                disables all administrative functionality within the web
+                interface.</para>
+            <para>If you choose to go the simple route, most of the rest of this
+                chapter is irrelevant. Permissions, security model, and various
+                classes will be discussed that are all handled for you
+                automatically by
+                    <classname>SimpleAuthenticationProvider</classname>.</para>
         </section>
         <section>
             <title>The <classname>UserContext</classname></title>
-            <para/>
+            <para>The <classname>UserContext</classname> is the root of all
+                operations. It is used to list, create, modify, or delete users
+                and connections, as well as to query available
+                permissions.</para>
+            <para>The Guacamole web application uses permissions queries against
+                the <classname>UserContext</classname> to determine what
+                operations to present, but <emphasis>beware that it is up to the
+                        <classname>UserContext</classname> to actually enforce
+                    these restrictions</emphasis>. The Guacamole web application
+                will not enforce restrictions on behalf of the
+                    <classname>UserContext</classname>.</para>
+            <para>The <classname>UserContext</classname> is the sole means of
+                entry and the sole means of modification available to a
+                logged-in user. If the <classname>UserContext</classname>
+                refuses to perform an operation (by throwing an exception), the
+                user cannot perform the operation at all.</para>
         </section>
         <section>
             <title><classname>Directory</classname> classes</title>
