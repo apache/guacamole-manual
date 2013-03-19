@@ -235,24 +235,26 @@
     </section>
     <section xml:id="guacamole-skeleton">
         <title>Adding Guacamole</title>
-        <para/>
-    </section>
-    <section xml:id="adding-guac-to-pom">
-        <title>Updating <filename>pom.xml</filename></title>
-        <para>Now that we're adding Guacamole components to our project, we need
-            to modify <filename>pom.xml</filename> to specify which components
-            are being used, and where they can be obtained. With this
-            information in place, Maven will automatically resolve dependencies
-            and download them as necessary during the build.</para>
-        <para>Regarding the build process itself, there are two main changes: we
-            are now going to be using Java, and we need the JavaScript files
-            from guacamole-common-js included automatically inside the
-                <filename>.war</filename>.</para>
-        <para>Guacamole requires at least Java 1.6, thus we must add a section
-            to the <filename>pom.xml</filename> which describes the source and
-            target Java versions:</para>
-        <informalexample>
-            <programlisting>    ...
+        <para>Once we have a functional web application built, the next step is
+            to actually add the references to the Guacamole API and integrate a
+            Guacamole client into the application.</para>
+        <section xml:id="adding-guac-to-pom">
+            <title>Updating <filename>pom.xml</filename></title>
+            <para>Now that we're adding Guacamole components to our project, we
+                need to modify <filename>pom.xml</filename> to specify which
+                components are being used, and where they can be obtained. With
+                this information in place, Maven will automatically resolve
+                dependencies and download them as necessary during the
+                build.</para>
+            <para>Regarding the build process itself, there are two main
+                changes: we are now going to be using Java, and we need the
+                JavaScript files from guacamole-common-js included automatically
+                inside the <filename>.war</filename>.</para>
+            <para>Guacamole requires at least Java 1.6, thus we must add a
+                section to the <filename>pom.xml</filename> which describes the
+                source and target Java versions:</para>
+            <informalexample>
+                <programlisting>    ...
 
     &lt;build>
         &lt;plugins>
@@ -272,14 +274,15 @@
     &lt;/build>
 
     ...</programlisting>
-        </informalexample>
-        <para>Including the JavaScript files from an external project like
-            guacamole-common-js requires using a feature of the maven war plugin
-            called overlays. To add an overlay containing guacamole-common-js,
-            we add a section describing the configuration of the Maven war
-            plugin, listing guacamole-common-js as an overlay:</para>
-        <informalexample>
-            <programlisting>    ...
+            </informalexample>
+            <para>Including the JavaScript files from an external project like
+                guacamole-common-js requires using a feature of the maven war
+                plugin called overlays. To add an overlay containing
+                guacamole-common-js, we add a section describing the
+                configuration of the Maven war plugin, listing
+                guacamole-common-js as an overlay:</para>
+            <informalexample>
+                <programlisting>    ...
 
     &lt;build>
         &lt;plugins>
@@ -306,15 +309,15 @@
     &lt;/build>
 
     ...</programlisting>
-        </informalexample>
-        <para>With the build now configured, we still need to add dependencies
-            and list the repositories those dependencies can be downloaded
-            from.</para>
-        <para>As this is a web application which will use the Java Servlet API,
-            we must explicitly include this as a dependency, as well as the
-            Guacamole Java and JavaScript APIs:</para>
-        <informalexample>
-            <programlisting>    ...
+            </informalexample>
+            <para>With the build now configured, we still need to add
+                dependencies and list the repositories those dependencies can be
+                downloaded from.</para>
+            <para>As this is a web application which will use the Java Servlet
+                API, we must explicitly include this as a dependency, as well as
+                the Guacamole Java and JavaScript APIs:</para>
+            <informalexample>
+                <programlisting>    ...
 
     &lt;dependencies>
 
@@ -346,17 +349,17 @@
     &lt;/dependencies>
 
     ...</programlisting>
-        </informalexample>
-        <para>The Java Servlet API will be provided by your servlet container,
-            so Maven does not need to download it during the build, and it need
-            not exist in any Maven repository.</para>
-        <para>The Guacamole APIs <emphasis>are</emphasis> required, and are
-                <emphasis>not</emphasis> in any standard Maven repository, thus
-            we must add the URL of the upstream Maven repository exposed by the
-            Guacamole project. This repository will always have all stable
-            releases of the Guacamole APIs:</para>
-        <informalexample>
-            <programlisting>    ...
+            </informalexample>
+            <para>The Java Servlet API will be provided by your servlet
+                container, so Maven does not need to download it during the
+                build, and it need not exist in any Maven repository.</para>
+            <para>The Guacamole APIs <emphasis>are</emphasis> required, and are
+                    <emphasis>not</emphasis> in any standard Maven repository,
+                thus we must add the URL of the upstream Maven repository
+                exposed by the Guacamole project. This repository will always
+                have all stable releases of the Guacamole APIs:</para>
+            <informalexample>
+                <programlisting>    ...
 
     &lt;repositories>
 
@@ -369,47 +372,49 @@
     &lt;/repositories>
 
     ...</programlisting>
-        </informalexample>
-        <para>With these changes, the web application will still build at this
-            point, even though no Java code has been written yet. You may wish
-            to verify that everything still works.</para>
-        <para>If the <filename>pom.xml</filename> was updated properly as
-            described above, the web application should build successfully, and
-            the Guacamole JavaScript API should be accessible in the
-                <filename>guacamole-common-js/</filename> subdirectory of your
-            web application after it is deployed. A quick check that you can
-            access
-                <uri>/guacamole-tutorial-0.7.0/guacamole-common-js/guacamole.js</uri>
-            is probably worth the effort.</para>
-    </section>
-    <section xml:id="simple-tunnel">
-        <title>The simplest tunnel possible</title>
-        <para>As with the other tutorials in this book, we will keep this simple
-            for the sake of demonstrating the principles behind a
-            Guacamole-based web application, and to give developers a good idea
-            of where to start looking when it's time to consult the API
-            documentation.</para>
-        <para>It is the duty of the class extending
-                <classname>GuacamoleHTTPTunnelServlet</classname> to implement a
-            function called <methodname>doConnect()</methodname>. This is the
-            only function required to be implemented, and in general it is the
-            only function you should implement; the other functions involved are
-            already optimized for tunneling the Guacamole protocol.</para>
-        <para>The <methodname>doConnect()</methodname> function returns a
-                <classname>GuacamoleTunnel</classname>, which provides a
-            persistent communication channel for
-                <classname>GuacamoleHTTPTunnelServlet</classname> to use when
-            talking with guacd and initiating a connection with some arbitrary
-            remote desktop using some arbitrary remote desktop protocol. In our
-            simple tunnel, this configuration will be hard-coded, and no
-            authentication will be attempted. Any user accessing this web
-            application will be immediately given a functional remote desktop,
-            no questions asked.</para>
-        <para>Create a new file,
-                <filename>TutorialGuacamoleTunnelServlet.java</filename>,
-            defining a basic implementation of a tunnel servlet class:</para>
-        <informalexample>
-            <programlisting>
+            </informalexample>
+            <para>With these changes, the web application will still build at
+                this point, even though no Java code has been written yet. You
+                may wish to verify that everything still works.</para>
+            <para>If the <filename>pom.xml</filename> was updated properly as
+                described above, the web application should build successfully,
+                and the Guacamole JavaScript API should be accessible in the
+                    <filename>guacamole-common-js/</filename> subdirectory of
+                your web application after it is deployed. A quick check that
+                you can access
+                    <uri>/guacamole-tutorial-0.7.0/guacamole-common-js/guacamole.js</uri>
+                is probably worth the effort.</para>
+        </section>
+        <section xml:id="simple-tunnel">
+            <title>The simplest tunnel possible</title>
+            <para>As with the other tutorials in this book, we will keep this
+                simple for the sake of demonstrating the principles behind a
+                Guacamole-based web application, and to give developers a good
+                idea of where to start looking when it's time to consult the API
+                documentation.</para>
+            <para>It is the duty of the class extending
+                    <classname>GuacamoleHTTPTunnelServlet</classname> to
+                implement a function called
+                <methodname>doConnect()</methodname>. This is the only function
+                required to be implemented, and in general it is the only
+                function you should implement; the other functions involved are
+                already optimized for tunneling the Guacamole protocol.</para>
+            <para>The <methodname>doConnect()</methodname> function returns a
+                    <classname>GuacamoleTunnel</classname>, which provides a
+                persistent communication channel for
+                    <classname>GuacamoleHTTPTunnelServlet</classname> to use
+                when talking with guacd and initiating a connection with some
+                arbitrary remote desktop using some arbitrary remote desktop
+                protocol. In our simple tunnel, this configuration will be
+                hard-coded, and no authentication will be attempted. Any user
+                accessing this web application will be immediately given a
+                functional remote desktop, no questions asked.</para>
+            <para>Create a new file,
+                    <filename>TutorialGuacamoleTunnelServlet.java</filename>,
+                defining a basic implementation of a tunnel servlet
+                class:</para>
+            <informalexample>
+                <programlisting>
 package net.sourceforge.guacamole.net.example;
 
 import javax.servlet.http.HttpServletRequest;
@@ -457,20 +462,20 @@ public class TutorialGuacamoleTunnelServlet
     }
 
 }</programlisting>
-        </informalexample>
-        <para>Place this file in the
-                <filename>src/main/java/net/sourceforge/guacamole/net/example</filename>
-            subdirectory of the project. The initial part of this subdirectory,
-                <filename>src/main/java</filename>, is the path required by
-            Maven, while the rest is the directory required by Java based on the
-            package associated with the class.</para>
-        <para>Once the class defining our tunnel is created, it must be added to
-            the <filename>web.xml</filename> such that the servlet container
-            knows which URL maps to it. This URL will later be given to the
-            JavaScript client to establish the connection back to the Guacamole
-            server:</para>
-        <informalexample>
-            <programlisting>    ...
+            </informalexample>
+            <para>Place this file in the
+                    <filename>src/main/java/net/sourceforge/guacamole/net/example</filename>
+                subdirectory of the project. The initial part of this
+                subdirectory, <filename>src/main/java</filename>, is the path
+                required by Maven, while the rest is the directory required by
+                Java based on the package associated with the class.</para>
+            <para>Once the class defining our tunnel is created, it must be
+                added to the <filename>web.xml</filename> such that the servlet
+                container knows which URL maps to it. This URL will later be
+                given to the JavaScript client to establish the connection back
+                to the Guacamole server:</para>
+            <informalexample>
+                <programlisting>    ...
 
     &lt;!-- Guacamole Tunnel Servlet -->
     &lt;servlet>
@@ -487,29 +492,31 @@ public class TutorialGuacamoleTunnelServlet
     &lt;/servlet-mapping>
 
     ...</programlisting>
-        </informalexample>
-        <para>The first section assigns a unique name, "Tunnel", to the servlet
-            class we just defined. The second section maps the servlet class by
-            it's servlet name ("Tunnel") to the URL we wish to use when making
-            HTTP requests to the servlet: <uri>/tunnel</uri>. This URL is
-            relative to the context root of the web application. In the case of
-            this web application, the final absolute URL will be
-                <uri>/guacamole-tutorial-0.7.0/tunnel</uri>.</para>
-    </section>
-    <section xml:id="simple-client">
-        <title>Adding the client</title>
-        <para>As the Guacamole JavaScript API already provides functional client
-            and tunnel implementations, as well as mouse and keyboard input
-            objects, the coding required for the "web" side of the web
-            application is very minimal.</para>
-        <para>We must create a <classname>Guacamole.HTTPTunnel</classname>,
-            connect it to our previously-implemented tunnel servlet, and pass
-            that tunnel to a new <classname>Guacamole.Client</classname>. Once
-            that is done, and the <methodname>connect()</methodname> function of
-            the client is called, communication will immediately ensue, and your
-            remote desktop will be visible:</para>
-        <informalexample>
-            <programlisting>    ...
+            </informalexample>
+            <para>The first section assigns a unique name, "Tunnel", to the
+                servlet class we just defined. The second section maps the
+                servlet class by it's servlet name ("Tunnel") to the URL we wish
+                to use when making HTTP requests to the servlet:
+                    <uri>/tunnel</uri>. This URL is relative to the context root
+                of the web application. In the case of this web application, the
+                final absolute URL will be
+                    <uri>/guacamole-tutorial-0.7.0/tunnel</uri>.</para>
+        </section>
+        <section xml:id="simple-client">
+            <title>Adding the client</title>
+            <para>As the Guacamole JavaScript API already provides functional
+                client and tunnel implementations, as well as mouse and keyboard
+                input objects, the coding required for the "web" side of the web
+                application is very minimal.</para>
+            <para>We must create a <classname>Guacamole.HTTPTunnel</classname>,
+                connect it to our previously-implemented tunnel servlet, and
+                pass that tunnel to a new
+                    <classname>Guacamole.Client</classname>. Once that is done,
+                and the <methodname>connect()</methodname> function of the
+                client is called, communication will immediately ensue, and your
+                remote desktop will be visible:</para>
+            <informalexample>
+                <programlisting>    ...
     &lt;body>
 
         &lt;!-- Client core scripts -->
@@ -554,22 +561,23 @@ public class TutorialGuacamoleTunnelServlet
 
     &lt;/body>
     ...</programlisting>
-        </informalexample>
-        <para>If you build and deploy the web application now, it will work, but
-            mouse and keyboard input will not. This is because input is not
-            implemented by the client directly. The Guacamole.Client object only
-            decodes the Guacamole protocol and handles the display, providing an
-            element which you can add manually to the DOM. While it will also
-            send keyboard and mouse events for you, you need to call the
-            respective functions manually. The Guacamole API provides keyboard
-            and mouse abstraction objects which make this easy.</para>
-        <para>We need only create a <classname>Guacamole.Mouse</classname> and
-                <methodname>Guacamole.Keyboard</methodname>, and add event
-            handlers to handle their corresponding input events, calling
-            whichever function of the Guacamole client is appropriate to send
-            the input event through the tunnel to guacd:</para>
-        <informalexample>
-            <programlisting>        ...
+            </informalexample>
+            <para>If you build and deploy the web application now, it will work,
+                but mouse and keyboard input will not. This is because input is
+                not implemented by the client directly. The Guacamole.Client
+                object only decodes the Guacamole protocol and handles the
+                display, providing an element which you can add manually to the
+                DOM. While it will also send keyboard and mouse events for you,
+                you need to call the respective functions manually. The
+                Guacamole API provides keyboard and mouse abstraction objects
+                which make this easy.</para>
+            <para>We need only create a <classname>Guacamole.Mouse</classname>
+                and <methodname>Guacamole.Keyboard</methodname>, and add event
+                handlers to handle their corresponding input events, calling
+                whichever function of the Guacamole client is appropriate to
+                send the input event through the tunnel to guacd:</para>
+            <informalexample>
+                <programlisting>        ...
 
         &lt;!-- Input abstractions -->
         &lt;script type="text/javascript"
@@ -605,7 +613,8 @@ public class TutorialGuacamoleTunnelServlet
             };
 
         /* ]]&gt; */ &lt;/script></programlisting>
-        </informalexample>
+            </informalexample>
+        </section>
     </section>
     <section xml:id="next-steps">
         <title>Where to go from here</title>
