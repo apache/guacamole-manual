@@ -69,7 +69,7 @@
     &lt;groupId>net.sourceforge.guacamole&lt;/groupId>
     &lt;artifactId>guacamole-auth-tutorial&lt;/artifactId>
     &lt;packaging>jar&lt;/packaging>
-    &lt;version>0.7.0&lt;/version>
+    &lt;version>0.8.0&lt;/version>
     &lt;name>guacamole-auth-tutorial&lt;/name>
     &lt;url>http://guac-dev.org/&lt;/url>
 
@@ -99,14 +99,14 @@
         &lt;dependency>
             &lt;groupId>net.sourceforge.guacamole&lt;/groupId>
             &lt;artifactId>guacamole-common&lt;/artifactId>
-            &lt;version>0.7.0&lt;/version>
+            &lt;version>0.8.0&lt;/version>
         &lt;/dependency>
 
         &lt;!-- Guacamole Extension API -->
         &lt;dependency>
             &lt;groupId>net.sourceforge.guacamole&lt;/groupId>
             &lt;artifactId>guacamole-ext&lt;/artifactId>
-            &lt;version>0.7.0&lt;/version>
+            &lt;version>0.8.0&lt;/version>
         &lt;/dependency>
 
     &lt;/dependencies>
@@ -137,11 +137,11 @@
 
 import java.util.Map;
 import net.sourceforge.guacamole.GuacamoleException;
-import net.sourceforge.guacamole.net.auth.AuthenticationProvider;
+import net.sourceforge.guacamole.net.auth.simple.SimpleAuthenticationProvider;
 import net.sourceforge.guacamole.net.auth.Credentials;
 import net.sourceforge.guacamole.protocol.GuacamoleConfiguration;
 
-public class TutorialAuthenticationProvider implements AuthenticationProvider {
+public class TutorialAuthenticationProvider extends SimpleAuthenticationProvider {
        
     @Override
     public Map&lt;String, GuacamoleConfiguration>

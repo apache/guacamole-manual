@@ -129,7 +129,7 @@
     &lt;groupId>net.sourceforge.guacamole&lt;/groupId>
     &lt;artifactId>guacamole-tutorial&lt;/artifactId>
     &lt;packaging>war&lt;/packaging>
-    &lt;version>0.7.0&lt;/version>
+    &lt;version>0.8.0&lt;/version>
     &lt;name>guacamole-tutorial&lt;/name>
     &lt;url>http://guac-dev.org/&lt;/url>
 
@@ -333,7 +333,7 @@
         &lt;dependency>
             &lt;groupId>net.sourceforge.guacamole&lt;/groupId>
             &lt;artifactId>guacamole-common&lt;/artifactId>
-            &lt;version>0.7.0&lt;/version>
+            &lt;version>0.8.0&lt;/version>
             &lt;scope>compile&lt;/scope>
         &lt;/dependency>
 
@@ -341,7 +341,7 @@
         &lt;dependency>
             &lt;groupId>net.sourceforge.guacamole&lt;/groupId>
             &lt;artifactId>guacamole-common-js&lt;/artifactId>
-            &lt;version>0.7.0&lt;/version>
+            &lt;version>0.7.1&lt;/version>
             &lt;type>zip&lt;/type>
             &lt;scope>runtime&lt;/scope>
         &lt;/dependency>
@@ -382,7 +382,7 @@
                     <filename>guacamole-common-js/</filename> subdirectory of
                 your web application after it is deployed. A quick check that
                 you can access
-                    <uri>/guacamole-tutorial-0.7.0/guacamole-common-js/guacamole.js</uri>
+                    <uri>/guacamole-tutorial-0.8.0/guacamole-common-js/guacamole.js</uri>
                 is probably worth the effort.</para>
         </section>
         <section xml:id="simple-tunnel">
@@ -500,7 +500,7 @@ public class TutorialGuacamoleTunnelServlet
                     <uri>/tunnel</uri>. This URL is relative to the context root
                 of the web application. In the case of this web application, the
                 final absolute URL will be
-                    <uri>/guacamole-tutorial-0.7.0/tunnel</uri>.</para>
+                    <uri>/guacamole-tutorial-0.8.0/tunnel</uri>.</para>
         </section>
         <section xml:id="simple-client">
             <title>Adding the client</title>

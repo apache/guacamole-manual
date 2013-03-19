@@ -171,24 +171,24 @@
 
             <example>
                 <title>Installing Guacamole packages on Debian or Ubuntu</title>
-<screen><prompt>$</prompt> tar -xzf guacamole-0.7.2-ubuntu-12.04-amd64.tar.gz
-<prompt>$</prompt> cd guacamole-0.7.2-ubuntu-12.04-amd64/
+<screen><prompt>$</prompt> tar -xzf guacamole-0.8.0-ubuntu-12.04-amd64.tar.gz
+<prompt>$</prompt> cd guacamole-0.8.0-ubuntu-12.04-amd64/
 <prompt>$</prompt> ls
 <computeroutput>development                       libguac4_0.7.0-1_amd64.deb
-guacamole_0.7.1-1_all.deb         libguac-client-rdp0_0.7.2-1_amd64.deb
-guacamole-tomcat_0.7.1-1_all.deb  libguac-client-vnc0_0.7.0-1_amd64.deb
+guacamole_0.8.0-1_all.deb         libguac-client-rdp0_0.7.3-1_amd64.deb
+guacamole-tomcat_0.8.0-1_all.deb  libguac-client-vnc0_0.7.1-1_amd64.deb
 guacd_0.7.0-2_amd64.deb</computeroutput>
 <prompt>$</prompt> sudo dpkg -i *.deb</screen>
             </example>
 
             <example>
                 <title>Installing Guacamole packages on Fedora</title>
-<screen><prompt>$</prompt> tar -xzf guacamole-0.7.2-fedora-17-x86_64.tar.gz
-<prompt>$</prompt> cd guacamole-0.7.2-fedora-17-x86_64/
+<screen><prompt>$</prompt> tar -xzf guacamole-0.8.0-fedora-17-x86_64.tar.gz
+<prompt>$</prompt> cd guacamole-0.8.0-fedora-17-x86_64/
 <prompt>$</prompt> ls
 <computeroutput>development                   libguac4-0.7.0-1.x86_64.rpm
-guacamole-0.7.1-1.noarch.rpm  libguac-client-rdp-0.7.2-1.x86_64.rpm
-guacd-0.7.0-1.x86_64.rpm      libguac-client-vnc0-0.7.0-1.x86_64.rpm</computeroutput>
+guacamole-0.8.0-1.noarch.rpm  libguac-client-rdp-0.7.3-1.x86_64.rpm
+guacd-0.7.0-1.x86_64.rpm      libguac-client-vnc0-0.7.1-1.x86_64.rpm</computeroutput>
 <prompt>$</prompt> su
 <prompt>Password:</prompt> <replaceable>password</replaceable>
 <prompt>#</prompt> rpm -i *.rpm</screen>
@@ -378,8 +378,8 @@ ln -s '/usr/lib/systemd/system/tomcat6.service'
             <example>
                 <title>Building <package>libguac-client-vnc</package> from
                     source</title>
-                <screen><prompt>$</prompt> tar -xzf libguac-client-vnc-0.7.0.tar.gz
-<prompt>$</prompt> cd libguac-client-vnc-0.7.0/
+                <screen><prompt>$</prompt> tar -xzf libguac-client-vnc-0.7.1.tar.gz
+<prompt>$</prompt> cd libguac-client-vnc-0.7.1/
 <prompt>$</prompt> ./configure
 <prompt>$</prompt> make
 <prompt>$</prompt> sudo make install
@@ -404,8 +404,8 @@ ln -s '/usr/lib/systemd/system/tomcat6.service'
             <example>
                 <title>Building <package>libguac-client-rdp</package> from
                     source</title>
-                <screen><prompt>$</prompt> tar -xzf libguac-client-rdp-0.7.2.tar.gz
-<prompt>$</prompt> cd libguac-client-rdp-0.7.2/
+                <screen><prompt>$</prompt> tar -xzf libguac-client-rdp-0.7.3.tar.gz
+<prompt>$</prompt> cd libguac-client-rdp-0.7.3/
 <prompt>$</prompt> ./configure
 <prompt>$</prompt> make
 <prompt>$</prompt> sudo make install
@@ -439,8 +439,8 @@ ln -s '/usr/lib/systemd/system/tomcat6.service'
                     <uri>http://guac-dev.org/repo/</uri>.</para>
             <example>
                 <title>Building Guacamole from source</title>
-                <screen><prompt>$</prompt> tar -xzf guacamole-0.7.1.tar.gz
-<prompt>$</prompt> cd guacamole-0.7.1/
+                <screen><prompt>$</prompt> tar -xzf guacamole-0.8.0.tar.gz
+<prompt>$</prompt> cd guacamole-0.8.0/
 <prompt>$</prompt> mvn package           </screen>
             </example>
             <para>Once the Guacamole web application is built, there will be a
@@ -452,7 +452,7 @@ ln -s '/usr/lib/systemd/system/tomcat6.service'
                 into the directory required by your servlet container.</para>
             <example>
                 <title>Installing Guacamole after building from source</title>
-                <screen><prompt>$</prompt> sudo cp target/guacamole-0.7.1.war /var/lib/tomcat6/webapps/guacamole.war             </screen>
+                <screen><prompt>$</prompt> sudo cp target/guacamole-0.8.0.war /var/lib/tomcat6/webapps/guacamole.war             </screen>
             </example>
             <para>The Guacamole web application also depends on a configuration
                 file, <filename>guacamole.properties</filename>, to tell it the
@@ -518,9 +518,9 @@ ln -s '/usr/lib/systemd/system/tomcat6.service'
         <para>As there are several repositories, you will run this git command
             to clone each of the repositories you wish to build. The URL of each
             repository is
-                    <uri>git://guacamole.git.sourceforge.net/gitroot/guacamole/<replaceable>NAME</replaceable>/</uri>
+                    <uri>git://git.code.sf.net/p/guacamole/<replaceable>NAME</replaceable>/</uri>
             where <replaceable>NAME</replaceable> is any of the following
-            repository names, each of which corresponds to the Guacamole
+            repository names, most of which correspond to the Guacamole
             component of the same name:<variablelist>
                 <varlistentry>
                     <term><package>libguac</package></term>
@@ -571,11 +571,15 @@ ln -s '/usr/lib/systemd/system/tomcat6.service'
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term><package>guacamole</package></term>
+                    <term><package>code</package></term>
                     <listitem>
-                        <para>Guacamole the web application; what most people
-                            are referring to when they speak of software called
-                            Guacamole.</para>
+                        <para>Previously named "<package>guacamole</package>",
+                            this is Guacamole the web application; what most
+                            people are referring to when they speak of software
+                            called Guacamole. The name of this repository
+                            changed to "<package>code</package>" after the 0.8.0
+                            release due to a change in how SourceForge hosts git
+                            repositories.</para>
                     </listitem>
                 </varlistentry>
             </variablelist></para>

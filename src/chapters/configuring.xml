@@ -5,13 +5,14 @@
     xmlns:xi="http://www.w3.org/2001/XInclude">
 
     <title>Configuring Guacamole</title>
-
-    <!--
-    - Initial setup
-    -->
+    <para/>
+    <section>
+        <title><varname>GUACAMOLE_HOME</varname></title>
+        <para/>
+    </section>
 
     <section xml:id="initial-setup">
-        <title>Initial setup</title>
+        <title><filename>guacamole.properties</filename></title>
         <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
             <primary><filename>guacamole.properties</filename></primary>
         </indexterm>
@@ -95,286 +96,71 @@
             <xi:include href="conf/guacamole.properties.xml"/>
         </example>
     </section>
-
-    <!--
-    - Authentication
-    -->
-
-    <section xml:id="authentication-setup">
-        <title>Authentication</title>
+    <section>
+        <title>Using the default authentication</title>
         <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
             <primary>user-mapping.xml</primary>
         </indexterm>
         <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
             <primary>authentication</primary>
         </indexterm>
-        <para>Guacamole's authentication model is simple and consists of a
-            mapping of usernames to configurations. Each username has a
-            corresponding password and associated set of configurations, and
-            each configuration has a protocol and protocol-specific set of
-            parameters. The example <filename>user-mapping.xml</filename> file
-            included with Guacamole is a fairly good example of this concept. </para>
-        <para>Authentication is configured by editing
-                <filename>guacamole.properties</filename> and setting the
-            authentication provider property:
-            <property>auth-provider</property>. </para>
-        <para>Guacamole comes with an authentication provider,
-                <classname>BasicFileAuthenticationProvider</classname>, which
-            simply reads usernames and passwords from an XML file. </para>
-    </section>
-
-    <!--
-    - Adding users and connections
-    -->
-
-    <section xml:id="connection-setup">
-        <title>Adding users and connections</title>
-        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
-            <primary>users</primary>
-            <secondary>adding</secondary>
-        </indexterm>
-        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
-            <primary>connections</primary>
-            <secondary>adding</secondary>
-        </indexterm>
-        <para>The default authentication provider used by Guacamole reads all
-            username, password, and configuration information from a file called
-            the "user mapping" (typically named
-                <filename>user-mapping.xml</filename>). Other authentication
-            providers can be written which read authentication information from
-            other sources, but those are not documented here. To learn how to
-            configure an authentication provider not included in the main
-            Guacamole bundle, consult the documentation provided with that
-            authentication provider.</para>
-        <para>When using <classname>BasicFileAuthenticationProvider</classname>,
-            username/password pairs are specified with
-                <code>&lt;authorize></code> tags, which each have a
-                <code>username</code> and <code>password</code> attribute. Each
-                <code>&lt;authorize></code> tag authorizes a specific
-            username/password pair to access all connections within the
-            tag.</para>
-        <para>To specify a connection within an <code>&lt;authorize></code> tag,
-            you can either list a single protocol and set of parameters
-            (specified with a <code>&lt;protocol></code> tag and any number of
-                <code>&lt;param></code> tags), in which case that user will have
-            access to only one connection named "DEFAULT", or you can specify
-            one or more connections with one or more
-                <code>&lt;connection></code> tags, each of which can be named
-            and contains a <code>&lt;protocol></code> tag and any number of
-                <code>&lt;param></code> tags.</para>
-        <para>Both of these possibilities are shown in the example
-                <code>user-mapping.xml</code> below. A similar example is
-            included with Guacamole.</para>
-        <example>
-            <title>A simple <filename>user-mapping.xml</filename></title>
-            <xi:include href="conf/user-mapping.xml.xml"/>
-        </example>
-    </section>
-    <section xml:id="client-plugins">
-        <title>Protocols</title>
-        <para>Support for individual protocols is provided by libraries called
-            "client plugins" which are all named according to the
-                    <package>libguac-client-<replaceable>PROTOCOL</replaceable></package>
-            convention.</para>
-        <para>The mechanism that you specify the protocol and any associated
-            parameters will vary by authentication provider. If you are using
-            the default authentication provider, protocols are specified with a
-                <code>&lt;protocol></code> tag and parameters and their values
-            are specified with any number of corresponding
-                <code>&lt;param></code> tags. See the example
-                <filename>user-mapping.xml</filename> above for examples of how
-            these tags should be written.</para>
-    </section>
-    <section xml:id="vnc-support">
-        <title>VNC</title>
-        <para>The VNC protocol is the simplest and first protocol supported by
-            Guacamole. Although generally not as fast as RDP, many VNC servers
-            are adequate, and VNC over Guacamole tends to be faster than VNC by
-            itself due to decreased bandwidth usage.</para>
-        <para>VNC support for Guacamole is provided by the
-                <package>libguac-client-vnc</package> library, installed by
-            default.</para>
-        <section xml:id="vnc-parameters">
-            <title>Configuration parameters</title>
-            <variablelist>
-                <varlistentry>
-                    <term><parameter>hostname</parameter></term>
-                    <listitem>
-                        <para>The hostname or IP address of the VNC server
-                            Guacamole should connect to.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>port</parameter></term>
-                    <listitem>
-                        <para>The port the VNC server is listening on, usually
-                            5900 or 5900 + <replaceable>display
-                                number</replaceable>. For example, if your VNC
-                            server is serving display number 1 (sometimes
-                            written as <constant>:1</constant>), your port
-                            number here would be 5901.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>password</parameter></term>
-                    <listitem>
-                        <para>The password to use when attempting
-                            authentication, if any. This parameter is
-                            optional.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>read-only</parameter></term>
-                    <listitem>
-                        <para>Whether this connection should be read-only. If
-                            set to "true", no input will be accepted on the
-                            connection at all. Users will only see the desktop
-                            and whatever other users using that same desktop are
-                            doing. This parameter is optional.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>swap-red-blue</parameter></term>
-                    <listitem>
-                        <para>If the colors of your display appear wrong (blues
-                            appear orange or red, etc.), it may be that your VNC
-                            server is sending image data incorrectly, and the
-                            red and blue components of each color are swapped.
-                            If this is the case, set this parameter to "true" to
-                            work around the problem. This parameter is
-                            optional.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>encodings</parameter></term>
-                    <listitem>
-                        <para>A space-delimited list of VNC encodings to use.
-                            The format of this parameter is dictated by
-                            libvncclient and thus doesn't really follow the form
-                            of other Guacamole parameters. This parameter is
-                            optional, and <package>libguac-client-vnc</package>
-                            will use any supported encoding by default.</para>
-                        <para>Beware that this parameter is intended to be
-                            replaced with individual, encoding-specific
-                            parameters in a future release.</para>
-                    </listitem>
-                </varlistentry>
-            </variablelist>
-        </section>
-    </section>
-    <section xml:id="rdp-support">
-        <title>RDP</title>
-        <para>The RDP protocol is more complicated than VNC and was the second
-            protocol officially supported by Guacamole. RDP tends to be faster
-            than VNC due to the use of caching, which Guacamole does take
-            advantage of.</para>
-        <para>RDP support for Guacamole is provided by the
-                <package>libguac-client-rdp</package> library, which depends on
-            a recent version of FreeRDP (version 1.0 or higher). If your
-            distribution does not have a recent enough version of FreeRDP, the
-            Guacamole project will not build a
-                <package>libguac-client-rdp</package> package for you. You will
-            need to build and install a recent version of FreeRDP, and then
-            build and install <package>libguac-client-rdp</package> from
-            source.</para>
-        <section xml:id="rdp-parameters">
-            <title>Configuration parameters</title>
-            <variablelist>
-                <varlistentry>
-                    <term><parameter>hostname</parameter></term>
-                    <listitem>
-                        <para>The hostname or IP address of the RDP server
-                            Guacamole should connect to.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>port</parameter></term>
-                    <listitem>
-                        <para>The port the RDP server is listening on, usually
-                            3389. This parameter is optional. If this is not
-                            specified, the default of 3389 will be used.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>username</parameter></term>
-                    <listitem>
-                        <para>The username to use to authenticate, if any. This
-                            parameter is optional.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>password</parameter></term>
-                    <listitem>
-                        <para>The password to use when attempting
-                            authentication, if any. This parameter is
-                            optional.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>domain</parameter></term>
-                    <listitem>
-                        <para>The domain to use when attempting authentication,
-                            if any. This parameter is optional.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>color-depth</parameter></term>
-                    <listitem>
-                        <para>The color depth to request, in bits-per-pixel.
-                            This parameter is optional. If specified, this must
-                            be either 8, 16, or 24. Regardless of what value is
-                            chosen here, if a particular update uses less than
-                            256 colors, Guacamole will always send that update
-                            as a 256-color PNG.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>width</parameter></term>
-                    <listitem>
-                        <para>The width of the display to request, in pixels.
-                            This parameter is optional. If this value is not
-                            specified, the width of the connecting client
-                            display will be used instead.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>height</parameter></term>
-                    <listitem>
-                        <para>The height of the display to request, in pixels.
-                            This parameter is optional. If this value is not
-                            specified, the height of the connecting client
-                            display will be used instead.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>disable-audio</parameter></term>
-                    <listitem>
-                        <para>As of Guacamole version 0.7.0, audio is officially
-                            support and enabled by default in both the client
-                            and in libguac-client-rdp. If you are concerned
-                            about bandwidth usage, or sound is causing problems,
-                            you can explicitly disable sound by setting this
-                            parameter to "true".</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>console</parameter></term>
-                    <listitem>
-                        <para>If set to "true", you will be connected to the
-                            console (admin) session of the RDP server.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>console-audio</parameter></term>
-                    <listitem>
-                        <para>If set to "true", audio will be explicitly enabled
-                            in the console (admin) session of the RDP server.
-                            Setting this option to "true" only makes sense if
-                            the <parameter>console</parameter> parameter is also
-                            set to "true".</para>
-                    </listitem>
-                </varlistentry>
-            </variablelist>
+        <para>Guacamole's default authentication module is simple and consists
+            of a mapping of usernames to configurations. This authentication
+            module comes with Guacamole and simply reads usernames and passwords
+            from an XML file. If you wish to use this authentication mechanism,
+            you must ensure the <property>auth-provider</property> property is
+            set to the fully-qualified name of
+                <classname>BasicFileAuthenticationProvider</classname><footnote>
+                <para><classname>net.sourceforge.guacamole.net.basic.BasicFileAuthenticationProvider</classname></para>
+            </footnote>. This is the case within the example
+                <filename>guacamole.properties</filename> file shown above, and
+            in the <filename>guacamole.properties</filename> file included with
+            Guacamole. Unless you have already tried another authentication
+            module, you will not need to edit this value yourself if you are
+            using the configuration files that come with Guacamole.</para>
+        <section xml:id="connection-setup">
+            <title>Adding users and connections</title>
+            <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+                <primary>users</primary>
+                <secondary>adding</secondary>
+            </indexterm>
+            <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+                <primary>connections</primary>
+                <secondary>adding</secondary>
+            </indexterm>
+            <para>The default authentication provider used by Guacamole reads
+                all username, password, and configuration information from a
+                file called the "user mapping" (typically named
+                    <filename>user-mapping.xml</filename>). Other authentication
+                providers can be written which read authentication information
+                from other sources, but those are not documented here. To learn
+                how to configure an authentication provider not included in the
+                main Guacamole bundle, consult the documentation provided with
+                that authentication provider.</para>
+            <para>When using
+                    <classname>BasicFileAuthenticationProvider</classname>,
+                username/password pairs are specified with
+                    <code>&lt;authorize></code> tags, which each have a
+                    <code>username</code> and <code>password</code> attribute.
+                Each <code>&lt;authorize></code> tag authorizes a specific
+                username/password pair to access all connections within the
+                tag.</para>
+            <para>To specify a connection within an <code>&lt;authorize></code>
+                tag, you can either list a single protocol and set of parameters
+                (specified with a <code>&lt;protocol></code> tag and any number
+                of <code>&lt;param></code> tags), in which case that user will
+                have access to only one connection named "DEFAULT", or you can
+                specify one or more connections with one or more
+                    <code>&lt;connection></code> tags, each of which can be
+                named and contains a <code>&lt;protocol></code> tag and any
+                number of <code>&lt;param></code> tags.</para>
+            <para>Both of these possibilities are shown in the example
+                    <code>user-mapping.xml</code> below. A similar example is
+                included with Guacamole.</para>
+            <example>
+                <title>A simple <filename>user-mapping.xml</filename></title>
+                <xi:include href="conf/user-mapping.xml.xml"/>
+            </example>
         </section>
     </section>
 

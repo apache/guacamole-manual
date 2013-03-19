@@ -303,11 +303,9 @@ guacd[19666]: Listening on host 127.0.0.1, port 4823</screen>
                     wrong instruction was received, this could mean either that
                     the connecting client is from an incompatible version of
                     Guacamole (and thus does not know the proper handshake
-                    procedure) or you have found a bug. Check whether the first
-                    two numbers of the version numbers of all installed
-                    components of Guacamole match. If they do not, install the
-                    compatible versions of each component and try again. If they
-                    do match, report this as a bug.</para>
+                    procedure) or you have found a bug. Check whether all
+                    installed components came from the same upstream release
+                    bundle.</para>
             </section>
             <section>
                 <title>Error sending "args"</title>

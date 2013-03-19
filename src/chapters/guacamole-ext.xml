@@ -15,6 +15,18 @@
         application, exposed within a separate project such that extensions,
         specifically authentication providers, can be written to tweak Guacamole
         to fit well in existing deployments.</para>
+    <section>
+        <title>Common configuration</title>
+        <para/>
+        <section>
+            <title><classname>GuacamoleProperties</classname></title>
+            <para/>
+        </section>
+        <section>
+            <title><classname>GuacamoleHome</classname></title>
+            <para/>
+        </section>
+    </section>
     <section xml:id="auth-providers">
         <title>Authentication providers</title>
         <para>The main use of guacamole-ext is to provide custom authentication
@@ -56,6 +68,38 @@
             the community, are good examples for how authentication can be
             extended without having to implement a whole new web
             application.</para>
+        <section>
+            <title><classname>SimpleAuthenticationProvider</classname></title>
+            <para/>
+        </section>
+        <section>
+            <title>The <classname>UserContext</classname></title>
+            <para/>
+        </section>
+        <section>
+            <title><classname>Directory</classname> classes</title>
+            <para/>
+        </section>
+        <section>
+            <title>Permissions</title>
+            <para/>
+            <section>
+                <title>System permissions</title>
+                <para/>
+            </section>
+            <section>
+                <title>User permissions</title>
+                <para/>
+            </section>
+            <section>
+                <title>Connection permissions</title>
+                <para/>
+            </section>
+        </section>
+        <section>
+            <title>Connections and history</title>
+            <para/>
+        </section>
     </section>
     <section xml:id="event-listeners">
         <title>Event listeners</title>

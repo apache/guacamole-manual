@@ -6,10 +6,6 @@
 
     <title>Using Guacamole</title>
 
-    <!--
-    - Logging in
-    -->
-
     <section xml:id="logging-into-guacamole">
         <title>Logging in</title>
         <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
@@ -42,10 +38,6 @@
             </caption>
         </mediaobject>
     </section>
-
-    <!--
-    - Selecting connection
-    -->
 
     <section xml:id="selecting-a-connection">
         <title>Selecting a connection</title>
@@ -198,10 +190,6 @@
                 reconnecting.</para>
         </section>
     </section>
-
-    <!--
-    - Using Touch Devices
-    -->
 
     <section xml:id="using-touch-devices">
         <title>Using touch devices</title>
@@ -364,6 +352,10 @@
             <para>To disable auto-fit, uncheck the "Auto-fit display to browser
                 window" checkbox in the settings section.</para>
         </section>
+    </section>
+    <section xml:id="guacamole-admin-ui">
+        <title>Administration</title>
+        <para/>
     </section>
 
 </chapter>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter xml:id="mysql-auth" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>MySQL authentication</title>
+    <para/>
+    <section xml:id="installing-mysql-auth">
+        <title>Installing MySQL authentication</title>
+        <para/>
+        <section>
+            <title>Creating a database and user</title>
+            <para/>
+        </section>
+        <section>
+            <title>Running the SQL scripts</title>
+            <para/>
+        </section>
+        <section>
+            <title>Giving Guacamole database access</title>
+            <para/>
+        </section>
+    </section>
+    <section xml:id="mysql-auth-schema">
+        <title>Modifying data manually</title>
+        <para/>
+        <section>
+            <title>Users</title>
+            <para/>
+        </section>
+        <section>
+            <title>Connections and parameters</title>
+            <para/>
+            <section>
+                <title>Usage history</title>
+                <para/>
+            </section>
+        </section>
+        <section>
+            <title>Permissions</title>
+            <para/>
+        </section>
+    </section>
+</chapter>
