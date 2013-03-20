@@ -48,8 +48,6 @@
         <xi:include href="chapters/installing.xml"/>
         <xi:include href="chapters/configuring.xml"/>
         <xi:include href="chapters/mysql-auth.xml"/>
-        <xi:include href="chapters/vnc.xml"/>
-        <xi:include href="chapters/rdp.xml"/>
         <xi:include href="chapters/using.xml"/>
         <xi:include href="chapters/troubleshooting.xml"/>
         <!--<xi:include href="chapters/home-desktop.xml"/>-->

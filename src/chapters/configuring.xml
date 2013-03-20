@@ -145,12 +145,9 @@
             <xi:include href="conf/guacamole.properties.xml"/>
         </example>
     </section>
-    <section>
+    <section xml:id="basic-auth">
         <title>Using the default authentication</title>
-        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
-            <primary>user-mapping.xml</primary>
-        </indexterm>
-        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+        <indexterm>
             <primary>authentication</primary>
         </indexterm>
         <para>Guacamole's default authentication module is simple and consists
@@ -173,57 +170,402 @@
             web interface), and other authentication modules can be created
             using the extension API provided along with the Guacamole web
             application, <package>guacamole-ext</package>.</para>
-        <section>
+        <section xml:id="user-mapping">
             <title><filename>user-mapping.xml</filename></title>
+            <indexterm>
+                <primary>user-mapping.xml</primary>
+            </indexterm>
             <para>The default authentication provider used by Guacamole reads
                 all username, password, and configuration information from a
                 file called the "user mapping" (typically named
-                    <filename>user-mapping.xml</filename>). Other authentication
-                providers can be written which read authentication information
-                from other sources, but those are not documented here. To learn
-                how to configure an authentication provider not included in the
-                main Guacamole bundle, consult the documentation provided with
-                that authentication provider.</para>
-            <para>When using
-                    <classname>BasicFileAuthenticationProvider</classname>,
-                username/password pairs are specified with
-                    <code>&lt;authorize></code> tags, which each have a
-                    <code>username</code> and <code>password</code> attribute.
-                Each <code>&lt;authorize></code> tag authorizes a specific
-                username/password pair to access all connections within the
-                tag.</para>
-            <para>To specify a connection within an <code>&lt;authorize></code>
-                tag, you can either list a single protocol and set of parameters
-                (specified with a <code>&lt;protocol></code> tag and any number
-                of <code>&lt;param></code> tags), in which case that user will
-                have access to only one connection named "DEFAULT", or you can
-                specify one or more connections with one or more
-                    <code>&lt;connection></code> tags, each of which can be
-                named and contains a <code>&lt;protocol></code> tag and any
-                number of <code>&lt;param></code> tags.</para>
-            <para>Both of these possibilities are shown in the example
-                    <code>user-mapping.xml</code> below. A similar example is
-                included with Guacamole.</para>
-            <example>
-                <title>A simple <filename>user-mapping.xml</filename></title>
-                <xi:include href="conf/user-mapping.xml.xml"/>
-            </example>
-            <section xml:id="connection-setup">
+                    <filename>user-mapping.xml</filename>). An example of this
+                file is included with Guacamole, and looks something like
+                this:</para>
+            <programlisting>&lt;user-mapping>
+	
+    &lt;!-- Per-user authentication and config information -->
+    &lt;authorize username="USERNAME" password="PASSWORD">
+        &lt;protocol>vnc&lt;/protocol>
+        &lt;param name="hostname">localhost&lt;/param>
+        &lt;param name="port">5900&lt;/param>
+        &lt;param name="password">VNCPASS&lt;/param>
+    &lt;/authorize>
+
+    &lt;!-- Another user, but using md5 to hash the password
+         (example below uses the md5 hash of "PASSWORD") -->
+    &lt;authorize 
+            username="USERNAME2"
+            password="319f4d26e3c536b5dd871bb2c52e3178"
+            encoding="md5">
+
+        &lt;!-- First authorized connection -->
+        &lt;connection name="localhost">
+            &lt;protocol>vnc&lt;/protocol>
+            &lt;param name="hostname">localhost&lt;/param>
+            &lt;param name="port">5901&lt;/param>
+            &lt;param name="password">VNCPASS&lt;/param>
+        &lt;/connection>
+
+        &lt;!-- Second authorized connection -->
+        &lt;connection name="otherhost">
+            &lt;protocol>vnc&lt;/protocol>
+            &lt;param name="hostname">otherhost&lt;/param>
+            &lt;param name="port">5900&lt;/param>
+            &lt;param name="password">VNCPASS&lt;/param>
+        &lt;/connection>
+
+    &lt;/authorize>
+
+&lt;/user-mapping></programlisting>
+            <para>Each user is specified with a corresponding
+                    <code>&lt;authorize></code> tag. This tag contains all
+                authorized connections for that user, each denoted with a
+                    <code>&lt;connection></code> tag. Each
+                    <code>&lt;connection></code> tag contains a corresponding
+                protocol and set of protocol-specific parameters, specified with
+                the <code>&lt;protocol></code> and <code>&lt;param></code> tags
+                respectively.</para>
+            <section xml:id="user-setup">
                 <title>Adding users</title>
-                <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+                <indexterm>
                     <primary>users</primary>
                     <secondary>adding</secondary>
                 </indexterm>
-                <para/>
+                <para>When using
+                        <classname>BasicFileAuthenticationProvider</classname>,
+                    username/password pairs are specified with
+                        <code>&lt;authorize></code> tags, which each have a
+                        <code>username</code> and <code>password</code>
+                    attribute. Each <code>&lt;authorize></code> tag authorizes a
+                    specific username/password pair to access all connections
+                    within the tag:</para>
+                <programlisting>&lt;authorize username="<replaceable>USER</replaceable>" password="<replaceable>PASS</replaceable>">
+    ...
+&lt;/authorize></programlisting>
+                <para>In the example above, the password would be listed in
+                    plaintext. If you don't want to do this, you can also
+                    specify your password hashed with MD5:</para>
+                <programlisting>&lt;authorize username="<replaceable>USER</replaceable>"
+           password="<replaceable>319f4d26e3c536b5dd871bb2c52e3178</replaceable>"
+           encoding="md5">
+    ...
+&lt;/authorize></programlisting>
+                <para>After modifying user-mapping.xml, the file will be
+                    automatically reread by Guacamole, and your changes will
+                    take effect immediately. The newly-added user will be able
+                    to log in - no restart of the servlet container is
+                    needed.</para>
             </section>
-            <section>
+            <section xml:id="connection-setup">
                 <title>Adding connections to a user</title>
-                <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+                <indexterm>
                     <primary>connections</primary>
                     <secondary>adding</secondary>
                 </indexterm>
-                <para/>
+                <para>To specify a connection within an
+                        <code>&lt;authorize></code> tag, you can either list a
+                    single protocol and set of parameters (specified with a
+                        <code>&lt;protocol></code> tag and any number of
+                        <code>&lt;param></code> tags), in which case that user
+                    will have access to only one connection named "DEFAULT", or
+                    you can specify one or more connections with one or more
+                        <code>&lt;connection></code> tags, each of which can be
+                    named and contains a <code>&lt;protocol></code> tag and any
+                    number of <code>&lt;param></code> tags.</para>
             </section>
+        </section>
+    </section>
+    <section xml:id="vnc">
+        <title>VNC</title>
+        <para>The VNC protocol is the simplest and first protocol supported by
+            Guacamole. Although generally not as fast as RDP, many VNC servers
+            are adequate, and VNC over Guacamole tends to be faster than VNC by
+            itself due to decreased bandwidth usage.</para>
+        <para>VNC support for Guacamole is provided by the
+                <package>libguac-client-vnc</package> library, installed by
+            default.</para>
+        <section xml:id="vnc-parameters">
+            <title>Configuration parameters</title>
+            <variablelist>
+                <varlistentry>
+                    <term><parameter>hostname</parameter></term>
+                    <listitem>
+                        <para>The hostname or IP address of the VNC server
+                            Guacamole should connect to.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>port</parameter></term>
+                    <listitem>
+                        <para>The port the VNC server is listening on, usually
+                            5900 or 5900 + <replaceable>display
+                                number</replaceable>. For example, if your VNC
+                            server is serving display number 1 (sometimes
+                            written as <constant>:1</constant>), your port
+                            number here would be 5901.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>password</parameter></term>
+                    <listitem>
+                        <para>The password to use when attempting
+                            authentication, if any. This parameter is
+                            optional.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>read-only</parameter></term>
+                    <listitem>
+                        <para>Whether this connection should be read-only. If
+                            set to "true", no input will be accepted on the
+                            connection at all. Users will only see the desktop
+                            and whatever other users using that same desktop are
+                            doing. This parameter is optional.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>swap-red-blue</parameter></term>
+                    <listitem>
+                        <para>If the colors of your display appear wrong (blues
+                            appear orange or red, etc.), it may be that your VNC
+                            server is sending image data incorrectly, and the
+                            red and blue components of each color are swapped.
+                            If this is the case, set this parameter to "true" to
+                            work around the problem. This parameter is
+                            optional.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>encodings</parameter></term>
+                    <listitem>
+                        <para>A space-delimited list of VNC encodings to use.
+                            The format of this parameter is dictated by
+                            libvncclient and thus doesn't really follow the form
+                            of other Guacamole parameters. This parameter is
+                            optional, and <package>libguac-client-vnc</package>
+                            will use any supported encoding by default.</para>
+                        <para>Beware that this parameter is intended to be
+                            replaced with individual, encoding-specific
+                            parameters in a future release.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </section>
+        <section xml:id="adding-vnc">
+            <title>Adding a VNC connection</title>
+            <para>If you are using the default authentication built into
+                Guacamole, and you wish to grant access to a VNC connection to a
+                particular user, you need to locate the
+                    <code>&lt;authorize></code> section for that user within
+                your <filename>user-mapping.xml</filename>, and add a section
+                like the following within it:</para>
+            <programlisting>&lt;connection name="<replaceable>Unique Name</replaceable>">
+    &lt;protocol>vnc&lt;/protocol>
+    &lt;param name="hostname"><replaceable>localhost</replaceable>&lt;/param>
+    &lt;param name="port"><replaceable>5901</replaceable>&lt;/param>
+&lt;/connection></programlisting>
+            <para>If added exactly as above, a new connection named
+                    "<replaceable>Unique Name</replaceable>" will be available
+                to the user associated with the <code>&lt;authorize></code>
+                section containing it. The connection will use VNC to connect to
+                    <replaceable>localhost</replaceable> at port
+                    <replaceable>5901</replaceable>. Naturally, you will want to
+                change some or all of these values.</para>
+            <para>If your VNC server requires a password, or you wish to specify
+                other configuration parameters (to reduce the color depth, for
+                example), you will need to add additional
+                    <code>&lt;param></code> tags accordingly.</para>
+            <para>Other authentication methods will provide documentation
+                describing how to configure new connections. If the
+                authentication method in use fully implements the features of
+                Guacamole 0.8.0, you will be able to add a new VNC connection
+                easily and intuitively using the administration interface built
+                into Guacamole. You will not need to edit configuration
+                files.</para>
+        </section>
+        <section>
+            <title>Which VNC server?</title>
+            <para>The choice of VNC server can make a big difference when it
+                comes to performance, especially over slower networks. While
+                many systems provide VNC access by default, using this is often
+                not the fastest method.</para>
+            <section>
+                <title>RealVNC or TigerVNC</title>
+                <para>RealVNC, and its derivative TigerVNC, perform quite well.
+                    In our testing, they perform the best with Guacamole. If you
+                    are okay with having a desktop that can only be accessed via
+                    VNC, one of these is likely your best choice. Both optimize
+                    window movement and (depending on the application)
+                    scrolling, giving a very responsive user experience.</para>
+            </section>
+            <section>
+                <title>TightVNC</title>
+                <para>TightVNC is widely-available and performs generally as
+                    well as RealVNC or TigerVNC. If you wish to use TightVNC
+                    with Guacamole, performance should be just fine, but we
+                    highly recommend disabling its JPEG encoding. This is
+                    because images transmitted to Guacamole are always encoded
+                    losslessly as PNG images. When this operation is performed
+                    on a JPEG image, the artifacts present from JPEG's lossy
+                    compression reduce the compressibility of the image for PNG,
+                    thus leading to a slower experience overall than if JPEG was
+                    simply not used to begin with.</para>
+            </section>
+            <section>
+                <title>x11vnc</title>
+                <para>The main benefit of using x11vnc is that it allows you to
+                    continue using your desktop normally, while simultaneously
+                    exposing control of your desktop via VNC. Performance of
+                    x11vnc is comparable to RealVNC, TigerVNC, and TightVNC. If
+                    you need to use your desktop locally as well as via VNC, you
+                    will likely be quite happy with x11vnc.</para>
+            </section>
+            <section>
+                <title>vino</title>
+                <para>vino is the VNC server that comes with the Gnome desktop
+                    environment, and is enabled if you enable "desktop sharing"
+                    via the system preferences available within Gnome. If you
+                    need to share your local desktop, we recommend using x11vnc
+                    rather vino, as it has proven more performant and
+                    feature-complete in our testing. If you don't need to share
+                    a local desktop but simply need an environment you can
+                    access remotely, using a VNC server like RealVNC, TigerVNC,
+                    or TightVNC is a better choice.</para>
+            </section>
+            <section>
+                <title>QEMU or KVM</title>
+                <para>QEMU (and thus KVM) expose the displays of virtual
+                    machines using VNC. If you need to see the virtual monitor
+                    of your virtual machine, using this VNC connection is really
+                    your only choice. As the VNC server built into QEMU cannot
+                    be aware of higher-level operations like window movement,
+                    resizing, or scrolling, those operations will tend to be
+                    sent suboptimally, and will not be as fast as a VNC server
+                    running within the virtual machine.</para>
+                <para>If you wish to use a virtual machine for desktop access,
+                    we recommend installing a native VNC server inside the
+                    virtual machine after the virtual machine is set up. This
+                    will give a more responsive desktop.</para>
+            </section>
+        </section>
+    </section>
+    <section xml:id="rdp">
+        <title>RDP</title>
+        <para>The RDP protocol is more complicated than VNC and was the second
+            protocol officially supported by Guacamole. RDP tends to be faster
+            than VNC due to the use of caching, which Guacamole does take
+            advantage of.</para>
+        <para>RDP support for Guacamole is provided by the
+                <package>libguac-client-rdp</package> library, which depends on
+            a recent version of FreeRDP (version 1.0 or higher). If your
+            distribution does not have a recent enough version of FreeRDP, the
+            Guacamole project will not build a
+                <package>libguac-client-rdp</package> package for you. You will
+            need to build and install a recent version of FreeRDP, and then
+            build and install <package>libguac-client-rdp</package> from
+            source.</para>
+        <section xml:id="rdp-parameters">
+            <title>Configuration parameters</title>
+            <variablelist>
+                <varlistentry>
+                    <term><parameter>hostname</parameter></term>
+                    <listitem>
+                        <para>The hostname or IP address of the RDP server
+                            Guacamole should connect to.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>port</parameter></term>
+                    <listitem>
+                        <para>The port the RDP server is listening on, usually
+                            3389. This parameter is optional. If this is not
+                            specified, the default of 3389 will be used.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>username</parameter></term>
+                    <listitem>
+                        <para>The username to use to authenticate, if any. This
+                            parameter is optional.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>password</parameter></term>
+                    <listitem>
+                        <para>The password to use when attempting
+                            authentication, if any. This parameter is
+                            optional.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>domain</parameter></term>
+                    <listitem>
+                        <para>The domain to use when attempting authentication,
+                            if any. This parameter is optional.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>color-depth</parameter></term>
+                    <listitem>
+                        <para>The color depth to request, in bits-per-pixel.
+                            This parameter is optional. If specified, this must
+                            be either 8, 16, or 24. Regardless of what value is
+                            chosen here, if a particular update uses less than
+                            256 colors, Guacamole will always send that update
+                            as a 256-color PNG.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>width</parameter></term>
+                    <listitem>
+                        <para>The width of the display to request, in pixels.
+                            This parameter is optional. If this value is not
+                            specified, the width of the connecting client
+                            display will be used instead.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>height</parameter></term>
+                    <listitem>
+                        <para>The height of the display to request, in pixels.
+                            This parameter is optional. If this value is not
+                            specified, the height of the connecting client
+                            display will be used instead.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>disable-audio</parameter></term>
+                    <listitem>
+                        <para>As of Guacamole version 0.7.0, audio is officially
+                            support and enabled by default in both the client
+                            and in libguac-client-rdp. If you are concerned
+                            about bandwidth usage, or sound is causing problems,
+                            you can explicitly disable sound by setting this
+                            parameter to "true".</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>console</parameter></term>
+                    <listitem>
+                        <para>If set to "true", you will be connected to the
+                            console (admin) session of the RDP server.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>console-audio</parameter></term>
+                    <listitem>
+                        <para>If set to "true", audio will be explicitly enabled
+                            in the console (admin) session of the RDP server.
+                            Setting this option to "true" only makes sense if
+                            the <parameter>console</parameter> parameter is also
+                            set to "true".</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </section>
+        <section xml:id="adding-rdp">
+            <title>Adding an RDP connection</title>
+            <para/>
         </section>
     </section>
 
