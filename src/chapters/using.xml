@@ -355,14 +355,105 @@
     </section>
     <section xml:id="guacamole-admin-ui">
         <title>Administration</title>
-        <para/>
+        <para>As of release 0.8.0, Guacamole supports administration of users
+            and connections from within the web interface if the underlying
+            authentication module supports this. The only officially-supported
+            authentication module supporting this is the MySQL authentication
+            provider, which is documented in a different chapter.</para>
+        <para>If you are using the default authentication mechanism, this
+            section does not apply to you, and the Guacamole web interface will
+            appear as it did in past releases. If, on the other hand, you are
+            using the MySQL authentication provider, and you are logged in as an
+            administrator, you will see a "Manage" button next to the "Logout"
+            button at the top of the screen.</para>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="../images/manage-button.png" format="PNG"
+                    contentwidth="3in"/>
+            </imageobject>
+            <caption>
+                <para>The new "Manage" button</para>
+            </caption>
+        </mediaobject>
+        <para>Clicking this button takes you to an administration screen where
+            you can add or manipulate users and connections, depending on your
+            permissions.</para>
         <section>
-            <title>Adding users or connections</title>
-            <para/>
+            <title>Managing users</title>
+            <para>Once at the administration screen, you will see two sections
+                displaying all visible users and connections. The visibility of
+                these sections depends on your user's permissions. If you lack
+                permission to manage users, the user management section will not
+                display. The same goes for management of connections.</para>
+            <para>To add a new user, type the username of the new user within
+                the text box inside the user management section, and click the
+                "Add" button. The new user will be added and made available. The
+                new user will have no access to any existing connections, no
+                administrative privileges, and no password, and will not be able
+                to login. You will need to set the user's password first in
+                order to allow login.</para>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/manage-users.png" format="PNG"
+                        contentwidth="3in"/>
+                </imageobject>
+                <caption>
+                    <para>User management interface</para>
+                </caption>
+            </mediaobject>
+            <para>To edit a user, just click on the user you wish to edit. A
+                small dialog will display allowing you to change the user's
+                password, add or remove administrative permissions, and add or
+                remove access to specific connections.</para>
+            <para>If you have delete permission on the user, you will also see a
+                "Delete" button. Clicking this button will permanently delete
+                the user.</para>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/edit-user.png" format="PNG"
+                        contentwidth="2in"/>
+                </imageobject>
+                <caption>
+                    <para>Editing a user</para>
+                </caption>
+            </mediaobject>
         </section>
         <section>
-            <title>Modifying users or connections</title>
-            <para/>
+            <title>Managing connections</title>
+            <para>To add a new connection, type the name of the new connection
+                within the text box inside the connection management section,
+                and click the "Add" button. This name should be descriptive, but
+                must also be unique. The new connection will be added, but will
+                initially only be usable by administrators and your current
+                user. To add access to the new connection to another existing
+                user, you must edit that user, checking the box corresponding to
+                the new connection.</para>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/manage-connections.png"
+                        format="PNG" contentwidth="3in"/>
+                </imageobject>
+                <caption>
+                    <para>Connection management interface</para>
+                </caption>
+            </mediaobject>
+            <para>Editing a connection works identically to editing a user.
+                Click on the connection you wish to edit. A dialog will pop up
+                displaying all parameters associated with the connection,
+                allowing you to change the protocol, associated parameters, and
+                to view the connection history.</para>
+            <para>If you have delete permission on the connection, you will also
+                see a "Delete" button. Clicking this button will permanently
+                delete the connection.</para>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/edit-connection.png"
+                        format="PNG" contentwidth="2in"/>
+                </imageobject>
+                <caption>
+                    <para>Editing a connection</para>
+                </caption>
+            </mediaobject>
         </section>
     </section>
 

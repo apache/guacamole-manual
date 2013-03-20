@@ -336,6 +336,17 @@
                     </listitem>
                 </varlistentry>
                 <varlistentry>
+                    <term><parameter>color-depth</parameter></term>
+                    <listitem>
+                        <para>The color depth to request, in bits-per-pixel.
+                            This parameter is optional. If specified, this must
+                            be either 8, 16, 24, or 32. Regardless of what value
+                            is chosen here, if a particular update uses less
+                            than 256 colors, Guacamole will always send that
+                            update as a 256-color PNG.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
                     <term><parameter>encodings</parameter></term>
                     <listitem>
                         <para>A space-delimited list of VNC encodings to use.
@@ -565,7 +576,36 @@
         </section>
         <section xml:id="adding-rdp">
             <title>Adding an RDP connection</title>
-            <para/>
+            <para>If you are using the default authentication built into
+                Guacamole, and you wish to grant access to a RDP connection to a
+                particular user, you need to locate the
+                    <code>&lt;authorize></code> section for that user within
+                your <filename>user-mapping.xml</filename>, and add a section
+                like the following within it:</para>
+            <programlisting>&lt;connection name="<replaceable>Unique Name</replaceable>">
+    &lt;protocol>rdp&lt;/protocol>
+    &lt;param name="hostname"><replaceable>localhost</replaceable>&lt;/param>
+    &lt;param name="port"><replaceable>3389</replaceable>&lt;/param>
+&lt;/connection></programlisting>
+            <para>If added exactly as above, a new connection named
+                    "<replaceable>Unique Name</replaceable>" will be available
+                to the user associated with the <code>&lt;authorize></code>
+                section containing it. The connection will use RDP to connect to
+                    <replaceable>localhost</replaceable> at port
+                    <replaceable>3389</replaceable>. Naturally, you will want to
+                change some or all of these values.</para>
+            <para>If you want to login automatically rather than receive a login
+                prompt upon connecting, you can specify a username and password
+                with additional <code>&lt;param></code> tags. Other options are
+                available for controlling the color depth, size of the screen,
+                etc.</para>
+            <para>Other authentication methods will provide documentation
+                describing how to configure new connections. If the
+                authentication method in use fully implements the features of
+                Guacamole 0.8.0, you will be able to add a new RDP connection
+                easily and intuitively using the administration interface built
+                into Guacamole. You will not need to edit configuration
+                files.</para>
         </section>
     </section>
 
