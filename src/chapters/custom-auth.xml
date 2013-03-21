@@ -24,8 +24,14 @@
         pair with a single connection, with all this information saved in
         properties inside the <filename>guacamole.properties</filename>
         file.</para>
-    <para>All other authentication plugins for Guacamole will use the principles
-        demonstrated here.</para>
+    <para>In general, all other authentication plugins for Guacamole will use
+        the principles demonstrated here. However, as of Guacamole 0.8.0, the
+        authentication model has been significantly enhanced, and supports more
+        than simply translating a username/password pair into a set of
+        authorized configurations. This tutorial demonstrates the simplest way
+        to create an authentication plugin for Guacamole - an authentication
+        plugin that does not support management of users and connections via the
+        web interface.</para>
     <section xml:id="auth-model">
         <title>Guacamole's authentication model</title>
         <para>When you view any page in Guacamole, whether that be the login
@@ -39,9 +45,9 @@
             designated class called the "authentication provider". This class is
             designated via a property in the
                 <filename>guacamole.properties</filename> file. Given the set of
-            credentials, the specified authentication provider simply returns a
-            corresponding map of all configurations associated with those
-            credentials, if any.</para>
+            credentials, the specified authentication provider returns a context
+            object that provides restricted access to other users and
+            connections, if any.</para>
     </section>
     <section xml:id="client-plugin-skeleton">
         <title>A Guacamole plugin skeleton</title>

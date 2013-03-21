@@ -17,14 +17,36 @@
         to fit well in existing deployments.</para>
     <section>
         <title>Common configuration</title>
-        <para/>
+        <para>For the sake of ease of development and providing a common
+            location for configuration of both Guacamole and its extensions,
+            guacamole-ext provides utility classes for accessing the main
+            configuration file, <filename>guacamole.properties</filename>, and
+            for accessing the main root directory for housing configuration
+            files: <varname>GUACAMOLE_HOME</varname>.</para>
         <section>
             <title><classname>GuacamoleProperties</classname></title>
-            <para/>
+            <para><classname>GuacamoleProperties</classname> is a utility class
+                for accessing the properties declared within
+                    <filename>guacamole.properties</filename>. Each property is
+                typesafe and handles its own parsing - retrieving a property is
+                as simple as calling <methodname>getProperty()</methodname> or
+                    <methodname>getRequiredProperty()</methodname>.</para>
+            <para>Because of this ease-of-access to guacamole.properties within
+                Guacamole and all extensions, the
+                    <filename>guacamole.properties</filename> file is an ideal
+                place to store unstructured, extension-specific configuration
+                information.</para>
         </section>
         <section>
             <title><classname>GuacamoleHome</classname></title>
-            <para/>
+            <para>If you need more structured data than provided by simple
+                properties, placing XML or some other separate file within
+                    <varname>GUACAMOLE_HOME</varname> (or a subdirectory
+                thereof) is a decent way to achieve this. The
+                    <classname>GuacamoleHome</classname> class provides access
+                to the <varname>GUACAMOLE_HOME</varname> directory, abstracting
+                away the decision process that determines which directory is
+                considered <varname>GUACAMOLE_HOME</varname>.</para>
         </section>
     </section>
     <section xml:id="auth-providers">
@@ -117,27 +139,228 @@
         </section>
         <section>
             <title><classname>Directory</classname> classes</title>
-            <para/>
+            <para>Access to users and connections is given through
+                    <classname>Directory</classname> classes. These
+                    <classname>Directory</classname> classes are similar to Java
+                collections, but they also embody object update semantics.
+                Objects can be retrieved from a <classname>Directory</classname>
+                using its <methodname>get()</methodname> function and added or
+                removed with <methodname>add()</methodname> and
+                    <methodname>remove()</methodname> respectively, but objects
+                already in the set can also be updated by passing an updated
+                object to its <methodname>update()</methodname> function.</para>
+            <para>An implementation of a <classname>Directory</classname> can
+                rely on these functions to define the semantics surrounding all
+                operations. The <methodname>add()</methodname> function is
+                called only when creating new objects, the
+                    <methodname>update()</methodname> function is called only
+                when updating an object previously retrieved with
+                    <methodname>get()</methodname>, and
+                    <methodname>remove()</methodname> is called only when
+                removing an existing object by its identifier.</para>
+            <para>When implementing an
+                    <classname>AuthenticationProvider</classname>, you must
+                ensure that the <classname>UserContext</classname> will only
+                return <classname>Directory</classname> classes that
+                automatically enforce the permissions associated with all
+                objects and the associated user.</para>
         </section>
         <section>
             <title>Permissions</title>
-            <para/>
+            <para>The permissions system within guacamole-ext is the means with
+                which an authentication module communicates with the web
+                application, informing it of what the user is allowed to do. The
+                presence or lack of permissions for certain operations dictates
+                how the web interface displays itself: whether the "Manage"
+                button is displayed, whether the user or connection management
+                sections (or both) are displayed, etc.</para>
+            <para><emphasis>Permissions are not the means through which access
+                    is restricted</emphasis>. An implementation may use the
+                permission objects to define restrictions, but this is not
+                required. It is up to the implementation to enforce its own
+                restrictions by throwing exceptions when an operation is not
+                allowed.</para>
             <section>
                 <title>System permissions</title>
-                <para/>
+                <para>System permissions grant access to operations that
+                    manipulate the system as a whole, rather than specific
+                    objects. This includes the creation of new objects, as
+                    object creation directly affects the system, and per-object
+                    controls cannot exist before the object is actually
+                    created.</para>
+                <variablelist>
+                    <varlistentry>
+                        <term><type>ADMINISTER</type></term>
+                        <listitem>
+                            <para>Allows manipulation of system-level
+                                permissions. The semantics of the system-level
+                                    <type>ADMINISTER</type> permission are up to
+                                the implementor of the authentication module,
+                                but in general this permission implies all other
+                                permissions. A user having this permission can
+                                implicitly create and manage any object.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><type>CREATE_CONNECTION</type></term>
+                        <listitem>
+                            <para>Allows creation of new connections. If a user
+                                has this permission, they will see the
+                                connection management interface and the "Manage"
+                                button.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><type>CREATE_USER</type></term>
+                        <listitem>
+                            <para>Allows creation of new users. If a user has
+                                this permission, they will see the user
+                                management interface and the "Manage"
+                                button.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
             </section>
             <section>
                 <title>User permissions</title>
-                <para/>
+                <para>User permissions grant access to operations that affect a
+                    specific user. Each user permission has a definite and
+                    single associated user that is the object of the
+                    operation.</para>
+                <variablelist>
+                    <varlistentry>
+                        <term><type>ADMINISTER</type></term>
+                        <listitem>
+                            <para>Allows changing visibility of the user. A user
+                                with <type>ADMINISTER</type> permission on
+                                another user can add and remove permissions
+                                related to that user. Note that adding or
+                                removing permissions on a user implicitly
+                                requires <type>UPDATE</type> permission on that
+                                user.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><type>DELETE</type></term>
+                        <listitem>
+                            <para>Allows deletion of the associated user. This
+                                is distinct from the <type>ADMINISTER</type>
+                                permission which deals only with modification to
+                                the permissions associated with a user. A user
+                                with this permission will see the "Delete"
+                                button when editing the corresponding
+                                user.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><type>READ</type></term>
+                        <listitem>
+                            <para>Allows the user to be read. A particular user
+                                will not appear in the user management section
+                                unless the user viewing it has <type>READ</type>
+                                permission on that specific user.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><type>UPDATE</type></term>
+                        <listitem>
+                            <para>Allows the user to be updated. This means
+                                altering the user's password or adding or
+                                removing permissions from that user. Note the
+                                difference between <type>UPDATE</type> and
+                                    <type>ADMINISTER</type>: the
+                                    <type>UPDATE</type> permission allows the
+                                permissions <emphasis>of</emphasis> a user to be
+                                changed, while <type>ADMINISTER</type>
+                                permission allows permissions <emphasis>relating
+                                    to</emphasis> a user to be changed.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
             </section>
             <section>
                 <title>Connection permissions</title>
-                <para/>
+                <para>Connection permissions grant access to operations that
+                    affect a specific connection. Each connection permission has
+                    a definite and single associated connection that is the
+                    object of the operation. The semantics of each operation
+                    differ slightly from the similar user permissions, but the
+                    general principles behind them are the same.</para>
+                <variablelist>
+                    <varlistentry>
+                        <term><type>ADMINISTER</type></term>
+                        <listitem>
+                            <para>Allows changing visibility of the connection.
+                                A user with <type>ADMINISTER</type> permission
+                                on a connection can add and remove permissions
+                                related to that connection.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><type>DELETE</type></term>
+                        <listitem>
+                            <para>Allows deletion of the associated connection.
+                                This is distinct from the
+                                    <type>ADMINISTER</type> permission which
+                                deals only with modification to the permissions
+                                associated with a connection. A user with this
+                                permission will see the "Delete" button when
+                                editing the corresponding connection.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><type>READ</type></term>
+                        <listitem>
+                            <para>Allows the connection to be read. A particular
+                                connection will not appear in the connection
+                                list nor in the connection management section
+                                unless the user viewing it has <type>READ</type>
+                                permission on that specific connection.
+                                    <type>READ</type> permission is required for
+                                a user to have permission to actually use a
+                                connection.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><type>UPDATE</type></term>
+                        <listitem>
+                            <para>Allows the connection to be updated. This
+                                means editing the connection's parameters or
+                                changing the connection's protocol.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
             </section>
         </section>
         <section>
             <title>Connections and history</title>
-            <para/>
+            <para>As of Guacamole 0.8.0, authentication modules no longer simply
+                return a <classname>GuacamoleConfiguration</classname> and rely
+                on the web application to handle the connection. Authentication
+                modules must now return <classname>Connection</classname>
+                objects which each implement a
+                    <methodname>connect()</methodname> function. When this
+                function is called, the connection must be made if permission is
+                available.</para>
+            <para>This new separation of concerns makes more sense when you
+                consider that as connecting is an operation on a
+                    <classname>Connection</classname>, access to performing that
+                operation must be restricted through the
+                    <classname>AuthenticationProvider</classname>, and thus must
+                be enforced within the
+                    <classname>AuthenticationProvider</classname>. This
+                separation also opens the door for things like load balancing of
+                connections and restricting concurrent access to
+                connections.</para>
+            <para>When a connection is made or terminated, it is also the duty
+                of the authentication module to maintain the connection history.
+                Each connection has a corresponding list of
+                    <classname>ConnectionRecord</classname> objects, each of
+                which is associated with a past connection or a currently-active
+                connection. This information will ultimately be exposed to the
+                user as a history list when they view a connection in the
+                management interface or as a simple active user count on the
+                connection, advising the user of existing activity.</para>
         </section>
     </section>
     <section xml:id="event-listeners">
