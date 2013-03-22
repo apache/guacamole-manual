@@ -3,22 +3,165 @@
 <chapter xml:id="mysql-auth" xmlns="http://docbook.org/ns/docbook" version="5.0"
     xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude">
     <title>MySQL authentication</title>
-    <para/>
+    <para>Guacamole 0.8.0 introduced an officially-supported MySQL
+        authentication module that allows users and connections to be managed
+        from within the web application.</para>
+    <para>Unlike the default, XML-driven authentication module, all changes to
+        users and connections take effect immediately; users need not logout and
+        back in in order to see new connections.</para>
     <section xml:id="installing-mysql-auth">
         <title>Installing MySQL authentication</title>
-        <para/>
+        <para>The MySQL authentication module is not included in the main
+            Guacamole bundle nor is it enabled by default. You must use the
+            download link provided in the downloads section of the main
+            Guacamole site.</para>
+        <para>The downloaded <filename>.tar.gz</filename> file will contain
+            several directories:</para>
+        <variablelist>
+            <varlistentry>
+                <term><filename>lib/</filename></term>
+                <listitem>
+                    <para>Contains all <filename>.jar</filename> files required
+                        for the MySQL authentication module to work, including
+                        the module itself.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><filename>schema/</filename></term>
+                <listitem>
+                    <para>Contains all SQL scripts required to set up the MySQL
+                        database.</para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+        <para>The contents of <filename>lib/</filename> must be copied into the
+            classpath of Guacamole, which is the directory specified by the
+                <property>lib-directory</property> property in
+                <filename>guacamole.properties</filename>. If this property is
+            not specified, simply add it. On Linux servers,
+                <filename>/var/lib/guacamole/classpath</filename> is a good
+            choice, but it can be whatever you like.</para>
+        <para>After copying the files in place, check to make sure everything
+            looks sane. The contents should match at least the files shown
+            here:</para>
+        <screen><prompt>$</prompt> ls <replaceable>/var/lib/guacamole/classpath</replaceable>
+<computeroutput>aopalliance-1.0.jar             javax.inject-1.jar
+commons-logging-1.1.1.jar       mybatis-3.1.1.jar
+google-collections-1.0.jar      mybatis-guice-3.2.jar
+guacamole-auth-mysql-0.8.0.jar  slf4j-api-1.6.1.jar
+guice-3.0.jar                   slf4j-jcl-1.6.1.jar
+guice-multibindings-3.0.jar</computeroutput>
+<prompt>$</prompt></screen>
+        <para>Each of the <filename>.jar</filename> files above is either the
+            MySQL authentication module itself
+                (<filename>guacamole-auth-mysql-0.8.0.jar</filename>) or a
+            dependency. They must all be placed in Guacamole's lib-directory for
+            the MySQL authentication to work.</para>
         <section>
             <title>Creating a database and user</title>
-            <para/>
+            <para>The MySQL authentication module will need a database to store
+                all authentication data and a user to use only for data access
+                and manipulation. You could use an existing database and
+                existing user, but for the sake of simplicity and security,
+                these instructions assume you will be creating a new database
+                and new user that will be used only by Guacamole and only for
+                this authentication module.</para>
+            <para>At this point, you need MySQL installed and the root MySQL
+                user configured. If this is not the case, install MySQL now.
+                Most distributions will provide a convenient MySQL package which
+                will set up everything for you, including the root user. After
+                MySQL is installed, create the new database and user:</para>
+            <screen><prompt>$</prompt> mysql -u root -p
+<prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
+<computeroutput>Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 233
+Server version: 5.5.29-0ubuntu0.12.10.1 (Ubuntu)
+
+Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+</computeroutput>
+<prompt>mysql></prompt> <userinput>CREATE DATABASE <replaceable>guacamole</replaceable>;</userinput>
+<computeroutput>Query OK, 1 row affected (0.00 sec)</computeroutput>
+
+<prompt>mysql></prompt> <userinput>CREATE USER '<replaceable>guacamole'</replaceable>@'localhost' IDENTIFIED BY '<replaceable>some_password</replaceable>';</userinput>
+<computeroutput>Query OK, 0 rows affected (0.00 sec)</computeroutput>
+
+<prompt>mysql></prompt> <userinput>GRANT SELECT,UPDATE,DELETE ON <replaceable>guacamole</replaceable>.* TO '<replaceable>guacamole'</replaceable>@'localhost';</userinput>
+<computeroutput>Query OK, 0 rows affected (0.00 sec)</computeroutput>
+
+<prompt>mysql></prompt> <userinput>FLUSH PRIVILEGES;</userinput>
+<computeroutput>Query OK, 0 rows affected (0.02 sec)</computeroutput>
+
+<prompt>mysql></prompt> <userinput>quit</userinput>
+<computeroutput>Bye</computeroutput>
+<prompt>$</prompt></screen>
+            <para>The database and user can be named whatever you like, but
+                these instructions will refer to both as "guacamole". Naturally,
+                you should choose a real password for your user rather than the
+                string "some_password" shown above.</para>
         </section>
         <section>
             <title>Running the SQL scripts</title>
-            <para/>
+            <para>The SQL scripts that create the database schema and default
+                administrator user are included in the archive you downoaded
+                within the <filename>schema/</filename> directory. They are
+                named such that they can be run in order with one
+                command:</para>
+            <screen><prompt>$</prompt> <userinput>ls schema/</userinput>
+001-create-schema.sql  002-create-admin-user.sql
+<prompt>$</prompt> <userinput>cat schema/*.sql | mysql -u root -p <replaceable>guacamole</replaceable></userinput>
+<prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
+<prompt>$</prompt></screen>
+            <para>If the operation is successful, all tables have been created
+                successfully, and the database is now ready for use. All that is
+                left now is to configure Guacamole to use the database we've
+                created.</para>
         </section>
         <section>
-            <title>Giving Guacamole database access</title>
-            <para/>
+            <title>Configuring Guacamole</title>
+            <para>Now that the database and user is created, and the SQL scripts
+                have been run, we need to add a few properties to
+                    <filename>guacamole.properties</filename> such that
+                Guacamole can connect to MySQL when authenticating users:</para>
+            <programlisting># Auth provider class
+auth-provider: net.sourceforge.guacamole.net.auth.mysql.MySQLAuthenticationProvider
+
+# MySQL properties
+mysql-hostname: localhost
+mysql-port: 3306
+mysql-database: <replaceable>guacamole</replaceable>
+mysql-username: <replaceable>guacamole</replaceable>
+mysql-password: <replaceable>some_password</replaceable></programlisting>
+            <para>Be sure to specify the correct password for the MySQL user you
+                created, and specify the correct database and username if you
+                didn't use "guacamole". If you wish to only allow one user at a
+                time to access any single connection, you can also limit
+                concurrent access to connections:</para>
+            <programlisting>mysql-disallow-simultaneous-connections: true</programlisting>
+            <para>This is not required, but with the above property in place,
+                users attempting to use a connection that is currently in use by
+                another user will be denied access. By default, concurrent
+                access is allowed.</para>
+            <para>Now just restart Tomcat (or whatever servlet container you are
+                using) and authentication will use MySQL.</para>
         </section>
+    </section>
+    <section>
+        <title>Logging in</title>
+        <para>After the MySQL authentication module is installed, you need to
+            log in and change your password, and add whatever connections and
+            additional users you need.</para>
+        <para>The default user is "<token>guacadmin</token>", with the default
+            password of "<token>guacadmin</token>". You can change your password
+            by editing your own user in the administration screen.</para>
+        <para>More detailed instructions for managing users and connections is
+            given in <xref linkend="using-guacamole"/> in <xref
+                linkend="guacamole-admin-ui"/>.</para>
     </section>
     <section xml:id="mysql-auth-schema">
         <title>Modifying data manually</title>
