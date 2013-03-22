@@ -229,7 +229,10 @@ mysql-password: <replaceable>some_password</replaceable></programlisting>
                 salt, which must be determined before the
                     <command>INSERT</command> statement can be constructed, but
                 this can be dealt with using variables:</para>
-            <programlisting>SET @salt = UNHEX(SHA2(UUID(), 256));
+            <programlisting>-- Generate salt
+SET @salt = UNHEX(SHA2(UUID(), 256));
+
+-- Create user and hash password with salt
 INSERT INTO guacamole_user (username, password_salt, password_hash)
      VALUES ('<replaceable>myuser</replaceable>', @salt, SHA2(CONCAT('<replaceable>mypassword</replaceable>', HEX(@salt)), 256));</programlisting>
             <para>This sort of statement is useful for both creating new users
@@ -313,6 +316,16 @@ INSERT INTO guacamole_user (username, password_salt, password_hash)
                     </listitem>
                 </varlistentry>
             </variablelist>
+            <para>Adding a connection and corresponding parameters is relatively
+                easy compared to adding a user as there is no salt to generate
+                nor password to hash:</para>
+            <programlisting>-- Create connection
+INSERT INTO guacamole_connection (connection_name, protocol) VALUES ('<replaceable>test</replaceable>', '<replaceable>vnc</replaceable>');
+SET @id = LAST_INSERT_ID();
+
+-- Add parameters
+INSERT INTO guacamole_connection_parameter VALUES (@id, 'hostname', '<replaceable>localhost</replaceable>');
+INSERT INTO guacamole_connection_parameter VALUES (@id, 'port', '<replaceable>5901</replaceable>');</programlisting>
             <section>
                 <title>Usage history</title>
                 <para>When a connection is initiated or terminated, a
