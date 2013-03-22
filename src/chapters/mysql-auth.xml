@@ -165,17 +165,221 @@ mysql-password: <replaceable>some_password</replaceable></programlisting>
     </section>
     <section xml:id="mysql-auth-schema">
         <title>Modifying data manually</title>
-        <para/>
+        <para>If necessary, it is possible to modify the data backing the MySQL
+            authentication module manually by executing SQL statements against
+            the database. In general use, this will not be common, but if you
+            need to bulk-insert a large number of users or connections, or you
+            wish to translate an existing configuration automatically, you will
+            need to know how everything is laid out at a high level.</para>
+        <para>This section assumes knowledge of SQL and MySQL, and that whatever
+            you need to do can be accomplished if only you had high-level
+            information about Guacamole's SQL schema.</para>
         <section>
             <title>Users</title>
-            <para/>
+            <para>Every user has a corresponding entry in the
+                    <classname>guacamole_user</classname> table. Each user has a
+                corresponding unique username and salted password. The salted
+                password is split into two columns: one containing the salt, and
+                the other containing the password hashed with SHA-256.</para>
+            <para>The <classname>guacamole_user</classname> table contains the
+                following columns:</para>
+            <variablelist>
+                <varlistentry>
+                    <term><property>user_id</property></term>
+                    <listitem>
+                        <para>The unique integer associated with each user. This
+                            value is generated automatically when a new entry is
+                            inserted into the
+                                <classname>guacamole_user</classname>
+                            table.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>username</property></term>
+                    <listitem>
+                        <para>The unique name associated with each user. This
+                            value must be specified manually, and must be
+                            different from any existing username in the table.
+                            References to users in other tables use the value
+                            from <property>user_id</property>, not
+                                <property>username</property>.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>password_hash</property></term>
+                    <listitem>
+                        <para>The result of hashing the user's password
+                            concatenated with the contents of
+                                <property>password_salt</property> using
+                            SHA-256. The salt is appended to the password prior
+                            to hashing.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>password_salt</property></term>
+                    <listitem>
+                        <para>A 32-byte random value. When a new user is created
+                            from the web interface, this value is randomly
+                            generated using a cryptographically-secure random
+                            number generator.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <para>If creating a user manually, the main complication is the
+                salt, which must be determined before the
+                    <command>INSERT</command> statement can be constructed, but
+                this can be dealt with using variables:</para>
+            <programlisting>SET @salt = UNHEX(SHA2(UUID(), 256));
+INSERT INTO guacamole_user (username, password_salt, password_hash)
+     VALUES ('<replaceable>myuser</replaceable>', @salt, SHA2(CONCAT('<replaceable>mypassword</replaceable>', HEX(@salt)), 256));</programlisting>
+            <para>This sort of statement is useful for both creating new users
+                or for changing passwords, especially if all administrators have
+                forgotten theirs. </para>
         </section>
         <section>
             <title>Connections and parameters</title>
-            <para/>
+            <para>Each connection has an entry in the
+                    <classname>guacamole_connection</classname> table, with a
+                one-to-many relationship to parameters, stored as name/value
+                paris in the
+                    <classname>guacamole_connection_parameter</classname>
+                table.</para>
+            <para>The <classname>guacamole_connection</classname> table is
+                simply a pairing of a unique and descriptive name with the
+                protocol to be used for the connection. It contains the
+                following columns:</para>
+            <variablelist>
+                <varlistentry>
+                    <term><property>connection_id</property></term>
+                    <listitem>
+                        <para>The unique integer associated with each
+                            connection. This value is generated automatically
+                            when a new entry is inserted into the
+                                <classname>guacamole_connection</classname>
+                            table.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>connection_name</property></term>
+                    <listitem>
+                        <para>The unique name associated with each connection.
+                            This value must be specified manually, and must be
+                            different from any existing connection name in the
+                            table. References to connections in other tables use
+                            the value from <property>connection_id</property>,
+                            not <property>connection_name</property>.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>protocol</property></term>
+                    <listitem>
+                        <para>The protocol to use with this connection. This is
+                            the name of the protocol that should be sent to
+                            guacd when connecting, for example "vnc" or
+                            "rdp".</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <para>As there are potentially multiple parameters per connection,
+                where the names of each parameter are completely arbitrary and
+                determined only by the protocol in use, every parameter for a
+                given connection has an entry in table
+                    <classname>guacamole_connection_parameter</classname> table
+                associated with its corresponding connection. This table
+                contains the following columns:</para>
+            <variablelist>
+                <varlistentry>
+                    <term><property>connection_id</property></term>
+                    <listitem>
+                        <para>The <property>connection_id</property> value from
+                            the connection this parameter is for.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>parameter_name</property></term>
+                    <listitem>
+                        <para>The name of the parameter to set. This is the name
+                            listed in the documentation for the protocol
+                            specified in the associated connection.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>parameter_value</property></term>
+                    <listitem>
+                        <para>The value to assign to the parameter named. While
+                            this value is an arbitrary string, it must conform
+                            to the requirements of the protocol as documented
+                            for the connection to be successful.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
             <section>
                 <title>Usage history</title>
-                <para/>
+                <para>When a connection is initiated or terminated, a
+                    corresponding entry in the
+                        <classname>guacamole_connection_history</classname>
+                    table is created or updated respectively. Each entry is
+                    associated with the user using the connection, the
+                    connection itself, and the time the connection started. If
+                    the connection has ended, the end time is also
+                    stored.</para>
+                <para>It is very unlikely that a user will need to update this
+                    table, but knowing the structure is potentially useful if
+                    you wish to generate a report of Guacamole usage. The
+                        <classname>guacamole_connection_history</classname>
+                    table has the following columns:</para>
+                <variablelist>
+                    <varlistentry>
+                        <term><property>history_id</property></term>
+                        <listitem>
+                            <para>The unique integer associated with each
+                                history record. This value is generated
+                                automatically when a new entry is inserted into
+                                the
+                                    <classname>guacamole_connection_history</classname>
+                                table.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>user_id</property></term>
+                        <listitem>
+                            <para>The value of the <property>user_id</property>
+                                from the entry in
+                                    <classname>guacamole_user</classname>
+                                associated with the user using the
+                                connection.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>connection_id</property></term>
+                        <listitem>
+                            <para>The value of the
+                                    <property>connection_id</property> from the
+                                entry in
+                                    <classname>guacamole_connection</classname>
+                                associated the connection being used.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>start_date</property></term>
+                        <listitem>
+                            <para>The time at which the connection was started
+                                by the user specified. Despite its name, this
+                                column also stores time information in addition
+                                to the date.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>end_date</property></term>
+                        <listitem>
+                            <para>The time at which the connection ended. If the
+                                connection is still active, the value in this
+                                column will be <constant>NULL</constant>.
+                                Despite its name, this column also stores time
+                                information in addition to the date.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
             </section>
         </section>
         <section>
