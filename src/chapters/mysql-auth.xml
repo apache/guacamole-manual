@@ -397,7 +397,139 @@ INSERT INTO guacamole_connection_parameter VALUES (@id, 'port', '<replaceable>59
         </section>
         <section>
             <title>Permissions</title>
-            <para/>
+            <para>There are three permissions tables in the schema which
+                correspond to the three types of permissions in Guacamole's
+                authentication model: system permissions, which control
+                operations that affect the system as a whole, and user and
+                connection permissions, which control operations that affect
+                specific, existing users or connections respectively.</para>
+            <section>
+                <title>System permissions</title>
+                <para>System permissions are defined by entries in the
+                        <classname>guacamole_system_permission</classname>
+                    table. Each entry grants permission for a specific user to
+                    perform a specific system operation.</para>
+                <para>The <classname>guacamole_system_permission</classname>
+                    table contains the following columns:</para>
+                <variablelist>
+                    <varlistentry>
+                        <term><property>user_id</property></term>
+                        <listitem>
+                            <para>The value of the <property>user_id</property>
+                                column of the entry associated with the user
+                                owning this permission.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>permission</property></term>
+                        <listitem>
+                            <para>The permission being granted. This column can
+                                have one of three possible values:
+                                    <constant>ADMINISTER</constant>, which
+                                grants the ability to administer the entire
+                                system (essentially a wildcard permission),
+                                    <constant>CREATE_CONNECTION</constant>,
+                                which grants the ability to create connections,
+                                or <constant>CREATE_USER</constant>, which
+                                grants the ability to create users.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+            </section>
+            <section>
+                <title>User permissions</title>
+                <para>User permissions are defined by entries in the
+                        <classname>guacamole_user_permission</classname> table.
+                    Each entry grants permission for a specific user to perform
+                    a specific operation on another existing user.</para>
+                <para>The <classname>guacamole_user_permission</classname> table
+                    contains the following columns:</para>
+                <variablelist>
+                    <varlistentry>
+                        <term><property>user_id</property></term>
+                        <listitem>
+                            <para>The value of the <property>user_id</property>
+                                column of the entry associated with the user
+                                owning this permission.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>affected_user_id</property></term>
+                        <listitem>
+                            <para>The value of the <property>user_id</property>
+                                column of the entry associated with the user
+                                    <emphasis>affected</emphasis> by this
+                                permission. This is the user that would be the
+                                object of the operation represented by this
+                                permission.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>permission</property></term>
+                        <listitem>
+                            <para>The permission being granted. This column can
+                                have one of four possible values:
+                                    <constant>ADMINISTER</constant>, which
+                                grants the ability to add or remove permissions
+                                which affect the user,
+                                <constant>READ</constant>, which grants the
+                                ability to read data associated with the user,
+                                    <constant>UPDATE</constant>, which grants
+                                the ability to update data associated with the
+                                user, or <constant>DELETE</constant>, which
+                                grants the ability to delete the user.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+            </section>
+            <section>
+                <title>Connection Permissions</title>
+                <para>Connection permissions are defined by entries in the
+                        <classname>guacamole_user_connection</classname> table.
+                    Each entry grants permission for a specific user to perform
+                    a specific operation on an existing connection.</para>
+                <para>The <classname>guacamole_connection_permission</classname>
+                    table contains the following columns:</para>
+                <variablelist>
+                    <varlistentry>
+                        <term><property>user_id</property></term>
+                        <listitem>
+                            <para>The value of the <property>user_id</property>
+                                column of the entry associated with the user
+                                owning this permission.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>connection_id</property></term>
+                        <listitem>
+                            <para>The value of the
+                                    <property>connection_id</property> column of
+                                the entry associated with the connection
+                                affected by this permission. This is the
+                                connection that would be the object of the
+                                operation represented by this permission.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>permission</property></term>
+                        <listitem>
+                            <para>The permission being granted. This column can
+                                have one of four possible values:
+                                    <constant>ADMINISTER</constant>, which
+                                grants the ability to add or remove permissions
+                                which affect the connection,
+                                    <constant>READ</constant>, which grants the
+                                ability to read data associated with the
+                                connection (a prerequesite for connecting),
+                                    <constant>UPDATE</constant>, which grants
+                                the ability to update data associated with the
+                                connection, or <constant>DELETE</constant>,
+                                which grants the ability to delete the
+                                connection.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+            </section>
         </section>
     </section>
 </chapter>
