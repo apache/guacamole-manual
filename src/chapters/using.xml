@@ -12,6 +12,9 @@
             <primary>Guacamole</primary>
             <secondary>logging in</secondary>
         </indexterm>
+        <indexterm>
+            <primary>logging in</primary>
+        </indexterm>
         <para>When you visit a Guacamole instance for the first time, you will
             see the login screen. This screen authenticates you with Guacamole,
             allowing you to use Guacamole to interact with one or more remote
@@ -45,6 +48,9 @@
             <primary>Guacamole</primary>
             <secondary>choosing a connection</secondary>
         </indexterm>
+        <indexterm>
+            <primary>connecting</primary>
+        </indexterm>
         <para>Once logged in, you will be presented with a list of connections.
             Selecting a connection from this list will open that connection in a
             new window or tab. The connection list interface will remain open
@@ -72,6 +78,9 @@
         <indexterm>
             <primary>Guacamole</primary>
             <secondary>using</secondary>
+        </indexterm>
+        <indexterm>
+            <primary>interacting</primary>
         </indexterm>
         <para>Once you open a connection, you will see an image of a desktop.
             You can interact with this image just as you would your normal
@@ -101,6 +110,9 @@
             <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
                 <primary>Guacamole</primary>
                 <secondary>clipboard</secondary>
+            </indexterm>
+            <indexterm>
+                <primary>clipboard</primary>
             </indexterm>
             <para>The clipboard can be manipulated using the clipboard editor
                 accessible near the bottom of the connection list
@@ -176,6 +188,9 @@
                 <primary>Guacamole</primary>
                 <secondary>logging out</secondary>
             </indexterm>
+            <indexterm>
+                <primary>logging out</primary>
+            </indexterm>
             <para>When you are done and wish to logout of Guacamole completely,
                 find the original connection interface tab and click the
                 "logout" button. Beware that this will close all current
@@ -201,6 +216,9 @@
             and mobile phones.</para>
         <section xml:id="using-mouse">
             <title>Moving the mouse</title>
+            <indexterm>
+                <primary>mouse</primary>
+            </indexterm>
             <para>As a finger makes for a very inaccurate pointing device,
                 especially for mouse-driven applications designed for precise
                 input, the default mode for touch-based mouse input in Guacamole
@@ -219,6 +237,9 @@
         </section>
         <section xml:id="zooming">
             <title>Zooming in</title>
+            <indexterm>
+                <primary>zoom</primary>
+            </indexterm>
             <para>Many touch-enabled devices have small screens, which makes the
                 larger screens of a typical remote desktop hard to see and
                 interact with. If you want to temporarily zoom in, long-press on
@@ -239,6 +260,9 @@
         </section>
         <section xml:id="typing">
             <title>Typing</title>
+            <indexterm>
+                <primary>typing</primary>
+            </indexterm>
             <para>In most cases, if your device has a hardware keyboard or you
                 use a bluetooth keyboard, you will not need to do anything
                 special in order to type; you can just press keys and expect the
@@ -250,6 +274,9 @@
         </section>
         <section xml:id="panning">
             <title>Panning</title>
+            <indexterm>
+                <primary>panning</primary>
+            </indexterm>
             <para>Because Guacamole uses all touch events to drive mouse input,
                 the normal gestures for scrolling the screen will not work.
                 Depending on how big your screen is, and whether the display is
@@ -329,6 +356,9 @@
                 <primary>sound</primary>
                 <secondary>disabling</secondary>
             </indexterm>
+            <indexterm>
+                <primary>disabling sound</primary>
+            </indexterm>
             <para>Sound can sometimes cause problems if your browser is too slow
                 or if you lack sufficient network bandwidth. In some cases,
                 browsers do not actually support sound, but misreport that they
@@ -343,6 +373,9 @@
                 <primary>auto-fit</primary>
                 <secondary>disabling</secondary>
             </indexterm>
+            <indexterm>
+                <primary>disabling auto-fit</primary>
+            </indexterm>
             <para>Normally, scrolling around the screen is troublesome and
                 distracting if the remote display you're using is larger than
                 the display of your device. Because of this, the remote display
@@ -355,6 +388,9 @@
     </section>
     <section xml:id="guacamole-admin-ui">
         <title>Administration</title>
+        <indexterm>
+            <primary>administration</primary>
+        </indexterm>
         <para>As of release 0.8.0, Guacamole supports administration of users
             and connections from within the web interface if the underlying
             authentication module supports this. The only officially-supported
@@ -380,6 +416,9 @@
             permissions.</para>
         <section>
             <title>Managing users</title>
+            <indexterm>
+                <primary>user management</primary>
+            </indexterm>
             <para>Once at the administration screen, you will see two sections
                 displaying all visible users and connections. The visibility of
                 these sections depends on your user's permissions. If you lack
@@ -420,6 +459,9 @@
         </section>
         <section>
             <title>Managing connections</title>
+            <indexterm>
+                <primary>connection management</primary>
+            </indexterm>
             <para>To add a new connection, type the name of the new connection
                 within the text box inside the connection management section,
                 and click the "Add" button. This name should be descriptive, but

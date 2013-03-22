@@ -3,6 +3,9 @@
 <chapter xml:id="mysql-auth" xmlns="http://docbook.org/ns/docbook" version="5.0"
     xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude">
     <title>MySQL authentication</title>
+    <indexterm>
+        <primary>MySQL</primary>
+    </indexterm>
     <para>Guacamole 0.8.0 introduced an officially-supported MySQL
         authentication module that allows users and connections to be managed
         from within the web application.</para>
@@ -59,6 +62,9 @@ guice-multibindings-3.0.jar</computeroutput>
             the MySQL authentication to work.</para>
         <section>
             <title>Creating a database and user</title>
+            <indexterm>
+                <primary>default user</primary>
+            </indexterm>
             <para>The MySQL authentication module will need a database to store
                 all authentication data and a user to use only for data access
                 and manipulation. You could use an existing database and
@@ -107,6 +113,9 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
         </section>
         <section>
             <title>Running the SQL scripts</title>
+            <indexterm>
+                <primary>SQL scripts</primary>
+            </indexterm>
             <para>The SQL scripts that create the database schema and default
                 administrator user are included in the archive you downoaded
                 within the <filename>schema/</filename> directory. They are
@@ -124,6 +133,9 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
         </section>
         <section>
             <title>Configuring Guacamole</title>
+            <indexterm>
+                <primary>configuring MySQL</primary>
+            </indexterm>
             <para>Now that the database and user is created, and the SQL scripts
                 have been run, we need to add a few properties to
                     <filename>guacamole.properties</filename> such that
@@ -137,6 +149,9 @@ mysql-port: 3306
 mysql-database: <replaceable>guacamole</replaceable>
 mysql-username: <replaceable>guacamole</replaceable>
 mysql-password: <replaceable>some_password</replaceable></programlisting>
+            <indexterm>
+                <primary>concurrent use</primary>
+            </indexterm>
             <para>Be sure to specify the correct password for the MySQL user you
                 created, and specify the correct database and username if you
                 didn't use "guacamole". If you wish to only allow one user at a
@@ -153,6 +168,12 @@ mysql-password: <replaceable>some_password</replaceable></programlisting>
     </section>
     <section>
         <title>Logging in</title>
+        <indexterm>
+            <primary>default user</primary>
+        </indexterm>
+        <indexterm>
+            <primary>guacadmin</primary>
+        </indexterm>
         <para>After the MySQL authentication module is installed, you need to
             log in and change your password, and add whatever connections and
             additional users you need.</para>
@@ -165,6 +186,9 @@ mysql-password: <replaceable>some_password</replaceable></programlisting>
     </section>
     <section xml:id="mysql-auth-schema">
         <title>Modifying data manually</title>
+        <indexterm>
+            <primary>schema</primary>
+        </indexterm>
         <para>If necessary, it is possible to modify the data backing the MySQL
             authentication module manually by executing SQL statements against
             the database. In general use, this will not be common, but if you
@@ -176,6 +200,9 @@ mysql-password: <replaceable>some_password</replaceable></programlisting>
             information about Guacamole's SQL schema.</para>
         <section>
             <title>Users</title>
+            <indexterm>
+                <primary><classname>guacamole_user</classname></primary>
+            </indexterm>
             <para>Every user has a corresponding entry in the
                     <classname>guacamole_user</classname> table. Each user has a
                 corresponding unique username and salted password. The salted
@@ -241,6 +268,12 @@ INSERT INTO guacamole_user (username, password_salt, password_hash)
         </section>
         <section>
             <title>Connections and parameters</title>
+            <indexterm>
+                <primary><classname>guacamole_connection</classname></primary>
+            </indexterm>
+            <indexterm>
+                <primary><classname>guacamole_connection_parameter</classname></primary>
+            </indexterm>
             <para>Each connection has an entry in the
                     <classname>guacamole_connection</classname> table, with a
                 one-to-many relationship to parameters, stored as name/value
@@ -328,6 +361,9 @@ INSERT INTO guacamole_connection_parameter VALUES (@id, 'hostname', '<replaceabl
 INSERT INTO guacamole_connection_parameter VALUES (@id, 'port', '<replaceable>5901</replaceable>');</programlisting>
             <section>
                 <title>Usage history</title>
+                <indexterm>
+                    <primary><classname>guacamole_connection_history</classname></primary>
+                </indexterm>
                 <para>When a connection is initiated or terminated, a
                     corresponding entry in the
                         <classname>guacamole_connection_history</classname>
@@ -405,6 +441,9 @@ INSERT INTO guacamole_connection_parameter VALUES (@id, 'port', '<replaceable>59
                 specific, existing users or connections respectively.</para>
             <section>
                 <title>System permissions</title>
+                <indexterm>
+                    <primary><classname>guacamole_system_permission</classname></primary>
+                </indexterm>
                 <para>System permissions are defined by entries in the
                         <classname>guacamole_system_permission</classname>
                     table. Each entry grants permission for a specific user to
@@ -438,6 +477,9 @@ INSERT INTO guacamole_connection_parameter VALUES (@id, 'port', '<replaceable>59
             </section>
             <section>
                 <title>User permissions</title>
+                <indexterm>
+                    <primary><classname>guacamole_user_permission</classname></primary>
+                </indexterm>
                 <para>User permissions are defined by entries in the
                         <classname>guacamole_user_permission</classname> table.
                     Each entry grants permission for a specific user to perform
@@ -484,10 +526,14 @@ INSERT INTO guacamole_connection_parameter VALUES (@id, 'port', '<replaceable>59
             </section>
             <section>
                 <title>Connection Permissions</title>
+                <indexterm>
+                    <primary><classname>guacamole_connection_permission</classname></primary>
+                </indexterm>
                 <para>Connection permissions are defined by entries in the
-                        <classname>guacamole_user_connection</classname> table.
-                    Each entry grants permission for a specific user to perform
-                    a specific operation on an existing connection.</para>
+                        <classname>guacamole_connection_permission</classname>
+                    table. Each entry grants permission for a specific user to
+                    perform a specific operation on an existing
+                    connection.</para>
                 <para>The <classname>guacamole_connection_permission</classname>
                     table contains the following columns:</para>
                 <variablelist>

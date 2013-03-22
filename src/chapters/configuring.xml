@@ -17,6 +17,9 @@
         file used by Guacamole and its extensions.</para>
     <section xml:id="guacamole-home">
         <title><varname>GUACAMOLE_HOME</varname></title>
+        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+            <primary><varname>GUACAMOLE_HOME</varname></primary>
+        </indexterm>
         <para>As of release 0.8.0, Guacamole now reads files from its own
             configuration directory by default, resorting to the classpath only
             when this directory cannot be found. When locating this directory,
@@ -277,6 +280,9 @@
     </section>
     <section xml:id="vnc">
         <title>VNC</title>
+        <indexterm>
+            <primary>vnc</primary>
+        </indexterm>
         <para>The VNC protocol is the simplest and first protocol supported by
             Guacamole. Although generally not as fast as RDP, many VNC servers
             are adequate, and VNC over Guacamole tends to be faster than VNC by
@@ -402,6 +408,12 @@
                 not the fastest method.</para>
             <section>
                 <title>RealVNC or TigerVNC</title>
+                <indexterm>
+                    <primary>RealVNC</primary>
+                </indexterm>
+                <indexterm>
+                    <primary>TigerVNC</primary>
+                </indexterm>
                 <para>RealVNC, and its derivative TigerVNC, perform quite well.
                     In our testing, they perform the best with Guacamole. If you
                     are okay with having a desktop that can only be accessed via
@@ -411,6 +423,9 @@
             </section>
             <section>
                 <title>TightVNC</title>
+                <indexterm>
+                    <primary>TightVNC</primary>
+                </indexterm>
                 <para>TightVNC is widely-available and performs generally as
                     well as RealVNC or TigerVNC. If you wish to use TightVNC
                     with Guacamole, performance should be just fine, but we
@@ -424,6 +439,9 @@
             </section>
             <section>
                 <title>x11vnc</title>
+                <indexterm>
+                    <primary>x11vnc</primary>
+                </indexterm>
                 <para>The main benefit of using x11vnc is that it allows you to
                     continue using your desktop normally, while simultaneously
                     exposing control of your desktop via VNC. Performance of
@@ -433,6 +451,9 @@
             </section>
             <section>
                 <title>vino</title>
+                <indexterm>
+                    <primary>vino</primary>
+                </indexterm>
                 <para>vino is the VNC server that comes with the Gnome desktop
                     environment, and is enabled if you enable "desktop sharing"
                     via the system preferences available within Gnome. If you
@@ -445,6 +466,12 @@
             </section>
             <section>
                 <title>QEMU or KVM</title>
+                <indexterm>
+                    <primary>QEMU</primary>
+                </indexterm>
+                <indexterm>
+                    <primary>KVM</primary>
+                </indexterm>
                 <para>QEMU (and thus KVM) expose the displays of virtual
                     machines using VNC. If you need to see the virtual monitor
                     of your virtual machine, using this VNC connection is really
@@ -462,6 +489,9 @@
     </section>
     <section xml:id="rdp">
         <title>RDP</title>
+        <indexterm>
+            <primary>rdp</primary>
+        </indexterm>
         <para>The RDP protocol is more complicated than VNC and was the second
             protocol officially supported by Guacamole. RDP tends to be faster
             than VNC due to the use of caching, which Guacamole does take
@@ -547,6 +577,9 @@
                 <varlistentry>
                     <term><parameter>disable-audio</parameter></term>
                     <listitem>
+                        <indexterm>
+                            <primary>disabling audio</primary>
+                        </indexterm>
                         <para>As of Guacamole version 0.7.0, audio is officially
                             support and enabled by default in both the client
                             and in libguac-client-rdp. If you are concerned
