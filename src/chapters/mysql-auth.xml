@@ -165,24 +165,25 @@ mysql-password: <replaceable>some_password</replaceable></programlisting>
             <para>Now just restart Tomcat (or whatever servlet container you are
                 using) and authentication will use MySQL.</para>
         </section>
-    </section>
-    <section>
-        <title>Logging in</title>
-        <indexterm>
-            <primary>default user</primary>
-        </indexterm>
-        <indexterm>
-            <primary>guacadmin</primary>
-        </indexterm>
-        <para>After the MySQL authentication module is installed, you need to
-            log in and change your password, and add whatever connections and
-            additional users you need.</para>
-        <para>The default user is "<token>guacadmin</token>", with the default
-            password of "<token>guacadmin</token>". You can change your password
-            by editing your own user in the administration screen.</para>
-        <para>More detailed instructions for managing users and connections is
-            given in <xref linkend="using-guacamole"/> in <xref
-                linkend="guacamole-admin-ui"/>.</para>
+        <section>
+            <title>Logging in</title>
+            <indexterm>
+                <primary>default user</primary>
+            </indexterm>
+            <indexterm>
+                <primary>guacadmin</primary>
+            </indexterm>
+            <para>After the MySQL authentication module is installed, you need
+                to log in and change your password, and add whatever connections
+                and additional users you need.</para>
+            <para>The default user is "<token>guacadmin</token>", with the
+                default password of "<token>guacadmin</token>". You can change
+                your password by editing your own user in the administration
+                screen.</para>
+            <para>More detailed instructions for managing users and connections
+                is given in <xref linkend="using-guacamole"/> in <xref
+                    linkend="guacamole-admin-ui"/>.</para>
+        </section>
     </section>
     <section xml:id="mysql-auth-schema">
         <title>Modifying data manually</title>
