@@ -26,7 +26,8 @@
                 <listitem>
                     <para>Contains all <filename>.jar</filename> files required
                         for the MySQL authentication module to work, including
-                        the module itself.</para>
+                        the module itself. <emphasis>The MySQL JDBC connector is
+                            not included.</emphasis></para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -44,6 +45,13 @@
             not specified, simply add it. On Linux servers,
                 <filename>/var/lib/guacamole/classpath</filename> is a good
             choice, but it can be whatever you like.</para>
+        <para>In addition to the files from <filename>lib/</filename>, you must
+            also copy <filename>.jar</filename> file from the MySQL
+            "Connector-J" JDBC archive. The archive containing this
+                <filename>.jar</filename> can be downloaded from <link
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                xlink:href="http://dev.mysql.com/downloads/connector/j/">MySQL's
+                website</link>.</para>
         <para>After copying the files in place, check to make sure everything
             looks sane. The contents should match at least the files shown
             here:</para>
@@ -51,15 +59,30 @@
 <computeroutput>aopalliance-1.0.jar             javax.inject-1.jar
 commons-logging-1.1.1.jar       mybatis-3.1.1.jar
 google-collections-1.0.jar      mybatis-guice-3.2.jar
-guacamole-auth-mysql-0.8.0.jar  slf4j-api-1.6.1.jar
-guice-3.0.jar                   slf4j-jcl-1.6.1.jar
-guice-multibindings-3.0.jar</computeroutput>
+guacamole-auth-mysql-0.8.0.jar  mysql-connector-java-5.1.23-bin.jar
+guice-3.0.jar                   slf4j-api-1.6.1.jar
+guice-multibindings-3.0.jar     slf4j-jcl-1.6.1.jar</computeroutput>
 <prompt>$</prompt></screen>
         <para>Each of the <filename>.jar</filename> files above is either the
             MySQL authentication module itself
                 (<filename>guacamole-auth-mysql-0.8.0.jar</filename>) or a
             dependency. They must all be placed in Guacamole's lib-directory for
             the MySQL authentication to work.</para>
+        <important>
+            <para>If you do not see
+                    <filename>mysql-connector-java-5.1.23-bin.jar</filename> (or
+                a similar file with a different version) present in the same
+                directory as the other <filename>.jar</filename> files, then you
+                have not copied MySQL Connector-J properly.</para>
+            <para>Be sure to download MySQL Connector-J from the <link
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    xlink:href="http://dev.mysql.com/downloads/connector/j/"
+                    >MySQL website</link>. Extract the downloaded archive, and
+                copy the <filename>.jar</filename> file into the same directory
+                as shown above. <emphasis>If this is not done, MySQL
+                    authentication will not work.</emphasis> Guacamole will be
+                unable to connect to your MySQL database.</para>
+        </important>
         <section>
             <title>Creating a database and user</title>
             <indexterm>
@@ -97,7 +120,7 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 <prompt>mysql></prompt> <userinput>CREATE USER '<replaceable>guacamole'</replaceable>@'localhost' IDENTIFIED BY '<replaceable>some_password</replaceable>';</userinput>
 <computeroutput>Query OK, 0 rows affected (0.00 sec)</computeroutput>
 
-<prompt>mysql></prompt> <userinput>GRANT SELECT,UPDATE,DELETE ON <replaceable>guacamole</replaceable>.* TO '<replaceable>guacamole'</replaceable>@'localhost';</userinput>
+<prompt>mysql></prompt> <userinput>GRANT SELECT,INSERT,UPDATE,DELETE ON <replaceable>guacamole</replaceable>.* TO '<replaceable>guacamole'</replaceable>@'localhost';</userinput>
 <computeroutput>Query OK, 0 rows affected (0.00 sec)</computeroutput>
 
 <prompt>mysql></prompt> <userinput>FLUSH PRIVILEGES;</userinput>
