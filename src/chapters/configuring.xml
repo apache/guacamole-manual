@@ -605,6 +605,73 @@
                             set to "true".</para>
                     </listitem>
                 </varlistentry>
+                <varlistentry>
+                    <term><parameter>initial-program</parameter></term>
+                    <listitem>
+                        <para>The full path to the program to run immediately
+                            upon connecting. This parameter is optional.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>server-layout</parameter></term>
+                    <listitem>
+                        <para>The server-side keyboard layout. This is the
+                            layout of the RDP server and has nothing to do with
+                            the keyboard layout in use on the client.
+                                <emphasis>The Guacamole client is independent of
+                                keyboard layout.</emphasis> The RDP protocol,
+                            however, is <emphasis>not</emphasis> independent of
+                            keyboard layout, and Guacamole needs to know the
+                            keyboard layout of the server in order to send the
+                            proper keys when a user is typing.</para>
+                        <para>Possible values are:</para>
+                        <informaltable frame="all">
+                            <tgroup cols="2">
+                                <colspec colname="c1" colnum="1" colwidth="1*"/>
+                                <colspec colname="c2" colnum="2" colwidth="1*"/>
+                                <thead>
+                                    <row>
+                                        <entry>Keyboard Layout</entry>
+                                        <entry>Description</entry>
+                                    </row>
+                                </thead>
+                                <tbody>
+                                    <row>
+                                        <entry><constant>en-us-qwerty</constant></entry>
+                                        <entry>
+                                        <para>English (US) keyboard</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry><constant>de-de-qwertz</constant></entry>
+                                        <entry>
+                                        <para>German keyboard (qwertz)</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry><constant>fr-fr-azerty</constant></entry>
+                                        <entry>
+                                        <para>French keyboard (azerty)</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry><constant>failsafe</constant></entry>
+                                        <entry>
+                                        <para>Unknown keyboard - this option
+                                        sends only Unicode events and should
+                                        work for any keyboard, though not
+                                        necessarily all RDP servers or
+                                        applications.</para>
+                                        <para>If your server's keyboard layout
+                                        is not yet supported, this option should
+                                        work in the meantime.</para>
+                                        </entry>
+                                    </row>
+                                </tbody>
+                            </tgroup>
+                        </informaltable>
+                    </listitem>
+                </varlistentry>
             </variablelist>
         </section>
         <section xml:id="adding-rdp">
@@ -639,6 +706,100 @@
                 easily and intuitively using the administration interface built
                 into Guacamole. You will not need to edit configuration
                 files.</para>
+        </section>
+    </section>
+    <section>
+        <title xml:id="ssh">SSH</title>
+        <indexterm>
+            <primary>ssh</primary>
+        </indexterm>
+        <para>Unlike VNC or RDP, SSH is a text protocol. Its implementation in
+            Guacamole is actually a combination of a terminal emulator and SSH
+            client, because the SSH protocol isn't inherently graphical.
+            Guacamole's SSH support emulates a terminal on the server side, and
+            draws the screen of this terminal remotely on the client.</para>
+        <para>SSH support for Guacamole is provided by the
+                <package>libguac-client-ssh</package> library, which depends on
+            libssh.</para>
+        <section>
+            <title>Configuration parameters</title>
+            <variablelist>
+                <varlistentry>
+                    <term><parameter>hostname</parameter></term>
+                    <listitem>
+                        <para>The hostname or IP address of the SSH server
+                            Guacamole should connect to.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>port</parameter></term>
+                    <listitem>
+                        <para>The port the SSH server is listening on, usually
+                            22. This parameter is optional. If this is not
+                            specified, the default of 22 will be used.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>username</parameter></term>
+                    <listitem>
+                        <para>The username to use to authenticate, if any. This
+                            parameter is optional. If not specified, you will be
+                            prompted for the username upon connecting.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>password</parameter></term>
+                    <listitem>
+                        <para>The password to use when attempting
+                            authentication, if any. This parameter is optional.
+                            If not specified, you will be prompted for your
+                            password upon connecting.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>font-name</parameter></term>
+                    <listitem>
+                        <para>The name of the font to use. This parameter is
+                            optional. If not specified, the default of
+                            "monospace" will be used instead.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>font-size</parameter></term>
+                    <listitem>
+                        <para>The size of the font to use, in points. This
+                            parameter is optional. If not specified, the default
+                            of 12 will be used instead.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </section>
+        <section>
+            <title>Adding an SSH connection</title>
+            <para>If you are using the default authentication built into
+                Guacamole, and you wish to grant access to a SSH connection to a
+                particular user, you need to locate the
+                    <code>&lt;authorize></code> section for that user within
+                your <filename>user-mapping.xml</filename>, and add a section
+                like the following within it:</para>
+            <programlisting>&lt;connection name="<replaceable>Unique Name</replaceable>">
+    &lt;protocol>ssh&lt;/protocol>
+    &lt;param name="hostname"><replaceable>localhost</replaceable>&lt;/param>
+    &lt;param name="port"><replaceable>22</replaceable>&lt;/param>
+&lt;/connection></programlisting>
+            <para>If added exactly as above, a new connection named
+                    "<replaceable>Unique Name</replaceable>" will be available
+                to the user associated with the <code>&lt;authorize></code>
+                section containing it. The connection will use SSH to connect to
+                    <replaceable>localhost</replaceable> at port
+                    <replaceable>22</replaceable>. Naturally, you will want to
+                change some or all of these values.</para>
+            <para>If you want to login automatically rather than receive a login
+                prompt upon connecting, you can specify a username and password
+                with additional <code>&lt;param></code> tags. Other options are
+                available for controlling the font.</para>
+            <para>Other authentication methods will provide documentation
+                describing how to configure new connections.</para>
         </section>
     </section>
 

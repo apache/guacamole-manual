@@ -112,7 +112,8 @@
             <example>
                 <title>Installing Guacamole dependencies on Debian or
                     Ubuntu</title>
-                <screen><prompt>$</prompt> sudo apt-get install tomcat6 libvncserver0 libfreerdp1 libvorbisenc2</screen>
+                <screen><prompt>$</prompt> sudo apt-get install tomcat6 libvncserver0 libfreerdp1 libvorbisenc2 \
+  libfreerdp-plugins-standard</screen>
             </example>
             <para>
                 <indexterm>
@@ -130,7 +131,7 @@
                 <title>Installing Guacamole dependencies on Fedora</title>
                 <screen><prompt>$</prompt> su
 <prompt>Password:</prompt> <replaceable>password</replaceable>
-<prompt>#</prompt> yum install tomcat6 libvncserver freerdp libvorbis</screen>
+<prompt>#</prompt> yum install tomcat6 libvncserver freerdp libvorbis freerdp-plugins</screen>
             </example>
         </section>
         <section xml:id="installing-guacamole-packages">

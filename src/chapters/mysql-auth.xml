@@ -285,10 +285,15 @@ SET @salt = UNHEX(SHA2(UUID(), 256));
 
 -- Create user and hash password with salt
 INSERT INTO guacamole_user (username, password_salt, password_hash)
-     VALUES ('<replaceable>myuser</replaceable>', @salt, SHA2(CONCAT('<replaceable>mypassword</replaceable>', HEX(@salt)), 256));</programlisting>
+     VALUES ('myuser', @salt, UNHEX(SHA2(CONCAT('mypassword', HEX(@salt)), 256)));</programlisting>
             <para>This sort of statement is useful for both creating new users
                 or for changing passwords, especially if all administrators have
-                forgotten theirs. </para>
+                forgotten theirs.</para>
+            <para>Note that versions of MySQL earlier than 5.5.5 do not have the
+                    <methodname>SHA2</methodname> function. If you are using one
+                of these versions, you will need to calculate the SHA-256 value
+                manually (by using the <command>sha256sum</command> command, for
+                example).</para>
         </section>
         <section>
             <title>Connections and parameters</title>
