@@ -4,7 +4,7 @@
 
     <info>
         <title>Guacamole User's Guide</title>
-        <edition>0.8.0</edition>
+        <edition>0.8.1</edition>
         <author>
             <personname><firstname>Michael</firstname>
                 <surname>Jumper</surname></personname>
@@ -33,7 +33,7 @@
             good starting point beyond simply looking at the Guacamole
             codebase.</para>
         <para>This particular edition of the <citetitle>Guacamole User's
-                Guide</citetitle> covers Guacamole version 0.8.0. New releases
+                Guide</citetitle> covers Guacamole version 0.8.1. New releases
             which create new features or break compatibility will result in new
             editions of the user's guide, as will any necessary corrections. As
             the official documentation for the project, this book will always be
