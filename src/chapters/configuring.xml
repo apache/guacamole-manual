@@ -708,8 +708,8 @@
                 files.</para>
         </section>
     </section>
-    <section>
-        <title xml:id="ssh">SSH</title>
+    <section xml:id="ssh">
+        <title>SSH</title>
         <indexterm>
             <primary>ssh</primary>
         </indexterm>
