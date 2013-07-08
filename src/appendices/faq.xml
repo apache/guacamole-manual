@@ -11,37 +11,24 @@
         <qandaentry>
             <question>
 
-                <para>
-                    Where does the name "Guacamole" come from?
-                </para>
+                <para>Where does the name "Guacamole" come from? </para>
 
             </question>
             <answer>
 
-                <para>
-                    The name was chosen arbitrarily from a random utterance in
-                    a conversation with a member of the project.
-                </para>
+                <para>The name was chosen arbitrarily from a random utterance in a conversation with
+                    a member of the project. </para>
 
-                <para>
-                    When the project reached the point where it was growing out
-                    of the proof-of-concept phase, and needed a real home on
-                    the internet, we needed to think of a name to register the
-                    project under.
-                </para>
+                <para>When the project reached the point where it was growing out of the
+                    proof-of-concept phase, and needed a real home on the internet, we needed to
+                    think of a name to register the project under. </para>
 
-                <para>
-                    Several acronyms were toyed with and discarded. We tried
-                    anagrams, but all were too wordy and complex. We considered
-                    naming the project after a fish or an animal, and after
-                    suggesting the guanaco, James Muehlner, a developer of the
-                    project, suggested (randomly): "guacamole".
-                </para>
+                <para>Several acronyms were toyed with and discarded. We tried anagrams, but all
+                    were too wordy and complex. We considered naming the project after a fish or an
+                    animal, and after suggesting the guanaco, James Muehlner, a developer of the
+                    project, suggested (randomly): "guacamole". </para>
 
-                <para>
-                    The name had a nice ring, we weren't embarrassed to use it,
-                    and it stuck.
-                </para>
+                <para>The name had a nice ring, we weren't embarrassed to use it, and it stuck. </para>
 
             </answer>
         </qandaentry>
@@ -49,26 +36,19 @@
         <qandaentry>
             <question>
 
-                <para>
-                    What is does "clientless" mean?
-                </para>
+                <para>What is does "clientless" mean? </para>
 
             </question>
             <answer>
 
-                <para>
-                    The term "clientless" means that no specific client is
-                    needed.  A Guacamole user needs only have an HTML5 web
-                    browser installed, which is exceedingly common; virtually
-                    all modern computers and mobile devices have such a browser
-                    installed by default.
-                </para>
+                <para>The term "clientless" means that no specific client is needed. A Guacamole
+                    user needs only have an HTML5 web browser installed, which is exceedingly
+                    common; virtually all modern computers and mobile devices have such a browser
+                    installed by default. </para>
 
-                <para>
-                    In this sense, Guacamole is "clientless" in that it does
-                    not require any additional software to be installed
-                    beyond what is considered standard for any computer.
-                </para>
+                <para>In this sense, Guacamole is "clientless" in that it does not require any
+                    additional software to be installed beyond what is considered standard for any
+                    computer. </para>
 
             </answer>
         </qandaentry>
@@ -76,32 +56,21 @@
         <qandaentry>
             <question>
 
-                <para>
-                    Why does Guacamole not use WebSocket?
-                </para>
+                <para>Why does Guacamole not use WebSocket? </para>
 
             </question>
             <answer>
 
-                <para>
-                    The main technical answer here is that there is no need.
-                    The tunnel used by Guacamole is exactly equivalent to
-                    WebSocket in terms of efficiency and latency, and is more
-                    compatible with proxies and existing browsers.
-                </para>
+                <para>The main technical answer here is that there is no need. The tunnel used by
+                    Guacamole is exactly equivalent to WebSocket in terms of efficiency and latency,
+                    and is more compatible with proxies and existing browsers. </para>
 
-                <para>
-                    The historical reason for not going with WebSocket
-                    initially was lack of browser support and lack of a true
-                    standard.
-                </para>
+                <para>The historical reason for not going with WebSocket initially was lack of
+                    browser support and lack of a true standard. </para>
 
-                <para>
-                    Now that WebSocket is standardized, support for WebSocket
-                    is present in Guacamole, but it is largely unused because
-                    the existing tunnel works just as well and with more
-                    browsers.
-                </para>
+                <para>Now that WebSocket is standardized, support for WebSocket is present in
+                    Guacamole, but it is largely unused because the existing tunnel works just as
+                    well and with more browsers. </para>
 
             </answer>
         </qandaentry>
@@ -109,40 +78,25 @@
         <qandaentry>
             <question>
 
-                <para>
-                    I have Tomcat (or some other servlet container) set up
-                    behind a proxy (like mod_proxy) and cannot connect to
-                    Guacamole. Why? How do I solve this?
-                </para>
+                <para>I have Tomcat (or some other servlet container) set up behind a proxy (like
+                    mod_proxy) and cannot connect to Guacamole. Why? How do I solve this? </para>
 
             </question>
             <answer>
 
-                <para>
-                    You need to enable automatic flushing of the proxy's buffer
-                    as it receives packets.
-                </para>
+                <para>You need to enable automatic flushing of the proxy's buffer as it receives
+                    packets. </para>
 
-                <para>
-                    Most proxies, including mod_proxy, buffer data received
-                    from the server, and will not flush this data in real-time.
-                    Each proxy has an option to force flushing of each packet
-                    automatically, as this is necessary for streaming
-                    applications like Guacamole, but this is usually not
-                    enabled by default.
-                </para>
+                <para>Most proxies, including mod_proxy, buffer data received from the server, and
+                    will not flush this data in real-time. Each proxy has an option to force
+                    flushing of each packet automatically, as this is necessary for streaming
+                    applications like Guacamole, but this is usually not enabled by default. </para>
 
-                <para>
-                    Because Guacamole depends on streaming to function, a proxy
-                    configured to not automatically flush packets will disrupt
-                    the stream to the point that the connection seems
-                    unreasonably slow, or just fails to establish altogether.
-                </para>
+                <para>Because Guacamole depends on streaming to function, a proxy configured to not
+                    automatically flush packets will disrupt the stream to the point that the
+                    connection seems unreasonably slow, or just fails to establish altogether. </para>
 
-                <para>
-                    In the case of mod_proxy, this option is
-                    <code>flushpackets=on</code>.
-                </para>
+                <para>In the case of mod_proxy, this option is <code>flushpackets=on</code>. </para>
 
             </answer>
         </qandaentry>
@@ -150,28 +104,19 @@
         <qandaentry>
             <question>
 
-                <para>
-                    I connect to the internet through a web proxy, and cannot
-                    connect to Guacamole. I cannot reconfigure the proxy. How
-                    do I solve this?
-                </para>
+                <para>I connect to the internet through a web proxy, and cannot connect to
+                    Guacamole. I cannot reconfigure the proxy. How do I solve this? </para>
 
             </question>
             <answer>
 
-                <para>
-                    You need to enable automatic flushing of your proxy's
-                    buffer to avoid disrupting the stream used by Guacamole.
-                </para>
+                <para>You need to enable automatic flushing of your proxy's buffer to avoid
+                    disrupting the stream used by Guacamole. </para>
 
-                <para>
-                    If you cannot change the settings of your proxy, using
-                    HTTPS instead of HTTP should solve the problem. Proxies
-                    are required to stream HTTPS because of the nature of SSL.
-                    Using HTTPS will allow Guacamole traffic to stream through
-                    proxies unencumbered, even if you cannot access the proxy
-                    settings directly.
-                </para>
+                <para>If you cannot change the settings of your proxy, using HTTPS instead of HTTP
+                    should solve the problem. Proxies are required to stream HTTPS because of the
+                    nature of SSL. Using HTTPS will allow Guacamole traffic to stream through
+                    proxies unencumbered, even if you cannot access the proxy settings directly. </para>
 
             </answer>
         </qandaentry>
@@ -179,20 +124,18 @@
         <qandaentry>
             <question>
 
-                <para>
-                    Can I buy special licensing of the Guacamole code base,
-                    such that I can use it in my own product, without providing
-                    the source to my users, without contributing back, and
-                    without acknowledging the project?
-                </para>
+                <para>Can I buy special licensing of the Guacamole code base, such that I can use it
+                    in my own product, without providing the source to my users, without
+                    contributing back, and without acknowledging the project? </para>
 
             </question>
             <answer>
 
-                <para>
-                    No. Absolutely not. Code produced by this project will
-                    always be free.
-                </para>
+                <para>Usually, no. Previous requests for such licensing have been very one-sided and
+                    there would be no direct or indirect benefit to the community and the project.
+                    That said, we handle requests for licensing on a case-by-case basis. In general,
+                    any special licensing has to somehow provide for the community and the
+                    open-source project.</para>
 
             </answer>
         </qandaentry>
@@ -200,19 +143,14 @@
         <qandaentry>
             <question>
 
-                <para>
-                    Can I pay for custom Guacamole work, or for help
-                    integrating Guacamole into my product, if the open source
-                    nature and licenses are preserved?
-                </para>
+                <para>Can I pay for custom Guacamole work, or for help integrating Guacamole into my
+                    product, if the open source nature and licenses are preserved?</para>
 
             </question>
             <answer>
 
-                <para>
-                    Yes. We love to be paid to work on Guacamole,
-                    especially if that work remains open source.
-                </para>
+                <para>Yes. We love to be paid to work on Guacamole, especially if that work remains
+                    open source. </para>
 
             </answer>
         </qandaentry>
@@ -220,27 +158,19 @@
         <qandaentry>
             <question>
 
-                <para>
-                    How can I contribute to the project?
-                </para>
+                <para>How can I contribute to the project? </para>
 
             </question>
             <answer>
 
-                <para>
-                    If you are a programmer and want to contribute code,
-                    Guacamole is open-source and you are welcome to do so! Just
-                    send us your patches. There is no guarantee that your patch
-                    will be added to the upstream source, and all changes are
-                    carefully reviewed.
-                </para>
+                <para>If you are a programmer and want to contribute code, Guacamole is open-source
+                    and you are welcome to do so! Just send us your patches. There is no guarantee
+                    that your patch will be added to the upstream source, and all changes are
+                    carefully reviewed. </para>
 
-                <para>
-                    If you are not a programmer, but want to help out, feel
-                    free to look through the documentation or try installing
-                    Guacamole and test it out. General editing, documentation
-                    contributions, and testing are always helpful.
-                </para>
+                <para>If you are not a programmer, but want to help out, feel free to look through
+                    the documentation or try installing Guacamole and test it out. General editing,
+                    documentation contributions, and testing are always helpful. </para>
 
             </answer>
         </qandaentry>
@@ -248,30 +178,21 @@
         <qandaentry>
             <question>
 
-                <para>
-                    How can I become an official member of the project?
-                </para>
+                <para>How can I become an official member of the project? </para>
 
             </question>
             <answer>
 
-                <para>
-                    The short answer is: "by being asked."
-                </para>
+                <para>The short answer is: "by being asked." </para>
 
-                <para>
-                    People are only added as official members of the
-                    Guacamole project after their work has been proven. This
-                    usually means you will have contributed code in the form of
-                    patches before, or we know you from extensive testing work,
-                    or you frequently help with documentation, and we are
-                    impressed enough that we want you as part of the project.
-                </para>
+                <para>People are only added as official members of the Guacamole project after their
+                    work has been proven. This usually means you will have contributed code in the
+                    form of patches before, or we know you from extensive testing work, or you
+                    frequently help with documentation, and we are impressed enough that we want you
+                    as part of the project. </para>
 
-                <para>
-                    All that said, you do not need to be a member of the
-                    project to help out. Feel free to contribute anything.
-                </para>
+                <para>All that said, you do not need to be a member of the project to help out. Feel
+                    free to contribute anything. </para>
 
             </answer>
         </qandaentry>
@@ -279,25 +200,18 @@
         <qandaentry>
             <question>
 
-                <para>
-                    I think I've found a bug. How do I report it?
-                </para>
+                <para>I think I've found a bug. How do I report it? </para>
 
             </question>
             <answer>
 
-                <para>
-                    The project hosts a bug tracking tool called Trac at
-                    http://guac-dev.org/trac/. All bugs should be reported
-                    there as new tickets. This is also where you would request
-                    a new feature.
-                </para>
+                <para>The project hosts a bug tracking tool called Trac at
+                    http://guac-dev.org/trac/. All bugs should be reported there as new tickets.
+                    This is also where you would request a new feature. </para>
 
-                <para>
-                    If the bug you found is security-related, we would prefer
-                    to be contacted personally via email, such that the bug can
-                    be fixed before becoming dangerously widely known.
-                </para>
+                <para>If the bug you found is security-related, we would prefer to be contacted
+                    personally via email, such that the bug can be fixed before becoming dangerously
+                    widely known. </para>
 
             </answer>
         </qandaentry>
@@ -305,31 +219,20 @@
         <qandaentry>
             <question>
 
-                <para>
-                    I need help! Where can I find some?
-                </para>
+                <para>I need help! Where can I find some? </para>
 
             </question>
             <answer>
 
-                <para>
-                    The project hosts forums at
-                    http://sourceforge.net/projects/guacamole/forums. If you
-                    have a SourceForge username (or don't mind registering
-                    one), this is a good place to start.
-                </para>
+                <para>The project hosts forums at http://sourceforge.net/projects/guacamole/forums.
+                    If you have a SourceForge username (or don't mind registering one), this is a
+                    good place to start. </para>
 
-                <para>
-                    Otherwise, there are Guacamole-specific official IRC
-                    channels on freenode.net: #guacamole, #guacamole-dev, and
-                    #guacamole-help.
-                </para>
+                <para>Otherwise, there are Guacamole-specific official IRC channels on freenode.net:
+                    #guacamole, #guacamole-dev, and #guacamole-help. </para>
 
-                <para>
-                    If none of those options suffice, you can always email any
-                    of the project members directly. You will usually get a
-                    personal response, time permitting.
-                </para>
+                <para>If none of those options suffice, you can always email any of the project
+                    members directly. You will usually get a personal response, time permitting. </para>
 
             </answer>
         </qandaentry>

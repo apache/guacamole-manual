@@ -366,6 +366,42 @@
                             parameters in a future release.</para>
                     </listitem>
                 </varlistentry>
+                <varlistentry>
+                    <term><parameter>dest-host</parameter></term>
+                    <listitem>
+                        <indexterm>
+                            <primary>repeater</primary>
+                            <secondary>VNC</secondary>
+                        </indexterm>
+                        <indexterm>
+                            <primary>proxy</primary>
+                            <secondary>VNC</secondary>
+                        </indexterm>
+                        <para>The destination host to request when connecting to a VNC proxy such as
+                            UltraVNC Repeater. This is only necessary if the VNC proxy in use
+                            requires the connecting user to specify which VNC server to connect to.
+                            If the VNC proxy automatically connects to a specific server, this
+                            parameter is not necessary.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>dest-port</parameter></term>
+                    <listitem>
+                        <indexterm>
+                            <primary>repeater</primary>
+                            <secondary>VNC</secondary>
+                        </indexterm>
+                        <indexterm>
+                            <primary>proxy</primary>
+                            <secondary>VNC</secondary>
+                        </indexterm>
+                        <para>The destination port to request when connecting to a VNC proxy such as
+                            UltraVNC Repeater. This is only necessary if the VNC proxy in use
+                            requires the connecting user to specify which VNC server to connect to.
+                            If the VNC proxy automatically connects to a specific server, this
+                            parameter is not necessary.</para>
+                    </listitem>
+                </varlistentry>
             </variablelist>
         </section>
         <section xml:id="adding-vnc">
@@ -580,11 +616,21 @@
                         <indexterm>
                             <primary>disabling audio</primary>
                         </indexterm>
-                        <para>As of Guacamole version 0.7.0, audio is officially
-                            support and enabled by default in both the client
-                            and in libguac-client-rdp. If you are concerned
-                            about bandwidth usage, or sound is causing problems,
-                            you can explicitly disable sound by setting this
+                        <para>Audio is enabled by default in both the client and in
+                            libguac-client-rdp. If you are concerned about bandwidth usage, or sound
+                            is causing problems, you can explicitly disable sound by setting this
+                            parameter to "true".</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>enable-printing</parameter></term>
+                    <listitem>
+                        <indexterm>
+                            <primary>enabling printing</primary>
+                        </indexterm>
+                        <para>Printing is disabled by default, but with printing enabled, RDP users
+                            can print to a virtual printer that sends a PDF containing the document
+                            printed to the Guacamole client. Enable printing by setting this
                             parameter to "true".</para>
                     </listitem>
                 </varlistentry>
