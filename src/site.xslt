@@ -33,9 +33,6 @@
         set       toc,title
     </xsl:param>
 
-    <!-- Exclude certain elements from TOC -->
-    <xsl:template match="preface/section" mode="toc"/>
-
     <!-- Custom stylesheet -->
     <xsl:param name="html.stylesheet" select="'../../guac.css'"/>
 
