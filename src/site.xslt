@@ -20,7 +20,7 @@
         book      toc,title
         chapter   toc,title
         part      toc,title
-        preface   toc,title
+        preface   title
         qandadiv  toc
         qandaset  toc
         reference toc,title
@@ -32,6 +32,9 @@
         section   toc
         set       toc,title
     </xsl:param>
+
+    <!-- Exclude certain elements from TOC -->
+    <xsl:template match="preface/section" mode="toc"/>
 
     <!-- Custom stylesheet -->
     <xsl:param name="html.stylesheet" select="'../../guac.css'"/>
