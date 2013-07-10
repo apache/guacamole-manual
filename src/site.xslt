@@ -36,6 +36,9 @@
     <!-- Custom stylesheet -->
     <xsl:param name="html.stylesheet" select="'../../guac.css'"/>
 
+    <!-- Chunk only at chapter level -->
+    <xsl:param name="chunk.section.depth" select="0"/>
+
     <!-- Custom header -->
     <xsl:template name="user.header.navigation">
         <xsl:text disable-output-escaping="yes"><![CDATA[
