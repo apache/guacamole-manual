@@ -44,45 +44,39 @@
             <screen><prompt>#</prompt> <userinput>yum install guacamole</userinput>
 <prompt>#</prompt> </screen>
         </informalexample>
-        <section>
-            <title>Deploying Guacamole</title>
-            <indexterm>
-                <primary>deploying</primary>
-            </indexterm>
-            <para>After the Guacamole packages are installed, the web
-                application must still be deployed to your servlet container.
-                The Debian bundle contains a package called
-                    <package>guacamole-tomcat</package> which will do this for
-                you, but if you are using Fedora or you don't wish to install
-                this package, you must deploy Guacamole manually.</para>
-            <para>Deploying Guacamole is a one-time process, and needs to be
-                done only when Guacamole is initially installed. Future upgrades
-                to Guacamole will be automatically deployed if this process is
-                followed.</para>
-            <para>To deploy Guacamole, you must make two symbolic links: one
-                effectively copying the web application (now located at
-                    <filename>/var/lib/guacamole/guacamole.war</filename>) into
-                the directory Tomcat monitors for web application deployment,
-                and the other effectively copying the configuration file,
-                    <filename>guacamole.properties</filename>, into the Tomcat's
-                classpath, such that Guacamole can find it once it runs. This
-                must be done as root:</para>
-            <informalexample>
-                <screen><prompt>#</prompt> <userinput>ln -s /var/lib/guacamole/guacamole.war /var/lib/tomcat6/webapps</userinput>
+        <para>After the Guacamole packages are installed, the web application may still need to be
+            deployed to your servlet container. Some packages, like the Debian package called
+                <package>guacamole-tomcat</package>, will do this for you, but if your distribution
+            provides no such package, you will have to deploy Guacamole yourself.</para>
+    </section>
+    <section>
+        <title>Deploying Guacamole</title>
+        <indexterm>
+            <primary>deploying</primary>
+        </indexterm>
+        <para>Typically, deploying Guacamole is a one-time process, and needs to be done only when
+            Guacamole is initially installed. If done correctly, future upgrades to Guacamole will
+            be automatically deployed.</para>
+        <para>To deploy Guacamole, you must make two symbolic links: one effectively copying the web
+            application (now located at <filename>/var/lib/guacamole/guacamole.war</filename>) into
+            the directory Tomcat monitors for web application deployment, and the other effectively
+            copying the configuration file, <filename>guacamole.properties</filename>, into the
+            Tomcat's classpath, such that Guacamole can find it once it runs. This must be done as
+            root:</para>
+        <informalexample>
+            <screen><prompt>#</prompt> <userinput>ln -s /var/lib/guacamole/guacamole.war /var/lib/tomcat6/webapps</userinput>
 <prompt>#</prompt> <userinput>ln -s /etc/guacamole/guacamole.properties /usr/share/tomcat6/lib</userinput>
 <prompt>#</prompt></screen>
-            </informalexample>
-            <para>Thankfully, Debian and Fedora both agree on the location for
-                web applications and Tomcat's classpath. If you are using a
-                different servlet container or you installed Tomcat manually
-                (without using your distribution's packages), or you are not
-                using Debian or Fedora, these locations may be different.</para>
-            <para>Once Guacamole has been deployed, Tomcat must be restarted (as
-                    <filename>guacamole.properties</filename> will only be read
-                on servlet container start) and the guacd daemon must be started
-                if it isn't running already:</para>
-            <informalexample>
-                <screen><prompt>#</prompt> <userinput>service tomcat6 restart</userinput>
+        </informalexample>
+        <para>Thankfully, Debian and Fedora both agree on the location for web applications and
+            Tomcat's classpath. If you are using a different servlet container or you installed
+            Tomcat manually (without using your distribution's packages), or you are not using
+            Debian or Fedora, these locations may be different.</para>
+        <para>Once Guacamole has been deployed, Tomcat must be restarted (as
+                <filename>guacamole.properties</filename> will only be read on servlet container
+            start) and the guacd daemon must be started if it isn't running already:</para>
+        <informalexample>
+            <screen><prompt>#</prompt> <userinput>service tomcat6 restart</userinput>
 <computeroutput>Redirecting to /bin/systemctl tomcat6  restart.service</computeroutput>
 <prompt>#</prompt> <userinput>service guacd start</userinput>
 <computeroutput>Starting guacd: SUCCESS
@@ -93,22 +87,20 @@ guacd[6229]: INFO:  Successfully bound socket to host 127.0.0.1, port 4822
 guacd[6229]: INFO:  Exiting and passing control to PID 6230
 guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
 <prompt>#</prompt></screen>
-            </informalexample>
-            <para>After restarting Tomcat and starting guacd, Guacamole is
-                successfully installed and running.</para>
-            <para>If you want Guacamole to start on boot, you will need to
-                configure the tomcat6 and guacd services to run automatically.
-                On Debian, this will be the default. On Fedora, you can do this
-                using <command>chkconfig</command>:</para>
-            <informalexample>
-                <screen><prompt>#</prompt> <userinput>chkconfig tomcat6 on</userinput>
+        </informalexample>
+        <para>After restarting Tomcat and starting guacd, Guacamole is successfully installed and
+            running.</para>
+        <para>If you want Guacamole to start on boot, you will need to configure the tomcat6 and
+            guacd services to run automatically. On Debian, this will be the default. On Fedora, you
+            can do this using <command>chkconfig</command>:</para>
+        <informalexample>
+            <screen><prompt>#</prompt> <userinput>chkconfig tomcat6 on</userinput>
 <computeroutput>Note: forwarding request to 'systemctl enable tomcat6.service'
 ln -s '/usr/lib/systemd/system/tomcat6.service'
     '/etc/systemd/system/multi-user.target.wants/tomcat6.service'</computeroutput>
 <prompt>#</prompt> <userinput>chkconfig guacd on</userinput>
 <prompt>#</prompt></screen>
-            </informalexample>
-        </section>
+        </informalexample>
     </section>
     <section xml:id="building-guacamole-from-source">
         <title>Building Guacamole from source</title>
