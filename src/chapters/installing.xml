@@ -11,25 +11,17 @@
         <primary>installing</primary>
     </indexterm>
     <section xml:id="binary-packages">
-        <title>Pre-built packages</title>
+        <title>Packages from your distribution</title>
         <indexterm>
             <primary>packages</primary>
         </indexterm>
-        <para>By far, the easiest way to install Guacamole is through pre-built
-            binary packages. Binary packages are provided with every Guacamole
-            release for several Linux distributions, and there may be Guacamole
-            packages available in the official repository of your
-            distribution.</para>
         <para>If your distribution provides Guacamole packages for you, this is
             the preferred method of installing Guacamole. Install your
             distribution's Guacamole package, and then follow the common
             instructions here for configuring Guacamole once it is
             installed.</para>
-        <para>If your distribution does not provide Guacamole packages, or the
-            packages provided are too old, you can try the packages built by the
-            Guacamole project with every release. If the Guacamole project does
-            not provide packages for your specific distribution, you will need
-            to build everything yourself from source.</para>
+        <para>If your distribution does not provide Guacamole packages, or the packages provided are
+            too old, you can build Guacamole from source.</para>
         <important>
             <para>Be aware that Guacamole is a remote desktop gateway, and
                 cannot access your desktop's display without a remote desktop
@@ -44,141 +36,14 @@
                 on the internet) provides documentation describing how to set up
                 remote desktop.</para>
         </important>
-        <section xml:id="linux-support">
-            <title>Supported distribution versions</title>
-            <indexterm>
-                <primary>Linux</primary>
-                <secondary>supported versions</secondary>
-            </indexterm>
-            <para>The Guacamole project supports all stable versions of Debian,
-                Ubuntu, and Fedora which have not reached end-of-life. The only
-                exception to this is when a particular version cannot be
-                supported because the upstream repository is missing a critical
-                dependency, in which case some or all of the packages built by
-                the Guacamole project will not be available for that
-                distribution. </para>
-            <para>Packages for all supported versions of Linux distributions are
-                available from the <link xl:href="http://guac-dev.org/"
-                    >Guacamole web site</link>. <indexterm>
-                    <primary>Guacamole</primary>
-                    <secondary>downloading</secondary>
-                </indexterm></para>
-        </section>
-        <section xml:id="binary-dependencies">
-            <title>Installing dependencies</title>
-            <indexterm>
-                <primary>Guacamole</primary>
-                <secondary>dependencies</secondary>
-            </indexterm>
-            <indexterm>
-                <primary>Debian</primary>
-            </indexterm>
-            <indexterm>
-                <primary>Ubuntu</primary>
-            </indexterm>
-            <indexterm>
-                <primary>Fedora</primary>
-            </indexterm>
-            <indexterm>
-                <primary>dependencies</primary>
-            </indexterm>
-            <para>Different components of Guacamole depend on different packages
-                provided by your distribution in order to function. </para>
-            <para>The Guacamole web application depends on a servlet container
-                like Apache Tomcat. This guide assumes you are using Apache
-                Tomcat as your servlet container, but others will work as well.
-                You will need to consult the documentation of your chosen
-                servlet container for any details regarding installation of web
-                applications.</para>
-            <para><indexterm>
-                    <primary>Guacamole</primary>
-                    <secondary>dependencies</secondary>
-                    <tertiary>Debian</tertiary>
-                </indexterm><indexterm>
-                    <primary>Guacamole</primary>
-                    <secondary>dependencies</secondary>
-                    <tertiary>Ubuntu</tertiary>
-                </indexterm>For Debian and Ubuntu, Apache Tomcat is provided by
-                the <package>tomcat6</package> package, while the VNC library
-                required for VNC support is provided by
-                    <package>libvncserver0</package>, and RDP support is
-                provided by <package>libfreerdp1</package>. Support for Ogg
-                Vorbis encoding is provided by <package>libvorbisenc2</package>
-                which is used by <package>libguac-client-rdp</package> to
-                provide sound to browsers supporting Ogg Vorbis audio.</para>
-            <example>
-                <title>Installing Guacamole dependencies on Debian or
-                    Ubuntu</title>
-                <screen><prompt>$</prompt> sudo apt-get install tomcat6 libvncserver0 libfreerdp1 libvorbisenc2 \
-  libfreerdp-plugins-standard</screen>
-            </example>
-            <para>
-                <indexterm>
-                    <primary>Guacamole</primary>
-                    <secondary>dependencies</secondary>
-                    <tertiary>Fedora</tertiary>
-                </indexterm> The Apache Tomcat package for Fedora is also called
-                    <package>tomcat6</package>. VNC support is provided by
-                    <package>libvncserver</package>, and RDP support is provided
-                by <package>freerdp</package>. Just as with
-                    <package>libguac-client-rdp</package> on Debian and Ubuntu,
-                support for Ogg Vorbis encoding is needed, and is provided by
-                    <package>libvorbis</package>.</para>
-            <example>
-                <title>Installing Guacamole dependencies on Fedora</title>
-                <screen><prompt>$</prompt> su
-<prompt>Password:</prompt> <replaceable>password</replaceable>
-<prompt>#</prompt> yum install tomcat6 libvncserver freerdp libvorbis freerdp-plugins</screen>
-            </example>
-        </section>
-        <section xml:id="installing-guacamole-packages">
-            <title>Installing Guacamole packages</title>
-            <indexterm>
-                <primary>Guacamole</primary>
-                <secondary>packages</secondary>
-                <tertiary>installing</tertiary>
-            </indexterm>
-            <indexterm>
-                <primary>packages</primary>
-            </indexterm>
-            <para> Once dependencies are installed, the official Guacamole
-                packages can be installed. Guacamole is split into multiple
-                packages, one package providing the web application, others
-                providing the native components (proxy daemon and library) or
-                support for specific protocols (VNC and RDP). </para>
-            <para> The easiest way to obtain all packages in one fell swoop is
-                to download the "bundle" archive of the latest release from the
-                    <link xl:href="http://guac-dev.org/">Guacamole web
-                    site</link>. <indexterm>
-                    <primary>Guacamole</primary>
-                    <secondary>downloading</secondary>
-                    <tertiary>bundles</tertiary>
-                </indexterm>
-            </para>
-            <example>
-                <title>Installing Guacamole packages on Debian or Ubuntu</title>
-                <screen><prompt>$</prompt> tar -xzf guacamole-0.8.0-ubuntu-12.04-amd64.tar.gz
-<prompt>$</prompt> cd guacamole-0.8.0-ubuntu-12.04-amd64/
-<prompt>$</prompt> ls
-<computeroutput>development                       libguac4_0.7.0-1_amd64.deb
-guacamole_0.8.0-1_all.deb         libguac-client-rdp0_0.7.3-1_amd64.deb
-guacamole-tomcat_0.8.0-1_all.deb  libguac-client-vnc0_0.7.1-1_amd64.deb
-guacd_0.7.0-2_amd64.deb</computeroutput>
-<prompt>$</prompt> sudo dpkg -i *.deb</screen>
-            </example>
-            <example>
-                <title>Installing Guacamole packages on Fedora</title>
-                <screen><prompt>$</prompt> tar -xzf guacamole-0.8.0-fedora-17-x86_64.tar.gz
-<prompt>$</prompt> cd guacamole-0.8.0-fedora-17-x86_64/
-<prompt>$</prompt> ls
-<computeroutput>development                   libguac4-0.7.0-1.x86_64.rpm
-guacamole-0.8.0-1.noarch.rpm  libguac-client-rdp-0.7.3-1.x86_64.rpm
-guacd-0.7.0-1.x86_64.rpm      libguac-client-vnc0-0.7.1-1.x86_64.rpm</computeroutput>
-<prompt>$</prompt> su
-<prompt>Password:</prompt> <replaceable>password</replaceable>
-<prompt>#</prompt> rpm -i *.rpm</screen>
-            </example>
-        </section>
+        <informalexample>
+            <screen><prompt>#</prompt> <userinput>apt-get install guacamole</userinput>
+<prompt>#</prompt> </screen>
+        </informalexample>
+        <informalexample>
+            <screen><prompt>#</prompt> <userinput>yum install guacamole</userinput>
+<prompt>#</prompt> </screen>
+        </informalexample>
         <section>
             <title>Deploying Guacamole</title>
             <indexterm>
@@ -203,8 +68,9 @@ guacd-0.7.0-1.x86_64.rpm      libguac-client-vnc0-0.7.1-1.x86_64.rpm</computerou
                 classpath, such that Guacamole can find it once it runs. This
                 must be done as root:</para>
             <informalexample>
-                <screen><prompt>#</prompt> ln -s /var/lib/guacamole/guacamole.war /var/lib/tomcat6/webapps
-<prompt>#</prompt> ln -s /etc/guacamole/guacamole.properties /usr/share/tomcat6/lib</screen>
+                <screen><prompt>#</prompt> <userinput>ln -s /var/lib/guacamole/guacamole.war /var/lib/tomcat6/webapps</userinput>
+<prompt>#</prompt> <userinput>ln -s /etc/guacamole/guacamole.properties /usr/share/tomcat6/lib</userinput>
+<prompt>#</prompt></screen>
             </informalexample>
             <para>Thankfully, Debian and Fedora both agree on the location for
                 web applications and Tomcat's classpath. If you are using a
@@ -216,16 +82,17 @@ guacd-0.7.0-1.x86_64.rpm      libguac-client-vnc0-0.7.1-1.x86_64.rpm</computerou
                 on servlet container start) and the guacd daemon must be started
                 if it isn't running already:</para>
             <informalexample>
-                <screen><prompt>#</prompt> service tomcat6 restart
+                <screen><prompt>#</prompt> <userinput>service tomcat6 restart</userinput>
 <computeroutput>Redirecting to /bin/systemctl tomcat6  restart.service</computeroutput>
-<prompt>#</prompt> service guacd start
+<prompt>#</prompt> <userinput>service guacd start</userinput>
 <computeroutput>Starting guacd: SUCCESS
 guacd[6229]: INFO:  Guacamole proxy daemon (guacd) version 0.7.0
 guacd[6229]: INFO:  Unable to bind socket to host ::1, port 4822: Address family not supported by
 protocol
 guacd[6229]: INFO:  Successfully bound socket to host 127.0.0.1, port 4822
 guacd[6229]: INFO:  Exiting and passing control to PID 6230
-guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput></screen>
+guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
+<prompt>#</prompt></screen>
             </informalexample>
             <para>After restarting Tomcat and starting guacd, Guacamole is
                 successfully installed and running.</para>
@@ -234,11 +101,12 @@ guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput></sc
                 On Debian, this will be the default. On Fedora, you can do this
                 using <command>chkconfig</command>:</para>
             <informalexample>
-                <screen><prompt>#</prompt> chkconfig tomcat6 on
+                <screen><prompt>#</prompt> <userinput>chkconfig tomcat6 on</userinput>
 <computeroutput>Note: forwarding request to 'systemctl enable tomcat6.service'
 ln -s '/usr/lib/systemd/system/tomcat6.service'
     '/etc/systemd/system/multi-user.target.wants/tomcat6.service'</computeroutput>
-<prompt>#</prompt> chkconfig guacd on</screen>
+<prompt>#</prompt> <userinput>chkconfig guacd on</userinput>
+<prompt>#</prompt></screen>
             </informalexample>
         </section>
     </section>
@@ -315,6 +183,16 @@ ln -s '/usr/lib/systemd/system/tomcat6.service'
             <informalexample>
                 <screen><prompt>$</prompt> <userinput>tar -xzf guacamole-server-0.8.2.tar.gz</userinput>
 <prompt>$</prompt> <userinput>cd guacamole-server-0.8.2/</userinput>
+<prompt>$</prompt></screen>
+            </informalexample>
+            <informalexample>
+                <screen><prompt>$</prompt> <userinput>git clone <uri>git://github.com/glyptodon/guacamole-server.git</uri> -b unstable</userinput>
+<computeroutput>Cloning into 'guacamole-server'...
+remote: Counting objects: 6769, done.
+remote: Compressing objects: 100% (2244/2244), done.
+remote: Total 6769 (delta 3058), reused 6718 (delta 3008)
+Receiving objects: 100% (6769/6769), 2.32 MiB | 777 KiB/s, done.
+Resolving deltas: 100% (3058/3058), done.</computeroutput>
 <prompt>$</prompt></screen>
             </informalexample>
             <informalexample>
@@ -433,6 +311,16 @@ make[1]: Leaving directory `/home/zhz/guacamole/guacamole-server'</computeroutpu
 <prompt>$</prompt></screen>
             </informalexample>
             <informalexample>
+                <screen><prompt>$</prompt> <userinput>git clone <uri>git://github.com/glyptodon/guacamole-client.git</uri> -b unstable</userinput>
+<computeroutput>Cloning into 'guacamole-client'...
+remote: Counting objects: 12788, done.
+remote: Compressing objects: 100% (4183/4183), done.
+remote: Total 12788 (delta 3942), reused 12667 (delta 3822)
+Receiving objects: 100% (12788/12788), 3.23 MiB | 799 KiB/s, done.
+Resolving deltas: 100% (3942/3942), done.</computeroutput>
+<prompt>$</prompt></screen>
+            </informalexample>
+            <informalexample>
                 <screen><prompt>$</prompt> <userinput>mvn package</userinput>
 <computeroutput>[INFO] Scanning for projects...
 [INFO] Reactor build order: 
@@ -500,30 +388,5 @@ make[1]: Leaving directory `/home/zhz/guacamole/guacamole-server'</computeroutpu
             <para>You will need to edit <filename>user-mapping.xml</filename> to add and remove
                 users, as well as to remove the "default" users included as examples.</para>
         </section>
-    </section>
-    <section xml:id="git-repositories">
-        <title>The absolute latest</title>
-        <indexterm>
-            <primary>git</primary>
-        </indexterm>
-        <indexterm>
-            <primary>unstable source</primary>
-        </indexterm>
-        <indexterm>
-            <primary>repositories</primary>
-        </indexterm>
-        <para>If you wish to build the absolute latest unstable code, you can do
-            so by downloading the latest Guacamole code from git.</para>
-        <para>The Guacamole project maintains each of its components in separate
-            git repositories, which each have master (stable) and unstable
-            (development) branches. To build and install the latest source, you
-            need only clone the unstable branch of each repository, and then
-            build as shown above.</para>
-        <informalexample>
-            <screen><prompt>$</prompt> <userinput>git clone <uri>git://github.com/glyptodon/guacamole-client.git</uri> -b unstable</userinput></screen>
-        </informalexample>
-        <informalexample>
-            <screen><prompt>$</prompt> <userinput>git clone <uri>git://github.com/glyptodon/guacamole-server.git</uri> -b unstable</userinput></screen>
-        </informalexample>
     </section>
 </chapter>
