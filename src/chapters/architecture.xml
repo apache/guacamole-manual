@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xml:id="guacamole-architecture" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en" xmlns:xl="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Implementation and architecture</title>
+    <indexterm>
+        <primary>Guacamole</primary>
+        <secondary>history</secondary>
+    </indexterm>
+    <indexterm>
+        <primary>Guacamole</primary>
+        <secondary>architecture</secondary>
+    </indexterm>
+    <indexterm>
+        <primary>Guacamole</primary>
+        <secondary>implementation</secondary>
+    </indexterm>
+    <para>Guacamole is not a self-contained web application and is made up of many parts. The web
+        application is actually intended to be simple and minimal, with the majority of the
+        gruntwork performed by lower-level components.<informalfigure>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/guac-arch.png" width="2.5in"/>
+                </imageobject>
+            </mediaobject>
+        </informalfigure></para>
+    <section xml:id="guacamole-protocol-architecture">
+        <title>The Guacamole protocol </title>
+        <indexterm>
+            <primary>Guacamole</primary>
+            <secondary>protocol</secondary>
+        </indexterm>
+        <para>The web application does not understand any remote desktop protocol at all and does
+            not contain support for VNC nor for RDP. It actually only understands the Guacamole
+            protocol, which is a protocol for remote display rendering and event transport. While a
+            protocol with those properties would naturally have the same abilities as a remote
+            desktop protocol, the design principles behind a remote desktop protocol and the
+            Guacamole protocol are different: the Guacamole protocol is not intended to implement
+            the features of a specific desktop environment.</para>
+        <para>As a remote display and interaction protocol, Guacamole effectively implements a
+            superset of existing remote desktop protocols. Adding support for a particular remote
+            desktop protocol (like RDP) to Guacamole thus involves writing a middle layer which
+            "translates" between the remote desktop protocol and the Guacamole protocol.
+            Implementing such a translation is no different than implementing any native client,
+            except that this particular implementation renders to a remote display rather than a
+            local one.</para>
+        <para>The middle layer that handles this translation is guacd.</para>
+    </section>
+    <section xml:id="guacd">
+        <title>guacd</title>
+        <indexterm>
+            <primary>guacd</primary>
+        </indexterm>
+        <indexterm>
+            <primary>client plugin</primary>
+        </indexterm>
+        <para>guacd is the heart of Guacamole which dynamically loads support for remote desktop
+            protocols (called "client plugins") and connects them to remote desktops based on
+            instructions received from the web application.</para>
+        <para>guacd is a daemon process which is installed along with Guacamole and runs in the
+            background, listening for TCP connections from the web application. guacd also does not
+            understand any specific remote desktop protocol, but rather implements just enough of
+            the Guacamole protocol to determine which protocol support needs to be loaded and what
+            arguments must be passed to it. Once a client plugin is loaded, it runs independently of
+            guacd and has full control of the communication between itself and the web application
+            until the client plugin terminates.</para>
+        <indexterm>
+            <primary><package>libguac</package></primary>
+            <secondary>relationship with <package>guacd</package></secondary>
+        </indexterm>
+        <para>guacd and all client plugins depend on a common library, libguac, which makes
+            communication via the Guacamole protocol easier and a bit more abstract.</para>
+    </section>
+    <section xml:id="web-application">
+        <title>The web application</title>
+        <indexterm>
+            <primary>web application</primary>
+        </indexterm>
+        <para>The part of Guacamole that a user actually interacts with is the web
+            application.</para>
+        <para>The web application, as mentioned before, does not implement any remote desktop
+            protocol. It relies on guacd, and implements nothing more than a spiffy web interface
+            and authentication layer.</para>
+        <para>We chose to implement the server side of the web application in Java, but there's no
+            reason that it can't be written in a different language. In fact, because Guacamole is
+            intended be an API, we encourage this.</para>
+    </section>
+</chapter>
