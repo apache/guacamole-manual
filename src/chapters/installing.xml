@@ -15,13 +15,10 @@
         <indexterm>
             <primary>packages</primary>
         </indexterm>
-        <para>If your distribution provides Guacamole packages for you, this is
-            the preferred method of installing Guacamole. Install your
-            distribution's Guacamole package, and then follow the common
-            instructions here for configuring Guacamole once it is
-            installed.</para>
-        <para>If your distribution does not provide Guacamole packages, or the packages provided are
-            too old, you can build Guacamole from source.</para>
+        <para>Guacamole is included in the repositories of several Linux distributions. If your
+            distribution provides Guacamole packages for you, this is the preferred method of
+            installing Guacamole. If your distribution does not provide Guacamole packages, or the
+            packages provided are too old, you can build Guacamole from source.</para>
         <important>
             <para>Be aware that Guacamole is a remote desktop gateway, and
                 cannot access your desktop's display without a remote desktop
@@ -36,20 +33,417 @@
                 on the internet) provides documentation describing how to set up
                 remote desktop.</para>
         </important>
-        <informalexample>
-            <screen><prompt>#</prompt> <userinput>apt-get install guacamole</userinput>
-<prompt>#</prompt> </screen>
-        </informalexample>
-        <informalexample>
-            <screen><prompt>#</prompt> <userinput>yum install guacamole</userinput>
-<prompt>#</prompt> </screen>
-        </informalexample>
+        <para>Installing Guacamole from your distribution's <package>guacamole</package> package will
+            typically install the web application and the proxy <package>guacd</package>, along with
+            support for VNC (<package>libguac-client-vnc</package>). If you want support for RDP or
+            SSH, you will need to install those packages as well.</para>
         <para>After the Guacamole packages are installed, the web application may still need to be
             deployed to your servlet container. Some packages, like the Debian package called
                 <package>guacamole-tomcat</package>, will do this for you, but if your distribution
             provides no such package, you will have to deploy Guacamole yourself.</para>
+        <section>
+            <title>Debian and Ubuntu</title>
+            <para/>
+            <informalexample>
+                <screen><prompt>#</prompt> <userinput>apt-get install guacamole</userinput>
+<prompt>#</prompt> </screen>
+            </informalexample>
+            <informalexample>
+                <screen><prompt>#</prompt> <userinput>apt-get install libguac-client-ssh0 libguac-client-rdp0</userinput>
+<prompt>#</prompt> </screen>
+            </informalexample>
+        </section>
+        <section>
+            <title>Fedora, RHEL, and CentOS</title>
+            <para/>
+            <informalexample>
+                <screen><prompt>#</prompt> <userinput>yum install guacamole</userinput>
+<prompt>#</prompt> </screen>
+            </informalexample>
+            <informalexample>
+                <screen><prompt>#</prompt> <userinput>yum install libguac-client-ssh libguac-client-rdp</userinput>
+<prompt>#</prompt> </screen>
+            </informalexample>
+        </section>
+        <section>
+            <title>Other distributions</title>
+            <para/>
+        </section>
     </section>
-    <section>
+    <section xml:id="building-guacamole-from-source">
+        <title>Building Guacamole from source</title>
+        <indexterm>
+            <primary>compiling</primary>
+            <secondary>Guacamole</secondary>
+        </indexterm>
+        <indexterm>
+            <primary>Guacamole</primary>
+            <secondary>compiling</secondary>
+        </indexterm>
+        <para>Building the components of Guacamole from source is not difficult, providing you have
+            the necessary tools installed already. The source for the entirety of Guacamole is
+            available from the Guacamole project web site in convenient source archives, each named
+            after the component they contain. Each archive also contains a file named
+                <filename>README</filename> which lists detailed instructions for building and
+            installing. </para>
+        <para>Guacamole is separated into two pieces: <package>guacamole-server</package>, which
+            provides the <package>guacd</package> proxy and related libraries, and
+                <package>guacamole-client</package>, which provides the client to be served by your
+            servlet container. In most cases, the only source you will need to build is
+                <package>guacamole-server</package>, and downloading the latest
+                <filename>guacamole.war</filename> from the project website will be sufficient to
+            provide the client. Building <package>guacamole-client</package> is really only
+            necessary when you wish to modify the source or when you want to try the latest
+            unreleased changes.</para>
+        <para>To compile the C components, you will need a C compiler (such as
+                <package>gcc</package>) and the libraries that each component depends on. Note that
+            many Linux distribution separates library packages into binary and "development"
+            packages; you will need to install the development packages. These will usually end in a
+            "-dev" or "-devel" suffix.</para>
+        <section xml:id="compiling-guacamole-server">
+            <title><package>guacamole-server</package></title>
+            <indexterm>
+                <primary><package>libguac</package></primary>
+                <secondary>compiling</secondary>
+            </indexterm>
+            <indexterm>
+                <primary>guacd</primary>
+                <secondary>compiling</secondary>
+            </indexterm>
+            <indexterm>
+                <primary>VNC support</primary>
+                <secondary>compiling</secondary>
+            </indexterm>
+            <indexterm>
+                <primary>RDP support</primary>
+                <secondary>compiling</secondary>
+            </indexterm>
+            <indexterm>
+                <primary>SSH support</primary>
+                <secondary>compiling</secondary>
+            </indexterm>
+            <indexterm>
+                <primary><package>libguac-client-vnc</package></primary>
+                <secondary>compiling</secondary>
+            </indexterm>
+            <indexterm>
+                <primary><package>libguac-client-rdp</package></primary>
+                <secondary>compiling</secondary>
+            </indexterm>
+            <indexterm>
+                <primary><package>libguac-client-ssh</package></primary>
+                <secondary>compiling</secondary>
+            </indexterm>
+            <indexterm>
+                <primary><package>guacamole-server</package></primary>
+                <secondary>compiling</secondary>
+            </indexterm>
+            <para><package>guacamole-server</package> contains all the native, server-side
+                components required by Guacamole to connect to remote desktops. It provides a common
+                C library, <package>libguac</package>, which all other native components depend on,
+                as well as separate libraries for each supported protocol, and a proxy daemon,
+                    <package>guacd</package>, the heart of Guacamole.</para>
+            <para>guacd is the proxy daemon that runs on your Guacamole server, accepting
+                connections from the Guacamole web application on behalf of remote users. It
+                effectively translates between common remote desktop protocols like VNC or RDP by
+                dynamically loading protocol support plugins. Building guacd creates an executable
+                called <filename>guacd</filename> which can be run manually or, if you wish,
+                automatically when your computer starts up.</para>
+            <para>In order to build <package>guacamole-server</package>, you will need
+                    <package>Cairo</package>, a graphics library, and <package>libpng</package>, the
+                official PNG library. These libraries are strictly required <emphasis>in all
+                    cases</emphasis>. Guacamole cannot be built without them. The other dependencies
+                of <package>guacamole-server</package> are optional. Which libraries you will need
+                to install depends on what support you need.</para>
+            <para>Guacamole currently supports VNC, RDP, and SSH. Each protocol corresponds to a
+                separate library that will be built with <package>guacamole-server</package> if you
+                have its corresponding optional dependencies. VNC support depends on the
+                    <package>libvncclient</package> library, which is part of
+                    <package>libVNCServer</package>, RDP support depends on a recent version of
+                    <package>FreeRDP</package> - 1.0 or higher, and SSH support depends on
+                    <package>libssh</package> and <package>Pango</package>, a font rendering and
+                text layout library.</para>
+            <para>Optional features of these protocols will be enabled if you have other libraries
+                installed as well. Currently, the RDP support also provides sound encoded with Ogg
+                Vorbis if you have <package>libvorbis</package> installed while building
+                    <package>guacamole-server</package>.</para>
+            <para>You can obtain a copy of the <filename>guacamole-server</filename> source from the
+                Guacamole project web site if you want the latest released code. These releases are
+                stable snapshots of the latest code which have undergone enough testing that the
+                Guacamole team considers them fit for public consumption. Source downloaded from the
+                project web site will take the form of a <filename>.tar.gz</filename> archive which
+                you can extract from the command line:</para>
+            <informalexample>
+                <screen><prompt>$</prompt> <userinput>tar -xzf guacamole-server-0.8.2.tar.gz</userinput>
+<prompt>$</prompt> <userinput>cd guacamole-server-0.8.2/</userinput>
+<prompt>$</prompt></screen>
+            </informalexample>
+            <para>If you want the absolute latest code, and don't care that the code hasn't been as
+                rigorously tested as the code in stable releases, you can also clone the unstable
+                branch from the Guacamole team's git repository on GitHub:</para>
+            <informalexample>
+                <screen><prompt>$</prompt> <userinput>git clone <uri>git://github.com/glyptodon/guacamole-server.git</uri> -b unstable</userinput>
+<computeroutput>Cloning into 'guacamole-server'...
+remote: Counting objects: 6769, done.
+remote: Compressing objects: 100% (2244/2244), done.
+remote: Total 6769 (delta 3058), reused 6718 (delta 3008)
+Receiving objects: 100% (6769/6769), 2.32 MiB | 777 KiB/s, done.
+Resolving deltas: 100% (3058/3058), done.</computeroutput>
+<prompt>$</prompt></screen>
+            </informalexample>
+            <para>Once the <package>guacamole-server</package> source has been downloaded and
+                extracted, you need to run <filename>configure</filename>. This is a shell script
+                automatically generated by GNU Autotools, a popular build system used by the
+                Guacamole project for <package>guacamole-server</package>. Running
+                    <filename>configure</filename> will determine which libraries are available on
+                your system and will select the appropriate components for building depending on
+                what you actually have installed.</para>
+            <important>
+                <para>Source downloaded directly from git will not contain this
+                        <filename>configure</filename> script, as autogenerated code is not included
+                    in the project's repositories. If you downloaded the code from the project's git
+                    repositories directly, you will need to generate <filename>configure</filename>
+                    manually:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <userinput>cd guacamole-server/</userinput>
+<prompt>$</prompt> <userinput>autoreconf -fi</userinput>
+<prompt>$</prompt></screen>
+                    <para>Doing this requires GNU Autotools to be installed.</para>
+                    <para>Source archives downloaded from the project website contain the
+                            <filename>configure</filename> script and all other necessary build
+                        files, and thus do not require GNU Autotools to be installed on the build
+                        machine.</para>
+                </informalexample>
+            </important>
+            <para>Once you run <filename>configure</filename>, you can see what a listing of what
+                libraries were found and what it has determined should be built:</para>
+            <informalexample>
+                <screen><prompt>$</prompt> <userinput>./configure --with-init-dir=<replaceable>/etc/init.d</replaceable></userinput>
+<computeroutput>checking for a BSD-compatible install... /usr/bin/install -c
+checking whether build environment is sane... yes
+...
+
+------------------------------------------------
+guacamole-server version 0.8.0
+------------------------------------------------
+
+   Library status:
+
+     freerdp ............. yes
+     pango ............... yes
+     libssh .............. yes
+     libVNCServer ........ yes
+     libvorbisenc ........ yes
+
+   Protocol support:
+
+      RDP ....... yes
+      SSH ....... yes
+      VNC ....... yes
+
+   Init scripts: /etc/init.d
+
+Type "make" to compile guacamole-server.
+</computeroutput>
+<prompt>$</prompt></screen>
+            </informalexample>
+            <para><indexterm>
+                    <primary><package>guacd</package></primary>
+                    <secondary>startup script</secondary>
+                </indexterm>The <option>--with-init-dir=/etc/init.d</option> shown above prepares
+                the build to install a startup script for <package>guacd</package> into the
+                    <filename>/etc/init.d</filename> directory, such that we can later easily
+                configure <package>guacd</package> to start automatically on bot. If you do not wish
+                guacd to start automatically at boot, leave off the <option>--with-init-dir</option>
+                option. If the directory containing your distribution's startup scripts differs from
+                the common <filename>/etc/init.d</filename>, replace
+                    <filename>/etc/init.d</filename> with the proper directory here. You may need to
+                consult your distribution's documentation, or do a little digging in
+                    <filename>/etc</filename>, to determine the proper location.</para>
+            <para>Here, <filename>configure</filename> has found everything, including all optional
+                libraries, and will build all protocol support, even support for Ogg Vorbis sound in
+                RDP. If you are missing some libraries, some of the
+                    "<computeroutput>yes</computeroutput>" answers above will read
+                    "<computeroutput>no</computeroutput>". If a library which is strictly required
+                is missing, the script will fail outright, and you will need to install the missing
+                dependency.</para>
+            <para>If, after running <filename>configure</filename>, you find support for something
+                you wanted is missing, simply install the corresponding dependencies and run
+                    <filename>configure</filename> again.</para>
+            <para>Once <filename>configure</filename> is finished, and you wish to build
+                    <package>guacamole-server</package>, just type "<userinput>make</userinput>" as
+                it asks, and it will compile:</para>
+            <informalexample>
+                <screen><prompt>$</prompt> <userinput>make</userinput>
+<computeroutput>Making all in src/libguac
+make[1]: Entering directory `/home/zhz/guacamole/guacamole-server/src/libguac'
+...
+make[1]: Leaving directory `/home/zhz/guacamole/guacamole-server/src/protocols/vnc'
+make[1]: Entering directory `/home/zhz/guacamole/guacamole-server'
+make[1]: Nothing to be done for `all-am'.
+make[1]: Leaving directory `/home/zhz/guacamole/guacamole-server'</computeroutput>
+<prompt>$</prompt></screen>
+            </informalexample>
+            <para>Quite a bit of output will scroll up the screen as all the components are compiled.
+                Once everything finishes, all you have left to do is type "<userinput>make
+                    install</userinput>" to install the components that were built, and then
+                    "<userinput>ldconfig</userinput>" to update your system's cache of installed
+                libraries:</para>
+            <informalexample>
+                <screen><prompt>#</prompt> <userinput>make install</userinput>
+<computeroutput>Making install in src/libguac
+make[1]: Entering directory `/home/zhz/guacamole/guacamole-server/src/libguac'
+make[2]: Entering directory `/home/zhz/guacamole/guacamole-server/src/libguac'
+...
+----------------------------------------------------------------------
+Libraries have been installed in:
+   /usr/local/lib
+
+If you ever happen to want to link against installed libraries
+in a given directory, LIBDIR, you must either use libtool, and
+specify the full pathname of the library, or use the `-LLIBDIR'
+flag during linking and do at least one of the following:
+   - add LIBDIR to the `LD_LIBRARY_PATH' environment variable
+     during execution
+   - add LIBDIR to the `LD_RUN_PATH' environment variable
+     during linking
+   - use the `-Wl,-rpath -Wl,LIBDIR' linker flag
+   - have your system administrator add LIBDIR to `/etc/ld.so.conf'
+
+See any operating system documentation about shared libraries for
+more information, such as the ld(1) and ld.so(8) manual pages.
+----------------------------------------------------------------------
+make[2]: Nothing to be done for `install-data-am'.
+make[2]: Leaving directory `/home/zhz/guacamole/guacamole-server/src/protocols/vnc'
+make[1]: Leaving directory `/home/zhz/guacamole/guacamole-server/src/protocols/vnc'
+make[1]: Entering directory `/home/zhz/guacamole/guacamole-server'
+make[2]: Entering directory `/home/zhz/guacamole/guacamole-server'
+make[2]: Nothing to be done for `install-exec-am'.
+make[2]: Nothing to be done for `install-data-am'.
+make[2]: Leaving directory `/home/zhz/guacamole/guacamole-server'
+make[1]: Leaving directory `/home/zhz/guacamole/guacamole-server'</computeroutput>
+<prompt>#</prompt> <userinput>ldconfig</userinput>
+<prompt>#</prompt>   </screen>
+            </informalexample>
+            <para>At this point, everything is installed, but <package>guacd</package> is not
+                running. You will need to run guacd in order to use Guacamole once the client
+                components are installed as well.</para>
+            <para>Beware that even after installing <package>guacd</package> and its startup script,
+                you will likely still have to activate the service for it to start automatically.
+                Doing this varies by distribution, but each distribution will have documentation
+                describing how to do so.</para>
+        </section>
+        <section xml:id="compiling-guacamole-client">
+            <title><package>guacamole-client</package></title>
+            <indexterm>
+                <primary><filename>guacamole.war</filename></primary>
+                <secondary>compiling</secondary>
+            </indexterm>
+            <indexterm>
+                <primary><package>guacamole-client</package></primary>
+                <secondary>compiling</secondary>
+            </indexterm>
+            <para><package>guacamole-client</package> contains all Java and Maven components of
+                Guacamole (<package>guacamole</package>, <package>guacamole-common</package>,
+                    <package>guacamole-ext</package>, and <package>guacamole-common-js</package>).
+                These components ultimately make up the web application that will serve the HTML5
+                Guacamole client to users that connect to your server. This web application will
+                connect to <package>guacd</package>, part of <package>guacamole-server</package>, on
+                behalf of connected users in order to serve them any remote desktop they are
+                authorized to access.</para>
+            <para>Normally, you don't need to build <package>guacamole-client</package> manually, as
+                it is written in Java and is cross-platform. The easiest way to obtain the latest
+                version of <package>guacamole-client</package> is to simply download the latest
+                    <filename>guacamole.war</filename> (the compiled form of
+                    <package>guacamole-client</package>) from the Guacamole project web site.</para>
+            <para>To compile <package>guacamole-client</package>, all you need is Apache Maven and a
+                copy of the Java JDK. Most, if not all, Linux distributions will provide packages
+                for these.</para>
+            <informalexample>
+                <screen><prompt>$</prompt> <userinput>tar -xzf guacamole-client-0.8.2.tar.gz</userinput>
+<prompt>$</prompt> <userinput>cd guacamole-client-0.8.2/</userinput>
+<prompt>$</prompt></screen>
+            </informalexample>
+            <informalexample>
+                <screen><prompt>$</prompt> <userinput>git clone <uri>git://github.com/glyptodon/guacamole-client.git</uri> -b unstable</userinput>
+<computeroutput>Cloning into 'guacamole-client'...
+remote: Counting objects: 12788, done.
+remote: Compressing objects: 100% (4183/4183), done.
+remote: Total 12788 (delta 3942), reused 12667 (delta 3822)
+Receiving objects: 100% (12788/12788), 3.23 MiB | 799 KiB/s, done.
+Resolving deltas: 100% (3942/3942), done.</computeroutput>
+<prompt>$</prompt></screen>
+            </informalexample>
+            <informalexample>
+                <screen><prompt>$</prompt> <userinput>mvn package</userinput>
+<computeroutput>[INFO] Scanning for projects...
+[INFO] Reactor build order: 
+[INFO]   guacamole-common
+[INFO]   guacamole-ext
+[INFO]   guacamole-common-js
+[INFO]   guacamole
+[INFO]   guacamole-client
+...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary:
+[INFO] ------------------------------------------------------------------------
+[INFO] guacamole-common ...................................... SUCCESS [4.467s]
+[INFO] guacamole-ext ......................................... SUCCESS [1.479s]
+[INFO] guacamole-common-js ................................... SUCCESS [3.680s]
+[INFO] guacamole ............................................. SUCCESS [3.729s]
+[INFO] guacamole-client ...................................... SUCCESS [0.008s]
+[INFO] ------------------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 13 seconds
+[INFO] Finished at: Mon Jul 08 00:44:42 PDT 2013
+[INFO] Final Memory: 43M/354M
+[INFO] ------------------------------------------------------------------------</computeroutput>
+<prompt>$</prompt></screen>
+            </informalexample>
+            <para>Once the Guacamole web application is built, there will be a .war file in the
+                    <filename>target/</filename> subdirectory of the current directory (the
+                directory you were in when you ran <application>mvn</application>). This .war file
+                contains the entirety of the Guacamole web application, including all dependencies.
+                Installing Guacamole means copying this .war file into the directory required by
+                your servlet container.</para>
+            <informalexample>
+                <screen><prompt>#</prompt> <userinput>cp guacamole/target/guacamole-0.8.2.war /var/lib/tomcat6/webapps/guacamole.war</userinput>
+<prompt>#</prompt></screen>
+            </informalexample>
+            <para>The Guacamole web application also depends on a configuration file,
+                    <filename>guacamole.properties</filename>, to tell it the type of authentication
+                to use and how to connect to guacd. A functional example
+                    <filename>guacamole.properties</filename> is contained in the
+                    <filename>doc/</filename> subdirectory; you can simply copy this somewhere (like
+                    <filename>/etc/guacamole</filename>) and then create a symbolic link to in a
+                directory called <filename>.guacamole</filename> within the home directory of your
+                servlet container. The home directory of your servlet container will be the home
+                directory of the user that the servlet container runs as.</para>
+            <informalexample>
+                <screen><prompt>#</prompt> <userinput>mkdir /etc/guacamole</userinput>
+<prompt>#</prompt> <userinput>mkdir <replaceable>/usr/share/tomcat6</replaceable>/.guacamole</userinput>
+<prompt>#</prompt> <userinput>cp doc/guacamole.properties /etc/guacamole/guacamole.properties</userinput>
+<prompt>#</prompt> <userinput>ln -s /etc/guacamole/guacamole.properties <replaceable>/usr/share/tomcat6</replaceable>/.guacamole/</userinput>
+<prompt>#</prompt>           </screen>
+            </informalexample>
+            <para>You will need to edit <filename>guacamole.properties</filename> to be sure that
+                all the settings are valid for your installation.</para>
+            <para>If you are using the default authentication method, you will also need to install
+                the <filename>user-mapping.xml</filename> file. This file describes the users that
+                should be allowed to log into Guacamole, as well as their passwords, and all
+                corresponding remote desktop connections they should have access to.</para>
+            <para>An example <filename>user-mapping.xml</filename> file is provided in the
+                    <filename>doc/</filename> subdirectory. You can simply copy this file to a
+                reasonable location (like <filename>/etc/guacamole/user-mapping.xml</filename>) and
+                then edit <filename>guacamole.properties</filename> to specify the correct location
+                of this file.</para>
+            <para>You will need to edit <filename>user-mapping.xml</filename> to add and remove
+                users, as well as to remove the "default" users included as examples.</para>
+        </section>
+    </section>
+    <section xml:id="deploying-guacamole">
         <title>Deploying Guacamole</title>
         <indexterm>
             <primary>deploying</primary>
@@ -101,284 +495,5 @@ ln -s '/usr/lib/systemd/system/tomcat6.service'
 <prompt>#</prompt> <userinput>chkconfig guacd on</userinput>
 <prompt>#</prompt></screen>
         </informalexample>
-    </section>
-    <section xml:id="building-guacamole-from-source">
-        <title>Building Guacamole from source</title>
-        <indexterm>
-            <primary>compiling</primary>
-            <secondary>Guacamole</secondary>
-        </indexterm>
-        <indexterm>
-            <primary>Guacamole</primary>
-            <secondary>compiling</secondary>
-        </indexterm>
-        <para>Building the components of Guacamole from source is not difficult,
-            providing you have the necessary tools installed already. The source
-            for the entirety of Guacamole is available from the Guacamole
-            project web site in convenient source archives, each named after the
-            component they contain. Each archive also contains a file named
-                <filename>README</filename> which lists detailed instructions
-            for building and installing. </para>
-        <para>To compile the C components, you will need a C compiler (such as
-            gcc) and the libraries that each component depends on. Note that
-            many Linux distribution separates library packages into binary and
-            "development" packages; you will need to install the development
-            packages. These will usually end in a "-dev" or "-devel" suffix. </para>
-        <section xml:id="compiling-guacamole-server">
-            <title><package>guacamole-server</package></title>
-            <indexterm>
-                <primary>compiling</primary>
-                <secondary><package>libguac</package></secondary>
-            </indexterm>
-            <indexterm>
-                <primary><package>libguac</package></primary>
-                <secondary>compiling</secondary>
-            </indexterm>
-            <indexterm>
-                <primary>compiling</primary>
-                <secondary>guacd</secondary>
-            </indexterm>
-            <indexterm>
-                <primary>guacd</primary>
-                <secondary>compiling</secondary>
-            </indexterm>
-            <indexterm>
-                <primary>compiling</primary>
-                <secondary>VNC support</secondary>
-            </indexterm>
-            <indexterm>
-                <primary>VNC support</primary>
-                <secondary>compiling</secondary>
-            </indexterm>
-            <indexterm>
-                <primary>compiling</primary>
-                <secondary>RDP support</secondary>
-            </indexterm>
-            <indexterm>
-                <primary>RDP support</primary>
-                <secondary>compiling</secondary>
-            </indexterm>
-            <para>The core Guacamole C library, <package>libguac</package>, is a common dependency
-                of all native components of Guacamole. It depends on Cairo, a graphics library, and
-                libpng, the official PNG library. Once you have installed these dependencies,
-                building <package>libguac</package> is easy:</para>
-            <para>Once <package>libguac</package> is compiled and installed,
-                    <package>guacd</package> and protocol support plugins can be compiled and
-                installed as well. None of these components can be compiled or installed until after
-                    <package>libguac</package> as they all depend on it heavily.</para>
-            <para>guacd is the proxy daemon that runs on your Guacamole server, accepting
-                connections from the Guacamole web application on behalf of remote users. It
-                effectively translates between common remote desktop protocols like VNC or RDP by
-                dynamically loading protocol support plugins. Building guacd creates an executable
-                called <filename>guacd</filename> which can be run manually or, if you wish,
-                automatically when your computer starts up.</para>
-            <informalexample>
-                <screen><prompt>$</prompt> <userinput>tar -xzf guacamole-server-0.8.2.tar.gz</userinput>
-<prompt>$</prompt> <userinput>cd guacamole-server-0.8.2/</userinput>
-<prompt>$</prompt></screen>
-            </informalexample>
-            <informalexample>
-                <screen><prompt>$</prompt> <userinput>git clone <uri>git://github.com/glyptodon/guacamole-server.git</uri> -b unstable</userinput>
-<computeroutput>Cloning into 'guacamole-server'...
-remote: Counting objects: 6769, done.
-remote: Compressing objects: 100% (2244/2244), done.
-remote: Total 6769 (delta 3058), reused 6718 (delta 3008)
-Receiving objects: 100% (6769/6769), 2.32 MiB | 777 KiB/s, done.
-Resolving deltas: 100% (3058/3058), done.</computeroutput>
-<prompt>$</prompt></screen>
-            </informalexample>
-            <informalexample>
-                <screen><prompt>$</prompt> <userinput>./configure --with-init-dir=/etc/init.d</userinput>
-<computeroutput>checking for a BSD-compatible install... /usr/bin/install -c
-checking whether build environment is sane... yes
-...
-
-------------------------------------------------
-guacamole-server version 0.8.0
-------------------------------------------------
-
-   Library status:
-
-     freerdp ............. yes
-     pango ............... yes
-     libssh .............. yes
-     libVNCServer ........ yes
-     libvorbisenc ........ yes
-
-   Protocol support:
-
-      RDP ....... yes
-      SSH ....... yes
-      VNC ....... yes
-
-Type "make" to compile guacamole-server.
-</computeroutput>
-<prompt>$</prompt></screen>
-            </informalexample>
-            <informalexample>
-                <screen><prompt>$</prompt> <userinput>make</userinput>
-<computeroutput>Making all in src/libguac
-make[1]: Entering directory `/home/zhz/guacamole/guacamole-server/src/libguac'
-...
-make[1]: Leaving directory `/home/zhz/guacamole/guacamole-server/src/protocols/vnc'
-make[1]: Entering directory `/home/zhz/guacamole/guacamole-server'
-make[1]: Nothing to be done for `all-am'.
-make[1]: Leaving directory `/home/zhz/guacamole/guacamole-server'</computeroutput>
-<prompt>$</prompt></screen>
-            </informalexample>
-            <informalexample>
-                <screen><prompt>#</prompt> <userinput>make install</userinput>
-<computeroutput>Making install in src/libguac
-make[1]: Entering directory `/home/zhz/guacamole/guacamole-server/src/libguac'
-make[2]: Entering directory `/home/zhz/guacamole/guacamole-server/src/libguac'
-...
-----------------------------------------------------------------------
-Libraries have been installed in:
-   /usr/local/lib
-
-If you ever happen to want to link against installed libraries
-in a given directory, LIBDIR, you must either use libtool, and
-specify the full pathname of the library, or use the `-LLIBDIR'
-flag during linking and do at least one of the following:
-   - add LIBDIR to the `LD_LIBRARY_PATH' environment variable
-     during execution
-   - add LIBDIR to the `LD_RUN_PATH' environment variable
-     during linking
-   - use the `-Wl,-rpath -Wl,LIBDIR' linker flag
-   - have your system administrator add LIBDIR to `/etc/ld.so.conf'
-
-See any operating system documentation about shared libraries for
-more information, such as the ld(1) and ld.so(8) manual pages.
-----------------------------------------------------------------------
-make[2]: Nothing to be done for `install-data-am'.
-make[2]: Leaving directory `/home/zhz/guacamole/guacamole-server/src/protocols/vnc'
-make[1]: Leaving directory `/home/zhz/guacamole/guacamole-server/src/protocols/vnc'
-make[1]: Entering directory `/home/zhz/guacamole/guacamole-server'
-make[2]: Entering directory `/home/zhz/guacamole/guacamole-server'
-make[2]: Nothing to be done for `install-exec-am'.
-make[2]: Nothing to be done for `install-data-am'.
-make[2]: Leaving directory `/home/zhz/guacamole/guacamole-server'
-make[1]: Leaving directory `/home/zhz/guacamole/guacamole-server'</computeroutput>
-<prompt>#</prompt> <userinput>ldconfig</userinput>
-<prompt>#</prompt>   </screen>
-            </informalexample>
-            <para>
-                <indexterm>
-                    <primary>guacd</primary>
-                    <secondary>startup script</secondary>
-                </indexterm> If you do not wish guacd to start automatically at boot, leave off the
-                    <option>--with-init-dir=/etc/init.d</option> option. If the directory containing
-                your distribution's startup scripts differs from the common
-                    <filename>/etc/init.d</filename>, replace <filename>/etc/init.d</filename> with
-                the proper directory here. You may need to consult your distribution's
-                documentation, or do a little digging in <filename>/etc</filename>, to determine the
-                proper location. </para>
-            <para>Even after installing guacd and its startup script, you will likely still have to
-                activate the service for it to start automatically. Doing this varies by
-                distribution, but each distribution will have documentation describing how to do so. </para>
-        </section>
-        <section xml:id="compiling-guacamole-client">
-            <title><package>guacamole-client</package></title>
-            <indexterm>
-                <primary>compiling</primary>
-                <secondary><filename>guacamole.war</filename></secondary>
-            </indexterm>
-            <indexterm>
-                <primary><filename>guacamole.war</filename></primary>
-                <secondary>compiling</secondary>
-            </indexterm>
-            <para>To compile the Java and Maven components of Guacamole
-                    (<package>guacamole</package>, <package>guacamole-common</package>,
-                    <package>guacamole-ext</package>, and <package>guacamole-common-js</package>),
-                all you need is Apache Maven and a copy of the Java JDK, both of which most Linux
-                distributions provide packages of. Because Java is cross-platform, this is generally
-                not necessary unless you want to modify the Guacamole source. Even if you wish to
-                modify the Guacamole web application, you still generally do not need to compile the
-                other Java and Maven components, as Maven will automatically download compiled
-                versions of those components from the official Maven repository of the Guacamole
-                project: <uri>http://guac-dev.org/repo/</uri>.</para>
-            <informalexample>
-                <screen><prompt>$</prompt> <userinput>tar -xzf guacamole-client-0.8.2.tar.gz</userinput>
-<prompt>$</prompt> <userinput>cd guacamole-client-0.8.2/</userinput>
-<prompt>$</prompt></screen>
-            </informalexample>
-            <informalexample>
-                <screen><prompt>$</prompt> <userinput>git clone <uri>git://github.com/glyptodon/guacamole-client.git</uri> -b unstable</userinput>
-<computeroutput>Cloning into 'guacamole-client'...
-remote: Counting objects: 12788, done.
-remote: Compressing objects: 100% (4183/4183), done.
-remote: Total 12788 (delta 3942), reused 12667 (delta 3822)
-Receiving objects: 100% (12788/12788), 3.23 MiB | 799 KiB/s, done.
-Resolving deltas: 100% (3942/3942), done.</computeroutput>
-<prompt>$</prompt></screen>
-            </informalexample>
-            <informalexample>
-                <screen><prompt>$</prompt> <userinput>mvn package</userinput>
-<computeroutput>[INFO] Scanning for projects...
-[INFO] Reactor build order: 
-[INFO]   guacamole-common
-[INFO]   guacamole-ext
-[INFO]   guacamole-common-js
-[INFO]   guacamole
-[INFO]   guacamole-client
-...
-[INFO] ------------------------------------------------------------------------
-[INFO] Reactor Summary:
-[INFO] ------------------------------------------------------------------------
-[INFO] guacamole-common ...................................... SUCCESS [4.467s]
-[INFO] guacamole-ext ......................................... SUCCESS [1.479s]
-[INFO] guacamole-common-js ................................... SUCCESS [3.680s]
-[INFO] guacamole ............................................. SUCCESS [3.729s]
-[INFO] guacamole-client ...................................... SUCCESS [0.008s]
-[INFO] ------------------------------------------------------------------------
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESSFUL
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: 13 seconds
-[INFO] Finished at: Mon Jul 08 00:44:42 PDT 2013
-[INFO] Final Memory: 43M/354M
-[INFO] ------------------------------------------------------------------------</computeroutput>
-<prompt>$</prompt></screen>
-            </informalexample>
-            <para>Once the Guacamole web application is built, there will be a .war file in the
-                    <filename>target/</filename> subdirectory of the current directory (the
-                directory you were in when you ran <application>mvn</application>). This .war file
-                contains the entirety of the Guacamole web application, including all dependencies.
-                Installing Guacamole means copying this .war file into the directory required by
-                your servlet container.</para>
-            <example>
-                <title>Installing Guacamole after building from source</title>
-                <screen><prompt>#</prompt> <userinput>cp guacamole/target/guacamole-0.8.2.war /var/lib/tomcat6/webapps/guacamole.war</userinput>
-<prompt>#</prompt></screen>
-            </example>
-            <para>The Guacamole web application also depends on a configuration file,
-                    <filename>guacamole.properties</filename>, to tell it the type of authentication
-                to use and how to connect to guacd. A functional example
-                    <filename>guacamole.properties</filename> is contained in the
-                    <filename>doc/</filename> subdirectory; you can simply copy this somewhere (like
-                    <filename>/etc/guacamole</filename>) and then create a symbolic link to it
-                somewhere in your servlet container's classpath. Again, the precise location of the
-                classpath will vary by distribution and servlet container.</para>
-            <example>
-                <title>Installing <filename>guacamole.properties</filename></title>
-                <screen><prompt>#</prompt> <userinput>mkdir /etc/guacamole</userinput>
-<prompt>#</prompt> <userinput>cp doc/guacamole.properties /etc/guacamole/guacamole.properties</userinput>
-<prompt>#</prompt> <userinput>ln -s /etc/guacamole/guacamole.properties /usr/share/tomcat6/lib/</userinput>
-<prompt>#</prompt>           </screen>
-            </example>
-            <para>You will need to edit <filename>guacamole.properties</filename> to be sure that
-                all the settings are valid for your installation.</para>
-            <para>If you are using the default authentication method, you will also need to install
-                the <filename>user-mapping.xml</filename> file. This file describes the users that
-                should be allowed to log into Guacamole, as well as their passwords, and all
-                corresponding remote desktop connections they should have access to.</para>
-            <para>An example <filename>user-mapping.xml</filename> file is provided in the
-                    <filename>doc/</filename> subdirectory. You can simply copy this file to a
-                reasonable location (like <filename>/etc/guacamole/user-mapping.xml</filename>) and
-                then edit <filename>guacamole.properties</filename> to specify the correct location
-                of this file.</para>
-            <para>You will need to edit <filename>user-mapping.xml</filename> to add and remove
-                users, as well as to remove the "default" users included as examples.</para>
-        </section>
     </section>
 </chapter>
