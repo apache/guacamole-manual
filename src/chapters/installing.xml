@@ -143,12 +143,12 @@
                 C library, <package>libguac</package>, which all other native components depend on,
                 as well as separate libraries for each supported protocol, and a proxy daemon,
                     <package>guacd</package>, the heart of Guacamole.</para>
-            <para>guacd is the proxy daemon that runs on your Guacamole server, accepting
-                connections from the Guacamole web application on behalf of remote users. It
-                effectively translates between common remote desktop protocols like VNC or RDP by
-                dynamically loading protocol support plugins. Building guacd creates an executable
-                called <filename>guacd</filename> which can be run manually or, if you wish,
-                automatically when your computer starts up.</para>
+            <para><package>guacd</package> is the proxy daemon that runs on your Guacamole server,
+                accepting connections from the Guacamole web application on behalf of remote users.
+                It effectively translates between common remote desktop protocols like VNC or RDP by
+                dynamically loading protocol support plugins. Building <package>guacd</package>
+                creates an executable called <filename>guacd</filename> which can be run manually
+                or, if you wish, automatically when your computer starts up.</para>
             <para>In order to build <package>guacamole-server</package>, you will need
                     <package>Cairo</package>, a graphics library, and <package>libpng</package>, the
                 official PNG library. These libraries are strictly required <emphasis>in all
@@ -266,13 +266,12 @@ Type "make" to compile guacamole-server.
                     "<computeroutput>yes</computeroutput>" answers above will read
                     "<computeroutput>no</computeroutput>". If a library which is strictly required
                 is missing, the script will fail outright, and you will need to install the missing
-                dependency.</para>
-            <para>If, after running <filename>configure</filename>, you find support for something
-                you wanted is missing, simply install the corresponding dependencies and run
-                    <filename>configure</filename> again.</para>
-            <para>Once <filename>configure</filename> is finished, and you wish to build
-                    <package>guacamole-server</package>, just type "<userinput>make</userinput>" as
-                it asks, and it will compile:</para>
+                dependency. If, after running <filename>configure</filename>, you find support for
+                something you wanted is missing, simply install the corresponding dependencies and
+                run <filename>configure</filename> again.</para>
+            <para>Once <filename>configure</filename> is finished, just type
+                    "<userinput>make</userinput>", and it will <package>guacamole-server</package>
+                will compile:</para>
             <informalexample>
                 <screen><prompt>$</prompt> <userinput>make</userinput>
 <computeroutput>Making all in src/libguac
