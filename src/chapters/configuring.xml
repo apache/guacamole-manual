@@ -5,11 +5,11 @@
     xmlns:xi="http://www.w3.org/2001/XInclude">
 
     <title>Configuring Guacamole</title>
-    <para>After installing Guacamole, it will be minimally configured to use the
-        default authentication. You can modify this configuration if you need to
-        use a different authentication module (such as the MySQL authentication,
-        which is discussed in a separate chapter) or if you need to veer from
-        the defaults.</para>
+    <para>After installing Guacamole, it will be minimally configured to use the default
+        authentication, which reads all users and connections from a single, monolithic
+            <filename>user-mapping.xml</filename> file. You can modify this configuration if you
+        need to use a different authentication module (such as the MySQL authentication, which is
+        discussed in a separate chapter) or if you need to veer from the defaults.</para>
     <para>Guacamole's configuration consists of two main pieces: a directory
         referred to as <varname>GUACAMOLE_HOME</varname>, which is the primary
         search location for configuration files, and
@@ -20,9 +20,8 @@
         <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
             <primary><varname>GUACAMOLE_HOME</varname></primary>
         </indexterm>
-        <para>As of release 0.8.0, Guacamole now reads files from its own
-            configuration directory by default, resorting to the classpath only
-            when this directory cannot be found. When locating this directory,
+        <para>Guacamole reads files from its own configuration directory by default, resorting to
+            the classpath only when this directory cannot be found. When locating this directory,
             Guacamole will try, in order:</para>
         <orderedlist>
             <listitem>
