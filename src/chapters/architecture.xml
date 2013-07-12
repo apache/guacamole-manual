@@ -23,26 +23,36 @@
                 </imageobject>
             </mediaobject>
         </informalfigure></para>
+    <para>Users connect to a Guacamole server with their web browser. The Guacamole client, written
+        in JavaScript, is served to users by a webserver within the Guacamole server. Once loaded,
+        this client connects back to the server over HTTP using the Guacamole protocol.</para>
+    <para>The web application deployed to the Guacamole server reads the Guacamole protocol and
+        forwards it to guacd, the native Guacamole proxy. This proxy actually interprets the
+        contents of the Guacamole protocol, connecting to any number of remote desktop servers on
+        behalf of the user.</para>
+    <para>The Guacamole protocol combined with guacd provide protocol agnosticism: neither the
+        Guacamole client nor the web application need to be aware of what remote desktop protocol is
+        actually being used.</para>
     <section xml:id="guacamole-protocol-architecture">
         <title>The Guacamole protocol </title>
         <indexterm>
             <primary>Guacamole</primary>
             <secondary>protocol</secondary>
         </indexterm>
-        <para>The web application does not understand any remote desktop protocol at all and does
-            not contain support for VNC nor for RDP. It actually only understands the Guacamole
-            protocol, which is a protocol for remote display rendering and event transport. While a
-            protocol with those properties would naturally have the same abilities as a remote
-            desktop protocol, the design principles behind a remote desktop protocol and the
-            Guacamole protocol are different: the Guacamole protocol is not intended to implement
-            the features of a specific desktop environment.</para>
-        <para>As a remote display and interaction protocol, Guacamole effectively implements a
-            superset of existing remote desktop protocols. Adding support for a particular remote
-            desktop protocol (like RDP) to Guacamole thus involves writing a middle layer which
-            "translates" between the remote desktop protocol and the Guacamole protocol.
-            Implementing such a translation is no different than implementing any native client,
-            except that this particular implementation renders to a remote display rather than a
-            local one.</para>
+        <para>The web application does not understand any remote desktop protocol at all. It does
+            not contain support for VNC or RDP or any other protocol supported by the Guacamole
+            stack. It actually only understands the Guacamole protocol, which is a protocol for
+            remote display rendering and event transport. While a protocol with those properties
+            would naturally have the same abilities as a remote desktop protocol, the design
+            principles behind a remote desktop protocol and the Guacamole protocol are different:
+            the Guacamole protocol is not intended to implement the features of a specific desktop
+            environment.</para>
+        <para>As a remote display and interaction protocol, Guacamole implements a superset of
+            existing remote desktop protocols. Adding support for a particular remote desktop
+            protocol (like RDP) to Guacamole thus involves writing a middle layer which "translates"
+            between the remote desktop protocol and the Guacamole protocol. Implementing such a
+            translation is no different than implementing any native client, except that this
+            particular implementation renders to a remote display rather than a local one.</para>
         <para>The middle layer that handles this translation is guacd.</para>
     </section>
     <section xml:id="guacd">
