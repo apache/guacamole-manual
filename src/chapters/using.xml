@@ -30,16 +30,16 @@
             Guacamole system only. The usernames and passwords required for the
             remote desktops you have access to through Guacamole are
             independent. </para>
-        <!-- Login screenshot -->
-        <mediaobject>
-            <imageobject>
-                <imagedata fileref="../images/login.png" format="PNG"
-                    contentwidth="4in"/>
-            </imageobject>
-            <caption>
-                <para> The Guacamole login screen. </para>
-            </caption>
-        </mediaobject>
+        <informalfigure>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/login.png" format="PNG" contentwidth="4in"/>
+                </imageobject>
+                <caption>
+                    <para> The Guacamole login screen. </para>
+                </caption>
+            </mediaobject>
+        </informalfigure>
     </section>
 
     <section xml:id="selecting-a-connection">
@@ -57,16 +57,17 @@
             and running in the previous window or tab, as it is the only access
             point for other connections, the clipboard, and settings.</para>
         <para>Multiple connections can be used simultaneously. </para>
-        <!-- Connection list screenshot -->
-        <mediaobject>
-            <imageobject>
-                <imagedata fileref="../images/connection-list.png" format="PNG"
-                    contentwidth="4in"/>
-            </imageobject>
-            <caption>
-                <para> List of available connections. </para>
-            </caption>
-        </mediaobject>
+        <informalfigure>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/connection-list.png" format="PNG"
+                        contentwidth="4in"/>
+                </imageobject>
+                <caption>
+                    <para> List of available connections. </para>
+                </caption>
+            </mediaobject>
+        </informalfigure>
         <para>If you don't wish to connect to any desktops, you can also logout
             from this screen by clicking the "logout" button. Beware that this
             will disconnect you from any of your open desktops, if you have any.
@@ -89,15 +90,16 @@
             if you were clicking on the desktop directly. Typing causes keys to
             be typed remotely as if you were using a keyboard connected directly
             to the remote machine. </para>
-        <mediaobject>
-            <imageobject>
-                <imagedata fileref="../images/vnc.png" format="PNG"
-                    contentwidth="4in"/>
-            </imageobject>
-            <caption>
-                <para> An active remote desktop. </para>
-            </caption>
-        </mediaobject>
+        <informalfigure>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/vnc.png" format="PNG" contentwidth="4in"/>
+                </imageobject>
+                <caption>
+                    <para> An active remote desktop. </para>
+                </caption>
+            </mediaobject>
+        </informalfigure>
         <section xml:id="using-the-clipboard">
             <title>Using the clipboard</title>
             <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
@@ -122,17 +124,18 @@
                 copying and pasting between connections is seamless; you do not
                 need to visit the clipboard editor to copy and paste from one
                 connection to another.</para>
-            <!-- Clipboard screenshot -->
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="../images/clipboard.png" format="PNG"
-                        contentwidth="3in"/>
-                </imageobject>
-                <caption>
-                    <para> The editable clipboard contents, accessible from the
-                        connection list interface. </para>
-                </caption>
-            </mediaobject>
+            <informalfigure>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/clipboard.png" format="PNG" contentwidth="3in"
+                        />
+                    </imageobject>
+                    <caption>
+                        <para> The editable clipboard contents, accessible from the connection list
+                            interface. </para>
+                    </caption>
+                </mediaobject>
+            </informalfigure>
         </section>
         <section xml:id="using-the-osk">
             <title>Typing with special keys</title>
@@ -158,16 +161,16 @@
                 effect as pressing the same buttons on a real keyboard, except
                 that the operating system and browser will not intercept these
                 keypresses; they will only be sent remotely. </para>
-            <!-- OSK screenshot -->
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="../images/osk.png" format="PNG"
-                        contentwidth="4in"/>
-                </imageobject>
-                <caption>
-                    <para> The on-screen keyboard. </para>
-                </caption>
-            </mediaobject>
+            <informalfigure>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/osk.png" format="PNG" contentwidth="4in"/>
+                    </imageobject>
+                    <caption>
+                        <para> The on-screen keyboard. </para>
+                    </caption>
+                </mediaobject>
+            </informalfigure>
         </section>
         <section xml:id="logging-out-of-guacamole">
             <title>Logging out</title>
@@ -233,15 +236,17 @@
                 the display. This will reveal a rectangular magnifier that can
                 be dragged around the screen, revealing detail below it at full
                 resolution.</para>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="../images/android-magnifier.png"
-                        format="PNG" contentwidth="4in"/>
-                </imageobject>
-                <caption>
-                    <para>The magnifier tool in use</para>
-                </caption>
-            </mediaobject>
+            <informalfigure>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/android-magnifier.png" format="PNG"
+                            contentwidth="4in"/>
+                    </imageobject>
+                    <caption>
+                        <para>The magnifier tool in use</para>
+                    </caption>
+                </mediaobject>
+            </informalfigure>
             <para>Tapping outside this magnifier closes the magnifier, while
                 tapping inside engages a typing mode.</para>
         </section>
@@ -286,16 +291,17 @@
                             screen will put Guacamole in typing mode, allowing
                             you to type and use your native on-screen keyboard
                             (if any).</para>
-                        <mediaobject>
-                            <imageobject>
-                                <imagedata
-                                    fileref="../images/android-panning.png"
-                                    format="PNG" contentwidth="4in"/>
-                            </imageobject>
-                            <caption>
-                                <para>Panning mode</para>
-                            </caption>
-                        </mediaobject>
+                        <informalfigure>
+                            <mediaobject>
+                                <imageobject>
+                                    <imagedata fileref="../images/android-panning.png" format="PNG"
+                                        contentwidth="4in"/>
+                                </imageobject>
+                                <caption>
+                                    <para>Panning mode</para>
+                                </caption>
+                            </mediaobject>
+                        </informalfigure>
                     </listitem>
                     <listitem>
                         <para>Bring up the magnifier, tap to put Guacamole in
@@ -321,16 +327,16 @@
         <para>Guacamole's settings section is located within the connection interface, and affects
             the behavior of all active and future Guacamole connections. Unless specified otherwise,
             changing a setting affects current Guacamole connections immediately.</para>
-        <mediaobject>
-            <imageobject>
-                <imagedata fileref="../images/settings.png" format="PNG"
-                    contentwidth="3in"/>
-            </imageobject>
-            <caption>
-                <para>Guacamole settings, accessible from the connection list
-                    interface. </para>
-            </caption>
-        </mediaobject>
+        <informalfigure>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/settings.png" format="PNG" contentwidth="3in"/>
+                </imageobject>
+                <caption>
+                    <para>Guacamole settings, accessible from the connection list interface. </para>
+                </caption>
+            </mediaobject>
+        </informalfigure>
         <section xml:id="disabling-sound">
             <title>Disabling sound</title>
             <indexterm>
@@ -386,15 +392,17 @@
             using the MySQL authentication provider, and you are logged in as an
             administrator, you will see a "Manage" button next to the "Logout"
             button at the top of the screen.</para>
-        <mediaobject>
-            <imageobject>
-                <imagedata fileref="../images/manage-button.png" format="PNG"
-                    contentwidth="3in"/>
-            </imageobject>
-            <caption>
-                <para>The new "Manage" button</para>
-            </caption>
-        </mediaobject>
+        <informalfigure>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/manage-button.png" format="PNG" contentwidth="3in"
+                    />
+                </imageobject>
+                <caption>
+                    <para>The new "Manage" button</para>
+                </caption>
+            </mediaobject>
+        </informalfigure>
         <para>Clicking this button takes you to an administration screen where
             you can add or manipulate users and connections, depending on your
             permissions.</para>
@@ -415,15 +423,17 @@
                 administrative privileges, and no password, and will not be able
                 to login. You will need to set the user's password first in
                 order to allow login.</para>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="../images/manage-users.png" format="PNG"
-                        contentwidth="3in"/>
-                </imageobject>
-                <caption>
-                    <para>User management interface</para>
-                </caption>
-            </mediaobject>
+            <informalfigure>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/manage-users.png" format="PNG"
+                            contentwidth="3in"/>
+                    </imageobject>
+                    <caption>
+                        <para>User management interface</para>
+                    </caption>
+                </mediaobject>
+            </informalfigure>
             <para>To edit a user, just click on the user you wish to edit. A
                 small dialog will display allowing you to change the user's
                 password, add or remove administrative permissions, and add or
@@ -431,15 +441,17 @@
             <para>If you have delete permission on the user, you will also see a
                 "Delete" button. Clicking this button will permanently delete
                 the user.</para>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="../images/edit-user.png" format="PNG"
-                        contentwidth="2in"/>
-                </imageobject>
-                <caption>
-                    <para>Editing a user</para>
-                </caption>
-            </mediaobject>
+            <informalfigure>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/edit-user.png" format="PNG" contentwidth="2in"
+                        />
+                    </imageobject>
+                    <caption>
+                        <para>Editing a user</para>
+                    </caption>
+                </mediaobject>
+            </informalfigure>
         </section>
         <section>
             <title>Managing connections</title>
@@ -454,15 +466,17 @@
                 user. To add access to the new connection to another existing
                 user, you must edit that user, checking the box corresponding to
                 the new connection.</para>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="../images/manage-connections.png"
-                        format="PNG" contentwidth="3in"/>
-                </imageobject>
-                <caption>
-                    <para>Connection management interface</para>
-                </caption>
-            </mediaobject>
+            <informalfigure>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/manage-connections.png" format="PNG"
+                            contentwidth="3in"/>
+                    </imageobject>
+                    <caption>
+                        <para>Connection management interface</para>
+                    </caption>
+                </mediaobject>
+            </informalfigure>
             <para>Editing a connection works identically to editing a user.
                 Click on the connection you wish to edit. A dialog will pop up
                 displaying all parameters associated with the connection,
@@ -471,15 +485,17 @@
             <para>If you have delete permission on the connection, you will also
                 see a "Delete" button. Clicking this button will permanently
                 delete the connection.</para>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="../images/edit-connection.png"
-                        format="PNG" contentwidth="2in"/>
-                </imageobject>
-                <caption>
-                    <para>Editing a connection</para>
-                </caption>
-            </mediaobject>
+            <informalfigure>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/edit-connection.png" format="PNG"
+                            contentwidth="2in"/>
+                    </imageobject>
+                    <caption>
+                        <para>Editing a connection</para>
+                    </caption>
+                </mediaobject>
+            </informalfigure>
         </section>
     </section>
 
