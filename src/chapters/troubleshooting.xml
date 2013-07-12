@@ -24,6 +24,55 @@
             are errors in the logs describing the problem, it is usually not a
             bug, and the best place to handle such things is through consulting
             this guide or the forums.</para>
+        <section>
+            <title>No graphics appear</title>
+            <indexterm>
+                <primary>Connectiong, waiting for first update...</primary>
+            </indexterm>
+            <indexterm>
+                <primary>proxies</primary>
+            </indexterm>
+            <para>If you <emphasis>never</emphasis> see any graphics appear, or you see "Connecting,
+                waiting for first update..." for a while and then are disconnected, the most likely
+                cause is a proxy.</para>
+            <para>Guacamole relies on streaming data to you over a persistent connection. If
+                software between Guacamole and your browser is buffering all incoming data, such as
+                a proxy, this data never makes it to your browser, and you will just see it wait
+                indefinitely. Eventually, thinking the client has disconnected, Guacamole closes the
+                connection, at which point the proxy finally flushes its buffer and you see
+                graphics! ... just in time to see it disconnect.</para>
+            <para>The solution here is to either modify your proxy settings to flush packets
+                immediately as they are received, or to use HTTPS. Proxies are required to pass
+                HTTPS through untouched, and this usually solves the problem.</para>
+            <para>Even if you aren't aware of any proxy, there may be one in place. Corporate
+                firewalls very often incorporate proxies. Antivirus software may buffer incoming
+                data until the connection is closed and the data is scanned for viruses.
+                Virtualization software may detect HTTP data and buffer the connection just like a
+                proxy. If all else fails, try HTTPS - it's the only secure way to do this
+                anyway.</para>
+        </section>
+        <section>
+            <title>Connections involving Unicode don't work</title>
+            <indexterm>
+                <primary>Unicode</primary>
+            </indexterm>
+            <indexterm>
+                <primary>UTF-8</primary>
+            </indexterm>
+            <indexterm>
+                <primary><code>URIEncoding</code></primary>
+            </indexterm>
+            <para>If you are using Tomcat, beware that you <emphasis>must</emphasis> set the
+                    <code>URIEncoding="UTF-8"</code> attribute on all connectors in your
+                    <filename>server.xml</filename>. If you are using a different servlet container,
+                you need to find out whether it requires special options to support UTF-8 in URIs,
+                and change the required settings to enable such support.</para>
+            <para>Without UTF-8 support enabled for URIs, Unicode characters in connection names
+                will not be received properly when connecting, and Guacamole will thing the
+                connection you requested does not exist. Similarly, if you are using the built-in
+                administration interface, parameters involving Unicode characters will not save
+                properly without these options enabled.</para>
+        </section>
     </section>
     <section xml:id="syslog">
         <title>syslog</title>

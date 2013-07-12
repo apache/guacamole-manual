@@ -611,4 +611,178 @@ guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
             guacd services to run automatically. Your distribution will provide documentation for
             doing this.</para>
     </section>
+    <section xml:id="mod-proxy">
+        <title>Using Apache as a frontend (<package>mod_proxy</package>)</title>
+        <para>Many users end up serving Guacamole through Apache using <package>mod_proxy</package>,
+            a module which allows Apache to be used as a reverse proxy for other servers, such as a
+            servlet container like Tomcat. The need to do this can range from simply wanting to use
+            port 80, to sharing an SSL certificate with your web server, to security and load
+            balancing.</para>
+        <para>By default, servlet containers like Tomcat listen on port 8080, which is not the
+            standard HTTP port (port 80). If you are using Linux (or another UNIX system), only the
+            root user can run programs which listen on ports less than 1024, including port 80, and
+            reducing the number of programs that run with root privileges is always a good
+            idea.</para>
+        <para>If you have an SSL certificate, it may make sense to use Apache for SSL processing and
+            save Tomcat from having to do this itself, which may not be as efficient. Again, this
+            also makes sense from the perspective of security, as it reduces the number of users
+            that require read access to identifying certificates.</para>
+        <para>While load balancing won't be covered here, if you are expecting large numbers of
+            users, balancing the load on Tomcat across multiple Tomcat instances is a common
+            solution.</para>
+        <important>
+            <para>Beware that, like the rest of this manual, we assume here that you are using
+                Tomcat. If you are using a different servlet container, the same principles apply,
+                and the Apache configuration examples will still be valid, with the notable
+                exception of AJP, which may not be supported by your servlet container.</para>
+        </important>
+        <section xml:id="ajp-proxy">
+            <title>Using AJP</title>
+            <para>AJP is the Apache JServ Protocol - a protocol specifically designed for proxy
+                communication between a web server like Apache and Tomcat. The AJP protocol is
+                intended to be faster than HTTP when it comes to proxying web traffic, and it
+                implements features that allow load balancing between multiple servlet
+                containers.</para>
+            <section>
+                <title>Configuring Tomcat for AJP</title>
+                <para>To allow AJP connections to Tomcat, you must add a connector to Tomcat's
+                        <filename>conf/server.xml</filename>. There may already be an example
+                    connector in your <filename>server.xml</filename>, in which case all you need to
+                    do is uncomment it, editing the port number as desired:</para>
+                <informalexample>
+                    <programlisting>&lt;Connector port="8009" protocol="AJP/1.3"
+    URIEncoding="UTF-8"
+    redirectPort="8443" /></programlisting>
+                </informalexample>
+                <para>Tomcat must be restarted after the connector is added.</para>
+                <para>The <code>URIEncoding="UTF-8"</code> attribute above ensures that connection
+                    names, user names, etc. which contain non-latin characters are properly
+                    received. If you will be creating connections that have Cyrillic, Chinese,
+                    Japanese, etc. characters in the names or parameter values, you should be sure
+                    to set this attribute.</para>
+            </section>
+            <section>
+                <title>Forwarding HTTP requests over AJP</title>
+                <para>Once the connector is open, and Tomcat is listening on the port specified, you
+                    can edit your Apache configuration, adding a location which will proxy the
+                    Guacamole web application served via AJP by Tomcat:</para>
+                <informalexample>
+                    <programlisting>&lt;Location /guacamole/>
+    Order allow,deny
+    Allow from all
+    ProxyPass ajp://<replaceable>HOSTNAME</replaceable>:<replaceable>8009</replaceable>/guacamole/ max=20 flushpackets=on
+    ProxyPassReverse ajp://<replaceable>HOSTNAME</replaceable>:<replaceable>8009</replaceable>/guacamole/
+&lt;/Location></programlisting>
+                </informalexample>
+                <para>The most important thing in this entire section is the option
+                        <option>flushpackets=on</option>. Most proxies, including
+                        <package>mod_proxy</package>, will buffer all data sent over the connection,
+                    waiting until the connection is closed before sending that data to the client.
+                    As Guacamole's tunnel will stream data to the client over an open connection,
+                    buffering this stream breaks Guacamole's communication.</para>
+                <para><emphasis>If the option <option>flushpackets=on</option> is not specified,
+                        Guacamole will not work</emphasis>.</para>
+            </section>
+        </section>
+        <section xml:id="http-proxy">
+            <title>Using HTTP</title>
+            <para>If you don't wish to use AJP, the default HTTP connector (or any HTTP connector)
+                can be used without any noticable performance hit.</para>
+            <section>
+                <title>Configuring Tomcat for HTTP</title>
+                <para>Tomcat is most likely already configured to listen for HTTP connections on
+                    port 8080 as this is the default. In the case that the default HTTP connector
+                    has been disabled or removed, you need to add a connector entry to
+                        <filename>conf/server.xml</filename>:</para>
+                <informalexample>
+                    <programlisting>&lt;Connector port="8080" protocol="HTTP/1.1" 
+           connectionTimeout="20000"
+           URIEncoding="UTF-8"
+           redirectPort="8443" /></programlisting>
+                </informalexample>
+                <important>
+                    <para>If you want to edit or add this connector just to change the port used by
+                        Tomcat to port 80, you should consider simply proxying the original port
+                        through Apache instead. On Linux and UNIX systems, a process must be running
+                        with root privileges to listen on any port under 1024, including port 80.
+                        Proxying Tomcat through Apache means Tomcat can run as a reduced-privilege
+                        user, while Apache can bear the burden of root privileges. Further, as
+                        Apache is a native application, it can make system calls to safely drop root
+                        privileges once the port is open; a Java application like Tomcat cannot do
+                        this.</para>
+                </important>
+                <para>As with AJP, be sure to specify the <code>URIEncoding="UTF-8"</code> attribute
+                    as above to ensure that connection names, user names, etc. are properly
+                    received. If you will be creating connections that have Cyrillic, Chinese,
+                    Japanese, etc. characters in the names or parameter values, this attribute is
+                    required.</para>
+            </section>
+            <section>
+                <title>Forwarding HTTP requests over HTTP</title>
+                <para>The configuration necessary to proxy HTTP requests is similar to the
+                    configuration required for proxying requests through AJP. In fact, it is
+                    completely identical except for the differing protocol names in the URIs given
+                    to the proxy directives:</para>
+                <informalexample>
+                    <programlisting>&lt;Location /guacamole/>
+    Order allow,deny
+    Allow from all
+    ProxyPass http://<replaceable>HOSTNAME</replaceable>:<replaceable>8080</replaceable>/guacamole/ max=20 flushpackets=on
+    ProxyPassReverse http://<replaceable>HOSTNAME</replaceable>:<replaceable>8080</replaceable>/guacamole/
+&lt;/Location></programlisting>
+                </informalexample>
+                <para>Again, take note of the option <option>flushpackets=on</option>. This option
+                    is absolutely critical as <package>mod_proxy</package> will otherwise buffer all
+                    data sent over the connection, rendering Guacamole unusable.</para>
+                <para><emphasis>If the option <option>flushpackets=on</option> is not specified,
+                        Guacamole will not work</emphasis>.</para>
+            </section>
+        </section>
+        <section xml:id="disable-tunnel-logging">
+            <title>Disable logging of tunnel requests</title>
+            <para>The Guacamole HTTP tunnel works by transferring a continuous stream of data over
+                multiple short-lived streams, each associated with a separate HTTP request. Each
+                HTTP request will be logged by Apache if you don not explicitly disable logging of
+                those requests.</para>
+            <para>Apache provides a means of matching URL patterns and setting environment variables
+                based on whether the URL matches. Logging can then be restricted to requests which
+                lack this environment variable:</para>
+            <informalexample>
+                <programlisting>SetEnvIf Request_URI "^<replaceable>/guacamole</replaceable>/tunnel" dontlog
+CustomLog  <replaceable>/var/log/apache2/guac.log</replaceable> common env=!dontlog</programlisting>
+            </informalexample>
+            <para>There is little value in a log file filled with identical tunnel requests.</para>
+            <para>Note that if you are serving Guacamole under a path different from
+                    <uri>/guacamole/</uri>, you will need to change the value of
+                    <parameter>Request_URI</parameter> above accordingly.</para>
+        </section>
+        <section xml:id="change-web-app-path">
+            <title>Proxying under a different path</title>
+            <para>If you wish to serve Guacamole through Apache under a different path than it is
+                served under Tomcat, the configuration required for Apache will be slightly
+                different than the examples above due to cookies.</para>
+            <para>When a user logs in to Guacamole, a new session is created, and that session is
+                associated with a cookie sent to the user after they successfully log in. This
+                cookie is specific to the absolute path of the web application
+                    (<uri>/guacamole</uri>). If the path being used for Guacamole under Apache
+                differs from that used by Tomcat, the path in the cookie needs to be modified.
+                Thankfully, <package>mod_proxy</package> has a directive for this:
+                    <parameter>ProxyPassReverseCookiePath</parameter>.</para>
+            <informalexample>
+                <programlisting>&lt;Location /<replaceable>new-path/</replaceable>>
+    Order allow,deny
+    Allow from all
+    ProxyPass ajp://<replaceable>HOSTNAME</replaceable>:<replaceable>8009</replaceable>/guacamole/ max=20 flushpackets=on
+    ProxyPassReverse ajp://<replaceable>HOSTNAME</replaceable>:<replaceable>8009</replaceable>/guacamole/
+    ProxyPassReverseCookiePath /guacamole/ <replaceable>/new-path/</replaceable>
+&lt;/Location></programlisting>
+            </informalexample>
+            <para>The configuration shown above is similar to the configuration shown for generic
+                AJP proxying, except that the additional
+                    <parameter>ProxyPassReverseCookiePath</parameter> directive is given,
+                instructing <package>mod_proxy</package> to update the cookie path, changing
+                    <uri>/guacamole/</uri> to <uri>/new-path/</uri>, the same path specified when
+                the location was declared.</para>
+        </section>
+    </section>
 </chapter>
