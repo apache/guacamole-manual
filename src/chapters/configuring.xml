@@ -128,7 +128,18 @@
         </variablelist>
         <example>
             <title>Minimal <filename>guacamole.properties</filename></title>
-            <xi:include href="conf/guacamole.properties.xml"/>
+            <programlisting xml:id="guacamole.properties" version="5.0" xml:lang="en"># Hostname and port of guacamole proxy
+guacd-hostname: localhost
+guacd-port:     4822
+
+# Location to read extra .jar's from
+lib-directory:  /var/lib/guacamole/classpath
+
+# Authentication provider class
+auth-provider: net.sourceforge.guacamole.net.basic.BasicFileAuthenticationProvider
+
+# Properties used by BasicFileAuthenticationProvider
+basic-user-mapping: /etc/guacamole/user-mapping.xml</programlisting>
         </example>
     </section>
     <section xml:id="basic-auth">
