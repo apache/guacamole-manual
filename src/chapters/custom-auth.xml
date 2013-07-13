@@ -1,67 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<chapter xml:id="custom-authentication" xmlns="http://docbook.org/ns/docbook"
-    version="5.0" xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude">
+<chapter xml:id="custom-authentication" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude">
     <title>Custom authentication</title>
-    <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
-        <primary>Guacamole</primary>
-        <secondary>authentication</secondary>
-    </indexterm>
     <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
         <primary>authentication</primary>
         <secondary>custom</secondary>
     </indexterm>
-    <para>Guacamole's authentication layer is designed to be extendable such
-        that users can integrate Guacamole into existing authentication systems
-        without having to resort to writing their own web application around the
-        Guacamole API.</para>
-    <para>The web application comes with a default authentication mechanism
-        which uses an XML file to associate users with connections. Plugins for
-        Guacamole that provide LDAP-based authentication or database-based
-        authentication have also been developed.</para>
-    <para>To demonstrate the principles involved, we will implement a very
-        simple authentication plugin which associates a single user/password
-        pair with a single connection, with all this information saved in
-        properties inside the <filename>guacamole.properties</filename>
+    <para>Guacamole's authentication layer is designed to be extendable such that users can
+        integrate Guacamole into existing authentication systems without having to resort to writing
+        their own web application around the Guacamole API.</para>
+    <para>The web application comes with a default authentication mechanism which uses an XML file
+        to associate users with connections. Plugins for Guacamole that provide LDAP-based
+        authentication or database-based authentication have also been developed.</para>
+    <para>To demonstrate the principles involved, we will implement a very simple authentication
+        plugin which associates a single user/password pair with a single connection, with all this
+        information saved in properties inside the <filename>guacamole.properties</filename>
         file.</para>
-    <para>In general, all other authentication plugins for Guacamole will use
-        the principles demonstrated here. However, as of Guacamole 0.8.0, the
-        authentication model has been significantly enhanced, and supports more
-        than simply translating a username/password pair into a set of
-        authorized configurations. This tutorial demonstrates the simplest way
-        to create an authentication plugin for Guacamole - an authentication
-        plugin that does not support management of users and connections via the
-        web interface.</para>
+    <para>In general, all other authentication plugins for Guacamole will use the principles
+        demonstrated here. However, as of Guacamole 0.8.0, the authentication model has been
+        significantly enhanced, and supports more than simply translating a username/password pair
+        into a set of authorized configurations. This tutorial demonstrates the simplest way to
+        create an authentication plugin for Guacamole - an authentication plugin that does not
+        support management of users and connections via the web interface.</para>
     <section xml:id="auth-model">
         <title>Guacamole's authentication model</title>
-        <para>When you view any page in Guacamole, whether that be the login
-            screen or the client interface, the page makes an authentication
-            attempt with the web application, sending all available credentials.
-            After entering your username and password, the exact same process
-            occurs, except the web application receives the username and
-            password as well.</para>
-        <para>The web application handles this authentication attempt by
-            collecting all credentials available and passing them to a
-            designated class called the "authentication provider". This class is
-            designated via a property in the
-                <filename>guacamole.properties</filename> file. Given the set of
-            credentials, the specified authentication provider returns a context
-            object that provides restricted access to other users and
-            connections, if any.</para>
+        <para>When you view any page in Guacamole, whether that be the login screen or the client
+            interface, the page makes an authentication attempt with the web application, sending
+            all available credentials. After entering your username and password, the exact same
+            process occurs, except the web application receives the username and password as
+            well.</para>
+        <para>The web application handles this authentication attempt by collecting all credentials
+            available and passing them to a designated class called the "authentication provider".
+            This class is designated via a property in the <filename>guacamole.properties</filename>
+            file. Given the set of credentials, the specified authentication provider returns a
+            context object that provides restricted access to other users and connections, if
+            any.</para>
     </section>
     <section xml:id="client-plugin-skeleton">
         <title>A Guacamole plugin skeleton</title>
-        <para>For simplicity's sake, and because this is how things are done
-            upstream in the Guacamole project, we will use Maven to build our
-            plugin.</para>
-        <para>The bare minimum required for a Guacamole authentication plugin is
-            a <filename>pom.xml</filename> file listing guacamole-ext as a
-            dependency, and a single .java file implementing our stub of an
-            authentication provider.</para>
-        <para>In our stub, we won't actually do any authentication yet; we'll
-            just universally reject all authentication attempts by returning
-                <varname>null</varname> for any credentials given. You can
-            verify that this is what happens by checking the server logs.</para>
+        <para>For simplicity's sake, and because this is how things are done upstream in the
+            Guacamole project, we will use Maven to build our plugin.</para>
+        <para>The bare minimum required for a Guacamole authentication plugin is a
+                <filename>pom.xml</filename> file listing guacamole-ext as a dependency, and a
+            single .java file implementing our stub of an authentication provider.</para>
+        <para>In our stub, we won't actually do any authentication yet; we'll just universally
+            reject all authentication attempts by returning <varname>null</varname> for any
+            credentials given. You can verify that this is what happens by checking the server
+            logs.</para>
         <example>
             <title>Barebones <filename>pom.xml</filename> required for a simple authentication
                 plugin.</title>
@@ -128,16 +114,15 @@
 
 &lt;/project></programlisting>
         </example>
-        <para>We won't need to update this <filename>pom.xml</filename>
-            throughout the rest of the tutorial. Even after adding new files,
-            Maven will just find them and compile as necessary.</para>
-        <para>Naturally, we need the actual authentication plugin skeleton code.
-            While you can put this in whatever file and package you want, for
-            the sake of this tutorial, we will assume you are using
+        <para>We won't need to update this <filename>pom.xml</filename> throughout the rest of the
+            tutorial. Even after adding new files, Maven will just find them and compile as
+            necessary.</para>
+        <para>Naturally, we need the actual authentication plugin skeleton code. While you can put
+            this in whatever file and package you want, for the sake of this tutorial, we will
+            assume you are using
                 <classname>net.sourceforge.guacamole.auth.TutorialAuthenticationProvider</classname>.</para>
         <example>
-            <title>A skeleton
-                    <classname>TutorialAuthenticationProvider</classname></title>
+            <title>A skeleton <classname>TutorialAuthenticationProvider</classname></title>
             <programlisting>package net.sourceforge.guacamole.auth;
 
 import java.util.Map;
@@ -161,29 +146,24 @@ public class TutorialAuthenticationProvider extends SimpleAuthenticationProvider
 }</programlisting>
         </example>
         <para>To conform with Maven, this skeleton file must be placed within
-                <filename>src/main/java/net/sourceforge/guacamole/auth</filename>
-            as <filename>TutorialAuthenticationProvider.java</filename>.</para>
+                <filename>src/main/java/net/sourceforge/guacamole/auth</filename> as
+                <filename>TutorialAuthenticationProvider.java</filename>.</para>
         <para>Notice how simple the authentication provider is. The
-                <classname>AuthenticationProvider</classname> interface requires
-            nothing more than a single
-                <methodname>getAuthorizedConfigurations()</methodname>
-            implementation, which must return a <classname>Map</classname> of
-                <classname>GuacamoleConfiguration</classname> each associated
-            with some arbitrary unique ID. This unique ID will be presented to
-            the user in the connection list after they log in.</para>
-        <para>For now, we just return <varname>null</varname>, which will cause
-            Guacamole to report an invalid login for every attempt. Note that
-            there is a difference in semantics between returning an empty map
-            and returning <varname>null</varname>, as the former indicates the
-            credentials are authorized but simply have no associated
-            configurations, while the latter indicates the credentials are not
-            authorized at all.</para>
+                <classname>AuthenticationProvider</classname> interface requires nothing more than a
+            single <methodname>getAuthorizedConfigurations()</methodname> implementation, which must
+            return a <classname>Map</classname> of <classname>GuacamoleConfiguration</classname>
+            each associated with some arbitrary unique ID. This unique ID will be presented to the
+            user in the connection list after they log in.</para>
+        <para>For now, we just return <varname>null</varname>, which will cause Guacamole to report
+            an invalid login for every attempt. Note that there is a difference in semantics between
+            returning an empty map and returning <varname>null</varname>, as the former indicates
+            the credentials are authorized but simply have no associated configurations, while the
+            latter indicates the credentials are not authorized at all.</para>
     </section>
     <section xml:id="user-auth-example">
         <title>Actually authenticating the user</title>
-        <para>Once we receive credentials, we need to validate those credentials
-            against the associated properties in
-                <filename>guacamole.properties</filename> (our source of
+        <para>Once we receive credentials, we need to validate those credentials against the
+            associated properties in <filename>guacamole.properties</filename> (our source of
             authentication information for the sake of this tutorial).</para>
         <para>We will define four properties:<variablelist>
                 <varlistentry>
@@ -195,16 +175,15 @@ public class TutorialAuthenticationProvider extends SimpleAuthenticationProvider
                 <varlistentry>
                     <term><property>tutorial-password</property></term>
                     <listitem>
-                        <para>The password we require for the user specified to
-                            be authenticated.</para>
+                        <para>The password we require for the user specified to be
+                            authenticated.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><property>tutorial-protocol</property></term>
                     <listitem>
-                        <para>The protocol of the configuration this user is
-                            authorized to use, which will be sent to guacd when
-                            the user logs in and selects their
+                        <para>The protocol of the configuration this user is authorized to use,
+                            which will be sent to guacd when the user logs in and selects their
                             connection.</para>
                     </listitem>
                 </varlistentry>
@@ -213,22 +192,21 @@ public class TutorialAuthenticationProvider extends SimpleAuthenticationProvider
                     <listitem>
                         <para>A comma-delimited list of
                                     <code><replaceable>name</replaceable>=<replaceable>value</replaceable></code>
-                            pairs. For the sake of simplicity, we'll assume
-                            there will never be any commas in the values.</para>
+                            pairs. For the sake of simplicity, we'll assume there will never be any
+                            commas in the values.</para>
                     </listitem>
                 </varlistentry>
             </variablelist></para>
-        <para>If the username and password match what is stored in the file, we
-            read the configuration information, store it in a
-                <classname>GuacamoleConfiguration</classname>, and return the
-            configuration within a set, telling Guacamole that this user is
+        <para>If the username and password match what is stored in the file, we read the
+            configuration information, store it in a <classname>GuacamoleConfiguration</classname>,
+            and return the configuration within a set, telling Guacamole that this user is
             authorized but only to access the configurations returned.</para>
-        <para>Upstream, we always place the properties of authentication
-            providers in their own class, and so we will also do that here in
-            this tutorial, as it keeps things organized.</para>
+        <para>Upstream, we always place the properties of authentication providers in their own
+            class, and so we will also do that here in this tutorial, as it keeps things
+            organized.</para>
         <example>
-            <title><filename>TutorialProperties.java</filename>, a class
-                containing property definitions</title>
+            <title><filename>TutorialProperties.java</filename>, a class containing property
+                definitions</title>
             <programlisting>package net.sourceforge.guacamole.auth;
 
 import net.sourceforge.guacamole.properties.StringGuacamoleProperty;
@@ -289,19 +267,15 @@ public class TutorialGuacamoleProperties {
 
 }</programlisting>
         </example>
-        <para>Normally, we would define a new type of
-                <classname>GuacamoleProperty</classname> to handle the parsing
-            of the parameters required by
-            <varname>TUTORIAL_PARAMETERS</varname>, but for the sake of
-            simplicity, parsing of this parameter will be embedded in the
+        <para>Normally, we would define a new type of <classname>GuacamoleProperty</classname> to
+            handle the parsing of the parameters required by <varname>TUTORIAL_PARAMETERS</varname>,
+            but for the sake of simplicity, parsing of this parameter will be embedded in the
             authentication function later.</para>
-        <para>You will need to modify your existing
-                <filename>guacamole.properties</filename> file, adding each of
-            the above properties to describe one of your available
+        <para>You will need to modify your existing <filename>guacamole.properties</filename> file,
+            adding each of the above properties to describe one of your available
             connections.</para>
         <example>
-            <title>Properties describing a user and connection, as required by
-                this tutorial</title>
+            <title>Properties describing a user and connection, as required by this tutorial</title>
             <programlisting># Username and password
 tutorial-user:     <replaceable>tutorial</replaceable>
 tutorial-password: <replaceable>password</replaceable>
@@ -310,9 +284,8 @@ tutorial-password: <replaceable>password</replaceable>
 tutorial-protocol:   <replaceable>vnc</replaceable>
 tutorial-parameters: <replaceable>hostname=localhost, port=5900</replaceable></programlisting>
         </example>
-        <para>Once these properties and their accessor class are in place, it's
-            simple enough to read the properties within
-                <methodname>getAuthorizedConfigurations()</methodname> and
+        <para>Once these properties and their accessor class are in place, it's simple enough to
+            read the properties within <methodname>getAuthorizedConfigurations()</methodname> and
             authenticate the user based on their username and password.</para>
         <example>
             <title>Checking the credentials against the properties</title>
@@ -344,23 +317,20 @@ public Map&lt;String, GuacamoleConfiguration>
 
 }</programlisting>
         </example>
-        <para>As is, the authentication provider will work in its current state
-            in that the correct username and password will authenticate the
-            user, while an incorrect username or password will not, but we still
-            aren't returning an actual map of configurations. We need to
-            construct the configuration based on the properties in the
-                <filename>guacamole.properties</filename> file after the user
-            has been authenticated, and return that configuration to the web
-            application.</para>
+        <para>As is, the authentication provider will work in its current state in that the correct
+            username and password will authenticate the user, while an incorrect username or
+            password will not, but we still aren't returning an actual map of configurations. We
+            need to construct the configuration based on the properties in the
+                <filename>guacamole.properties</filename> file after the user has been
+            authenticated, and return that configuration to the web application.</para>
     </section>
     <section xml:id="parse-conf-example">
         <title>Parsing the configuration</title>
-        <para>The only remaining task before we have a fully-functioning
-            authentication provider is to parse the configuration from the
-                <filename>guacamole.properties</filename> file.</para>
+        <para>The only remaining task before we have a fully-functioning authentication provider is
+            to parse the configuration from the <filename>guacamole.properties</filename>
+            file.</para>
         <example>
-            <title>Parsing and returning a
-                    <classname>GuacamoleConfiguration</classname></title>
+            <title>Parsing and returning a <classname>GuacamoleConfiguration</classname></title>
             <programlisting>@Override
 public Map&lt;String, GuacamoleConfiguration>
     getAuthorizedConfigurations(Credentials credentials)

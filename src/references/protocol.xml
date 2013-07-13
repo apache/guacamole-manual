@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<appendix xml:id="protocol-reference" xmlns="http://docbook.org/ns/docbook"
-    version="5.0" xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude">
+<appendix xml:id="protocol-reference" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude">
     <title>Guacamole protocol reference</title>
     <indexterm>
-        <primary>Guacamole</primary>
-        <secondary>protocol</secondary>
+        <primary>Guacamole protocol</primary>
     </indexterm>
     <indexterm>
         <primary>protocol reference</primary>

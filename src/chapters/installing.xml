@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter xml:id="installing-guacamole" xmlns="http://docbook.org/ns/docbook"
-    version="5.0" xml:lang="en" xmlns:xl="http://www.w3.org/1999/xlink"
-    xmlns:xi="http://www.w3.org/2001/XInclude">
+<chapter xml:id="installing-guacamole" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en" xmlns:xl="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude">
     <title>Installing Guacamole</title>
-    <indexterm>
-        <primary>Guacamole</primary>
-        <secondary>installing</secondary>
-    </indexterm>
     <indexterm>
         <primary>installing</primary>
     </indexterm>
@@ -20,23 +15,20 @@
             installing Guacamole. If your distribution does not provide Guacamole packages, or the
             packages provided are too old, you can build Guacamole from source fairly easily.</para>
         <important>
-            <para>Be aware that Guacamole is a remote desktop gateway, and
-                cannot access your desktop's display without a remote desktop
-                server of some kind to connect to. Guacamole does not contain
-                its own VNC or RDP server, and these installation procedures
-                will not walk you through the installation of a VNC or RDP
-                server.</para>
-            <para>Your distribution of choice will provide documentation for
-                setting up VNC, as will the documentation provided by those that
-                created the VNC server you wish to use. If you are going to use
-                RDP to connect to Windows computers, Microsoft (and many others
-                on the internet) provides documentation describing how to set up
-                remote desktop.</para>
+            <para>Be aware that Guacamole is a remote desktop gateway, and cannot access your
+                desktop's display without a remote desktop server of some kind to connect to.
+                Guacamole does not contain its own VNC or RDP server, and these installation
+                procedures will not walk you through the installation of a VNC or RDP server.</para>
+            <para>Your distribution of choice will provide documentation for setting up VNC, as will
+                the documentation provided by those that created the VNC server you wish to use. If
+                you are going to use RDP to connect to Windows computers, Microsoft (and many others
+                on the internet) provides documentation describing how to set up remote
+                desktop.</para>
         </important>
-        <para>Installing Guacamole from your distribution's <package>guacamole</package> package will
-            typically install the web application and the proxy <package>guacd</package>, along with
-            support for VNC (<package>libguac-client-vnc</package>). If you want support for RDP or
-            SSH, you will need to install those packages as well.</para>
+        <para>Installing Guacamole from your distribution's <package>guacamole</package> package
+            will typically install the web application and the proxy <package>guacd</package>, along
+            with support for VNC (<package>libguac-client-vnc</package>). If you want support for
+            RDP or SSH, you will need to install those packages as well.</para>
         <para>After the Guacamole packages are installed, the web application may still need to be
             deployed to your servlet container. Some packages, like the Debian package called
                 <package>guacamole-tomcat</package>, will do this for you, but if your distribution
@@ -172,10 +164,6 @@ guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
         <indexterm>
             <primary>compiling</primary>
             <secondary>Guacamole</secondary>
-        </indexterm>
-        <indexterm>
-            <primary>Guacamole</primary>
-            <secondary>compiling</secondary>
         </indexterm>
         <para>Building the components of Guacamole from source is not difficult, providing you have
             the necessary tools installed already. The source for the entirety of Guacamole is
@@ -380,8 +368,8 @@ make[1]: Nothing to be done for `all-am'.
 make[1]: Leaving directory `/home/zhz/guacamole/guacamole-server'</computeroutput>
 <prompt>$</prompt></screen>
             </informalexample>
-            <para>Quite a bit of output will scroll up the screen as all the components are compiled.
-                Once everything finishes, all you have left to do is type "<userinput>make
+            <para>Quite a bit of output will scroll up the screen as all the components are
+                compiled. Once everything finishes, all you have left to do is type "<userinput>make
                     install</userinput>" to install the components that were built, and then
                     "<userinput>ldconfig</userinput>" to update your system's cache of installed
                 libraries:</para>
