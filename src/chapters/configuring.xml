@@ -655,17 +655,24 @@ basic-user-mapping: /etc/guacamole/user-mapping.xml</programlisting>
                     </row>
                     <row>
                         <entry><parameter>enable-printing</parameter></entry>
-                        <entry><indexterm>
-                                <primary>enabling printing</primary>
-                            </indexterm><indexterm>
-                                <primary>printing</primary>
-                            </indexterm><indexterm>
-                                <primary>RDP</primary>
-                                <secondary>printing</secondary>
-                            </indexterm>Printing is disabled by default, but with printing enabled,
-                            RDP users can print to a virtual printer that sends a PDF containing the
-                            document printed to the Guacamole client. Enable printing by setting
-                            this parameter to "true".</entry>
+                        <entry>
+                            <para><indexterm>
+                                    <primary>enabling printing</primary>
+                                </indexterm><indexterm>
+                                    <primary>printing</primary>
+                                </indexterm><indexterm>
+                                    <primary>RDP</primary>
+                                    <secondary>printing</secondary>
+                                </indexterm>Printing is disabled by default, but with printing
+                                enabled, RDP users can print to a virtual printer that sends a PDF
+                                containing the document printed to the Guacamole client. Enable
+                                printing by setting this parameter to "true".</para>
+                            <para><emphasis>Printing support requires
+                                        <application>GhostScript</application> to be
+                                    installed.</emphasis> If <application>guacd</application> cannot
+                                find the <filename>gs</filename> executable when printing, the print
+                                attempt will fail.</para>
+                        </entry>
                     </row>
                     <row>
                         <entry><parameter>console</parameter></entry>
