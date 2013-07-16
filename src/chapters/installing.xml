@@ -58,12 +58,12 @@
                 <para>The Debian and Ubuntu packages will set up <package>guacd</package> such that
                     it runs as its own reduced-privlege <code>guacd</code> user, for the sake of
                     security. Similarly, the <filename>user-mapping.xml</filename> file will only be
-                    readable by users in the <code>guacamole-www</code> group, as it will
+                    readable by users in the <code>guacamole-web</code> group, as it will
                     potentially contain sensitive information like passwords in plain text.</para>
                 <para>The guacamole-tomcat package will automcatically put the tomcat6 user in the
-                        <code>guacamole-www</code> group, but if you are installing Tomcat manually
+                        <code>guacamole-web</code> group, but if you are installing Tomcat manually
                     or using another servlet container, <emphasis>you must ensure your servlet
-                        container's user is a member of the <code>guacamole-www</code>
+                        container's user is a member of the <code>guacamole-web</code>
                         group</emphasis>. If you do not do this, your serlvet container will not be
                     able to read <filename>user-mapping.xml</filename>, and all attempts to login to
                     Guacamole will fail.</para>
