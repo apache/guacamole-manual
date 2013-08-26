@@ -754,6 +754,87 @@ basic-user-mapping: /etc/guacamole/user-mapping.xml</programlisting>
                             </variablelist>
                         </entry>
                     </row>
+                    <row>
+                        <entry><parameter>security</parameter></entry>
+                        <entry>
+                            <para><indexterm>
+                                    <primary>RDP</primary>
+                                    <secondary>security</secondary>
+                                </indexterm><indexterm>
+                                    <primary>RDP</primary>
+                                    <secondary>NLA</secondary>
+                                </indexterm><indexterm>
+                                    <primary>RDP</primary>
+                                    <secondary>TLS</secondary>
+                                </indexterm>The security mode to use for the RDP connection. This
+                                mode dictates how data will be encrypted and what type of
+                                authentication will be performed, if any. By default, the server is
+                                allowed to control what type of security is used.</para>
+                            <para>Possible values are:</para>
+                            <variablelist>
+                                <varlistentry>
+                                    <term><constant>rdp</constant></term>
+                                    <listitem>
+                                        <para>Standard RDP encryption. This mode should be supported
+                                            by all RDP servers.</para>
+                                    </listitem>
+                                </varlistentry>
+                                <varlistentry>
+                                    <term><constant>nla</constant></term>
+                                    <listitem>
+                                        <para>Network Level Authentication. This mode requires the
+                                            username and password, and performs an authentication
+                                            step before the remote desktop session actually starts.
+                                            If the username and password are not given, the
+                                            connection cannot be made.</para>
+                                    </listitem>
+                                </varlistentry>
+                                <varlistentry>
+                                    <term><constant>tls</constant></term>
+                                    <listitem>
+                                        <para>TLS encryption. TLS (Transport Layer Security) is the
+                                            successor to SSL.</para>
+                                    </listitem>
+                                </varlistentry>
+                                <varlistentry>
+                                    <term><constant>any</constant></term>
+                                    <listitem>
+                                        <para>Allow the server to choose the type of security. This
+                                            is the default.</para>
+                                    </listitem>
+                                </varlistentry>
+                            </variablelist>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry><parameter>ignore-cert</parameter></entry>
+                        <entry>
+                            <para><indexterm>
+                                    <primary>RDP</primary>
+                                    <secondary>ignoring certificates</secondary>
+                                </indexterm>If set to "true", the certificate returned by the server
+                                will be ignored, even if that certificate cannot be validated. This
+                                is useful if you universally trust the server and your connection to
+                                the server, and you know that the server's certificate cannot be
+                                validated (for example, if it is self-signed).</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry><parameter>disable-auth</parameter></entry>
+                        <entry>
+                            <para><indexterm>
+                                    <primary>RDP</primary>
+                                    <secondary>disabling authentication</secondary>
+                                </indexterm>If set to "true", authentication will be disabled. Note
+                                that this refers to authentication that takes place while
+                                connecting. Any authentication enforced by the server over the
+                                remote desktop session (such as a login dialog) will still take
+                                place. By default, authentication is enabled and only used when
+                                requested by the server.</para>
+                            <para>If you are using NLA, authentication must be enabled by
+                                definition.</para>
+                        </entry>
+                    </row>
                 </tbody>
             </tgroup>
         </table>
