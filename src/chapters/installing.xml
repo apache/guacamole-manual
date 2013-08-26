@@ -37,6 +37,34 @@
             <title>Debian and Ubuntu</title>
             <para>The Debian repositories contain packages for all of Guacamole's components, and
                 Ubuntu has inherited those packages (being Debian-based).</para>
+            <para>There is also a PPA which contains the most recent stable build of Guacamole while
+                updates to the official Debian and Ubuntu repositories are pending. If you don't
+                want to wait for the main repositories to update, users of Ubuntu can just add the
+                PPA and install the packages from there:</para>
+            <informalexample>
+                <indexterm>
+                    <primary>PPA</primary>
+                </indexterm>
+                <screen><prompt>$</prompt> <userinput>sudo add-apt-repository ppa:guacamole/stable</userinput>
+<computeroutput>[sudo] password for user: 
+You are about to add the following PPA to your system:
+ The most recent stable release of Guacamole and its components. The packages
+here use the same packaging as the downstream Debian and Ubuntu packages, but
+are updated more frequently, usually while the corresponding downstream
+packages are under official review.
+ More info: https://launchpad.net/~guacamole/+archive/stable
+Press [ENTER] to continue or ctrl-c to cancel adding it
+
+gpg: keyring `/tmp/tmpc7ipgi/secring.gpg' created
+gpg: keyring `/tmp/tmpc7ipgi/pubring.gpg' created
+gpg: requesting key 106BB296 from hkp server keyserver.ubuntu.com
+gpg: /tmp/tmpc7ipgi/trustdb.gpg: trustdb created
+gpg: key 106BB296: public key "Launchpad PPA for Guacamole" imported
+gpg: Total number processed: 1
+gpg:               imported: 1  (RSA: 1)
+OK</computeroutput>
+<prompt>$</prompt> </screen>
+            </informalexample>
             <para>For users of Debian or any flavor of Ubuntu, installing Guacamole is as simple as
                 installing the <package>guacamole-tomcat</package> package, and then editing the
                     <filename>/etc/guacamole/user-mapping.xml</filename> file to add some
