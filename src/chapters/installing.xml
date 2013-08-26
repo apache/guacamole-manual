@@ -277,9 +277,109 @@ guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
                     <package>libssh</package> and <package>Pango</package>, a font rendering and
                 text layout library.</para>
             <para>Optional features of these protocols will be enabled if you have other libraries
-                installed as well. Currently, the RDP support also provides sound encoded with Ogg
-                Vorbis if you have <package>libvorbis</package> installed while building
-                    <package>guacamole-server</package>.</para>
+                installed.</para>
+            <informaltable frame="all">
+                <tgroup cols="3">
+                    <colspec colname="c1" colnum="1" colwidth="1*"/>
+                    <colspec colname="c2" colnum="2" colwidth="1*"/>
+                    <colspec colname="c3" colnum="3" colwidth="3.8*"/>
+                    <thead>
+                        <row>
+                            <entry>Library name</entry>
+                            <entry>Required?</entry>
+                            <entry>Features</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>Cairo</entry>
+                            <entry>Yes.</entry>
+                            <entry>
+                                <para>Cairo is used by libguac for graphics rendering. Guacamole
+                                    cannot function without Cairo installed.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>libpng</entry>
+                            <entry>Yes.</entry>
+                            <entry>
+                                <para>libpng is used by libguac to write PNG images, the core image
+                                    type used by the Guacamole protocol. Guacamole cannot function
+                                    without libpng.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>FreeRDP</entry>
+                            <entry>Only for RDP.</entry>
+                            <entry>
+                                <para>FreeRDP is required for RDP support. If you do not wish to
+                                    build RDP support, this library is not needed.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>Pango</entry>
+                            <entry>Only for SSH.</entry>
+                            <entry>
+                                <para>Pango is a text layout library which Guacamole's SSH support
+                                    uses to render text. If you do not wish to build SSH support,
+                                    this library is not needed.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>libssh</entry>
+                            <entry>Only for SSH.</entry>
+                            <entry>
+                                <para>libssh is required for SSH support. If you do not wish to
+                                    build SSH support, this library is not needed.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>libVNCServer</entry>
+                            <entry>Only for VNC.</entry>
+                            <entry>
+                                <para>libVNCServer provides libvncclient which is required for VNC
+                                    support. If you do not wish to build VNC support, this library
+                                    is not needed.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>libpulse</entry>
+                            <entry>No.</entry>
+                            <entry>
+                                <para>libpulse provides support for PulseAudio, which is used by
+                                    Guacamole's VNC support to provide experimental audio. If you
+                                    are not going to be using the experimental audio support for
+                                    VNC, you do not need this library.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>libssl</entry>
+                            <entry>No.</entry>
+                            <entry>
+                                <para>libssl provides support for SSL and TLS - two common
+                                    encryption schemes that make up the majority of encrypted web
+                                    traffic.</para>
+                                <para>If you have libssl installed, guacd will be built with SSL
+                                    support, allowing communication between the web application and
+                                    guacd to be encrypted.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>libvorbis</entry>
+                            <entry>No.</entry>
+                            <entry>
+                                <para>libvorbis provides support for Ogg Vorbis - a free and open
+                                    standard for sound compression. If installed, libguac will be
+                                    built with support for Ogg Vorbis, and protocols supporting
+                                    audio will use Ogg Vorbis compression when possible.</para>
+                                <para>Otherwise, sound will only be encoded as WAV (uncompressed),
+                                    and will only be availbe of your browser also supports
+                                    WAV.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
             <para>You can obtain a copy of the <package>guacamole-server</package> source from the
                 Guacamole project web site if you want the latest released code. These releases are
                 stable snapshots of the latest code which have undergone enough testing that the
@@ -287,8 +387,8 @@ guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
                 project web site will take the form of a <filename>.tar.gz</filename> archive which
                 you can extract from the command line:</para>
             <informalexample>
-                <screen><prompt>$</prompt> <userinput>tar -xzf guacamole-server-0.8.2.tar.gz</userinput>
-<prompt>$</prompt> <userinput>cd guacamole-server-0.8.2/</userinput>
+                <screen><prompt>$</prompt> <userinput>tar -xzf guacamole-server-0.8.3.tar.gz</userinput>
+<prompt>$</prompt> <userinput>cd guacamole-server-0.8.3/</userinput>
 <prompt>$</prompt></screen>
             </informalexample>
             <para>If you want the absolute latest code, and don't care that the code hasn't been as
@@ -337,7 +437,7 @@ checking whether build environment is sane... yes
 ...
 
 ------------------------------------------------
-guacamole-server version 0.8.0
+guacamole-server version 0.8.3
 ------------------------------------------------
 
    Library status:
@@ -345,8 +445,10 @@ guacamole-server version 0.8.0
      freerdp ............. yes
      pango ............... yes
      libssh .............. yes
+     libssl .............. yes
      libVNCServer ........ yes
-     libvorbisenc ........ yes
+     libvorbis ........... yes
+     libpulse ............ yes
 
    Protocol support:
 
@@ -488,8 +590,8 @@ make[1]: Leaving directory `/home/zhz/guacamole/guacamole-server'</computeroutpu
                 project web site will take the form of a <filename>.tar.gz</filename> archive which
                 you can extract from the command line:</para>
             <informalexample>
-                <screen><prompt>$</prompt> <userinput>tar -xzf guacamole-client-0.8.2.tar.gz</userinput>
-<prompt>$</prompt> <userinput>cd guacamole-client-0.8.2/</userinput>
+                <screen><prompt>$</prompt> <userinput>tar -xzf guacamole-client-0.8.3.tar.gz</userinput>
+<prompt>$</prompt> <userinput>cd guacamole-client-0.8.3/</userinput>
 <prompt>$</prompt></screen>
             </informalexample>
             <para>As with <package>guacamole-server</package>, if you want the absolute latest code,
@@ -551,7 +653,7 @@ Resolving deltas: 100% (3942/3942), done.</computeroutput>
                 container.</para>
             <para>You will probably have to do this as the root user:</para>
             <informalexample>
-                <screen><prompt>#</prompt> <userinput>cp guacamole/target/guacamole-0.8.2.war /var/lib/tomcat6/webapps/guacamole.war</userinput>
+                <screen><prompt>#</prompt> <userinput>cp guacamole/target/guacamole-0.8.3.war /var/lib/tomcat6/webapps/guacamole.war</userinput>
 <prompt>#</prompt></screen>
             </informalexample>
             <para>The Guacamole web application also depends on a configuration file,

@@ -94,6 +94,19 @@
             </varlistentry>
             <varlistentry>
                 <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+                        <primary>guacd-ssl</primary>
+                    </indexterm><parameter>guacd-ssl</parameter></term>
+                <listitem>
+                    <para>If set to "true", requires SSL/TLS encryption between the web application
+                        and guacd. This property is not required. By default, communication between
+                        the web application and guacd will be unencrypted.</para>
+                    <para>Note that if you enable this option, you must also configure guacd to use
+                        SSL via command line options. These options are documented in the manpage of
+                        guacd. You will need an SSL certificate and private key.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
                         <primary>auth-provider</primary>
                     </indexterm><parameter>auth-provider</parameter></term>
                 <listitem>
@@ -411,6 +424,41 @@ basic-user-mapping: /etc/guacamole/user-mapping.xml</programlisting>
                             in use requires the connecting user to specify which VNC server to
                             connect to. If the VNC proxy automatically connects to a specific
                             server, this parameter is not necessary.</entry>
+                    </row>
+                    <row>
+                        <entry><parameter>enable-audio</parameter></entry>
+                        <entry>
+                            <para><indexterm>
+                                    <primary>VNC</primary>
+                                    <secondary>sound</secondary>
+                                </indexterm><indexterm>
+                                    <primary>VNC</primary>
+                                    <secondary>PulseAudio</secondary>
+                                </indexterm>If set to "true", <emphasis>experimental</emphasis>
+                                sound support will be enabled. VNC does not support sound, but
+                                Guacamole's VNC support can include sound using PulseAudio.</para>
+                            <para>Most Linux systems provide audio through a service called
+                                PulseAudio. This service is capable of communicating over the
+                                network. If PulseAudio is configured to allow TCP connections,
+                                Guacamole can connect to your PulseAudio server and combine its
+                                audio with the grapics coming over VNC.</para>
+                            <para>Beware that you must disable authentication within PulseAudio in
+                                order to allow Guacamole to connect, as Guacamole does not yet
+                                support this. The amount of latency you will see depends largely on
+                                the network and how PulseAudio is configured.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry><parameter>audio-servername</parameter></entry>
+                        <entry>
+                            <para>The name of the PulseAudio server to connect to. This will be the
+                                hostname of the computer providing audio for your connection via
+                                PulseAudio, most likely the same as the value given for the
+                                    <parameter>hostname</parameter> parameter.</para>
+                            <para>If this parameter is omitted, the default PulseAudio device will
+                                be used, which will be the PulseAudio server running on the same
+                                machine as guacd.</para>
+                        </entry>
                     </row>
                 </tbody>
             </tgroup>
