@@ -4,7 +4,7 @@
 
     <info>
         <title>Guacamole Manual</title>
-        <edition>0.8.2</edition>
+        <edition>0.8.3</edition>
         <author>
             <personname><firstname>Michael</firstname>
                 <surname>Jumper</surname></personname>
@@ -33,7 +33,7 @@
             good starting point beyond simply looking at the Guacamole
             codebase.</para>
         <para>This particular edition of the <citetitle>Guacamole Manual</citetitle> covers
-            Guacamole version 0.8.2. New releases which create new features or break compatibility
+            Guacamole version 0.8.3. New releases which create new features or break compatibility
             will result in new editions of the user's guide, as will any necessary corrections. As
             the official documentation for the project, this book will always be freely available in
             its entirety online.</para>
@@ -149,6 +149,7 @@
         <xi:include href="chapters/installing.xml"/>
         <xi:include href="chapters/configuring.xml"/>
         <xi:include href="chapters/mysql-auth.xml"/>
+        <xi:include href="chapters/noauth.xml"/>
         <xi:include href="chapters/using.xml"/>
         <xi:include href="chapters/troubleshooting.xml"/>
         <!--<xi:include href="chapters/home-desktop.xml"/>-->
