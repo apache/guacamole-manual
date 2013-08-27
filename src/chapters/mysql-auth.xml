@@ -1,61 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<chapter xml:id="mysql-auth" xmlns="http://docbook.org/ns/docbook" version="5.0"
-    xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude">
+<chapter xml:id="mysql-auth" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
     <title>MySQL authentication</title>
     <indexterm>
         <primary>MySQL</primary>
     </indexterm>
-    <para>Guacamole 0.8.0 introduced an officially-supported MySQL
-        authentication module that allows users and connections to be managed
-        from within the web application.</para>
-    <para>Unlike the default, XML-driven authentication module, all changes to
-        users and connections take effect immediately; users need not logout and
-        back in in order to see new connections.</para>
+    <indexterm>
+        <primary>load balancing</primary>
+    </indexterm>
+    <para>Guacamole supports MySQL authentication through an extension available from the project
+        website. This extension allows users and connections to be managed from within the web
+        application. Unlike the default, XML-driven authentication module, all changes to users and
+        connections take effect immediately; users need not logout and back in in order to see new
+        connections.</para>
+    <para>The official MySQL authentication also supports load balancing through the use of
+        "balancing groups". When a balancing group is created, it can be used like any other
+        connection, but will use the least used of its underlying connections, spreading load evenly
+        across any connections contained within.</para>
     <section xml:id="installing-mysql-auth">
         <title>Installing MySQL authentication</title>
-        <para>The MySQL authentication module is not included in the main
-            Guacamole bundle nor is it enabled by default. You must use the
-            download link provided in the downloads section of the main
-            Guacamole site.</para>
-        <para>The downloaded <filename>.tar.gz</filename> file will contain
-            several directories:</para>
+        <para>The MySQL authentication module is not included in the main Guacamole bundle nor is it
+            enabled by default. You must use the download link provided in the downloads section of
+            the main Guacamole site.</para>
+        <para>The downloaded <filename>.tar.gz</filename> file will contain several
+            directories:</para>
         <variablelist>
             <varlistentry>
                 <term><filename>lib/</filename></term>
                 <listitem>
-                    <para>Contains all <filename>.jar</filename> files required
-                        for the MySQL authentication module to work, including
-                        the module itself. <emphasis>The MySQL JDBC connector is
-                            not included.</emphasis></para>
+                    <para>Contains all <filename>.jar</filename> files required for the MySQL
+                        authentication module to work, including the module itself. <emphasis>The
+                            MySQL JDBC connector is not included.</emphasis></para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term><filename>schema/</filename></term>
                 <listitem>
-                    <para>Contains all SQL scripts required to set up the MySQL
-                        database.</para>
+                    <para>Contains all SQL scripts required to set up the MySQL database.</para>
                 </listitem>
             </varlistentry>
         </variablelist>
-        <para>The contents of <filename>lib/</filename> must be copied into the
-            classpath of Guacamole, which is the directory specified by the
-                <property>lib-directory</property> property in
-                <filename>guacamole.properties</filename>. If this property is
-            not specified, simply add it. On Linux servers,
-                <filename>/var/lib/guacamole/classpath</filename> is a good
-            choice, but it can be whatever you like.</para>
-        <para>In addition to the files from <filename>lib/</filename>, you must
-            also copy <filename>.jar</filename> file from the MySQL
-            "Connector-J" JDBC archive. The archive containing this
-                <filename>.jar</filename> can be downloaded from <link
+        <para>The contents of <filename>lib/</filename> must be copied into the classpath of
+            Guacamole, which is the directory specified by the <property>lib-directory</property>
+            property in <filename>guacamole.properties</filename>. If this property is not
+            specified, simply add it. On Linux servers,
+                <filename>/var/lib/guacamole/classpath</filename> is a good choice, but it can be
+            whatever you like.</para>
+        <para>In addition to the files from <filename>lib/</filename>, you must also copy
+                <filename>.jar</filename> file from the MySQL "Connector-J" JDBC archive. The
+            archive containing this <filename>.jar</filename> can be downloaded from <link
                 xmlns:xlink="http://www.w3.org/1999/xlink"
                 xlink:href="http://dev.mysql.com/downloads/connector/j/">MySQL's
-                website</link>.</para>
-        <para>After copying the files in place, check to make sure everything
-            looks sane. The contents should match at least the files shown
-            here:</para>
-        <screen><prompt>$</prompt> ls <replaceable>/var/lib/guacamole/classpath</replaceable>
+            website</link>.</para>
+        <para>After copying the files in place, check to make sure everything looks sane. The
+            contents should match at least the files shown here:</para>
+        <informalexample>
+            <screen><prompt>$</prompt> ls <replaceable>/var/lib/guacamole/classpath</replaceable>
 <computeroutput>aopalliance-1.0.jar             javax.inject-1.jar
 commons-logging-1.1.1.jar       mybatis-3.1.1.jar
 google-collections-1.0.jar      mybatis-guice-3.2.jar
@@ -63,44 +64,40 @@ guacamole-auth-mysql-0.8.0.jar  mysql-connector-java-5.1.23-bin.jar
 guice-3.0.jar                   slf4j-api-1.6.1.jar
 guice-multibindings-3.0.jar     slf4j-jcl-1.6.1.jar</computeroutput>
 <prompt>$</prompt></screen>
-        <para>Each of the <filename>.jar</filename> files above is either the
-            MySQL authentication module itself
-                (<filename>guacamole-auth-mysql-0.8.0.jar</filename>) or a
-            dependency. They must all be placed in Guacamole's lib-directory for
-            the MySQL authentication to work.</para>
+        </informalexample>
+        <para>Each of the <filename>.jar</filename> files above is either the MySQL authentication
+            module itself (<filename>guacamole-auth-mysql-0.8.0.jar</filename>) or a dependency.
+            They must all be placed in Guacamole's lib-directory for the MySQL authentication to
+            work.</para>
         <important>
-            <para>If you do not see
-                    <filename>mysql-connector-java-5.1.23-bin.jar</filename> (or
-                a similar file with a different version) present in the same
-                directory as the other <filename>.jar</filename> files, then you
-                have not copied MySQL Connector-J properly.</para>
+            <para>If you do not see <filename>mysql-connector-java-5.1.23-bin.jar</filename> (or a
+                similar file with a different version) present in the same directory as the other
+                    <filename>.jar</filename> files, then you have not copied MySQL Connector-J
+                properly.</para>
             <para>Be sure to download MySQL Connector-J from the <link
                     xmlns:xlink="http://www.w3.org/1999/xlink"
-                    xlink:href="http://dev.mysql.com/downloads/connector/j/"
-                    >MySQL website</link>. Extract the downloaded archive, and
-                copy the <filename>.jar</filename> file into the same directory
-                as shown above. <emphasis>If this is not done, MySQL
-                    authentication will not work.</emphasis> Guacamole will be
-                unable to connect to your MySQL database.</para>
+                    xlink:href="http://dev.mysql.com/downloads/connector/j/">MySQL website</link>.
+                Extract the downloaded archive, and copy the <filename>.jar</filename> file into the
+                same directory as shown above. <emphasis>If this is not done, MySQL authentication
+                    will not work.</emphasis> Guacamole will be unable to connect to your MySQL
+                database.</para>
         </important>
         <section>
             <title>Creating a database and user</title>
             <indexterm>
                 <primary>default user</primary>
             </indexterm>
-            <para>The MySQL authentication module will need a database to store
-                all authentication data and a user to use only for data access
-                and manipulation. You could use an existing database and
-                existing user, but for the sake of simplicity and security,
-                these instructions assume you will be creating a new database
-                and new user that will be used only by Guacamole and only for
-                this authentication module.</para>
-            <para>At this point, you need MySQL installed and the root MySQL
-                user configured. If this is not the case, install MySQL now.
-                Most distributions will provide a convenient MySQL package which
-                will set up everything for you, including the root user. After
-                MySQL is installed, create the new database and user:</para>
-            <screen><prompt>$</prompt> mysql -u root -p
+            <para>The MySQL authentication module will need a database to store all authentication
+                data and a user to use only for data access and manipulation. You could use an
+                existing database and existing user, but for the sake of simplicity and security,
+                these instructions assume you will be creating a new database and new user that will
+                be used only by Guacamole and only for this authentication module.</para>
+            <para>At this point, you need MySQL installed and the root MySQL user configured. If
+                this is not the case, install MySQL now. Most distributions will provide a
+                convenient MySQL package which will set up everything for you, including the root
+                user. After MySQL is installed, create the new database and user:</para>
+            <informalexample>
+                <screen><prompt>$</prompt> mysql -u root -p
 <prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
 <computeroutput>Welcome to the MySQL monitor.  Commands end with ; or \g.
 Your MySQL connection id is 233
@@ -129,41 +126,53 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 <prompt>mysql></prompt> <userinput>quit</userinput>
 <computeroutput>Bye</computeroutput>
 <prompt>$</prompt></screen>
-            <para>The database and user can be named whatever you like, but
-                these instructions will refer to both as "guacamole". Naturally,
-                you should choose a real password for your user rather than the
-                string "some_password" shown above.</para>
+            </informalexample>
+            <para>The database and user can be named whatever you like, but these instructions will
+                refer to both as "guacamole". Naturally, you should choose a real password for your
+                user rather than the string "some_password" shown above.</para>
         </section>
         <section>
             <title>Running the SQL scripts</title>
             <indexterm>
                 <primary>SQL scripts</primary>
             </indexterm>
-            <para>The SQL scripts that create the database schema and default
-                administrator user are included in the archive you downoaded
-                within the <filename>schema/</filename> directory. They are
-                named such that they can be run in order with one
+            <para>The SQL scripts that create the database schema and default administrator user are
+                included in the archive you downoaded within the <filename>schema/</filename>
+                directory. They are named such that they can be run in order with one
                 command:</para>
-            <screen><prompt>$</prompt> <userinput>ls schema/</userinput>
-001-create-schema.sql  002-create-admin-user.sql
+            <informalexample>
+                <screen><prompt>$</prompt> <userinput>ls schema/</userinput>
+<computeroutput>001-create-schema.sql  002-create-admin-user.sql  upgrade</computeroutput>
 <prompt>$</prompt> <userinput>cat schema/*.sql | mysql -u root -p <replaceable>guacamole</replaceable></userinput>
-<prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
+<computeroutput><prompt>Enter password:</prompt></computeroutput> <userinput><replaceable>password</replaceable></userinput>
 <prompt>$</prompt></screen>
-            <para>If the operation is successful, all tables have been created
-                successfully, and the database is now ready for use. All that is
-                left now is to configure Guacamole to use the database we've
-                created.</para>
+            </informalexample>
+            <para>If the operation is successful, all tables have been created successfully, and the
+                database is now ready for use. All that is left now is to configure Guacamole to use
+                the database we've created.</para>
+            <important>
+                <para>If you are upgrading from an older version that lacked support for connection
+                    groups, you should instead run the upgrade script located within the
+                        <filename>upgrade/</filename> directory:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <userinput>ls schema/upgrade/</userinput>
+<computeroutput>upgrade-pre-0.8.2.sql</computeroutput>
+<prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole</replaceable> &lt; schema/upgrade/upgrade-pre-0.8.2.sql</userinput>
+<computeroutput><prompt>Enter password:</prompt></computeroutput> <userinput><replaceable>password</replaceable></userinput>
+<prompt>$</prompt></screen>
+                </informalexample>
+            </important>
         </section>
         <section>
             <title>Configuring Guacamole</title>
             <indexterm>
                 <primary>configuring MySQL</primary>
             </indexterm>
-            <para>Now that the database and user is created, and the SQL scripts
-                have been run, we need to add a few properties to
-                    <filename>guacamole.properties</filename> such that
+            <para>Now that the database and user is created, and the SQL scripts have been run, we
+                need to add a few properties to <filename>guacamole.properties</filename> such that
                 Guacamole can connect to MySQL when authenticating users:</para>
-            <programlisting># Auth provider class
+            <informalexample>
+                <programlisting># Auth provider class
 auth-provider: net.sourceforge.guacamole.net.auth.mysql.MySQLAuthenticationProvider
 
 # MySQL properties
@@ -172,21 +181,29 @@ mysql-port: 3306
 mysql-database: <replaceable>guacamole</replaceable>
 mysql-username: <replaceable>guacamole</replaceable>
 mysql-password: <replaceable>some_password</replaceable></programlisting>
+            </informalexample>
             <indexterm>
                 <primary>concurrent use</primary>
             </indexterm>
-            <para>Be sure to specify the correct password for the MySQL user you
-                created, and specify the correct database and username if you
-                didn't use "guacamole". If you wish to only allow one user at a
-                time to access any single connection, you can also limit
+            <para>Be sure to specify the correct password for the MySQL user you created, and
+                specify the correct database and username if you didn't use "guacamole". If you wish
+                to only allow one user at a time to access any single connection, you can also limit
                 concurrent access to connections:</para>
-            <programlisting>mysql-disallow-simultaneous-connections: true</programlisting>
-            <para>This is not required, but with the above property in place,
-                users attempting to use a connection that is currently in use by
-                another user will be denied access. By default, concurrent
-                access is allowed.</para>
-            <para>Now just restart Tomcat (or whatever servlet container you are
-                using) and authentication will use MySQL.</para>
+            <informalexample>
+                <programlisting>mysql-disallow-simultaneous-connections: true</programlisting>
+            </informalexample>
+            <para>This is not required, but with the above property in place, users attempting to
+                use a connection that is currently in use by another user will be denied access. By
+                default, concurrent access is allowed.</para>
+            <para>You can also limit whether a single user is allowed to connect to the same
+                connection or group concurrently. By default, this is enabled, as it has security
+                implications when balancing groups are used, but you can explicitly disable this if
+                you want to allow duplicate connections:</para>
+            <informalexample>
+                <programlisting>mysql-disallow-duplicate-connections: false</programlisting>
+            </informalexample>
+            <para>Now just restart Tomcat (or whatever servlet container you are using) and
+                authentication will use MySQL.</para>
         </section>
         <section>
             <title>Logging in</title>
@@ -196,16 +213,13 @@ mysql-password: <replaceable>some_password</replaceable></programlisting>
             <indexterm>
                 <primary>guacadmin</primary>
             </indexterm>
-            <para>After the MySQL authentication module is installed, you need
-                to log in and change your password, and add whatever connections
-                and additional users you need.</para>
-            <para>The default user is "<token>guacadmin</token>", with the
-                default password of "<token>guacadmin</token>". You can change
-                your password by editing your own user in the administration
-                screen.</para>
-            <para>More detailed instructions for managing users and connections
-                is given in <xref linkend="using-guacamole"/> in <xref
-                    linkend="guacamole-admin-ui"/>.</para>
+            <para>After the MySQL authentication module is installed, you need to log in and change
+                your password, and add whatever connections and additional users you need.</para>
+            <para>The default user is "<token>guacadmin</token>", with the default password of
+                    "<token>guacadmin</token>". You can change your password by editing your own
+                user in the administration screen.</para>
+            <para>More detailed instructions for managing users and connections is given in <xref
+                    linkend="using-guacamole"/> in <xref linkend="guacamole-admin-ui"/>.</para>
         </section>
     </section>
     <section xml:id="mysql-auth-schema">
@@ -213,87 +227,78 @@ mysql-password: <replaceable>some_password</replaceable></programlisting>
         <indexterm>
             <primary>schema</primary>
         </indexterm>
-        <para>If necessary, it is possible to modify the data backing the MySQL
-            authentication module manually by executing SQL statements against
-            the database. In general use, this will not be common, but if you
-            need to bulk-insert a large number of users or connections, or you
-            wish to translate an existing configuration automatically, you will
+        <para>If necessary, it is possible to modify the data backing the MySQL authentication
+            module manually by executing SQL statements against the database. In general use, this
+            will not be common, but if you need to bulk-insert a large number of users or
+            connections, or you wish to translate an existing configuration automatically, you will
             need to know how everything is laid out at a high level.</para>
-        <para>This section assumes knowledge of SQL and MySQL, and that whatever
-            you need to do can be accomplished if only you had high-level
-            information about Guacamole's SQL schema.</para>
+        <para>This section assumes knowledge of SQL and MySQL, and that whatever you need to do can
+            be accomplished if only you had high-level information about Guacamole's SQL
+            schema.</para>
         <section>
             <title>Users</title>
             <indexterm>
                 <primary><classname>guacamole_user</classname></primary>
             </indexterm>
-            <para>Every user has a corresponding entry in the
-                    <classname>guacamole_user</classname> table. Each user has a
-                corresponding unique username and salted password. The salted
-                password is split into two columns: one containing the salt, and
-                the other containing the password hashed with SHA-256.</para>
-            <para>The <classname>guacamole_user</classname> table contains the
-                following columns:</para>
+            <para>Every user has a corresponding entry in the <classname>guacamole_user</classname>
+                table. Each user has a corresponding unique username and salted password. The salted
+                password is split into two columns: one containing the salt, and the other
+                containing the password hashed with SHA-256.</para>
+            <para>The <classname>guacamole_user</classname> table contains the following
+                columns:</para>
             <variablelist>
                 <varlistentry>
                     <term><property>user_id</property></term>
                     <listitem>
-                        <para>The unique integer associated with each user. This
-                            value is generated automatically when a new entry is
-                            inserted into the
-                                <classname>guacamole_user</classname>
-                            table.</para>
+                        <para>The unique integer associated with each user. This value is generated
+                            automatically when a new entry is inserted into the
+                                <classname>guacamole_user</classname> table.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><property>username</property></term>
                     <listitem>
-                        <para>The unique name associated with each user. This
-                            value must be specified manually, and must be
-                            different from any existing username in the table.
-                            References to users in other tables use the value
-                            from <property>user_id</property>, not
-                                <property>username</property>.</para>
+                        <para>The unique name associated with each user. This value must be
+                            specified manually, and must be different from any existing username in
+                            the table. References to users in other tables use the value from
+                                <property>user_id</property>, not
+                            <property>username</property>.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><property>password_hash</property></term>
                     <listitem>
-                        <para>The result of hashing the user's password
-                            concatenated with the contents of
-                                <property>password_salt</property> using
-                            SHA-256. The salt is appended to the password prior
-                            to hashing.</para>
+                        <para>The result of hashing the user's password concatenated with the
+                            contents of <property>password_salt</property> using SHA-256. The salt
+                            is appended to the password prior to hashing.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><property>password_salt</property></term>
                     <listitem>
-                        <para>A 32-byte random value. When a new user is created
-                            from the web interface, this value is randomly
-                            generated using a cryptographically-secure random
-                            number generator.</para>
+                        <para>A 32-byte random value. When a new user is created from the web
+                            interface, this value is randomly generated using a
+                            cryptographically-secure random number generator.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
-            <para>If creating a user manually, the main complication is the
-                salt, which must be determined before the
-                    <command>INSERT</command> statement can be constructed, but
+            <para>If creating a user manually, the main complication is the salt, which must be
+                determined before the <command>INSERT</command> statement can be constructed, but
                 this can be dealt with using variables:</para>
-            <programlisting>-- Generate salt
+            <informalexample>
+                <programlisting>-- Generate salt
 SET @salt = UNHEX(SHA2(UUID(), 256));
 
 -- Create user and hash password with salt
 INSERT INTO guacamole_user (username, password_salt, password_hash)
      VALUES ('myuser', @salt, UNHEX(SHA2(CONCAT('mypassword', HEX(@salt)), 256)));</programlisting>
-            <para>This sort of statement is useful for both creating new users
-                or for changing passwords, especially if all administrators have
-                forgotten theirs.</para>
+            </informalexample>
+            <para>This sort of statement is useful for both creating new users or for changing
+                passwords, especially if all administrators have forgotten theirs.</para>
             <para>Note that versions of MySQL earlier than 5.5.5 do not have the
-                    <methodname>SHA2</methodname> function. If you are using one
-                of these versions, you will need to calculate the SHA-256 value
-                manually (by using the <command>sha256sum</command> command, for
-                example).</para>
+                    <methodname>SHA2</methodname> function. If you are using one of these versions,
+                you will need to calculate the SHA-256 value manually (by using the
+                    <command>sha256sum</command> command, for example).</para>
         </section>
         <section>
             <title>Connections and parameters</title>
@@ -303,117 +308,109 @@ INSERT INTO guacamole_user (username, password_salt, password_hash)
             <indexterm>
                 <primary><classname>guacamole_connection_parameter</classname></primary>
             </indexterm>
-            <para>Each connection has an entry in the
-                    <classname>guacamole_connection</classname> table, with a
-                one-to-many relationship to parameters, stored as name/value
-                paris in the
-                    <classname>guacamole_connection_parameter</classname>
-                table.</para>
-            <para>The <classname>guacamole_connection</classname> table is
-                simply a pairing of a unique and descriptive name with the
-                protocol to be used for the connection. It contains the
-                following columns:</para>
-            <variablelist>
-                <varlistentry>
-                    <term><property>connection_id</property></term>
-                    <listitem>
-                        <para>The unique integer associated with each
-                            connection. This value is generated automatically
-                            when a new entry is inserted into the
-                                <classname>guacamole_connection</classname>
-                            table.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><property>connection_name</property></term>
-                    <listitem>
-                        <para>The unique name associated with each connection.
-                            This value must be specified manually, and must be
-                            different from any existing connection name in the
-                            table. References to connections in other tables use
-                            the value from <property>connection_id</property>,
-                            not <property>connection_name</property>.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><property>protocol</property></term>
-                    <listitem>
-                        <para>The protocol to use with this connection. This is
-                            the name of the protocol that should be sent to
-                            guacd when connecting, for example "vnc" or
-                            "rdp".</para>
-                    </listitem>
-                </varlistentry>
-            </variablelist>
-            <para>As there are potentially multiple parameters per connection,
-                where the names of each parameter are completely arbitrary and
-                determined only by the protocol in use, every parameter for a
-                given connection has an entry in table
-                    <classname>guacamole_connection_parameter</classname> table
-                associated with its corresponding connection. This table
+            <para>Each connection has an entry in the <classname>guacamole_connection</classname>
+                table, with a one-to-many relationship to parameters, stored as name/value paris in
+                the <classname>guacamole_connection_parameter</classname> table.</para>
+            <para>The <classname>guacamole_connection</classname> table is simply a pairing of a
+                unique and descriptive name with the protocol to be used for the connection. It
                 contains the following columns:</para>
             <variablelist>
                 <varlistentry>
                     <term><property>connection_id</property></term>
                     <listitem>
-                        <para>The <property>connection_id</property> value from
-                            the connection this parameter is for.</para>
+                        <para>The unique integer associated with each connection. This value is
+                            generated automatically when a new entry is inserted into the
+                                <classname>guacamole_connection</classname> table.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>connection_name</property></term>
+                    <listitem>
+                        <para>The unique name associated with each connection. This value must be
+                            specified manually, and must be different from any existing connection
+                            name in the same connection group. References to connections in other
+                            tables use the value from <property>connection_id</property>, not
+                                <property>connection_name</property>.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>protocol</property></term>
+                    <listitem>
+                        <para>The protocol to use with this connection. This is the name of the
+                            protocol that should be sent to guacd when connecting, for example "vnc"
+                            or "rdp".</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>parent_id</property></term>
+                    <listitem>
+                        <para>The unique integer associated with the connection group containing
+                            this connection, or <constant>NULL</constant> if this connection is
+                            within the root group.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <para>As there are potentially multiple parameters per connection, where the names of
+                each parameter are completely arbitrary and determined only by the protocol in use,
+                every parameter for a given connection has an entry in table
+                    <classname>guacamole_connection_parameter</classname> table associated with its
+                corresponding connection. This table contains the following columns:</para>
+            <variablelist>
+                <varlistentry>
+                    <term><property>connection_id</property></term>
+                    <listitem>
+                        <para>The <property>connection_id</property> value from the connection this
+                            parameter is for.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><property>parameter_name</property></term>
                     <listitem>
-                        <para>The name of the parameter to set. This is the name
-                            listed in the documentation for the protocol
-                            specified in the associated connection.</para>
+                        <para>The name of the parameter to set. This is the name listed in the
+                            documentation for the protocol specified in the associated
+                            connection.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><property>parameter_value</property></term>
                     <listitem>
-                        <para>The value to assign to the parameter named. While
-                            this value is an arbitrary string, it must conform
-                            to the requirements of the protocol as documented
-                            for the connection to be successful.</para>
+                        <para>The value to assign to the parameter named. While this value is an
+                            arbitrary string, it must conform to the requirements of the protocol as
+                            documented for the connection to be successful.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
-            <para>Adding a connection and corresponding parameters is relatively
-                easy compared to adding a user as there is no salt to generate
-                nor password to hash:</para>
-            <programlisting>-- Create connection
+            <para>Adding a connection and corresponding parameters is relatively easy compared to
+                adding a user as there is no salt to generate nor password to hash:</para>
+            <informalexample>
+                <programlisting>-- Create connection
 INSERT INTO guacamole_connection (connection_name, protocol) VALUES ('<replaceable>test</replaceable>', '<replaceable>vnc</replaceable>');
 SET @id = LAST_INSERT_ID();
 
 -- Add parameters
 INSERT INTO guacamole_connection_parameter VALUES (@id, 'hostname', '<replaceable>localhost</replaceable>');
 INSERT INTO guacamole_connection_parameter VALUES (@id, 'port', '<replaceable>5901</replaceable>');</programlisting>
+            </informalexample>
             <section>
                 <title>Usage history</title>
                 <indexterm>
                     <primary><classname>guacamole_connection_history</classname></primary>
                 </indexterm>
-                <para>When a connection is initiated or terminated, a
-                    corresponding entry in the
-                        <classname>guacamole_connection_history</classname>
-                    table is created or updated respectively. Each entry is
-                    associated with the user using the connection, the
-                    connection itself, and the time the connection started. If
-                    the connection has ended, the end time is also
-                    stored.</para>
-                <para>It is very unlikely that a user will need to update this
-                    table, but knowing the structure is potentially useful if
-                    you wish to generate a report of Guacamole usage. The
-                        <classname>guacamole_connection_history</classname>
-                    table has the following columns:</para>
+                <para>When a connection is initiated or terminated, a corresponding entry in the
+                        <classname>guacamole_connection_history</classname> table is created or
+                    updated respectively. Each entry is associated with the user using the
+                    connection, the connection itself, and the time the connection started. If the
+                    connection has ended, the end time is also stored.</para>
+                <para>It is very unlikely that a user will need to update this table, but knowing
+                    the structure is potentially useful if you wish to generate a report of
+                    Guacamole usage. The <classname>guacamole_connection_history</classname> table
+                    has the following columns:</para>
                 <variablelist>
                     <varlistentry>
                         <term><property>history_id</property></term>
                         <listitem>
-                            <para>The unique integer associated with each
-                                history record. This value is generated
-                                automatically when a new entry is inserted into
-                                the
+                            <para>The unique integer associated with each history record. This value
+                                is generated automatically when a new entry is inserted into the
                                     <classname>guacamole_connection_history</classname>
                                 table.</para>
                         </listitem>
@@ -421,85 +418,130 @@ INSERT INTO guacamole_connection_parameter VALUES (@id, 'port', '<replaceable>59
                     <varlistentry>
                         <term><property>user_id</property></term>
                         <listitem>
-                            <para>The value of the <property>user_id</property>
-                                from the entry in
-                                    <classname>guacamole_user</classname>
-                                associated with the user using the
-                                connection.</para>
+                            <para>The value of the <property>user_id</property> from the entry in
+                                    <classname>guacamole_user</classname> associated with the user
+                                using the connection.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
                         <term><property>connection_id</property></term>
                         <listitem>
-                            <para>The value of the
-                                    <property>connection_id</property> from the
-                                entry in
-                                    <classname>guacamole_connection</classname>
-                                associated the connection being used.</para>
+                            <para>The value of the <property>connection_id</property> from the entry
+                                in <classname>guacamole_connection</classname> associated the
+                                connection being used.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
                         <term><property>start_date</property></term>
                         <listitem>
-                            <para>The time at which the connection was started
-                                by the user specified. Despite its name, this
-                                column also stores time information in addition
-                                to the date.</para>
+                            <para>The time at which the connection was started by the user
+                                specified. Despite its name, this column also stores time
+                                information in addition to the date.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
                         <term><property>end_date</property></term>
                         <listitem>
-                            <para>The time at which the connection ended. If the
-                                connection is still active, the value in this
-                                column will be <constant>NULL</constant>.
-                                Despite its name, this column also stores time
-                                information in addition to the date.</para>
+                            <para>The time at which the connection ended. If the connection is still
+                                active, the value in this column will be <constant>NULL</constant>.
+                                Despite its name, this column also stores time information in
+                                addition to the date.</para>
                         </listitem>
                     </varlistentry>
                 </variablelist>
             </section>
         </section>
         <section>
+            <title>Connections groups</title>
+            <indexterm>
+                <primary><classname>guacamole_connection</classname>_group</primary>
+            </indexterm>
+            <para>Each connection group has an entry in the
+                    <classname>guacamole_connection_group</classname> table, with a one-to-many
+                relationship to other groups and connections.</para>
+            <para>The <classname>guacamole_connection_group</classname> table is simply a pairing of
+                a unique and descriptive name with a group type, which can be either
+                    <type>ORGANIZATIONAL</type> or <type>BALANCING</type>. It contains the following
+                columns:</para>
+            <variablelist>
+                <varlistentry>
+                    <term><property>connection_group_id</property></term>
+                    <listitem>
+                        <para>The unique integer associated with each connection. This value is
+                            generated automatically when a new entry is inserted into the
+                                <classname>guacamole_connection</classname> table.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>connection_group_name</property></term>
+                    <listitem>
+                        <para>The unique name associated with each connection. This value must be
+                            specified manually, and must be different from any existing connection
+                            name in the table. References to connections in other tables use the
+                            value from <property>connection_id</property>, not
+                                <property>connection_name</property>.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>type</property></term>
+                    <listitem>
+                        <para>The type of this connection. This can be either
+                                <type>ORGANIZATIONAL</type> or <type>BALANCING</type>.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>parent_id</property></term>
+                    <listitem>
+                        <para>The unique integer associated with the connection group containing
+                            this connection group, or <constant>NULL</constant> if this connection
+                            group is within the root group.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <para>Adding a connection group is even simpler than adding a new connection as there
+                are no associated parameters stored in a separate table:</para>
+            <informalexample>
+                <programlisting>-- Create connection group
+INSERT INTO guacamole_connection_group (connection_group_name, type) VALUES ('<replaceable>test</replaceable>', '<replaceable>ORGANIZATIONAL</replaceable>');</programlisting>
+            </informalexample>
+        </section>
+        <section>
             <title>Permissions</title>
-            <para>There are three permissions tables in the schema which
-                correspond to the three types of permissions in Guacamole's
-                authentication model: system permissions, which control
-                operations that affect the system as a whole, and user and
-                connection permissions, which control operations that affect
-                specific, existing users or connections respectively.</para>
+            <para>There are three permissions tables in the schema which correspond to the three
+                types of permissions in Guacamole's authentication model: system permissions, which
+                control operations that affect the system as a whole, and user and connection
+                permissions, which control operations that affect specific, existing users or
+                connections respectively.</para>
             <section>
                 <title>System permissions</title>
                 <indexterm>
                     <primary><classname>guacamole_system_permission</classname></primary>
                 </indexterm>
                 <para>System permissions are defined by entries in the
-                        <classname>guacamole_system_permission</classname>
-                    table. Each entry grants permission for a specific user to
-                    perform a specific system operation.</para>
-                <para>The <classname>guacamole_system_permission</classname>
-                    table contains the following columns:</para>
+                        <classname>guacamole_system_permission</classname> table. Each entry grants
+                    permission for a specific user to perform a specific system operation.</para>
+                <para>The <classname>guacamole_system_permission</classname> table contains the
+                    following columns:</para>
                 <variablelist>
                     <varlistentry>
                         <term><property>user_id</property></term>
                         <listitem>
-                            <para>The value of the <property>user_id</property>
-                                column of the entry associated with the user
-                                owning this permission.</para>
+                            <para>The value of the <property>user_id</property> column of the entry
+                                associated with the user owning this permission.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
                         <term><property>permission</property></term>
                         <listitem>
-                            <para>The permission being granted. This column can
-                                have one of three possible values:
-                                    <constant>ADMINISTER</constant>, which
-                                grants the ability to administer the entire
-                                system (essentially a wildcard permission),
-                                    <constant>CREATE_CONNECTION</constant>,
-                                which grants the ability to create connections,
-                                or <constant>CREATE_USER</constant>, which
-                                grants the ability to create users.</para>
+                            <para>The permission being granted. This column can have one of three
+                                possible values: <constant>ADMINISTER</constant>, which grants the
+                                ability to administer the entire system (essentially a wildcard
+                                permission), <constant>CREATE_CONNECTION</constant>, which grants
+                                the ability to create connections,
+                                    <constant>CREATE_CONNECTION_GROUP</constant>, which grants the
+                                ability to create connections groups, or
+                                    <constant>CREATE_USER</constant>, which grants the ability to
+                                create users.</para>
                         </listitem>
                     </varlistentry>
                 </variablelist>
@@ -510,97 +552,126 @@ INSERT INTO guacamole_connection_parameter VALUES (@id, 'port', '<replaceable>59
                     <primary><classname>guacamole_user_permission</classname></primary>
                 </indexterm>
                 <para>User permissions are defined by entries in the
-                        <classname>guacamole_user_permission</classname> table.
-                    Each entry grants permission for a specific user to perform
-                    a specific operation on another existing user.</para>
-                <para>The <classname>guacamole_user_permission</classname> table
-                    contains the following columns:</para>
+                        <classname>guacamole_user_permission</classname> table. Each entry grants
+                    permission for a specific user to perform a specific operation on another
+                    existing user.</para>
+                <para>The <classname>guacamole_user_permission</classname> table contains the
+                    following columns:</para>
                 <variablelist>
                     <varlistentry>
                         <term><property>user_id</property></term>
                         <listitem>
-                            <para>The value of the <property>user_id</property>
-                                column of the entry associated with the user
-                                owning this permission.</para>
+                            <para>The value of the <property>user_id</property> column of the entry
+                                associated with the user owning this permission.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
                         <term><property>affected_user_id</property></term>
                         <listitem>
-                            <para>The value of the <property>user_id</property>
-                                column of the entry associated with the user
-                                    <emphasis>affected</emphasis> by this
-                                permission. This is the user that would be the
-                                object of the operation represented by this
-                                permission.</para>
-                        </listitem>
-                    </varlistentry>
-                    <varlistentry>
-                        <term><property>permission</property></term>
-                        <listitem>
-                            <para>The permission being granted. This column can
-                                have one of four possible values:
-                                    <constant>ADMINISTER</constant>, which
-                                grants the ability to add or remove permissions
-                                which affect the user,
-                                <constant>READ</constant>, which grants the
-                                ability to read data associated with the user,
-                                    <constant>UPDATE</constant>, which grants
-                                the ability to update data associated with the
-                                user, or <constant>DELETE</constant>, which
-                                grants the ability to delete the user.</para>
-                        </listitem>
-                    </varlistentry>
-                </variablelist>
-            </section>
-            <section>
-                <title>Connection Permissions</title>
-                <indexterm>
-                    <primary><classname>guacamole_connection_permission</classname></primary>
-                </indexterm>
-                <para>Connection permissions are defined by entries in the
-                        <classname>guacamole_connection_permission</classname>
-                    table. Each entry grants permission for a specific user to
-                    perform a specific operation on an existing
-                    connection.</para>
-                <para>The <classname>guacamole_connection_permission</classname>
-                    table contains the following columns:</para>
-                <variablelist>
-                    <varlistentry>
-                        <term><property>user_id</property></term>
-                        <listitem>
-                            <para>The value of the <property>user_id</property>
-                                column of the entry associated with the user
-                                owning this permission.</para>
-                        </listitem>
-                    </varlistentry>
-                    <varlistentry>
-                        <term><property>connection_id</property></term>
-                        <listitem>
-                            <para>The value of the
-                                    <property>connection_id</property> column of
-                                the entry associated with the connection
-                                affected by this permission. This is the
-                                connection that would be the object of the
+                            <para>The value of the <property>user_id</property> column of the entry
+                                associated with the user <emphasis>affected</emphasis> by this
+                                permission. This is the user that would be the object of the
                                 operation represented by this permission.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
                         <term><property>permission</property></term>
                         <listitem>
-                            <para>The permission being granted. This column can
-                                have one of four possible values:
-                                    <constant>ADMINISTER</constant>, which
-                                grants the ability to add or remove permissions
-                                which affect the connection,
-                                    <constant>READ</constant>, which grants the
-                                ability to read data associated with the
-                                connection (a prerequesite for connecting),
-                                    <constant>UPDATE</constant>, which grants
-                                the ability to update data associated with the
-                                connection, or <constant>DELETE</constant>,
-                                which grants the ability to delete the
-                                connection.</para>
+                            <para>The permission being granted. This column can have one of four
+                                possible values: <constant>ADMINISTER</constant>, which grants the
+                                ability to add or remove permissions which affect the user,
+                                    <constant>READ</constant>, which grants the ability to read data
+                                associated with the user, <constant>UPDATE</constant>, which grants
+                                the ability to update data associated with the user, or
+                                    <constant>DELETE</constant>, which grants the ability to delete
+                                the user.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+            </section>
+            <section>
+                <title>Connection permissions</title>
+                <indexterm>
+                    <primary><classname>guacamole_connection_permission</classname></primary>
+                </indexterm>
+                <para>Connection permissions are defined by entries in the
+                        <classname>guacamole_connection_permission</classname> table. Each entry
+                    grants permission for a specific user to perform a specific operation on an
+                    existing connection.</para>
+                <para>The <classname>guacamole_connection_permission</classname> table contains the
+                    following columns:</para>
+                <variablelist>
+                    <varlistentry>
+                        <term><property>user_id</property></term>
+                        <listitem>
+                            <para>The value of the <property>user_id</property> column of the entry
+                                associated with the user owning this permission.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>connection_id</property></term>
+                        <listitem>
+                            <para>The value of the <property>connection_id</property> column of the
+                                entry associated with the connection affected by this permission.
+                                This is the connection that would be the object of the operation
+                                represented by this permission.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>permission</property></term>
+                        <listitem>
+                            <para>The permission being granted. This column can have one of four
+                                possible values: <constant>ADMINISTER</constant>, which grants the
+                                ability to add or remove permissions which affect the connection,
+                                    <constant>READ</constant>, which grants the ability to read data
+                                associated with the connection (a prerequesite for connecting),
+                                    <constant>UPDATE</constant>, which grants the ability to update
+                                data associated with the connection, or <constant>DELETE</constant>,
+                                which grants the ability to delete the connection.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+            </section>
+            <section>
+                <title>Connection group permissions</title>
+                <indexterm>
+                    <primary><classname>guacamole_connection_group_permission</classname></primary>
+                </indexterm>
+                <para>Connection group permissions are defined by entries in the
+                        <classname>guacamole_connection_group_permission</classname> table. Each
+                    entry grants permission for a specific user to perform a specific operation on
+                    an existing connection group.</para>
+                <para>The <classname>guacamole_connection_group_permission</classname> table
+                    contains the following columns:</para>
+                <variablelist>
+                    <varlistentry>
+                        <term><property>user_id</property></term>
+                        <listitem>
+                            <para>The value of the <property>user_id</property> column of the entry
+                                associated with the user owning this permission.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>connection_group_id</property></term>
+                        <listitem>
+                            <para>The value of the <property>connection_group_id</property> column
+                                of the entry associated with the connection group affected by this
+                                permission. This is the connection group that would be the object of
+                                the operation represented by this permission.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>permission</property></term>
+                        <listitem>
+                            <para>The permission being granted. This column can have one of four
+                                possible values: <constant>ADMINISTER</constant>, which grants the
+                                ability to add or remove permissions which affect the connection
+                                group, <constant>READ</constant>, which grants the ability to read
+                                data associated with the connection group,
+                                    <constant>UPDATE</constant>, which grants the ability to update
+                                data associated with the connection group, or
+                                    <constant>DELETE</constant>, which grants the ability to delete
+                                the connection group (and implicitly its contents).</para>
                         </listitem>
                     </varlistentry>
                 </variablelist>

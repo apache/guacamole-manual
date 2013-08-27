@@ -204,10 +204,19 @@
                     <varlistentry>
                         <term><type>CREATE_CONNECTION</type></term>
                         <listitem>
-                            <para>Allows creation of new connections. If a user
-                                has this permission, they will see the
-                                connection management interface and the "Manage"
-                                button.</para>
+                            <para>Allows creation of new connections. If a user has this permission,
+                                they will see the connection management interface and the "Manage"
+                                button. Within this interface, they will be able to create new
+                                connections.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><type>CREATE_CONNECTION_GROUP</type></term>
+                        <listitem>
+                            <para>Allows creation of new connections groups. If a user has this
+                                permission, they will see the connection management interface and
+                                the "Manage" button. Within this interface, they will be able to
+                                create new connection groups.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
@@ -311,14 +320,13 @@
                     <varlistentry>
                         <term><type>READ</type></term>
                         <listitem>
-                            <para>Allows the connection to be read. A particular
-                                connection will not appear in the connection
-                                list nor in the connection management section
-                                unless the user viewing it has <type>READ</type>
-                                permission on that specific connection.
-                                    <type>READ</type> permission is required for
-                                a user to have permission to actually use a
-                                connection.</para>
+                            <para>Allows the connection to be read. A particular connection will not
+                                appear in the connection list nor in the connection management
+                                section unless the user viewing it has <type>READ</type> permission
+                                on that specific connection. <type>READ</type> permission is
+                                required for a user to have permission to actually use a connection,
+                                unless that connection is part of a balancing connection group for
+                                which the user has <type>READ</type> permission.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
@@ -331,17 +339,64 @@
                     </varlistentry>
                 </variablelist>
             </section>
+            <section>
+                <title>Connection group permissions</title>
+                <para>Connection group permissions grant access to operations that affect a specific
+                    connection group. Connection group permissions are extremely similar to
+                    connection permissions, with some minor differences.</para>
+                <variablelist>
+                    <varlistentry>
+                        <term><type>ADMINISTER</type></term>
+                        <listitem>
+                            <para>Allows changing visibility of the connection group. A user with
+                                    <type>ADMINISTER</type> permission on a connection group can add
+                                and remove permissions related to that connection group. Users with
+                                    <type>ADMINISTER</type> permission on a balancing connection
+                                group can see the contents of that group. To users without
+                                    <type>ADMINISTER</type> permission, a balancing group looks like
+                                a connection.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><type>DELETE</type></term>
+                        <listitem>
+                            <para>Allows deletion of the associated connection group. This is
+                                distinct from the <type>ADMINISTER</type> permission which deals
+                                only with modification to the permissions associated with a
+                                connection group. A user with this permission will see the "Delete"
+                                button when editing the corresponding connection group.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><type>READ</type></term>
+                        <listitem>
+                            <para>Allows the connection group to be read. A particular connection
+                                group will not appear in the connection list nor in the connection
+                                management section unless the user viewing it has <type>READ</type>
+                                permission on that specific connection group. <type>READ</type>
+                                permission is required for a user to have permission to actually use
+                                a connection.</para>
+                            <para>A user with <type>READ</type> permission on a group will also be
+                                able to see any contained connections or groups for which they also
+                                have <type>READ</type> permission. <type>READ</type> permission is
+                                not sufficient to see the contents of a balancing group.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><type>UPDATE</type></term>
+                        <listitem>
+                            <para>Allows the connection group to be updated. This means editing the
+                                connection group's name, type, or contents.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+            </section>
         </section>
         <section>
             <title>Connections and history</title>
-            <para>As of Guacamole 0.8.0, authentication modules no longer simply
-                return a <classname>GuacamoleConfiguration</classname> and rely
-                on the web application to handle the connection. Authentication
-                modules must now return <classname>Connection</classname>
-                objects which each implement a
-                    <methodname>connect()</methodname> function. When this
-                function is called, the connection must be made if permission is
-                available.</para>
+            <para>Authentication modules must return <classname>Connection</classname> objects which
+                each implement a <methodname>connect()</methodname> function. When this function is
+                called, the connection must be made if permission is available.</para>
             <para>This new separation of concerns makes more sense when you
                 consider that as connecting is an operation on a
                     <classname>Connection</classname>, access to performing that
