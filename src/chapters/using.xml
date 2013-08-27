@@ -351,7 +351,7 @@
                     />
                 </imageobject>
                 <caption>
-                    <para>The new "Manage" button</para>
+                    <para>The "Manage" button</para>
                 </caption>
             </mediaobject>
         </informalfigure>
@@ -386,10 +386,9 @@
                     </caption>
                 </mediaobject>
             </informalfigure>
-            <para>To edit a user, just click on the user you wish to edit. A
-                small dialog will display allowing you to change the user's
-                password, add or remove administrative permissions, and add or
-                remove access to specific connections.</para>
+            <para>To edit a user, just click on the user you wish to edit. A small dialog will
+                display allowing you to change the user's password, add or remove administrative
+                permissions, and add or remove access to specific connections or groups.</para>
             <para>If you have delete permission on the user, you will also see a
                 "Delete" button. Clicking this button will permanently delete
                 the user.</para>
@@ -410,14 +409,14 @@
             <indexterm>
                 <primary>connection management</primary>
             </indexterm>
-            <para>To add a new connection, type the name of the new connection
-                within the text box inside the connection management section,
-                and click the "Add" button. This name should be descriptive, but
-                must also be unique. The new connection will be added, but will
-                initially only be usable by administrators and your current
-                user. To add access to the new connection to another existing
-                user, you must edit that user, checking the box corresponding to
-                the new connection.</para>
+            <para>To add a new connection, click the "New Connection" button. A connection creation
+                dialog will appear, allowing you to enter the details of the connection, such as its
+                location, parameters, and name. This name should be descriptive, but must also be
+                unique.</para>
+            <para>Once you click "Save", the new connection will be added, but will initially only
+                be usable by administrators and your current user. To add access to the new
+                connection to another existing user, you must edit that user, checking the box
+                corresponding to the new connection.</para>
             <informalfigure>
                 <mediaobject>
                     <imageobject>
@@ -434,6 +433,8 @@
                 displaying all parameters associated with the connection,
                 allowing you to change the protocol, associated parameters, and
                 to view the connection history.</para>
+            <para>Connections can also be renamed or moved by altering the contents of the "Name" or
+                "Location" fields.</para>
             <para>If you have delete permission on the connection, you will also
                 see a "Delete" button. Clicking this button will permanently
                 delete the connection.</para>
@@ -448,6 +449,54 @@
                     </caption>
                 </mediaobject>
             </informalfigure>
+            <section>
+                <title>Grouping connections</title>
+                <indexterm>
+                    <primary>connection groups</primary>
+                </indexterm>
+                <indexterm>
+                    <primary>groups</primary>
+                </indexterm>
+                <para>Connections can be placed within groups for purposes of organization or load
+                    balancing. Each group is displayed in connection lists as a "+" symbol followed
+                    by its name. The group can be expanded revealing any contained connections or
+                    groups. If the group is a balancing group, the group can be used as a
+                    connection, and the least-used contained connection will be used.</para>
+                <para>To add a new connection group, click the "New Group" button. A connection
+                    group creation dialog will appear, allowing you to enter the details of the
+                    group. Just as with connections, you can enter the location and name, which
+                    should be descriptive and unique. Duplicate names are not allowed.</para>
+                <informalfigure>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/edit-group.png" format="PNG"
+                                contentwidth="3in"/>
+                        </imageobject>
+                        <caption>
+                            <para>Editing a connection group</para>
+                        </caption>
+                    </mediaobject>
+                </informalfigure>
+                <para>You can edit existing connection groups by clicking on them within the
+                    administration interface, just like with users and connections. From within the
+                    dialog that appears, you can rename, move, and change the properties of existing
+                    connection groups.</para>
+            </section>
+            <section>
+                <title>Balancing vs. organizational groups</title>
+                <para>Connection groups can be either "organizational" or "balancing". Each group
+                    can contain any number of other connections or groups, but the semantics of the
+                    group change depending on the type.</para>
+                <para>An organizational group behaves exactly as a folder or directory in a file
+                    system. It simply contains connections and other groups, but provides no other
+                    behavior. Clicking on an organizational group within a connection list will
+                    expand the group, revealing its contents.</para>
+                <para>A balancing group behaves as a connection. It dynamically balances load across
+                    the connections it contains, choosing the connection with the fewest number of
+                    active users. Unlike organizational groups, clicking on a balancing group causes
+                    a new connection to be opened. The actual underlying connection used depends on
+                    which connection has the least load at the time the group was clicked.</para>
+            </section>
         </section>
     </section>
 
