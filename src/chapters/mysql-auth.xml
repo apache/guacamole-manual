@@ -454,7 +454,7 @@ INSERT INTO guacamole_connection_parameter VALUES (@id, 'port', '<replaceable>59
         <section>
             <title>Connections groups</title>
             <indexterm>
-                <primary><classname>guacamole_connection</classname>_group</primary>
+                <primary><classname>guacamole_connection_group</classname></primary>
             </indexterm>
             <para>Each connection group has an entry in the
                     <classname>guacamole_connection_group</classname> table, with a one-to-many

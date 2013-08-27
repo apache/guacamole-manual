@@ -273,16 +273,14 @@
                     <varlistentry>
                         <term><type>UPDATE</type></term>
                         <listitem>
-                            <para>Allows the user to be updated. This means
-                                altering the user's password or adding or
-                                removing permissions from that user. Note the
-                                difference between <type>UPDATE</type> and
-                                    <type>ADMINISTER</type>: the
-                                    <type>UPDATE</type> permission allows the
-                                permissions <emphasis>of</emphasis> a user to be
-                                changed, while <type>ADMINISTER</type>
-                                permission allows permissions <emphasis>relating
-                                    to</emphasis> a user to be changed.</para>
+                            <para>Allows the user to be updated. This means altering the user's
+                                password or adding or removing permissions from that user. Note the
+                                difference between <type>UPDATE</type> and <type>ADMINISTER</type>:
+                                the <type>UPDATE</type> permission allows the permissions
+                                    <emphasis>of</emphasis> a user to be changed, while
+                                    <type>ADMINISTER</type> permission allows permissions
+                                    <emphasis>relating to</emphasis> a user to be changed. A user
+                                with this permission will see the "Manage" button.</para>
                         </listitem>
                     </varlistentry>
                 </variablelist>
@@ -299,10 +297,10 @@
                     <varlistentry>
                         <term><type>ADMINISTER</type></term>
                         <listitem>
-                            <para>Allows changing visibility of the connection.
-                                A user with <type>ADMINISTER</type> permission
-                                on a connection can add and remove permissions
-                                related to that connection.</para>
+                            <para>Allows changing visibility of the connection. A user with
+                                    <type>ADMINISTER</type> permission on a connection can add and
+                                remove permissions related to that connection, and will see the
+                                "Manage" button.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
@@ -332,9 +330,9 @@
                     <varlistentry>
                         <term><type>UPDATE</type></term>
                         <listitem>
-                            <para>Allows the connection to be updated. This
-                                means editing the connection's parameters or
-                                changing the connection's protocol.</para>
+                            <para>Allows the connection to be updated. This means editing the
+                                connection's parameters or changing the connection's protocol. A
+                                user with this permission will see the "Manage" button.</para>
                         </listitem>
                     </varlistentry>
                 </variablelist>
@@ -350,11 +348,11 @@
                         <listitem>
                             <para>Allows changing visibility of the connection group. A user with
                                     <type>ADMINISTER</type> permission on a connection group can add
-                                and remove permissions related to that connection group. Users with
-                                    <type>ADMINISTER</type> permission on a balancing connection
-                                group can see the contents of that group. To users without
-                                    <type>ADMINISTER</type> permission, a balancing group looks like
-                                a connection.</para>
+                                and remove permissions related to that connection group, and will
+                                see the "Manage" button. Users with <type>ADMINISTER</type>
+                                permission on a balancing connection group can see the contents of
+                                that group. To users without <type>ADMINISTER</type> permission, a
+                                balancing group looks like a connection.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
@@ -386,7 +384,8 @@
                         <term><type>UPDATE</type></term>
                         <listitem>
                             <para>Allows the connection group to be updated. This means editing the
-                                connection group's name, type, or contents.</para>
+                                connection group's name, type, or contents. A user with this
+                                permission will see the "Manage" button.</para>
                         </listitem>
                     </varlistentry>
                 </variablelist>
