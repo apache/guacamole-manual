@@ -467,25 +467,26 @@ INSERT INTO guacamole_connection_parameter VALUES (@id, 'port', '<replaceable>59
                 <varlistentry>
                     <term><property>connection_group_id</property></term>
                     <listitem>
-                        <para>The unique integer associated with each connection. This value is
-                            generated automatically when a new entry is inserted into the
-                                <classname>guacamole_connection</classname> table.</para>
+                        <para>The unique integer associated with each connection group. This value
+                            is generated automatically when a new entry is inserted into the
+                                <classname>guacamole_connection_group</classname> table.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><property>connection_group_name</property></term>
                     <listitem>
-                        <para>The unique name associated with each connection. This value must be
-                            specified manually, and must be different from any existing connection
-                            name in the table. References to connections in other tables use the
-                            value from <property>connection_id</property>, not
-                                <property>connection_name</property>.</para>
+                        <para>The unique name associated with each connection group. This value must
+                            be specified manually, and must be different from any existing
+                            connection group name in the same connection group. References to
+                            connections in other tables use the value from
+                                <property>connection_group_id</property>, not
+                                <property>connection_group_name</property>.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><property>type</property></term>
                     <listitem>
-                        <para>The type of this connection. This can be either
+                        <para>The type of this connection group. This can be either
                                 <type>ORGANIZATIONAL</type> or <type>BALANCING</type>.</para>
                     </listitem>
                 </varlistentry>
