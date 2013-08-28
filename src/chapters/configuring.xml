@@ -441,7 +441,7 @@ basic-user-mapping: /etc/guacamole/user-mapping.xml</programlisting>
                                 PulseAudio. This service is capable of communicating over the
                                 network. If PulseAudio is configured to allow TCP connections,
                                 Guacamole can connect to your PulseAudio server and combine its
-                                audio with the grapics coming over VNC.</para>
+                                audio with the graphics coming over VNC.</para>
                             <para>Beware that you must disable authentication within PulseAudio in
                                 order to allow Guacamole to connect, as Guacamole does not yet
                                 support this. The amount of latency you will see depends largely on

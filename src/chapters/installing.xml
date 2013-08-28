@@ -84,15 +84,15 @@ OK</computeroutput>
                 Tomcat for this and future installs of Guacamole.</para>
             <important>
                 <para>The Debian and Ubuntu packages will set up <package>guacd</package> such that
-                    it runs as its own reduced-privlege <code>guacd</code> user, for the sake of
+                    it runs as its own reduced-privilege <code>guacd</code> user, for the sake of
                     security. Similarly, the <filename>user-mapping.xml</filename> file will only be
                     readable by users in the <code>guacamole-web</code> group, as it will
                     potentially contain sensitive information like passwords in plain text.</para>
-                <para>The guacamole-tomcat package will automcatically put the tomcat6 user in the
+                <para>The guacamole-tomcat package will automatically put the tomcat6 user in the
                         <code>guacamole-web</code> group, but if you are installing Tomcat manually
                     or using another servlet container, <emphasis>you must ensure your servlet
                         container's user is a member of the <code>guacamole-web</code>
-                        group</emphasis>. If you do not do this, your serlvet container will not be
+                        group</emphasis>. If you do not do this, your servlet container will not be
                     able to read <filename>user-mapping.xml</filename>, and all attempts to login to
                     Guacamole will fail.</para>
             </important>
@@ -373,7 +373,7 @@ guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
                                     built with support for Ogg Vorbis, and protocols supporting
                                     audio will use Ogg Vorbis compression when possible.</para>
                                 <para>Otherwise, sound will only be encoded as WAV (uncompressed),
-                                    and will only be availbe of your browser also supports
+                                    and will only be available if your browser also supports
                                     WAV.</para>
                             </entry>
                         </row>
@@ -468,7 +468,7 @@ Type "make" to compile guacamole-server.
                 </indexterm>The <option>--with-init-dir=/etc/init.d</option> shown above prepares
                 the build to install a startup script for <package>guacd</package> into the
                     <filename>/etc/init.d</filename> directory, such that we can later easily
-                configure <package>guacd</package> to start automatically on bot. If you do not wish
+                configure <package>guacd</package> to start automatically on boot. If you do not wish
                 guacd to start automatically at boot, leave off the <option>--with-init-dir</option>
                 option. If the directory containing your distribution's startup scripts differs from
                 the common <filename>/etc/init.d</filename>, replace
@@ -702,7 +702,7 @@ Resolving deltas: 100% (3942/3942), done.</computeroutput>
             standard locations, and then creating symbolic links to them so that Tomcat can find
             them.</para>
         <para>Ultimately, the <filename>guacamole.war</filename> file, or a symbolic link to it,
-            must be found by your servler container within the directory it uses for
+            must be found by your servlet container within the directory it uses for
                 <filename>.war</filename> files, and the <filename>guacamole.properties</filename>
             file must be within the <filename>.guacamole</filename> directory in the home directory
             of the user your servlet container runs as. Legacy installations will have
@@ -829,7 +829,7 @@ guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
         <section xml:id="http-proxy">
             <title>Using HTTP</title>
             <para>If you don't wish to use AJP, the default HTTP connector (or any HTTP connector)
-                can be used without any noticable performance hit.</para>
+                can be used without any noticeable performance hit.</para>
             <section>
                 <title>Configuring Tomcat for HTTP</title>
                 <para>Tomcat is most likely already configured to listen for HTTP connections on

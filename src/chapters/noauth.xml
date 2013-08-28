@@ -14,7 +14,7 @@
         your computer, you can do this with the "noauth" extension.</para>
     <para>guacamole-auth-noauth removes all authentication, giving anyone that visits your server
         access to the same set of connections dictated by an XML configuration file. It is an
-        authentication imlementation in its own right, and thus doesn't truly "disable"
+        authentication implementation in its own right, and thus doesn't truly "disable"
         authentication per se. Instead, it grants anyone access without requiring a username or
         password.</para>
     <para>The security implications of this should be obvious - anyone with access to your Guacamole

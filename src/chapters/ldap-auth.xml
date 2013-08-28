@@ -110,7 +110,7 @@ ldap-config-base-dn:     <replaceable>ou=groups,dc=example,dc=net</replaceable><
                     <listitem>
                         <para>The attribute which contains the username which is part of the DN for
                             all Guacamole users. Usually, this is <property>uid</property>. This
-                            works together with the user base DN to detemine the full DN of each
+                            works together with the user base DN to determine the full DN of each
                             user logging in.</para>
                         <para>For example, if the base DN is
                                 "<systemitem>ou=people,dc=example,dc=net</systemitem>" (like the
@@ -140,7 +140,7 @@ ldap-config-base-dn:     <replaceable>ou=groups,dc=example,dc=net</replaceable><
         </section>
         <section>
             <title>Installing the schema</title>
-            <para>Guacamol's LDAP support requires modifications to the standard LDAP schema, adding
+            <para>Guacamole's LDAP support requires modifications to the standard LDAP schema, adding
                 support for an additional object called <classname>guacConfigGroup</classname>. This
                 object and its use will be explained in more detail later. For now, we must add
                 support for this object to the LDAP directory through the provided schema
@@ -149,7 +149,7 @@ ldap-config-base-dn:     <replaceable>ou=groups,dc=example,dc=net</replaceable><
                     <filename>guacConfigGroup.schema</filename>, a standards-compliant file
                 describing the schema, and <filename>guacConfigGroup.ldif</filename>, an LDIF file
                 which was automatically generated from the <filename>.schema</filename> file
-                specically for update the schema of an OpenLDAP server. We will be working with
+                specifically for update the schema of an OpenLDAP server. We will be working with
                     <filename>guacConfigGroup.ldif</filename>. If you are not using OpenLDAP, your
                 LDAP server should provide documentation for modifying its schema.</para>
             <para>The <classname>guacConfigGroup</classname> object can be created using the

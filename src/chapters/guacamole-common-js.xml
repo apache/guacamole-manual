@@ -18,11 +18,10 @@
         Guacamole client, as well as tunneling mechanisms for getting protocol
         data out of JavaScript and into guacd or the server side of a web
         application.</para>
-    <para>For convenience, it also provides mouse and keyboard abstraction
-        objects that translate JavaScipt mouse, touch, and keyboard events into
-        consistent data that Guacamole can more easily digest. The extendable
-        on-screen keyboard that was developed for the Guacamole web application
-        is also included.</para>
+    <para>For convenience, it also provides mouse and keyboard abstraction objects that translate
+        JavaScript mouse, touch, and keyboard events into consistent data that Guacamole can more
+        easily digest. The extendable on-screen keyboard that was developed for the Guacamole web
+        application is also included.</para>
     <section xml:id="guacamole-client">
         <title>Guacamole client</title>
         <para>The main benefit to using the JavaScript API is the full Guacamole

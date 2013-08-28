@@ -137,7 +137,7 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
                 <primary>SQL scripts</primary>
             </indexterm>
             <para>The SQL scripts that create the database schema and default administrator user are
-                included in the archive you downoaded within the <filename>schema/</filename>
+                included in the archive you downloaded within the <filename>schema/</filename>
                 directory. They are named such that they can be run in order with one
                 command:</para>
             <informalexample>
@@ -309,7 +309,7 @@ INSERT INTO guacamole_user (username, password_salt, password_hash)
                 <primary><classname>guacamole_connection_parameter</classname></primary>
             </indexterm>
             <para>Each connection has an entry in the <classname>guacamole_connection</classname>
-                table, with a one-to-many relationship to parameters, stored as name/value paris in
+                table, with a one-to-many relationship to parameters, stored as name/value pairs in
                 the <classname>guacamole_connection_parameter</classname> table.</para>
             <para>The <classname>guacamole_connection</classname> table is simply a pairing of a
                 unique and descriptive name with the protocol to be used for the connection. It
@@ -625,7 +625,7 @@ INSERT INTO guacamole_connection_group (connection_group_name, type) VALUES ('<r
                                 possible values: <constant>ADMINISTER</constant>, which grants the
                                 ability to add or remove permissions which affect the connection,
                                     <constant>READ</constant>, which grants the ability to read data
-                                associated with the connection (a prerequesite for connecting),
+                                associated with the connection (a prerequisite for connecting),
                                     <constant>UPDATE</constant>, which grants the ability to update
                                 data associated with the connection, or <constant>DELETE</constant>,
                                 which grants the ability to delete the connection.</para>
