@@ -57,7 +57,7 @@
                         http://maven.apache.org/maven-v4_0_0.xsd">
 
     &lt;modelVersion>4.0.0&lt;/modelVersion>
-    &lt;groupId>net.sourceforge.guacamole&lt;/groupId>
+    &lt;groupId>org.glyptodon.guacamole&lt;/groupId>
     &lt;artifactId>guacamole-auth-tutorial&lt;/artifactId>
     &lt;packaging>jar&lt;/packaging>
     &lt;version>0.8.0&lt;/version>
@@ -88,14 +88,14 @@
 
         &lt;!-- Guacamole Java API -->
         &lt;dependency>
-            &lt;groupId>net.sourceforge.guacamole&lt;/groupId>
+            &lt;groupId>org.glyptodon.guacamole&lt;/groupId>
             &lt;artifactId>guacamole-common&lt;/artifactId>
             &lt;version>0.8.0&lt;/version>
         &lt;/dependency>
 
         &lt;!-- Guacamole Extension API -->
         &lt;dependency>
-            &lt;groupId>net.sourceforge.guacamole&lt;/groupId>
+            &lt;groupId>org.glyptodon.guacamole&lt;/groupId>
             &lt;artifactId>guacamole-ext&lt;/artifactId>
             &lt;version>0.8.0&lt;/version>
         &lt;/dependency>
@@ -120,16 +120,16 @@
         <para>Naturally, we need the actual authentication plugin skeleton code. While you can put
             this in whatever file and package you want, for the sake of this tutorial, we will
             assume you are using
-                <classname>net.sourceforge.guacamole.auth.TutorialAuthenticationProvider</classname>.</para>
+                <classname>org.glyptodon.guacamole.auth.TutorialAuthenticationProvider</classname>.</para>
         <example>
             <title>A skeleton <classname>TutorialAuthenticationProvider</classname></title>
-            <programlisting>package net.sourceforge.guacamole.auth;
+            <programlisting>package org.glyptodon.guacamole.auth;
 
 import java.util.Map;
-import net.sourceforge.guacamole.GuacamoleException;
-import net.sourceforge.guacamole.net.auth.simple.SimpleAuthenticationProvider;
-import net.sourceforge.guacamole.net.auth.Credentials;
-import net.sourceforge.guacamole.protocol.GuacamoleConfiguration;
+import org.glyptodon.guacamole.GuacamoleException;
+import org.glyptodon.guacamole.net.auth.simple.SimpleAuthenticationProvider;
+import org.glyptodon.guacamole.net.auth.Credentials;
+import org.glyptodon.guacamole.protocol.GuacamoleConfiguration;
 
 public class TutorialAuthenticationProvider extends SimpleAuthenticationProvider {
        
@@ -207,9 +207,9 @@ public class TutorialAuthenticationProvider extends SimpleAuthenticationProvider
         <example>
             <title><filename>TutorialProperties.java</filename>, a class containing property
                 definitions</title>
-            <programlisting>package net.sourceforge.guacamole.auth;
+            <programlisting>package org.glyptodon.guacamole.auth;
 
-import net.sourceforge.guacamole.properties.StringGuacamoleProperty;
+import org.glyptodon.guacamole.properties.StringGuacamoleProperty;
 
 public class TutorialGuacamoleProperties {
 

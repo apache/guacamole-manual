@@ -109,7 +109,7 @@
                              http://maven.apache.org/maven-v4_0_0.xsd">
 
     &lt;modelVersion>4.0.0&lt;/modelVersion>
-    &lt;groupId>net.sourceforge.guacamole&lt;/groupId>
+    &lt;groupId>org.glyptodon.guacamole&lt;/groupId>
     &lt;artifactId>guacamole-tutorial&lt;/artifactId>
     &lt;packaging>war&lt;/packaging>
     &lt;version>0.8.0&lt;/version>
@@ -266,7 +266,7 @@
                 &lt;configuration>
                     &lt;overlays>
                         &lt;overlay>
-                            &lt;groupId>net.sourceforge.guacamole&lt;/groupId>
+                            &lt;groupId>org.glyptodon.guacamole&lt;/groupId>
                             &lt;artifactId>guacamole-common-js&lt;/artifactId>
                             &lt;type>zip&lt;/type>
                         &lt;/overlay>
@@ -300,7 +300,7 @@
 
         &lt;!-- Main Guacamole library -->
         &lt;dependency>
-            &lt;groupId>net.sourceforge.guacamole&lt;/groupId>
+            &lt;groupId>org.glyptodon.guacamole&lt;/groupId>
             &lt;artifactId>guacamole-common&lt;/artifactId>
             &lt;version>0.8.0&lt;/version>
             &lt;scope>compile&lt;/scope>
@@ -308,7 +308,7 @@
 
         &lt;!-- Guacamole JavaScript library -->
         &lt;dependency>
-            &lt;groupId>net.sourceforge.guacamole&lt;/groupId>
+            &lt;groupId>org.glyptodon.guacamole&lt;/groupId>
             &lt;artifactId>guacamole-common-js&lt;/artifactId>
             &lt;version>0.7.1&lt;/version>
             &lt;type>zip&lt;/type>
@@ -375,18 +375,18 @@
                 defining a basic implementation of a tunnel servlet class:</para>
             <informalexample>
                 <programlisting>
-package net.sourceforge.guacamole.net.example;
+package org.glyptodon.guacamole.net.example;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import net.sourceforge.guacamole.GuacamoleException;
-import net.sourceforge.guacamole.net.GuacamoleSocket;
-import net.sourceforge.guacamole.net.GuacamoleTunnel;
-import net.sourceforge.guacamole.net.InetGuacamoleSocket;
-import net.sourceforge.guacamole.protocol.ConfiguredGuacamoleSocket;
-import net.sourceforge.guacamole.protocol.GuacamoleConfiguration;
-import net.sourceforge.guacamole.servlet.GuacamoleHTTPTunnelServlet;
-import net.sourceforge.guacamole.servlet.GuacamoleSession;
+import org.glyptodon.guacamole.GuacamoleException;
+import org.glyptodon.guacamole.net.GuacamoleSocket;
+import org.glyptodon.guacamole.net.GuacamoleTunnel;
+import org.glyptodon.guacamole.net.InetGuacamoleSocket;
+import org.glyptodon.guacamole.protocol.ConfiguredGuacamoleSocket;
+import org.glyptodon.guacamole.protocol.GuacamoleConfiguration;
+import org.glyptodon.guacamole.servlet.GuacamoleHTTPTunnelServlet;
+import org.glyptodon.guacamole.servlet.GuacamoleSession;
 
 public class TutorialGuacamoleTunnelServlet
     extends GuacamoleHTTPTunnelServlet {
@@ -441,7 +441,7 @@ public class TutorialGuacamoleTunnelServlet
         &lt;description>Tunnel servlet.&lt;/description>
         &lt;servlet-name>Tunnel&lt;/servlet-name>
         &lt;servlet-class>
-            net.sourceforge.guacamole.net.example.TutorialGuacamoleTunnelServlet
+            org.glyptodon.guacamole.net.example.TutorialGuacamoleTunnelServlet
         &lt;/servlet-class>
     &lt;/servlet>
 
