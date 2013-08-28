@@ -78,7 +78,7 @@ ldap-hostname:           <replaceable>localhost</replaceable>
 ldap-port:               <replaceable>389</replaceable>
 ldap-user-base-dn:       <replaceable>ou=people,dc=example,dc=net</replaceable>
 ldap-username-attribute: <replaceable>uid</replaceable>
-ldap-config-base-dn:     <replaceable>dc=example,dc=net</replaceable></programlisting>
+ldap-config-base-dn:     <replaceable>ou=groups,dc=example,dc=net</replaceable></programlisting>
             <para>The LDAP support depends on the following properties, as shown in the example
                 above:</para>
             <variablelist>
@@ -112,10 +112,12 @@ ldap-config-base-dn:     <replaceable>dc=example,dc=net</replaceable></programli
                             all Guacamole users. Usually, this is <property>uid</property>. This
                             works together with the user base DN to detemine the full DN of each
                             user logging in.</para>
-                        <para>For example, if the base DN is "ou=people,dc=example,dc=net" (like the
-                            example above) and the username attribute is "uid", then a person
-                            attempting to login as "user" would effectively bind with the LDAP
-                            directory as "uid=user,ou=people,dc=example,dc=net".</para>
+                        <para>For example, if the base DN is
+                                "<systemitem>ou=people,dc=example,dc=net</systemitem>" (like the
+                            example above) and the username attribute is "<property>uid</property>",
+                            then a person attempting to login as "<systemitem>user</systemitem>"
+                            would effectively bind with the LDAP directory as
+                                "<systemitem>uid=user,ou=people,dc=example,dc=net</systemitem>".</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -144,10 +146,10 @@ ldap-config-base-dn:     <replaceable>dc=example,dc=net</replaceable></programli
                 support for this object to the LDAP directory through the provided schema
                 file.</para>
             <para>The <filename>schema/</filename> directory contains two files:
-                guacConfigGroup.schema, a standards-compliant file describing the schema, and
-                    <filename>guacConfigGroup.ldif</filename>, an LDIF file which was automatically
-                generated from the <filename>.schema</filename> file specically for update the
-                schema of an OpenLDAP server. We will be working with
+                    <filename>guacConfigGroup.schema</filename>, a standards-compliant file
+                describing the schema, and <filename>guacConfigGroup.ldif</filename>, an LDIF file
+                which was automatically generated from the <filename>.schema</filename> file
+                specically for update the schema of an OpenLDAP server. We will be working with
                     <filename>guacConfigGroup.ldif</filename>. If you are not using OpenLDAP, your
                 LDAP server should provide documentation for modifying its schema.</para>
             <para>The <classname>guacConfigGroup</classname> object can be created using the
@@ -185,14 +187,89 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
         <indexterm>
             <primary>schema</primary>
         </indexterm>
-        <para/>
+        <para>Guacamole's LDAP support allows users and connections to be managed purely within an
+            LDAP directory defined in <filename>guacamole.properties</filename>. This is
+            accomplished with a minimum of changes to the standard LDAP schema - all Guacamole users
+            are traditional LDAP users and share the same mechanism of authentication. The only new
+            type of object required is a representation for Guacamole connections,
+                <classname>guacConfigGroup</classname>, which was added to your server's schema
+            during the install process above.</para>
         <section>
             <title>Users</title>
-            <para/>
+            <para>All Guacamole users, as far as the LDAP support is concerned, are LDAP users with
+                standard LDAP credentials. When a user signs in to Guacamole, their username and
+                password will be used to bind to the LDAP server. If this bind operation is
+                successful, the available connections are queried from the directory and the user is
+                allowed in.</para>
         </section>
         <section>
             <title>Connections and parameters</title>
-            <para/>
+            <para>Each connection is represented by an instance of the
+                    <classname>guacConfigGroup</classname> object class, which is simply an extended
+                version of the standard LDAP <classname>groupOfNames</classname> which provides a
+                protocol and set of parameters. Only members of the
+                    <classname>guacConfigGroup</classname> will have access to the corresponding
+                connection.</para>
+            <para>The <classname>guacConfigGroup</classname> object class provides two new
+                attributes in addition to those provided by
+                <classname>groupOfNames</classname>:</para>
+            <variablelist>
+                <varlistentry>
+                    <term><property>guacConfigProtocol</property></term>
+                    <listitem>
+                        <para>The protocol associated with the connection, such as "vnc" or "rdp".
+                            This attribute is required for every
+                                <classname>guacConfigGroup</classname> and can be given only
+                            once.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>guacConfigParameter</property></term>
+                    <listitem>
+                        <para>The name and value of a parameter for the specified protocol. This is
+                            given as
+                                    <code><replaceable>name</replaceable>=<replaceable>value</replaceable></code>,
+                            where "name" is the name of the parameter as defined by the
+                            documentation for the protocol specified, and "value" is any allowed
+                            value for that parameter.</para>
+                        <para>This attribute can be given multiple times for the same
+                            connection.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <para>For example, to create a new VNC connection which connects to localhost at port
+                5900, while granting access to <systemitem>user1</systemitem> and
+                    <systemitem>user2</systemitem>, you could create an <filename>.ldif</filename>
+                file like the following:</para>
+            <informalexample>
+                <programlisting>dn: cn=Example Connection,ou=groups,dc=example,dc=net
+objectClass: guacConfigGroup
+objectClass: groupOfNames
+cn: Example Connection
+guacConfigProtocol: vnc
+guacConfigParameter: hostname=localhost
+guacConfigParameter: port=5900
+guacConfigParameter: password=secret
+member: cn=user1,ou=people,dc=example,dc=net
+member: cn=user2,ou=people,dc=example,dc=net</programlisting>
+            </informalexample>
+            <para>The new connection can then be created using the <command>ldapadd</command>
+                utility:</para>
+            <informalexample>
+                <screen><prompt>$</prompt> <userinput>ldapadd -x -D <replaceable>cn=admin,dc=example,dc=net</replaceable> -W -f <replaceable>example-connection.ldif</replaceable></userinput>
+<computeroutput>Enter LDAP Password: 
+adding new entry "cn=Example Connection,ou=groups,dc=example,dc=net"
+</computeroutput>
+<prompt>$</prompt></screen>
+            </informalexample>
+            <para>Where <systemitem>cn=admin,dc=example,dc=net</systemitem> is an administrator
+                account with permission to create new entries, and
+                    <filename>example-connection.ldif</filename> is the name of the
+                    <filename>.ldif</filename> file you just created.</para>
+            <para>There is, of course, no need to use only the standard LDAP utilities to create
+                connections and users. There are useful graphical environments for manipulating LDAP
+                directories, such as Apache Directory Studio, which make many of the tasks given
+                above much easier.</para>
         </section>
     </section>
 </chapter>
