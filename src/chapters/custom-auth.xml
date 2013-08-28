@@ -102,16 +102,6 @@
 
     &lt;/dependencies>
 
-    &lt;repositories>
-        
-        &lt;!-- Central Guacamole repository -->
-        &lt;repository>
-            &lt;id>guac-dev&lt;/id>
-            &lt;url>http://guac-dev.org/repo&lt;/url>
-        &lt;/repository>
-        
-    &lt;/repositories>
-
 &lt;/project></programlisting>
         </example>
         <para>We won't need to update this <filename>pom.xml</filename> throughout the rest of the

@@ -322,25 +322,6 @@
             <para>The Java Servlet API will be provided by your servlet container, so Maven does not
                 need to download it during the build, and it need not exist in any Maven
                 repository.</para>
-            <para>The Guacamole APIs <emphasis>are</emphasis> required, and are
-                    <emphasis>not</emphasis> in any standard Maven repository, thus we must add the
-                URL of the upstream Maven repository exposed by the Guacamole project. This
-                repository will always have all stable releases of the Guacamole APIs:</para>
-            <informalexample>
-                <programlisting>    ...
-
-    &lt;repositories>
-
-        &lt;!-- Main Guacamole repository -->
-        &lt;repository>
-            &lt;id>guac-dev&lt;/id>
-            &lt;url>http://guac-dev.org/repo&lt;/url>
-        &lt;/repository>
-
-    &lt;/repositories>
-
-    ...</programlisting>
-            </informalexample>
             <para>With these changes, the web application will still build at this point, even
                 though no Java code has been written yet. You may wish to verify that everything
                 still works.</para>
