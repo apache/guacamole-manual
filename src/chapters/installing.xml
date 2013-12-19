@@ -392,8 +392,8 @@ guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
 <prompt>$</prompt></screen>
             </informalexample>
             <para>If you want the absolute latest code, and don't care that the code hasn't been as
-                rigorously tested as the code in stable releases, you can also clone the the
-                Guacamole team's git repository on GitHub:</para>
+                rigorously tested as the code in stable releases, you can also clone the Guacamole
+                team's git repository on GitHub:</para>
             <informalexample>
                 <screen><prompt>$</prompt> <userinput>git clone <uri>git://github.com/glyptodon/guacamole-server.git</uri></userinput>
 <computeroutput>Cloning into 'guacamole-server'...
