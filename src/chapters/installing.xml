@@ -813,7 +813,7 @@ guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
     Order allow,deny
     Allow from all
     ProxyPass ajp://<replaceable>HOSTNAME</replaceable>:<replaceable>8009</replaceable>/guacamole/ max=20 flushpackets=on
-    ProxyPassReverse ajp://<replaceable>HOSTNAME</replaceable>:<replaceable>8009</replaceable>/guacamole/
+    ProxyPassReverse <replaceable>http://HOSTNAME</replaceable>/guacamole/
 &lt;/Location></programlisting>
                 </informalexample>
                 <para>The most important thing in this entire section is the option
@@ -824,6 +824,12 @@ guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
                     buffering this stream breaks Guacamole's communication.</para>
                 <para><emphasis>If the option <option>flushpackets=on</option> is not specified,
                         Guacamole will not work</emphasis>.</para>
+                <para>Note also the protocol of the URL specified in the
+                        <parameter>ProxyPassReverse</parameter> directive. The protocol
+                        <emphasis>MUST</emphasis> match the protocol that will be used to connect to
+                    to Apache. The example above specifies <replaceable>http</replaceable>, but if
+                    you are using HTTPS then the URL specified here will have to reflect
+                    this.</para>
             </section>
         </section>
         <section xml:id="http-proxy">
@@ -915,7 +921,7 @@ CustomLog  <replaceable>/var/log/apache2/guac.log</replaceable> common env=!dont
     Order allow,deny
     Allow from all
     ProxyPass ajp://<replaceable>HOSTNAME</replaceable>:<replaceable>8009</replaceable>/guacamole/ max=20 flushpackets=on
-    ProxyPassReverse ajp://<replaceable>HOSTNAME</replaceable>:<replaceable>8009</replaceable>/guacamole/
+    ProxyPassReverse <replaceable>http://HOSTNAME</replaceable>/guacamole/
     ProxyPassReverseCookiePath /guacamole/ <replaceable>/new-path/</replaceable>
 &lt;/Location></programlisting>
             </informalexample>
@@ -925,6 +931,10 @@ CustomLog  <replaceable>/var/log/apache2/guac.log</replaceable> common env=!dont
                 instructing <package>mod_proxy</package> to update the cookie path, changing
                     <uri>/guacamole/</uri> to <uri>/new-path/</uri>, the same path specified when
                 the location was declared.</para>
+            <para>Be careful when specifying the URL in the <parameter>ProxyPassReverse</parameter>
+                directive. The protocol or the URL <emphasis>MUST</emphasis> match the protocol that
+                will be used to connect to to Apache, even if it differs from the protocol being
+                used to connect to Tomcat.</para>
         </section>
     </section>
 </chapter>
