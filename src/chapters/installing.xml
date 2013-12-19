@@ -932,7 +932,7 @@ CustomLog  <replaceable>/var/log/apache2/guac.log</replaceable> common env=!dont
                     <uri>/guacamole/</uri> to <uri>/new-path/</uri>, the same path specified when
                 the location was declared.</para>
             <para>Be careful when specifying the URL in the <parameter>ProxyPassReverse</parameter>
-                directive. The protocol or the URL <emphasis>MUST</emphasis> match the protocol that
+                directive. The protocol of the URL <emphasis>MUST</emphasis> match the protocol that
                 will be used to connect to to Apache, even if it differs from the protocol being
                 used to connect to Tomcat.</para>
         </section>
