@@ -112,7 +112,7 @@
     &lt;groupId>org.glyptodon.guacamole&lt;/groupId>
     &lt;artifactId>guacamole-tutorial&lt;/artifactId>
     &lt;packaging>war&lt;/packaging>
-    &lt;version>0.8.0&lt;/version>
+    &lt;version>0.9.0&lt;/version>
     &lt;name>guacamole-tutorial&lt;/name>
     &lt;url>http://guac-dev.org/&lt;/url>
 
@@ -302,7 +302,7 @@
         &lt;dependency>
             &lt;groupId>org.glyptodon.guacamole&lt;/groupId>
             &lt;artifactId>guacamole-common&lt;/artifactId>
-            &lt;version>0.8.0&lt;/version>
+            &lt;version>0.9.0&lt;/version>
             &lt;scope>compile&lt;/scope>
         &lt;/dependency>
 
@@ -310,7 +310,7 @@
         &lt;dependency>
             &lt;groupId>org.glyptodon.guacamole&lt;/groupId>
             &lt;artifactId>guacamole-common-js&lt;/artifactId>
-            &lt;version>0.7.1&lt;/version>
+            &lt;version>0.9.0&lt;/version>
             &lt;type>zip&lt;/type>
             &lt;scope>runtime&lt;/scope>
         &lt;/dependency>
@@ -455,13 +455,9 @@ public class TutorialGuacamoleTunnelServlet
                 <programlisting>    ...
     &lt;body>
 
-        &lt;!-- Client core scripts -->
+        &lt;!-- Guacamole -->
         &lt;script type="text/javascript"
-            src="guacamole-common-js/layer.js">&lt;/script>
-        &lt;script type="text/javascript"
-            src="guacamole-common-js/tunnel.js">&lt;/script>
-        &lt;script type="text/javascript"
-            src="guacamole-common-js/guacamole.js">&lt;/script>
+            src="guacamole-common-js/all.min.js">&lt;/script>
 
         &lt;!-- Display -->
         &lt;div id="display">&lt;/div>
@@ -510,14 +506,7 @@ public class TutorialGuacamoleTunnelServlet
                 their corresponding input events, calling whichever function of the Guacamole client
                 is appropriate to send the input event through the tunnel to guacd:</para>
             <informalexample>
-                <programlisting>        ...
-
-        &lt;!-- Input abstractions -->
-        &lt;script type="text/javascript"
-            src="guacamole-common-js/keyboard.js">&lt;/script>
-        &lt;script type="text/javascript"
-            src="guacamole-common-js/mouse.js">&lt;/script>
-
+                <programlisting>        
         ...
 
         &lt;!-- Init -->
