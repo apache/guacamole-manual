@@ -138,6 +138,22 @@
                         the <property>lib-directory</property> property.</para>
                 </listitem>
             </varlistentry>
+            <varlistentry>
+                <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+                        <primary>enable-websocket</primary>
+                    </indexterm><indexterm>
+                        <primary>WebSocket</primary>
+                    </indexterm><parameter>enable-websocket</parameter></term>
+                <listitem>
+                    <para><constant>true</constant> if WebSocket support should be enabled,
+                            <constant>false</constant> (or simply leave the property out)
+                        otherwise.</para>
+                    <para>WebSocket is supported in Guacamole for Tomcat 7 and Jetty 8. Note that if
+                        Tomcat is used, it must be version 7.0.37 or newer. Older versions of Tomcat
+                        are only supported for HTTP. Guacamole does not yet support Tomcat 8 for
+                        WebSocket.</para>
+                </listitem>
+            </varlistentry>
         </variablelist>
         <example>
             <title>Minimal <filename>guacamole.properties</filename></title>
@@ -154,6 +170,21 @@ auth-provider: net.sourceforge.guacamole.net.basic.BasicFileAuthenticationProvid
 # Properties used by BasicFileAuthenticationProvider
 basic-user-mapping: /etc/guacamole/user-mapping.xml</programlisting>
         </example>
+        <section>
+            <title>Should I use WebSocket?</title>
+            <indexterm>
+                <primary>WebSocket</primary>
+            </indexterm>
+            <para>Yes, if you can.</para>
+            <para>WebSocket has performance benefits and a much lower overhead on the client, so
+                enabling WebSocket is beneficial if you know your servlet container supports it. In
+                the event that Guacamole cannot connect using WebSocket, it will immediately and
+                transparently fall back to using HTTP. If things are regularly not working as
+                expected, and you suspect it's the WebSocket support, you can always disable it by
+                editing <filename>guacamole.properties</filename>.</para>
+            <para>When eventually WebSocket is widely supported across servlet containers and
+                network hardware, it will likely be enabled by default.</para>
+        </section>
     </section>
     <section xml:id="basic-auth">
         <title>Using the default authentication</title>
