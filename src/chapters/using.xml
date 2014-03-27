@@ -137,6 +137,41 @@
                 </mediaobject>
             </informalfigure>
         </section>
+        <section>
+            <title>Transferring files</title>
+            <indexterm>
+                <primary>file transfer</primary>
+            </indexterm>
+            <para>Guacamole supports file transfer if it is enabled in the underlying protocol.
+                Currently, both RDP and SSH have support for file transfer, though with slightly
+                different semantics. RDP provides file transfer by emulating a virtual drive, while
+                SSH provides file transfer by using SFTP.</para>
+            <para>To transfer files to the remote computer, drag the files into your browser window.
+                If file transfer is enabled, you will see a notification popup showing upload
+                progress. If file transfer is not enabled or not supported, you will instead see a
+                notification with an error message describing the problem.</para>
+            <para>The method for downloading files from the remote computer depends on the protocol.
+                In the case of RDP, you must drag, copy, move, or save the files into the special
+                "Download" folder located in the virtual drive. All files dropped into this folder
+                will automatically begin uploading to the client, and thus downloading through your
+                browser.</para>
+            <para>To download files over SSH, you must use the <command>guacctl</command> utility.
+                The <command>guacctl</command> utility is included with Guacamole, and allows you to
+                initiate a file download or to change the directory in which uploaded files will be
+                placed:</para>
+            <informalexample>
+                <screen><prompt>$</prompt> <userinput>guacctl</userinput>
+<computeroutput>guacctl 0.8.0, Guacamole SSH session control utility.
+Usage: guacctl [OPTION] [FILE]...
+
+    -d, --download         download each of the files listed.
+    -s, --set-directory    set the destination directory for future uploaded 
+                           files.</computeroutput>
+<prompt>$</prompt> <userinput>guacctl -d <replaceable>FILENAME</replaceable></userinput>
+<prompt>$</prompt> <userinput>guacctl -s <replaceable>DIRECTORY</replaceable></userinput>
+$</screen>
+            </informalexample>
+        </section>
         <section xml:id="logging-out-of-guacamole">
             <title>Logging out</title>
             <indexterm>

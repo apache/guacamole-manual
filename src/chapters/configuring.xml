@@ -754,6 +754,36 @@ basic-user-mapping: /etc/guacamole/user-mapping.xml</programlisting>
                         </entry>
                     </row>
                     <row>
+                        <entry><parameter>enable-drive</parameter></entry>
+                        <entry>
+                            <para><indexterm>
+                                    <primary>enabling file transfer</primary>
+                                </indexterm><indexterm>
+                                    <primary>file transfer</primary>
+                                </indexterm><indexterm>
+                                    <primary>RDP</primary>
+                                    <secondary>file transfer</secondary>
+                                </indexterm>File transfer is disabled by default, but with file
+                                transfer enabled, RDP users can transfer files to and from a virtual
+                                drive which persists on the Guacamole server. Enable file transfer
+                                support by setting this parameter to "true".</para>
+                            <para>Files will be stored in the directory specified by the
+                                    "<parameter>drive-path</parameter>" parameter, which is required
+                                if file transfer is enabled.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry><parameter>drive-path</parameter></entry>
+                        <entry>
+                            <para>The directory on the Guacamole server in which transfered files
+                                should be stored. This directory must be accessible by guacd and
+                                both readable and writable by the user that runs guacd.
+                                    <emphasis>This parameter does not refer to a directory on the
+                                    RDP server.</emphasis></para>
+                            <para>If file transfer is not enabled, this parameter is ignored.</para>
+                        </entry>
+                    </row>
+                    <row>
                         <entry><parameter>console</parameter></entry>
                         <entry>
                             <para><indexterm>
@@ -912,6 +942,51 @@ basic-user-mapping: /etc/guacamole/user-mapping.xml</programlisting>
                                 requested by the server.</para>
                             <para>If you are using NLA, authentication must be enabled by
                                 definition.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry><parameter>remote-app</parameter></entry>
+                        <entry>
+                            <para><indexterm>
+                                    <primary>RemoteApp</primary>
+                                </indexterm>Specifies the RemoteApp to start on the remote desktop.
+                                If supported by your remote desktop server, this application, and
+                                only this application, will be visible to the user.</para>
+                            <para>Windows requires a special notation for the names of remote
+                                applications. The names of remote applications must be prefixed with
+                                two vertical bars. For example, if you have created a remote
+                                application on your server for <filename>notepad.exe</filename> and
+                                have assigned it the name "notepad", you would set this parameter
+                                to: "||notepad".</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry><parameter>remote-app-dir</parameter></entry>
+                        <entry>
+                            <para>The working directory, if any, for the remote application. This
+                                parameter has no effect if RemoteApp is not in use.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry><parameter>remote-app-args</parameter></entry>
+                        <entry>
+                            <para>The command-line arguments, if any, for the remote application.
+                                This parameter has no effect if RemoteApp is not in use.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry><parameter>static-channels</parameter></entry>
+                        <entry>
+                            <para>A comma-separated list of static channel names to open and expose
+                                as pipes. If you wish to communicate between an application running
+                                on the remote desktop and JavaScript, this is the best way to do it.
+                                Guacamole will open an outbound pipe with the name of the static
+                                channel. If JavaScript needs to communicate back in the other
+                                direction, it should respond by opening another pipe with the same
+                                name.</para>
+                            <para>Guacamole allows any number of static channels to be opened, but
+                                protocol restrictions of RDP limit the size of each channel name to
+                                7 characters.</para>
                         </entry>
                     </row>
                 </tbody>
