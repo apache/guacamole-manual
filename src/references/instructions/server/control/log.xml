@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xml:id="log-instruction" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>log</title>
+    <indexterm>
+        <primary>log</primary>
+    </indexterm>
+    <para>The log instruction sends an arbitrary string for debugging purposes. This instruction
+        will be ignored by Guacamole clients, but can be seen in protocol dumps if such dumps become
+        necessary. Sending a log instruction can help add context when searching for the cause of a
+        fault in protocol support.</para>
+    <variablelist>
+        <varlistentry>
+            <term><parameter>message</parameter></term>
+            <listitem>
+                <para>An arbitrary, human-readable message.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
+</section>

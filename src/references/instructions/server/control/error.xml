@@ -18,6 +18,14 @@
                 <para>An arbitrary message describing the error</para>
             </listitem>
         </varlistentry>
+        <varlistentry>
+            <term><parameter>status</parameter></term>
+            <listitem>
+                <para>The Guacamole status code describing the error. For a list of status codes,
+                    see the table in <xref xmlns:xlink="http://www.w3.org/1999/xlink"
+                        linkend="status-codes"/>.</para>
+            </listitem>
+        </varlistentry>
     </variablelist>
 
 </section>

@@ -54,9 +54,13 @@
     </section>
     <section xml:id="streaming-instructions">
         <title>Streaming instructions</title>
+        <xi:include href="instructions/server/stream/ack.xml"/>
         <xi:include href="instructions/server/stream/audio.xml"/>
+        <xi:include href="instructions/server/stream/blob.xml"/>
+        <xi:include href="instructions/server/stream/end.xml"/>
         <xi:include href="instructions/server/stream/file.xml"/>
         <xi:include href="instructions/server/stream/nest.xml"/>
+        <xi:include href="instructions/server/stream/pipe.xml"/>
         <xi:include href="instructions/server/stream/video.xml"/>
     </section>
     <section xml:id="client-handshake-instructions">
@@ -94,6 +98,8 @@
             <secondary>control</secondary>
         </indexterm>
         <xi:include href="instructions/server/control/error.xml"/>
+        <xi:include href="instructions/server/control/log.xml"/>
+        <xi:include href="instructions/server/control/nop.xml"/>
         <xi:include href="instructions/server/control/sync.xml"/>
     </section>
     <section xml:id="client-events">

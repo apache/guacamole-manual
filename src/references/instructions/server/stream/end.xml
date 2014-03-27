@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xml:id="end-instruction" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>end</title>
+    <indexterm>
+        <primary>end</primary>
+    </indexterm>
+    <para>The end instruction terminates an open stream, freeing any client-side or server-side
+        resources. Data sent to a terminated stream will be ignored. Terminating a stream with the
+        end instruction only denotes the end of the stream and does not imply an error.</para>
+    <variablelist>
+        <varlistentry>
+            <term><parameter>stream</parameter></term>
+            <listitem>
+                <para>The index of the stream the corresponding blob was received on.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
+</section>

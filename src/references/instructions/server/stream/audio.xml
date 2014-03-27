@@ -6,11 +6,17 @@
     <indexterm>
         <primary>audio</primary>
     </indexterm>
-    <para>Sends a full chunk of audio data to the client. This chunk must be a
-        full, self-contained, audio file encoded with the codec specified by the
-        mimetype given, which must be a mimetype previously specified by the
-        client during the handshake procedure.</para>
+    <para>Allocates a new stream, associating it with the given audio metadata. Audio data will
+        later be sent along the stream with blob instructions. The mimetype given must be a mimetype
+        previously specified by the client during the handshake procedure, and the duration of the
+        audio must be known ahead of time.</para>
     <variablelist>
+        <varlistentry>
+            <term><parameter>stream</parameter></term>
+            <listitem>
+                <para>The index of the stream to allocate.</para>
+            </listitem>
+        </varlistentry>
         <varlistentry>
             <term><parameter>channel</parameter></term>
             <listitem>
@@ -41,12 +47,6 @@
                     durations losslessly (MP3, for example), as well as for
                     scheduling playback of future chunks within the same
                     channel.</para>
-            </listitem>
-        </varlistentry>
-        <varlistentry>
-            <term><parameter>data</parameter></term>
-            <listitem>
-                <para>The actual audio data, base64-encoded.</para>
             </listitem>
         </varlistentry>
     </variablelist>

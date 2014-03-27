@@ -7,8 +7,8 @@
     <indexterm>
         <primary>size</primary>
     </indexterm>
-    <para>Specifies the client's optimal screen size. This is the second
-        instruction sent during the handshake phase.</para>
+    <para>Specifies the client's optimal screen size and resolution. This is the second instruction
+        sent during the handshake phase.</para>
     <variablelist>
         <varlistentry>
             <term><parameter>width</parameter></term>
@@ -20,6 +20,12 @@
             <term><parameter>height</parameter></term>
             <listitem>
                 <para>The optimal screen height.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>dpi</parameter></term>
+            <listitem>
+                <para>The optimal screen resolution, in approximate DPI.</para>
             </listitem>
         </varlistentry>
     </variablelist>

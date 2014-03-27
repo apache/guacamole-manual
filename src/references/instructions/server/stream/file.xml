@@ -6,12 +6,14 @@
     <indexterm>
         <primary>file</primary>
     </indexterm>
-    <para>Sends a file to the client.</para>
+    <para>Allocates a new stream, associating it with the given arbitrary file metadata. The
+        contents of the file will later be sent along the stream with blob instructions. The full
+        size of the file need not be known ahead of time.</para>
     <variablelist>
         <varlistentry>
-            <term><parameter>name</parameter></term>
+            <term><parameter>stream</parameter></term>
             <listitem>
-                <para>A human-readable name associated with the file.</para>
+                <para>The index of the stream to allocate.</para>
             </listitem>
         </varlistentry>
         <varlistentry>
@@ -21,9 +23,9 @@
             </listitem>
         </varlistentry>
         <varlistentry>
-            <term><parameter>data</parameter></term>
+            <term><parameter>filename</parameter></term>
             <listitem>
-                <para>The actual audio data, base64-encoded.</para>
+                <para>The name of the file, as it would be saved on a filesystem.</para>
             </listitem>
         </varlistentry>
     </variablelist>

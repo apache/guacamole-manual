@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xml:id="blob-instruction" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>blob</title>
+    <indexterm>
+        <primary>blob</primary>
+    </indexterm>
+    <para>Sends a blob of data along the given stream. This blob of data is arbitrary,
+        base64-encoded data, and only has meaning to the Guacamole client or server through the
+        metadata assigned to the stream when the stream was allocated.</para>
+    <variablelist>
+        <varlistentry>
+            <term><parameter>stream</parameter></term>
+            <listitem>
+                <para>The index of the stream along which the given data should be sent.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>data</parameter></term>
+            <listitem>
+                <para>The base64-encoded data to send.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
+</section>

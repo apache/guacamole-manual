@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xml:id="pipe-instruction" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>pipe</title>
+    <indexterm>
+        <primary>pipe</primary>
+    </indexterm>
+    <para>Allocates a new stream, associating it with the given arbitrary named pipe metadata. The
+        contents of the pipe will later be sent along the stream with blob instructions. Pipes in
+        the Guacamole protocol are unidirectional, named pipes, very similar to a UNIX FIFO or pipe.
+        It is up to client-side code to handle pipe data appropriately, likely based upon the name
+        of the pipe, which is arbitrary. Pipes may be opened by either the client or the
+        server.</para>
+    <variablelist>
+        <varlistentry>
+            <term><parameter>stream</parameter></term>
+            <listitem>
+                <para>The index of the stream to allocate.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>mimetype</parameter></term>
+            <listitem>
+                <para>The mimetype of the data being sent along the pipe.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>name</parameter></term>
+            <listitem>
+                <para>The arbitrary name of the pipe, which may have special meaning to client-side
+                    code.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
+</section>

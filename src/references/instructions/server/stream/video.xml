@@ -6,18 +6,23 @@
     <indexterm>
         <primary>video</primary>
     </indexterm>
-    <para>Sends a full chunk of audio video to the client. This chunk must be a
-        full, self-contained, video file encoded with the codec specified by the
-        mimetype given, which must be a mimetype previously specified by the
-        client during the handshake procedure.</para>
+    <para>Allocates a new stream, associating it with the given video metadata. Video data will
+        later be sent along the stream with blob instructions. The mimetype given must be a mimetype
+        previously specified by the client during the handshake procedure, and the duration of the
+        audio must be known ahead of time.</para>
     <variablelist>
+        <varlistentry>
+            <term><parameter>stream</parameter></term>
+            <listitem>
+                <para>The index of the stream to allocate.</para>
+            </listitem>
+        </varlistentry>
         <varlistentry>
             <term><parameter>layer</parameter></term>
             <listitem>
-                <para>The index of the layer to stream the video data into.
-                    Future drawing operations into this layer will block until
-                    the video has finished playing. Playback of this video will
-                    not block operations in other layers.</para>
+                <para>The index of the layer to stream the video data into. Future drawing
+                    operations into this layer will block until the video has finished playing.
+                    Playback of this video will not block operations in other layers.</para>
             </listitem>
         </varlistentry>
         <varlistentry>
@@ -29,15 +34,8 @@
         <varlistentry>
             <term><parameter>duration</parameter></term>
             <listitem>
-                <para>The duration of the video data being sent, in
-                    milliseconds. This value may be a decimal, and need not be
-                    expressed in whole milliseconds.</para>
-            </listitem>
-        </varlistentry>
-        <varlistentry>
-            <term><parameter>data</parameter></term>
-            <listitem>
-                <para>The actual video data, base64-encoded.</para>
+                <para>The duration of the video data being sent, in milliseconds. This value may be
+                    a decimal, and need not be expressed in whole milliseconds.</para>
             </listitem>
         </varlistentry>
     </variablelist>
