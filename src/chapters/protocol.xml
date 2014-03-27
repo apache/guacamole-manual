@@ -63,11 +63,11 @@
             <programlisting>4.args,8.hostname,4.port,8.password,13.swap-red-blue,9.read-only;</programlisting>
         </informalexample>
         <para>After receiving the list of arguments, the client is required to respond with the list
-            of supported audio and video mimetypes, the optimal display size, and the values for all
-            arguments available, even if blank. If any of these requirements are left out, the
-            connection will close:</para>
+            of supported audio and video mimetypes, the optimal display size and resolution, and the
+            values for all arguments available, even if blank. If any of these requirements are left
+            out, the connection will close:</para>
         <informalexample>
-            <programlisting>4.size,4.1024,3.768;
+            <programlisting>4.size,4.1024,3.768,2.96;
 5.audio,9.audio/ogg;
 5.video;
 7.connect,9.localhost,4.5900,0.,0.,0.;</programlisting>
@@ -75,9 +75,9 @@
         <para>For clarity, we've put each instruction on its own line, but in the real protocol, no
             newlines exist between instructions. In fact, if there is anything after an instruction
             other than the start of a new instruction, the connection is closed.</para>
-        <para>Here, the client is specifying that the optimal display size is 1024x768 and it
-            supports Ogg Vorbis audio, but no video. It wants to connect to localhost at port 5900,
-            and is leaving the three other parameters blank.</para>
+        <para>Here, the client is specifying that the optimal display size is 1024x768 at 96 DPI and
+            it supports Ogg Vorbis audio, but no video. It wants to connect to localhost at port
+            5900, and is leaving the three other parameters blank.</para>
         <para>Once these instructions have been sent by the client, the actual interactive phase
             begins, and drawing and event instructions pass back and forth until the connection is
             closed.</para>
@@ -94,15 +94,8 @@
             instructions with the same stream index is reassembled by the client in the order
             received, and instructions within that data are executed immediately once
             completed.</para>
-        <para>This is particularly important when transferring large amounts of data, such as a
-            video stream or a file, since doing so would normally cause all other instructions to
-            wait. As instructions in the Guacamole protocol are atomic and sent in a single stream,
-            if you wish to transfer (for example) 100 megabytes of data, future instructions would
-            have to wait for that single, gigantic 100 megabyte instruction to finish being written.
-            If this instruction were sent via nest instructions instead, it could be broken up into
-            smaller chunks (say, around 4 or 8 kilobytes) which would not disturb the responsiveness
-            of the connection, and the delay before other instructions can be sent becomes
-            negligible.</para>
+        <para>This is particularly important when data needs to be trickled to the client rather
+            than as a single atomic instruction.</para>
     </section>
     <section xml:id="guacamole-protocol-drawing">
         <title>Drawing</title>
@@ -314,13 +307,20 @@
         </section>
     </section>
     <section xml:id="guacamole-audio-video">
-        <title>Audio and video</title>
-        <para>As of the 0.7.0 release, Guacamole supports transfer of both audio and video data. By
-            the nature of the Guacamole protocol, you must know the size and duration of the audio
-            or video data before it is sent. Because of this, audio and video data is usually sent
-            in chunks, where variance in chunk size gives a trade-off between responsiveness and
-            stability. Sending large audio or video chunks is one of the main uses of protocol
-            nesting.</para>
+        <title>Multimedia streaming and pipes</title>
+        <para>Guacamole supports transfer of both audio and video data, as well as files and
+            arbitrary named pipes. Streams can be allocated with audio or video instructions for the
+            sake of playing media, with file instructions for file transfer, or with "pipe"
+            instructions for transfer or abtrary data between client and server.</para>
+        <para>By the nature of the Guacamole protocol, you must know the duration of the audio or
+            video data before it is sent. This is because sequential playing of multiple audio or
+            video chunks must be carefully timed by the client to avoid gaps in playback. Even a gap
+            of only one millisecond will produce an audible "click" in audio playback.</para>
+        <para>As far as audio and video are concerned, variance in chunk size gives a trade-off
+            between responsiveness and perceived quality. Larger chunks will provide smoother audio
+            and video, but have noticable lag compared to smaller chunks. Smaller chunks provide
+            less lag, but may produce noticable clicking or stutter if the timing of each chunk is
+            not perfect.</para>
     </section>
     <section xml:id="guacamole-protocol-events">
         <title>Events</title>
