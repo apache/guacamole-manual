@@ -60,17 +60,15 @@
 
             </question>
             <answer>
+                <para>Guacamole actually does have support for WebSocket. It's far more common that
+                    WebSocket ends up not being used either due to a lack of support in the servlet
+                    container or to intervening proxies.</para>
 
-                <para>The main technical answer here is that there is no need. The tunnel used by
-                    Guacamole is exactly equivalent to WebSocket in terms of efficiency and latency,
-                    and is more compatible with proxies and existing browsers. </para>
-
-                <para>The historical reason for not going with WebSocket initially was lack of
-                    browser support and lack of a true standard. </para>
-
-                <para>Now that WebSocket is standardized, support for WebSocket is present in
-                    Guacamole, but it is largely unused because the existing tunnel works just as
-                    well and with more browsers. </para>
+                <para>Historically, Guacamole had no WebSocket support at all. This was due to a
+                    lack of browser support and lack of a true standard. Overall, it didn't matter
+                    as there really wasn't any need: the tunnel used by Guacamole when WebSocket is
+                    not available is largely equivalent to WebSocket in terms of efficiency and
+                    latency, and is more compatible with proxies and existing browsers.</para>
 
             </answer>
         </qandaentry>
