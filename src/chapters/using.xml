@@ -155,10 +155,12 @@
                 "Download" folder located in the virtual drive. All files dropped into this folder
                 will automatically begin uploading to the client, and thus downloading through your
                 browser.</para>
-            <para>To download files over SSH, you must use the <command>guacctl</command> utility.
-                The <command>guacctl</command> utility is included with Guacamole, and allows you to
-                initiate a file download or to change the directory in which uploaded files will be
-                placed:</para>
+            <para><indexterm>
+                    <primary>guacctl</primary>
+                </indexterm>To download files over SSH, you must use the <command>guacctl</command>
+                utility. The <command>guacctl</command> utility is included with Guacamole, and
+                allows you to initiate a file download or to change the directory in which uploaded
+                files will be placed:</para>
             <informalexample>
                 <screen><prompt>$</prompt> <userinput>guacctl</userinput>
 <computeroutput>guacctl 0.8.0, Guacamole SSH session control utility.
@@ -171,6 +173,10 @@ Usage: guacctl [OPTION] [FILE]...
 <prompt>$</prompt> <userinput>guacctl -s <replaceable>DIRECTORY</replaceable></userinput>
 $</screen>
             </informalexample>
+            <para>You may also create a symbol link or alias to <command>guacctl</command> called
+                    <command>guacget</command>. When run as <command>guacget</command>, it behaves
+                as if the <option>--download</option> option was supplied and initiates a download
+                for each file specified on the command line.</para>
         </section>
         <section xml:id="logging-out-of-guacamole">
             <title>Logging out</title>
