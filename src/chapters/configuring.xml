@@ -411,6 +411,29 @@ basic-user-mapping: /etc/guacamole/user-mapping.xml</programlisting>
                         </entry>
                     </row>
                     <row>
+                        <entry><parameter>cursor</parameter></entry>
+                        <entry>
+                            <para><indexterm>
+                                    <primary>VNC</primary>
+                                    <secondary>mouse pointer</secondary>
+                                </indexterm>If set to "remote", the mouse pointer will be rendered
+                                remotely, and the local position of the mouse pointer will be
+                                indicated by a small dot.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry><parameter>autoretry</parameter></entry>
+                        <entry>
+                            <para><indexterm>
+                                    <primary>VNC</primary>
+                                    <secondary>retrying connections</secondary>
+                                </indexterm>The number of times to retry connecting before giving up
+                                and returning an error. In the case of a reverse connection, this is
+                                the number of times the connection process is allowed to time
+                                out.</para>
+                        </entry>
+                    </row>
+                    <row>
                         <entry><parameter>encodings</parameter></entry>
                         <entry>
                             <para><indexterm>
@@ -489,6 +512,30 @@ basic-user-mapping: /etc/guacamole/user-mapping.xml</programlisting>
                             <para>If this parameter is omitted, the default PulseAudio device will
                                 be used, which will be the PulseAudio server running on the same
                                 machine as guacd.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry><parameter>reverse-connect</parameter></entry>
+                        <entry>
+                            <para><indexterm>
+                                    <primary>VNC</primary>
+                                    <secondary>reverse connection</secondary>
+                                </indexterm>Whether reverse connection should be used. If set to
+                                "true", instead of connecting to a server at a given hostname and
+                                port, guacd will listen on the given port for inbound connections
+                                from a VNC server.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry><parameter>listen-timeout</parameter></entry>
+                        <entry>
+                            <para><indexterm>
+                                    <primary>VNC</primary>
+                                    <secondary>listen timeout</secondary>
+                                </indexterm>If reverse connection is in use, the maximum amount of
+                                time to wait for an inbound connection from a VNC server, in
+                                milliseconds. If blank, the default value is 5000 (five
+                                seconds).</para>
                         </entry>
                     </row>
                 </tbody>
