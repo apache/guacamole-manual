@@ -326,10 +326,10 @@ guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
                             </entry>
                         </row>
                         <row>
-                            <entry>libssh</entry>
+                            <entry>libssh2</entry>
                             <entry>Only for SSH.</entry>
                             <entry>
-                                <para>libssh is required for SSH support. If you do not wish to
+                                <para>libssh2 is required for SSH support. If you do not wish to
                                     build SSH support, this library is not needed.</para>
                             </entry>
                         </row>
@@ -354,14 +354,18 @@ guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
                         </row>
                         <row>
                             <entry>libssl</entry>
-                            <entry>No.</entry>
+                            <entry>For SSH and for SSL connections to guacd.</entry>
                             <entry>
                                 <para>libssl provides support for SSL and TLS - two common
                                     encryption schemes that make up the majority of encrypted web
                                     traffic.</para>
                                 <para>If you have libssl installed, guacd will be built with SSL
                                     support, allowing communication between the web application and
-                                    guacd to be encrypted.</para>
+                                    guacd to be encrypted. This library is also required for SSH
+                                    support for the sake of manipulating public/private keys.</para>
+                                <para>Without SSL support, there will be no option to encrypt
+                                    communication to guacd, and support for SSH cannot be
+                                    built.</para>
                             </entry>
                         </row>
                         <row>
@@ -387,8 +391,8 @@ guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
                 project web site will take the form of a <filename>.tar.gz</filename> archive which
                 you can extract from the command line:</para>
             <informalexample>
-                <screen><prompt>$</prompt> <userinput>tar -xzf guacamole-server-0.8.3.tar.gz</userinput>
-<prompt>$</prompt> <userinput>cd guacamole-server-0.8.3/</userinput>
+                <screen><prompt>$</prompt> <userinput>tar -xzf guacamole-server-0.9.0.tar.gz</userinput>
+<prompt>$</prompt> <userinput>cd guacamole-server-0.9.0/</userinput>
 <prompt>$</prompt></screen>
             </informalexample>
             <para>If you want the absolute latest code, and don't care that the code hasn't been as
@@ -437,14 +441,14 @@ checking whether build environment is sane... yes
 ...
 
 ------------------------------------------------
-guacamole-server version 0.8.3
+guacamole-server version 0.9.0
 ------------------------------------------------
 
    Library status:
 
      freerdp ............. yes
      pango ............... yes
-     libssh .............. yes
+     libssh2 ............. yes
      libssl .............. yes
      libVNCServer ........ yes
      libvorbis ........... yes
