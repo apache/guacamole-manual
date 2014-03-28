@@ -594,8 +594,8 @@ make[1]: Leaving directory `/home/zhz/guacamole/guacamole-server'</computeroutpu
                 project web site will take the form of a <filename>.tar.gz</filename> archive which
                 you can extract from the command line:</para>
             <informalexample>
-                <screen><prompt>$</prompt> <userinput>tar -xzf guacamole-client-0.8.3.tar.gz</userinput>
-<prompt>$</prompt> <userinput>cd guacamole-client-0.8.3/</userinput>
+                <screen><prompt>$</prompt> <userinput>tar -xzf guacamole-client-0.9.0.tar.gz</userinput>
+<prompt>$</prompt> <userinput>cd guacamole-client-0.9.0/</userinput>
 <prompt>$</prompt></screen>
             </informalexample>
             <para>As with <package>guacamole-server</package>, if you want the absolute latest code,
@@ -656,7 +656,7 @@ Resolving deltas: 100% (3942/3942), done.</computeroutput>
                 container.</para>
             <para>You will probably have to do this as the root user:</para>
             <informalexample>
-                <screen><prompt>#</prompt> <userinput>cp guacamole/target/guacamole-0.8.3.war /var/lib/tomcat6/webapps/guacamole.war</userinput>
+                <screen><prompt>#</prompt> <userinput>cp guacamole/target/guacamole-0.9.0.war /var/lib/tomcat6/webapps/guacamole.war</userinput>
 <prompt>#</prompt></screen>
             </informalexample>
             <para>The Guacamole web application also depends on a configuration file,
@@ -671,7 +671,7 @@ Resolving deltas: 100% (3942/3942), done.</computeroutput>
             <informalexample>
                 <screen><prompt>#</prompt> <userinput>mkdir /etc/guacamole</userinput>
 <prompt>#</prompt> <userinput>mkdir <replaceable>/usr/share/tomcat6</replaceable>/.guacamole</userinput>
-<prompt>#</prompt> <userinput>cp doc/guacamole.properties /etc/guacamole/guacamole.properties</userinput>
+<prompt>#</prompt> <userinput>cp guacamole/doc/example/guacamole.properties /etc/guacamole/guacamole.properties</userinput>
 <prompt>#</prompt> <userinput>ln -s /etc/guacamole/guacamole.properties <replaceable>/usr/share/tomcat6</replaceable>/.guacamole/</userinput>
 <prompt>#</prompt>           </screen>
             </informalexample>
