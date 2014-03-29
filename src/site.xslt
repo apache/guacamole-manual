@@ -34,7 +34,7 @@
     </xsl:param>
 
     <!-- Custom stylesheet -->
-    <xsl:param name="html.stylesheet" select="'../../guac.css'"/>
+    <xsl:param name="html.stylesheet" select="'gug.css'"/>
 
     <!-- Chunk only at chapter level -->
     <xsl:param name="chunk.section.depth" select="0"/>
