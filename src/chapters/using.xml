@@ -5,164 +5,53 @@
     xmlns:xi="http://www.w3.org/2001/XInclude">
 
     <title>Using Guacamole</title>
-
-    <section xml:id="logging-into-guacamole">
-        <title>Logging in</title>
-        <indexterm>
-            <primary>logging in</primary>
-        </indexterm>
-        <para>When you visit a Guacamole instance for the first time, you will see the login screen.
-            This screen authenticates you with Guacamole, allowing you to use Guacamole to interact
-            with one or more remote desktops. </para>
-        <para>Enter your username and password and click "login". You will then be given a list of
-            available remote desktop connections to choose from. If you have used Guacamole in that
-            specific web browser before, you will also see thumbnails of the screens of recently
-            used connections. </para>
-        <para>Keep in mind this is the login for Guacamole, and not necessarily the login for the
-            remote desktop you wish to connect to. The username and password you give Guacamole
-            grants you access to the Guacamole system only. The usernames and passwords required for
-            the remote desktops you have access to through Guacamole are independent. </para>
-        <informalfigure>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="../images/login.png" format="PNG" contentwidth="4in"/>
-                </imageobject>
-                <caption>
-                    <para> The Guacamole login screen. </para>
-                </caption>
-            </mediaobject>
-        </informalfigure>
-    </section>
-
-    <section xml:id="selecting-a-connection">
-        <title>Selecting a connection</title>
-        <indexterm>
-            <primary>connecting</primary>
-        </indexterm>
-        <para>Once logged in, you will be presented with a list of connections. Selecting a
-            connection from this list will open that connection in a new window or tab. The
-            connection list interface will remain open and running in the previous window or tab, as
-            it is the only access point for other connections, the clipboard, and settings.</para>
-        <para>Multiple connections can be used simultaneously. </para>
-        <informalfigure>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="../images/connection-list.png" format="PNG"
-                        contentwidth="4in"/>
-                </imageobject>
-                <caption>
-                    <para> List of available connections. </para>
-                </caption>
-            </mediaobject>
-        </informalfigure>
-        <para>If you don't wish to connect to any desktops, you can also logout from this screen by
-            clicking the "logout" button. Beware that this will disconnect you from any of your open
-            desktops, if you have any. </para>
-    </section>
-
-    <section xml:id="interacting-with-the-desktop">
-        <title>Interacting with the remote desktop</title>
-        <indexterm>
+    <para>When you visit a Guacamole instance for the first time, you will see the login screen.
+        This screen authenticates you with Guacamole, allowing you to use Guacamole to interact with
+        one or more remote desktops. Enter your username and password and click "login". Keep in
+        mind this is the login for Guacamole, and not necessarily the login for the remote desktop
+        you wish to connect to. The username and password you give Guacamole grants you access to
+        the Guacamole system only. The usernames and passwords required for the remote desktops are
+        independent of this.</para>
+    <para>If the correct username and password are provided, a list of available remote desktop
+        connections will be presented. This is the list of all connections which you have been
+        granted permission to access. If you have used Guacamole in this specific web browser
+        before, you will also see thumbnails of recently used connections. </para>
+    <para>Clicking on any connection will open that connection in a new window or tab, and multiple
+        connections can be used simultaneously.</para>
+    <para><indexterm>
             <primary>interacting</primary>
+        </indexterm>Guacamole provides an interface for accessing much of the functionality of a
+        desktop from within your web browser. The interface is intended to be seamless and
+        unobtrusive. Once you open a connection, you will see a realtime view of the remote display.
+        You can interact with this display just as you would your normal desktop. Your mouse and
+        keyboard will function as if they were connected directly to the remote machine.</para>
+    <section xml:id="file-transfer">
+        <title>Transferring files</title>
+        <indexterm>
+            <primary>file transfer</primary>
         </indexterm>
-        <para>Once you open a connection, you will see an image of a desktop. You can interact with
-            this image just as you would your normal desktop, or any remote desktop client. </para>
-        <para>Clicking on parts of the image will affect the remote desktop as if you were clicking
-            on the desktop directly. Typing causes keys to be typed remotely as if you were using a
-            keyboard connected directly to the remote machine. </para>
-        <informalfigure>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="../images/vnc.png" format="PNG" contentwidth="4in"/>
-                </imageobject>
-                <caption>
-                    <para> An active remote desktop. </para>
-                </caption>
-            </mediaobject>
-        </informalfigure>
-        <section xml:id="using-the-clipboard">
-            <title>Using the clipboard</title>
-            <indexterm>
-                <primary>clipboard</primary>
-            </indexterm>
-            <para>The clipboard can be manipulated using the clipboard editor accessible near the
-                bottom of the connection list interface.</para>
-            <para>Web browsers don't provide access to clipboard data, thus true synchronization
-                between your local clipboard and the remote clipboard is impossible. Instead, the
-                clipboard editor acts as an intermediary. You can paste text from your clipboard
-                into the editor, and it will be sent to the remote clipboard. If you cut or copy
-                text remotely, that text will be visible in the clipboard editor locally, where you
-                can then select and copy it.</para>
-            <para>All open Guacamole connections use this common clipboard, thus copying and pasting
-                between connections is seamless; you do not need to visit the clipboard editor to
-                copy and paste from one connection to another.</para>
-            <informalfigure>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="../images/clipboard.png" format="PNG" contentwidth="3in"
-                        />
-                    </imageobject>
-                    <caption>
-                        <para> The editable clipboard contents, accessible from the connection list
-                            interface. </para>
-                    </caption>
-                </mediaobject>
-            </informalfigure>
-        </section>
-        <section xml:id="using-the-osk">
-            <title>Typing with special keys</title>
-            <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
-                <primary>on-screen keyboard</primary>
-            </indexterm>
-            <para>Certain key combinations are impossible to press within a web application like
-                Guacamole because they are reserved by the operating system (Ctrl-Alt-Del or
-                Alt-Tab, for example) or by the web browser. If you press one of these reserved
-                combinations, the effect will be observed locally, not remotely, and the remote
-                desktop will receive only some of the keys. </para>
-            <para>Guacamole provides an on-screen keyboard such that key events can be sent to the
-                remote machine without affecting the local browser. You can show the on-screen
-                keyboard by pressing Ctrl-Alt-Shift. Pressing the Ctrl-Alt-Shift again will hide the
-                on-screen keyboard.</para>
-            <para>Clicking on the buttons of the on-screen keyboard has the same effect as pressing
-                the same buttons on a real keyboard, except that the operating system and browser
-                will not intercept these keypresses; they will only be sent remotely. </para>
-            <informalfigure>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="../images/osk.png" format="PNG" contentwidth="4in"/>
-                    </imageobject>
-                    <caption>
-                        <para> The on-screen keyboard. </para>
-                    </caption>
-                </mediaobject>
-            </informalfigure>
-        </section>
-        <section>
-            <title>Transferring files</title>
-            <indexterm>
-                <primary>file transfer</primary>
-            </indexterm>
-            <para>Guacamole supports file transfer if it is enabled in the underlying protocol.
-                Currently, both RDP and SSH have support for file transfer, though with slightly
-                different semantics. RDP provides file transfer by emulating a virtual drive, while
-                SSH provides file transfer by using SFTP.</para>
-            <para>To transfer files to the remote computer, drag the files into your browser window.
-                If file transfer is enabled, you will see a notification popup showing upload
-                progress. If file transfer is not enabled or not supported, you will instead see a
-                notification with an error message describing the problem.</para>
-            <para>The method for downloading files from the remote computer depends on the protocol.
-                In the case of RDP, you must drag, copy, move, or save the files into the special
-                "Download" folder located in the virtual drive. All files dropped into this folder
-                will automatically begin uploading to the client, and thus downloading through your
-                browser.</para>
-            <para><indexterm>
-                    <primary>guacctl</primary>
-                </indexterm>To download files over SSH, you must use the <command>guacctl</command>
-                utility. The <command>guacctl</command> utility is included with Guacamole, and
-                allows you to initiate a file download or to change the directory in which uploaded
-                files will be placed:</para>
-            <informalexample>
-                <screen><prompt>$</prompt> <userinput>guacctl</userinput>
+        <para>You can transfer files back and forth between your local computer and the remote
+            desktop if it is supported by the underlying protocol and enabled on the connection.
+            Currently, both RDP and SSH have support for file transfer, though with slightly
+            different semantics. RDP provides file transfer by emulating a virtual drive, while SSH
+            provides file transfer by using SFTP.</para>
+        <para>To transfer files to the remote computer, drag the files into your browser window. If
+            file transfer is enabled, you will see a notification popup showing upload progress. If
+            file transfer is not enabled or not supported, you will instead see a notification with
+            an error message describing the problem.</para>
+        <para>The method for downloading files from the remote computer depends on the protocol. In
+            the case of RDP, you must drag, copy, move, or save the files into the special
+            "Download" folder located in the virtual drive. All files dropped into this folder will
+            automatically begin uploading to the client, and thus downloading through your
+            browser.</para>
+        <para><indexterm>
+                <primary>guacctl</primary>
+            </indexterm>To download files over SSH, you must use the <command>guacctl</command>
+            utility. The <command>guacctl</command> utility is included with Guacamole, and allows
+            you to initiate a file download or to change the directory in which uploaded files will
+            be placed:</para>
+        <informalexample>
+            <screen><prompt>$</prompt> <userinput>guacctl</userinput>
 <computeroutput>guacctl 0.8.0, Guacamole SSH session control utility.
 Usage: guacctl [OPTION] [FILE]...
 
@@ -172,202 +61,167 @@ Usage: guacctl [OPTION] [FILE]...
 <prompt>$</prompt> <userinput>guacctl -d <replaceable>FILENAME</replaceable></userinput>
 <prompt>$</prompt> <userinput>guacctl -s <replaceable>DIRECTORY</replaceable></userinput>
 $</screen>
-            </informalexample>
-            <para>You may also create a symbol link or alias to <command>guacctl</command> called
-                    <command>guacget</command>. When run as <command>guacget</command>, it behaves
-                as if the <option>--download</option> option was supplied and initiates a download
-                for each file specified on the command line.</para>
-        </section>
-        <section xml:id="logging-out-of-guacamole">
-            <title>Logging out</title>
-            <indexterm>
-                <primary>logging out</primary>
-            </indexterm>
-            <para>When you are done and wish to logout of Guacamole completely, find the original
-                connection interface tab and click the "logout" button. Beware that this will close
-                all current connections and end your Guacamole session. </para>
-            <para>Note that this is not the same as disconnecting from a single connection. To
-                disconnect, simply close the tab or window with the remote desktop in it. Closing a
-                tab or window automatically disconnects from the associated remote desktop without
-                logging you out of Guacamole completely. </para>
-            <para>If you logout of Guacamole, all active connections are closed, and can only be
-                accessed by logging in again and reconnecting.</para>
-        </section>
+        </informalexample>
+        <para>You may also create a symbol link or alias to <command>guacctl</command> called
+                <command>guacget</command>. When run as <command>guacget</command>, it behaves as if
+            the <option>--download</option> option was supplied and initiates a download for each
+            file specified on the command line.</para>
     </section>
-
-    <section xml:id="using-touch-devices">
-        <title>Using touch devices</title>
-        <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
-            <primary>touch devices</primary>
-        </indexterm>
-        <para>Guacamole can be used on devices that have touchscreens, even when
-            those touchscreens are the sole means of input, such as most tablets
-            and mobile phones.</para>
-        <section xml:id="using-mouse">
-            <title>Moving the mouse</title>
-            <indexterm>
-                <primary>mouse</primary>
+    <section xml:id="guacamole-menu">
+        <title>The Guacamole menu</title>
+        <para>Other functionality such as clipboard access and input options, is kept out of the way
+            in a sidebar menu which is hidden by default. On a desktop or other device which has a
+            hardware keyboard, you can show this menu by pressing <keycombo>
+                <keycap>Ctrl</keycap>
+                <keycap>Alt</keycap>
+                <keycap>Shift</keycap>
+            </keycombo>. If you are using a mobile or touchscreen device that lacks a keyboard, you
+            can also show the menu by swiping right from the left edge of the screen. To hide the
+            menu, press <keycombo>
+                <keycap>Ctrl</keycap>
+                <keycap>Alt</keycap>
+                <keycap>Shift</keycap>
+            </keycombo> again or swipe left across the screen.</para>
+        <para>The Guacamole menu provides options for:<itemizedlist>
+                <listitem>
+                    <para>Reading from (and writing to) the clipboard of the remote desktop</para>
+                </listitem>
+                <listitem>
+                    <para>Selecting alternative methods of typing or controlling the mouse,
+                        particularly for use on mobile or touchscreen devices</para>
+                </listitem>
+                <listitem>
+                    <para>Zooming in and out of the remote display</para>
+                </listitem>
+            </itemizedlist></para>
+        <section xml:id="using-the-clipboard">
+            <title>Using the clipboard</title>
+            <para><indexterm>
+                    <primary>clipboard</primary>
+                </indexterm>Right at the top of the Guacamole menu is a text area labeled
+                "clipboard" along with some basic instructions:</para>
+            <blockquote>
+                <para>Text copied/cut within Guacamole will appear here. Changes to the text below
+                    will affect the remote clipboard.</para>
+            </blockquote>
+            <para>The text area functions as an interface between the remote clipboard and the local
+                clipboard. Text from the local clipboard can be pasted into the text area, causing
+                that text to be sent to the clipboard of the remote desktop. Similarly, if you copy
+                or cut text within the remote desktop, you will see that text within the text area,
+                and can manually copy it into the local clipboard if desired.</para>
+            <para>Guacamole will automatically sync the contents of this clipboard across any other
+                open connections within the same browser, thus copying and pasting between
+                connections is seamless; you do not need to repeatedly visit the clipboard in the
+                menu to copy and paste from one connection to another.</para>
+        </section>
+        <section xml:id="using-the-osk">
+            <title>Alternative input methods</title>
+            <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+                <primary>on-screen keyboard</primary>
             </indexterm>
-            <para>As a finger makes for a very inaccurate pointing device,
-                especially for mouse-driven applications designed for precise
-                input, the default mode for touch-based mouse input in Guacamole
-                is touchpad emulation.</para>
-            <para>Guacamole's touchpad emulation is similar in behavior to the
-                touchpad present on most modern laptops. Drag your finger across
-                the display to move the mouse pointer, and tap the display to
-                left-click. Right-clicking is accomplished with a two-finger
-                tap, and middle-clicking with a three-finger tap.</para>
-            <para>Click-and-drag by tapping the screen and then quickly placing
-                your finger back down. This gesture only causes the mouse button
-                to press down, but does not release it again until you lift your
-                finger back up.</para>
-            <para>The mouse scroll wheel can be operated by dragging two fingers
-                up or down.</para>
+            <para>The menu provides alternative choices for keyboard input beyond simply the
+                physical keyboard attached to your computer. In fact, if your computer lacks a
+                physical keyboard entirely (such as a mobile phone), these may be absolutely
+                required for typing. There are three choices: "None", "Text input" and "On-screen
+                keyboard".</para>
+            <section>
+                <title>None</title>
+                <para>Choosing no input method at all means that keyboard input must come from a
+                    local keyboard. This is the default option, but may not be appropriate for
+                    mobile devices and touchscreen devices that lack a physical keyboard.</para>
+            </section>
+            <section>
+                <title>Text input</title>
+                <para>"Text input" allows input of keystrokes based on the input of text. While not
+                    easy to conceptualize, some devices do not actually provide a means of sending
+                    traditional keystrokes, but instead provide a means of entering text. A prime
+                    example of such a device is a smart phone.</para>
+                <para>Many smart phones lack a physical keyboard entirely, and instead provide their
+                    own on-screen keyboards to allow typing. When characters are typed through the
+                    on-screen keyboard, they appear not through a down/up series of key events but
+                    through a single input event. The concept is closer to what happens when you
+                    paste text into a text field.</para>
+                <para>Choosing "Text input" tells Guacamole to infer keystrokes by tracking text
+                    entered through such an input method. Guacamole will determine the combination
+                    of keypresses necessary to produce the same pattern of input, including
+                    deletions.</para>
+            </section>
+            <section>
+                <title>On-screen keyboard</title>
+                <para>Certain key combinations are impossible to press within a web application like
+                    Guacamole because they are reserved by the operating system (<keycombo>
+                        <keycap>Ctrl</keycap>
+                        <keycap>Alt</keycap>
+                        <keycap>Del</keycap>
+                    </keycombo> or <keycombo>
+                        <keycap>Alt</keycap>
+                        <keycap>Tab</keycap>
+                    </keycombo>, for example) or by the web browser. If you press one of these
+                    reserved combinations, the effect will be observed locally, not remotely, and
+                    the remote desktop will receive only some of the keys.</para>
+                <para>Guacamole provides its own, built-in on-screen keyboard which allows keys to
+                    be sent to the remote desktop without affecting the local system. If the device
+                    you're using does not have certain keys which the remote desktop depends on,
+                    such as the arrow keys or <keycap>Ctrl</keycap>, you can use the on-screen
+                    keyboard for this, too. You can show the on-screen keyboard by selecting the
+                    "On-screen keyboard" option from the menu.</para>
+                <para>Clicking (or tapping) the buttons of the on-screen keyboard has the same
+                    effect as pressing the same buttons on a real keyboard, except that the
+                    operating system and browser will not intercept these keypresses; they will only
+                    be sent to the remote desktop.</para>
+            </section>
         </section>
         <section xml:id="zooming">
-            <title>Zooming in</title>
-            <indexterm>
-                <primary>zoom</primary>
-            </indexterm>
-            <para>Many touch-enabled devices have small screens, which makes the
-                larger screens of a typical remote desktop hard to see and
-                interact with. If you want to temporarily zoom in, long-press on
-                the display. This will reveal a rectangular magnifier that can
-                be dragged around the screen, revealing detail below it at full
-                resolution.</para>
-            <informalfigure>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="../images/android-magnifier.png" format="PNG"
-                            contentwidth="4in"/>
-                    </imageobject>
-                    <caption>
-                        <para>The magnifier tool in use</para>
-                    </caption>
-                </mediaobject>
-            </informalfigure>
-            <para>Tapping outside this magnifier closes the magnifier, while
-                tapping inside engages a typing mode.</para>
+            <title>Scaling the display</title>
+            <para><indexterm>
+                    <primary>zoom</primary>
+                </indexterm>Guacamole will default to shrinking or expanding the remote display to
+                fit the browser window exactly, but this is not necessarily ideal. If the remote
+                display is much larger than your local display, the screen may be impossible to see
+                or interact with. This is especially true for mobile phones, whose screens need to
+                be small enough to fit in the average hand.</para>
+            <para>You can scale the display on touch devices by using the familiar pinch gesture.
+                Place two fingers on the screen and bring them closer together to zoom out or
+                further apart to zoom in.</para>
+            <para>If your device lacks a touch screen, you can also control the zoom level through
+                the menu. The controls for zooming in and out are located at the bottom of the menu.
+                The current zoom level is displayed between two "-" and "+" buttons which control
+                the zoom level in 10% increments.</para>
         </section>
-        <section xml:id="typing">
-            <title>Typing</title>
-            <indexterm>
-                <primary>typing</primary>
-            </indexterm>
-            <para>In most cases, if your device has a hardware keyboard or you
-                use a bluetooth keyboard, you will not need to do anything
-                special in order to type; you can just press keys and expect the
-                same effect you would have on a desktop.</para>
-            <para>For devices that lack a hardware keyboard, you need to bring
-                Guacamole into "typing mode" by long-pressing on the display to
-                bring up the magnifier. Tap on the magnifier to bring up your
-                device's on-screen keyboard.</para>
-        </section>
-        <section xml:id="panning">
-            <title>Panning</title>
-            <indexterm>
-                <primary>panning</primary>
-            </indexterm>
-            <para>Because Guacamole uses all touch events to drive mouse input,
-                the normal gestures for scrolling the screen will not work.
-                Depending on how big your screen is, and whether the display is
-                currently zoomed, you have three options for panning the screen:<orderedlist>
-                    <listitem>
-                        <para>Move the mouse</para>
-                        <para>Moving the mouse beyond the bounds of the screen
-                            of the device will cause the display to
-                            automatically scroll until the mouse pointer is in
-                            view again. This will only work if the screen is not
-                            already fully visible.</para>
-                    </listitem>
-                    <listitem>
-                        <para>Long-press to bring up panning mode</para>
-                        <para>If the remote display is already fully visible,
-                            long-pressing will not bring up the magnifier, but
-                            will instead put Guacamole in a panning mode. Arrows
-                            will appear at the sides of the screen, and you can
-                            drag around the screen as normal. Tapping on the
-                            screen will put Guacamole in typing mode, allowing
-                            you to type and use your native on-screen keyboard
-                            (if any).</para>
-                        <informalfigure>
-                            <mediaobject>
-                                <imageobject>
-                                    <imagedata fileref="../images/android-panning.png" format="PNG"
-                                        contentwidth="4in"/>
-                                </imageobject>
-                                <caption>
-                                    <para>Panning mode</para>
-                                </caption>
-                            </mediaobject>
-                        </informalfigure>
-                    </listitem>
-                    <listitem>
-                        <para>Bring up the magnifier, tap to put Guacamole in
-                            typing/panning mode, and then drag the screen</para>
-                        <para>When in typing mode, dragging your finger on the
-                            screen will cause the screen to pan as it normally
-                            would. This is useful while typing, especially if
-                            what you're typing starts to run off the visible
-                            area of your device's screen.</para>
-                    </listitem>
-                </orderedlist></para>
-        </section>
-    </section>
-    <section xml:id="changing-settings">
-        <title>Changing settings</title>
-        <indexterm>
-            <primary>settings</primary>
-        </indexterm>
-        <para>Guacamole's settings section is located within the connection interface, and affects
-            the behavior of all active and future Guacamole connections. Unless specified otherwise,
-            changing a setting affects current Guacamole connections immediately.</para>
-        <informalfigure>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="../images/settings.png" format="PNG" contentwidth="3in"/>
-                </imageobject>
-                <caption>
-                    <para>Guacamole settings, accessible from the connection list interface. </para>
-                </caption>
-            </mediaobject>
-        </informalfigure>
-        <section xml:id="disabling-sound">
-            <title>Disabling sound</title>
-            <indexterm>
-                <primary>audio</primary>
-                <secondary>disabling</secondary>
-            </indexterm>
-            <indexterm>
-                <primary>sound</primary>
-                <secondary>disabling</secondary>
-            </indexterm>
-            <indexterm>
-                <primary>disabling sound</primary>
-            </indexterm>
-            <para>Sound can sometimes cause problems if your browser is too slow or if you lack
-                sufficient network bandwidth. In some cases, browsers do not actually support sound,
-                but misreport that they do to Guacamole, causing wasted bandwidth when Guacamole
-                sends audio data that can't actually be played.</para>
-            <para>To disable sound, check the "Disable sound" checkbox in the settings
-                section.</para>
-        </section>
-        <section xml:id="disabling-auto-fit">
-            <title>Disabling auto-fit of the display</title>
-            <indexterm>
-                <primary>auto-fit</primary>
-                <secondary>disabling</secondary>
-            </indexterm>
-            <indexterm>
-                <primary>disabling auto-fit</primary>
-            </indexterm>
-            <para>Normally, scrolling around the screen is troublesome and distracting if the remote
-                display you're using is larger than the display of your device. Because of this, the
-                remote display will automatically fit itself to the available space by default. If
-                this is undesirable, you can manually disable this on a per-browser basis in the
-                settings section.</para>
-            <para>To disable auto-fit, uncheck the "Auto-fit display to browser window" checkbox in
-                the settings section.</para>
+        <section xml:id="using-mouse">
+            <title>Relative vs. absolute mouse control</title>
+            <para><indexterm>
+                    <primary>mouse</primary>
+                </indexterm>In the case that your device has a touchscreen and lacks a mouse,
+                Guacamole will emulate a mouse for the sake of interacting with remote desktops that
+                expect mouse input. By default, Guacamole uses "absolute" mouse emulation. This
+                means that the mouse pointer is positioned at the location of each tap on the
+                screen.</para>
+            <para>Absolute mouse emulation is the most intuitive and tends to be what people expect
+                when using a touch device to interact with applications designed for mouse input.
+                Each tap on the screen is translated into a left-click at that position.
+                Right-clicking is accomplished through pressing and holding your finger on the
+                screen. If parts of the remote display are off-screen, you can drag your finger
+                around the screen to pan the off-screen parts back into view.</para>
+            <para>Although absolute mouse emulation works generally well, a finger makes for a very
+                inaccurate pointing device. To address this, Guacamole also provides "relative"
+                mouse emulation. Relative mouse emulation provides a way to deal with the need for
+                accurate pointer control, when a true pointer device is not present.</para>
+            <para>Guacamole's relative mouse emulation behaves similarly to the touchpad present on
+                most modern laptops. You drag your finger across the display to move the mouse
+                pointer, and tap the display to left-click. The pointer moves relative to the motion
+                of your finger. Right-clicking is accomplished with a two-finger tap, and
+                middle-clicking with a three-finger tap. The mouse scroll wheel can be operated by
+                dragging two fingers up or down.</para>
+            <para>Because the relative mouse emulation reserves so many gestures for the different
+                mouse buttons and actions, common touch gestures like panning and pinch-to-zoom will
+                not work while relative mouse emulation is enabled. Instead, the screen will
+                automatically pan to keep the mouse pointer in view, and you can zoom through the
+                buttons in the menu.</para>
+            <para>In both absolute and relative modes, you can click-and-drag by tapping the screen
+                and then quickly placing your finger back down. This gesture only causes the mouse
+                button to press down, but does not release it again until you lift your finger back
+                up.</para>
         </section>
     </section>
     <section xml:id="guacamole-admin-ui">
@@ -539,6 +393,21 @@ $</screen>
                     which connection has the least load at the time the group was clicked.</para>
             </section>
         </section>
+    </section>
+    <section xml:id="logging-out-of-guacamole">
+        <title>Logging out</title>
+        <indexterm>
+            <primary>logging out</primary>
+        </indexterm>
+        <para>When you are done and wish to logout of Guacamole completely, find the original
+            connection interface tab and click the "logout" button. Beware that this will close all
+            current connections and end your Guacamole session. </para>
+        <para>Note that this is not the same as disconnecting from a single connection. To
+            disconnect, simply close the tab or window with the remote desktop in it. Closing a tab
+            or window automatically disconnects from the associated remote desktop without logging
+            you out of Guacamole completely. </para>
+        <para>If you logout of Guacamole, all active connections are closed, and can only be
+            accessed by logging in again and reconnecting.</para>
     </section>
 
 </chapter>
