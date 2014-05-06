@@ -503,7 +503,8 @@ INSERT INTO guacamole_connection_parameter VALUES (@id, 'port', '<replaceable>59
                 are no associated parameters stored in a separate table:</para>
             <informalexample>
                 <programlisting>-- Create connection group
-INSERT INTO guacamole_connection_group (connection_group_name, type) VALUES ('<replaceable>test</replaceable>', '<replaceable>ORGANIZATIONAL</replaceable>');</programlisting>
+INSERT INTO guacamole_connection_group (connection_group_name, type)
+     VALUES ('<replaceable>test</replaceable>', '<replaceable>ORGANIZATIONAL</replaceable>');</programlisting>
             </informalexample>
         </section>
         <section>

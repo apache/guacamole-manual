@@ -36,9 +36,9 @@
             operations, and can be rendered by user interfaces in a human-readable
                 way.<informaltable frame="all">
                 <tgroup cols="3">
-                    <colspec colname="c1" colnum="1" colwidth="1*"/>
-                    <colspec colname="c2" colnum="2" colwidth="2.56*"/>
-                    <colspec colname="c3" colnum="3" colwidth="10.05*"/>
+                    <colspec colname="c1" colnum="1" colwidth="1.25*"/>
+                    <colspec colname="c2" colnum="2" colwidth="3.25*"/>
+                    <colspec colname="c3" colnum="3" colwidth="9*"/>
                     <thead>
                         <row>
                             <entry>Code</entry>
