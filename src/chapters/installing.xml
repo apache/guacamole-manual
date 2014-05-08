@@ -236,6 +236,10 @@ guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
                 <secondary>compiling</secondary>
             </indexterm>
             <indexterm>
+                <primary>telnet support</primary>
+                <secondary>compiling</secondary>
+            </indexterm>
+            <indexterm>
                 <primary><package>libguac-client-vnc</package></primary>
                 <secondary>compiling</secondary>
             </indexterm>
@@ -245,6 +249,10 @@ guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
             </indexterm>
             <indexterm>
                 <primary><package>libguac-client-ssh</package></primary>
+                <secondary>compiling</secondary>
+            </indexterm>
+            <indexterm>
+                <primary><package>libguac-client-telnet</package></primary>
                 <secondary>compiling</secondary>
             </indexterm>
             <indexterm>
@@ -268,14 +276,15 @@ guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
                     cases</emphasis>. Guacamole cannot be built without them. The other dependencies
                 of <package>guacamole-server</package> are optional. Which libraries you will need
                 to install depends on what support you need.</para>
-            <para>Guacamole currently supports VNC, RDP, and SSH. Each protocol corresponds to a
-                separate library that will be built with <package>guacamole-server</package> if you
-                have its corresponding optional dependencies. VNC support depends on the
+            <para>Guacamole currently supports VNC, RDP, SSH, and telnet. Each protocol corresponds
+                to a separate library that will be built with <package>guacamole-server</package> if
+                you have its corresponding optional dependencies. VNC support depends on the
                     <package>libvncclient</package> library, which is part of
                     <package>libVNCServer</package>, RDP support depends on a recent version of
-                    <package>FreeRDP</package> - 1.0 or higher, and SSH support depends on
-                    <package>libssh</package> and <package>Pango</package>, a font rendering and
-                text layout library.</para>
+                    <package>FreeRDP</package> - 1.0 or higher, SSH support depends on
+                    <package>libssh2</package>, and telnet depends on <package>libtelnet</package>.
+                    <package>Pango</package>, a font rendering and text layout library, is required
+                for both SSH and telnet support.</para>
             <para>Optional features of these protocols will be enabled if you have other libraries
                 installed.</para>
             <informaltable frame="all">
@@ -318,11 +327,11 @@ guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
                         </row>
                         <row>
                             <entry>Pango</entry>
-                            <entry>Only for SSH.</entry>
+                            <entry>For SSH or telnet.</entry>
                             <entry>
-                                <para>Pango is a text layout library which Guacamole's SSH support
-                                    uses to render text. If you do not wish to build SSH support,
-                                    this library is not needed.</para>
+                                <para>Pango is a text layout library which Guacamole's SSH and
+                                    telnet support uses to render text. If you do not wish to build
+                                    SSH or telnet support, this library is not needed.</para>
                             </entry>
                         </row>
                         <row>
@@ -331,6 +340,14 @@ guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
                             <entry>
                                 <para>libssh2 is required for SSH support. If you do not wish to
                                     build SSH support, this library is not needed.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>libtelnet</entry>
+                            <entry>Only for telnet.</entry>
+                            <entry>
+                                <para>libtelnet is required for telnet support. If you do not wish
+                                    to build telnet support, this library is not needed.</para>
                             </entry>
                         </row>
                         <row>
@@ -450,6 +467,7 @@ guacamole-server version 0.9.0
      pango ............... yes
      libssh2 ............. yes
      libssl .............. yes
+     libtelnet ........... yes
      libVNCServer ........ yes
      libvorbis ........... yes
      libpulse ............ yes
@@ -458,6 +476,7 @@ guacamole-server version 0.9.0
 
       RDP ....... yes
       SSH ....... yes
+      Telnet .... yes
       VNC ....... yes
 
    Init scripts: /etc/init.d
@@ -472,13 +491,14 @@ Type "make" to compile guacamole-server.
                 </indexterm>The <option>--with-init-dir=/etc/init.d</option> shown above prepares
                 the build to install a startup script for <package>guacd</package> into the
                     <filename>/etc/init.d</filename> directory, such that we can later easily
-                configure <package>guacd</package> to start automatically on boot. If you do not wish
-                guacd to start automatically at boot, leave off the <option>--with-init-dir</option>
-                option. If the directory containing your distribution's startup scripts differs from
-                the common <filename>/etc/init.d</filename>, replace
-                    <filename>/etc/init.d</filename> with the proper directory here. You may need to
-                consult your distribution's documentation, or do a little digging in
-                    <filename>/etc</filename>, to determine the proper location.</para>
+                configure <package>guacd</package> to start automatically on boot. If you do not
+                wish guacd to start automatically at boot, leave off the
+                    <option>--with-init-dir</option> option. If the directory containing your
+                distribution's startup scripts differs from the common
+                    <filename>/etc/init.d</filename>, replace <filename>/etc/init.d</filename> with
+                the proper directory here. You may need to consult your distribution's
+                documentation, or do a little digging in <filename>/etc</filename>, to determine the
+                proper location.</para>
             <para>Here, <filename>configure</filename> has found everything, including all optional
                 libraries, and will build all protocol support, even support for Ogg Vorbis sound in
                 RDP. If you are missing some libraries, some of the
@@ -489,14 +509,15 @@ Type "make" to compile guacamole-server.
                 something you wanted is missing, simply install the corresponding dependencies and
                 run <filename>configure</filename> again.</para>
             <important>
-                <para>SSH support requires that fonts are installed in order to function - output
-                    from the terminal cannot be rendered otherwise. Support for SSH will build just
-                    fine if fonts are not installed, but it will fail to connect when used:</para>
+                <para>SSH and telnet support both require that fonts are installed in order to
+                    function - output from the terminal cannot be rendered otherwise. Support for
+                    SSH and telnet will build just fine if fonts are not installed, but it will fail
+                    to connect when used:</para>
                 <informalexample>
                     <screen>Aug 23 14:09:45 my-server guacd[5606]: Unable to get font "monospace"</screen>
                 </informalexample>
-                <para>If SSH connections are not working and you see such a message in syslog,
-                    install fonts and try again.</para>
+                <para>If SSH or telnet connections are not working and you see such a message in
+                    syslog, install fonts and try again.</para>
             </important>
             <para>Once <filename>configure</filename> is finished, just type
                     "<userinput>make</userinput>", and it will <package>guacamole-server</package>

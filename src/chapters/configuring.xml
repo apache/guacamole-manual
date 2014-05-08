@@ -1236,5 +1236,104 @@ basic-user-mapping: /etc/guacamole/user-mapping.xml</programlisting>
                 configure new connections.</para>
         </section>
     </section>
+    <section xml:id="telnet">
+        <title>Telnet</title>
+        <indexterm>
+            <primary>telnet</primary>
+        </indexterm>
+        <para>Telnet is a text protocol and provides similar functionality to SSH. By nature, it is
+            not encrypted, and does not provide support for file transfer. As far as graphics are
+            concerned, Guacamole's telnet support works in the same manner as SSH: it emulates a
+            terminal on the server side which renders to the Guacamole client's display.</para>
+        <para>Telnet support for Guacamole is provided by the
+                <package>libguac-client-telnet</package> library, which depends on libtelnet.</para>
+        <table frame="all">
+            <title>Telnet configuration parameters</title>
+            <indexterm>
+                <primary>parameters</primary>
+                <secondary>telnet</secondary>
+            </indexterm>
+            <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1*"/>
+                <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                <thead>
+                    <row>
+                        <entry>Name</entry>
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry><parameter>hostname</parameter></entry>
+                        <entry>
+                            <para><indexterm>
+                                    <primary>telnet</primary>
+                                    <secondary>hostname</secondary>
+                                </indexterm>The hostname or IP address of the telnet server
+                                Guacamole should connect to.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry><parameter>port</parameter></entry>
+                        <entry>
+                            <para><indexterm>
+                                    <primary>telnet</primary>
+                                    <secondary>port</secondary>
+                                </indexterm>The port the telnet server is listening on, usually 23.
+                                This parameter is optional. If this is not specified, the default of
+                                23 will be used.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry><parameter>font-name</parameter></entry>
+                        <entry>
+                            <para><indexterm>
+                                    <primary>SSH</primary>
+                                    <secondary>font</secondary>
+                                </indexterm>The name of the font to use. This parameter is optional.
+                                If not specified, the default of "monospace" will be used
+                                instead.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry><parameter>font-size</parameter></entry>
+                        <entry>
+                            <para>The size of the font to use, in points. This parameter is
+                                optional. If not specified, the default of 12 will be used
+                                instead.</para>
+                        </entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+        <section>
+            <title>Adding a telnet connection</title>
+            <indexterm>
+                <primary>telnet</primary>
+                <secondary>adding</secondary>
+            </indexterm>
+            <para>If you are using the default authentication built into Guacamole, and you wish to
+                grant access to a telnet connection to a particular user, you need to locate the
+                    <code>&lt;authorize></code> section for that user within your
+                    <filename>user-mapping.xml</filename>, and add a section like the following
+                within it:</para>
+            <programlisting>&lt;connection name="<replaceable>Unique Name</replaceable>">
+    &lt;protocol>telnet&lt;/protocol>
+    &lt;param name="hostname"><replaceable>localhost</replaceable>&lt;/param>
+    &lt;param name="port"><replaceable>23</replaceable>&lt;/param>
+&lt;/connection></programlisting>
+            <para>If added exactly as above, a new connection named "<replaceable>Unique
+                    Name</replaceable>" will be available to the user associated with the
+                    <code>&lt;authorize></code> section containing it. The connection will use
+                telnet to connect to <replaceable>localhost</replaceable> at port
+                    <replaceable>23</replaceable>. Naturally, you will want to change some or all of
+                these values.</para>
+            <para>As telnet is inherently insecure compared to SSH, you should use SSH instead
+                wherever possible. If Guacamole is set up to use HTTPS then communication with the
+                Guacamole <emphasis>client</emphasis> will be encrypted, but communication between
+                guacd and the telnet server will still be unencrypted. You should not use telnet
+                unless the network between guacd and the telnet server is trusted.</para>
+        </section>
+    </section>
 
 </chapter>
