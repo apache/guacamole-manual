@@ -1288,7 +1288,7 @@ basic-user-mapping: /etc/guacamole/user-mapping.xml</programlisting>
                         <entry><parameter>font-name</parameter></entry>
                         <entry>
                             <para><indexterm>
-                                    <primary>SSH</primary>
+                                    <primary>telnet</primary>
                                     <secondary>font</secondary>
                                 </indexterm>The name of the font to use. This parameter is optional.
                                 If not specified, the default of "monospace" will be used
