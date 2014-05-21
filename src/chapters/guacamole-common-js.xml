@@ -38,7 +38,7 @@
         <para>Once you have the client, it won't immediately appear within the
             DOM. You need to add its display element manually:</para>
         <informalexample>
-            <programlisting>document.body.appendChild(client.getDisplay());</programlisting>
+            <programlisting>document.body.appendChild(client.getDisplay().getElement());</programlisting>
         </informalexample>
         <para>At this point, the client will be visible, rendering all updates
             as soon as they are received through the tunnel.</para>
