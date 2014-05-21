@@ -142,9 +142,9 @@ $</screen>
                     of keypresses necessary to produce the same pattern of input, including
                     deletions.</para>
                 <para>Many smart phones lack a physical keyboard entirely, and instead provide their
-                    own on-screen keyboards to allow typing. As these keyboards are not true
-                    keyboard per se and do not result in key presses, Guacamole's text input mode is
-                    required for typing on these platform</para>
+                    own on-screen keyboards to allow typing. As these are not true keyboards per se
+                    and do not produce key presses, Guacamole's text input mode is required for
+                    typing on these platforms.</para>
                 <para><indexterm>
                         <primary>input method editors</primary>
                     </indexterm>If you wish to type via an IME (input method editor), such as those
