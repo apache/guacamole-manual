@@ -135,16 +135,24 @@ $</screen>
                 <para>"Text input" allows input of keystrokes based on the input of text. While not
                     easy to conceptualize, some devices do not actually provide a means of sending
                     traditional keystrokes, but instead provide a means of entering text. A prime
-                    example of such a device is a smart phone.</para>
-                <para>Many smart phones lack a physical keyboard entirely, and instead provide their
-                    own on-screen keyboards to allow typing. When characters are typed through the
-                    on-screen keyboard, they appear not through a down/up series of key events but
-                    through a single input event. The concept is closer to what happens when you
-                    paste text into a text field.</para>
-                <para>Choosing "Text input" tells Guacamole to infer keystrokes by tracking text
-                    entered through such an input method. Guacamole will determine the combination
+                    example of such a device is a smart phone, but there are other cases which make
+                    such an input mode useful even on traditional desktop computers. Choosing "Text
+                    input" tells Guacamole to infer keystrokes by tracking text entered, rather than
+                    relying on actual key presses. Guacamole will instead determine the combination
                     of keypresses necessary to produce the same pattern of input, including
                     deletions.</para>
+                <para>Many smart phones lack a physical keyboard entirely, and instead provide their
+                    own on-screen keyboards to allow typing. As these keyboards are not true
+                    keyboard per se and do not result in key presses, Guacamole's text input mode is
+                    required for typing on these platform</para>
+                <para><indexterm>
+                        <primary>input method editors</primary>
+                    </indexterm>If you wish to type via an IME (input method editor), such as those
+                    required for Chinese, Japanese, or Korean, text input mode is required for this
+                    as well. Such IMEs function through the explicit insertion of text and do not
+                    send traditional key presses. Using text input mode within Guacamole thus allows
+                    you to use a locally-installed IME, without requiring the IME to be installed on
+                    the remote desktop.</para>
             </section>
             <section>
                 <title>On-screen keyboard</title>
