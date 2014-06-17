@@ -1285,6 +1285,43 @@ basic-user-mapping: /etc/guacamole/user-mapping.xml</programlisting>
                         </entry>
                     </row>
                     <row>
+                        <entry><parameter>username</parameter></entry>
+                        <entry>
+                            <para><indexterm>
+                                    <primary>telnet</primary>
+                                    <secondary>username</secondary>
+                                </indexterm>The username to use to authenticate, if any. This
+                                parameter is optional. If not specified, or not supported by the
+                                telnet server, the login process on the telnet server will prompt
+                                you for your credentials. For this to work, your telnet server must
+                                support the <methodname>NEW-ENVIRON</methodname> option, and the
+                                telnet login process must pay attention to the <envar>USER</envar>
+                                environment variable. Most telnet servers satisfy this
+                                criteria.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry><parameter>password</parameter></entry>
+                        <entry>
+                            <para><indexterm>
+                                    <primary>telnet</primary>
+                                    <secondary>password</secondary>
+                                </indexterm>The password to use when attempting authentication, if
+                                any. This parameter is optional. If specified, your password will be
+                                typed on your behalf when the password prompt is detected.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry><parameter>password-regex</parameter></entry>
+                        <entry>
+                            <para>The regular expression to use when waiting for the password
+                                prompt. This parameter is optional. If not specified, a reasonable
+                                default built into Guacamole will be used. The regular expression
+                                must be written in the POSIX ERE dialect (the dialect typically used
+                                by <command>egrep</command>).</para>
+                        </entry>
+                    </row>
+                    <row>
                         <entry><parameter>font-name</parameter></entry>
                         <entry>
                             <para><indexterm>
@@ -1333,6 +1370,37 @@ basic-user-mapping: /etc/guacamole/user-mapping.xml</programlisting>
                 Guacamole <emphasis>client</emphasis> will be encrypted, but communication between
                 guacd and the telnet server will still be unencrypted. You should not use telnet
                 unless the network between guacd and the telnet server is trusted.</para>
+        </section>
+        <section>
+            <title>Authentication</title>
+            <para>Telnet does not actually provide any standard means of authentication.
+                Authentication over telnet depends entirely on the login process running on the
+                server and is interactive. To cope with this, Guacamole provides non-standard
+                mechanisms for automatically passing the username and entering password. Whether
+                these mechanisms work depends on specific login process used by your telnet
+                server.</para>
+            <para>The de-facto method for passing the username automatically via telnet is to submit
+                it via the <envar>USER</envar> environment variable, sent using the
+                    <methodname>NEW-ENVIRON</methodname> option. This is the mechanism used by most
+                telnet clients, typically via the <option>-l</option> command-line option.</para>
+            <para>Passwords cannot typically be sent automatically - at least not as reliably as the
+                username. There is no <envar>PASSWORD</envar> environment variable (this would
+                actually be a horrible idea) nor any similar mechanism for passing the password to
+                the telnet login process, and most telnet clients provide no built-in support for
+                automatically entering the password. The best that can be done is to heuristically
+                detect the password prompt, and type the password on behalf of the user when the
+                prompt appears. The prescribed method for doing this with a traditional command-line
+                telnet is to use a utility like <command>expect</command>. Guacamole provides
+                similar functionality by searching for the password prompt with a regular
+                expression.</para>
+            <para>If Guacamole receives a line of text which matches the regular expression, the
+                password is automatically sent. If no such line is ever received, the password is
+                not sent, and the user must type the password manually. Pressing any key during this
+                process cancels the heuristic password prompt detection.</para>
+            <para>If the password prompt is not being detected properly, you can try using your own
+                regular expression by specifying it within the <parameter>password-regex</parameter>
+                parameter. The regular expression must be written in the POSIX ERE dialect (the
+                dialect typically used by <command>egrep</command>).</para>
         </section>
     </section>
 
