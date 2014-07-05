@@ -78,8 +78,16 @@
         <para>Here, the client is specifying that the optimal display size is 1024x768 at 96 DPI and
             it supports Ogg Vorbis audio, but no video. It wants to connect to localhost at port
             5900, and is leaving the three other parameters blank.</para>
-        <para>Once these instructions have been sent by the client, the actual interactive phase
-            begins, and drawing and event instructions pass back and forth until the connection is
+        <para>Once these instructions have been sent by the client, the server will attempt to
+            initialize the connection with the parameters received and, if successful, respond with
+            a "ready" instruction. This instruction contains the ID of the new client connection and
+            marks the beginning of the interactive phase. The ID is an arbitrary string, but is
+            guaranteed to be unique from all other active connections:</para>
+        <informalexample>
+            <programlisting>5.ready,37.$260d01da-779b-4ee9-afc1-c16bae885cc7;</programlisting>
+        </informalexample>
+        <para>The actual interactive phase begins immediately after the "ready" instruction is sent.
+            Drawing and event instructions pass back and forth until the connection is
             closed.</para>
     </section>
     <section xml:id="guacamole-protocol-nesting">

@@ -100,6 +100,7 @@
         <xi:include href="instructions/server/control/error.xml"/>
         <xi:include href="instructions/server/control/log.xml"/>
         <xi:include href="instructions/server/control/nop.xml"/>
+        <xi:include href="instructions/server/control/ready.xml"/>
         <xi:include href="instructions/server/control/sync.xml"/>
     </section>
     <section xml:id="client-events">
