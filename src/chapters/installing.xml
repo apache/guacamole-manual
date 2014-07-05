@@ -273,9 +273,11 @@ guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
             <para>In order to build <package>guacamole-server</package>, you will need
                     <package>Cairo</package>, a graphics library, and <package>libpng</package>, the
                 official PNG library. These libraries are strictly required <emphasis>in all
-                    cases</emphasis>. Guacamole cannot be built without them. The other dependencies
-                of <package>guacamole-server</package> are optional. Which libraries you will need
-                to install depends on what support you need.</para>
+                    cases</emphasis>. Guacamole cannot be built without them. The OSSP UUID library
+                is also needed, for the sake of assigning unique identifiers to each Guacamole
+                connection. The other dependencies of <package>guacamole-server</package> are
+                optional. Which libraries you will need to install depends on what support you
+                need.</para>
             <para>Guacamole currently supports VNC, RDP, SSH, and telnet. Each protocol corresponds
                 to a separate library that will be built with <package>guacamole-server</package> if
                 you have its corresponding optional dependencies. VNC support depends on the
@@ -315,6 +317,15 @@ guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
                                 <para>libpng is used by libguac to write PNG images, the core image
                                     type used by the Guacamole protocol. Guacamole cannot function
                                     without libpng.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>OSSP UUID</entry>
+                            <entry>Yes.</entry>
+                            <entry>
+                                <para>OSSP UUID is used by libguac to assign unique IDs to each
+                                    Guacamole connection. These unique IDs are the basis for
+                                    connection sharing support.</para>
                             </entry>
                         </row>
                         <row>
