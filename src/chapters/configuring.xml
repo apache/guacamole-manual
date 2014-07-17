@@ -1301,6 +1301,16 @@ basic-user-mapping: /etc/guacamole/user-mapping.xml</programlisting>
                         </entry>
                     </row>
                     <row>
+                        <entry><parameter>username-regex</parameter></entry>
+                        <entry>
+                            <para>The regular expression to use when waiting for the username
+                                prompt. This parameter is optional. If not specified, a reasonable
+                                default built into Guacamole will be used. The regular expression
+                                must be written in the POSIX ERE dialect (the dialect typically used
+                                by <command>egrep</command>).</para>
+                        </entry>
+                    </row>
+                    <row>
                         <entry><parameter>password</parameter></entry>
                         <entry>
                             <para><indexterm>
