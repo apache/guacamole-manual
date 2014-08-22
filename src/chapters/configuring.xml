@@ -71,8 +71,8 @@
                 <para>The classpath of the servlet container.</para>
             </listitem>
         </orderedlist>
-        <para>At the bare minimum, the <filename>guacamole.properties</filename> file provides five
-            basic properties: </para>
+        <para>At the bare minimum, the <filename>guacamole.properties</filename> file contains at
+            least three basic properties, required in all deployments of Guacamole: </para>
         <variablelist>
             <varlistentry>
                 <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
@@ -94,6 +94,22 @@
             </varlistentry>
             <varlistentry>
                 <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+                        <primary>auth-provider</primary>
+                    </indexterm><parameter>auth-provider</parameter></term>
+                <listitem>
+                    <para>The authentication provider to use when authenticating. Normally, this
+                        will be set to <classname>BasicFileAuthenticationProvider</classname> which
+                        is the default authentication provider provided with Guacamole. No
+                        extensions are needed if you use the default authentication provider.</para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+        <para>If you need custom authentication or wish to enable optional features of Guacamole,
+            such as WebSocket or HTTP Basic authentication support, you will need to specify
+            additional properties:</para>
+        <variablelist>
+            <varlistentry>
+                <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
                         <primary>guacd-ssl</primary>
                     </indexterm><parameter>guacd-ssl</parameter></term>
                 <listitem>
@@ -107,23 +123,17 @@
             </varlistentry>
             <varlistentry>
                 <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
-                        <primary>auth-provider</primary>
-                    </indexterm><parameter>auth-provider</parameter></term>
-                <listitem>
-                    <para>The authentication provider to use when authenticating. Normally, this
-                        will be set to <classname>BasicFileAuthenticationProvider</classname> which
-                        is the default authentication provider provided with Guacamole. </para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
                         <primary>lib-directory</primary>
                     </indexterm><parameter>lib-directory</parameter></term>
                 <listitem>
                     <para>The directory to load extensions to Guacamole from. If you wish to use a
                         custom authentication provider or custom hooks, the
                             <filename>.jar</filename> file and all dependencies must be placed in
-                        the directory specified here. </para>
+                        the directory specified here. On most systems,
+                            <filename>/var/lib/guacamole/classpath</filename> is an appropriate
+                        choice.</para>
+                    <para>Note that this property is only needed if you are using an
+                        extension.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -154,15 +164,32 @@
                         WebSocket.</para>
                 </listitem>
             </varlistentry>
+            <varlistentry>
+                <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+                        <primary>enable-http-auth</primary>
+                    </indexterm><indexterm>
+                        <primary>HTTP Basic authentication</primary>
+                    </indexterm><parameter>enable-http-auth</parameter></term>
+                <listitem>
+                    <para><constant>true</constant> if HTTP Basic authentication support should be
+                        enabled, <constant>false</constant> (or simply leave the property out)
+                        otherwise. This will <emphasis>not</emphasis> cause Guacamole to require
+                        HTTP Basic authentication; it simply tells Guacamole to inspect the HTTP
+                        "Authorization" header when authenticating users, if present.</para>
+                    <para>When HTTP Basic authentication is in use, the web browser submits the
+                        username/password pair with each HTTP request in an "Authorization" header.
+                        If you have an upstream authentication system or proxy which uses HTTP Basic
+                        authentication, setting this property causes Guacamole to read and use these
+                        credentials if the username and password are not given through other
+                        means.</para>
+                </listitem>
+            </varlistentry>
         </variablelist>
         <example>
             <title>Minimal <filename>guacamole.properties</filename></title>
             <programlisting xml:id="guacamole.properties" version="5.0" xml:lang="en"># Hostname and port of guacamole proxy
 guacd-hostname: localhost
 guacd-port:     4822
-
-# Location to read extra .jar's from
-lib-directory:  /var/lib/guacamole/classpath
 
 # Authentication provider class
 auth-provider: net.sourceforge.guacamole.net.basic.BasicFileAuthenticationProvider
