@@ -1440,5 +1440,246 @@ basic-user-mapping: /etc/guacamole/user-mapping.xml</programlisting>
                 dialect typically used by <command>egrep</command>).</para>
         </section>
     </section>
+    <section>
+        <title>Configuring guacd</title>
+        <para><indexterm>
+                <primary>guacd.conf</primary>
+            </indexterm>guacd is configured with a configuration file called
+                <filename>guacd.conf</filename>, by default located in
+                <filename>/etc/guacamole</filename>. This file follows a simple, INI-like
+            format:</para>
+        <informalexample>
+            <programlisting>#
+# guacd configuration file
+#
+
+[daemon]
+
+pid_file = /var/run/guacd.pid
+
+[server]
+
+bind_host = localhost
+bind_port = 4822
+
+#
+# The following parameters are valid only if
+# guacd was built with SSL support.
+#
+
+[ssl]
+
+server_certificate = /etc/ssl/certs/guacd.crt
+server_key = /etc/ssl/private/guacd.key</programlisting>
+        </informalexample>
+        <para>Configuration options are given as parameter/value pairs, where the name of the
+            parameter is specified on the left side of an "<code>=</code>", and the value is
+            specified on the right. Each parameter must occur within a proper section, indicated by
+            a section name within brackets. The names of these sections are important; it is the
+            pairing of a section name with a parameter that constitutes the fully-qualified
+            parameter being set.</para>
+        <para>For the sake of documentation and readability, comments can be added anywhere within
+            guacd.conf using "<code>#</code>" symbols. All text following a "<code>#</code>" until
+            end-of-line will be ignored.</para>
+        <para>If you need to include special characters within the value of a parameter, such as
+            whitespace or any of the above symbols, you can do so by placing the parameter within
+            double quotes:</para>
+        <informalexample>
+            <programlisting>[ssl]
+
+# Whitespace is legal within double quotes ...
+server_certificate = "/etc/ssl/my certs/guacd.crt"
+
+# ... as are other special symbols
+server_key = "/etc/ssl/#private/guacd.key"</programlisting>
+        </informalexample>
+        <para>Note that even within double quotes, some characters still have special meaning, such
+            as the double quote itself or newline characters. If you need to include these, they
+            must be "escaped" with a backslash:</para>
+        <informalexample>
+            <programlisting># Parameter value containing a double quote
+parameter = "some\"value"
+
+# Parameter value containing newline characters
+parameter2 = "line1\
+line2\
+line3"
+
+# Parameter value containing backslashes
+parameter3 = "c:\\windows\\path\\to\\file.txt"</programlisting>
+        </informalexample>
+        <para>Don't worry too much about the more complex formatting examples - they are only rarely
+            necessary, and guacd will complain with parsing errors if the configuration file is
+            somehow invalid. To ensure parameter values are entered correctly, just follow the
+            following guidelines:</para>
+        <orderedlist>
+            <listitem>
+                <para>If the value contains no special characters, just include it as-is.</para>
+            </listitem>
+            <listitem>
+                <para>If the value contains any special characters (whitespace, newlines,
+                        <code>#</code>, <code>\</code>, or <code>"</code>), enclose the entire value
+                    within double quotes.</para>
+            </listitem>
+            <listitem>
+                <para>If the value is enclosed within double quotes, escape newlines,
+                    <code>\</code>, and <code>"</code> with a backslash.</para>
+            </listitem>
+        </orderedlist>
+        <table frame="all">
+            <title>guacd.conf parameters</title>
+            <indexterm>
+                <primary>parameters</primary>
+                <secondary>guacd.conf</secondary>
+            </indexterm>
+            <tgroup cols="3">
+                <colspec colname="c1" colnum="1" colwidth="1*"/>
+                <colspec colname="c2" colnum="2" colwidth="1.85*"/>
+                <colspec colname="c3" colnum="3" colwidth="5.55*"/>
+                <thead>
+                    <row>
+                        <entry>Section</entry>
+                        <entry>Name</entry>
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry><parameter>daemon</parameter></entry>
+                        <entry><parameter>pid_file</parameter></entry>
+                        <entry>
+                            <para><indexterm>
+                                    <primary><parameter>pid_file</parameter></primary>
+                                </indexterm>The name of the file in which the PID of the main guacd
+                                process should be written. This is mainly needed for startup
+                                scripts, which need to monitor the state of guacd, killing it if
+                                necessary. If this parameter is specified, the user running guacd
+                                must have sufficient permissions to create or modify the specified
+                                file, or startup will fail.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry><parameter>server</parameter></entry>
+                        <entry><parameter>bind_host</parameter></entry>
+                        <entry>
+                            <para><indexterm>
+                                    <primary><parameter>bind_host</parameter></primary>
+                                </indexterm>The host that guacd should bind to when listening for
+                                connections. If unspecified, guacd will bind to localhost, and only
+                                connections from within the server hosting guacd will
+                                succeed.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry><parameter>server</parameter></entry>
+                        <entry><parameter>bind_port</parameter></entry>
+                        <entry>
+                            <para><indexterm>
+                                    <primary><parameter>bind_port</parameter></primary>
+                                </indexterm>The port that guacd should bind to when listening for
+                                connections. If unspecified, port 4822 will be used.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry><parameter>ssl</parameter></entry>
+                        <entry><parameter>server_certificate</parameter></entry>
+                        <entry>
+                            <para><indexterm>
+                                    <primary><parameter>server_certificate</parameter></primary>
+                                </indexterm>The filename of the certificate to use for SSL
+                                encryption of the Guacamole protocol. If this option is specified,
+                                SSL encryption will be enabled, and the Guacamole web application
+                                will need to be configured within
+                                    <filename>guacamole.properties</filename> to use SSL as
+                                well.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry><parameter>ssl</parameter></entry>
+                        <entry><parameter>server_key</parameter></entry>
+                        <entry>
+                            <para><indexterm>
+                                    <primary><parameter>server_key</parameter></primary>
+                                </indexterm>The filename of the private key to use for SSL
+                                encryption of the Guacamole protocol. If this option is specified,
+                                SSL encryption will be enabled, and the Guacamole web application
+                                will need to be configured within
+                                    <filename>guacamole.properties</filename> to use SSL as
+                                well.</para>
+                        </entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+        <para>You can also affect the configuration of guacd with command-line options. If given,
+            these options take precendence over the system-wide configuration file:</para>
+        <variablelist>
+            <varlistentry>
+                <term><option>-b <replaceable>HOST</replaceable></option></term>
+                <listitem>
+                    <para>Changes the host or address that guacd listens on.</para>
+                    <para>This corresponds to the <parameter>bind_host</parameter> parameter within
+                        the <parameter>server</parameter> section of
+                        <filename>guacd.conf</filename>.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><option>-l <replaceable>PORT</replaceable></option></term>
+                <listitem>
+                    <para>Changes the port that guacd listens on (the default is port 4822).</para>
+                    <para>This corresponds to the <parameter>bind_port</parameter> parameter within
+                        the <parameter>server</parameter> section of
+                        <filename>guacd.conf</filename>.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><option>-p <replaceable>PIDFILE</replaceable></option></term>
+                <listitem>
+                    <para>Causes guacd to write the PID of the daemon process to the specified file.
+                        This is useful for init scripts and is used by the provided init
+                        script.</para>
+                    <para>This corresponds to the <parameter>pid_file</parameter> parameter within
+                        the <parameter>daemon</parameter> section of
+                        <filename>guacd.conf</filename>.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><option>-f</option></term>
+                <listitem>
+                    <para>Causes guacd to run in the foreground, rather than automatically forking
+                        into the background.</para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+        <para>If guacd was built with support for SSL, data sent via the Guacamole protocol can be
+            encrypted with SSL if an SSL certificate and private key are given with the following
+            options:</para>
+        <variablelist>
+            <varlistentry>
+                <term><option>-C <replaceable>CERTIFICATE</replaceable></option></term>
+                <listitem>
+                    <para>The filename of the certificate to use for SSL encryption of the Guacamole
+                        protocol. If this option is specified, SSL encryption will be enabled, and
+                        the Guacamole web application will need to be configured within
+                            <filename>guacamole.properties</filename> to use SSL as well.</para>
+                    <para>This corresponds to the <parameter>server_certificate</parameter>
+                        parameter within the <parameter>ssl</parameter> section of
+                            <filename>guacd.conf</filename>.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><option>-K <replaceable>KEY</replaceable></option></term>
+                <listitem>
+                    <para>The filename of the private key to use for SSL encryption of the Guacamole
+                        protocol. If this option is specified, SSL encryption will be enabled, and
+                        the Guacamole web application will need to be configured within
+                            <filename>guacamole.properties</filename> to use SSL as well.</para>
+                    <para>This corresponds to the <parameter>server_key</parameter> parameter within
+                        the <parameter>ssl</parameter> section of
+                        <filename>guacd.conf</filename>.</para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+    </section>
 
 </chapter>
