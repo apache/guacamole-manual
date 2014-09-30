@@ -419,8 +419,8 @@ guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
                 project web site will take the form of a <filename>.tar.gz</filename> archive which
                 you can extract from the command line:</para>
             <informalexample>
-                <screen><prompt>$</prompt> <userinput>tar -xzf guacamole-server-0.9.0.tar.gz</userinput>
-<prompt>$</prompt> <userinput>cd guacamole-server-0.9.0/</userinput>
+                <screen><prompt>$</prompt> <userinput>tar -xzf guacamole-server-0.9.3.tar.gz</userinput>
+<prompt>$</prompt> <userinput>cd guacamole-server-0.9.3/</userinput>
 <prompt>$</prompt></screen>
             </informalexample>
             <para>If you want the absolute latest code, and don't care that the code hasn't been as
@@ -469,7 +469,7 @@ checking whether build environment is sane... yes
 ...
 
 ------------------------------------------------
-guacamole-server version 0.9.0
+guacamole-server version 0.9.3
 ------------------------------------------------
 
    Library status:
@@ -626,8 +626,8 @@ make[1]: Leaving directory `/home/zhz/guacamole/guacamole-server'</computeroutpu
                 project web site will take the form of a <filename>.tar.gz</filename> archive which
                 you can extract from the command line:</para>
             <informalexample>
-                <screen><prompt>$</prompt> <userinput>tar -xzf guacamole-client-0.9.0.tar.gz</userinput>
-<prompt>$</prompt> <userinput>cd guacamole-client-0.9.0/</userinput>
+                <screen><prompt>$</prompt> <userinput>tar -xzf guacamole-client-0.9.3.tar.gz</userinput>
+<prompt>$</prompt> <userinput>cd guacamole-client-0.9.3/</userinput>
 <prompt>$</prompt></screen>
             </informalexample>
             <para>As with <package>guacamole-server</package>, if you want the absolute latest code,
@@ -688,7 +688,7 @@ Resolving deltas: 100% (3942/3942), done.</computeroutput>
                 container.</para>
             <para>You will probably have to do this as the root user:</para>
             <informalexample>
-                <screen><prompt>#</prompt> <userinput>cp guacamole/target/guacamole-0.9.0.war /var/lib/tomcat6/webapps/guacamole.war</userinput>
+                <screen><prompt>#</prompt> <userinput>cp guacamole/target/guacamole-0.9.3.war /var/lib/tomcat6/webapps/guacamole.war</userinput>
 <prompt>#</prompt></screen>
             </informalexample>
             <para>The Guacamole web application also depends on a configuration file,
