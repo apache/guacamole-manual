@@ -127,7 +127,8 @@
             increased, and the old RealMint-style long polling was dropped, as was the use of
             XML.</para>
         <para>As WebSocket could not be trusted to be supported at the time, and Java had no
-            WebSocket standard for servlets, an equivalent HTTP-based tunnel was developed.</para>
+            WebSocket standard for servlets, an equivalent HTTP-based tunnel was developed. This
+            tunnel is still used today if WebSocket cannot be used for any reason.</para>
     </section>
     <section>
         <title>Remote Desktop Gateway</title>

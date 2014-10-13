@@ -56,13 +56,13 @@
         <qandaentry>
             <question>
 
-                <para>Why does Guacamole not use WebSocket? </para>
+                <para>Does Guacamole use WebSocket? </para>
 
             </question>
             <answer>
-                <para>Guacamole actually does have support for WebSocket. It's far more common that
-                    WebSocket ends up not being used either due to a lack of support in the servlet
-                    container or to intervening proxies.</para>
+                <para>Guacamole uses either WebSocket or plain HTTP, whichever is supported by both
+                    the browser and your servlet container. If WebSocket cannot be used for any
+                    reason, Guacamole will fall back to using HTTP.</para>
 
                 <para>Historically, Guacamole had no WebSocket support at all. This was due to a
                     lack of browser support and lack of a true standard. Overall, it didn't matter

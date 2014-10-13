@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <book xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude">
-
     <info>
         <title>Guacamole Manual</title>
         <edition>0.9.3</edition>
@@ -23,14 +22,12 @@
             with the API. This book is intended to explore the possibilities of Guacamole as an
             application, and to provide documentation necessary to install, maintain, and use
             Guacamole.</para>
-        <para>For the sake of users and administrators, we have provided a
-            high-level overview of Guacamole's architecture and technical
-            design, as well as basic usage instructions and installation
-            instructions for common platforms.</para>
-        <para>For the sake of developers, we have provided a protocol reference
-            and tutorials for common tasks (implementing protocol support,
-            integrating Guacamole into your own application, etc.) to give a
-            good starting point beyond simply looking at the Guacamole
+        <para>For the sake of users and administrators, we have provided a high-level overview of
+            Guacamole's architecture and technical design, as well as basic usage instructions and
+            installation instructions for common platforms.</para>
+        <para>For the sake of developers, we have provided a protocol reference and tutorials for
+            common tasks (implementing protocol support, integrating Guacamole into your own
+            application, etc.) to give a good starting point beyond simply looking at the Guacamole
             codebase.</para>
         <para>This particular edition of the <citetitle>Guacamole Manual</citetitle> covers
             Guacamole version 0.9.3. New releases which create new features or break compatibility
@@ -69,7 +66,7 @@
                 Guacamole is now performant enough for daily use, and all Guacamole development is
                 done over Guacamole.</para>
             <para>As an API, Guacamole provides a common and efficient means of streaming text data
-                over a JavaScript-based tunnel (which need not use WebSocket), and a client
+                over a JavaScript-based tunnel using either HTTP or WebSocket, and a client
                 implementation which supports the Guacamole protocol and renders the remote display
                 when combined with a Guacamole protocol stream from the tunnel.</para>
             <para>It provides cross-browser mouse and keyboard events, an XML-driven on-screen
@@ -142,7 +139,6 @@
                 browser to see their computers' screens.</para>
         </simplesect>
     </preface>
-
     <part xml:id="users-guide">
         <title>User's Guide</title>
         <xi:include href="chapters/architecture.xml"/>
@@ -156,7 +152,6 @@
         <!--<xi:include href="chapters/home-desktop.xml"/>-->
         <!--<xi:include href="chapters/ec2.xml"/>-->
     </part>
-
     <part xml:id="developers-guide">
         <title>Developer's Guide</title>
         <xi:include href="chapters/protocol.xml"/>
@@ -168,13 +163,10 @@
         <xi:include href="chapters/custom-auth.xml"/>
         <xi:include href="chapters/yourown.xml"/>
     </part>
-
     <part xml:id="appendices">
         <title>Appendices</title>
         <xi:include href="appendices/faq.xml"/>
         <xi:include href="references/protocol.xml"/>
-        <index xml:id="book-index"></index>
+        <index xml:id="book-index"/>
     </part>
-
 </book>
-
