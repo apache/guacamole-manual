@@ -182,6 +182,94 @@ auth-provider: net.sourceforge.guacamole.net.basic.BasicFileAuthenticationProvid
 basic-user-mapping: /etc/guacamole/user-mapping.xml</programlisting>
         </example>
     </section>
+    <section>
+        <title>Logging within the web application</title>
+        <indexterm>
+            <primary>logging</primary>
+        </indexterm>
+        <para>By default, Guacamole logs all messages to the console. Servlet containers like Tomcat
+            will automatically redirect these messages to a log file,
+                <filename>catalina.out</filename> in the case of Tomcat, which you can read through
+            while Guacamole runs. Messages are logged at four different log levels, depending on
+            message importance and severity:</para>
+        <variablelist>
+            <varlistentry>
+                <term><indexterm>
+                        <primary>logging</primary>
+                        <secondary>errors</secondary>
+                    </indexterm><constant>error</constant></term>
+                <listitem>
+                    <para>Errors are fatal conditions. An operation, described in the log message,
+                        was attempted but could not proceed, and the failure of this operation is a
+                        serious problem that needs to be addressed.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><indexterm>
+                        <primary>logging</primary>
+                        <secondary>warnings</secondary>
+                    </indexterm><constant>warn</constant></term>
+                <listitem>
+                    <para>Warnings are generally non-fatal conditions. The operation continued, but
+                        encountered noteworthy problems.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><indexterm>
+                        <primary>logging</primary>
+                        <secondary>info</secondary>
+                    </indexterm><constant>info</constant></term>
+                <listitem>
+                    <para>"Info" messages are purely informational. They may be useful or
+                        interesting to administrators, but are not generally critical to proper
+                        operation of a Guacamole server.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><indexterm>
+                        <primary>logging</primary>
+                        <secondary>debug</secondary>
+                    </indexterm><constant>debug</constant></term>
+                <listitem>
+                    <para>Debug messages are highly detailed and oriented toward development. Most
+                        debug messages will contain stack traces and internal information that is
+                        useful when investigating problems within code.</para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+        <para>Guacamole logs messages using a logging framework called <link
+                xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://logback.qos.ch/"
+                >Logback</link> and, by default, will only log messages at the
+                "<constant>info</constant>" level or higher. If you wish to change the log level, or
+            configure how or where Guacamole logs messages, you can do so by providing your own
+                <filename>logback.xml</filename> file within <varname>GUACAMOLE_HOME</varname>. For
+            example, to log all messages to the console, even "<constant>debug</constant>" messages,
+            you might use the following <filename>logback.xml</filename>:</para>
+        <informalexample>
+            <programlisting>&lt;configuration>
+
+    &lt;!-- Appender for debugging -->
+    &lt;appender name="GUAC-DEBUG" class="ch.qos.logback.core.ConsoleAppender">
+        &lt;encoder>
+            &lt;pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n&lt;/pattern>
+        &lt;/encoder>
+    &lt;/appender>
+
+    &lt;!-- Log at DEBUG level -->
+    &lt;root level="debug">
+        &lt;appender-ref ref="GUAC-DEBUG"/>
+    &lt;/root>
+
+&lt;/configuration></programlisting>
+        </informalexample>
+        <para>Guacamole and the above example configure only one appender which logs to the console,
+            but Logback is extremely flexible and allows any number of appenders which can each log
+            to separate files, the console, etc. based on a number of criteria, including the log
+            level and the source of the message.</para>
+        <para>More thorough <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                xlink:href="http://logback.qos.ch/manual/configuration.html">documentation on
+                configuring Logback</link> is provided on the Logback project's web site.</para>
+    </section>
     <section xml:id="basic-auth">
         <title>Using the default authentication</title>
         <indexterm>
@@ -759,6 +847,19 @@ basic-user-mapping: /etc/guacamole/user-mapping.xml</programlisting>
                             <para>The height of the display to request, in pixels. This parameter is
                                 optional. If this value is not specified, the height of the
                                 connecting client display will be used instead.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry><parameter>dpi</parameter></entry>
+                        <entry>
+                            <para><indexterm>
+                                    <primary>RDP</primary>
+                                    <secondary>display resolution</secondary>
+                                </indexterm>The desired effective resolution of the client display,
+                                in DPI. This parameter is optional. If this value is not specified,
+                                the resolution and size of the client display will be used together
+                                to determine, heuristically, an appropriate resolution for the RDP
+                                session.</para>
                         </entry>
                     </row>
                     <row>
@@ -1409,7 +1510,7 @@ basic-user-mapping: /etc/guacamole/user-mapping.xml</programlisting>
                 dialect typically used by <command>egrep</command>).</para>
         </section>
     </section>
-    <section>
+    <section xml:id="guacd.conf">
         <title>Configuring guacd</title>
         <para><indexterm>
                 <primary>guacd.conf</primary>
@@ -1425,6 +1526,7 @@ basic-user-mapping: /etc/guacamole/user-mapping.xml</programlisting>
 [daemon]
 
 pid_file = /var/run/guacd.pid
+log_level = info
 
 [server]
 
@@ -1528,6 +1630,26 @@ parameter3 = "c:\\windows\\path\\to\\file.txt"</programlisting>
                         </entry>
                     </row>
                     <row>
+                        <entry><parameter>daemon</parameter></entry>
+                        <entry><parameter>log_level</parameter></entry>
+                        <entry>
+                            <para><indexterm>
+                                    <primary>logging</primary>
+                                    <secondary>guacd</secondary>
+                                </indexterm><indexterm>
+                                    <primary>guacd</primary>
+                                    <secondary>logging</secondary>
+                                </indexterm><indexterm>
+                                    <primary><parameter>log_level</parameter></primary>
+                                </indexterm>The maximum level at which guacd will log messages to
+                                syslog and, if running in the foreground, the console. If omitted,
+                                the default level of <constant>info</constant> will be used.</para>
+                            <para>Legal values are <constant>debug</constant>,
+                                    <constant>info</constant>, <constant>warning</constant>, and
+                                    <constant>error</constant>.</para>
+                        </entry>
+                    </row>
+                    <row>
                         <entry><parameter>server</parameter></entry>
                         <entry><parameter>bind_host</parameter></entry>
                         <entry>
@@ -1608,6 +1730,19 @@ parameter3 = "c:\\windows\\path\\to\\file.txt"</programlisting>
                         This is useful for init scripts and is used by the provided init
                         script.</para>
                     <para>This corresponds to the <parameter>pid_file</parameter> parameter within
+                        the <parameter>daemon</parameter> section of
+                        <filename>guacd.conf</filename>.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><option>-L <replaceable>LEVEL</replaceable></option></term>
+                <listitem>
+                    <para>Sets the maximum level at which guacd will log messages to syslog and, if
+                        running in the foreground, the console. Legal values are
+                            <constant>debug</constant>, <constant>info</constant>,
+                            <constant>warning</constant>, and <constant>error</constant>. The
+                        default value is <constant>info</constant>.</para>
+                    <para>This corresponds to the <parameter>log_level</parameter> parameter within
                         the <parameter>daemon</parameter> section of
                         <filename>guacd.conf</filename>.</para>
                 </listitem>
