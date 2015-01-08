@@ -102,7 +102,7 @@
                     </thead>
                     <tbody>
                         <row>
-                            <entry>Cairo</entry>
+                            <entry><link xl:href="http://cairographics.org/">Cairo</link></entry>
                             <entry>
                                 <para>Cairo is used by libguac for graphics rendering. Guacamole
                                     cannot function without Cairo installed.</para>
@@ -125,7 +125,8 @@
                             </entry>
                         </row>
                         <row>
-                            <entry>libpng</entry>
+                            <entry><link xl:href="http://www.libpng.org/pub/png/libpng.html"
+                                    >libpng</link></entry>
                             <entry>
                                 <para>libpng is used by libguac to write PNG images, the core image
                                     type used by the Guacamole protocol. Guacamole cannot function
@@ -149,7 +150,8 @@
                             </entry>
                         </row>
                         <row>
-                            <entry>OSSP UUID</entry>
+                            <entry><link xl:href="http://www.ossp.org/pkg/lib/uuid/">OSSP
+                                    UUID</link></entry>
                             <entry>
                                 <para>OSSP UUID is used by libguac to assign unique IDs to each
                                     Guacamole connection. These unique IDs are the basis for
@@ -201,7 +203,7 @@
                     </thead>
                     <tbody>
                         <row>
-                            <entry>FreeRDP</entry>
+                            <entry><link xl:href="http://www.freerdp.com/">FreeRDP</link></entry>
                             <entry>
                                 <para>FreeRDP is required for RDP support. If you do not wish to
                                     build RDP support, this library is not needed.</para>
@@ -224,7 +226,7 @@
                             </entry>
                         </row>
                         <row>
-                            <entry>Pango</entry>
+                            <entry><link xl:href="http://www.pango.org/">Pango</link></entry>
                             <entry>
                                 <para>Pango is a text layout library which Guacamole's SSH and
                                     telnet support uses to render text. If you do not wish to build
@@ -248,7 +250,7 @@
                             </entry>
                         </row>
                         <row>
-                            <entry>libssh2</entry>
+                            <entry><link xl:href="http://www.libssh2.org/">libssh2</link></entry>
                             <entry>
                                 <para>libssh2 is required for SSH support. If you do not wish to
                                     build SSH support, this library is not needed.</para>
@@ -271,7 +273,8 @@
                             </entry>
                         </row>
                         <row>
-                            <entry>libtelnet</entry>
+                            <entry><link xl:href="https://github.com/seanmiddleditch/libtelnet"
+                                    >libtelnet</link></entry>
                             <entry>
                                 <para>libtelnet is required for telnet support. If you do not wish
                                     to build telnet support, this library is not needed.</para>
@@ -294,9 +297,10 @@
                             </entry>
                         </row>
                         <row>
-                            <entry>libvncclient</entry>
+                            <entry><link xl:href="http://libvnc.github.io/"
+                                >libVNCServer</link></entry>
                             <entry>
-                                <para>libvncclient is part of libVNCServer, and is required for VNC
+                                <para>libVNCServer provides libvncclient, which is required for VNC
                                     support. If you do not wish to build VNC support, this library
                                     is not needed.</para>
                                 <informaltable frame="none" rowheader="firstcol">
@@ -318,12 +322,14 @@
                             </entry>
                         </row>
                         <row>
-                            <entry>libpulse</entry>
+                            <entry><link
+                                    xl:href="http://www.freedesktop.org/wiki/Software/PulseAudio/"
+                                    >PulseAudio</link></entry>
                             <entry>
-                                <para>libpulse provides support for PulseAudio, which is used by
-                                    Guacamole's VNC support to provide experimental audio. If you
-                                    are not going to be using the experimental audio support for
-                                    VNC, you do not need this library.</para>
+                                <para>PulseAudio provides libpulse, which is used by Guacamole's VNC
+                                    support to provide experimental audio support. If you are not
+                                    going to be using the experimental audio support for VNC, you do
+                                    not need this library.</para>
                                 <informaltable frame="none" rowheader="firstcol">
                                     <tgroup cols="2">
                                         <colspec colname="c1" colnum="1" colwidth="1.0*"/>
@@ -343,7 +349,7 @@
                             </entry>
                         </row>
                         <row>
-                            <entry>OpenSSL</entry>
+                            <entry><link xl:href="https://www.openssl.org/">OpenSSL</link></entry>
                             <entry>
                                 <para>OpenSSL provides support for SSL and TLS - two common
                                     encryption schemes that make up the majority of encrypted web
@@ -374,7 +380,7 @@
                             </entry>
                         </row>
                         <row>
-                            <entry>libvorbis</entry>
+                            <entry><link xl:href="http://xiph.org/vorbis/">libvorbis</link></entry>
                             <entry>
                                 <para>libvorbis provides support for Ogg Vorbis - a free and open
                                     standard for sound compression. If installed, libguac will be
