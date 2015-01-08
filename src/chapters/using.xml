@@ -35,10 +35,12 @@
             Currently, both RDP and SSH have support for file transfer, though with slightly
             different semantics. RDP provides file transfer by emulating a virtual drive, while SSH
             provides file transfer by using SFTP.</para>
-        <para>To transfer files to the remote computer, drag the files into your browser window. If
-            file transfer is enabled, you will see a notification popup showing upload progress. If
-            file transfer is not enabled or not supported, you will instead see a notification with
-            an error message describing the problem.</para>
+        <para>To transfer files to the remote computer, drag the files into your browser window, or
+            use the "Upload Files" button within the Guacamole menu. If file transfer is enabled,
+            you will see a progress indicator appear within the menu. If file transfer is not
+            enabled or not supported, you will instead see a notification with an error message
+            describing the problem. Completed transfers can be removed from the list by clicking
+            "Clear Completed Transfers".</para>
         <para>The method for downloading files from the remote computer depends on the protocol. In
             the case of RDP, you must drag, copy, move, or save the files into the special
             "Download" folder located in the virtual drive. All files dropped into this folder will
