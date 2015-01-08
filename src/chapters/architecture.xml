@@ -93,7 +93,7 @@
             reason that it can't be written in a different language. In fact, because Guacamole is
             intended be an API, we encourage this.</para>
     </section>
-    <section>
+    <section xml:id="realmint">
         <title>RealMint</title>
         <indexterm>
             <primary>history</primary>
@@ -112,7 +112,7 @@
             JavaScript terminal emulators exist, most of which well-established and stable, the
             project was dropped.</para>
     </section>
-    <section>
+    <section xml:id="vnc-client">
         <title>VNC Client</title>
         <para>Once the developers learned of the HTML5 canvas tag, and saw that it was already
             implemented in Firefox and Chrome, work started instead on a proof-of-concept JavaScript
@@ -130,7 +130,7 @@
             WebSocket standard for servlets, an equivalent HTTP-based tunnel was developed. This
             tunnel is still used today if WebSocket cannot be used for any reason.</para>
     </section>
-    <section>
+    <section xml:id="gateway">
         <title>Remote Desktop Gateway</title>
         <para>A faster text-based protocol was developed which could present the features of
             multiple remote desktop protocols, not just VNC. The entire system was rearchitected
