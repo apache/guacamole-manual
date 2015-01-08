@@ -12,12 +12,16 @@
         you wish to connect to. The username and password you give Guacamole grants you access to
         the Guacamole system only. The usernames and passwords required for the remote desktops are
         independent of this.</para>
-    <para>If the correct username and password are provided, a list of available remote desktop
-        connections will be presented. This is the list of all connections which you have been
-        granted permission to access. If you have used Guacamole in this specific web browser
-        before, you will also see thumbnails of recently used connections. </para>
-    <para>Clicking on any connection will open that connection in a new window or tab, and multiple
-        connections can be used simultaneously.</para>
+    <para>If the correct username and password are provided, you will be taken to the home screen: a
+        list of available remote desktop connections. This is the list of all connections which you
+        have been granted permission to access. If you have used Guacamole in this specific web
+        browser before, you will also see thumbnails of recently used connections.</para>
+    <para>Clicking on any connection will open that connection within the current window or tab, but
+        multiple connections can be used simultaneously. You can easily navigate back to the home
+        screen without disconnecting by using your browsers back button or the "Home" button in the
+        Guacamole menu. Each connection you use will remain active until explicitly disconnected, or
+        until you navigate away from Guacamole entirely. Active connections can be seen as
+        thumbnails updating in real-time on the home screen.</para>
     <para><indexterm>
             <primary>interacting</primary>
         </indexterm>Guacamole provides an interface for accessing much of the functionality of a
@@ -87,6 +91,9 @@ $</screen>
         <para>The Guacamole menu provides options for:<itemizedlist>
                 <listitem>
                     <para>Reading from (and writing to) the clipboard of the remote desktop</para>
+                </listitem>
+                <listitem>
+                    <para>Uploading files and monitoring file transfer progress</para>
                 </listitem>
                 <listitem>
                     <para>Selecting alternative methods of typing or controlling the mouse,
