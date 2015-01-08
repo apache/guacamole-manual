@@ -702,7 +702,7 @@ Resolving deltas: 100% (3942/3942), done.</computeroutput>
             container.</para>
         <para>You will probably have to do this as the root user:</para>
         <informalexample>
-            <screen><prompt>#</prompt> <userinput>cp guacamole/target/guacamole-0.9.4.war /var/lib/tomcat6/webapps/guacamole.war</userinput>
+            <screen><prompt>#</prompt> <userinput>cp guacamole/target/guacamole-0.9.4.war /var/lib/tomcat7/webapps/guacamole.war</userinput>
 <prompt>#</prompt></screen>
         </informalexample>
         <para>The Guacamole web application also depends on a configuration file,
@@ -716,9 +716,9 @@ Resolving deltas: 100% (3942/3942), done.</computeroutput>
             directory of the user that the servlet container runs as.</para>
         <informalexample>
             <screen><prompt>#</prompt> <userinput>mkdir /etc/guacamole</userinput>
-<prompt>#</prompt> <userinput>mkdir <replaceable>/usr/share/tomcat6</replaceable>/.guacamole</userinput>
+<prompt>#</prompt> <userinput>mkdir <replaceable>/usr/share/tomcat7</replaceable>/.guacamole</userinput>
 <prompt>#</prompt> <userinput>cp guacamole/doc/example/guacamole.properties /etc/guacamole/guacamole.properties</userinput>
-<prompt>#</prompt> <userinput>ln -s /etc/guacamole/guacamole.properties <replaceable>/usr/share/tomcat6</replaceable>/.guacamole/</userinput>
+<prompt>#</prompt> <userinput>ln -s /etc/guacamole/guacamole.properties <replaceable>/usr/share/tomcat7</replaceable>/.guacamole/</userinput>
 <prompt>#</prompt>           </screen>
         </informalexample>
         <para>You will need to edit <filename>guacamole.properties</filename> to be sure that all
@@ -765,12 +765,12 @@ Resolving deltas: 100% (3942/3942), done.</computeroutput>
             Guacamole require them, such that future upgrades will only involve placing the new
             files in standard locations. The standard locations involved are the Tomcat
                 "<filename>webapps</filename>" directory (below,
-                <filename>/var/lib/tomcat6/webapps</filename>, but your installation may be
+                <filename>/var/lib/tomcat7/webapps</filename>, but your installation may be
             different), and the "<filename>.guacamole</filename>" directory, which must be manually
             created within the Tomcat user's home directory.</para>
         <informalexample>
-            <screen><prompt>#</prompt> <userinput>ln -s /var/lib/guacamole/guacamole.war <replaceable>/var/lib/tomcat6</replaceable>/webapps</userinput>
-<prompt>#</prompt> <userinput>ln -s /etc/guacamole/guacamole.properties <replaceable>/usr/share/tomcat6</replaceable>/.guacamole/</userinput>
+            <screen><prompt>#</prompt> <userinput>ln -s /var/lib/guacamole/guacamole.war <replaceable>/var/lib/tomcat7</replaceable>/webapps</userinput>
+<prompt>#</prompt> <userinput>ln -s /etc/guacamole/guacamole.properties <replaceable>/usr/share/tomcat7</replaceable>/.guacamole/</userinput>
 <prompt>#</prompt></screen>
         </informalexample>
         <para>If you are using a different servlet container or Tomcat is installed in a different
@@ -784,20 +784,15 @@ Resolving deltas: 100% (3942/3942), done.</computeroutput>
         <para>The command to restart Tomcat and guacd will vary by distribution. Typically, you can
             do this by running the corresponding init scripts with the "restart" option:</para>
         <informalexample>
-            <screen><prompt>#</prompt> <userinput>/etc/init.d/tomcat6 restart</userinput>
+            <screen><prompt>#</prompt> <userinput>/etc/init.d/tomcat7 restart</userinput>
 <computeroutput>Stopping Tomcat... OK
 Starting Tomcat... OK</computeroutput>
 <prompt>#</prompt> <userinput>/etc/init.d/guacd start</userinput>
 <computeroutput>Starting guacd: SUCCESS
-guacd[6229]: INFO:  Guacamole proxy daemon (guacd) version 0.7.0
-guacd[6229]: INFO:  Unable to bind socket to host ::1, port 4822: Address family not supported by
-protocol
-guacd[6229]: INFO:  Successfully bound socket to host 127.0.0.1, port 4822
-guacd[6229]: INFO:  Exiting and passing control to PID 6230
-guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
+guacd[6229]: INFO:  Guacamole proxy daemon (guacd) version 0.9.4 started</computeroutput>
 <prompt>#</prompt></screen>
         </informalexample>
-        <para>If you want Guacamole to start on boot, you will need to configure the tomcat6 and
+        <para>If you want Guacamole to start on boot, you will need to configure the Tomcat and
             guacd services to run automatically. Your distribution will provide documentation for
             doing this.</para>
         <section>
