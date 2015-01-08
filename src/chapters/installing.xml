@@ -5,386 +5,347 @@
     <indexterm>
         <primary>installing</primary>
     </indexterm>
-    <section xml:id="binary-packages">
-        <title>Packages from your distribution</title>
+    <indexterm>
+        <primary>compiling</primary>
+        <secondary>Guacamole</secondary>
+    </indexterm>
+    <para>Guacamole is separated into two pieces: <package>guacamole-server</package>, which
+        provides the <package>guacd</package> proxy and related libraries, and
+            <package>guacamole-client</package>, which provides the client to be served by your
+        servlet container, usually <link xl:href="http://tomcat.apache.org/">Tomcat</link>.</para>
+    <para><package>guacamole-client</package> is available in binary form, but
+            <package>guacamole-server</package> must be built from source. Don't be discouraged:
+        building the components of Guacamole from source is <emphasis>not</emphasis> as difficult as
+        it sounds, and the build process is automated. You just need to be sure you have the
+        necessary tools installed ahead of time. With the necessary dependencies in place, building
+        Guacamole only takes a few minutes.</para>
+    <section xml:id="building-guacamole-server">
+        <title>Building <package>guacamole-server</package></title>
         <indexterm>
-            <primary>packages</primary>
+            <primary><package>libguac</package></primary>
+            <secondary>compiling</secondary>
         </indexterm>
-        <para>Guacamole is included in the repositories of several Linux distributions. If your
-            distribution provides Guacamole packages for you, this is the preferred method of
-            installing Guacamole. If your distribution does not provide Guacamole packages, or the
-            packages provided are too old, you can build Guacamole from source fairly easily.</para>
+        <indexterm>
+            <primary>guacd</primary>
+            <secondary>compiling</secondary>
+        </indexterm>
+        <indexterm>
+            <primary>VNC support</primary>
+            <secondary>compiling</secondary>
+        </indexterm>
+        <indexterm>
+            <primary>RDP support</primary>
+            <secondary>compiling</secondary>
+        </indexterm>
+        <indexterm>
+            <primary>SSH support</primary>
+            <secondary>compiling</secondary>
+        </indexterm>
+        <indexterm>
+            <primary>telnet support</primary>
+            <secondary>compiling</secondary>
+        </indexterm>
+        <indexterm>
+            <primary><package>libguac-client-vnc</package></primary>
+            <secondary>compiling</secondary>
+        </indexterm>
+        <indexterm>
+            <primary><package>libguac-client-rdp</package></primary>
+            <secondary>compiling</secondary>
+        </indexterm>
+        <indexterm>
+            <primary><package>libguac-client-ssh</package></primary>
+            <secondary>compiling</secondary>
+        </indexterm>
+        <indexterm>
+            <primary><package>libguac-client-telnet</package></primary>
+            <secondary>compiling</secondary>
+        </indexterm>
+        <indexterm>
+            <primary><package>guacamole-server</package></primary>
+            <secondary>compiling</secondary>
+        </indexterm>
+        <para><package>guacamole-server</package> contains all the native, server-side components
+            required by Guacamole to connect to remote desktops. It provides a common C library,
+                <package>libguac</package>, which all other native components depend on, as well as
+            separate libraries for each supported protocol, and <package>guacd</package>, the heart
+            of Guacamole.</para>
+        <para><package>guacd</package> is the proxy daemon that runs on your Guacamole server,
+            accepts users' connections that are tunneled through the Guacamole web application, and
+            then connects to remote desktops on their behalf. Building <package>guacd</package>
+            creates an executable called <filename>guacd</filename> which can be run manually or, if
+            you wish, automatically when your computer starts up.</para>
+        <para>To build <package>guacamole-server</package>, you will need a C compiler (such as
+                <package>gcc</package>) and the libraries that <package>guacamole-server</package>
+            depends on. Some dependencies are absolutely required, while others are optional. The
+            presence of optional dependencies enables additional features.</para>
         <important>
-            <para>Be aware that Guacamole is a remote desktop gateway, and cannot access your
-                desktop's display without a remote desktop server of some kind to connect to.
-                Guacamole does not contain its own VNC or RDP server, and these installation
-                procedures will not walk you through the installation of a VNC or RDP server.</para>
-            <para>Your distribution of choice will provide documentation for setting up VNC, as will
-                the documentation provided by those that created the VNC server you wish to use. If
-                you are going to use RDP to connect to Windows computers, Microsoft (and many others
-                on the internet) provides documentation describing how to set up remote
-                desktop.</para>
+            <para>Many Linux distributions separate library packages into binary and "development"
+                packages; <emphasis>you will need to install the development packages</emphasis>.
+                These will usually end in a "-dev" or "-devel" suffix.</para>
         </important>
-        <para>Installing Guacamole from your distribution's <package>guacamole</package> package
-            will typically install the web application and the proxy <package>guacd</package>, along
-            with support for VNC (<package>libguac-client-vnc</package>). If you want support for
-            RDP or SSH, you will need to install those packages as well.</para>
-        <para>After the Guacamole packages are installed, the web application may still need to be
-            deployed to your servlet container. Some packages, like the Debian package called
-                <package>guacamole-tomcat</package>, will do this for you, but if your distribution
-            provides no such package, you will have to deploy Guacamole yourself.</para>
-        <section>
-            <title>Debian and Ubuntu</title>
-            <para>The Debian repositories contain packages for all of Guacamole's components, and
-                Ubuntu has inherited those packages (being Debian-based).</para>
-            <para>There is also a PPA which contains the most recent stable build of Guacamole while
-                updates to the official Debian and Ubuntu repositories are pending. If you don't
-                want to wait for the main repositories to update, users of Ubuntu can just add the
-                PPA and install the packages from there:</para>
-            <informalexample>
-                <indexterm>
-                    <primary>PPA</primary>
-                </indexterm>
-                <screen><prompt>$</prompt> <userinput>sudo add-apt-repository ppa:guacamole/stable</userinput>
-<computeroutput>[sudo] password for user: 
-You are about to add the following PPA to your system:
- The most recent stable release of Guacamole and its components. The packages
-here use the same packaging as the downstream Debian and Ubuntu packages, but
-are updated more frequently, usually while the corresponding downstream
-packages are under official review.
- More info: https://launchpad.net/~guacamole/+archive/stable
-Press [ENTER] to continue or ctrl-c to cancel adding it
-
-gpg: keyring `/tmp/tmpc7ipgi/secring.gpg' created
-gpg: keyring `/tmp/tmpc7ipgi/pubring.gpg' created
-gpg: requesting key 106BB296 from hkp server keyserver.ubuntu.com
-gpg: /tmp/tmpc7ipgi/trustdb.gpg: trustdb created
-gpg: key 106BB296: public key "Launchpad PPA for Guacamole" imported
-gpg: Total number processed: 1
-gpg:               imported: 1  (RSA: 1)
-OK</computeroutput>
-<prompt>$</prompt> </screen>
-            </informalexample>
-            <para>For users of Debian or any flavor of Ubuntu, installing Guacamole is as simple as
-                installing the <package>guacamole-tomcat</package> package, and then editing the
-                    <filename>/etc/guacamole/user-mapping.xml</filename> file to add some
-                connections. The <package>guacamole-tomcat</package> package will install Tomcat and
-                automatically create the necessary symbolic links to deploy Guacamole. If you don't
-                want to use Tomcat, or you want to deploy Guacamole manually, you can install the
-                    <package>guacamole</package> package instead, and follow the deployment
-                instructions provided in this chapter.</para>
-            <informalexample>
-                <screen><prompt>#</prompt> <userinput>apt-get install guacamole-tomcat</userinput>
-<prompt>#</prompt> </screen>
-            </informalexample>
-            <para>If you install the <package>guacamole-tomcat</package> package, you will be
-                prompted for whether you wish to restart Tomcat automatically. Tomcat must be
-                restarted after Guacamole is installed or upgraded. If you don't want to do this, or
-                you want to do this manually, choose "No" (the default). Choosing "Yes" will restart
-                Tomcat for this and future installs of Guacamole.</para>
-            <important>
-                <para>The Debian and Ubuntu packages will set up <package>guacd</package> such that
-                    it runs as its own reduced-privilege <code>guacd</code> user, for the sake of
-                    security. Similarly, the <filename>user-mapping.xml</filename> file will only be
-                    readable by users in the <code>guacamole-web</code> group, as it will
-                    potentially contain sensitive information like passwords in plain text.</para>
-                <para>The guacamole-tomcat package will automatically put the tomcat6 user in the
-                        <code>guacamole-web</code> group, but if you are installing Tomcat manually
-                    or using another servlet container, <emphasis>you must ensure your servlet
-                        container's user is a member of the <code>guacamole-web</code>
-                        group</emphasis>. If you do not do this, your servlet container will not be
-                    able to read <filename>user-mapping.xml</filename>, and all attempts to login to
-                    Guacamole will fail.</para>
-            </important>
-            <para>By default, VNC support will be installed as a dependency of the
-                    <package>guacamole</package> package. If you want SSH or RDP support, you will
-                need to install <package>libguac-client-ssh0</package> or
-                    <package>libguac-client-rdp0</package> manually:</para>
-            <informalexample>
-                <screen><prompt>#</prompt> <userinput>apt-get install libguac-client-ssh0 libguac-client-rdp0</userinput>
-<prompt>#</prompt> </screen>
-                <para>Recent versions of Debian and Ubuntu have a recent-enough version of FreeRDP
-                    and include <package>libguac-client-rdp0</package>, but if you're using an older
-                    version of Debian (such as Debian 6.0 a.k.a. "squeeze"), you will have to either
-                    do without RDP support or install FreeRDP and
-                        <package>guacamole-server</package> manually, without using your
-                    distribution's packages.</para>
-                <para>Once installed, both Tomcat and <package>guacd</package> will start
-                    automatically and on boot.</para>
-            </informalexample>
-        </section>
-        <section>
-            <title>Fedora, RHEL, and CentOS</title>
-            <para>Fedora has an excellent Guacamole package, <package>guacamole</package>, which
-                will automatically install deploy Guacamole to Tomcat. It does not depend on
-                    <package>guacd</package>, however, and you thus must install the
-                    <package>guacd</package> package manually alongside
-                <package>guacamole</package>:</para>
-            <informalexample>
-                <screen><prompt>#</prompt> <userinput>yum install guacamole guacd</userinput>
-<prompt>#</prompt> </screen>
-            </informalexample>
-            <para>Depending on which protocols you require support for, you will need to install one
-                of the <package>libguac-client-*</package> packages to provide support for those
-                protocols. Most users will want at least <package>libguac-client-vnc</package>. If
-                you want SSH support, or access to RDP servers, you will need to install
-                    <package>libguac-client-ssh</package> or <package>libguac-client-rdp</package>
-                respectively.</para>
-            <informalexample>
-                <screen><prompt>#</prompt> <userinput>yum install libguac-client-vnc libguac-client-ssh libguac-client-rdp</userinput>
-<prompt>#</prompt> </screen>
-            </informalexample>
-            <para>Neither RHEL nor CentOS include Guacamole packages in their main repositories,
-                however Fedora maintains a repository called EPEL which contains binaries compatible
-                with both RHEL and CentOS. The EPEL repository contains the Guacamole packages
-                described above. If you wish to install Guacamole on RHEL or CentOS, you should
-                either add the EPEL repository and install from that, or build Guacamole from
-                source.</para>
-            <para>Once everything is installed, you will still need to configure
-                    <package>guacd</package> and Tomcat to start automatically on boot (assuming
-                this is what you want):</para>
-            <informalexample>
-                <screen><prompt>#</prompt> <userinput>chkconfig tomcat6 on</userinput>
-<computeroutput>Note: forwarding request to 'systemctl enable tomcat6.service'
-ln -s '/usr/lib/systemd/system/tomcat6.service'
-    '/etc/systemd/system/multi-user.target.wants/tomcat6.service'</computeroutput>
-<prompt>#</prompt> <userinput>chkconfig guacd on</userinput>
-<prompt>#</prompt></screen>
-            </informalexample>
-            <para>If you don't want Tomcat and guacd to start automatically, you can start them
-                manually instead:</para>
-            <informalexample>
-                <screen><prompt>#</prompt> <userinput>service tomcat6 start</userinput>
-<computeroutput>Redirecting to /bin/systemctl start tomcat6.service</computeroutput>
-<prompt>#</prompt> <userinput>service guacd start</userinput>
-<computeroutput>Starting guacd: SUCCESS
-guacd[6229]: INFO:  Guacamole proxy daemon (guacd) version 0.7.0
-guacd[6229]: INFO:  Unable to bind socket to host ::1, port 4822: Address family not supported by
-protocol
-guacd[6229]: INFO:  Successfully bound socket to host 127.0.0.1, port 4822
-guacd[6229]: INFO:  Exiting and passing control to PID 6230
-guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
-<prompt>#</prompt></screen>
-            </informalexample>
-            <para>At this point, all you need to do is edit the
-                    <filename>/etc/guacamole/user-mapping.xml</filename> file to add some
-                connections. You do not need to restart Tomcat after editing this file; it will be
-                reloaded automatically by Guacamole.</para>
-        </section>
-        <section>
-            <title>Other distributions</title>
-            <para>If you distribution isn't listed above, there is still a chance your distribution
-                provides Guacamole packages. A search for "guacamole" in your distribution's package
-                manage should answer that question quickly. If no package is provided, your only
-                option is to build Guacamole from source.</para>
-            <para>Building Guacamole from source is not hard. In most cases, all you need to do is
-                download the latest source for <package>guacamole-server</package>, and the latest
-                guacamole.war from the Guacamole project website, build
-                    <package>guacamole-server</package>, and then deploy
-                    <filename>guacamole.war</filename>.</para>
-            <para>The method for installing Guacamole is fairly constant across platforms, and the
-                instructions given here should apply almost universally (and in the case that they
-                don't, you probably already know what you need to do).</para>
-        </section>
-    </section>
-    <section xml:id="building-guacamole-from-source">
-        <title>Building Guacamole from source</title>
-        <indexterm>
-            <primary>compiling</primary>
-            <secondary>Guacamole</secondary>
-        </indexterm>
-        <para>Building the components of Guacamole from source is not difficult, providing you have
-            the necessary tools installed already. The source for the entirety of Guacamole is
-            available from the Guacamole project web site in convenient source archives, each named
-            after the component they contain. Each archive also contains a file named
-                <filename>README</filename> which lists detailed instructions for building and
-            installing. </para>
-        <para>Guacamole is separated into two pieces: <package>guacamole-server</package>, which
-            provides the <package>guacd</package> proxy and related libraries, and
-                <package>guacamole-client</package>, which provides the client to be served by your
-            servlet container. In most cases, the only source you will need to build is
-                <package>guacamole-server</package>, and downloading the latest
-                <filename>guacamole.war</filename> from the project website will be sufficient to
-            provide the client. Building <package>guacamole-client</package> is really only
-            necessary when you wish to modify the source or when you want to try the latest
-            unreleased changes.</para>
-        <para>To compile the C components, you will need a C compiler (such as
-                <package>gcc</package>) and the libraries that each component depends on. Note that
-            many Linux distribution separates library packages into binary and "development"
-            packages; you will need to install the development packages. These will usually end in a
-            "-dev" or "-devel" suffix.</para>
-        <section xml:id="compiling-guacamole-server">
-            <title><package>guacamole-server</package></title>
-            <indexterm>
-                <primary><package>libguac</package></primary>
-                <secondary>compiling</secondary>
-            </indexterm>
-            <indexterm>
-                <primary>guacd</primary>
-                <secondary>compiling</secondary>
-            </indexterm>
-            <indexterm>
-                <primary>VNC support</primary>
-                <secondary>compiling</secondary>
-            </indexterm>
-            <indexterm>
-                <primary>RDP support</primary>
-                <secondary>compiling</secondary>
-            </indexterm>
-            <indexterm>
-                <primary>SSH support</primary>
-                <secondary>compiling</secondary>
-            </indexterm>
-            <indexterm>
-                <primary>telnet support</primary>
-                <secondary>compiling</secondary>
-            </indexterm>
-            <indexterm>
-                <primary><package>libguac-client-vnc</package></primary>
-                <secondary>compiling</secondary>
-            </indexterm>
-            <indexterm>
-                <primary><package>libguac-client-rdp</package></primary>
-                <secondary>compiling</secondary>
-            </indexterm>
-            <indexterm>
-                <primary><package>libguac-client-ssh</package></primary>
-                <secondary>compiling</secondary>
-            </indexterm>
-            <indexterm>
-                <primary><package>libguac-client-telnet</package></primary>
-                <secondary>compiling</secondary>
-            </indexterm>
-            <indexterm>
-                <primary><package>guacamole-server</package></primary>
-                <secondary>compiling</secondary>
-            </indexterm>
-            <para><package>guacamole-server</package> contains all the native, server-side
-                components required by Guacamole to connect to remote desktops. It provides a common
-                C library, <package>libguac</package>, which all other native components depend on,
-                as well as separate libraries for each supported protocol, and a proxy daemon,
-                    <package>guacd</package>, the heart of Guacamole.</para>
-            <para><package>guacd</package> is the proxy daemon that runs on your Guacamole server,
-                accepting connections from the Guacamole web application on behalf of remote users.
-                It effectively translates between common remote desktop protocols like VNC or RDP by
-                dynamically loading protocol support plugins. Building <package>guacd</package>
-                creates an executable called <filename>guacd</filename> which can be run manually
-                or, if you wish, automatically when your computer starts up.</para>
+        <section xml:id="required-dependencies">
+            <title>Required dependencies</title>
             <para>In order to build <package>guacamole-server</package>, you will need
-                    <package>Cairo</package>, a graphics library, and <package>libpng</package>, the
-                official PNG library. These libraries are strictly required <emphasis>in all
-                    cases</emphasis>. Guacamole cannot be built without them. The OSSP UUID library
-                is also needed, for the sake of assigning unique identifiers to each Guacamole
-                connection. The other dependencies of <package>guacamole-server</package> are
-                optional. Which libraries you will need to install depends on what support you
-                need.</para>
-            <para>Guacamole currently supports VNC, RDP, SSH, and telnet. Each protocol corresponds
-                to a separate library that will be built with <package>guacamole-server</package> if
-                you have its corresponding optional dependencies. VNC support depends on the
-                    <package>libvncclient</package> library, which is part of
-                    <package>libVNCServer</package>, RDP support depends on a recent version of
-                    <package>FreeRDP</package> - 1.0 or higher, SSH support depends on
-                    <package>libssh2</package>, and telnet depends on <package>libtelnet</package>.
-                    <package>Pango</package>, a font rendering and text layout library, is required
-                for both SSH and telnet support.</para>
-            <para>Optional features of these protocols will be enabled if you have other libraries
-                installed.</para>
+                    <package>Cairo</package>, <package>libpng</package>, and the OSSP UUID library.
+                These libraries are strictly required <emphasis>in all cases</emphasis> - Guacamole
+                cannot be built without them.</para>
             <informaltable frame="all">
-                <tgroup cols="3">
-                    <colspec colname="c1" colnum="1" colwidth="1*"/>
-                    <colspec colname="c2" colnum="2" colwidth="1*"/>
-                    <colspec colname="c3" colnum="3" colwidth="3.8*"/>
+                <tgroup cols="2">
+                    <colspec colname="lib-name" colnum="1" colwidth="1*"/>
+                    <colspec colname="features" colnum="2" colwidth="3.8*"/>
                     <thead>
                         <row>
                             <entry>Library name</entry>
-                            <entry>Required?</entry>
                             <entry>Features</entry>
                         </row>
                     </thead>
                     <tbody>
                         <row>
                             <entry>Cairo</entry>
-                            <entry>Yes.</entry>
                             <entry>
                                 <para>Cairo is used by libguac for graphics rendering. Guacamole
                                     cannot function without Cairo installed.</para>
+                                <informaltable frame="none" rowheader="firstcol">
+                                    <tgroup cols="2">
+                                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                                        <tbody>
+                                            <row>
+                                                <entry>Debian / Ubuntu package</entry>
+                                                <entry><package>libcairo2-dev</package></entry>
+                                            </row>
+                                            <row>
+                                                <entry>Fedora / CentOS / RHEL package</entry>
+                                                <entry><package>cairo-devel</package></entry>
+                                            </row>
+                                        </tbody>
+                                    </tgroup>
+                                </informaltable>
                             </entry>
                         </row>
                         <row>
                             <entry>libpng</entry>
-                            <entry>Yes.</entry>
                             <entry>
                                 <para>libpng is used by libguac to write PNG images, the core image
                                     type used by the Guacamole protocol. Guacamole cannot function
                                     without libpng.</para>
+                                <informaltable frame="none" rowheader="firstcol">
+                                    <tgroup cols="2">
+                                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                                        <tbody>
+                                            <row>
+                                                <entry>Debian / Ubuntu package</entry>
+                                                <entry><package>libpng12-dev</package></entry>
+                                            </row>
+                                            <row>
+                                                <entry>Fedora / CentOS / RHEL package</entry>
+                                                <entry><package>libpng-devel</package></entry>
+                                            </row>
+                                        </tbody>
+                                    </tgroup>
+                                </informaltable>
                             </entry>
                         </row>
                         <row>
                             <entry>OSSP UUID</entry>
-                            <entry>Yes.</entry>
                             <entry>
                                 <para>OSSP UUID is used by libguac to assign unique IDs to each
                                     Guacamole connection. These unique IDs are the basis for
                                     connection sharing support.</para>
+                                <informaltable frame="none" rowheader="firstcol">
+                                    <tgroup cols="2">
+                                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                                        <tbody>
+                                            <row>
+                                                <entry>Debian / Ubuntu package</entry>
+                                                <entry><package>libossp-uuid-dev</package></entry>
+                                            </row>
+                                            <row>
+                                                <entry>Fedora / CentOS / RHEL package</entry>
+                                                <entry><package>uuid-devel</package></entry>
+                                            </row>
+                                        </tbody>
+                                    </tgroup>
+                                </informaltable>
                             </entry>
                         </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+        <section xml:id="optional-dependencies">
+            <title>Optional depedencies</title>
+            <para>The optional dependencies of Guacamole dictate which protocol support will be
+                built, and whether additional features of those protocols will be enabled.</para>
+            <para>Guacamole currently supports VNC, RDP, SSH, and telnet. Each protocol corresponds
+                to a separate library that will be built with <package>guacamole-server</package> if
+                you have its corresponding optional dependencies.</para>
+            <para>VNC support depends on the <package>libvncclient</package> library, which is part
+                of <package>libVNCServer</package>, RDP support depends on a recent version of
+                    <package>FreeRDP</package> - 1.0 or higher, SSH support depends on
+                    <package>libssh2</package>, and telnet depends on <package>libtelnet</package>.
+                    <package>Pango</package>, a font rendering and text layout library, is required
+                for both SSH and telnet support.</para>
+            <informaltable frame="all">
+                <tgroup cols="2">
+                    <colspec colname="lib-name" colnum="1" colwidth="1*"/>
+                    <colspec colname="features" colnum="2" colwidth="3.8*"/>
+                    <thead>
+                        <row>
+                            <entry>Library name</entry>
+                            <entry>Features</entry>
+                        </row>
+                    </thead>
+                    <tbody>
                         <row>
                             <entry>FreeRDP</entry>
-                            <entry>Only for RDP.</entry>
                             <entry>
                                 <para>FreeRDP is required for RDP support. If you do not wish to
                                     build RDP support, this library is not needed.</para>
+                                <informaltable frame="none" rowheader="firstcol">
+                                    <tgroup cols="2">
+                                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                                        <tbody>
+                                            <row>
+                                                <entry>Debian / Ubuntu package</entry>
+                                                <entry><package>libfreerdp-dev</package></entry>
+                                            </row>
+                                            <row>
+                                                <entry>Fedora / CentOS / RHEL package</entry>
+                                                <entry><package>freerdp-devel</package></entry>
+                                            </row>
+                                        </tbody>
+                                    </tgroup>
+                                </informaltable>
                             </entry>
                         </row>
                         <row>
                             <entry>Pango</entry>
-                            <entry>For SSH or telnet.</entry>
                             <entry>
                                 <para>Pango is a text layout library which Guacamole's SSH and
                                     telnet support uses to render text. If you do not wish to build
                                     SSH or telnet support, this library is not needed.</para>
+                                <informaltable frame="none" rowheader="firstcol">
+                                    <tgroup cols="2">
+                                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                                        <tbody>
+                                            <row>
+                                                <entry>Debian / Ubuntu package</entry>
+                                                <entry><package>libpango1.0-dev</package></entry>
+                                            </row>
+                                            <row>
+                                                <entry>Fedora / CentOS / RHEL package</entry>
+                                                <entry><package>pango-devel</package></entry>
+                                            </row>
+                                        </tbody>
+                                    </tgroup>
+                                </informaltable>
                             </entry>
                         </row>
                         <row>
                             <entry>libssh2</entry>
-                            <entry>Only for SSH.</entry>
                             <entry>
                                 <para>libssh2 is required for SSH support. If you do not wish to
                                     build SSH support, this library is not needed.</para>
+                                <informaltable frame="none" rowheader="firstcol">
+                                    <tgroup cols="2">
+                                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                                        <tbody>
+                                            <row>
+                                                <entry>Debian / Ubuntu package</entry>
+                                                <entry><package>libssh2-1-dev</package></entry>
+                                            </row>
+                                            <row>
+                                                <entry>Fedora / CentOS / RHEL package</entry>
+                                                <entry><package>libssh2-devel</package></entry>
+                                            </row>
+                                        </tbody>
+                                    </tgroup>
+                                </informaltable>
                             </entry>
                         </row>
                         <row>
                             <entry>libtelnet</entry>
-                            <entry>Only for telnet.</entry>
                             <entry>
                                 <para>libtelnet is required for telnet support. If you do not wish
                                     to build telnet support, this library is not needed.</para>
+                                <informaltable frame="none" rowheader="firstcol">
+                                    <tgroup cols="2">
+                                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                                        <tbody>
+                                            <row>
+                                                <entry>Debian / Ubuntu package</entry>
+                                                <entry><package>libtelnet-dev</package></entry>
+                                            </row>
+                                            <row>
+                                                <entry>Fedora / CentOS / RHEL package</entry>
+                                                <entry><package>libtelnet-devel</package></entry>
+                                            </row>
+                                        </tbody>
+                                    </tgroup>
+                                </informaltable>
                             </entry>
                         </row>
                         <row>
-                            <entry>libVNCServer</entry>
-                            <entry>Only for VNC.</entry>
+                            <entry>libvncclient</entry>
                             <entry>
-                                <para>libVNCServer provides libvncclient which is required for VNC
+                                <para>libvncclient is part of libVNCServer, and is required for VNC
                                     support. If you do not wish to build VNC support, this library
                                     is not needed.</para>
+                                <informaltable frame="none" rowheader="firstcol">
+                                    <tgroup cols="2">
+                                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                                        <tbody>
+                                            <row>
+                                                <entry>Debian / Ubuntu package</entry>
+                                                <entry><package>libvncserver-dev</package></entry>
+                                            </row>
+                                            <row>
+                                                <entry>Fedora / CentOS / RHEL package</entry>
+                                                <entry><package>libvncserver-devel</package></entry>
+                                            </row>
+                                        </tbody>
+                                    </tgroup>
+                                </informaltable>
                             </entry>
                         </row>
                         <row>
                             <entry>libpulse</entry>
-                            <entry>No.</entry>
                             <entry>
                                 <para>libpulse provides support for PulseAudio, which is used by
                                     Guacamole's VNC support to provide experimental audio. If you
                                     are not going to be using the experimental audio support for
                                     VNC, you do not need this library.</para>
+                                <informaltable frame="none" rowheader="firstcol">
+                                    <tgroup cols="2">
+                                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                                        <tbody>
+                                            <row>
+                                                <entry>Debian / Ubuntu package</entry>
+                                                <entry><package>libpulse-dev</package></entry>
+                                            </row>
+                                            <row>
+                                                <entry>Fedora / CentOS / RHEL package</entry>
+                                                <entry><package>pulseaudio-libs-devel</package></entry>
+                                            </row>
+                                        </tbody>
+                                    </tgroup>
+                                </informaltable>
                             </entry>
                         </row>
                         <row>
-                            <entry>libssl</entry>
-                            <entry>For SSH and for SSL connections to guacd.</entry>
+                            <entry>OpenSSL</entry>
                             <entry>
-                                <para>libssl provides support for SSL and TLS - two common
+                                <para>OpenSSL provides support for SSL and TLS - two common
                                     encryption schemes that make up the majority of encrypted web
                                     traffic.</para>
                                 <para>If you have libssl installed, guacd will be built with SSL
@@ -394,11 +355,26 @@ guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
                                 <para>Without SSL support, there will be no option to encrypt
                                     communication to guacd, and support for SSH cannot be
                                     built.</para>
+                                <informaltable frame="none" rowheader="firstcol">
+                                    <tgroup cols="2">
+                                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                                        <tbody>
+                                            <row>
+                                                <entry>Debian / Ubuntu package</entry>
+                                                <entry><package>libssl-dev</package></entry>
+                                            </row>
+                                            <row>
+                                                <entry>Fedora / CentOS / RHEL package</entry>
+                                                <entry><package>openssl-devel</package></entry>
+                                            </row>
+                                        </tbody>
+                                    </tgroup>
+                                </informaltable>
                             </entry>
                         </row>
                         <row>
                             <entry>libvorbis</entry>
-                            <entry>No.</entry>
                             <entry>
                                 <para>libvorbis provides support for Ogg Vorbis - a free and open
                                     standard for sound compression. If installed, libguac will be
@@ -407,20 +383,39 @@ guacd[6230]: INFO:  Exiting and passing control to PID 6231</computeroutput>
                                 <para>Otherwise, sound will only be encoded as WAV (uncompressed),
                                     and will only be available if your browser also supports
                                     WAV.</para>
+                                <informaltable frame="none" rowheader="firstcol">
+                                    <tgroup cols="2">
+                                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                                        <tbody>
+                                            <row>
+                                                <entry>Debian / Ubuntu package</entry>
+                                                <entry><package>libvorbis-dev</package></entry>
+                                            </row>
+                                            <row>
+                                                <entry>Fedora / CentOS / RHEL package</entry>
+                                                <entry><package>libvorbis-devel</package></entry>
+                                            </row>
+                                        </tbody>
+                                    </tgroup>
+                                </informaltable>
                             </entry>
                         </row>
                     </tbody>
                 </tgroup>
             </informaltable>
+        </section>
+        <section xml:id="guacamole-server-source">
+            <title>Obtaining the source code</title>
             <para>You can obtain a copy of the <package>guacamole-server</package> source from the
-                Guacamole project web site if you want the latest released code. These releases are
-                stable snapshots of the latest code which have undergone enough testing that the
-                Guacamole team considers them fit for public consumption. Source downloaded from the
-                project web site will take the form of a <filename>.tar.gz</filename> archive which
-                you can extract from the command line:</para>
+                Guacamole project web site. These releases are stable snapshots of the latest code
+                which have undergone enough testing that the Guacamole team considers them fit for
+                public consumption. Source downloaded from the project web site will take the form
+                of a <filename>.tar.gz</filename> archive which you can extract from the command
+                line:</para>
             <informalexample>
-                <screen><prompt>$</prompt> <userinput>tar -xzf guacamole-server-0.9.3.tar.gz</userinput>
-<prompt>$</prompt> <userinput>cd guacamole-server-0.9.3/</userinput>
+                <screen><prompt>$</prompt> <userinput>tar -xzf guacamole-server-0.9.4.tar.gz</userinput>
+<prompt>$</prompt> <userinput>cd guacamole-server-0.9.4/</userinput>
 <prompt>$</prompt></screen>
             </informalexample>
             <para>If you want the absolute latest code, and don't care that the code hasn't been as
@@ -436,6 +431,9 @@ Receiving objects: 100% (6769/6769), 2.32 MiB | 777 KiB/s, done.
 Resolving deltas: 100% (3058/3058), done.</computeroutput>
 <prompt>$</prompt></screen>
             </informalexample>
+        </section>
+        <section xml:id="guacamole-server-build-process">
+            <title>The build process</title>
             <para>Once the <package>guacamole-server</package> source has been downloaded and
                 extracted, you need to run <filename>configure</filename>. This is a shell script
                 automatically generated by GNU Autotools, a popular build system used by the
@@ -469,7 +467,7 @@ checking whether build environment is sane... yes
 ...
 
 ------------------------------------------------
-guacamole-server version 0.9.3
+guacamole-server version 0.9.4
 ------------------------------------------------
 
    Library status:
@@ -545,7 +543,11 @@ make[1]: Leaving directory `/home/zhz/guacamole/guacamole-server'</computeroutpu
 <prompt>$</prompt></screen>
             </informalexample>
             <para>Quite a bit of output will scroll up the screen as all the components are
-                compiled. Once everything finishes, all you have left to do is type "<userinput>make
+                compiled.</para>
+        </section>
+        <section xml:id="guacamole-server-installation">
+            <title>Installation</title>
+            <para>Once everything finishes, all you have left to do is type "<userinput>make
                     install</userinput>" to install the components that were built, and then
                     "<userinput>ldconfig</userinput>" to update your system's cache of installed
                 libraries:</para>
@@ -593,48 +595,54 @@ make[1]: Leaving directory `/home/zhz/guacamole/guacamole-server'</computeroutpu
                 Doing this varies by distribution, but each distribution will have documentation
                 describing how to do so.</para>
         </section>
-        <section xml:id="compiling-guacamole-client">
-            <title><package>guacamole-client</package></title>
-            <indexterm>
-                <primary><filename>guacamole.war</filename></primary>
-                <secondary>compiling</secondary>
-            </indexterm>
-            <indexterm>
-                <primary><package>guacamole-client</package></primary>
-                <secondary>compiling</secondary>
-            </indexterm>
-            <para><package>guacamole-client</package> contains all Java and Maven components of
-                Guacamole (<package>guacamole</package>, <package>guacamole-common</package>,
-                    <package>guacamole-ext</package>, and <package>guacamole-common-js</package>).
-                These components ultimately make up the web application that will serve the HTML5
-                Guacamole client to users that connect to your server. This web application will
-                connect to <package>guacd</package>, part of <package>guacamole-server</package>, on
-                behalf of connected users in order to serve them any remote desktop they are
-                authorized to access.</para>
-            <para>Normally, you don't need to build <package>guacamole-client</package> manually, as
-                it is written in Java and is cross-platform. The easiest way to obtain the latest
-                version of <package>guacamole-client</package> is to simply download the latest
-                    <filename>guacamole.war</filename> (the compiled form of
-                    <package>guacamole-client</package>) from the Guacamole project web site.</para>
-            <para>To compile <package>guacamole-client</package>, all you need is Apache Maven and a
-                copy of the Java JDK. Most, if not all, Linux distributions will provide packages
-                for these.</para>
-            <para>You can obtain a copy of the <package>guacamole-client</package> source from the
-                Guacamole project web site if you want the latest released code. These releases are
-                stable snapshots of the latest code which have undergone enough testing that the
-                Guacamole team considers them fit for public consumption. Source downloaded from the
-                project web site will take the form of a <filename>.tar.gz</filename> archive which
-                you can extract from the command line:</para>
-            <informalexample>
-                <screen><prompt>$</prompt> <userinput>tar -xzf guacamole-client-0.9.3.tar.gz</userinput>
-<prompt>$</prompt> <userinput>cd guacamole-client-0.9.3/</userinput>
+    </section>
+    <section xml:id="building-guacamole-client">
+        <title><package>guacamole-client</package></title>
+        <indexterm>
+            <primary><filename>guacamole.war</filename></primary>
+            <secondary>compiling</secondary>
+        </indexterm>
+        <indexterm>
+            <primary><package>guacamole-client</package></primary>
+            <secondary>compiling</secondary>
+        </indexterm>
+        <important>
+            <para>Normally, you don't need to build <package>guacamole-client</package>, as it is
+                written in Java and is cross-platform. You can easily obtain the latest version of
+                    <package>guacamole-client</package> from the release archives of the Guacamole
+                project web site, including all supported extensions, without having to build it
+                yourself.</para>
+            <para>If you do not want to build guacamole-client from source, just download
+                    <filename>guacamole.war</filename> from the project web site, along with any
+                desired extensions, and skip ahead to <xref linkend="deploying-guacamole"/>.</para>
+        </important>
+        <para><package>guacamole-client</package> contains all Java and JavaScript components of
+            Guacamole (<package>guacamole</package>, <package>guacamole-common</package>,
+                <package>guacamole-ext</package>, and <package>guacamole-common-js</package>). These
+            components ultimately make up the web application that will serve the HTML5 Guacamole
+            client to users that connect to your server. This web application will then connect to
+                <package>guacd</package>, part of <package>guacamole-server</package>, on behalf of
+            connected users in order to serve them any remote desktop they are authorized to
+            access.</para>
+        <para>To compile <package>guacamole-client</package>, all you need is Apache Maven and a
+            copy of the Java JDK. Most, if not all, Linux distributions will provide packages for
+            these.</para>
+        <para>You can obtain a copy of the <package>guacamole-client</package> source from the
+            Guacamole project web site. These releases are stable snapshots of the latest code which
+            have undergone enough testing that the Guacamole team considers them fit for public
+            consumption. Source downloaded from the project web site will take the form of a
+                <filename>.tar.gz</filename> archive which you can extract from the command
+            line:</para>
+        <informalexample>
+            <screen><prompt>$</prompt> <userinput>tar -xzf guacamole-client-0.9.4.tar.gz</userinput>
+<prompt>$</prompt> <userinput>cd guacamole-client-0.9.4/</userinput>
 <prompt>$</prompt></screen>
-            </informalexample>
-            <para>As with <package>guacamole-server</package>, if you want the absolute latest code,
-                and don't care that the code hasn't been as rigorously tested as the code in stable
-                releases, you can also clone the Guacamole team's git repository on GitHub:</para>
-            <informalexample>
-                <screen><prompt>$</prompt> <userinput>git clone <uri>git://github.com/glyptodon/guacamole-client.git</uri></userinput>
+        </informalexample>
+        <para>As with <package>guacamole-server</package>, if you want the absolute latest code, and
+            don't care that the code hasn't been as rigorously tested as the code in stable
+            releases, you can also clone the Guacamole team's git repository on GitHub:</para>
+        <informalexample>
+            <screen><prompt>$</prompt> <userinput>git clone <uri>git://github.com/glyptodon/guacamole-client.git</uri></userinput>
 <computeroutput>Cloning into 'guacamole-client'...
 remote: Counting objects: 12788, done.
 remote: Compressing objects: 100% (4183/4183), done.
@@ -642,17 +650,17 @@ remote: Total 12788 (delta 3942), reused 12667 (delta 3822)
 Receiving objects: 100% (12788/12788), 3.23 MiB | 799 KiB/s, done.
 Resolving deltas: 100% (3942/3942), done.</computeroutput>
 <prompt>$</prompt></screen>
-            </informalexample>
-            <para>Unlike <package>guacamole-server</package>, even if you grab the code from the git
-                repositories, you won't need to run anything before building. There are no scripts
-                that need to be generated before building - all Maven needs is the
-                    <filename>pom.xml</filename> file provided with the source.</para>
-            <para>To build <package>guacamole-client</package>, just run "<userinput>mvn
-                    package</userinput>". This will invoke Maven to automatically build and package
-                all components, producing a single <filename>.war</filename> file, which contains
-                the entire web application:</para>
-            <informalexample>
-                <screen><prompt>$</prompt> <userinput>mvn package</userinput>
+        </informalexample>
+        <para>Unlike <package>guacamole-server</package>, even if you grab the code from the git
+            repositories, you won't need to run anything before building. There are no scripts that
+            need to be generated before building - all Maven needs is the
+                <filename>pom.xml</filename> file provided with the source.</para>
+        <para>To build <package>guacamole-client</package>, just run "<userinput>mvn
+                package</userinput>". This will invoke Maven to automatically build and package all
+            components, producing a single <filename>.war</filename> file, which contains the entire
+            web application:</para>
+        <informalexample>
+            <screen><prompt>$</prompt> <userinput>mvn package</userinput>
 <computeroutput>[INFO] Scanning for projects...
 [INFO] Reactor build order: 
 [INFO]   guacamole-common
@@ -678,49 +686,48 @@ Resolving deltas: 100% (3942/3942), done.</computeroutput>
 [INFO] Final Memory: 43M/354M
 [INFO] ------------------------------------------------------------------------</computeroutput>
 <prompt>$</prompt></screen>
-            </informalexample>
-            <para>Once the Guacamole web application is built, there will be a .war file in the
-                    <filename>guacamole/target/</filename> subdirectory of the current directory
-                (the directory you were in when you ran <application>mvn</application>). This
-                    <filename>.war</filename> file contains the entirety of the Guacamole web
-                application, including all dependencies. Installing Guacamole means copying this
-                    <filename>.war</filename> file into the directory required by your servlet
-                container.</para>
-            <para>You will probably have to do this as the root user:</para>
-            <informalexample>
-                <screen><prompt>#</prompt> <userinput>cp guacamole/target/guacamole-0.9.3.war /var/lib/tomcat6/webapps/guacamole.war</userinput>
+        </informalexample>
+        <para>Once the Guacamole web application is built, there will be a .war file in the
+                <filename>guacamole/target/</filename> subdirectory of the current directory (the
+            directory you were in when you ran <application>mvn</application>). This
+                <filename>.war</filename> file contains the entirety of the Guacamole web
+            application, including all dependencies. Installing Guacamole means copying this
+                <filename>.war</filename> file into the directory required by your servlet
+            container.</para>
+        <para>You will probably have to do this as the root user:</para>
+        <informalexample>
+            <screen><prompt>#</prompt> <userinput>cp guacamole/target/guacamole-0.9.4.war /var/lib/tomcat6/webapps/guacamole.war</userinput>
 <prompt>#</prompt></screen>
-            </informalexample>
-            <para>The Guacamole web application also depends on a configuration file,
-                    <filename>guacamole.properties</filename>, to tell it the type of authentication
-                to use and how to connect to guacd. A functional example
-                    <filename>guacamole.properties</filename> is contained in the
-                    <filename>doc/</filename> subdirectory; you can simply copy this somewhere (like
-                    <filename>/etc/guacamole</filename>) and then create a symbolic link to in a
-                directory called <filename>.guacamole</filename> within the home directory of your
-                servlet container. The home directory of your servlet container will be the home
-                directory of the user that the servlet container runs as.</para>
-            <informalexample>
-                <screen><prompt>#</prompt> <userinput>mkdir /etc/guacamole</userinput>
+        </informalexample>
+        <para>The Guacamole web application also depends on a configuration file,
+                <filename>guacamole.properties</filename>, to tell it the type of authentication to
+            use and how to connect to guacd. A functional example
+                <filename>guacamole.properties</filename> is contained in the
+                <filename>doc/</filename> subdirectory; you can simply copy this somewhere (like
+                <filename>/etc/guacamole</filename>) and then create a symbolic link to in a
+            directory called <filename>.guacamole</filename> within the home directory of your
+            servlet container. The home directory of your servlet container will be the home
+            directory of the user that the servlet container runs as.</para>
+        <informalexample>
+            <screen><prompt>#</prompt> <userinput>mkdir /etc/guacamole</userinput>
 <prompt>#</prompt> <userinput>mkdir <replaceable>/usr/share/tomcat6</replaceable>/.guacamole</userinput>
 <prompt>#</prompt> <userinput>cp guacamole/doc/example/guacamole.properties /etc/guacamole/guacamole.properties</userinput>
 <prompt>#</prompt> <userinput>ln -s /etc/guacamole/guacamole.properties <replaceable>/usr/share/tomcat6</replaceable>/.guacamole/</userinput>
 <prompt>#</prompt>           </screen>
-            </informalexample>
-            <para>You will need to edit <filename>guacamole.properties</filename> to be sure that
-                all the settings are valid for your installation.</para>
-            <para>If you are using the default authentication method, you will also need to install
-                the <filename>user-mapping.xml</filename> file. This file describes the users that
-                should be allowed to log into Guacamole, as well as their passwords, and all
-                corresponding remote desktop connections they should have access to.</para>
-            <para>An example <filename>user-mapping.xml</filename> file is provided in the
-                    <filename>doc/</filename> subdirectory. You can simply copy this file to a
-                reasonable location (like <filename>/etc/guacamole/user-mapping.xml</filename>) and
-                then edit <filename>guacamole.properties</filename> to specify the correct location
-                of this file.</para>
-            <para>You will need to edit <filename>user-mapping.xml</filename> to add and remove
-                users, as well as to remove the "default" users included as examples.</para>
-        </section>
+        </informalexample>
+        <para>You will need to edit <filename>guacamole.properties</filename> to be sure that all
+            the settings are valid for your installation.</para>
+        <para>If you are using the default authentication method, you will also need to install the
+                <filename>user-mapping.xml</filename> file. This file describes the users that
+            should be allowed to log into Guacamole, as well as their passwords, and all
+            corresponding remote desktop connections they should have access to.</para>
+        <para>An example <filename>user-mapping.xml</filename> file is provided in the
+                <filename>doc/</filename> subdirectory. You can simply copy this file to a
+            reasonable location (like <filename>/etc/guacamole/user-mapping.xml</filename>) and then
+            edit <filename>guacamole.properties</filename> to specify the correct location of this
+            file.</para>
+        <para>You will need to edit <filename>user-mapping.xml</filename> to add and remove users,
+            as well as to remove the "default" users included as examples.</para>
     </section>
     <section xml:id="deploying-guacamole">
         <title>Deploying Guacamole</title>
