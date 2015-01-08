@@ -148,26 +148,6 @@
                         the <property>lib-directory</property> property.</para>
                 </listitem>
             </varlistentry>
-            <varlistentry>
-                <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
-                        <primary>enable-http-auth</primary>
-                    </indexterm><indexterm>
-                        <primary>HTTP Basic authentication</primary>
-                    </indexterm><parameter>enable-http-auth</parameter></term>
-                <listitem>
-                    <para><constant>true</constant> if HTTP Basic authentication support should be
-                        enabled, <constant>false</constant> (or simply leave the property out)
-                        otherwise. This will <emphasis>not</emphasis> cause Guacamole to require
-                        HTTP Basic authentication; it simply tells Guacamole to inspect the HTTP
-                        "Authorization" header when authenticating users, if present.</para>
-                    <para>When HTTP Basic authentication is in use, the web browser submits the
-                        username/password pair with each HTTP request in an "Authorization" header.
-                        If you have an upstream authentication system or proxy which uses HTTP Basic
-                        authentication, setting this property causes Guacamole to read and use these
-                        credentials if the username and password are not given through other
-                        means.</para>
-                </listitem>
-            </varlistentry>
         </variablelist>
         <example>
             <title>Minimal <filename>guacamole.properties</filename></title>
