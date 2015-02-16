@@ -892,7 +892,7 @@ guacd[6229]: INFO:  Guacamole proxy daemon (guacd) version 0.9.4 started</comput
             <title>Disable logging of tunnel requests</title>
             <para>The Guacamole HTTP tunnel works by transferring a continuous stream of data over
                 multiple short-lived streams, each associated with a separate HTTP request. Each
-                HTTP request will be logged by Apache if you don not explicitly disable logging of
+                HTTP request will be logged by Apache if you do not explicitly disable logging of
                 those requests.</para>
             <para>Apache provides a means of matching URL patterns and setting environment variables
                 based on whether the URL matches. Logging can then be restricted to requests which
