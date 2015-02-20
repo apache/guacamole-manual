@@ -167,225 +167,118 @@
         </section>
         <section>
             <title>Permissions</title>
-            <para>The permissions system within guacamole-ext is the means with
-                which an authentication module communicates with the web
-                application, informing it of what the user is allowed to do. The
-                presence or lack of permissions for certain operations dictates
-                how the web interface displays itself: whether the "Manage"
-                button is displayed, whether the user or connection management
-                sections (or both) are displayed, etc.</para>
-            <para><emphasis>Permissions are not the means through which access
-                    is restricted</emphasis>. An implementation may use the
-                permission objects to define restrictions, but this is not
-                required. It is up to the implementation to enforce its own
-                restrictions by throwing exceptions when an operation is not
-                allowed.</para>
+            <para>The permissions system within guacamole-ext is an advisory system. It is the means
+                by which an authentication module describes to the web application what a user is
+                allowed to do. The body of permissions granted to a user describes which objects
+                that user can see and what they can do to those objects, and thus suggests how the
+                Guacamole interface should appear to that user.</para>
+            <para><emphasis>Permissions are not the means by which access is restricted</emphasis>;
+                they are purely a means of describing access level. An implementation may internally
+                use the permission objects to define restrictions, but this is not required. It is
+                up to the implementation to enforce its own restrictions by throwing exceptions when
+                an operation is not allowed, and to correctly communicate the abilities of
+                individual users through these permissions.</para>
             <section>
                 <title>System permissions</title>
-                <para>System permissions grant access to operations that
-                    manipulate the system as a whole, rather than specific
-                    objects. This includes the creation of new objects, as
-                    object creation directly affects the system, and per-object
-                    controls cannot exist before the object is actually
-                    created.</para>
+                <para>System permissions describe access to operations that manipulate the system as
+                    a whole, rather than specific objects. This includes the creation of new
+                    objects, as object creation directly affects the system, and per-object controls
+                    cannot exist before the object is actually created.</para>
                 <variablelist>
                     <varlistentry>
                         <term><constant>ADMINISTER</constant></term>
                         <listitem>
-                            <para>Allows manipulation of system-level
-                                permissions. The semantics of the system-level
-                                <constant>ADMINISTER</constant> permission are up to
-                                the implementor of the authentication module,
-                                but in general this permission implies all other
-                                permissions. A user having this permission can
-                                implicitly create and manage any object.</para>
+                            <para>The user is a super-user - the Guacamole equivalent of root. They
+                                are allowed to manipulate of system-level permissions and all other
+                                objects. This permission implies all others.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
                         <term><constant>CREATE_CONNECTION</constant></term>
                         <listitem>
-                            <para>Allows creation of new connections. If a user has this permission,
-                                they will see the connection management interface and the "Manage"
-                                button. Within this interface, they will be able to create new
-                                connections.</para>
+                            <para>The user is allowed to create new connections. If a user has this
+                                permission, the management interface will display components related
+                                to connection creation, such as the "Manage" and "New Connection"
+                                buttons.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
                         <term><constant>CREATE_CONNECTION_GROUP</constant></term>
                         <listitem>
-                            <para>Allows creation of new connections groups. If a user has this
-                                permission, they will see the connection management interface and
-                                the "Manage" button. Within this interface, they will be able to
-                                create new connection groups.</para>
+                            <para>The user is allowed to create new connection groups. If a user has
+                                this permission, the management interface will display components
+                                related to connection group creation, such as the "Manage" and "New
+                                Group" buttons.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
                         <term><constant>CREATE_USER</constant></term>
                         <listitem>
-                            <para>Allows creation of new users. If a user has
-                                this permission, they will see the user
-                                management interface and the "Manage"
-                                button.</para>
+                            <para>The user is allowed to create other users. If a user has this
+                                permission, the management interface will display components related
+                                to user creation, such as the "Manage" and "New User"
+                                buttons.</para>
                         </listitem>
                     </varlistentry>
                 </variablelist>
             </section>
             <section>
-                <title>User permissions</title>
-                <para>User permissions grant access to operations that affect a
-                    specific user. Each user permission has a definite and
-                    single associated user that is the object of the
-                    operation.</para>
+                <title>Object permissions</title>
+                <para>Object permissions describe access to operations that affect a particular
+                    object. Guacamole currently defines three types of objects which can be
+                    associated with permissions: users, connections, and connection groups. Each
+                    object permission associates a single user with an action that may be performed
+                    on a single object.</para>
                 <variablelist>
                     <varlistentry>
                         <term><constant>ADMINISTER</constant></term>
                         <listitem>
-                            <para>Allows changing visibility of the user. A user
-                                with <constant>ADMINISTER</constant> permission on
-                                another user can add and remove permissions
-                                related to that user. Note that adding or
-                                removing permissions on a user implicitly
-                                requires <constant>UPDATE</constant> permission on that
-                                user.</para>
+                            <para>The user may grant or revoke permissions involving this object.
+                                "Involving", in this case, refers to either side of the permission
+                                association, and includes both the user to whom the permission is
+                                granted and the object the permission affects.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
                         <term><constant>DELETE</constant></term>
                         <listitem>
-                            <para>Allows deletion of the associated user. This
-                                is distinct from the <constant>ADMINISTER</constant>
-                                permission which deals only with modification to
-                                the permissions associated with a user. A user
-                                with this permission will see the "Delete"
-                                button when editing the corresponding
-                                user.</para>
+                            <para>The user may delete this object. This is distinct from the
+                                    <constant>ADMINISTER</constant> permission which deals only with
+                                permissions. A user with this permission will see the "Delete"
+                                button when applicable.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
                         <term><constant>READ</constant></term>
                         <listitem>
-                            <para>Allows the user to be read. A particular user
-                                will not appear in the user management section
-                                unless the user viewing it has <constant>READ</constant>
-                                permission on that specific user.</para>
+                            <para>The user may see that this object exists and read the properties
+                                of that object.</para>
+                            <para>Note that the implementation is <emphasis>not required to divulge
+                                    the true underlying properties of any object</emphasis>. The
+                                parameters of a connection, the type or contents of a connection
+                                group, the password of a user, etc. all need not be exposed.</para>
+                            <para>This is particularly important from the perspective of security
+                                when it comes to connections, as the parameters of a connection are
+                                only truly needed when a connection is being modified, and likely
+                                should not be exposed otherwise. The actual connection operation is
+                                always performed internally by the authentication provider, and thus
+                                does not require client-side knowledge of anything beyond the
+                                connection's existence.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
                         <term><constant>UPDATE</constant></term>
                         <listitem>
-                            <para>Allows the user to be updated. This means altering the user's
-                                password or adding or removing permissions from that user. Note the
-                                difference between <constant>UPDATE</constant> and <constant>ADMINISTER</constant>:
-                                the <constant>UPDATE</constant> permission allows the permissions
-                                    <emphasis>of</emphasis> a user to be changed, while
-                                <constant>ADMINISTER</constant> permission allows permissions
-                                    <emphasis>relating to</emphasis> a user to be changed. A user
-                                with this permission will see the "Manage" button.</para>
-                        </listitem>
-                    </varlistentry>
-                </variablelist>
-            </section>
-            <section>
-                <title>Connection permissions</title>
-                <para>Connection permissions grant access to operations that
-                    affect a specific connection. Each connection permission has
-                    a definite and single associated connection that is the
-                    object of the operation. The semantics of each operation
-                    differ slightly from the similar user permissions, but the
-                    general principles behind them are the same.</para>
-                <variablelist>
-                    <varlistentry>
-                        <term><constant>ADMINISTER</constant></term>
-                        <listitem>
-                            <para>Allows changing visibility of the connection. A user with
-                                <constant>ADMINISTER</constant> permission on a connection can add and
-                                remove permissions related to that connection, and will see the
-                                "Manage" button.</para>
-                        </listitem>
-                    </varlistentry>
-                    <varlistentry>
-                        <term><constant>DELETE</constant></term>
-                        <listitem>
-                            <para>Allows deletion of the associated connection.
-                                This is distinct from the
-                                <constant>ADMINISTER</constant> permission which
-                                deals only with modification to the permissions
-                                associated with a connection. A user with this
-                                permission will see the "Delete" button when
-                                editing the corresponding connection.</para>
-                        </listitem>
-                    </varlistentry>
-                    <varlistentry>
-                        <term><constant>READ</constant></term>
-                        <listitem>
-                            <para>Allows the connection to be read. A particular connection will not
-                                appear in the connection list nor in the connection management
-                                section unless the user viewing it has <constant>READ</constant> permission
-                                on that specific connection. <constant>READ</constant> permission is
-                                required for a user to have permission to actually use a connection,
-                                unless that connection is part of a balancing connection group for
-                                which the user has <constant>READ</constant> permission.</para>
-                        </listitem>
-                    </varlistentry>
-                    <varlistentry>
-                        <term><constant>UPDATE</constant></term>
-                        <listitem>
-                            <para>Allows the connection to be updated. This means editing the
-                                connection's parameters or changing the connection's protocol. A
-                                user with this permission will see the "Manage" button.</para>
-                        </listitem>
-                    </varlistentry>
-                </variablelist>
-            </section>
-            <section>
-                <title>Connection group permissions</title>
-                <para>Connection group permissions grant access to operations that affect a specific
-                    connection group. Connection group permissions are extremely similar to
-                    connection permissions, with some minor differences.</para>
-                <variablelist>
-                    <varlistentry>
-                        <term><constant>ADMINISTER</constant></term>
-                        <listitem>
-                            <para>Allows changing visibility of the connection group. A user with
-                                <constant>ADMINISTER</constant> permission on a connection group can add
-                                and remove permissions related to that connection group, and will
-                                see the "Manage" button. Users with <constant>ADMINISTER</constant>
-                                permission on a balancing connection group can see the contents of
-                                that group. To users without <constant>ADMINISTER</constant> permission, a
-                                balancing group looks like a connection.</para>
-                        </listitem>
-                    </varlistentry>
-                    <varlistentry>
-                        <term><constant>DELETE</constant></term>
-                        <listitem>
-                            <para>Allows deletion of the associated connection group. This is
-                                distinct from the <constant>ADMINISTER</constant> permission which deals
-                                only with modification to the permissions associated with a
-                                connection group. A user with this permission will see the "Delete"
-                                button when editing the corresponding connection group.</para>
-                        </listitem>
-                    </varlistentry>
-                    <varlistentry>
-                        <term><constant>READ</constant></term>
-                        <listitem>
-                            <para>Allows the connection group to be read. A particular connection
-                                group will not appear in the connection list nor in the connection
-                                management section unless the user viewing it has <constant>READ</constant>
-                                permission on that specific connection group. <constant>READ</constant>
-                                permission is required for a user to have permission to actually use
-                                a connection.</para>
-                            <para>A user with <constant>READ</constant> permission on a group will also be
-                                able to see any contained connections or groups for which they also
-                                have <constant>READ</constant> permission. <constant>READ</constant> permission is
-                                not sufficient to see the contents of a balancing group.</para>
-                        </listitem>
-                    </varlistentry>
-                    <varlistentry>
-                        <term><constant>UPDATE</constant></term>
-                        <listitem>
-                            <para>Allows the connection group to be updated. This means editing the
-                                connection group's name, type, or contents. A user with this
-                                permission will see the "Manage" button.</para>
+                            <para>The user may change the properties of this object.</para>
+                            <para>In the case of users, this means the user's password can be
+                                altered. <emphasis>Permissions are not considered properties of a
+                                    user</emphasis>, nor objects in their own right, but rather
+                                associations between a user and an action which may involve another
+                                object.</para>
+                            <para>The properties of a connection include its name, protocol, parent
+                                connection group, and parameters. The properties of a connection
+                                group include its name, type, parent connection group, and
+                                children.</para>
                         </listitem>
                     </varlistentry>
                 </variablelist>
