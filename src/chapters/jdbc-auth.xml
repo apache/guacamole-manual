@@ -1,101 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<chapter xml:id="mysql-auth" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+<chapter xml:id="jdbc-auth" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude">
-    <title>MySQL authentication</title>
+    <title>Database authentication</title>
     <indexterm>
         <primary>MySQL</primary>
     </indexterm>
     <indexterm>
+        <primary>PostgreSQL</primary>
+    </indexterm>
+    <indexterm>
         <primary>load balancing</primary>
     </indexterm>
-    <para>Guacamole supports MySQL authentication through an extension available from the project
-        website. This extension allows users and connections to be managed from within the web
-        application. Unlike the default, XML-driven authentication module, all changes to users and
-        connections take effect immediately; users need not logout and back in in order to see new
-        connections.</para>
-    <para>The official MySQL authentication also supports load balancing through the use of
+    <para>Guacamole supports authentication via MySQL or PostgreSQL databases through extensions
+        available from the project website. These extensions allows users and connections to be
+        managed from within the web application. Unlike the default, XML-driven authentication
+        module, all changes to users and connections take effect immediately; users need not logout
+        and back in in order to see new connections.</para>
+    <para>The official database authentication also supports load balancing through the use of
         "balancing groups". When a balancing group is created, it can be used like any other
-        connection, but will use the least used of its underlying connections, spreading load evenly
+        connection, but will use the least-used of its underlying connections, spreading load evenly
         across any connections contained within.</para>
-    <section xml:id="installing-mysql-auth">
-        <title>Installing MySQL authentication</title>
-        <para>The MySQL authentication module is not included in the main Guacamole bundle nor is it
-            enabled by default. You must use the download link provided in the downloads section of
-            the main Guacamole site.</para>
+    <section xml:id="jdbc-auth-installation">
+        <title>Installing database support</title>
+        <para>The database authentication modules are not included in the main Guacamole bundle nor
+            are they enabled by default. You must use the download link provided in the downloads
+            section of the main Guacamole site.</para>
         <para>The downloaded <filename>.tar.gz</filename> file will contain several
             directories:</para>
         <variablelist>
             <varlistentry>
-                <term><filename>lib/</filename></term>
+                <term><filename>mysql/</filename></term>
                 <listitem>
-                    <para>Contains all <filename>.jar</filename> files required for the MySQL
-                        authentication module to work, including the module itself. <emphasis>The
-                            MySQL JDBC connector is not included.</emphasis></para>
+                    <para>Contains the MySQL authentication module as a <filename>.jar</filename>
+                        file, along with a <filename>schema/</filename> directory containing the SQL
+                        scripts required to set up the database.</para>
+                    <para><emphasis>The MySQL JDBC connector is not included.</emphasis> You must
+                        obtain the JDBC connector <filename>.jar</filename> from within the
+                        "Connector/J" archive downloadable from <link
+                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                            xlink:href="http://dev.mysql.com/downloads/connector/j/">MySQL's
+                            website</link>.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><filename>schema/</filename></term>
+                <term><filename>postgresql/</filename></term>
                 <listitem>
-                    <para>Contains all SQL scripts required to set up the MySQL database.</para>
+                    <para>Contains the PostgreSQL authentication module as a
+                            <filename>.jar</filename> file, along with a
+                            <filename>schema/</filename> directory containing the SQL scripts
+                        required to set up the database.</para>
+                    <para><emphasis>The PostgreSQL JDBC driver is not included.</emphasis> You must
+                        obtain the JDBC driver <filename>.jar</filename> from <link
+                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                            xlink:href="http://dev.mysql.com/downloads/connector/j/">PostgreSQL's
+                            website</link>. The proper <filename>.jar</filename> file depends on the
+                        version of Java you have installed. </para>
                 </listitem>
             </varlistentry>
         </variablelist>
-        <para>The contents of <filename>lib/</filename> must be copied into the classpath of
-            Guacamole, which is the directory specified by the <property>lib-directory</property>
-            property in <filename>guacamole.properties</filename>. If this property is not
-            specified, simply add it. On Linux servers,
+        <para>The authentication module <filename>.jar</filename> file for your database must be
+            copied into the directory specified by the <property>lib-directory</property> property
+            in <filename>guacamole.properties</filename>, along with the your database's JDBC
+            driver. If this property is not specified, you will need to add it. On Linux servers,
                 <filename>/var/lib/guacamole/classpath</filename> is a good choice, but it can be
             whatever you like.</para>
-        <para>In addition to the files from <filename>lib/</filename>, you must also copy
-                <filename>.jar</filename> file from the MySQL "Connector-J" JDBC archive. The
-            archive containing this <filename>.jar</filename> can be downloaded from <link
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-                xlink:href="http://dev.mysql.com/downloads/connector/j/">MySQL's
-            website</link>.</para>
-        <para>After copying the files in place, check to make sure everything looks sane. The
-            contents should match at least the files shown here:</para>
+        <para>After copying the files in place, check to make sure everything looks sane.</para>
+        <para>The contents of for a MySQL database should match the files shown here:</para>
         <informalexample>
             <screen><prompt>$</prompt> ls <replaceable>/var/lib/guacamole/classpath</replaceable>
-<computeroutput>aopalliance-1.0.jar             javax.inject-1.jar
-commons-logging-1.1.1.jar       mybatis-3.1.1.jar
-google-collections-1.0.jar      mybatis-guice-3.2.jar
-guacamole-auth-mysql-0.8.0.jar  mysql-connector-java-5.1.23-bin.jar
-guice-3.0.jar                   slf4j-api-1.6.1.jar
-guice-multibindings-3.0.jar     slf4j-jcl-1.6.1.jar</computeroutput>
+<computeroutput>guacamole-auth-jdbc-mysql-0.9.5.jar
+mysql-connector-java-5.1.23-bin.jar</computeroutput>
 <prompt>$</prompt></screen>
         </informalexample>
-        <para>Each of the <filename>.jar</filename> files above is either the MySQL authentication
-            module itself (<filename>guacamole-auth-mysql-0.8.0.jar</filename>) or a dependency.
-            They must all be placed in Guacamole's lib-directory for the MySQL authentication to
-            work.</para>
-        <important>
-            <para>If you do not see <filename>mysql-connector-java-5.1.23-bin.jar</filename> (or a
-                similar file with a different version) present in the same directory as the other
-                    <filename>.jar</filename> files, then you have not copied MySQL Connector-J
-                properly.</para>
-            <para>Be sure to download MySQL Connector-J from the <link
-                    xmlns:xlink="http://www.w3.org/1999/xlink"
-                    xlink:href="http://dev.mysql.com/downloads/connector/j/">MySQL website</link>.
-                Extract the downloaded archive, and copy the <filename>.jar</filename> file into the
-                same directory as shown above. <emphasis>If this is not done, MySQL authentication
-                    will not work.</emphasis> Guacamole will be unable to connect to your MySQL
-                database.</para>
-        </important>
-        <section>
-            <title>Creating a database and user</title>
-            <indexterm>
-                <primary>default user</primary>
-            </indexterm>
-            <para>The MySQL authentication module will need a database to store all authentication
-                data and a user to use only for data access and manipulation. You could use an
-                existing database and existing user, but for the sake of simplicity and security,
-                these instructions assume you will be creating a new database and new user that will
-                be used only by Guacamole and only for this authentication module.</para>
-            <para>At this point, you need MySQL installed and the root MySQL user configured. If
-                this is not the case, install MySQL now. Most distributions will provide a
-                convenient MySQL package which will set up everything for you, including the root
-                user. After MySQL is installed, create the new database and user:</para>
+        <para>For PostgreSQL, the contents should match the files shown here:</para>
+        <informalexample>
+            <screen><prompt>$</prompt> ls <replaceable>/var/lib/guacamole/classpath</replaceable>
+<computeroutput>guacamole-auth-jdbc-postgresql-0.9.5.jar
+postgresql-9.4-1201.jdbc41.jar</computeroutput>
+<prompt>$</prompt></screen>
+        </informalexample>
+        <para>Each of the <filename>.jar</filename> files above is either the authentication module
+            itself (<filename>guacamole-auth-jdbc-*-0.9.5.jar</filename>) or the corresponding JDBC
+            driver. <emphasis>If any of these files is missing, authentication will not
+                work!</emphasis></para>
+    </section>
+    <section xml:id="jdbc-auth-database-creation">
+        <title>Creating the database</title>
+        <para>The database authentication module will need a database to store all authentication
+            data and a user to use only for data access and manipulation. You could use an existing
+            database and existing user, but for the sake of simplicity and security, these
+            instructions assume you will be creating a new database and new user that will be used
+            only by Guacamole and only for this authentication module.</para>
+        <para>At this point, you need either MySQL or PostgreSQL installed, and must have sufficient
+            access to create and administer databases. If this is not the case, install your
+            database of choice now. Most distributions will provide a convenient MySQL or PostgreSQL
+            package which will set up everything for you, including the root database user, if
+            applicable.</para>
+        <para>For the sake of clarity, these instructions will refer to the database as
+            "guacamole_db" and the user as "guacamole_user", but the database and user can be named
+            whatever you like. Naturally, you should also choose a real password for your user
+            rather than the string "some_password" used as a placeholder below.</para>
+        <section xml:id="jdbc-auth-mysql">
+            <title>MySQL</title>
+            <para>If using MySQL, you must create your database and user first:</para>
             <informalexample>
                 <screen><prompt>$</prompt> mysql -u root -p
 <prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
@@ -111,13 +119,13 @@ owners.
 
 Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 </computeroutput>
-<prompt>mysql></prompt> <userinput>CREATE DATABASE <replaceable>guacamole</replaceable>;</userinput>
+<prompt>mysql></prompt> <userinput>CREATE DATABASE <replaceable>guacamole_db</replaceable>;</userinput>
 <computeroutput>Query OK, 1 row affected (0.00 sec)</computeroutput>
 
-<prompt>mysql></prompt> <userinput>CREATE USER '<replaceable>guacamole'</replaceable>@'localhost' IDENTIFIED BY '<replaceable>some_password</replaceable>';</userinput>
+<prompt>mysql></prompt> <userinput>CREATE USER '<replaceable>guacamole_user'</replaceable>@'localhost' IDENTIFIED BY '<replaceable>some_password</replaceable>';</userinput>
 <computeroutput>Query OK, 0 rows affected (0.00 sec)</computeroutput>
 
-<prompt>mysql></prompt> <userinput>GRANT SELECT,INSERT,UPDATE,DELETE ON <replaceable>guacamole</replaceable>.* TO '<replaceable>guacamole'</replaceable>@'localhost';</userinput>
+<prompt>mysql></prompt> <userinput>GRANT SELECT,INSERT,UPDATE,DELETE ON <replaceable>guacamole_db</replaceable>.* TO '<replaceable>guacamole_user'</replaceable>@'localhost';</userinput>
 <computeroutput>Query OK, 0 rows affected (0.00 sec)</computeroutput>
 
 <prompt>mysql></prompt> <userinput>FLUSH PRIVILEGES;</userinput>
@@ -127,115 +135,176 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 <computeroutput>Bye</computeroutput>
 <prompt>$</prompt></screen>
             </informalexample>
-            <para>The database and user can be named whatever you like, but these instructions will
-                refer to both as "guacamole". Naturally, you should choose a real password for your
-                user rather than the string "some_password" shown above.</para>
-        </section>
-        <section>
-            <title>Running the SQL scripts</title>
-            <indexterm>
-                <primary>SQL scripts</primary>
-            </indexterm>
-            <para>The SQL scripts that create the database schema and default administrator user are
-                included in the archive you downloaded within the <filename>schema/</filename>
-                directory. They are named such that they can be run in order with one
+            <para>Once the database and user are created, the database schema must be applied by
+                running the supplied SQL scripts. These SQL scripts are included in the
+                    <filename>mysql/schema/</filename> directory of the archive you downloaded from
+                the Guacamole website. They are named such that they can be run in order with one
                 command:</para>
             <informalexample>
                 <screen><prompt>$</prompt> <userinput>ls schema/</userinput>
 <computeroutput>001-create-schema.sql  002-create-admin-user.sql  upgrade</computeroutput>
-<prompt>$</prompt> <userinput>cat schema/*.sql | mysql -u root -p <replaceable>guacamole</replaceable></userinput>
-<computeroutput><prompt>Enter password:</prompt></computeroutput> <userinput><replaceable>password</replaceable></userinput>
+<prompt>$</prompt> <userinput>cat schema/*.sql | mysql -u root -p <replaceable>guacamole_db</replaceable></userinput>
+<prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
 <prompt>$</prompt></screen>
             </informalexample>
             <para>If the operation is successful, all tables have been created successfully, and the
-                database is now ready for use. All that is left now is to configure Guacamole to use
-                the database we've created.</para>
+                database is now ready for use.</para>
             <important>
-                <para>If you are upgrading from an older version that lacked support for connection
-                    groups, you should instead run the upgrade script located within the
-                        <filename>upgrade/</filename> directory:</para>
+                <para>If you are upgrading from an older version of Guacamole that lacked support
+                    for connection groups (older than 0.8.2), you should instead run the upgrade
+                    script located within the <filename>upgrade/</filename> directory:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>ls schema/upgrade/</userinput>
-<computeroutput>upgrade-pre-0.8.2.sql</computeroutput>
-<prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole</replaceable> &lt; schema/upgrade/upgrade-pre-0.8.2.sql</userinput>
-<computeroutput><prompt>Enter password:</prompt></computeroutput> <userinput><replaceable>password</replaceable></userinput>
+<computeroutput>upgrade-pre-0.8.2.sql  upgrade-pre-0.9.6.sql</computeroutput>
+<prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.8.2.sql</userinput>
+<prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
 <prompt>$</prompt></screen>
+                    <para>If you are upgrading from a version of Guacamole before 0.9.6, the default
+                        permissions associated with new users have changed such that users can
+                        change their own passwords. You may, if desired, run the upgrade script to
+                        migrate any existing users to the new permissions:</para>
+                    <informalexample>
+                        <screen><prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.9.6.sql</userinput>
+<prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
+<prompt>$</prompt></screen>
+                    </informalexample>
                 </informalexample>
             </important>
         </section>
-        <section>
-            <title>Configuring Guacamole</title>
-            <indexterm>
-                <primary>configuring MySQL</primary>
-            </indexterm>
-            <para>Now that the database and user is created, and the SQL scripts have been run, we
-                need to add a few properties to <filename>guacamole.properties</filename> such that
-                Guacamole can connect to MySQL when authenticating users:</para>
+        <section xml:id="jdbc-auth-postgresql">
+            <title>PostgreSQL</title>
+            <para>If using PostgreSQL, the database and schema must be created first:</para>
             <informalexample>
-                <programlisting># Auth provider class
+                <screen><prompt>$</prompt> <userinput>createdb <replaceable>guacamole_db</replaceable></userinput>
+<prompt>$</prompt> <userinput>ls schema/</userinput>
+<computeroutput>001-create-schema.sql  002-create-admin-user.sql</computeroutput>
+<prompt>$</prompt> <userinput>cat schema/*.sql | psql -d <replaceable>guacamole_db</replaceable> -f -</userinput>
+<computeroutput>CREATE TYPE
+CREATE TYPE
+CREATE TYPE
+CREATE TABLE
+CREATE INDEX</computeroutput>
+...
+<computeroutput>INSERT 0 1
+INSERT 0 4
+INSERT 0 3</computeroutput>
+<prompt>$</prompt></screen>
+            </informalexample>
+            <para>Once the database exists, you can safely create a new user for the database, and
+                grant that user sufficient privileges to manage the contents of all tables in the
+                database:</para>
+            <informalexample>
+                <screen><prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable></userinput>
+<computeroutput>psql (9.3.6)
+Type "help" for help.
+</computeroutput>
+<prompt>guacamole=# </prompt><userinput>CREATE USER <replaceable>guacamole_user</replaceable> WITH PASSWORD '<replaceable>some_password</replaceable>';</userinput>
+<computeroutput>CREATE ROLE</computeroutput>
+<prompt>guacamole=# </prompt><userinput>GRANT SELECT,INSERT,UPDATE,DELETE ON ALL TABLES IN SCHEMA public TO <replaceable>guacamole_user</replaceable>;</userinput>
+<computeroutput>GRANT</computeroutput>
+<prompt>guacamole=# </prompt><userinput>GRANT SELECT,USAGE ON ALL SEQUENCES IN SCHEMA public TO <replaceable>guacamole_user</replaceable>;</userinput>
+<computeroutput>GRANT</computeroutput>
+<prompt>guacamole=# </prompt><userinput>\q</userinput>
+<prompt>$</prompt></screen>
+            </informalexample>
+            <para>As support for PostgreSQL was not added until 0.9.6, no upgrade scripts are
+                necessary to migrate the databases of earlier versions of Guacamole; no such
+                databases exist.</para>
+        </section>
+    </section>
+    <section xml:id="jdbc-auth-configuration">
+        <title>Configuring Guacamole</title>
+        <para>Now that the database has been created, and all required SQL scripts have been run, we
+            need to add a few properties to <filename>guacamole.properties</filename> such that
+            Guacamole will load the appropriate authentication module and connect to the proper
+            database. These properties are specific to the database being used.</para>
+        <para>To use a MySQL database, you will need to specify the following:</para>
+        <informalexample>
+            <programlisting># Auth provider class
 auth-provider: net.sourceforge.guacamole.net.auth.mysql.MySQLAuthenticationProvider
 
 # MySQL properties
 mysql-hostname: localhost
 mysql-port: 3306
-mysql-database: <replaceable>guacamole</replaceable>
-mysql-username: <replaceable>guacamole</replaceable>
+mysql-database: <replaceable>guacamole_db</replaceable>
+mysql-username: <replaceable>guacamole_user</replaceable>
 mysql-password: <replaceable>some_password</replaceable></programlisting>
-            </informalexample>
-            <indexterm>
-                <primary>concurrent use</primary>
-            </indexterm>
-            <para>Be sure to specify the correct password for the MySQL user you created, and
-                specify the correct database and username if you didn't use "guacamole". If you wish
-                to only allow one user at a time to access any single connection, you can also limit
-                concurrent access to connections:</para>
+            <para>For PostgreSQL the properties are similar, but with different prefixes:</para>
             <informalexample>
-                <programlisting>mysql-disallow-simultaneous-connections: true</programlisting>
+                <programlisting># Auth provider class
+auth-provider: org.glyptodon.guacamole.auth.postgresql.PostgreSQLAuthenticationProvider
+
+# MySQL properties
+postgresql-hostname: localhost
+postgresql-port: 5432
+postgresql-database: <replaceable>guacamole_db</replaceable>
+postgresql-username: <replaceable>guacamole_user</replaceable>
+postgresql-password: <replaceable>some_password</replaceable></programlisting>
             </informalexample>
-            <para>This is not required, but with the above property in place, users attempting to
-                use a connection that is currently in use by another user will be denied access. By
-                default, concurrent access is allowed.</para>
-            <para>You can also limit whether a single user is allowed to connect to the same
-                connection or group concurrently. By default, this is enabled, as it has security
-                implications when balancing groups are used, but you can explicitly disable this if
-                you want to allow duplicate connections:</para>
-            <informalexample>
-                <programlisting>mysql-disallow-duplicate-connections: false</programlisting>
-            </informalexample>
-            <para>Now just restart Tomcat (or whatever servlet container you are using) and
-                authentication will use MySQL.</para>
-        </section>
-        <section>
-            <title>Logging in</title>
-            <indexterm>
-                <primary>default user</primary>
-            </indexterm>
-            <indexterm>
-                <primary>guacadmin</primary>
-            </indexterm>
-            <para>After the MySQL authentication module is installed, you need to log in and change
-                your password, and add whatever connections and additional users you need.</para>
-            <para>The default user is "<token>guacadmin</token>", with the default password of
-                    "<token>guacadmin</token>". You can change your password by editing your own
-                user in the administration screen.</para>
-            <para>More detailed instructions for managing users and connections is given in <xref
-                    linkend="using-guacamole"/> in <xref linkend="guacamole-admin-ui"/>.</para>
-        </section>
+        </informalexample>
+        <para>Be sure to specify the correct password for the MySQL or PostgreSQL user you created,
+            and specify the correct database and username if you didn't use "guacamole_db" and
+            "guacamole_user".</para>
+        <para>The database authentication module also provides configuration options to restrict
+            concurrent use of connections if desired:</para>
+        <informalexample>
+            <programlisting># MySQL
+mysql-disallow-simultaneous-connections: true
+
+# PostgreSQL
+postgresql-disallow-simultaneous-connections: true</programlisting>
+        </informalexample>
+        <para>This is not required, but with the above property in place, users attempting to use a
+            connection that is already in use by another user will be denied access. By default,
+            concurrent access is allowed. This does not affect balancing groups, but does affect the
+            usage of connections within balancing groups.</para>
+        <para>Concurrent access to balancing groups is restricted by default, and while balancing
+            groups can be used by any number of users simultaneously, each individual user may only
+            have one active connection to a balancing group. You can change this if you wish, but
+            beware that individual users will then be able to exhaust the available connections of a
+            balancing group:</para>
+        <informalexample>
+            <programlisting># MySQL
+mysql-disallow-duplicate-connections: false
+
+# PostgreSQL
+postgresql-disallow-duplicate-connections: false</programlisting>
+        </informalexample>
+        <para>Once you have <filename>guacamole.properties</filename> modified appropriately,
+            restart Tomcat (or whatever servlet container you are using) and Guacamole will use your
+            database for authentication. Be sure to watch the logs in case something is wrong with
+            the configuration, and remember that, for security reasons, Guacamole will always report
+            authentication errors as "invalid login" regardless of the true cause.</para>
     </section>
-    <section xml:id="mysql-auth-schema">
+    <section xml:id="jdbc-auth-default-user">
+        <title>Logging in</title>
+        <indexterm>
+            <primary>default user</primary>
+        </indexterm>
+        <indexterm>
+            <primary>guacadmin</primary>
+        </indexterm>
+        <para>The default Guacamole user created by the provided SQL scripts is
+                "<token>guacadmin</token>", with a default password of "<token>guacadmin</token>".
+            Once you have the database authentication working, you should change your password
+            immediately by editing your own user in the administration screen.</para>
+        <para>More detailed instructions for managing users and connections is given in <xref
+                linkend="using-guacamole"/> in <xref linkend="guacamole-admin-ui"/>.</para>
+    </section>
+    <section xml:id="jdbc-auth-schema">
         <title>Modifying data manually</title>
         <indexterm>
             <primary>schema</primary>
         </indexterm>
-        <para>If necessary, it is possible to modify the data backing the MySQL authentication
-            module manually by executing SQL statements against the database. In general use, this
-            will not be common, but if you need to bulk-insert a large number of users or
-            connections, or you wish to translate an existing configuration automatically, you will
-            need to know how everything is laid out at a high level.</para>
-        <para>This section assumes knowledge of SQL and MySQL, and that whatever you need to do can
-            be accomplished if only you had high-level information about Guacamole's SQL
-            schema.</para>
-        <section>
+        <para>If necessary, it is possible to modify the data backing the authentication module
+            manually by executing SQL statements against the database. In general use, this will not
+            be common, but if you need to bulk-insert a large number of users or connections, or you
+            wish to translate an existing configuration automatically, you will need to know how
+            everything is laid out at a high level.</para>
+        <para>This section assumes knowledge of SQL and your chosen database, and that whatever you
+            need to do can be accomplished if only you had high-level information about Guacamole's
+            SQL schema.</para>
+        <section xml:id="jdbc-auth-schema-users">
             <title>Users</title>
             <indexterm>
                 <primary><classname>guacamole_user</classname></primary>
@@ -271,6 +340,11 @@ mysql-password: <replaceable>some_password</replaceable></programlisting>
                         <para>The result of hashing the user's password concatenated with the
                             contents of <property>password_salt</property> using SHA-256. The salt
                             is appended to the password prior to hashing.</para>
+                        <para>Although passwords set through Guacamole will always be salted, it is
+                            possible to use unsalted password hashes when inserted manually or
+                            through an external system. If <property>password_salt</property> is
+                                <constant>NULL</constant>, the <property>password_hash</property>
+                            will be handled as a simple unsalted hash of the password.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -279,12 +353,27 @@ mysql-password: <replaceable>some_password</replaceable></programlisting>
                         <para>A 32-byte random value. When a new user is created from the web
                             interface, this value is randomly generated using a
                             cryptographically-secure random number generator.</para>
+                        <para>This will always be set for users whose passwords are set through
+                            Guacamole, but it is possible to use unsalted password hashes when
+                            inserted manually or through an external system. If
+                                <property>password_salt</property> is <constant>NULL</constant>, the
+                                <property>password_hash</property> will be handled as a simple
+                            unsalted hash of the password.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
+            <important>
+                <para>If you choose to manually set unsalted password hashes, please be sure you
+                    understand the security implications of doing so.</para>
+                <para>In the event that your database is compromised, finding the password for a
+                        <emphasis>salted</emphasis> hash is computationally infeasible, but finding
+                    the password for an <emphasis>unsalted</emphasis> hash is often not. In many
+                    cases, the password which corresponds to an unsalted hash can be found simply by
+                    entering the hash into a search engine like Google.</para>
+            </important>
             <para>If creating a user manually, the main complication is the salt, which must be
                 determined before the <command>INSERT</command> statement can be constructed, but
-                this can be dealt with using variables:</para>
+                this can be dealt with using variables. For MySQL:</para>
             <informalexample>
                 <programlisting>-- Generate salt
 SET @salt = UNHEX(SHA2(UUID(), 256));
@@ -295,12 +384,12 @@ INSERT INTO guacamole_user (username, password_salt, password_hash)
             </informalexample>
             <para>This sort of statement is useful for both creating new users or for changing
                 passwords, especially if all administrators have forgotten theirs.</para>
-            <para>Note that versions of MySQL earlier than 5.5.5 do not have the
-                    <methodname>SHA2</methodname> function. If you are using one of these versions,
-                you will need to calculate the SHA-256 value manually (by using the
-                    <command>sha256sum</command> command, for example).</para>
+            <para>If you are not using MySQL, or you are using a version of MySQL that lacks the
+                    <methodname>SHA2</methodname> function, you will need to calculate the SHA-256
+                value manually (by using the <command>sha256sum</command> command, for
+                example).</para>
         </section>
-        <section>
+        <section xml:id="jdbc-auth-schema-connections">
             <title>Connections and parameters</title>
             <indexterm>
                 <primary><classname>guacamole_connection</classname></primary>
@@ -385,13 +474,15 @@ INSERT INTO guacamole_user (username, password_salt, password_hash)
             <informalexample>
                 <programlisting>-- Create connection
 INSERT INTO guacamole_connection (connection_name, protocol) VALUES ('<replaceable>test</replaceable>', '<replaceable>vnc</replaceable>');
-SET @id = LAST_INSERT_ID();
 
--- Add parameters
-INSERT INTO guacamole_connection_parameter VALUES (@id, 'hostname', '<replaceable>localhost</replaceable>');
-INSERT INTO guacamole_connection_parameter VALUES (@id, 'port', '<replaceable>5901</replaceable>');</programlisting>
+-- Determine the connection_id
+SELECT * FROM guacamole_connection WHERE connection_name = '<replaceable>test</replaceable>' AND parent_id IS NULL;
+
+-- Add parameters to the new connection
+INSERT INTO guacamole_connection_parameter VALUES (<replaceable>1</replaceable>, 'hostname', '<replaceable>localhost</replaceable>');
+INSERT INTO guacamole_connection_parameter VALUES (<replaceable>1</replaceable>, 'port', '<replaceable>5901</replaceable>');</programlisting>
             </informalexample>
-            <section>
+            <section xml:id="jdbc-auth-schema-connection-history">
                 <title>Usage history</title>
                 <indexterm>
                     <primary><classname>guacamole_connection_history</classname></primary>
@@ -451,8 +542,8 @@ INSERT INTO guacamole_connection_parameter VALUES (@id, 'port', '<replaceable>59
                 </variablelist>
             </section>
         </section>
-        <section>
-            <title>Connections groups</title>
+        <section xml:id="jdbc-auth-schema-connection-groups">
+            <title>Connection groups</title>
             <indexterm>
                 <primary><classname>guacamole_connection_group</classname></primary>
             </indexterm>
@@ -507,14 +598,14 @@ INSERT INTO guacamole_connection_group (connection_group_name, type)
      VALUES ('<replaceable>test</replaceable>', '<replaceable>ORGANIZATIONAL</replaceable>');</programlisting>
             </informalexample>
         </section>
-        <section>
+        <section xml:id="jdbc-auth-schema-permissions">
             <title>Permissions</title>
             <para>There are three permissions tables in the schema which correspond to the three
                 types of permissions in Guacamole's authentication model: system permissions, which
                 control operations that affect the system as a whole, and user and connection
                 permissions, which control operations that affect specific, existing users or
                 connections respectively.</para>
-            <section>
+            <section xml:id="jdbc-auth-schema-system-permissions">
                 <title>System permissions</title>
                 <indexterm>
                     <primary><classname>guacamole_system_permission</classname></primary>
@@ -548,7 +639,7 @@ INSERT INTO guacamole_connection_group (connection_group_name, type)
                     </varlistentry>
                 </variablelist>
             </section>
-            <section>
+            <section xml:id="jdbc-auth-schema-user-permissions">
                 <title>User permissions</title>
                 <indexterm>
                     <primary><classname>guacamole_user_permission</classname></primary>
@@ -591,7 +682,7 @@ INSERT INTO guacamole_connection_group (connection_group_name, type)
                     </varlistentry>
                 </variablelist>
             </section>
-            <section>
+            <section xml:id="jdbc-auth-schema-connection-permissions">
                 <title>Connection permissions</title>
                 <indexterm>
                     <primary><classname>guacamole_connection_permission</classname></primary>
@@ -634,7 +725,7 @@ INSERT INTO guacamole_connection_group (connection_group_name, type)
                     </varlistentry>
                 </variablelist>
             </section>
-            <section>
+            <section xml:id="jdbc-auth-schema-connection-group-permissions">
                 <title>Connection group permissions</title>
                 <indexterm>
                     <primary><classname>guacamole_connection_group_permission</classname></primary>

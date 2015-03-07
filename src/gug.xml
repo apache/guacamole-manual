@@ -155,7 +155,7 @@
         <xi:include href="chapters/architecture.xml"/>
         <xi:include href="chapters/installing.xml"/>
         <xi:include href="chapters/configuring.xml"/>
-        <xi:include href="chapters/mysql-auth.xml"/>
+        <xi:include href="chapters/jdbc-auth.xml"/>
         <xi:include href="chapters/ldap-auth.xml"/>
         <xi:include href="chapters/noauth.xml"/>
         <xi:include href="chapters/using.xml"/>
