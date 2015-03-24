@@ -1,4 +1,5 @@
 src/html
+src/docbook-xsl
 *.pdf
 *.fo
 *~
