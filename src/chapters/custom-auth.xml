@@ -60,7 +60,7 @@
     &lt;groupId>org.glyptodon.guacamole&lt;/groupId>
     &lt;artifactId>guacamole-auth-tutorial&lt;/artifactId>
     &lt;packaging>jar&lt;/packaging>
-    &lt;version>0.9.3&lt;/version>
+    &lt;version>0.9.6&lt;/version>
     &lt;name>guacamole-auth-tutorial&lt;/name>
     &lt;url>http://guac-dev.org/&lt;/url>
 
@@ -90,14 +90,14 @@
         &lt;dependency>
             &lt;groupId>org.glyptodon.guacamole&lt;/groupId>
             &lt;artifactId>guacamole-common&lt;/artifactId>
-            &lt;version>0.9.3&lt;/version>
+            &lt;version>0.9.6&lt;/version>
         &lt;/dependency>
 
         &lt;!-- Guacamole Extension API -->
         &lt;dependency>
             &lt;groupId>org.glyptodon.guacamole&lt;/groupId>
             &lt;artifactId>guacamole-ext&lt;/artifactId>
-            &lt;version>0.9.3&lt;/version>
+            &lt;version>0.9.6&lt;/version>
         &lt;/dependency>
 
     &lt;/dependencies>
