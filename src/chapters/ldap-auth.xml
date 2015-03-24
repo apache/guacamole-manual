@@ -52,10 +52,10 @@
             are no conflicts in between multiple versions of <package>guacamole-auth-ldap</package>.
             The contents should match at least the files shown here:</para>
         <screen><prompt>$</prompt> ls <replaceable>/var/lib/guacamole/classpath</replaceable>
-<computeroutput>guacamole-auth-ldap-0.8.0.jar  jldap-4.3.jar</computeroutput>
+<computeroutput>guacamole-auth-ldap-0.9.6.jar  jldap-4.3.jar</computeroutput>
 <prompt>$</prompt></screen>
         <para>Each of the <filename>.jar</filename> files above is either the LDAP authentication
-            module itself (<filename>guacamole-auth-ldap-0.8.0.jar</filename>) or a dependency. They
+            module itself (<filename>guacamole-auth-ldap-0.9.6.jar</filename>) or a dependency. They
             must all be placed in Guacamole's <property>lib-directory</property> for the LDAP
             authentication to work.</para>
         <section>

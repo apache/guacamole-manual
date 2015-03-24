@@ -420,8 +420,8 @@
                 of a <filename>.tar.gz</filename> archive which you can extract from the command
                 line:</para>
             <informalexample>
-                <screen><prompt>$</prompt> <userinput>tar -xzf guacamole-server-0.9.4.tar.gz</userinput>
-<prompt>$</prompt> <userinput>cd guacamole-server-0.9.4/</userinput>
+                <screen><prompt>$</prompt> <userinput>tar -xzf guacamole-server-0.9.6.tar.gz</userinput>
+<prompt>$</prompt> <userinput>cd guacamole-server-0.9.6/</userinput>
 <prompt>$</prompt></screen>
             </informalexample>
             <para>If you want the absolute latest code, and don't care that the code hasn't been as
@@ -473,7 +473,7 @@ checking whether build environment is sane... yes
 ...
 
 ------------------------------------------------
-guacamole-server version 0.9.4
+guacamole-server version 0.9.6
 ------------------------------------------------
 
    Library status:
@@ -640,8 +640,8 @@ make[1]: Leaving directory `/home/zhz/guacamole/guacamole-server'</computeroutpu
                 <filename>.tar.gz</filename> archive which you can extract from the command
             line:</para>
         <informalexample>
-            <screen><prompt>$</prompt> <userinput>tar -xzf guacamole-client-0.9.4.tar.gz</userinput>
-<prompt>$</prompt> <userinput>cd guacamole-client-0.9.4/</userinput>
+            <screen><prompt>$</prompt> <userinput>tar -xzf guacamole-client-0.9.6.tar.gz</userinput>
+<prompt>$</prompt> <userinput>cd guacamole-client-0.9.6/</userinput>
 <prompt>$</prompt></screen>
         </informalexample>
         <para>As with <package>guacamole-server</package>, if you want the absolute latest code, and
@@ -702,7 +702,7 @@ Resolving deltas: 100% (3942/3942), done.</computeroutput>
             container.</para>
         <para>You will probably have to do this as the root user:</para>
         <informalexample>
-            <screen><prompt>#</prompt> <userinput>cp guacamole/target/guacamole-0.9.4.war /var/lib/tomcat7/webapps/guacamole.war</userinput>
+            <screen><prompt>#</prompt> <userinput>cp guacamole/target/guacamole-0.9.6.war /var/lib/tomcat7/webapps/guacamole.war</userinput>
 <prompt>#</prompt></screen>
         </informalexample>
         <para>The Guacamole web application also depends on a configuration file,
@@ -789,7 +789,7 @@ Resolving deltas: 100% (3942/3942), done.</computeroutput>
 Starting Tomcat... OK</computeroutput>
 <prompt>#</prompt> <userinput>/etc/init.d/guacd start</userinput>
 <computeroutput>Starting guacd: SUCCESS
-guacd[6229]: INFO:  Guacamole proxy daemon (guacd) version 0.9.4 started</computeroutput>
+guacd[6229]: INFO:  Guacamole proxy daemon (guacd) version 0.9.6 started</computeroutput>
 <prompt>#</prompt></screen>
         </informalexample>
         <para>If you want Guacamole to start on boot, you will need to configure the Tomcat and

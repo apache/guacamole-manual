@@ -69,19 +69,19 @@
         <para>The contents of for a MySQL database should match the files shown here:</para>
         <informalexample>
             <screen><prompt>$</prompt> ls <replaceable>/var/lib/guacamole/classpath</replaceable>
-<computeroutput>guacamole-auth-jdbc-mysql-0.9.5.jar
+<computeroutput>guacamole-auth-jdbc-mysql-0.9.6.jar
 mysql-connector-java-5.1.23-bin.jar</computeroutput>
 <prompt>$</prompt></screen>
         </informalexample>
         <para>For PostgreSQL, the contents should match the files shown here:</para>
         <informalexample>
             <screen><prompt>$</prompt> ls <replaceable>/var/lib/guacamole/classpath</replaceable>
-<computeroutput>guacamole-auth-jdbc-postgresql-0.9.5.jar
+<computeroutput>guacamole-auth-jdbc-postgresql-0.9.6.jar
 postgresql-9.4-1201.jdbc41.jar</computeroutput>
 <prompt>$</prompt></screen>
         </informalexample>
         <para>Each of the <filename>.jar</filename> files above is either the authentication module
-            itself (<filename>guacamole-auth-jdbc-*-0.9.5.jar</filename>) or the corresponding JDBC
+            itself (<filename>guacamole-auth-jdbc-*-0.9.6.jar</filename>) or the corresponding JDBC
             driver. <emphasis>If any of these files is missing, authentication will not
                 work!</emphasis></para>
     </section>

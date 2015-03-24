@@ -53,10 +53,10 @@
             extension itself. After copying this file in place, check that the contents match the
             listing shown here:</para>
         <screen><prompt>$</prompt> ls <replaceable>/var/lib/guacamole/classpath</replaceable>
-<computeroutput>guacamole-auth-noauth-0.8.0.jar</computeroutput>
+<computeroutput>guacamole-auth-noauth-0.9.6.jar</computeroutput>
 <prompt>$</prompt></screen>
         <para>If there are other <filename>.jar</filename> files present beyond the "noauth"
-            authentication module itself (<filename>guacamole-auth-noauth-0.8.0.jar</filename>), it
+            authentication module itself (<filename>guacamole-auth-noauth-0.9.6.jar</filename>), it
             should still work. You would only have problems if two different versions of "noauth"
             were present.</para>
         <section>
