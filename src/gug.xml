@@ -160,8 +160,6 @@
         <xi:include href="chapters/noauth.xml"/>
         <xi:include href="chapters/using.xml"/>
         <xi:include href="chapters/troubleshooting.xml"/>
-        <!--<xi:include href="chapters/home-desktop.xml"/>-->
-        <!--<xi:include href="chapters/ec2.xml"/>-->
     </part>
     <part xml:id="developers-guide">
         <title>Developer's Guide</title>
