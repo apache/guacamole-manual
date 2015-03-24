@@ -5,7 +5,7 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     version="1.0">
 
-    <xsl:import href="docbook-xsl/xhtml/chunk.xsl"/>
+    <xsl:import href="../docbook-xsl/xhtml/chunk.xsl"/>
 
     <!-- Name chunk files after root element IDs -->
     <xsl:param name="use.id.as.filename">1</xsl:param>

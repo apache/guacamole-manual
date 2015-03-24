@@ -1,6 +1,3 @@
-src/html
-src/docbook-xsl
-*.pdf
-*.fo
+/html
+/docbook-xsl
 *~
-www/
