@@ -259,7 +259,7 @@ $</screen>
         <informalfigure>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="../images/manage-button.png" format="PNG" contentwidth="3in"
+                    <imagedata fileref="images/manage-button.png" format="PNG" contentwidth="3in"
                     />
                 </imageobject>
                 <caption>
@@ -290,7 +290,7 @@ $</screen>
             <informalfigure>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="../images/manage-users.png" format="PNG"
+                        <imagedata fileref="images/manage-users.png" format="PNG"
                             contentwidth="3in"/>
                     </imageobject>
                     <caption>
@@ -307,7 +307,7 @@ $</screen>
             <informalfigure>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="../images/edit-user.png" format="PNG" contentwidth="2in"
+                        <imagedata fileref="images/edit-user.png" format="PNG" contentwidth="2in"
                         />
                     </imageobject>
                     <caption>
@@ -332,7 +332,7 @@ $</screen>
             <informalfigure>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="../images/manage-connections.png" format="PNG"
+                        <imagedata fileref="images/manage-connections.png" format="PNG"
                             contentwidth="3in"/>
                     </imageobject>
                     <caption>
@@ -353,7 +353,7 @@ $</screen>
             <informalfigure>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="../images/edit-connection.png" format="PNG"
+                        <imagedata fileref="images/edit-connection.png" format="PNG"
                             contentwidth="2in"/>
                     </imageobject>
                     <caption>
@@ -381,7 +381,7 @@ $</screen>
                 <informalfigure>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="../images/edit-group.png" format="PNG"
+                            <imagedata fileref="images/edit-group.png" format="PNG"
                                 contentwidth="3in"/>
                         </imageobject>
                         <caption>
