@@ -16,7 +16,7 @@
         gruntwork performed by lower-level components.<informalfigure>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="../images/guac-arch.png" width="2.5in"/>
+                    <imagedata fileref="images/guac-arch.png" width="2.5in"/>
                 </imageobject>
             </mediaobject>
         </informalfigure></para>

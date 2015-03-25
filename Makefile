@@ -3,7 +3,7 @@
 # Build entire manual
 #
 
-all: html/index.html
+all: html/index.html html/gug.css html/images
 	
 #
 # Clean build artifacts
@@ -29,4 +29,10 @@ FILES=$(shell find -name "*.xml")
 
 html/index.html: $(FILES) src/site.xslt docbook-xsl
 	cd src; xsltproc -o ../html/ --xinclude site.xslt gug.xml
+
+html/gug.css: src/gug.css
+	cp src/gug.css html/
+
+html/images: src/images
+	cp -r src/images html/
 
