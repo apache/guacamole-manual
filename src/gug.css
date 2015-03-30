@@ -38,12 +38,7 @@ div#content {
 }
 
 .programlisting, .screen {
-    background: black;
-    color: silver;
     padding: 1em;
-    border-radius: 0.5em;
-    -moz-border-radius: 0.5em;
-    -webkit-border-radius: 0.5em;
 }
 
 .book .titlepage {
@@ -59,6 +54,12 @@ div#content {
     text-align: center;
     float: none;
     margin: 1em;
+}
+
+.mediaobject img {
+    border: 1px solid black;
+    width: auto;
+    max-width: 100%;
 }
 
 .caption {
