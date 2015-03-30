@@ -176,10 +176,6 @@
             text to be sent to the clipboard of the remote desktop. Similarly, if you copy or cut
             text within the remote desktop, you will see that text within the text area, and can
             manually copy it into the local clipboard if desired.</para>
-        <para>Guacamole will automatically sync the contents of this clipboard across any other open
-            connections within the same browser, thus copying and pasting between connections is
-            seamless; you do not need to repeatedly visit the clipboard in the menu to copy and
-            paste from one connection to another.</para>
     </section>
     <section xml:id="file-transfer">
         <title>Transferring files</title>
