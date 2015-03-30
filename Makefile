@@ -34,6 +34,6 @@ html/index.html: $(XML_FILES) src/site.xslt docbook-xsl
 html/gug.css: src/gug.css
 	cp src/gug.css html/
 
-html/images: src/images $(PNG_FILES)
-	cp -r src/images html/
+html/images: $(PNG_FILES)
+	mkdir -p html/images; cp -v $(PNG_FILES) html/images/
 
