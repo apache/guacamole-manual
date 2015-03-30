@@ -37,6 +37,15 @@ div#content {
     border-bottom: 1px solid black;
 }
 
+.chapter div.toc,
+.appendix div.toc {
+    border: 1px solid #BCBCBC;
+    background: #FBFBFB;
+    margin: 2em;
+    padding: 0 1em;
+    font-size: 0.75em;
+}
+
 .programlisting, .screen {
     padding: 1em;
 }
@@ -74,13 +83,38 @@ div#content {
     clear: both;
 }
 
-.table-contents table {
-    border: 1px solid black;
-    border-collapse: collapse;
+.table-contents, .informaltable {
+    margin: 1em;
 }
 
-.table-contents td, .table-contents th {
+.table-contents table,
+.informaltable table {
+    border: 1px solid #BCBCBC;
+    border-collapse: collapse;
+    font-size: 10pt;
+}
+
+.table-contents th, .informaltable th {
+    background: #FBFBFB;
+}
+
+.table-contents td, .table-contents th,
+.informaltable td, .informaltable th {
     padding: 0.5em;
+    min-width: 1.5in;
+}
+
+.table-contents table table,
+.informaltable table table {
+    border: none;
+}
+
+.table-contents table table td,
+.table-contents table table th,
+.informaltable table table td,
+.informaltable table table th {
+    background: none;
+    padding: 0.25em;
 }
 
 dl.variablelist {
