@@ -57,9 +57,12 @@ div#content {
 }
 
 .mediaobject img {
-    border: 1px solid black;
     width: auto;
     max-width: 100%;
+}
+
+.screenshot img {
+    border: 1px solid black;
 }
 
 .caption {
