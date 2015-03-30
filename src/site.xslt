@@ -39,6 +39,9 @@
     <!-- Chunk only at chapter level -->
     <xsl:param name="chunk.section.depth" select="0"/>
 
+    <!-- Do not surround images with tables -->
+    <xsl:param name="make.graphic.viewport" select="0"/>
+
     <!-- Custom header -->
     <xsl:template name="user.header.navigation">
         <xsl:text disable-output-escaping="yes"><![CDATA[
