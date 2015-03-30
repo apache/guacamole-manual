@@ -12,7 +12,7 @@
         necessary, we believe that Guacamole must be aimed at becoming a primary means of accessing
         desktops, and the interface is thus intended to be as seamless and unobtrusive as
         possible.</para>
-    <section>
+    <section xml:id="home-screen">
         <title>Home screen</title>
         <para>Once you have successfully logged in, the first thing you will see is the Guacamole
             home screen. The home screen is a list of available remote desktop connections. This
@@ -39,7 +39,7 @@
             button in the Guacamole menu. Each connection you use will remain active until
             explicitly disconnected, or until you navigate away from Guacamole entirely. Active
             connections can be seen as thumbnails updating in real-time on the home screen.</para>
-        <section>
+        <section xml:id="user-menu">
             <title>User menu</title>
             <para>With the exception of the client screen discussed below, all Guacamole screens
                 contain a menu in the upper-right corner called the "user menu". This menu displays
@@ -100,7 +100,7 @@
             </variablelist>
         </section>
     </section>
-    <section>
+    <section xml:id="client-screen">
         <title>Client screen</title>
         <para>Once you open a connection, you will see a realtime view of the remote display. You
             can interact with this display just as you would your normal desktop. Your mouse and
@@ -300,7 +300,7 @@ $</screen>
                     the need for accurate pointer control, when a true pointer device is not
                     present.</para>
             </section>
-            <section>
+            <section xml:id="relative-mouse-emulation">
                 <title>Relative mode (touchpad)</title>
                 <para>Guacamole's relative mouse emulation behaves similarly to the touchpad present
                     on most modern laptops. You drag your finger across the display to move the
