@@ -315,18 +315,15 @@ $</screen>
         </section>
         <section xml:id="text-input">
             <title>Typing without a physical keyboard</title>
-            <para>"Text input" allows input of keystrokes based on the input of text. While not easy
-                to conceptualize, some devices do not actually provide a means of sending
-                traditional keystrokes, but instead provide a means of entering text. A prime
-                example of such a device is a smart phone, but there are other cases which make such
-                an input mode useful even on traditional desktop computers. Choosing "Text input"
-                tells Guacamole to infer keystrokes by tracking text entered, rather than relying on
-                actual key presses. Guacamole will instead determine the combination of keypresses
-                necessary to produce the same pattern of input, including deletions.</para>
-            <para>Many smart phones lack a physical keyboard entirely, and instead provide their own
-                on-screen keyboards to allow typing. As these are not true keyboards per se and do
-                not produce key presses, Guacamole's text input mode is required for typing on these
+            <para>Many mobile devices lack a physical keyboard entirely, and instead provide their
+                own on-screen keyboards. As these are not true keyboards per se and do not produce
+                key presses, Guacamole's text input mode is required for typing on these
                 platforms.</para>
+            <para>"Text input" allows input of keystrokes based on the input of text. Choosing "Text
+                input" tells Guacamole to infer keystrokes by tracking text entered, rather than
+                relying on actual key presses. Guacamole will instead determine the combination of
+                keypresses necessary to produce the same pattern of input, including
+                deletions.</para>
             <para><indexterm>
                     <primary>input method editors</primary>
                 </indexterm>If you wish to type via an IME (input method editor), such as those
