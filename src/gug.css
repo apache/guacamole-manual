@@ -5,9 +5,9 @@ body {
     background: white;
 
     font-family: 'FreeSans', 'Liberation Sans', 'Arial', 'Helvetica', sans-serif;
-    font-size: 10pt;
     text-align: justify;
     text-rendering: optimizeLegibility;
+    line-height: 125%;
 
     margin: 0;
     padding: 0;
