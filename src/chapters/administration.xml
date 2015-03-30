@@ -18,7 +18,7 @@
     <informalfigure>
         <mediaobject>
             <imageobject>
-                <imagedata fileref="images/manage-button.png" format="PNG" contentwidth="3in"/>
+                <imagedata fileref="images/manage-button.png" format="PNG" contentwidth="1.5in"/>
             </imageobject>
             <caption>
                 <para>The "Manage" button</para>
@@ -42,14 +42,17 @@
             administrative privileges, and no password, and will not be able to login. You will need
             to set the user's password first in order to allow login.</para>
         <informalfigure>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/manage-users.png" format="PNG" contentwidth="3in"/>
-                </imageobject>
-                <caption>
-                    <para>User management interface</para>
-                </caption>
-            </mediaobject>
+            <screenshot>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/manage-users.png" format="PNG" contentwidth="5in"
+                        />
+                    </imageobject>
+                    <caption>
+                        <para>User management interface</para>
+                    </caption>
+                </mediaobject>
+            </screenshot>
         </informalfigure>
         <para>To edit a user, just click on the user you wish to edit. A small dialog will display
             allowing you to change the user's password, add or remove administrative permissions,
@@ -57,14 +60,16 @@
         <para>If you have delete permission on the user, you will also see a "Delete" button.
             Clicking this button will permanently delete the user.</para>
         <informalfigure>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/edit-user.png" format="PNG" contentwidth="2in"/>
-                </imageobject>
-                <caption>
-                    <para>Editing a user</para>
-                </caption>
-            </mediaobject>
+            <screenshot>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/edit-user.png" format="PNG" contentwidth="5in"/>
+                    </imageobject>
+                    <caption>
+                        <para>Editing a user</para>
+                    </caption>
+                </mediaobject>
+            </screenshot>
         </informalfigure>
     </section>
     <section>
@@ -81,15 +86,17 @@
             another existing user, you must edit that user, checking the box corresponding to the
             new connection.</para>
         <informalfigure>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/manage-connections.png" format="PNG"
-                        contentwidth="3in"/>
-                </imageobject>
-                <caption>
-                    <para>Connection management interface</para>
-                </caption>
-            </mediaobject>
+            <screenshot>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/manage-connections.png" format="PNG"
+                            contentwidth="5in"/>
+                    </imageobject>
+                    <caption>
+                        <para>Connection management interface</para>
+                    </caption>
+                </mediaobject>
+            </screenshot>
         </informalfigure>
         <para>Editing a connection works identically to editing a user. Click on the connection you
             wish to edit. A dialog will pop up displaying all parameters associated with the
@@ -100,15 +107,17 @@
         <para>If you have delete permission on the connection, you will also see a "Delete" button.
             Clicking this button will permanently delete the connection.</para>
         <informalfigure>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/edit-connection.png" format="PNG" contentwidth="2in"
-                    />
-                </imageobject>
-                <caption>
-                    <para>Editing a connection</para>
-                </caption>
-            </mediaobject>
+            <screenshot>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/edit-connection.png" format="PNG"
+                            contentwidth="5in"/>
+                    </imageobject>
+                    <caption>
+                        <para>Editing a connection</para>
+                    </caption>
+                </mediaobject>
+            </screenshot>
         </informalfigure>
         <section>
             <title>Grouping connections</title>
@@ -128,14 +137,17 @@
                 with connections, you can enter the location and name, which should be descriptive
                 and unique. Duplicate names are not allowed.</para>
             <informalfigure>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/edit-group.png" format="PNG" contentwidth="3in"/>
-                    </imageobject>
-                    <caption>
-                        <para>Editing a connection group</para>
-                    </caption>
-                </mediaobject>
+                <screenshot>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/edit-group.png" format="PNG"
+                                contentwidth="5in"/>
+                        </imageobject>
+                        <caption>
+                            <para>Editing a connection group</para>
+                        </caption>
+                    </mediaobject>
+                </screenshot>
             </informalfigure>
             <para>You can edit existing connection groups by clicking on them within the
                 administration interface, just like with users and connections. From within the
