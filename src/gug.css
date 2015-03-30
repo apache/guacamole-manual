@@ -80,3 +80,23 @@ div#content {
     padding: 0.5em;
 }
 
+/* Printable styles */
+
+@media print {
+
+    .navheader, .navfooter, .chapter .toc {
+        display: none
+    }
+
+    body {
+        font-size: 10pt;
+    }
+
+    .chapter > .titlepage {
+        margin: 2em 0;
+        font-size: 1.5em;
+        text-align: center; 
+    }
+
+}
+
