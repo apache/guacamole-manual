@@ -83,6 +83,21 @@ div#content {
     padding: 0.5em;
 }
 
+dl.variablelist {
+    margin-left: 1em;
+}
+
+.variablelist .term {
+    font-weight: bold;
+}
+
+blockquote {
+    border-left: 1px solid rgba(0, 0, 0, 0.25);
+    padding: 1px 1em;
+    font-style: oblique;
+    color: rgba(0, 0, 0, 0.75);
+}
+
 /* Printable styles */
 
 @media print {
