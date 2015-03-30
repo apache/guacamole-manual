@@ -189,15 +189,32 @@
             <para>The table can be resorted by clicking on the column headers. Clicking any column
                 will resort the table by the values within that column, while clicking a column
                 which is already sorted will toggle between ascending and descending order.</para>
-            <para>The content of the table can be limited through filters entered in the "Filter"
-                input field. Entering a word or phrase in quotes will limit the table to only those
-                sessions which contain at least one column matching that word or phrase. For
-                example, to list only connections by the user "guacadmin" which have been active
-                since March, 2015, you would enter: "guacadmin 2015-03".</para>
+            <para>The content of the table can be limited through search terms specified in the
+                "Filter" field. Entering search terms will limit the table to only sessions
+                containing those terms. For example, to list only connections by the user
+                "guacadmin" which have been active since March, 2015, you would enter: "guacadmin
+                2015-03". Beware that if a search term needs to contain spaces, it must be enclosed
+                in double quotes to avoid being interpreted as multiple terms.</para>
+            <informalfigure>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/session-filter-example-1.png" format="PNG"
+                            contentwidth="5in"/>
+                    </imageobject>
+                </mediaobject>
+            </informalfigure>
             <para>If you wish to narrow the content of the table to only those connections which
                 originate from a particular block of IP addresses, you can do this by specifying the
-                block with standard CIDR notation, such "10.0.0.0/8" or "2001:db8:1234::/48". This
+                block in standard CIDR notation, such "10.0.0.0/8" or "2001:db8:1234::/48". This
                 will work with both IPv4 and IPv6 addresses.</para>
+            <informalfigure>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/session-filter-example-2.png" format="PNG"
+                            contentwidth="5in"/>
+                    </imageobject>
+                </mediaobject>
+            </informalfigure>
         </section>
     </section>
 </chapter>
