@@ -6,144 +6,128 @@
     <indexterm>
         <primary>administration</primary>
     </indexterm>
-    <para>Users and connections can be administered from within the web interface if the underlying
-        authentication module supports this. The only officially-supported authentication module
-        supporting this is the MySQL authentication provider, which is documented in a different
-        chapter.</para>
-    <para>If you are using the default authentication mechanism, this section does not apply to you,
-        and the Guacamole web interface will appear as it did in past releases. If, on the other
-        hand, you are using the MySQL authentication provider, and you are logged in as an
-        administrator, you will see a "Manage" button next to the "Logout" button at the top of the
-        screen.</para>
+    <para>Users, connections, and active sessions can be administered from within the web interface
+        if the underlying authentication module supports this. The only officially-supported
+        authentication modules supporting this are the MySQL and PostgreSQL extensions, which are
+        documented in <xref linkend="jdbc-auth"/>.</para>
+    <para>If you are using the default authentication mechanism, or another authentication
+        extension, this chapter probably does not apply to you, and the management options will not
+        be visible in the Guacamole interface. If, on the other hand, you are using one of the
+        database authentication providers, and you are logged in as a user with sufficient
+        privileges, you will see management options within the user menu.</para>
     <informalfigure>
         <mediaobject>
             <imageobject>
-                <imagedata fileref="images/manage-button.png" format="PNG" contentwidth="3in"/>
+                <imagedata fileref="images/manage-button.png" format="PNG" contentwidth="1.5in"/>
             </imageobject>
             <caption>
-                <para>The "Manage" button</para>
+                <para>Management options within the Guacamole user menu.</para>
             </caption>
         </mediaobject>
     </informalfigure>
-    <para>Clicking this button takes you to an administration screen where you can add or manipulate
-        users and connections, depending on your permissions.</para>
-    <section>
-        <title>Managing users</title>
+    <para>Clicking any of these options will take you to a corresponding screen where you can
+        perform administrative tasks.</para>
+    <section xml:id="user-management">
+        <title>User management</title>
         <indexterm>
             <primary>user management</primary>
         </indexterm>
-        <para>Once at the administration screen, you will see two sections displaying all visible
-            users and connections. The visibility of these sections depends on your user's
-            permissions. If you lack permission to manage users, the user management section will
-            not display. The same goes for management of connections.</para>
+        <para>Clicking "Users" within the user menu will take you to the user management screen.
+            Here you can add new users or edit the properties and privileges of existing
+            users.</para>
         <para>To add a new user, type the username of the new user within the text box inside the
-            user management section, and click the "Add" button. The new user will be added and made
-            available. The new user will have no access to any existing connections, no
-            administrative privileges, and no password, and will not be able to login. You will need
-            to set the user's password first in order to allow login.</para>
+            user management screen, and click the "New User" button. The new user will be added and
+            made available. The new user will have no access to any existing connections, nor any
+            administrative privileges, and you will need to manually set the user's password before
+            they will be able to log in.</para>
         <informalfigure>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/manage-users.png" format="PNG" contentwidth="3in"/>
-                </imageobject>
-                <caption>
-                    <para>User management interface</para>
-                </caption>
-            </mediaobject>
+            <screenshot>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/manage-users.png" format="PNG" contentwidth="5in"
+                        />
+                    </imageobject>
+                    <caption>
+                        <para>User management interface</para>
+                    </caption>
+                </mediaobject>
+            </screenshot>
         </informalfigure>
-        <para>To edit a user, just click on the user you wish to edit. A small dialog will display
-            allowing you to change the user's password, add or remove administrative permissions,
-            and add or remove access to specific connections or groups.</para>
+        <para>To edit a user, just click on the user you wish to edit. You will be taken to a screen
+            which allows you to change the user's password, add or remove administrative
+            permissions, and add or remove read access to specific connections or groups.</para>
         <para>If you have delete permission on the user, you will also see a "Delete" button.
             Clicking this button will permanently delete the user.</para>
         <informalfigure>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/edit-user.png" format="PNG" contentwidth="2in"/>
-                </imageobject>
-                <caption>
-                    <para>Editing a user</para>
-                </caption>
-            </mediaobject>
+            <screenshot>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/edit-user.png" format="PNG" contentwidth="5in"/>
+                    </imageobject>
+                    <caption>
+                        <para>Editing a user</para>
+                    </caption>
+                </mediaobject>
+            </screenshot>
         </informalfigure>
     </section>
-    <section>
-        <title>Managing connections</title>
+    <section xml:id="connection-management">
+        <title>Connections and groups</title>
         <indexterm>
             <primary>connection management</primary>
         </indexterm>
-        <para>To add a new connection, click the "New Connection" button. A connection creation
-            dialog will appear, allowing you to enter the details of the connection, such as its
-            location, parameters, and name. This name should be descriptive, but must also be
-            unique.</para>
-        <para>Once you click "Save", the new connection will be added, but will initially only be
-            usable by administrators and your current user. To add access to the new connection to
-            another existing user, you must edit that user, checking the box corresponding to the
-            new connection.</para>
+        <indexterm>
+            <primary>connection groups</primary>
+        </indexterm>
+        <indexterm>
+            <primary>groups</primary>
+        </indexterm>
+        <para>Clicking "Manage Connections" within the user menu will take you to the connection
+            management screen. The connection management screen allows administrators to create and
+            edit connections and connection groups.</para>
+        <para>To add a new connection or group, click the "New Connection" or "New Group" button.
+            This will take you to a screen where you will be allowed to enter the details of the new
+            object, such as its location, parameters, and name. This name should be descriptive, but
+            must also be unique with respect to other connections or groups in the same
+            location.</para>
+        <para>Once you click "Save", the new object will be added, but will initially only be usable
+            by administrators and your current user. To grant another user access to the new
+            connection or group, you must edit that user, checking the box corresponding to the
+            connection or group you created.</para>
         <informalfigure>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/manage-connections.png" format="PNG"
-                        contentwidth="3in"/>
-                </imageobject>
-                <caption>
-                    <para>Connection management interface</para>
-                </caption>
-            </mediaobject>
-        </informalfigure>
-        <para>Editing a connection works identically to editing a user. Click on the connection you
-            wish to edit. A dialog will pop up displaying all parameters associated with the
-            connection, allowing you to change the protocol, associated parameters, and to view the
-            connection history.</para>
-        <para>Connections can also be renamed or moved by altering the contents of the "Name" or
-            "Location" fields.</para>
-        <para>If you have delete permission on the connection, you will also see a "Delete" button.
-            Clicking this button will permanently delete the connection.</para>
-        <informalfigure>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/edit-connection.png" format="PNG" contentwidth="2in"
-                    />
-                </imageobject>
-                <caption>
-                    <para>Editing a connection</para>
-                </caption>
-            </mediaobject>
-        </informalfigure>
-        <section>
-            <title>Grouping connections</title>
-            <indexterm>
-                <primary>connection groups</primary>
-            </indexterm>
-            <indexterm>
-                <primary>groups</primary>
-            </indexterm>
-            <para>Connections can be placed within groups for purposes of organization or load
-                balancing. Each group is displayed in connection lists as a "+" symbol followed by
-                its name. The group can be expanded revealing any contained connections or groups.
-                If the group is a balancing group, the group can be used as a connection, and the
-                least-used contained connection will be used.</para>
-            <para>To add a new connection group, click the "New Group" button. A connection group
-                creation dialog will appear, allowing you to enter the details of the group. Just as
-                with connections, you can enter the location and name, which should be descriptive
-                and unique. Duplicate names are not allowed.</para>
-            <informalfigure>
+            <screenshot>
                 <mediaobject>
                     <imageobject>
-                        <imagedata fileref="images/edit-group.png" format="PNG" contentwidth="3in"/>
+                        <imagedata fileref="images/manage-connections.png" format="PNG"
+                            contentwidth="5in"/>
                     </imageobject>
                     <caption>
-                        <para>Editing a connection group</para>
+                        <para>Connection management interface</para>
                     </caption>
                 </mediaobject>
-            </informalfigure>
-            <para>You can edit existing connection groups by clicking on them within the
-                administration interface, just like with users and connections. From within the
-                dialog that appears, you can rename, move, and change the properties of existing
-                connection groups.</para>
-        </section>
-        <section>
-            <title>Balancing vs. organizational groups</title>
+            </screenshot>
+        </informalfigure>
+        <para>Editing connections and groups works identically to editing a user. Click on the
+            object you wish to edit, and you will be taken to screen which allows you to edit it.
+            The screen will display all properties of the object, including its usage history, if
+            applicable.</para>
+        <para>If you have delete permission on the object, you will also see a "Delete" button.
+            Clicking this button will permanently delete the object being edited.</para>
+        <informalfigure>
+            <screenshot>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/edit-connection.png" format="PNG"
+                            contentwidth="5in"/>
+                    </imageobject>
+                    <caption>
+                        <para>Editing a connection</para>
+                    </caption>
+                </mediaobject>
+            </screenshot>
+        </informalfigure>
+        <section xml:id="connection-group-management">
+            <title>Connection organization and balancing</title>
             <para>Connection groups can be either "organizational" or "balancing". Each group can
                 contain any number of other connections or groups, but the semantics of the group
                 change depending on the type.</para>
@@ -156,6 +140,81 @@
                 users. Unlike organizational groups, clicking on a balancing group causes a new
                 connection to be opened. The actual underlying connection used depends on which
                 connection has the least load at the time the group was clicked.</para>
+            <informalfigure>
+                <screenshot>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/edit-group.png" format="PNG"
+                                contentwidth="5in"/>
+                        </imageobject>
+                        <caption>
+                            <para>Editing a connection group</para>
+                        </caption>
+                    </mediaobject>
+                </screenshot>
+            </informalfigure>
+        </section>
+    </section>
+    <section xml:id="session-management">
+        <title>Managing sessions</title>
+        <indexterm>
+            <primary>session management</primary>
+        </indexterm>
+        <para>Clicking "Active Sessions" navigates to the session management screen. The session
+            management screen displays all active sessions and allows system administrators to kill
+            them as needed.</para>
+        <para>When any user accesses a particular remote desktop connection, a unique session is
+            created and will appear in the list of active sessions in the session management screen.
+            Each active session is displayed in a sortable table, showing the corresponding user's
+            username, how long the session has been active, the IP address of the machine from which
+            the user is connecting, and the name of the connection being used.</para>
+        <informalfigure>
+            <screenshot>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/manage-sessions.png" format="PNG"
+                            contentwidth="5in"/>
+                    </imageobject>
+                    <caption>
+                        <para>Session management interface</para>
+                    </caption>
+                </mediaobject>
+            </screenshot>
+        </informalfigure>
+        <para>To kill one or more sessions, select the sessions by clicking their checkboxes. Once
+            all desired sessions have been selected, clicking "Kill Sessions" will immediately
+            disconnect those users from the associated connection.</para>
+        <section xml:id="filtering-sessions">
+            <title>Filtering and sorting</title>
+            <para>The table can be resorted by clicking on the column headers. Clicking any column
+                will resort the table by the values within that column, while clicking a column
+                which is already sorted will toggle between ascending and descending order.</para>
+            <para>The content of the table can be limited through search terms specified in the
+                "Filter" field. Entering search terms will limit the table to only sessions
+                containing those terms. For example, to list only connections by the user
+                "guacadmin" which have been active since March, 2015, you would enter: "guacadmin
+                2015-03". Beware that if a search term needs to contain spaces, it must be enclosed
+                in double quotes to avoid being interpreted as multiple terms.</para>
+            <informalfigure>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/session-filter-example-1.png" format="PNG"
+                            contentwidth="5in"/>
+                    </imageobject>
+                </mediaobject>
+            </informalfigure>
+            <para>If you wish to narrow the content of the table to only those connections which
+                originate from a particular block of IP addresses, you can do this by specifying the
+                block in standard CIDR notation, such "10.0.0.0/8" or "2001:db8:1234::/48". This
+                will work with both IPv4 and IPv6 addresses.</para>
+            <informalfigure>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/session-filter-example-2.png" format="PNG"
+                            contentwidth="5in"/>
+                    </imageobject>
+                </mediaobject>
+            </informalfigure>
         </section>
     </section>
 </chapter>
