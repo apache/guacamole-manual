@@ -179,7 +179,7 @@
             </informaltable>
         </section>
         <section xml:id="optional-dependencies">
-            <title>Optional depedencies</title>
+            <title>Optional dependencies</title>
             <para>The optional dependencies of Guacamole dictate which protocol support will be
                 built, and whether additional features of those protocols will be enabled.</para>
             <para>Guacamole currently supports VNC, RDP, SSH, and telnet. Each protocol corresponds
