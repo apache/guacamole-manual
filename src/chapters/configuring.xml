@@ -992,6 +992,18 @@ basic-user-mapping: /etc/guacamole/user-mapping.xml</programlisting>
                                         </listitem>
                                     </varlistentry>
                                     <varlistentry>
+                                        <term><constant>it-it-qwerty</constant></term>
+                                        <listitem>
+                                            <para>Italian keyboard</para>
+                                        </listitem>
+                                    </varlistentry>
+                                    <varlistentry>
+                                        <term><constant>sv-se-qwerty</constant></term>
+                                        <listitem>
+                                            <para>Swedish keyboard</para>
+                                        </listitem>
+                                    </varlistentry>
+                                    <varlistentry>
                                         <term><constant>failsafe</constant></term>
                                         <listitem>
                                             <para>Unknown keyboard - this option sends only Unicode
