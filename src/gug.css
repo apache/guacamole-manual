@@ -5,9 +5,9 @@ body {
     background: white;
 
     font-family: 'FreeSans', 'Liberation Sans', 'Arial', 'Helvetica', sans-serif;
-    font-size: 10pt;
     text-align: justify;
     text-rendering: optimizeLegibility;
+    line-height: 125%;
 
     margin: 0;
     padding: 0;
@@ -38,12 +38,7 @@ div#content {
 }
 
 .programlisting, .screen {
-    background: black;
-    color: silver;
     padding: 1em;
-    border-radius: 0.5em;
-    -moz-border-radius: 0.5em;
-    -webkit-border-radius: 0.5em;
 }
 
 .book .titlepage {
@@ -59,6 +54,15 @@ div#content {
     text-align: center;
     float: none;
     margin: 1em;
+}
+
+.mediaobject img {
+    width: auto;
+    max-width: 100%;
+}
+
+.screenshot img {
+    border: 1px solid black;
 }
 
 .caption {
@@ -77,5 +81,40 @@ div#content {
 
 .table-contents td, .table-contents th {
     padding: 0.5em;
+}
+
+dl.variablelist {
+    margin-left: 1em;
+}
+
+.variablelist .term {
+    font-weight: bold;
+}
+
+blockquote {
+    border-left: 1px solid rgba(0, 0, 0, 0.25);
+    padding: 1px 1em;
+    font-style: oblique;
+    color: rgba(0, 0, 0, 0.75);
+}
+
+/* Printable styles */
+
+@media print {
+
+    .navheader, .navfooter, .chapter .toc {
+        display: none
+    }
+
+    body {
+        font-size: 10pt;
+    }
+
+    .chapter > .titlepage {
+        margin: 2em 0;
+        font-size: 1.5em;
+        text-align: center; 
+    }
+
 }
 

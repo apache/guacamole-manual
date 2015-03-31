@@ -25,8 +25,8 @@ docbook-xsl:
 #
 
 # All files which the build depends on
-XML_FILES=$(shell find -name "*.xml")
-PNG_FILES=$(shell find -name "*.png")
+XML_FILES=$(shell find -path "./src/*" -name "*.xml")
+PNG_FILES=$(shell find -path "./src/*" -name "*.png")
 
 html/index.html: $(XML_FILES) src/site.xslt docbook-xsl
 	cd src; xsltproc -o ../html/ --xinclude site.xslt gug.xml
@@ -34,6 +34,6 @@ html/index.html: $(XML_FILES) src/site.xslt docbook-xsl
 html/gug.css: src/gug.css
 	cp src/gug.css html/
 
-html/images: src/images $(PNG_FILES)
-	cp -r src/images html/
+html/images: $(PNG_FILES)
+	mkdir -p html/images; cp -fv $(PNG_FILES) html/images/
 

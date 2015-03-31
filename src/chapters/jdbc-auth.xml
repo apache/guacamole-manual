@@ -289,7 +289,7 @@ postgresql-disallow-duplicate-connections: false</programlisting>
             Once you have the database authentication working, you should change your password
             immediately by editing your own user in the administration screen.</para>
         <para>More detailed instructions for managing users and connections is given in <xref
-                linkend="using-guacamole"/> in <xref linkend="guacamole-admin-ui"/>.</para>
+                linkend="administration"/>.</para>
     </section>
     <section xml:id="jdbc-auth-schema">
         <title>Modifying data manually</title>

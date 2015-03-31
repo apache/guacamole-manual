@@ -159,6 +159,7 @@
         <xi:include href="chapters/ldap-auth.xml"/>
         <xi:include href="chapters/noauth.xml"/>
         <xi:include href="chapters/using.xml"/>
+        <xi:include href="chapters/administration.xml"/>
         <xi:include href="chapters/troubleshooting.xml"/>
     </part>
     <part xml:id="developers-guide">
