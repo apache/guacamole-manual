@@ -53,9 +53,9 @@
                     <para><emphasis>The PostgreSQL JDBC driver is not included.</emphasis> You must
                         obtain the JDBC driver <filename>.jar</filename> from <link
                             xmlns:xlink="http://www.w3.org/1999/xlink"
-                            xlink:href="http://dev.mysql.com/downloads/connector/j/">PostgreSQL's
-                            website</link>. The proper <filename>.jar</filename> file depends on the
-                        version of Java you have installed. </para>
+                            xlink:href="https://jdbc.postgresql.org/download.html#current"
+                            >PostgreSQL's website</link>. The proper <filename>.jar</filename> file
+                        depends on the version of Java you have installed. </para>
                 </listitem>
             </varlistentry>
         </variablelist>
