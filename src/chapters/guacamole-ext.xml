@@ -10,43 +10,145 @@
     <indexterm>
         <primary>guacamole-ext</primary>
     </indexterm>
-    <para>While not strictly part of the Java API provided by the Guacamole
-        project, guacamole-ext is a subset of the API used by the Guacamole web
-        application, exposed within a separate project such that extensions,
-        specifically authentication providers, can be written to tweak Guacamole
-        to fit well in existing deployments.</para>
-    <section>
-        <title>Common configuration</title>
-        <para>For the sake of ease of development and providing a common
-            location for configuration of both Guacamole and its extensions,
-            guacamole-ext provides utility classes for accessing the main
-            configuration file, <filename>guacamole.properties</filename>, and
-            for accessing the main root directory for housing configuration
-            files: <varname>GUACAMOLE_HOME</varname>.</para>
-        <section>
-            <title><classname>GuacamoleProperties</classname></title>
-            <para><classname>GuacamoleProperties</classname> is a utility class
-                for accessing the properties declared within
-                    <filename>guacamole.properties</filename>. Each property is
-                typesafe and handles its own parsing - retrieving a property is
-                as simple as calling <methodname>getProperty()</methodname> or
-                    <methodname>getRequiredProperty()</methodname>.</para>
-            <para>Because of this ease-of-access to guacamole.properties within
-                Guacamole and all extensions, the
-                    <filename>guacamole.properties</filename> file is an ideal
-                place to store unstructured, extension-specific configuration
-                information.</para>
+    <para>While not strictly part of the Java API provided by the Guacamole project, guacamole-ext
+        is an API exposed by the Guacamole web application within a separate project such that
+        extensions, specifically authentication providers, can be written to tweak Guacamole to fit
+        well in existing deployments.</para>
+    <para>Extensions to Guacamole can:</para>
+    <orderedlist>
+        <listitem>
+            <para>Provide alternative authentication methods and sources of connection/user
+                data.</para>
+        </listitem>
+        <listitem>
+            <para>Theme or brand Guacamole through additional CSS files and static resources.</para>
+        </listitem>
+        <listitem>
+            <para>Extend Guacamole's JavaScript code by providing JavaScript that will be loaded
+                automatically.</para>
+        </listitem>
+        <listitem>
+            <para>Add additional display languages, or alter the translation strings of existing
+                languages.</para>
+        </listitem>
+    </orderedlist>
+    <section xml:id="environment">
+        <title>Accessing the server configuration</title>
+        <para>The configuration of the Guacamole server is exposed through the
+                <classname>Environment</classname> interface, specifically the
+                <classname>LocalEnvironment</classname> implementation of this interface. Through
+                <classname>Environment</classname>, you can access all properties declared within
+                <filename>guacamole.properties</filename>, determine the proper hostname/port of
+            guacd, and access the contents of <varname>GUACAMOLE_HOME</varname>.</para>
+        <section xml:id="simple-config">
+            <title>Custom properties</title>
+            <para>If your extension requires generic, unstructured configuration parameters,
+                    <filename>guacamole.properties</filename> is a reasonable and simple location
+                for them. The <classname>Environment</classname> interface provides direct access to
+                    <filename>guacamole.properties</filename> and simple mechanisms for reading and
+                parsing the properties therein. The value of a property can be retrieved calling
+                    <methodname>getProperty()</methodname>, which will return
+                    <constant>null</constant> or a default value for undefined properties, or
+                    <methodname>getRequiredProperty()</methodname>, which will throw an exception
+                for undefined properties.</para>
+            <para>For convenience, guacamole-ext contains several pre-defined property base classes
+                for common types:</para>
+            <informaltable frame="all">
+                <tgroup cols="3">
+                    <colspec colname="c1" colnum="1" colwidth="2*"/>
+                    <colspec colname="c2" colnum="2" colwidth="1*"/>
+                    <colspec colname="c3" colnum="3" colwidth="4*"/>
+                    <thead>
+                        <row>
+                            <entry>Class Name</entry>
+                            <entry>Value Type</entry>
+                            <entry>Interpretation</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry><classname>BooleanGuacamoleProperty</classname></entry>
+                            <entry><classname>Boolean</classname></entry>
+                            <entry>The values "true" and "false" are parsed as their corresponding
+                                    <classname>Boolean</classname> values. Any other value results
+                                in a parse error.</entry>
+                        </row>
+                        <row>
+                            <entry><classname>IntegerGuacamoleProperty</classname></entry>
+                            <entry><classname>Integer</classname></entry>
+                            <entry>Numeric strings are parsed as <classname>Integer</classname>
+                                values. Non-numeric strings will result in a parse error.</entry>
+                        </row>
+                        <row>
+                            <entry><classname>LongGuacamoleProperty</classname></entry>
+                            <entry><classname>Long</classname></entry>
+                            <entry>Numeric strings are parsed as <classname>Long</classname> values.
+                                Non-numeric strings will result in a parse error.</entry>
+                        </row>
+                        <row>
+                            <entry><classname>StringGuacamoleProperty</classname></entry>
+                            <entry><classname>String</classname></entry>
+                            <entry>The property value is returned as an untouched
+                                    <classname>String</classname>. No parsing is performed, and
+                                parse errors cannot occur.</entry>
+                        </row>
+                        <row>
+                            <entry><classname>FileGuacamoleProperty</classname></entry>
+                            <entry><classname>File</classname></entry>
+                            <entry>The property is interpreted as a filename, and a new
+                                    <classname>File</classname> pointing to that filename is
+                                returned. If the filename is invalid, a parse error will be thrown.
+                                Note that the file need not exist or be accessible for the filename
+                                to be valid.</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <para>To use these types, you must extend the base class, implementing the
+                    <methodname>getName()</methodname> function to identify your property.
+                Typically, you would declare these properties as static members of some class
+                containing all properties relevant to your extension:</para>
+            <informalexample>
+                <programlisting>public class MyProperties {
+
+    public static <replaceable>MY_PROPERTY</replaceable> = new IntegerGuacamoleProperty() {
+
+        @Override
+        public String getName() { return "<replaceable>my-property</replaceable>"; }
+
+    };
+
+}</programlisting>
+            </informalexample>
+            <para>Your property can then be retrieved with <methodname>getProperty()</methodname> or
+                    <methodname>getRequiredProperty()</methodname>:</para>
+            <informalexample>
+                <programlisting>Integer value = environment.getProperty(<replaceable>MyProperties.MY_PROPERTY</replaceable>);</programlisting>
+            </informalexample>
+            <para>If you need more sophisticated parsing, you can also implement your own property
+                types by implementing the <classname>GuacamoleProperty</classname> interface. The
+                only functions to implement are <methodname>getName()</methodname>, which returns
+                the name of the property, and <methodname>parseValue()</methodname>, which parses a
+                given string and returns its value.</para>
         </section>
-        <section>
-            <title><classname>GuacamoleHome</classname></title>
-            <para>If you need more structured data than provided by simple
-                properties, placing XML or some other separate file within
-                    <varname>GUACAMOLE_HOME</varname> (or a subdirectory
-                thereof) is a decent way to achieve this. The
-                    <classname>GuacamoleHome</classname> class provides access
-                to the <varname>GUACAMOLE_HOME</varname> directory, abstracting
-                away the decision process that determines which directory is
-                considered <varname>GUACAMOLE_HOME</varname>.</para>
+        <section xml:id="advanced-config">
+            <title>Advanced configuration</title>
+            <para>If you need more structured data than provided by simple properties, you can place
+                completely arbitrary files in a hierarchy of your chosing anywhere within
+                    <varname>GUACAMOLE_HOME</varname> as long as you avoid placing your files in
+                directories reserved for other purposes as described above.</para>
+            <para>The Environment interface exposes the location of
+                    <varname>GUACAMOLE_HOME</varname> through the
+                    <methodname>getGuacamoleHome()</methodname> function. This function returns a
+                standard Java <classname>File</classname> which can then be used to locate other
+                files or directories within <varname>GUACAMOLE_HOME</varname>:</para>
+            <informalexample>
+                <programlisting>File myConfigFile = new File(environment.getGuacamoleHome(), "my-config.xml");</programlisting>
+                <para>There is no guarantee that <varname>GUACAMOLE_HOME</varname> or your file will
+                    exist, and you should verify this before proceeding further in your extension's
+                    configuration process, but once this is done you can simply parse your file as
+                    you see fit.</para>
+            </informalexample>
         </section>
     </section>
     <section xml:id="auth-providers">
