@@ -41,9 +41,46 @@
         <para>This directory will be referred to as
                 <varname>GUACAMOLE_HOME</varname> elsewhere in the
             documentation.</para>
-        <para>Guacamole uses <varname>GUACAMOLE_HOME</varname> as the primary
-            search location for configuration file like
-                <filename>guacamole.properties</filename>.</para>
+        <para>Guacamole uses <varname>GUACAMOLE_HOME</varname> as the primary search location for
+            configuration file like <filename>guacamole.properties</filename>. The structure of
+                <varname>GUACAMOLE_HOME</varname> is rigorously defined, and consists of the
+            following optional files:</para>
+        <variablelist>
+            <varlistentry>
+                <term><filename>guacamole.properties</filename></term>
+                <listitem>
+                    <para>The main Guacamole configuration file. Properties within this file dictate
+                        how Guacamole will connect to <package>guacd</package>, and may configure
+                        the behavior of installed authentication extensions.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><filename>logback.xml</filename></term>
+                <listitem>
+                    <para>Guacamole uses a logging system called Logback for all messages. By
+                        default, Guacamole will log to the console only, but you can change this by
+                        providing your own Logback configuration file.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><filename>extensions/</filename></term>
+                <listitem>
+                    <para>The install location for all Guacamole extensions. Guacamole will
+                        automatically load all <filename>.jar</filename> files within this directory
+                        on startup.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><filename>lib/</filename></term>
+                <listitem>
+                    <para>The search directory for libraries required by any Guacamole extensions.
+                        Guacamole will make the <filename>.jar</filename> files within this
+                        directory available to all extensions. If your extensions require additional
+                        libraries, such as database drivers, this is the proper place to put
+                        them.</para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
     </section>
 
     <section xml:id="initial-setup">
@@ -71,8 +108,10 @@
                 <para>The classpath of the servlet container.</para>
             </listitem>
         </orderedlist>
-        <para>At the bare minimum, the <filename>guacamole.properties</filename> file contains at
-            least three basic properties, required in all deployments of Guacamole: </para>
+        <para>The <filename>guacamole.properties</filename> file is optional and is used to
+            configure Guacamole in situations where the defaults are insufficient, or to provide
+            additional configuration information for extensions. There are three standard properties
+            that are always available for use:</para>
         <variablelist>
             <varlistentry>
                 <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
@@ -80,7 +119,8 @@
                     </indexterm><parameter>guacd-host</parameter></term>
                 <listitem>
                     <para>The host the Guacamole proxy daemon (<package>guacd</package>) is
-                        listening on. This is most likely localhost. </para>
+                        listening on. If omitted, Guacamole will assume <package>guacd</package> is
+                        listening on localhost.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -89,77 +129,31 @@
                     </indexterm><parameter>guacd-port</parameter></term>
                 <listitem>
                     <para>The port the Guacamole proxy daemon (<package>guacd</package>) is
-                        listening on. This is port 4822 by default. </para>
+                        listening on. If omitted, Guacamole will assume <package>guacd</package> is
+                        listening on port 4822.</para>
                 </listitem>
             </varlistentry>
-            <varlistentry>
-                <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
-                        <primary>auth-provider</primary>
-                    </indexterm><parameter>auth-provider</parameter></term>
-                <listitem>
-                    <para>The authentication provider to use when authenticating. Normally, this
-                        will be set to <classname>BasicFileAuthenticationProvider</classname> which
-                        is the default authentication provider provided with Guacamole. No
-                        extensions are needed if you use the default authentication provider.</para>
-                </listitem>
-            </varlistentry>
-        </variablelist>
-        <para>If you need custom authentication or wish to enable optional features of Guacamole,
-            such as HTTP Basic authentication support, you will need to specify additional
-            properties:</para>
-        <variablelist>
             <varlistentry>
                 <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
                         <primary>guacd-ssl</primary>
                     </indexterm><parameter>guacd-ssl</parameter></term>
                 <listitem>
-                    <para>If set to "true", requires SSL/TLS encryption between the web application
-                        and guacd. This property is not required. By default, communication between
-                        the web application and guacd will be unencrypted.</para>
-                    <para>Note that if you enable this option, you must also configure guacd to use
-                        SSL via command line options. These options are documented in the manpage of
-                        guacd. You will need an SSL certificate and private key.</para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
-                        <primary>lib-directory</primary>
-                    </indexterm><parameter>lib-directory</parameter></term>
-                <listitem>
-                    <para>The directory to load extensions to Guacamole from. If you wish to use a
-                        custom authentication provider or custom hooks, the
-                            <filename>.jar</filename> file and all dependencies must be placed in
-                        the directory specified here. On most systems,
-                            <filename>/var/lib/guacamole/classpath</filename> is an appropriate
-                        choice.</para>
-                    <para>Note that this property is only needed if you are using an
-                        extension.</para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
-                        <primary>event-listeners</primary>
-                    </indexterm><parameter>event-listeners</parameter></term>
-                <listitem>
-                    <para>A comma-delimited list of event listeners which should be loaded and
-                        installed such that they are informed of Guacamole-related events. These
-                        classes must be in the classpath, preferably by having their corresponding
-                            <filename>.jar</filename> files placed within the directory specified by
-                        the <property>lib-directory</property> property.</para>
+                    <para>If set to "true", Guacamole will require SSL/TLS encryption between the
+                        web application and <package>guacd</package>. By default, communication
+                        between the web application and <package>guacd</package> will be
+                        unencrypted.</para>
+                    <para>Note that if you enable this option, you must also configure
+                            <package>guacd</package> to use SSL via command line options. These
+                        options are documented in the manpage of <package>guacd</package>. You will
+                        need an SSL certificate and private key.</para>
                 </listitem>
             </varlistentry>
         </variablelist>
         <example>
-            <title>Minimal <filename>guacamole.properties</filename></title>
+            <title>Example <filename>guacamole.properties</filename></title>
             <programlisting xml:id="guacamole.properties" version="5.0" xml:lang="en"># Hostname and port of guacamole proxy
 guacd-hostname: localhost
-guacd-port:     4822
-
-# Authentication provider class
-auth-provider: net.sourceforge.guacamole.net.basic.BasicFileAuthenticationProvider
-
-# Properties used by BasicFileAuthenticationProvider
-basic-user-mapping: /etc/guacamole/user-mapping.xml</programlisting>
+guacd-port:     4822</programlisting>
         </example>
     </section>
     <section>
@@ -255,26 +249,15 @@ basic-user-mapping: /etc/guacamole/user-mapping.xml</programlisting>
         <indexterm>
             <primary>authentication</primary>
         </indexterm>
-        <para>Guacamole's default authentication module is simple and consists
-            of a mapping of usernames to configurations. This authentication
-            module comes with Guacamole and simply reads usernames and passwords
-            from an XML file. If you wish to use this authentication mechanism,
-            you must ensure the <property>auth-provider</property> property is
-            set to the fully-qualified name of
-                <classname>BasicFileAuthenticationProvider</classname><footnote>
-                <para><classname>net.sourceforge.guacamole.net.basic.BasicFileAuthenticationProvider</classname></para>
-            </footnote>This is the case within the example
-                <filename>guacamole.properties</filename> file shown above, and
-            in the <filename>guacamole.properties</filename> file included with
-            Guacamole. Unless you have already tried another authentication
-            module, you will not need to edit this value yourself if you are
-            using the configuration files that come with Guacamole.</para>
-        <para>There are other authentication modules available. The Guacamole
-            project now provides a MySQL-backed authentication module with extra
-            features (like the ability to manage connections and users from the
-            web interface), and other authentication modules can be created
-            using the extension API provided along with the Guacamole web
-            application, <package>guacamole-ext</package>.</para>
+        <para>Guacamole's default authentication module is simple and consists of a mapping of
+            usernames to configurations. This authentication module comes with Guacamole and simply
+            reads usernames and passwords from an XML file. If you wish to use this authentication
+            mechanism, simply do not install and authentication extensions.</para>
+        <para>There are other authentication modules available. The Guacamole project provides
+            database-backed authentication modules with the ability to manage connections and users
+            from the web interface, and other authentication modules can be created using the
+            extension API provided along with the Guacamole web application,
+                <package>guacamole-ext</package>.</para>
         <section xml:id="user-mapping">
             <title><filename>user-mapping.xml</filename></title>
             <indexterm>

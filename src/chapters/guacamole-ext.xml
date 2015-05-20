@@ -10,43 +10,304 @@
     <indexterm>
         <primary>guacamole-ext</primary>
     </indexterm>
-    <para>While not strictly part of the Java API provided by the Guacamole
-        project, guacamole-ext is a subset of the API used by the Guacamole web
-        application, exposed within a separate project such that extensions,
-        specifically authentication providers, can be written to tweak Guacamole
-        to fit well in existing deployments.</para>
-    <section>
-        <title>Common configuration</title>
-        <para>For the sake of ease of development and providing a common
-            location for configuration of both Guacamole and its extensions,
-            guacamole-ext provides utility classes for accessing the main
-            configuration file, <filename>guacamole.properties</filename>, and
-            for accessing the main root directory for housing configuration
-            files: <varname>GUACAMOLE_HOME</varname>.</para>
+    <para>While not strictly part of the Java API provided by the Guacamole project, guacamole-ext
+        is an API exposed by the Guacamole web application within a separate project such that
+        extensions, specifically authentication providers, can be written to tweak Guacamole to fit
+        well in existing deployments.</para>
+    <para>Extensions to Guacamole can:</para>
+    <orderedlist>
+        <listitem>
+            <para>Provide alternative authentication methods and sources of connection/user
+                data.</para>
+        </listitem>
+        <listitem>
+            <para>Theme or brand Guacamole through additional CSS files and static resources.</para>
+        </listitem>
+        <listitem>
+            <para>Extend Guacamole's JavaScript code by providing JavaScript that will be loaded
+                automatically.</para>
+        </listitem>
+        <listitem>
+            <para>Add additional display languages, or alter the translation strings of existing
+                languages.</para>
+        </listitem>
+    </orderedlist>
+    <section xml:id="extension-format">
+        <title>Guacamole extension format</title>
+        <para>Guacamole extensions are standard Java <filename>.jar</filename> files which contain
+            all classes and resources required by the extension, as well as the Guacamole extension
+            manifest. There is no set structure to an extension except that the manifest must be in
+            the root of the archive. Java classes and packages, if any, will be read from the
+                <filename>.jar</filename> relative to the root, as well.</para>
+        <para>Beyond this, the semantics and locations associated with all other resources within
+            the extension are determined by the extension manifest alone.</para>
         <section>
-            <title><classname>GuacamoleProperties</classname></title>
-            <para><classname>GuacamoleProperties</classname> is a utility class
-                for accessing the properties declared within
-                    <filename>guacamole.properties</filename>. Each property is
-                typesafe and handles its own parsing - retrieving a property is
-                as simple as calling <methodname>getProperty()</methodname> or
-                    <methodname>getRequiredProperty()</methodname>.</para>
-            <para>Because of this ease-of-access to guacamole.properties within
-                Guacamole and all extensions, the
-                    <filename>guacamole.properties</filename> file is an ideal
-                place to store unstructured, extension-specific configuration
-                information.</para>
+            <title>Extension manifest</title>
+            <para>The Guacamole extension manifest is a single JSON file, guac-manifest.json, which
+                describes the location of each resource, the type of each resource, and the version
+                of Guacamole that the extension was built for. The manifest can contain the
+                following properties:</para>
+            <informaltable frame="all">
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1" colwidth="1*"/>
+                    <colspec colname="c2" colnum="2" colwidth="3*"/>
+                    <thead>
+                        <row>
+                            <entry>Property</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry><property>guacamoleVersion</property></entry>
+                            <entry>
+                                <para>The version string of the Guacamole release that this
+                                    extension is written for. <emphasis>This property is required
+                                        for all extensions.</emphasis> The special version string
+                                        <code>"*"</code> can be used if the extension does not
+                                    depend on a particular version of Guacamole, but be careful -
+                                    this will bypass version compatibility checks, and should never
+                                    be used if the extension does more than basic theming or
+                                    branding.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><property>name</property></entry>
+                            <entry>
+                                <para>A human-readable name for the extension. <emphasis>This
+                                        property is required for all extensions.</emphasis> When
+                                    your extension is successfully loaded, a message acknowledging
+                                    the successful loading of your extension by name will be
+                                    logged.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><property>namespace</property></entry>
+                            <entry>
+                                <para>A unique string which identifies your extension.
+                                        <emphasis>This property is required for all
+                                        extensions.</emphasis> This string should be unique enough
+                                    that it is unlikely to collide with the namespace of any other
+                                    extension.</para>
+                                <para>If your extension contains static resources, those resources
+                                    will be served at a path derived from the namespace provided
+                                    here.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><property>authProviders</property></entry>
+                            <entry>
+                                <para>An array of the classnames of all
+                                        <classname>AuthenticationProvider</classname> subclasses
+                                    provided by this extension. Guacamole currently only supports
+                                    one <classname>AuthenticationProvider</classname> being loaded
+                                    at a time, thus this array must only contain one element, if it
+                                    is present at all.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><property>js</property></entry>
+                            <entry>
+                                <para>An array of all JavaScript files within the extension. All
+                                    paths within this array must be relative paths, and will be
+                                    interpreted relative to the root of the archive.</para>
+                                <para>JavaScript files declared here will be automatically loaded
+                                    when the web application loads within the user's browser.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><property>css</property></entry>
+                            <entry>
+                                <para>An array of all CSS files within the extension. All paths
+                                    within this array must be relative paths, and will be
+                                    interpreted relative to the root of the archive.</para>
+                                <para>CSS files declared here will be automatically applied when the
+                                    web application loads within the user's browser.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><property>translations</property></entry>
+                            <entry>
+                                <para>An array of all translation files within the extension. All
+                                    paths within this array must be relative paths, and will be
+                                    interpreted relative to the root of the archive.</para>
+                                <para>Translation files declared here will be automatically added to
+                                    the available languages. If a translation file provides a
+                                    language that already exists within Guacamole, its strings will
+                                    override the strings of the existing translation.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><property>resources</property></entry>
+                            <entry>
+                                <para>An object where each property name is the name of a web
+                                    resource file, and each value is the mimetype for that resource.
+                                    All paths within this object must be relative paths, and will be
+                                    interpreted relative to the root of the archive.</para>
+                                <para>Web resources declared here will be made available to the
+                                    application at
+                                            <filename>app/ext/<replaceable>NAMESPACE</replaceable>/<replaceable>PATH</replaceable></filename>,
+                                    where <replaceable>NAMESPACE</replaceable> is the value of the
+                                        <property>namespace</property> property, and
+                                        <replaceable>PATH</replaceable> is the declared web resource
+                                    filename.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <para>The only absolutely required properties are <property>guacamoleVersion</property>,
+                    <property>name</property>, and <property>namespace</property>, as they are used
+                to identify the extension and for compatibility checks. The most minimal
+                    <filename>guac-manifest.json</filename> will look something like this:</para>
+            <informalexample>
+                <programlisting>{
+    "guacamoleVersion" : "0.9.6",
+    "name" : "My Extension",
+    "namespace" : "my-extension"
+}</programlisting>
+            </informalexample>
+            <para>This will allow the extension to load, but does absolutely nothing otherwise.
+                Lacking the semantic information provided by the other properties, no other files
+                within the extension will be used. A typical <filename>guac-manifest.json</filename>
+                for an extension providing theming or branding would be more involved:</para>
+            <informalexample>
+                <programlisting>{
+
+    "guacamoleVersion" : "0.9.6",
+
+    "name"      : "My Extension",
+    "namespace" : "my-extension",
+
+    "css" : [ "theme.css" ],
+
+    "resources" : {
+        "images/logo.png"   : "image/png",
+        "images/cancel.png" : "image/png",
+        "images/delete.png" : "image/png"
+    }
+
+}</programlisting>
+            </informalexample>
         </section>
-        <section>
-            <title><classname>GuacamoleHome</classname></title>
-            <para>If you need more structured data than provided by simple
-                properties, placing XML or some other separate file within
-                    <varname>GUACAMOLE_HOME</varname> (or a subdirectory
-                thereof) is a decent way to achieve this. The
-                    <classname>GuacamoleHome</classname> class provides access
-                to the <varname>GUACAMOLE_HOME</varname> directory, abstracting
-                away the decision process that determines which directory is
-                considered <varname>GUACAMOLE_HOME</varname>.</para>
+    </section>
+    <section xml:id="environment">
+        <title>Accessing the server configuration</title>
+        <para>The configuration of the Guacamole server is exposed through the
+                <classname>Environment</classname> interface, specifically the
+                <classname>LocalEnvironment</classname> implementation of this interface. Through
+                <classname>Environment</classname>, you can access all properties declared within
+                <filename>guacamole.properties</filename>, determine the proper hostname/port of
+            guacd, and access the contents of <varname>GUACAMOLE_HOME</varname>.</para>
+        <section xml:id="simple-config">
+            <title>Custom properties</title>
+            <para>If your extension requires generic, unstructured configuration parameters,
+                    <filename>guacamole.properties</filename> is a reasonable and simple location
+                for them. The <classname>Environment</classname> interface provides direct access to
+                    <filename>guacamole.properties</filename> and simple mechanisms for reading and
+                parsing the properties therein. The value of a property can be retrieved calling
+                    <methodname>getProperty()</methodname>, which will return
+                    <constant>null</constant> or a default value for undefined properties, or
+                    <methodname>getRequiredProperty()</methodname>, which will throw an exception
+                for undefined properties.</para>
+            <para>For convenience, guacamole-ext contains several pre-defined property base classes
+                for common types:</para>
+            <informaltable frame="all">
+                <tgroup cols="3">
+                    <colspec colname="c1" colnum="1" colwidth="2*"/>
+                    <colspec colname="c2" colnum="2" colwidth="1*"/>
+                    <colspec colname="c3" colnum="3" colwidth="4*"/>
+                    <thead>
+                        <row>
+                            <entry>Class Name</entry>
+                            <entry>Value Type</entry>
+                            <entry>Interpretation</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry><classname>BooleanGuacamoleProperty</classname></entry>
+                            <entry><classname>Boolean</classname></entry>
+                            <entry>The values "true" and "false" are parsed as their corresponding
+                                    <classname>Boolean</classname> values. Any other value results
+                                in a parse error.</entry>
+                        </row>
+                        <row>
+                            <entry><classname>IntegerGuacamoleProperty</classname></entry>
+                            <entry><classname>Integer</classname></entry>
+                            <entry>Numeric strings are parsed as <classname>Integer</classname>
+                                values. Non-numeric strings will result in a parse error.</entry>
+                        </row>
+                        <row>
+                            <entry><classname>LongGuacamoleProperty</classname></entry>
+                            <entry><classname>Long</classname></entry>
+                            <entry>Numeric strings are parsed as <classname>Long</classname> values.
+                                Non-numeric strings will result in a parse error.</entry>
+                        </row>
+                        <row>
+                            <entry><classname>StringGuacamoleProperty</classname></entry>
+                            <entry><classname>String</classname></entry>
+                            <entry>The property value is returned as an untouched
+                                    <classname>String</classname>. No parsing is performed, and
+                                parse errors cannot occur.</entry>
+                        </row>
+                        <row>
+                            <entry><classname>FileGuacamoleProperty</classname></entry>
+                            <entry><classname>File</classname></entry>
+                            <entry>The property is interpreted as a filename, and a new
+                                    <classname>File</classname> pointing to that filename is
+                                returned. If the filename is invalid, a parse error will be thrown.
+                                Note that the file need not exist or be accessible for the filename
+                                to be valid.</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <para>To use these types, you must extend the base class, implementing the
+                    <methodname>getName()</methodname> function to identify your property.
+                Typically, you would declare these properties as static members of some class
+                containing all properties relevant to your extension:</para>
+            <informalexample>
+                <programlisting>public class MyProperties {
+
+    public static <replaceable>MY_PROPERTY</replaceable> = new IntegerGuacamoleProperty() {
+
+        @Override
+        public String getName() { return "<replaceable>my-property</replaceable>"; }
+
+    };
+
+}</programlisting>
+            </informalexample>
+            <para>Your property can then be retrieved with <methodname>getProperty()</methodname> or
+                    <methodname>getRequiredProperty()</methodname>:</para>
+            <informalexample>
+                <programlisting>Integer value = environment.getProperty(<replaceable>MyProperties.MY_PROPERTY</replaceable>);</programlisting>
+            </informalexample>
+            <para>If you need more sophisticated parsing, you can also implement your own property
+                types by implementing the <classname>GuacamoleProperty</classname> interface. The
+                only functions to implement are <methodname>getName()</methodname>, which returns
+                the name of the property, and <methodname>parseValue()</methodname>, which parses a
+                given string and returns its value.</para>
+        </section>
+        <section xml:id="advanced-config">
+            <title>Advanced configuration</title>
+            <para>If you need more structured data than provided by simple properties, you can place
+                completely arbitrary files in a hierarchy of your chosing anywhere within
+                    <varname>GUACAMOLE_HOME</varname> as long as you avoid placing your files in
+                directories reserved for other purposes as described above.</para>
+            <para>The Environment interface exposes the location of
+                    <varname>GUACAMOLE_HOME</varname> through the
+                    <methodname>getGuacamoleHome()</methodname> function. This function returns a
+                standard Java <classname>File</classname> which can then be used to locate other
+                files or directories within <varname>GUACAMOLE_HOME</varname>:</para>
+            <informalexample>
+                <programlisting>File myConfigFile = new File(environment.getGuacamoleHome(), "my-config.xml");</programlisting>
+                <para>There is no guarantee that <varname>GUACAMOLE_HOME</varname> or your file will
+                    exist, and you should verify this before proceeding further in your extension's
+                    configuration process, but once this is done you can simply parse your file as
+                    you see fit.</para>
+            </informalexample>
         </section>
     </section>
     <section xml:id="auth-providers">
@@ -308,72 +569,6 @@
                 user as a history list when they view a connection in the
                 management interface or as a simple active user count on the
                 connection, advising the user of existing activity.</para>
-        </section>
-    </section>
-    <section xml:id="event-listeners">
-        <title>Event listeners</title>
-        <para>Although not used internally by the web application, the web
-            application provides an event system which can be hooked into with
-            listener objects, such that a class within the classpath of
-            Guacamole can receive events when something noteworthy happens in
-            the application layer, and take some sort of action.</para>
-        <para>Currently, the web application provides events for when the tunnel
-            is opened or closed, and when an authentication attempt succeeds or
-            fails. In most cases, the class listening for these events can also
-            cancel whatever action just occurred.</para>
-        <section xml:id="tunnel-connect-listener">
-            <title><classname>TunnelConnectListener</classname></title>
-            <para>When a tunnel is connected to by the JavaScript client,
-                Guacamole informs all installed instances of
-                    <classname>TunnelConnectListener</classname> by calling
-                their <methodname>tunnelConnected()</methodname> function with a
-                new <classname>TunnelConnectEvent</classname>, which contains
-                the tunnel that was just connected, as well as any associated
-                credentials. If <methodname>tunnelConnected()</methodname>
-                returns <constant>false</constant>, the connect attempt will be
-                overridden and denied.</para>
-        </section>
-        <section xml:id="tunnel-close-listener">
-            <title><classname>TunnelCloseListener</classname></title>
-            <para>When a tunnel is connected to by the JavaScript client,
-                Guacamole informs all installed instances of
-                    <classname>TunnelCloseListener</classname> by calling their
-                    <methodname>tunnelClosed()</methodname> function with a new
-                    <classname>TunnelCloseEvent</classname>, which contains the
-                tunnel that is about to be closed, as well as any associated
-                credentials. If <methodname>tunnelClosed()</methodname> returns
-                    <constant>false</constant>, the attempt close the tunnel
-                will be overridden and denied, and the tunnel will remain
-                open.</para>
-        </section>
-        <section xml:id="authentication-success-listener">
-            <title><classname>AuthenticationSuccessListener</classname></title>
-            <para>If a user successfully authenticates with the web application,
-                Guacamole informs all installed instances of
-                    <classname>AuthenticationSuccessListener</classname> by
-                calling their <methodname>authenticationSucceeded()</methodname>
-                function with a new
-                    <classname>AuthenticationSuccessEvent</classname> which
-                contains the credentials used. The implementation of this
-                function has the opportunity to cancel the authentication
-                attempt, effectively denying access despite being otherwise
-                valid, by returning <constant>false</constant>.</para>
-        </section>
-        <section xml:id="authentication-failure-listener">
-            <title><classname>AuthenticationFailureListener</classname></title>
-            <para>If a user fails to authenticate with the web application,
-                Guacamole informs all installed instances of
-                    <classname>AuthenticationFailureListener</classname> by
-                calling their <methodname>authenticationFailed()</methodname>
-                function with a new
-                    <classname>AuthenticationFailureEvent</classname> which
-                contains the credentials used. Unlike other listeners, this
-                event cannot be canceled by returning
-                <constant>false</constant>. All failed authentication attempts
-                "succeed" in failing, and an implementation of
-                    <classname>AuthenticationFailureListener</classname> cannot
-                force an authentication attempt to succeed by denying that
-                failure.</para>
         </section>
     </section>
 </chapter>
