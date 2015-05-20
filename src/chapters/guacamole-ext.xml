@@ -32,6 +32,165 @@
                 languages.</para>
         </listitem>
     </orderedlist>
+    <section xml:id="extension-format">
+        <title>Guacamole extension format</title>
+        <para>Guacamole extensions are standard Java <filename>.jar</filename> files which contain
+            all classes and resources required by the extension, as well as the Guacamole extension
+            manifest. There is no set structure to an extension except that the manifest must be in
+            the root of the archive. Java classes and packages, if any, will be read from the
+                <filename>.jar</filename> relative to the root, as well.</para>
+        <para>Beyond this, the semantics and locations associated with all other resources within
+            the extension are determined by the extension manifest alone.</para>
+        <section>
+            <title>Extension manifest</title>
+            <para>The Guacamole extension manifest is a single JSON file, guac-manifest.json, which
+                describes the location of each resource, the type of each resource, and the version
+                of Guacamole that the extension was built for. The manifest can contain the
+                following properties:</para>
+            <informaltable frame="all">
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1" colwidth="1*"/>
+                    <colspec colname="c2" colnum="2" colwidth="3*"/>
+                    <thead>
+                        <row>
+                            <entry>Property</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry><property>guacamoleVersion</property></entry>
+                            <entry>
+                                <para>The version string of the Guacamole release that this
+                                    extension is written for. <emphasis>This property is required
+                                        for all extensions.</emphasis> The special version string
+                                        <code>"*"</code> can be used if the extension does not
+                                    depend on a particular version of Guacamole, but be careful -
+                                    this will bypass version compatibility checks, and should never
+                                    be used if the extension does more than basic theming or
+                                    branding.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><property>name</property></entry>
+                            <entry>
+                                <para>A human-readable name for the extension. <emphasis>This
+                                        property is required for all extensions.</emphasis> When
+                                    your extension is successfully loaded, a message acknowledging
+                                    the successful loading of your extension by name will be
+                                    logged.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><property>namespace</property></entry>
+                            <entry>
+                                <para>A unique string which identifies your extension.
+                                        <emphasis>This property is required for all
+                                        extensions.</emphasis> This string should be unique enough
+                                    that it is unlikely to collide with the namespace of any other
+                                    extension.</para>
+                                <para>If your extension contains static resources, those resources
+                                    will be served at a path derived from the namespace provided
+                                    here.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><property>authProviders</property></entry>
+                            <entry>
+                                <para>An array of the classnames of all
+                                        <classname>AuthenticationProvider</classname> subclasses
+                                    provided by this extension. Guacamole currently only supports
+                                    one <classname>AuthenticationProvider</classname> being loaded
+                                    at a time, thus this array must only contain one element, if it
+                                    is present at all.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><property>js</property></entry>
+                            <entry>
+                                <para>An array of all JavaScript files within the extension. All
+                                    paths within this array must be relative paths, and will be
+                                    interpreted relative to the root of the archive.</para>
+                                <para>JavaScript files declared here will be automatically loaded
+                                    when the web application loads within the user's browser.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><property>css</property></entry>
+                            <entry>
+                                <para>An array of all CSS files within the extension. All paths
+                                    within this array must be relative paths, and will be
+                                    interpreted relative to the root of the archive.</para>
+                                <para>CSS files declared here will be automatically applied when the
+                                    web application loads within the user's browser.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><property>translations</property></entry>
+                            <entry>
+                                <para>An array of all translation files within the extension. All
+                                    paths within this array must be relative paths, and will be
+                                    interpreted relative to the root of the archive.</para>
+                                <para>Translation files declared here will be automatically added to
+                                    the available languages. If a translation file provides a
+                                    language that already exists within Guacamole, its strings will
+                                    override the strings of the existing translation.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><property>resources</property></entry>
+                            <entry>
+                                <para>An object where each property name is the name of a web
+                                    resource file, and each value is the mimetype for that resource.
+                                    All paths within this object must be relative paths, and will be
+                                    interpreted relative to the root of the archive.</para>
+                                <para>Web resources declared here will be made available to the
+                                    application at
+                                            <filename>app/ext/<replaceable>NAMESPACE</replaceable>/<replaceable>PATH</replaceable></filename>,
+                                    where <replaceable>NAMESPACE</replaceable> is the value of the
+                                        <property>namespace</property> property, and
+                                        <replaceable>PATH</replaceable> is the declared web resource
+                                    filename.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <para>The only absolutely required properties are <property>guacamoleVersion</property>,
+                    <property>name</property>, and <property>namespace</property>, as they are used
+                to identify the extension and for compatibility checks. The most minimal
+                    <filename>guac-manifest.json</filename> will look something like this:</para>
+            <informalexample>
+                <programlisting>{
+    "guacamoleVersion" : "0.9.6",
+    "name" : "My Extension",
+    "namespace" : "my-extension"
+}</programlisting>
+            </informalexample>
+            <para>This will allow the extension to load, but does absolutely nothing otherwise.
+                Lacking the semantic information provided by the other properties, no other files
+                within the extension will be used. A typical <filename>guac-manifest.json</filename>
+                for an extension providing theming or branding would be more involved:</para>
+            <informalexample>
+                <programlisting>{
+
+    "guacamoleVersion" : "0.9.6",
+
+    "name"      : "My Extension",
+    "namespace" : "my-extension",
+
+    "css" : [ "theme.css" ],
+
+    "resources" : {
+        "images/logo.png"   : "image/png",
+        "images/cancel.png" : "image/png",
+        "images/delete.png" : "image/png"
+    }
+
+}</programlisting>
+            </informalexample>
+        </section>
+    </section>
     <section xml:id="environment">
         <title>Accessing the server configuration</title>
         <para>The configuration of the Guacamole server is exposed through the
@@ -410,72 +569,6 @@
                 user as a history list when they view a connection in the
                 management interface or as a simple active user count on the
                 connection, advising the user of existing activity.</para>
-        </section>
-    </section>
-    <section xml:id="event-listeners">
-        <title>Event listeners</title>
-        <para>Although not used internally by the web application, the web
-            application provides an event system which can be hooked into with
-            listener objects, such that a class within the classpath of
-            Guacamole can receive events when something noteworthy happens in
-            the application layer, and take some sort of action.</para>
-        <para>Currently, the web application provides events for when the tunnel
-            is opened or closed, and when an authentication attempt succeeds or
-            fails. In most cases, the class listening for these events can also
-            cancel whatever action just occurred.</para>
-        <section xml:id="tunnel-connect-listener">
-            <title><classname>TunnelConnectListener</classname></title>
-            <para>When a tunnel is connected to by the JavaScript client,
-                Guacamole informs all installed instances of
-                    <classname>TunnelConnectListener</classname> by calling
-                their <methodname>tunnelConnected()</methodname> function with a
-                new <classname>TunnelConnectEvent</classname>, which contains
-                the tunnel that was just connected, as well as any associated
-                credentials. If <methodname>tunnelConnected()</methodname>
-                returns <constant>false</constant>, the connect attempt will be
-                overridden and denied.</para>
-        </section>
-        <section xml:id="tunnel-close-listener">
-            <title><classname>TunnelCloseListener</classname></title>
-            <para>When a tunnel is connected to by the JavaScript client,
-                Guacamole informs all installed instances of
-                    <classname>TunnelCloseListener</classname> by calling their
-                    <methodname>tunnelClosed()</methodname> function with a new
-                    <classname>TunnelCloseEvent</classname>, which contains the
-                tunnel that is about to be closed, as well as any associated
-                credentials. If <methodname>tunnelClosed()</methodname> returns
-                    <constant>false</constant>, the attempt close the tunnel
-                will be overridden and denied, and the tunnel will remain
-                open.</para>
-        </section>
-        <section xml:id="authentication-success-listener">
-            <title><classname>AuthenticationSuccessListener</classname></title>
-            <para>If a user successfully authenticates with the web application,
-                Guacamole informs all installed instances of
-                    <classname>AuthenticationSuccessListener</classname> by
-                calling their <methodname>authenticationSucceeded()</methodname>
-                function with a new
-                    <classname>AuthenticationSuccessEvent</classname> which
-                contains the credentials used. The implementation of this
-                function has the opportunity to cancel the authentication
-                attempt, effectively denying access despite being otherwise
-                valid, by returning <constant>false</constant>.</para>
-        </section>
-        <section xml:id="authentication-failure-listener">
-            <title><classname>AuthenticationFailureListener</classname></title>
-            <para>If a user fails to authenticate with the web application,
-                Guacamole informs all installed instances of
-                    <classname>AuthenticationFailureListener</classname> by
-                calling their <methodname>authenticationFailed()</methodname>
-                function with a new
-                    <classname>AuthenticationFailureEvent</classname> which
-                contains the credentials used. Unlike other listeners, this
-                event cannot be canceled by returning
-                <constant>false</constant>. All failed authentication attempts
-                "succeed" in failing, and an implementation of
-                    <classname>AuthenticationFailureListener</classname> cannot
-                force an authentication attempt to succeed by denying that
-                failure.</para>
         </section>
     </section>
 </chapter>
