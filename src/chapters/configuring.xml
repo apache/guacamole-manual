@@ -57,9 +57,9 @@
             <varlistentry>
                 <term><filename>logback.xml</filename></term>
                 <listitem>
-                    <para>Guacamole uses a logging system called LogBack for all messages. By
+                    <para>Guacamole uses a logging system called Logback for all messages. By
                         default, Guacamole will log to the console only, but you can change this by
-                        providing your own LogBack configuration file.</para>
+                        providing your own Logback configuration file.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
