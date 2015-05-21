@@ -24,30 +24,10 @@
     <para>The instructions here assume you already have an LDAP directory installed and working, and
         do not cover the initial setup of such a directory.</para>
     <important>
-        <para>This chapter deals with the contents of <varname>GUACAMOLE_HOME</varname> - the
-            Guacamole configuration directory. For the sake of example,
-                <filename>/usr/share/tomcat/.guacamole</filename> will be used as
-                <varname>GUACAMOLE_HOME</varname> because:</para>
-        <orderedlist>
-            <listitem>
-                <para>It is very common to run Guacamole under Tomcat.</para>
-            </listitem>
-            <listitem>
-                <para>A common location for the Tomcat user's home directory is
-                        <filename>/usr/share/tomcat</filename>.</para>
-            </listitem>
-            <listitem>
-                <para>By default, when searching for <varname>GUACAMOLE_HOME</varname>, Guacamole
-                    will look for <filename>.guacamole</filename> within the user's home
-                    directory.</para>
-            </listitem>
-        </orderedlist>
-        <para><filename>/usr/share/tomcat/.guacamole</filename> is thus highly likely to be the same
-            as, if not similar to, your system's default <varname>GUACAMOLE_HOME</varname>. If your
-            system differs, or you are not using Tomcat, you will need to determine or set the
-            location of <varname>GUACAMOLE_HOME</varname> before proceeding. See <xref
-                linkend="configuring-guacamole"/> for more information on locating or setting
-                <varname>GUACAMOLE_HOME</varname>.</para>
+        <para>This chapter involves modifying the contents of <varname>GUACAMOLE_HOME</varname> -
+            the Guacamole configuration directory. If you are unsure where
+                <varname>GUACAMOLE_HOME</varname> is located on your system, please consult <xref
+                linkend="configuring-guacamole"/> before proceeding.</para>
     </important>
     <section>
         <title>How Guacamole uses LDAP</title>
@@ -127,7 +107,7 @@
                 LDAP</emphasis>.</para>
         <important>
             <para>The instructions given for applying the Guacamole LDAP schema changes are specific
-                to OpenLDAP, but other LDAP implementations, including ActiveDirectory, will have
+                to OpenLDAP, but other LDAP implementations, including Active Directory, will have
                 their own methods for updating the schema.</para>
             <para>If you are not using OpenLDAP, a standards-compliant schema file is provided that
                 can be used to update the schema of any LDAP directory supporting RFC-2252. Please
@@ -189,15 +169,24 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
     </section>
     <section xml:id="installing-ldap-auth">
         <title>Installing LDAP authentication</title>
-        <para>The contents of <filename>lib/</filename> must be copied into the classpath of
-            Guacamole, which is the directory specified by the <property>lib-directory</property>
-            property in <filename>guacamole.properties</filename>. If this property is not
-            specified, simply add it. On Linux servers,
-                <filename>/var/lib/guacamole/classpath</filename> is a good choice, but it can be
-            whatever you like.</para>
-        <para>After copying the files in place, check to make sure all files are present, and there
-            are no conflicts in between multiple versions of
-            <package>guacamole-auth-ldap</package>.</para>
+        <para>Guacamole extensions are self-contained <filename>.jar</filename> files which are
+            located within the <filename>GUACAMOLE_HOME/extensions</filename> directory. To install
+            the LDAP authentication extension, you must:</para>
+        <orderedlist>
+            <listitem>
+                <para>Create the <filename>GUACAMOLE_HOME/extensions</filename> directory, if it
+                    does not already exist.</para>
+            </listitem>
+            <listitem>
+                <para>Remove any existing authentication extensions from
+                        <filename>GUACAMOLE_HOME/extensions</filename>. Guacamole does not currently
+                    support using multiple authentication extensions at the same time.</para>
+            </listitem>
+            <listitem>
+                <para>Copy <filename>guacamole-auth-ldap-0.9.6.jar</filename> within
+                        <filename>GUACAMOLE_HOME/extensions</filename>.</para>
+            </listitem>
+        </orderedlist>
         <important>
             <para>You will need to restart Guacamole by restarting your servlet container in order
                 to complete the installation. Doing this will disconnect all active users, so be
@@ -223,23 +212,24 @@ ldap-port:               <replaceable>389</replaceable>
 ldap-user-base-dn:       <replaceable>ou=people,dc=example,dc=net</replaceable>
 ldap-username-attribute: <replaceable>uid</replaceable>
 ldap-config-base-dn:     <replaceable>ou=groups,dc=example,dc=net</replaceable></programlisting>
-            <para>The LDAP support depends on the following properties, as shown in the example
-                above:</para>
+            <para>To use Guacamole's LDAP support, you must specify each of the following
+                properties, as shown in the example above:</para>
             <variablelist>
                 <varlistentry>
                     <term><property>ldap-hostname</property></term>
                     <listitem>
                         <para>The hostname of your LDAP server. In the example above, this is given
-                            as "localhost" - the same machine as the web server hosting Guacamole,
-                            but this can be anything.</para>
+                            as "localhost" - the same machine as the web server hosting Guacamole.
+                            You will need to use a different value if your LDAP server is located
+                            elsewhere.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><property>ldap-port</property></term>
                     <listitem>
-                        <para>The port your LDAP server listens on. Unless you altered the
-                            configuration somehow, your LDAP server probably listens on the standard
-                            port of 389.</para>
+                        <para>The port your LDAP server listens on. The example above uses the
+                            standard port 389. Unless you manually configured your LDAP server to do
+                            otherwise, your LDAP server probably listens on port 389 as well.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -252,16 +242,17 @@ ldap-config-base-dn:     <replaceable>ou=groups,dc=example,dc=net</replaceable><
                 <varlistentry>
                     <term><property>ldap-username-attribute</property></term>
                     <listitem>
-                        <para>The attribute which contains the username which is part of the DN for
-                            all Guacamole users. Usually, this is <property>uid</property>. This
-                            works together with the user base DN to determine the full DN of each
-                            user logging in.</para>
-                        <para>For example, if the base DN is
-                                "<systemitem>ou=people,dc=example,dc=net</systemitem>" (like the
-                            example above) and the username attribute is "<property>uid</property>",
-                            then a person attempting to login as "<systemitem>user</systemitem>"
-                            would effectively bind with the LDAP directory as
-                                "<systemitem>uid=user,ou=people,dc=example,dc=net</systemitem>".</para>
+                        <para>The attribute which contains the username and which is part of the DN
+                            for all Guacamole users. Usually, this will be
+                            "<property>uid</property>". This is used together with the user base DN
+                            to derive the full DN of each user logging in.</para>
+                        <para>For example, if <property>ldap-user-base-dn</property> is
+                                "<systemitem>ou=people,dc=example,dc=net</systemitem>", as in the
+                            example above, and <property>ldap-username-attribute</property> is
+                                "<property>uid</property>", then a person attempting to login as
+                                "<systemitem>user</systemitem>" would be mapped to the following
+                            full DN:
+                            "<systemitem>uid=user,ou=people,dc=example,dc=net</systemitem>".</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -269,43 +260,37 @@ ldap-config-base-dn:     <replaceable>ou=groups,dc=example,dc=net</replaceable><
                     <listitem>
                         <para>The base of the DN for all Guacamole configurations. Each
                             configuration is analogous to a connection. Within Guacamole's LDAP
-                            support, each configuration functions as a group, having user members. A
-                            user which is a member of a particular configuration group will have
-                            access to that configuration.</para>
-                        <para>This base DN will be used when querying all configurations accessible
+                            support, each configuration functions as a group, having user members,
+                            where each member of a particular configuration group will have access
+                            to that configuration.</para>
+                        <para>This base DN will be used when querying the configurations accessible
                             by a user once they have successfully logged in.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
-            <para>With the above properties properly set, Guacamole will connect to your LDAP server
-                after you restart Tomcat (or whatever servlet container you are using). You will
-                still need to install the schema modifications to your LDAP server such that you can
-                create new configurations and associated them with users.</para>
-            <section>
-                <title>Completing the installation</title>
-                <para>Guacamole will only reread <filename>guacamole.properties</filename> and load
-                    newly-installed extensions during startup, so your servlet container will need
-                    to be restarted before the LDAP authentication will take effect. Restart your
-                    servlet container and give the new authentication a try.</para>
-                <para>
-                    <important>
-                        <para>You only need to restart your servlet container. <emphasis>You do not
-                                need to restart <package>guacd</package></emphasis>.</para>
-                        <para><package>guacd</package> is completely independent of the web
-                            application and does not deal with
-                                <filename>guacamole.properties</filename> or the authentication
-                            system in any way. Since you are already restarting the servlet
-                            container, restarting <package>guacd</package> as well technically won't
-                            hurt anything, but doing so is completely pointless.</para>
-                    </important>
-                </para>
-                <para>If Guacamole does not come back online after restarting your servlet
-                    container, check the logs. Problems in the configuration of the LDAP extension
-                    will prevent Guacamole from starting up, and any such errors will be recorded in
-                    the logs of your servlet container. If properly configured, you will be able to
-                    log in as any user within the defined
-                    <property>ldap-user-base-dn</property>.</para>
-            </section>
+        </section>
+        <section>
+            <title>Completing the installation</title>
+            <para>Guacamole will only reread <filename>guacamole.properties</filename> and load
+                newly-installed extensions during startup, so your servlet container will need to be
+                restarted before the LDAP authentication will take effect. Restart your servlet
+                container and give the new authentication a try.</para>
+            <para>
+                <important>
+                    <para>You only need to restart your servlet container. <emphasis>You do not need
+                            to restart <package>guacd</package></emphasis>.</para>
+                    <para><package>guacd</package> is completely independent of the web application
+                        and does not deal with <filename>guacamole.properties</filename> or the
+                        authentication system in any way. Since you are already restarting the
+                        servlet container, restarting <package>guacd</package> as well technically
+                        won't hurt anything, but doing so is completely pointless.</para>
+                </important>
+            </para>
+            <para>If Guacamole does not come back online after restarting your servlet container,
+                check the logs. Problems in the configuration of the LDAP extension will prevent
+                Guacamole from starting up, and any such errors will be recorded in the logs of your
+                servlet container. If properly configured, you will be able to log in as any user
+                within the defined <property>ldap-user-base-dn</property>.</para>
         </section>
     </section>
     <section xml:id="ldap-auth-schema">
@@ -331,11 +316,10 @@ ldap-config-base-dn:     <replaceable>ou=groups,dc=example,dc=net</replaceable><
         <section>
             <title>Connections and parameters</title>
             <para>Each connection is represented by an instance of the
-                    <classname>guacConfigGroup</classname> object class, which is simply an extended
-                version of the standard LDAP <classname>groupOfNames</classname> which provides a
-                protocol and set of parameters. Only members of the
-                    <classname>guacConfigGroup</classname> will have access to the corresponding
-                connection.</para>
+                    <classname>guacConfigGroup</classname> object class, an extended version of the
+                standard LDAP <classname>groupOfNames</classname>, which provides a protocol and set
+                of parameters. Only members of the <classname>guacConfigGroup</classname> will have
+                access to the corresponding connection.</para>
             <para>The <classname>guacConfigGroup</classname> object class provides two new
                 attributes in addition to those provided by
                 <classname>groupOfNames</classname>:</para>
@@ -343,10 +327,10 @@ ldap-config-base-dn:     <replaceable>ou=groups,dc=example,dc=net</replaceable><
                 <varlistentry>
                     <term><property>guacConfigProtocol</property></term>
                     <listitem>
-                        <para>The protocol associated with the connection, such as "vnc" or "rdp".
-                            This attribute is required for every
-                                <classname>guacConfigGroup</classname> and can be given only
-                            once.</para>
+                        <para>The protocol associated with the connection, such as
+                                "<constant>vnc</constant>" or "<constant>rdp</constant>". This
+                            attribute is required for every <classname>guacConfigGroup</classname>
+                            and can be given only once.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -355,7 +339,7 @@ ldap-config-base-dn:     <replaceable>ou=groups,dc=example,dc=net</replaceable><
                         <para>The name and value of a parameter for the specified protocol. This is
                             given as
                                     <code><replaceable>name</replaceable>=<replaceable>value</replaceable></code>,
-                            where "name" is the name of the parameter as defined by the
+                            where "name" is the name of the parameter, as defined by the
                             documentation for the protocol specified, and "value" is any allowed
                             value for that parameter.</para>
                         <para>This attribute can be given multiple times for the same
