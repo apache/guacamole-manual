@@ -43,10 +43,10 @@
             the extension are determined by the extension manifest alone.</para>
         <section>
             <title>Extension manifest</title>
-            <para>The Guacamole extension manifest is a single JSON file, guac-manifest.json, which
-                describes the location of each resource, the type of each resource, and the version
-                of Guacamole that the extension was built for. The manifest can contain the
-                following properties:</para>
+            <para>The Guacamole extension manifest is a single JSON file,
+                    <filename>guac-manifest.json</filename>, which describes the location of each
+                resource, the type of each resource, and the version of Guacamole that the extension
+                was built for. The manifest can contain the following properties:</para>
             <informaltable frame="all">
                 <tgroup cols="2">
                     <colspec colname="c1" colnum="1" colwidth="1*"/>
@@ -198,7 +198,8 @@
                 <classname>LocalEnvironment</classname> implementation of this interface. Through
                 <classname>Environment</classname>, you can access all properties declared within
                 <filename>guacamole.properties</filename>, determine the proper hostname/port of
-            guacd, and access the contents of <varname>GUACAMOLE_HOME</varname>.</para>
+                <package>guacd</package>, and access the contents of
+                <varname>GUACAMOLE_HOME</varname>.</para>
         <section xml:id="simple-config">
             <title>Custom properties</title>
             <para>If your extension requires generic, unstructured configuration parameters,
@@ -293,7 +294,7 @@
         <section xml:id="advanced-config">
             <title>Advanced configuration</title>
             <para>If you need more structured data than provided by simple properties, you can place
-                completely arbitrary files in a hierarchy of your chosing anywhere within
+                completely arbitrary files in a hierarchy of your choosing anywhere within
                     <varname>GUACAMOLE_HOME</varname> as long as you avoid placing your files in
                 directories reserved for other purposes as described above.</para>
             <para>The Environment interface exposes the location of
