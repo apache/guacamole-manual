@@ -24,11 +24,15 @@
     </important>
     <section>
         <title>Downloading the NoAuth extension</title>
-        <para>The NoAuth authentication extension is not included in the main Guacamole bundle nor
-            is it enabled by default. You must use the download link provided in the downloads
-            section of the main Guacamole site.</para>
-        <para>The downloaded <filename>.tar.gz</filename> file will contain several
-            directories:</para>
+        <para xmlns:xlink="http://www.w3.org/1999/xlink">The NoAuth authentication extension is
+            available separately from the main <filename>guacamole.war</filename>. The link for this
+            and all other officially-supported and compatible extensions for a particular version of
+            Guacamole are provided on the release notes for that version. You can find the release
+            notes for current versions of Guacamole here: <link
+                xlink:href="http://guac-dev.org/releases/"
+            >http://guac-dev.org/releases/</link>.</para>
+        <para xmlns:xlink="http://www.w3.org/1999/xlink">The NoAuth authentication extension is
+            packaged as a <filename>.tar.gz</filename> file containing:</para>
         <variablelist>
             <varlistentry>
                 <term><filename>guacamole-auth-noauth-0.9.6.jar</filename></term>

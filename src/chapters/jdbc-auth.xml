@@ -13,7 +13,7 @@
         <primary>load balancing</primary>
     </indexterm>
     <para>Guacamole supports authentication via MySQL or PostgreSQL databases through extensions
-        available from the project website. These extensions allows users and connections to be
+        available from the project website. These extensions allow users and connections to be
         managed from within the web application. Unlike the default, XML-driven authentication
         module, all changes to users and connections take effect immediately; users need not logout
         and back in to see new connections.</para>
@@ -54,26 +54,38 @@
             <varlistentry>
                 <term><filename>mysql/</filename></term>
                 <listitem>
-                    <para>Contains the MySQL/MariaDB authentication extension as a self-contained
-                            <filename>.jar</filename> file, along with a
-                            <filename>schema/</filename> directory containing the SQL scripts
-                        required to set up the database.</para>
-                    <para><emphasis>The MySQL JDBC connector is not included.</emphasis> You must
-                        obtain the JDBC connector <filename>.jar</filename> from within the
-                        "Connector/J" archive downloadable from <link
+                    <para>Contains the MySQL/MariaDB authentication extension,
+                            <filename>guacamole-auth-jdbc-mysql-0.9.6.jar</filename>, along with a
+                            <filename>schema/</filename> directory containing MySQL-specific SQL
+                        scripts required to set up the database. The
+                            <filename>guacamole-auth-jdbc-mysql-0.9.6.jar</filename> file will
+                        ultimately need to be placed within
+                            <filename>GUACAMOLE_HOME/extensions</filename>, while the MySQL JDBC
+                        driver must be placed within <filename>GUACAMOLE_HOME/lib</filename>.</para>
+                    <para><emphasis>The MySQL JDBC driver is not included with the
+                            extension.</emphasis> You must obtain the JDBC driver
+                            <filename>.jar</filename> yourself from <link
                             xlink:href="http://dev.mysql.com/downloads/connector/j/">MySQL's
-                            website</link>.</para>
+                            website</link>. The driver is known as "Connector/J", and the required
+                            <filename>.jar</filename> will be within a <filename>.tar.gz</filename>
+                        archive.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term><filename>postgresql/</filename></term>
                 <listitem>
-                    <para>Contains the PostgreSQL authentication extension as a self-contained
-                            <filename>.jar</filename> file, along with a
-                            <filename>schema/</filename> directory containing the SQL scripts
-                        required to set up the database.</para>
-                    <para><emphasis>The PostgreSQL JDBC driver is not included.</emphasis> You must
-                        obtain the JDBC driver <filename>.jar</filename> from <link
+                    <para>Contains the PostgreSQL authentication extension,
+                            <filename>guacamole-auth-jdbc-postgresql-0.9.6.jar</filename>, along
+                        with a <filename>schema/</filename> directory containing PostgreSQL-specific
+                        SQL scripts required to set up the database. The
+                            <filename>guacamole-auth-jdbc-postgresql-0.9.6.jar</filename> file will
+                        ultimately need to be placed within
+                            <filename>GUACAMOLE_HOME/extensions</filename>, while the PostgreSQL
+                        JDBC driver must be placed within
+                        <filename>GUACAMOLE_HOME/lib</filename>.</para>
+                    <para><emphasis>The PostgreSQL JDBC driver is not included with the
+                            extension.</emphasis> You must obtain the JDBC driver
+                            <filename>.jar</filename> yourself from <link
                             xlink:href="https://jdbc.postgresql.org/download.html#current"
                             >PostgreSQL's website</link>. The proper <filename>.jar</filename> file
                         depends on the version of Java you have installed. </para>
@@ -86,7 +98,7 @@
     <section xml:id="jdbc-auth-database-creation">
         <title>Creating the Guacamole database</title>
         <para>The database authentication module will need a database to store all authentication
-            data and a user to use only for data access and manipulation. You could use an existing
+            data and a user to use only for data access and manipulation. You can use an existing
             database and existing user, but for the sake of simplicity and security, these
             instructions assume you will be creating a new database and new user that will be used
             only by Guacamole and only for this authentication module.</para>
@@ -262,7 +274,8 @@ mysql-port: 3306
 mysql-database: <replaceable>guacamole_db</replaceable>
 mysql-username: <replaceable>guacamole_user</replaceable>
 mysql-password: <replaceable>some_password</replaceable></programlisting>
-                <para>For PostgreSQL the properties are similar, but with different prefixes:</para>
+                <para>For PostgreSQL, the properties are similar, but with different
+                    prefixes:</para>
                 <informalexample>
                     <programlisting># PostgreSQL properties
 postgresql-hostname: localhost
@@ -272,7 +285,10 @@ postgresql-username: <replaceable>guacamole_user</replaceable>
 postgresql-password: <replaceable>some_password</replaceable></programlisting>
                 </informalexample>
             </informalexample>
-            <para>These properties are relatively self-explanatory:</para>
+            <para>The properties absolutely required by the database authentication extension are
+                relatively few and self-explanatory, describing only how the connection to the
+                database is to be established, and how Guacamole will authenticate when querying the
+                database:</para>
             <informaltable frame="all">
                 <tgroup cols="3">
                     <colspec colname="c1" colnum="1" colwidth="1*"/>
@@ -333,9 +349,9 @@ postgresql-password: <replaceable>some_password</replaceable></programlisting>
                     </tbody>
                 </tgroup>
             </informaltable>
-            <para>Be sure to specify the correct password for the MySQL or PostgreSQL user you
-                created, and specify the correct database and username. Authentication will not work
-                if these parameters are not correct.</para>
+            <para>Be sure to specify the correct username and password for the database user you
+                created, and to specify the correct database. Authentication will not work if these
+                parameters are not correct.</para>
             <section xml:id="jdbc-auth-concurrency">
                 <title>Concurrent use of Guacamole connections</title>
                 <para>The database authentication module also provides configuration options to
@@ -363,12 +379,6 @@ mysql-disallow-duplicate-connections: false
 # PostgreSQL
 postgresql-disallow-duplicate-connections: false</programlisting>
                 </informalexample>
-                <para>Once you have <filename>guacamole.properties</filename> modified
-                    appropriately, restart Tomcat (or whatever servlet container you are using) and
-                    Guacamole will use your database for authentication. Be sure to watch the logs
-                    in case something is wrong with the configuration, and remember that, for
-                    security reasons, Guacamole will always report authentication errors as "invalid
-                    login" regardless of the true cause.</para>
             </section>
         </section>
         <section>
