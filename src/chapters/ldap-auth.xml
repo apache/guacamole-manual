@@ -186,6 +186,9 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                 <para>Copy <filename>guacamole-auth-ldap-0.9.6.jar</filename> within
                         <filename>GUACAMOLE_HOME/extensions</filename>.</para>
             </listitem>
+            <listitem>
+                <para>Configure Guacamole to use LDAP authentication, as described below.</para>
+            </listitem>
         </orderedlist>
         <important>
             <para>You will need to restart Guacamole by restarting your servlet container in order

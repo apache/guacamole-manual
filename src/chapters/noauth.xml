@@ -65,6 +65,9 @@
                 <para>Copy <filename>guacamole-auth-noauth-0.9.6.jar</filename> within
                         <filename>GUACAMOLE_HOME/extensions</filename>.</para>
             </listitem>
+            <listitem>
+                <para>Configure Guacamole to use NoAuth, as described below.</para>
+            </listitem>
         </orderedlist>
         <important>
             <para>You will need to restart Guacamole by restarting your servlet container in order

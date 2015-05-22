@@ -237,6 +237,9 @@ Type "help" for help.
                         <filename>GUACAMOLE_HOME/lib</filename>. Without a JDBC driver for your
                     database, Guacamole will not be able to connect and authenticate users.</para>
             </listitem>
+            <listitem>
+                <para>Configure Guacamole to use database authentication, as described below.</para>
+            </listitem>
         </orderedlist>
         <important>
             <para>You will need to restart Guacamole by restarting your servlet container in order
