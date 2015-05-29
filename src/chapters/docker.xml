@@ -5,9 +5,9 @@
     <indexterm>
         <primary>docker</primary>
     </indexterm>
-    <section>
+    <section xml:id="guacd-docker-image">
         <title>The <package>guacd</package> Docker image</title>
-        <section>
+        <section xml:id="guacd-docker-guacamole">
             <title>Running <package>guacd</package> for use by the Guacamole Docker image</title>
             <informalexample>
                 <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacd</replaceable> -d glyptodon/guacd</screen>
@@ -16,7 +16,7 @@
                 be available to Docker containers that have been explicitly linked to
                         <varname><replaceable>some-guacd</replaceable></varname>.</para>
         </section>
-        <section>
+        <section xml:id="guacd-docker-external">
             <title>Running <package>guacd</package> for use services by outside Docker</title>
             <informalexample>
                 <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacd</replaceable> -d -p 4822:4822 glyptodon/guacd</screen>
@@ -31,14 +31,14 @@
                 expose it as absolutely necessary, and that only specific trusted applications have
                 access. </para>
         </section>
-        <section>
+        <section xml:id="guacd-docker-app">
             <title>Connecting to <package>guacd</package> from an application</title>
             <informalexample>
                 <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-app</replaceable> --link <replaceable>some-guacd</replaceable>:guacd -d <replaceable>application-that-uses-guacd</replaceable></screen>
             </informalexample>
         </section>
     </section>
-    <section>
+    <section xml:id="guacamole-docker-image">
         <title>The Guacamole Docker image</title>
         <para>Using this image will require an existing, running Docker container with the
                 <package>guacd</package> image, and another Docker container providing either a
@@ -53,7 +53,7 @@
                 container]</replaceable>:8080/guacamole/</uri>. The instructions below use the
                 <option>-p 8080:8080</option> option to expose this port at the level of the machine
             hosting Docker, as well.</para>
-        <section>
+        <section xml:id="guacamole-docker-mysql">
             <title>Deploying Guacamole with MySQL authentication</title>
             <informalexample>
                 <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacamole</replaceable> --link <replaceable>some-guacd</replaceable>:guacd \
@@ -87,7 +87,7 @@
                     </listitem>
                 </varlistentry>
             </variablelist>
-            <section>
+            <section xml:id="guacamole-docker-mysql-init">
                 <title>Initializing the MySQL database</title>
                 <para>If your database is not already initialized with the Guacamole schema, you
                     will need to do so prior to using Guacamole. A convenience script for generating
@@ -118,7 +118,7 @@
                 </procedure>
             </section>
         </section>
-        <section>
+        <section xml:id="guacamole-docker-postgresql">
             <title>Deploying Guacamole with PostgreSQL authentication</title>
             <informalexample>
                 <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacamole</replaceable> --link <replaceable>some-guacd</replaceable>:guacd \
@@ -152,7 +152,7 @@
                     </listitem>
                 </varlistentry>
             </variablelist>
-            <section>
+            <section xml:id="guacamole-docker-postgresql-init">
                 <title>Initializing the PostgreSQL database</title>
                 <para>If your database is not already initialized with the Guacamole schema, you
                     will need to do so prior to using Guacamole. A convenience script for generating
