@@ -227,32 +227,32 @@ Type "help" for help.
         <para>Guacamole extensions are self-contained <filename>.jar</filename> files which are
             located within the <filename>GUACAMOLE_HOME/extensions</filename> directory. To install
             the database authentication extension, you must:</para>
-        <orderedlist>
-            <listitem>
+        <procedure>
+            <step>
                 <para>Create the <filename>GUACAMOLE_HOME/extensions</filename> directory, if it
                     does not already exist.</para>
-            </listitem>
-            <listitem>
+            </step>
+            <step>
                 <para>Remove any existing authentication extensions from
                         <filename>GUACAMOLE_HOME/extensions</filename>. Guacamole does not currently
                     support using multiple authentication extensions at the same time.</para>
-            </listitem>
-            <listitem>
+            </step>
+            <step>
                 <para>Copy <filename>guacamole-auth-jdbc-mysql-0.9.6.jar</filename>
                     <emphasis>or</emphasis>
                     <filename>guacamole-auth-jdbc-postgresql-0.9.6.jar</filename> within
                         <filename>GUACAMOLE_HOME/extensions</filename>, depending on whether you are
                     using MySQL/MariaDB or PostgreSQL.</para>
-            </listitem>
-            <listitem>
+            </step>
+            <step>
                 <para>Copy the JDBC driver for your database to
                         <filename>GUACAMOLE_HOME/lib</filename>. Without a JDBC driver for your
                     database, Guacamole will not be able to connect and authenticate users.</para>
-            </listitem>
-            <listitem>
+            </step>
+            <step>
                 <para>Configure Guacamole to use database authentication, as described below.</para>
-            </listitem>
-        </orderedlist>
+            </step>
+        </procedure>
         <important>
             <para>You will need to restart Guacamole by restarting your servlet container in order
                 to complete the installation. Doing this will disconnect all active users, so be
