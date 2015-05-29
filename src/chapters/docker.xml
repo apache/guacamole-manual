@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xml:id="guacamole-docker" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xl="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Installing Guacamole with Docker</title>
+    <indexterm>
+        <primary>docker</primary>
+    </indexterm>
+    <section>
+        <title>The <package>guacd</package> Docker image</title>
+        <section>
+            <title>Running <package>guacd</package> for use by the Guacamole Docker image</title>
+            <informalexample>
+                <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacd</replaceable> -d glyptodon/guacd</screen>
+            </informalexample>
+            <para><package>guacd</package> will be listening on port 4822, but this port will only
+                be available to Docker containers that have been explicitly linked to
+                        <varname><replaceable>some-guacd</replaceable></varname>.</para>
+        </section>
+        <section>
+            <title>Running <package>guacd</package> for use services by outside Docker</title>
+            <informalexample>
+                <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacd</replaceable> -d -p 4822:4822 glyptodon/guacd</screen>
+            </informalexample>
+            <para><package>guacd</package> will be listening on port 4822, and Docker will expose
+                this port on the same server hosting Docker. Other services, such as an instance of
+                Tomcat running outside of Docker, will be able to connect to
+                    <package>guacd</package>.</para>
+            <para>Beware of the security ramifications of doing this. There is no authentication
+                within <package>guacd</package>, so allowing access from untrusted applications is
+                dangerous. If you need to expose <package>guacd</package>, ensure that you only
+                expose it as absolutely necessary, and that only specific trusted applications have
+                access. </para>
+        </section>
+        <section>
+            <title>Connecting to <package>guacd</package> from an application</title>
+            <informalexample>
+                <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-app</replaceable> --link <replaceable>some-guacd</replaceable>:guacd -d <replaceable>application-that-uses-guacd</replaceable></screen>
+            </informalexample>
+        </section>
+    </section>
+    <section>
+        <title>The Guacamole Docker image</title>
+        <para>Using this image will require an existing, running Docker container with the
+                <package>guacd</package> image, and another Docker container providing either a
+            PostgreSQL or MySQL database.</para>
+        <para>The name of the database and all associated credentials are specified with environment
+            variables given when the container is created. All other configuration information is
+            generated from the Docker links.</para>
+        <para>Beware that you will need to initialize the database manually. Guacamole will not
+            automatically create its own tables, but SQL scripts are provided to do this.</para>
+        <para>Once the Guacamole image is running, Guacamole will be accessible at
+                    <uri>http://<replaceable>[address of
+                container]</replaceable>:8080/guacamole/</uri>. The instructions below use the
+                <option>-p 8080:8080</option> option to expose this port at the level of the machine
+            hosting Docker, as well.</para>
+        <section>
+            <title>Deploying Guacamole with MySQL authentication</title>
+            <informalexample>
+                <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacamole</replaceable> --link <replaceable>some-guacd</replaceable>:guacd \
+    --link <replaceable>some-mysql</replaceable>:mysql      \
+    -e MYSQL_DATABASE=<replaceable>guacamole_db</replaceable>  \
+    -e MYSQL_USER=<replaceable>guacamole_user</replaceable>    \
+    -e MYSQL_PASSWORD=<replaceable>some_password</replaceable> \
+    -d -p 8080:8080 glyptodon/guacamole</screen>
+            </informalexample>
+            <para>Linking Guacamole to MySQL requires three environment variables. If any of these
+                environment variables are omitted, you will receive an error message, and the image
+                will stop:</para>
+            <variablelist>
+                <varlistentry>
+                    <term><envar>MYSQL_DATABASE</envar></term>
+                    <listitem>
+                        <para>The name of the database to use for Guacamole authentication.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><envar>MYSQL_USER</envar></term>
+                    <listitem>
+                        <para>The user that Guacamole will use to connect to MySQL.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><envar>MYSQL_PASSWORD</envar></term>
+                    <listitem>
+                        <para>The password that Guacamole will provide when connecting to MySQL as
+                                <envar>MYSQL_USER</envar>.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <section>
+                <title>Initializing the MySQL database</title>
+                <para>If your database is not already initialized with the Guacamole schema, you
+                    will need to do so prior to using Guacamole. A convenience script for generating
+                    the necessary SQL to do this is included in the Guacamole image.</para>
+                <para>To generate a SQL script which can be used to initialize a fresh MySQL
+                    database as documented in <xref linkend="jdbc-auth"/>:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <command>docker</command> run --rm glyptodon/guacamole /opt/guacamole/bin/initdb.sh --mysql > <replaceable>initdb.sql</replaceable></screen>
+                </informalexample>
+                <para>Alternatively, you can use the SQL scripts included with the database
+                    authentication.</para>
+                <para>Once this script is generated, you must:</para>
+                <procedure>
+                    <step>
+                        <para>Create a database for Guacamole within MySQL, such as
+                                    <database><replaceable>guacamole_db</replaceable></database>.</para>
+                    </step>
+                    <step>
+                        <para>Create a user for Guacamole within MySQL with access to this database,
+                            such as
+                                <systemitem><replaceable>guacamole_user</replaceable></systemitem>.</para>
+                    </step>
+                    <step>
+                        <para>Run the script on the newly-created database. The process for doing
+                            this via the <command>mysql</command> utility included with MySQL is
+                            documented in <xref linkend="jdbc-auth"/>.</para>
+                    </step>
+                </procedure>
+            </section>
+        </section>
+        <section>
+            <title>Deploying Guacamole with PostgreSQL authentication</title>
+            <informalexample>
+                <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacamole</replaceable> --link <replaceable>some-guacd</replaceable>:guacd \
+    --link <replaceable>some-postgres</replaceable>:postgres      \
+    -e POSTGRES_DATABASE=<replaceable>guacamole_db</replaceable>  \
+    -e POSTGRES_USER=<replaceable>guacamole_user</replaceable>    \
+    -e POSTGRES_PASSWORD=<replaceable>some_password</replaceable> \
+    -d -p 8080:8080 glyptodon/guacamole</screen>
+            </informalexample>
+            <para>Linking Guacamole to PostgreSQL requires three environment variables. If any of
+                these environment variables are omitted, you will receive an error message, and the
+                image will stop:</para>
+            <variablelist>
+                <varlistentry>
+                    <term><envar>POSTGRES_DATABASE</envar></term>
+                    <listitem>
+                        <para>The name of the database to use for Guacamole authentication.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><envar>POSTGRES_USER</envar></term>
+                    <listitem>
+                        <para>The user that Guacamole will use to connect to PostgreSQL.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><envar>POSTGRES_PASSWORD</envar></term>
+                    <listitem>
+                        <para>The password that Guacamole will provide when connecting to PostgreSQL
+                            as <envar>POSTGRES_USER</envar>.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <section>
+                <title>Initializing the PostgreSQL database</title>
+                <para>If your database is not already initialized with the Guacamole schema, you
+                    will need to do so prior to using Guacamole. A convenience script for generating
+                    the necessary SQL to do this is included in the Guacamole image.</para>
+                <para>To generate a SQL script which can be used to initialize a fresh PostgreSQL
+                    database as documented in <xref linkend="jdbc-auth"/>:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <command>docker</command> run --rm glyptodon/guacamole /opt/guacamole/bin/initdb.sh --postgresql > <replaceable>initdb.sql</replaceable></screen>
+                </informalexample>
+                <para>Alternatively, you can use the SQL scripts included with the database
+                    authentication.</para>
+                <para>Once this script is generated, you must:</para>
+                <procedure>
+                    <step>
+                        <para>Create a database for Guacamole within PostgreSQL, such as
+                                    <database><replaceable>guacamole_db</replaceable></database>.</para>
+                    </step>
+                    <step>
+                        <para>Run the script on the newly-created database.</para>
+                    </step>
+                    <step>
+                        <para>Create a user for Guacamole within PostgreSQL with access to the
+                            tables and sequences of this database, such as
+                                    <systemitem><replaceable>guacamole_user</replaceable></systemitem>.</para>
+                    </step>
+                </procedure>
+                <para>The process for doing this via the <command>psql</command> and
+                        <command>createdb</command> utilities included with PostgreSQL is documented
+                    in <xref linkend="jdbc-auth"/>.</para>
+            </section>
+        </section>
+    </section>
+</chapter>

@@ -154,6 +154,7 @@
         <title>User's Guide</title>
         <xi:include href="chapters/architecture.xml"/>
         <xi:include href="chapters/installing.xml"/>
+        <xi:include href="chapters/docker.xml"/>
         <xi:include href="chapters/configuring.xml"/>
         <xi:include href="chapters/jdbc-auth.xml"/>
         <xi:include href="chapters/ldap-auth.xml"/>
