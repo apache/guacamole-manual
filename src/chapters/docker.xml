@@ -6,9 +6,9 @@
         <primary>docker</primary>
     </indexterm>
     <para>Guacamole can be deployed using Docker, removing the need to build
-            <package>guacamole-server</package> from source. The Guacamole project provides
-        officially-supported Docker images for both Guacamole and <package>guacd</package> which are
-        kept up-to-date with each release.</para>
+            <package>guacamole-server</package> from source or configure the web application
+        manually. The Guacamole project provides officially-supported Docker images for both
+        Guacamole and <package>guacd</package> which are kept up-to-date with each release.</para>
     <para>A typical Docker deployment of Guacamole will involve three separate containers, linked
         together at creation time:</para>
     <variablelist>
@@ -145,11 +145,11 @@
                                 <systemitem><replaceable>guacamole_user</replaceable></systemitem>.</para>
                     </step>
                     <step>
-                        <para>Run the script on the newly-created database. The process for doing
-                            this via the <command>mysql</command> utility included with MySQL is
-                            documented in <xref linkend="jdbc-auth"/>.</para>
+                        <para>Run the script on the newly-created database.</para>
                     </step>
                 </procedure>
+                <para>The process for doing this via the <command>mysql</command> utility included
+                    with MySQL is documented in <xref linkend="jdbc-auth"/>.</para>
             </section>
             <section>
                 <title xml:id="deploying-guacamole-docker-mysql">Deploying Guacamole</title>
@@ -219,10 +219,11 @@
                 <para>If Guacamole has been successfully installed, you will see the Guacamole login
                     screen. The database initialization scripts will create the default
                     administrative user as "<systemitem>guacadmin</systemitem>" with the password
-                        "<systemitem>guacadmin</systemitem>". You should change your password
-                    immediately after verifying that your login works.</para>
+                        "<systemitem>guacadmin</systemitem>". <emphasis>You should change your
+                        password immediately after verifying that your login
+                    works</emphasis>.</para>
                 <para>Once you have verified Guacamole has been deployed successfully, you can
-                    configure Guacamole through the web interface as described in <xref
+                    create connections and add users through the web interface as described in <xref
                         xmlns:xlink="http://www.w3.org/1999/xlink" linkend="administration"
                     />.</para>
             </section>
@@ -343,10 +344,11 @@
                 <para>If Guacamole has been successfully installed, you will see the Guacamole login
                     screen. The database initialization scripts will create the default
                     administrative user as "<systemitem>guacadmin</systemitem>" with the password
-                        "<systemitem>guacadmin</systemitem>". You should change your password
-                    immediately after verifying that your login works.</para>
+                        "<systemitem>guacadmin</systemitem>". <emphasis>You should change your
+                        password immediately after verifying that your login
+                    works</emphasis>.</para>
                 <para>Once you have verified Guacamole has been deployed successfully, you can
-                    configure Guacamole through the web interface as described in <xref
+                    create connections and add users through the web interface as described in <xref
                         xmlns:xlink="http://www.w3.org/1999/xlink" linkend="administration"
                     />.</para>
             </section>
