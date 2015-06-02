@@ -48,10 +48,10 @@
     </section>
     <section xml:id="nginx">
         <title>Nginx</title>
-        <para>Nginx supports WebSocket out-of-the-box <link
-                xl:href="http://nginx.com/blog/websocket-nginx/">since version 1.3</link>, and so is
-            an excellent choice for proxying Guacamole if you aren't already using another proxy
-            like Apache.</para>
+        <para>Nginx can be used as a reverse proxy, and supports WebSocket out-of-the-box <link
+                xl:href="http://nginx.com/blog/websocket-nginx/">since version 1.3</link>. Both
+            Apache and Nginx require some additional configuration for proxying of WebSocket to work
+            properly.</para>
         <section>
             <title>Configuring WebSocket</title>
             <para/>
@@ -96,10 +96,13 @@
     </section>
     <section xml:id="mod-proxy">
         <title>Apache and <package>mod_proxy</package></title>
-        <para>Apache supports reverse proxy configurations through <package>mod_proxy</package>.
-            Apache 2.4.5 and later also support proxying of WebSocket through a sub-module called
-                <package>mod_proxy_wstunnel</package>. Both of these modules will need to be enabled
-            for proxying of Guacamole to work properly.</para>
+        <para>Apache supports reverse proxy configurations through <link
+                xl:href="http://httpd.apache.org/docs/2.4/mod/mod_proxy.html"
+                    ><package>mod_proxy</package></link>. Apache 2.4.5 and later also support
+            proxying of WebSocket through a sub-module called <link
+                xl:href="http://httpd.apache.org/docs/2.4/mod/mod_proxy_wstunnel.html"
+                    ><package>mod_proxy_wstunnel</package></link>. Both of these modules will need
+            to be enabled for proxying of Guacamole to work properly.</para>
         <para>Lacking <package>mod_proxy_wstunnel</package>, it is still possible to proxy
             Guacamole, but Guacamole will be unable to use WebSocket. It will instead fallback to
             using the HTTP tunnel, resulting in reduced performance.</para>
@@ -118,14 +121,17 @@
     ProxyPassReverse http://<replaceable>HOSTNAME</replaceable>:<replaceable>8080</replaceable>/guacamole/
 &lt;/Location></programlisting>
             </informalexample>
-            <para>The most important thing in this entire section is the option
-                    <option>flushpackets=on</option>. Most proxies, including
-                    <package>mod_proxy</package>, will buffer all data sent over the connection,
-                waiting until the connection is closed before sending that data to the client. As
-                Guacamole's tunnel will stream data to the client over an open connection, buffering
-                this stream breaks Guacamole's communication.</para>
-            <para><emphasis>If the option <option>flushpackets=on</option> is not specified,
-                    Guacamole will not work</emphasis>.</para>
+            <important>
+                <para><emphasis>Do not forget the <option>flushpackets=on</option>
+                        option.</emphasis></para>
+                <para>Most proxies, including <package>mod_proxy</package>, will buffer all data
+                    sent over the connection, waiting until the connection is closed before sending
+                    that data to the client. As Guacamole's HTTP tunnel relies on streaming data to
+                    the client over an open connection, excessive buffering will effectively block
+                    Guacamole connections, rendering Guacamole useless.</para>
+                <para><emphasis>If the option <option>flushpackets=on</option> is not specified,
+                        Guacamole will not work</emphasis>.</para>
+            </important>
         </section>
         <section>
             <title>Proxying the WebSocket tunnel</title>
