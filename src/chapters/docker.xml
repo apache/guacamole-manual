@@ -121,7 +121,7 @@
                         image.</para>
                 </listitem>
             </orderedlist>
-            <section xml:id="guacamole-docker-mysql-init">
+            <section xml:id="initializing-guacamole-docker-mysql">
                 <title>Initializing the MySQL database</title>
                 <para>If your database is not already initialized with the Guacamole schema, you
                     will need to do so prior to using Guacamole. A convenience script for generating
@@ -152,7 +152,7 @@
                 </procedure>
             </section>
             <section>
-                <title>Deploying Guacamole</title>
+                <title xml:id="deploying-guacamole-docker-mysql">Deploying Guacamole</title>
                 <para>Linking Guacamole to MySQL will require three environment variables. These
                     variables collectively describe how Guacamole will connect to MySQL:</para>
                 <informaltable frame="all">
@@ -204,7 +204,7 @@
                     receive an error message, and the image will stop. You will then need to
                     recreate the container with the proper variables specified.</para>
             </section>
-            <section>
+            <section xml:id="verifying-guacamole-docker-mysql">
                 <title>Verifying the Guacamole install</title>
                 <para>Now that the Guacamole image is running, Guacamole should be accessible at
                             <uri>http://<replaceable>HOSTNAME</replaceable>:8080/guacamole/</uri>,
@@ -243,7 +243,7 @@
                         image.</para>
                 </listitem>
             </orderedlist>
-            <section xml:id="guacamole-docker-postgresql-init">
+            <section xml:id="initializing-guacamole-docker-postgresql">
                 <title>Initializing the PostgreSQL database</title>
                 <para>If your database is not already initialized with the Guacamole schema, you
                     will need to do so prior to using Guacamole. A convenience script for generating
@@ -274,7 +274,7 @@
                         <command>createdb</command> utilities included with PostgreSQL is documented
                     in <xref linkend="jdbc-auth"/>.</para>
             </section>
-            <section>
+            <section xml:id="deploying-guacamole-docker-postgresql">
                 <title>Deploying Guacamole</title>
                 <para>Linking Guacamole to your PostgreSQL database will require three environment
                     variables. These variables collectively describe how Guacamole will connect to
@@ -328,7 +328,7 @@
                     receive an error message, and the image will stop. You will then need to
                     recreate the container with the proper variables specified.</para>
             </section>
-            <section>
+            <section xml:id="verifying-guacamole-docker-postgresql">
                 <title>Verifying the Guacamole install</title>
                 <para>Now that the Guacamole image is running, Guacamole should be accessible at
                             <uri>http://<replaceable>HOSTNAME</replaceable>:8080/guacamole/</uri>,
