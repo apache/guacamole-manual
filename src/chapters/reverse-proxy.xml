@@ -3,32 +3,66 @@
     xml:lang="en" xmlns:xl="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude">
     <title>Proxying Guacamole</title>
     <section>
+        <title>Configuring Tomcat for HTTP</title>
+        <para>Tomcat is most likely already configured to listen for HTTP connections on port 8080
+            as this is the default. In the case that the default HTTP connector has been disabled or
+            removed, you need to add a connector entry to
+            <filename>conf/server.xml</filename>:</para>
+        <informalexample>
+            <programlisting>&lt;Connector port="8080" protocol="HTTP/1.1" 
+           connectionTimeout="20000"
+           URIEncoding="UTF-8"
+           redirectPort="8443" /></programlisting>
+        </informalexample>
+        <important>
+            <para>If you want to edit or add this connector just to change the port used by Tomcat
+                to port 80, you should consider simply proxying the original port through Apache or
+                Nginx instead.</para>
+            <para>On Linux and UNIX systems, a process must be running with root privileges to
+                listen on any port under 1024, including port 80. If Tomcat does not need to
+                directly listen on port 80, it can run as a reduced-privilege user, allowing the
+                reverse proxy to bear the burden of root privileges. As a native application, the
+                reverse proxy can make system calls to safely drop root privileges once the port is
+                open; a Java application like Tomcat cannot do this.</para>
+        </important>
+        <para>Be sure to specify the <code>URIEncoding="UTF-8"</code> attribute as above to ensure
+            that connection names, user names, etc. are properly received. If you will be creating
+            connections that have Cyrillic, Chinese, Japanese, etc. characters in the names or
+            parameter values, this attribute is required.</para>
+    </section>
+    <section xml:id="nginx">
         <title>Nginx</title>
+        <para>Nginx supports WebSocket out-of-the-box <link
+                xl:href="http://nginx.com/blog/websocket-nginx/">since version 1.3</link>, and so is
+            an excellent choice for proxying Guacamole if you aren't already using another proxy
+            like Apache.</para>
         <informalexample>
             <programlisting>map $http_upgrade $connection_upgrade {
     default upgrade;
     ''      close;
-}
-
-server {
-
-    listen 443;
-
-    location / {
-        proxy_pass http://localhost:8080/guacamole/;
-        proxy_buffering off;
-        proxy_http_version 1.1;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection $connection_upgrade;
-        proxy_cookie_path /guacamole/ /;
-        access_log off;
-    }
-
-    ssl on;
-    ssl_certificate     /path/to/certificate.crt;
-    ssl_certificate_key /path/to/private_key.key;
-
+}</programlisting>
+        </informalexample>
+        <informalexample>
+            <programlisting>location /guacamole/ {
+    proxy_pass http://<replaceable>HOSTNAME</replaceable>:<replaceable>8080</replaceable>/guacamole/;
+    proxy_buffering off;
+    proxy_http_version 1.1;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection $connection_upgrade;
+    access_log off;
+}</programlisting>
+        </informalexample>
+        <informalexample>
+            <programlisting>location /<replaceable>new-path/</replaceable> {
+    proxy_pass http://<replaceable>HOSTNAME</replaceable>:<replaceable>8080</replaceable>/guacamole/;
+    proxy_buffering off;
+    proxy_http_version 1.1;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection $connection_upgrade;
+    proxy_cookie_path /guacamole/ /<replaceable>new-path/</replaceable>;
+    access_log off;
 }</programlisting>
         </informalexample>
     </section>
@@ -56,71 +90,62 @@ server {
                 Tomcat. If you are using a different servlet container, the same principles apply,
                 and the Apache configuration examples will still be valid.</para>
         </important>
-        <section>
-            <title>Configuring Tomcat for HTTP</title>
-            <para>Tomcat is most likely already configured to listen for HTTP connections on port
-                8080 as this is the default. In the case that the default HTTP connector has been
-                disabled or removed, you need to add a connector entry to
-                    <filename>conf/server.xml</filename>:</para>
-            <informalexample>
-                <programlisting>&lt;Connector port="8080" protocol="HTTP/1.1" 
-           connectionTimeout="20000"
-           URIEncoding="UTF-8"
-           redirectPort="8443" /></programlisting>
-            </informalexample>
-            <important>
-                <para>If you want to edit or add this connector just to change the port used by
-                    Tomcat to port 80, you should consider simply proxying the original port through
-                    Apache instead. On Linux and UNIX systems, a process must be running with root
-                    privileges to listen on any port under 1024, including port 80. Proxying Tomcat
-                    through Apache means Tomcat can run as a reduced-privilege user, while Apache
-                    can bear the burden of root privileges. Further, as Apache is a native
-                    application, it can make system calls to safely drop root privileges once the
-                    port is open; a Java application like Tomcat cannot do this.</para>
-            </important>
-            <para>Be sure to specify the <code>URIEncoding="UTF-8"</code> attribute as above to
-                ensure that connection names, user names, etc. are properly received. If you will be
-                creating connections that have Cyrillic, Chinese, Japanese, etc. characters in the
-                names or parameter values, this attribute is required.</para>
-        </section>
-        <section>
-            <title>Configuring Apache and <package>mod_proxy</package></title>
-            <para>Configuring Apache to proxy HTTP requests requires using the
-                    <parameter>ProxyPass</parameter> and <parameter>ProxyPassReverse</parameter>
-                directives, which are provided by the <package>mod_proxy</package> module. These
-                directives describe how HTTP traffic should be routed to the web server behind the
-                proxy (Tomcat, in our case):</para>
-            <informalexample>
-                <programlisting>&lt;Location /guacamole/>
+        <para>Configuring Apache to proxy HTTP requests requires using the
+                <parameter>ProxyPass</parameter> and <parameter>ProxyPassReverse</parameter>
+            directives, which are provided by the <package>mod_proxy</package> module. These
+            directives describe how HTTP traffic should be routed to the web server behind the proxy
+            (Tomcat, in our case):</para>
+        <informalexample>
+            <programlisting>&lt;Location /guacamole/>
     Order allow,deny
     Allow from all
-    ProxyPass http://<replaceable>HOSTNAME</replaceable>:<replaceable>8080</replaceable>/guacamole/ max=20 flushpackets=on
+    ProxyPass http://<replaceable>HOSTNAME</replaceable>:<replaceable>8080</replaceable>/guacamole/ flushpackets=on
     ProxyPassReverse http://<replaceable>HOSTNAME</replaceable>:<replaceable>8080</replaceable>/guacamole/
 &lt;/Location></programlisting>
+        </informalexample>
+        <para>The most important thing in this entire section is the option
+                <option>flushpackets=on</option>. Most proxies, including
+                <package>mod_proxy</package>, will buffer all data sent over the connection, waiting
+            until the connection is closed before sending that data to the client. As Guacamole's
+            tunnel will stream data to the client over an open connection, buffering this stream
+            breaks Guacamole's communication.</para>
+        <para><emphasis>If the option <option>flushpackets=on</option> is not specified, Guacamole
+                will not work</emphasis>.</para>
+        <section>
+            <title>WebSocket</title>
+            <para>Apache will not automatically proxy WebSocket connections, but you can proxy them
+                separately with Apache 2.4.5 and later using <package>mod_proxy_wstunnel</package>.
+                After enabling <package>mod_proxy_wstunnel</package> a secondary
+                    <code>Location</code> section can be added which explicitly proxies the
+                Guacamole WebSocket tunnel, located at <uri>/websocket-tunnel</uri>:</para>
+            <informalexample>
+                <programlisting>&lt;Location /guacamole/websocket-tunnel>
+    Order allow,deny
+    Allow from all
+    ProxyPass ws://<replaceable>HOSTNAME</replaceable>:<replaceable>8080</replaceable>/guacamole/websocket-tunnel
+    ProxyPassReverse ws://<replaceable>HOSTNAME</replaceable>:<replaceable>8080</replaceable>/guacamole/websocket-tunnel
+&lt;/Location></programlisting>
             </informalexample>
-            <para>The most important thing in this entire section is the option
-                    <option>flushpackets=on</option>. Most proxies, including
-                    <package>mod_proxy</package>, will buffer all data sent over the connection,
-                waiting until the connection is closed before sending that data to the client. As
-                Guacamole's tunnel will stream data to the client over an open connection, buffering
-                this stream breaks Guacamole's communication.</para>
-            <para><emphasis>If the option <option>flushpackets=on</option> is not specified,
-                    Guacamole will not work</emphasis>.</para>
+            <para>Lacking this, Guacamole will still work by using normal HTTP, but network latency
+                will be more pronounced with respect to user input, and performance may be
+                lower.</para>
         </section>
         <section xml:id="disable-tunnel-logging">
-            <title>Disable logging of tunnel requests</title>
-            <para>The Guacamole HTTP tunnel works by transferring a continuous stream of data over
-                multiple short-lived streams, each associated with a separate HTTP request. Each
-                HTTP request will be logged by Apache if you do not explicitly disable logging of
-                those requests.</para>
-            <para>Apache provides a means of matching URL patterns and setting environment variables
-                based on whether the URL matches. Logging can then be restricted to requests which
-                lack this environment variable:</para>
+            <title>Disable logging of HTTP tunnel requests</title>
+            <para>If WebSocket is unavailable, Guacamole will fallback to using an HTTP-based
+                tunnel. The Guacamole HTTP tunnel works by transferring a continuous stream of data
+                over multiple short-lived streams, each associated with a separate HTTP
+                request.</para>
+            <para>Apache will log each of these requests by default, resulting in a rather bloated
+                access log. There is little value in a log file filled with identical tunnel
+                requests, so it is recommended to explicitly disable logging of those requests.
+                Apache does provide a means of matching URL patterns and setting environment
+                variables based on whether the URL matches. Logging can then be restricted to
+                requests which lack this environment variable:</para>
             <informalexample>
                 <programlisting>SetEnvIf Request_URI "^<replaceable>/guacamole</replaceable>/tunnel" dontlog
 CustomLog  <replaceable>/var/log/apache2/guac.log</replaceable> common env=!dontlog</programlisting>
             </informalexample>
-            <para>There is little value in a log file filled with identical tunnel requests.</para>
             <para>Note that if you are serving Guacamole under a path different from
                     <uri>/guacamole/</uri>, you will need to change the value of
                     <parameter>Request_URI</parameter> above accordingly.</para>
@@ -141,9 +166,17 @@ CustomLog  <replaceable>/var/log/apache2/guac.log</replaceable> common env=!dont
                 <programlisting>&lt;Location /<replaceable>new-path/</replaceable>>
     Order allow,deny
     Allow from all
-    ProxyPass http://<replaceable>HOSTNAME</replaceable>:<replaceable>8080</replaceable>/guacamole/ max=20 flushpackets=on
+    ProxyPass http://<replaceable>HOSTNAME</replaceable>:<replaceable>8080</replaceable>/guacamole/ flushpackets=on
     ProxyPassReverse http://<replaceable>HOSTNAME</replaceable>:<replaceable>8080</replaceable>/guacamole/
-    ProxyPassReverseCookiePath /guacamole/ <replaceable>/new-path/</replaceable>
+    ProxyPassReverseCookiePath /guacamole/ /<replaceable>new-path/</replaceable>
+&lt;/Location></programlisting>
+            </informalexample>
+            <informalexample>
+                <programlisting>&lt;Location /<replaceable>new-path</replaceable>/websocket-tunnel>
+    Order allow,deny
+    Allow from all
+    ProxyPass ws://<replaceable>HOSTNAME</replaceable>:<replaceable>8080</replaceable>/guacamole/websocket-tunnel
+    ProxyPassReverse ws://<replaceable>HOSTNAME</replaceable>:<replaceable>8080</replaceable>/guacamole/websocket-tunnel
 &lt;/Location></programlisting>
             </informalexample>
             <para>The configuration shown above is similar to the configuration shown for generic
