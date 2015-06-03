@@ -13,7 +13,7 @@
         reduced-privilege user, allowing the reverse proxy to bear the burden of root privileges. As
         a native application, the reverse proxy can make system calls to safely drop root privileges
         once the port is open; a Java application like Tomcat cannot do this.</para>
-    <section>
+    <section xml:id="preparing-servlet-container">
         <title>Preparing your servlet container</title>
         <para>Your servlet container is most likely already configured to listen for HTTP
             connections on port 8080 as this is the default. If this is the case, and you can
@@ -52,7 +52,7 @@
                 xl:href="http://nginx.com/blog/websocket-nginx/">since version 1.3</link>. Both
             Apache and Nginx require some additional configuration for proxying of WebSocket to work
             properly.</para>
-        <section>
+        <section xml:id="proxying-with-nginx">
             <title>Proxying Guacamole</title>
             <para>Nginx does support WebSocket for proxying, but requires that the "Connection" and
                 "Upgrade" HTTP headers are set explicitly due to the nature of the WebSocket
@@ -95,7 +95,7 @@
                         Guacamole may not work</emphasis>.</para>
             </important>
         </section>
-        <section>
+        <section xml:id="changing-path-with-nginx">
             <title>Changing the path</title>
             <para>If you wish to serve Guacamole through Nginx under a path other than
                     <uri>/guacamole/</uri>, the configuration will need to be altered slightly to
@@ -121,7 +121,7 @@
             </informalexample>
         </section>
     </section>
-    <section xml:id="mod-proxy">
+    <section xml:id="apache">
         <title>Apache and <package>mod_proxy</package></title>
         <para>Apache supports reverse proxy configurations through <link
                 xl:href="http://httpd.apache.org/docs/2.4/mod/mod_proxy.html"
@@ -133,7 +133,7 @@
         <para>Lacking <package>mod_proxy_wstunnel</package>, it is still possible to proxy
             Guacamole, but Guacamole will be unable to use WebSocket. It will instead fallback to
             using the HTTP tunnel, resulting in reduced performance.</para>
-        <section>
+        <section xml:id="proxying-with-apache">
             <title>Proxying Guacamole</title>
             <para>Configuring Apache to proxy HTTP requests requires using the
                     <parameter>ProxyPass</parameter> and <parameter>ProxyPassReverse</parameter>
@@ -164,7 +164,7 @@
                         Guacamole may not work</emphasis>.</para>
             </important>
         </section>
-        <section>
+        <section xml:id="websocket-and-apache">
             <title>Proxying the WebSocket tunnel</title>
             <para>Apache will not automatically proxy WebSocket connections, but you can proxy them
                 separately with Apache 2.4.5 and later using <package>mod_proxy_wstunnel</package>.
@@ -193,7 +193,7 @@
                     not be proxied correctly.</para>
             </important>
         </section>
-        <section xml:id="change-web-app-path">
+        <section xml:id="changing-path-with-apache">
             <title>Changing the path</title>
             <para>If you wish to serve Guacamole through Apache under a path other than
                     <uri>/guacamole/</uri>, the configuration required for Apache will be slightly
