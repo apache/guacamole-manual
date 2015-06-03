@@ -50,6 +50,19 @@ div#content {
     padding: 1em;
 }
 
+.replaceable {
+    color: #008;
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    font-style: normal;
+    padding: 0 0.25em;
+}
+
+pre .emphasis em {
+    font-style: normal;
+    font-weight: bold;
+}
+
 .book .titlepage {
     text-align: center;
     padding: 2em;
@@ -131,6 +144,13 @@ blockquote {
     padding: 1px 1em;
     font-style: oblique;
     color: rgba(0, 0, 0, 0.75);
+}
+
+div.important {
+    background: #FFFFE8;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    padding: 0 1em;
+    margin: 2em;
 }
 
 /* Printable styles */
