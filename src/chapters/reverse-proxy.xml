@@ -53,18 +53,21 @@
             Apache and Nginx require some additional configuration for proxying of WebSocket to work
             properly.</para>
         <section>
-            <title>Configuring WebSocket</title>
-            <para/>
-            <informalexample>
-                <programlisting>map $http_upgrade $connection_upgrade {
-    default upgrade;
-    ''      close;
-}</programlisting>
-            </informalexample>
-        </section>
-        <section>
             <title>Proxying Guacamole</title>
-            <para/>
+            <para>Nginx does support WebSocket for proxying, but requires that the "Connection" and
+                "Upgrade" HTTP headers are set explicitly due to the nature of the WebSocket
+                protocol. From the Nginx documentation:</para>
+            <blockquote>
+                <para>NGINX supports WebSocket by allowing a tunnel to be set up between a client
+                    and a back-end server. For NGINX to send the Upgrade request from the client to
+                    the back-end server, Upgrade and Connection headers must be set explicitly.
+                    ...</para>
+            </blockquote>
+            <para>The proxy configuration belongs within a dedicated <link
+                    xl:href="http://nginx.org/en/docs/http/ngx_http_core_module.html#location"
+                        ><code>location</code></link> block, declaring the backend hosting Guacamole
+                and explicitly specifying the "Connection" and "Upgrade" headers mentioned
+                earlier:</para>
             <informalexample>
                 <programlisting>location /guacamole/ {
     proxy_pass http://<replaceable>HOSTNAME</replaceable>:<replaceable>8080</replaceable>/guacamole/;
@@ -72,14 +75,23 @@
     proxy_http_version 1.1;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection $connection_upgrade;
+    proxy_set_header Connection $http_connection;
     access_log off;
 }</programlisting>
             </informalexample>
         </section>
         <section>
             <title>Changing the path</title>
-            <para/>
+            <para>If you wish to serve Guacamole through Nginx under a path other than
+                    <uri>/guacamole/</uri>, the configuration will be altered slightly to take
+                cookies into account. Although Guacamole does not rely on receipt of cookies in
+                general, cookies are required for the proper operation of the HTTP tunnel. If the
+                HTTP tunnel is used, and cookies cannot be set, users may be unexpectedly denied
+                access to their connections.</para>
+            <para>Regardless of the location specified for the proxy, cookies set by Guacamole will
+                be set using its own absolute path within the backend (<uri>/guacamole/</uri>). If
+                this path differs from that used by Nginx, the path in the cookie needs to be
+                modified using <code>proxy_cookie_path</code>:</para>
             <informalexample>
                 <programlisting>location /<replaceable>new-path/</replaceable> {
     proxy_pass http://<replaceable>HOSTNAME</replaceable>:<replaceable>8080</replaceable>/guacamole/;
@@ -87,8 +99,8 @@
     proxy_http_version 1.1;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection $connection_upgrade;
-    proxy_cookie_path /guacamole/ /<replaceable>new-path/</replaceable>;
+    proxy_set_header Connection $http_connection;
+    <emphasis>proxy_cookie_path /guacamole/ /<replaceable>new-path/</replaceable>;</emphasis>
     access_log off;
 }</programlisting>
             </informalexample>
@@ -181,7 +193,7 @@
     Allow from all
     ProxyPass http://<replaceable>HOSTNAME</replaceable>:<replaceable>8080</replaceable>/guacamole/ flushpackets=on
     ProxyPassReverse http://<replaceable>HOSTNAME</replaceable>:<replaceable>8080</replaceable>/guacamole/
-    ProxyPassReverseCookiePath /guacamole/ /<replaceable>new-path/</replaceable>
+    <emphasis>ProxyPassReverseCookiePath /guacamole/ /<replaceable>new-path/</replaceable></emphasis>
 &lt;/Location>
 
 &lt;Location /<replaceable>new-path</replaceable>/websocket-tunnel>
