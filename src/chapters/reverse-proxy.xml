@@ -79,12 +79,27 @@
     access_log off;
 }</programlisting>
             </informalexample>
+            <para>Here, <replaceable>HOSTNAME</replaceable> is the hostname or IP address of the
+                machine hosting your servlet container, and <replaceable>8080</replaceable> is the
+                port that servlet container is configured to use. You will need to replace these
+                values with the correct values for your server.</para>
+            <important>
+                <para><emphasis>Do not forget to specify "<code>proxy_buffering
+                        off</code>".</emphasis></para>
+                <para>Most proxies, including Nginx, will buffer all data sent over the connection,
+                    waiting until the connection is closed before sending that data to the client.
+                    As Guacamole's HTTP tunnel relies on streaming data to the client over an open
+                    connection, excessive buffering will effectively block Guacamole connections,
+                    rendering Guacamole useless.</para>
+                <para><emphasis>If the option "<code>proxy_buffering off</code>" is not specified,
+                        Guacamole may not work</emphasis>.</para>
+            </important>
         </section>
         <section>
             <title>Changing the path</title>
             <para>If you wish to serve Guacamole through Nginx under a path other than
-                    <uri>/guacamole/</uri>, the configuration will be altered slightly to take
-                cookies into account. Although Guacamole does not rely on receipt of cookies in
+                    <uri>/guacamole/</uri>, the configuration will need to be altered slightly to
+                take cookies into account. Although Guacamole does not rely on receipt of cookies in
                 general, cookies are required for the proper operation of the HTTP tunnel. If the
                 HTTP tunnel is used, and cookies cannot be set, users may be unexpectedly denied
                 access to their connections.</para>
@@ -133,6 +148,10 @@
     ProxyPassReverse http://<replaceable>HOSTNAME</replaceable>:<replaceable>8080</replaceable>/guacamole/
 &lt;/Location></programlisting>
             </informalexample>
+            <para>Here, <replaceable>HOSTNAME</replaceable> is the hostname or IP address of the
+                machine hosting your servlet container, and <replaceable>8080</replaceable> is the
+                port that servlet container is configured to use. You will need to replace these
+                values with the correct values for your server.</para>
             <important>
                 <para><emphasis>Do not forget the <option>flushpackets=on</option>
                         option.</emphasis></para>
@@ -142,7 +161,7 @@
                     the client over an open connection, excessive buffering will effectively block
                     Guacamole connections, rendering Guacamole useless.</para>
                 <para><emphasis>If the option <option>flushpackets=on</option> is not specified,
-                        Guacamole will not work</emphasis>.</para>
+                        Guacamole may not work</emphasis>.</para>
             </important>
         </section>
         <section>
