@@ -55,24 +55,24 @@
         <para>Guacamole extensions are self-contained <filename>.jar</filename> files which are
             located within the <filename>GUACAMOLE_HOME/extensions</filename> directory. To install
             the NoAuth authentication extension, you must:</para>
-        <orderedlist>
-            <listitem>
+        <procedure>
+            <step>
                 <para>Create the <filename>GUACAMOLE_HOME/extensions</filename> directory, if it
                     does not already exist.</para>
-            </listitem>
-            <listitem>
+            </step>
+            <step>
                 <para>Remove any existing authentication extensions from
                         <filename>GUACAMOLE_HOME/extensions</filename>. Guacamole does not currently
                     support using multiple authentication extensions at the same time.</para>
-            </listitem>
-            <listitem>
+            </step>
+            <step>
                 <para>Copy <filename>guacamole-auth-noauth-0.9.6.jar</filename> within
                         <filename>GUACAMOLE_HOME/extensions</filename>.</para>
-            </listitem>
-            <listitem>
+            </step>
+            <step>
                 <para>Configure Guacamole to use NoAuth, as described below.</para>
-            </listitem>
-        </orderedlist>
+            </step>
+        </procedure>
         <important>
             <para>You will need to restart Guacamole by restarting your servlet container in order
                 to complete the installation. Doing this will disconnect all active users, so be

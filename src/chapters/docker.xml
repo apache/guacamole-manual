@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xml:id="guacamole-docker" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xl="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Installing Guacamole with Docker</title>
+    <indexterm>
+        <primary>docker</primary>
+    </indexterm>
+    <para>Guacamole can be deployed using Docker, removing the need to build
+            <package>guacamole-server</package> from source or configure the web application
+        manually. The Guacamole project provides officially-supported Docker images for both
+        Guacamole and <package>guacd</package> which are kept up-to-date with each release.</para>
+    <para>A typical Docker deployment of Guacamole will involve three separate containers, linked
+        together at creation time:</para>
+    <variablelist>
+        <varlistentry>
+            <term><systemitem>glyptodon/guacd</systemitem></term>
+            <listitem>
+                <para>Provides the <package>guacd</package> daemon, built from the released
+                        <package>guacamole-server</package> source with support for VNC, RDP, SSH,
+                    and telnet.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><systemitem>glyptodon/guacamole</systemitem></term>
+            <listitem>
+                <para>Provides the Guacamole web application running within Tomcat 8 with support
+                    for WebSocket. The configuration necessary to connect to the linked
+                        <package>guacd</package> container and MySQL or PostgreSQL database will be
+                    generated automatically when the image starts.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
+    <variablelist>
+        <varlistentry>
+            <term><systemitem>mysql</systemitem> or <systemitem>postgresql</systemitem></term>
+            <listitem>
+                <para>Provides the database that Guacamole will use for authentication and storage
+                    of connection configuration data.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
+    <para>This separation is important, as it facilitates upgrades and maintains proper separation
+        of concerns. With the database separate from Guacamole and <package>guacd</package>, those
+        containers can be freely destroyed and recreated at will. The only container which must
+        persist data through upgrades is the database.</para>
+    <section xml:id="guacd-docker-image">
+        <title>Running the <package>guacd</package> Docker image</title>
+        <para>The <package>guacd</package> Docker image is built from the released
+                <package>guacamole-server</package> source with support for VNC, RDP, SSH, and
+            telnet. Common pitfalls like installing the required dependencies, installing fonts for
+            SSH or telnet, and ensuring the FreeRDP plugins are installed to the correct location
+            are all taken care of. It will simply just work.</para>
+        <section xml:id="guacd-docker-guacamole">
+            <title>Running <package>guacd</package> for use by the Guacamole Docker image</title>
+            <para>When running the <package>guacd</package> image with the intent of linking to a
+                Guacamole container, no ports need be exposed on the network. Access to these ports
+                will be handled automatically by Docker during linking, and the Guacamole image will
+                properly detect and configure the connection to <package>guacd</package>.</para>
+            <informalexample>
+                <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacd</replaceable> -d glyptodon/guacd</screen>
+            </informalexample>
+            <para>When run in this manner, <package>guacd</package> will be listening on its default
+                port 4822, but this port will only be available to Docker containers that have been
+                explicitly linked to
+                <varname><replaceable>some-guacd</replaceable></varname>.</para>
+        </section>
+        <section xml:id="guacd-docker-external">
+            <title>Running <package>guacd</package> for use by services outside Docker</title>
+            <para>If you are not going to use the Guacamole image, you can still leverage the
+                    <package>guacd</package> image for ease of installation and maintenance. By
+                exposing the <package>guacd</package> port, 4822, services external to Docker will
+                be able to access <package>guacd</package>.</para>
+            <important>
+                <para><emphasis>Take great care when doing this</emphasis> -
+                        <package>guacd</package> is a passive proxy and does not perform any kind of
+                    authentication.</para>
+                <para>If you do not properly isolate <package>guacd</package> from untrusted parts
+                    of your network, malicious users may be able to use <package>guacd</package> as
+                    a jumping point to other systems.</para>
+            </important>
+            <informalexample>
+                <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacd</replaceable> -d -p 4822:4822 glyptodon/guacd</screen>
+            </informalexample>
+            <para><package>guacd</package> will now be listening on port 4822, and Docker will
+                expose this port on the same server hosting Docker. Other services, such as an
+                instance of Tomcat running outside of Docker, will be able to connect to
+                    <package>guacd</package> directly.</para>
+        </section>
+    </section>
+    <section xml:id="guacamole-docker-image">
+        <title>The Guacamole Docker image</title>
+        <para>The Guacamole Docker image is built on top of a standard Tomcat 8 image and takes care
+            of all configuration automatically. When properly linked to a <package>guacd</package>
+            container and either a PostgreSQL or MySQL database, the necessary Guacamole
+            configuration will be automatically generated at startup.</para>
+        <para>The name of the database and all associated credentials are specified with environment
+            variables given when the container is created. All other configuration information is
+            generated from the Docker links.</para>
+        <important>
+            <para><emphasis>You will need to initialize the database manually</emphasis>. Guacamole
+                will not automatically create its own tables, but SQL scripts are provided to do
+                this.</para>
+        </important>
+        <para>Once the Guacamole image is running, Guacamole will be accessible at
+                    <uri>http://<replaceable>HOSTNAME</replaceable>:8080/guacamole/</uri>, where
+                <replaceable>HOSTNAME</replaceable> is the hostname or address of the machine
+            hosting Docker.</para>
+        <section xml:id="guacamole-docker-mysql">
+            <title>Deploying Guacamole with MySQL authentication</title>
+            <para>Before deploying Guacamole with the intent of using MySQL for authentication,
+                please ensure that you have each of the following already prepared:</para>
+            <orderedlist>
+                <listitem>
+                    <para>A Docker container running the <systemitem>glyptodon/guacd</systemitem>
+                        image. Guacamole needs <package>guacd</package> in order to function, and
+                        the Guacamole Docker image depends on a linked Docker container running
+                            <package>guacd</package>.</para>
+                </listitem>
+                <listitem>
+                    <para>A Docker container running the <systemitem>mysql</systemitem>
+                        image.</para>
+                </listitem>
+            </orderedlist>
+            <section xml:id="initializing-guacamole-docker-mysql">
+                <title>Initializing the MySQL database</title>
+                <para>If your database is not already initialized with the Guacamole schema, you
+                    will need to do so prior to using Guacamole. A convenience script for generating
+                    the necessary SQL to do this is included in the Guacamole image.</para>
+                <para>To generate a SQL script which can be used to initialize a fresh MySQL
+                    database as documented in <xref linkend="jdbc-auth"/>:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <command>docker</command> run --rm glyptodon/guacamole /opt/guacamole/bin/initdb.sh --mysql > <replaceable>initdb.sql</replaceable></screen>
+                </informalexample>
+                <para>Alternatively, you can use the SQL scripts included with the database
+                    authentication.</para>
+                <para>Once this script is generated, you must:</para>
+                <procedure>
+                    <step>
+                        <para>Create a database for Guacamole within MySQL, such as
+                                    <database><replaceable>guacamole_db</replaceable></database>.</para>
+                    </step>
+                    <step>
+                        <para>Create a user for Guacamole within MySQL with access to this database,
+                            such as
+                                <systemitem><replaceable>guacamole_user</replaceable></systemitem>.</para>
+                    </step>
+                    <step>
+                        <para>Run the script on the newly-created database.</para>
+                    </step>
+                </procedure>
+                <para>The process for doing this via the <command>mysql</command> utility included
+                    with MySQL is documented in <xref linkend="jdbc-auth"/>.</para>
+            </section>
+            <section>
+                <title xml:id="deploying-guacamole-docker-mysql">Deploying Guacamole</title>
+                <para>Linking Guacamole to MySQL will require three environment variables. These
+                    variables collectively describe how Guacamole will connect to MySQL:</para>
+                <informaltable frame="all">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="4*"/>
+                        <thead>
+                            <row>
+                                <entry>Variable</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><envar>MYSQL_DATABASE</envar></entry>
+                                <entry>
+                                    <para>The name of the database to use for Guacamole
+                                        authentication.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>MYSQL_USER</envar></entry>
+                                <entry>
+                                    <para>The user that Guacamole will use to connect to
+                                        MySQL.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>MYSQL_PASSWORD</envar></entry>
+                                <entry>
+                                    <para>The password that Guacamole will provide when connecting
+                                        to MySQL as <envar>MYSQL_USER</envar>.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para>Once your <package>guacd</package> container is ready, and the values of the
+                    above variables are known, Guacamole can be deployed through Docker:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacamole</replaceable> --link <replaceable>some-guacd</replaceable>:guacd \
+    --link <replaceable>some-mysql</replaceable>:mysql      \
+    -e MYSQL_DATABASE=<replaceable>guacamole_db</replaceable>  \
+    -e MYSQL_USER=<replaceable>guacamole_user</replaceable>    \
+    -e MYSQL_PASSWORD=<replaceable>some_password</replaceable> \
+    -d -p 8080:8080 glyptodon/guacamole</screen>
+                </informalexample>
+                <para>If any of the configuration environment variables are omitted, you will
+                    receive an error message, and the image will stop. You will then need to
+                    recreate the container with the proper variables specified.</para>
+            </section>
+            <section xml:id="verifying-guacamole-docker-mysql">
+                <title>Verifying the Guacamole install</title>
+                <para>Now that the Guacamole image is running, Guacamole should be accessible at
+                            <uri>http://<replaceable>HOSTNAME</replaceable>:8080/guacamole/</uri>,
+                    where <replaceable>HOSTNAME</replaceable> is the hostname or address of the
+                    machine hosting Docker.</para>
+                <para>If you cannot access Guacamole, check the logs using Docker to determine if
+                    something is wrong. Configuration parameters may have been given incorrectly, or
+                    the database may be improperly initialized:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <command>docker</command> logs <replaceable>some-guacamole</replaceable></screen>
+                </informalexample>
+                <para>If Guacamole has been successfully installed, you will see the Guacamole login
+                    screen. The database initialization scripts will create the default
+                    administrative user as "<systemitem>guacadmin</systemitem>" with the password
+                        "<systemitem>guacadmin</systemitem>". <emphasis>You should change your
+                        password immediately after verifying that your login
+                    works</emphasis>.</para>
+                <para>Once you have verified Guacamole has been deployed successfully, you can
+                    create connections and add users through the web interface as described in <xref
+                        xmlns:xlink="http://www.w3.org/1999/xlink" linkend="administration"
+                    />.</para>
+            </section>
+        </section>
+        <section xml:id="guacamole-docker-postgresql">
+            <title>Deploying Guacamole with PostgreSQL authentication</title>
+            <para>Before deploying Guacamole with the intent of using PostgreSQL for authentication,
+                please ensure that you have each of the following already prepared:</para>
+            <orderedlist>
+                <listitem>
+                    <para>A Docker container running the <systemitem>glyptodon/guacd</systemitem>
+                        image. Guacamole needs <package>guacd</package> in order to function, and
+                        the Guacamole Docker image depends on a linked Docker container running
+                            <package>guacd</package>.</para>
+                </listitem>
+                <listitem>
+                    <para>A Docker container running the <systemitem>postgresql</systemitem>
+                        image.</para>
+                </listitem>
+            </orderedlist>
+            <section xml:id="initializing-guacamole-docker-postgresql">
+                <title>Initializing the PostgreSQL database</title>
+                <para>If your database is not already initialized with the Guacamole schema, you
+                    will need to do so prior to using Guacamole. A convenience script for generating
+                    the necessary SQL to do this is included in the Guacamole image.</para>
+                <para>To generate a SQL script which can be used to initialize a fresh PostgreSQL
+                    database as documented in <xref linkend="jdbc-auth"/>:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <command>docker</command> run --rm glyptodon/guacamole /opt/guacamole/bin/initdb.sh --postgresql > <replaceable>initdb.sql</replaceable></screen>
+                </informalexample>
+                <para>Alternatively, you can use the SQL scripts included with the database
+                    authentication.</para>
+                <para>Once this script is generated, you must:</para>
+                <procedure>
+                    <step>
+                        <para>Create a database for Guacamole within PostgreSQL, such as
+                                    <database><replaceable>guacamole_db</replaceable></database>.</para>
+                    </step>
+                    <step>
+                        <para>Run the script on the newly-created database.</para>
+                    </step>
+                    <step>
+                        <para>Create a user for Guacamole within PostgreSQL with access to the
+                            tables and sequences of this database, such as
+                                    <systemitem><replaceable>guacamole_user</replaceable></systemitem>.</para>
+                    </step>
+                </procedure>
+                <para>The process for doing this via the <command>psql</command> and
+                        <command>createdb</command> utilities included with PostgreSQL is documented
+                    in <xref linkend="jdbc-auth"/>.</para>
+            </section>
+            <section xml:id="deploying-guacamole-docker-postgresql">
+                <title>Deploying Guacamole</title>
+                <para>Linking Guacamole to your PostgreSQL database will require three environment
+                    variables. These variables collectively describe how Guacamole will connect to
+                    PostgreSQL:</para>
+                <informaltable frame="all">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="4*"/>
+                        <thead>
+                            <row>
+                                <entry>Variable</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><envar>POSTGRES_DATABASE</envar></entry>
+                                <entry>
+                                    <para>The name of the database to use for Guacamole
+                                        authentication.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>POSTGRES_USER</envar></entry>
+                                <entry>
+                                    <para>The user that Guacamole will use to connect to
+                                        PostgreSQL.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>POSTGRES_PASSWORD</envar></entry>
+                                <entry>
+                                    <para>The password that Guacamole will provide when connecting
+                                        to PostgreSQL as <envar>POSTGRES_USER</envar>.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para>Once your <package>guacd</package> container is ready, and the values of the
+                    above variables are known, Guacamole can be deployed through Docker:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacamole</replaceable> --link <replaceable>some-guacd</replaceable>:guacd \
+    --link <replaceable>some-postgres</replaceable>:postgres      \
+    -e POSTGRES_DATABASE=<replaceable>guacamole_db</replaceable>  \
+    -e POSTGRES_USER=<replaceable>guacamole_user</replaceable>    \
+    -e POSTGRES_PASSWORD=<replaceable>some_password</replaceable> \
+    -d -p 8080:8080 glyptodon/guacamole</screen>
+                </informalexample>
+                <para>If any of the configuration environment variables are omitted, you will
+                    receive an error message, and the image will stop. You will then need to
+                    recreate the container with the proper variables specified.</para>
+            </section>
+            <section xml:id="verifying-guacamole-docker-postgresql">
+                <title>Verifying the Guacamole install</title>
+                <para>Now that the Guacamole image is running, Guacamole should be accessible at
+                            <uri>http://<replaceable>HOSTNAME</replaceable>:8080/guacamole/</uri>,
+                    where <replaceable>HOSTNAME</replaceable> is the hostname or address of the
+                    machine hosting Docker.</para>
+                <para>If you cannot access Guacamole, check the logs using Docker to determine if
+                    something is wrong. Configuration parameters may have been given incorrectly, or
+                    the database may be improperly initialized:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <command>docker</command> logs <replaceable>some-guacamole</replaceable></screen>
+                </informalexample>
+                <para>If Guacamole has been successfully installed, you will see the Guacamole login
+                    screen. The database initialization scripts will create the default
+                    administrative user as "<systemitem>guacadmin</systemitem>" with the password
+                        "<systemitem>guacadmin</systemitem>". <emphasis>You should change your
+                        password immediately after verifying that your login
+                    works</emphasis>.</para>
+                <para>Once you have verified Guacamole has been deployed successfully, you can
+                    create connections and add users through the web interface as described in <xref
+                        xmlns:xlink="http://www.w3.org/1999/xlink" linkend="administration"
+                    />.</para>
+            </section>
+        </section>
+    </section>
+</chapter>

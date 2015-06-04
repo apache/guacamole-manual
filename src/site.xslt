@@ -36,6 +36,9 @@
     <!-- Custom stylesheet -->
     <xsl:param name="html.stylesheet" select="'gug.css'"/>
 
+    <!-- No inline styles for admonitions -->
+    <xsl:param name="admon.style"></xsl:param>
+
     <!-- Chunk only at chapter level -->
     <xsl:param name="chunk.section.depth" select="0"/>
 
