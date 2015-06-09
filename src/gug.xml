@@ -3,7 +3,7 @@
     xmlns:xi="http://www.w3.org/2001/XInclude">
     <info>
         <title>Guacamole Manual</title>
-        <edition>0.9.6</edition>
+        <edition>0.9.7</edition>
         <author>
             <personname><firstname>Michael</firstname>
                 <surname>Jumper</surname></personname>
@@ -41,7 +41,7 @@
             application, etc.) to give a good starting point beyond simply looking at the Guacamole
             codebase.</para>
         <para>This particular edition of the <citetitle>Guacamole Manual</citetitle> covers
-            Guacamole version 0.9.6. New releases which create new features or break compatibility
+            Guacamole version 0.9.7. New releases which create new features or break compatibility
             will result in new editions of the user's guide, as will any necessary corrections. As
             the official documentation for the project, this book will always be freely available in
             its entirety online.</para>
