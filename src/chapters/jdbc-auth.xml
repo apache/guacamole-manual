@@ -511,11 +511,12 @@ postgresql-disallow-duplicate-connections: false</programlisting>
                 <varlistentry>
                     <term><property>disabled</property></term>
                     <listitem>
-                        <para>Whether the user can be used. If this column is set to
-                                <constant>TRUE</constant> or <constant>1</constant>, login attempts
-                            by this user will be rejected as if the user did not exist. By default,
-                            user accounts are not disabled, and login attempts will succeed if the
-                            user provides the correct password.</para>
+                        <para>Whether login attempts as this user account should be rejected. If
+                            this column is set to <constant>TRUE</constant> or
+                                <constant>1</constant>, login attempts by this user will be rejected
+                            as if the user did not exist. By default, user accounts are not
+                            disabled, and login attempts will succeed if the user provides the
+                            correct password.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
