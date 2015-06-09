@@ -508,6 +508,27 @@ postgresql-disallow-duplicate-connections: false</programlisting>
                             unsalted hash of the password.</para>
                     </listitem>
                 </varlistentry>
+                <varlistentry>
+                    <term><property>disabled</property></term>
+                    <listitem>
+                        <para>Whether the user can be used. If this column is set to
+                                <constant>TRUE</constant> or <constant>1</constant>, login attempts
+                            by this user will be rejected as if the user did not exist. By default,
+                            user accounts are not disabled, and login attempts will succeed if the
+                            user provides the correct password.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>expired</property></term>
+                    <listitem>
+                        <para>If set to <constant>TRUE</constant> or <constant>1</constant>,
+                            requires that the user reset their password prior to fully logging in.
+                            The user will be presented with a password reset form, and will not be
+                            allowed to log into Guacamole until the password has been changed. By
+                            default, user accounts are not expired, and no password reset will be
+                            required upon login.</para>
+                    </listitem>
+                </varlistentry>
             </variablelist>
             <important>
                 <para>If you choose to manually set unsalted password hashes, please be sure you
