@@ -35,7 +35,7 @@
             packaged as a <filename>.tar.gz</filename> file containing:</para>
         <variablelist>
             <varlistentry>
-                <term><filename>guacamole-auth-noauth-0.9.6.jar</filename></term>
+                <term><filename>guacamole-auth-noauth-0.9.7.jar</filename></term>
                 <listitem>
                     <para>The NoAuth extension itself, which must be placed in
                             <filename>GUACAMOLE_HOME/extensions</filename>.</para>
@@ -66,7 +66,7 @@
                     support using multiple authentication extensions at the same time.</para>
             </step>
             <step>
-                <para>Copy <filename>guacamole-auth-noauth-0.9.6.jar</filename> within
+                <para>Copy <filename>guacamole-auth-noauth-0.9.7.jar</filename> within
                         <filename>GUACAMOLE_HOME/extensions</filename>.</para>
             </step>
             <step>

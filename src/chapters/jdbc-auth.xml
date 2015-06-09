@@ -55,10 +55,10 @@
                 <term><filename>mysql/</filename></term>
                 <listitem>
                     <para>Contains the MySQL/MariaDB authentication extension,
-                            <filename>guacamole-auth-jdbc-mysql-0.9.6.jar</filename>, along with a
+                            <filename>guacamole-auth-jdbc-mysql-0.9.7.jar</filename>, along with a
                             <filename>schema/</filename> directory containing MySQL-specific SQL
                         scripts required to set up the database. The
-                            <filename>guacamole-auth-jdbc-mysql-0.9.6.jar</filename> file will
+                            <filename>guacamole-auth-jdbc-mysql-0.9.7.jar</filename> file will
                         ultimately need to be placed within
                             <filename>GUACAMOLE_HOME/extensions</filename>, while the MySQL JDBC
                         driver must be placed within <filename>GUACAMOLE_HOME/lib</filename>.</para>
@@ -75,10 +75,10 @@
                 <term><filename>postgresql/</filename></term>
                 <listitem>
                     <para>Contains the PostgreSQL authentication extension,
-                            <filename>guacamole-auth-jdbc-postgresql-0.9.6.jar</filename>, along
+                            <filename>guacamole-auth-jdbc-postgresql-0.9.7.jar</filename>, along
                         with a <filename>schema/</filename> directory containing PostgreSQL-specific
                         SQL scripts required to set up the database. The
-                            <filename>guacamole-auth-jdbc-postgresql-0.9.6.jar</filename> file will
+                            <filename>guacamole-auth-jdbc-postgresql-0.9.7.jar</filename> file will
                         ultimately need to be placed within
                             <filename>GUACAMOLE_HOME/extensions</filename>, while the PostgreSQL
                         JDBC driver must be placed within
@@ -165,7 +165,7 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
                     script located within the <filename>upgrade/</filename> directory:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>ls schema/upgrade/</userinput>
-<computeroutput>upgrade-pre-0.8.2.sql  upgrade-pre-0.9.6.sql</computeroutput>
+<computeroutput>upgrade-pre-0.8.2.sql  upgrade-pre-0.9.6.sql upgrade-pre-0.9.7.sql</computeroutput>
 <prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.8.2.sql</userinput>
 <prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
 <prompt>$</prompt></screen>
@@ -173,11 +173,19 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
                         permissions associated with new users have changed such that users can
                         change their own passwords. You may, if desired, run the upgrade script to
                         migrate any existing users to the new permissions:</para>
-                    <informalexample>
-                        <screen><prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.9.6.sql</userinput>
+                </informalexample>
+                <informalexample>
+                    <screen><prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.9.6.sql</userinput>
 <prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
 <prompt>$</prompt></screen>
-                    </informalexample>
+                </informalexample>
+                <para>If you are upgrading from a version of Guacamole before 0.9.7, schema changes
+                    regarding support for disabling users and expiring passwords need to be
+                    applied:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.9.7.sql</userinput>
+<prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
+<prompt>$</prompt></screen>
                 </informalexample>
             </important>
         </section>
@@ -217,9 +225,19 @@ Type "help" for help.
 <prompt>guacamole=# </prompt><userinput>\q</userinput>
 <prompt>$</prompt></screen>
             </informalexample>
-            <para>As support for PostgreSQL was not added until 0.9.6, no upgrade scripts are
-                necessary to migrate the databases of earlier versions of Guacamole; no such
-                databases exist.</para>
+            <important>
+                <para>If you are upgrading from an older version of Guacamole that lacked support
+                    disabling users and expiring passwords (older than 0.9.7), you should instead
+                    run the upgrade script located within the <filename>upgrade/</filename>
+                    directory:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <userinput>ls schema/upgrade/</userinput>
+<computeroutput>upgrade-pre-0.9.7.sql</computeroutput>
+<prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.9.7.sql</userinput>
+<prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
+<prompt>$</prompt></screen>
+                </informalexample>
+            </important>
         </section>
     </section>
     <section xml:id="jdbc-auth-installation">
@@ -238,9 +256,9 @@ Type "help" for help.
                     support using multiple authentication extensions at the same time.</para>
             </step>
             <step>
-                <para>Copy <filename>guacamole-auth-jdbc-mysql-0.9.6.jar</filename>
+                <para>Copy <filename>guacamole-auth-jdbc-mysql-0.9.7.jar</filename>
                     <emphasis>or</emphasis>
-                    <filename>guacamole-auth-jdbc-postgresql-0.9.6.jar</filename> within
+                    <filename>guacamole-auth-jdbc-postgresql-0.9.7.jar</filename> within
                         <filename>GUACAMOLE_HOME/extensions</filename>, depending on whether you are
                     using MySQL/MariaDB or PostgreSQL.</para>
             </step>
