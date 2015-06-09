@@ -156,7 +156,7 @@ guacd-hostname: localhost
 guacd-port:     4822</programlisting>
         </example>
     </section>
-    <section>
+    <section xml:id="webapp-logging">
         <title>Logging within the web application</title>
         <indexterm>
             <primary>logging</primary>
@@ -368,7 +368,7 @@ guacd-port:     4822</programlisting>
             </section>
         </section>
     </section>
-    <section>
+    <section xml:id="connection-configuration">
         <title xml:id="configuring-connections">Configuring connections</title>
         <para>Each protocol supported by Guacamole has its own set of configuration parameters.
             These parameters typically describe the hostname and port of the remote desktop server,
@@ -750,7 +750,7 @@ guacd-port:     4822</programlisting>
                     VNC connection easily and intuitively using the administration interface built
                     into Guacamole. You will not need to edit configuration files.</para>
             </section>
-            <section xml:id="">
+            <section xml:id="vnc-servers">
                 <title>Which VNC server?</title>
                 <indexterm>
                     <primary>VNC servers</primary>
@@ -758,7 +758,7 @@ guacd-port:     4822</programlisting>
                 <para>The choice of VNC server can make a big difference when it comes to
                     performance, especially over slower networks. While many systems provide VNC
                     access by default, using this is often not the fastest method.</para>
-                <section>
+                <section xml:id="realvnc">
                     <title>RealVNC or TigerVNC</title>
                     <indexterm>
                         <primary>RealVNC</primary>
@@ -772,7 +772,7 @@ guacd-port:     4822</programlisting>
                         Both optimize window movement and (depending on the application) scrolling,
                         giving a very responsive user experience.</para>
                 </section>
-                <section>
+                <section xml:id="tightvnc">
                     <title>TightVNC</title>
                     <indexterm>
                         <primary>TightVNC</primary>
@@ -786,7 +786,7 @@ guacd-port:     4822</programlisting>
                         image for PNG, thus leading to a slower experience overall than if JPEG was
                         simply not used to begin with.</para>
                 </section>
-                <section>
+                <section xml:id="x11vnc">
                     <title>x11vnc</title>
                     <indexterm>
                         <primary>x11vnc</primary>
@@ -797,7 +797,7 @@ guacd-port:     4822</programlisting>
                         TightVNC. If you need to use your desktop locally as well as via VNC, you
                         will likely be quite happy with x11vnc.</para>
                 </section>
-                <section>
+                <section xml:id="vino">
                     <title>vino</title>
                     <indexterm>
                         <primary>vino</primary>
@@ -810,7 +810,7 @@ guacd-port:     4822</programlisting>
                         but simply need an environment you can access remotely, using a VNC server
                         like RealVNC, TigerVNC, or TightVNC is a better choice.</para>
                 </section>
-                <section>
+                <section xml:id="qemu">
                     <title>QEMU or KVM</title>
                     <indexterm>
                         <primary>QEMU</primary>
@@ -1369,7 +1369,7 @@ guacd-port:     4822</programlisting>
                     </tgroup>
                 </informaltable>
             </section>
-            <section>
+            <section xml:id="adding-rdp">
                 <title>Adding an RDP connection</title>
                 <indexterm>
                     <primary>RDP</primary>
@@ -1604,7 +1604,7 @@ guacd-port:     4822</programlisting>
                     </tgroup>
                 </informaltable>
             </section>
-            <section>
+            <section xml:id="adding-ssh">
                 <title>Adding an SSH connection</title>
                 <indexterm>
                     <primary>SSH</primary>
@@ -1801,7 +1801,7 @@ guacd-port:     4822</programlisting>
                     </tgroup>
                 </informaltable>
             </section>
-            <section>
+            <section xml:id="adding-telnet">
                 <title>Adding a telnet connection</title>
                 <indexterm>
                     <primary>telnet</primary>
@@ -1864,8 +1864,8 @@ guacd-port:     4822</programlisting>
                         <command>egrep</command>).</para>
             </section>
         </section>
-        <section>
-            <title xml:id="parameter-tokens">Parameter tokens</title>
+        <section xml:id="parameter-tokens">
+            <title>Parameter tokens</title>
             <para>The values of connection parameters can contain "tokens" which will be replaced by
                 Guacamole when used. These tokens allow the values of connection parameters to vary
                 dynamically by the user using the connection, and provide a simple means of
