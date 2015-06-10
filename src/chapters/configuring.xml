@@ -1114,6 +1114,21 @@ guacd-port:     4822</programlisting>
                         </thead>
                         <tbody>
                             <row>
+                                <entry><parameter>client-name</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>client-name</secondary>
+                                        </indexterm>When connecting to the RDP server, Guacamole
+                                        will normally provide its own hostname as the name of the
+                                        client. If this parameter is specified, Guacamole will use
+                                        its value instead.</para>
+                                    <para>On Windows RDP servers, this value is exposed within the
+                                        session as the <envar>CLIENTNAME</envar> environment
+                                        variable.</para>
+                                </entry>
+                            </row>
+                            <row>
                                 <entry><parameter>console</parameter></entry>
                                 <entry>
                                     <para><indexterm>
