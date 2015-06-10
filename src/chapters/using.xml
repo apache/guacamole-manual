@@ -152,7 +152,7 @@
             text within the remote desktop, you will see that text within the text area, and can
             manually copy it into the local clipboard if desired.</para>
     </section>
-    <section>
+    <section xml:id="client-user-menu">
         <title>Disconnecting and navigation</title>
         <para>When you are done using the current connection, or you wish to navigate elsewhere
             temporarily, options to do so are within the user menu inside the Guacamole menu:</para>
@@ -371,7 +371,7 @@ $</screen>
                 </mediaobject>
             </screenshot>
         </informalfigure>
-        <section>
+        <section xml:id="display-language">
             <title>Display language</title>
             <para>The Guacamole interface is currently available in English, French, and Russian. By
                 default, Guacamole will attempt to determine the appropriate display language by
@@ -382,7 +382,7 @@ $</screen>
                 different language within the "Display language" field. The change will take effect
                 immediately.</para>
         </section>
-        <section>
+        <section xml:id="changing-password">
             <title>Changing your password</title>
             <para>System administrators can restrict the ability of individual users to change their
                 own passwords, so this section may not always be available. If your account
@@ -392,7 +392,7 @@ $</screen>
                 new password, and click "Update Password". You will remain logged in, and the change
                 will affect any future login attempt.</para>
         </section>
-        <section>
+        <section xml:id="default-input-settings">
             <title>Default input settings</title>
             <para>Guacamole provides multiple keyboard input methods and multiple mouse emulation
                 modes. Many of these settings are specifically useful for touch devices, while
