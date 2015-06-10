@@ -156,7 +156,7 @@ guacd-hostname: localhost
 guacd-port:     4822</programlisting>
         </example>
     </section>
-    <section>
+    <section xml:id="webapp-logging">
         <title>Logging within the web application</title>
         <indexterm>
             <primary>logging</primary>
@@ -368,7 +368,7 @@ guacd-port:     4822</programlisting>
             </section>
         </section>
     </section>
-    <section>
+    <section xml:id="connection-configuration">
         <title xml:id="configuring-connections">Configuring connections</title>
         <para>Each protocol supported by Guacamole has its own set of configuration parameters.
             These parameters typically describe the hostname and port of the remote desktop server,
@@ -385,226 +385,388 @@ guacd-port:     4822</programlisting>
                 Guacamole tends to be faster than VNC by itself due to decreased bandwidth
                 usage.</para>
             <para>VNC support for Guacamole is provided by the <package>libguac-client-vnc</package>
-                library, installed by default.</para>
-            <table frame="all" xml:id="vnc-parameters">
-                <title>VNC configuration parameters</title>
-                <indexterm>
-                    <primary>parameters</primary>
-                    <secondary>VNC</secondary>
-                </indexterm>
-                <tgroup cols="2">
-                    <colspec colname="c1" colnum="1" colwidth="1*"/>
-                    <colspec colname="c2" colnum="2" colwidth="3.55*"/>
-                    <thead>
-                        <row>
-                            <entry>Name</entry>
-                            <entry>Description</entry>
-                        </row>
-                    </thead>
-                    <tbody>
-                        <row>
-                            <entry><parameter>hostname</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>VNC</primary>
-                                        <secondary>hostname</secondary>
-                                    </indexterm>The hostname or IP address of the VNC server
-                                    Guacamole should connect to.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>port</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>VNC</primary>
-                                        <secondary>port</secondary>
-                                    </indexterm>The port the VNC server is listening on, usually
-                                    5900 or 5900 + <replaceable>display number</replaceable>. For
-                                    example, if your VNC server is serving display number 1
-                                    (sometimes written as <constant>:1</constant>), your port number
-                                    here would be 5901.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>password</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>VNC</primary>
-                                        <secondary>password</secondary>
-                                    </indexterm>The password to use when attempting authentication,
-                                    if any. This parameter is optional.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>read-only</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>VNC</primary>
-                                        <secondary>read-only</secondary>
-                                    </indexterm>Whether this connection should be read-only. If set
-                                    to "true", no input will be accepted on the connection at all.
-                                    Users will only see the desktop and whatever other users using
-                                    that same desktop are doing. This parameter is optional.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>swap-red-blue</parameter></entry>
-                            <entry>
-                                <para>If the colors of your display appear wrong (blues appear
-                                    orange or red, etc.), it may be that your VNC server is sending
-                                    image data incorrectly, and the red and blue components of each
-                                    color are swapped. If this is the case, set this parameter to
-                                    "true" to work around the problem. This parameter is
-                                    optional.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>color-depth</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>VNC</primary>
-                                        <secondary>color depth</secondary>
-                                    </indexterm>The color depth to request, in bits-per-pixel. This
-                                    parameter is optional. If specified, this must be either 8, 16,
-                                    24, or 32. Regardless of what value is chosen here, if a
-                                    particular update uses less than 256 colors, Guacamole will
-                                    always send that update as a 256-color PNG.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>cursor</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>VNC</primary>
-                                        <secondary>mouse pointer</secondary>
-                                    </indexterm>If set to "remote", the mouse pointer will be
-                                    rendered remotely, and the local position of the mouse pointer
-                                    will be indicated by a small dot.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>autoretry</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>VNC</primary>
-                                        <secondary>retrying connections</secondary>
-                                    </indexterm>The number of times to retry connecting before
-                                    giving up and returning an error. In the case of a reverse
-                                    connection, this is the number of times the connection process
-                                    is allowed to time out.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>encodings</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>VNC</primary>
-                                        <secondary>encodings</secondary>
-                                    </indexterm>A space-delimited list of VNC encodings to use. The
-                                    format of this parameter is dictated by libvncclient and thus
-                                    doesn't really follow the form of other Guacamole parameters.
-                                    This parameter is optional, and
-                                        <package>libguac-client-vnc</package> will use any supported
-                                    encoding by default.</para>
-                                <para>Beware that this parameter is intended to be replaced with
-                                    individual, encoding-specific parameters in a future
-                                    release.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>dest-host</parameter></entry>
-                            <entry><indexterm>
-                                    <primary>repeater</primary>
-                                    <secondary>VNC</secondary>
-                                </indexterm><indexterm>
-                                    <primary>proxy</primary>
-                                    <secondary>VNC</secondary>
-                                </indexterm><indexterm>
-                                    <primary>VNC</primary>
-                                    <secondary>repeater</secondary>
-                                </indexterm>The destination host to request when connecting to a VNC
-                                proxy such as UltraVNC Repeater. This is only necessary if the VNC
-                                proxy in use requires the connecting user to specify which VNC
-                                server to connect to. If the VNC proxy automatically connects to a
-                                specific server, this parameter is not necessary.</entry>
-                        </row>
-                        <row>
-                            <entry><parameter>dest-port</parameter></entry>
-                            <entry><indexterm>
-                                    <primary>repeater</primary>
-                                    <secondary>VNC</secondary>
-                                </indexterm><indexterm>
-                                    <primary>proxy</primary>
-                                    <secondary>VNC</secondary>
-                                </indexterm>The destination port to request when connecting to a VNC
-                                proxy such as UltraVNC Repeater. This is only necessary if the VNC
-                                proxy in use requires the connecting user to specify which VNC
-                                server to connect to. If the VNC proxy automatically connects to a
-                                specific server, this parameter is not necessary.</entry>
-                        </row>
-                        <row>
-                            <entry><parameter>enable-audio</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>VNC</primary>
-                                        <secondary>sound</secondary>
+                library, which will be installed as part of guacamole-server if the required
+                dependencies are present during the build.</para>
+            <section xml:id="vnc-network-parameters">
+                <title>Network parameters</title>
+                <para>With the exception of reverse-mode VNC connections, VNC works by making
+                    outbound network connections to a particular host which runs one or more VNC
+                    servers. Each VNC server is associated with a display number, from which the
+                    appropriate port number is derived.</para>
+                <informaltable frame="all" xml:id="vnc-parameters">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>VNC</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>hostname</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>VNC</primary>
+                                            <secondary>hostname</secondary>
+                                        </indexterm>The hostname or IP address of the VNC server
+                                        Guacamole should connect to.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>port</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>VNC</primary>
+                                            <secondary>port</secondary>
+                                        </indexterm>The port the VNC server is listening on, usually
+                                        5900 or 5900 + <replaceable>display number</replaceable>.
+                                        For example, if your VNC server is serving display number 1
+                                        (sometimes written as <constant>:1</constant>), your port
+                                        number here would be 5901.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>autoretry</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>VNC</primary>
+                                            <secondary>retrying connections</secondary>
+                                        </indexterm>The number of times to retry connecting before
+                                        giving up and returning an error. In the case of a reverse
+                                        connection, this is the number of times the connection
+                                        process is allowed to time out.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="vnc-authentication">
+                <title>Authentication</title>
+                <para>The VNC standard defines only password based authentication. Other
+                    authentication mechanisms exist, but are non-standard or proprietary. Guacamole
+                    supports only the password method.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>VNC</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>password</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>VNC</primary>
+                                            <secondary>password</secondary>
+                                        </indexterm>The password to use when attempting
+                                        authentication, if any. This parameter is optional.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="vnc-display-settings">
+                <title>Display settings</title>
+                <para>VNC servers do not allow the client to request particular display sizes, so
+                    you are at the mercy of your VNC server with respect to display width and
+                    height. However, to reduce bandwidth usage, you may request that the VNC server
+                    reduce its color depth. Guacamole will automatically detect 256-color images,
+                    but this can be guaranteed for absolutely all graphics sent over the connection
+                    by forcing the color depth to 8-bit. Color depth is otherwise dictated by the
+                    VNC server.</para>
+                <para>If you are noticing problems with your VNC display, such as the lack of a
+                    mouse cursor, the presence of multiple mouse cursors, or strange colors (such as
+                    blue colors appearing more like orange or red), these are typically the result
+                    of bugs or limitations within the VNC server, and additional parameters are
+                    available to work around such issues.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>VNC</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>color-depth</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>VNC</primary>
+                                            <secondary>color depth</secondary>
+                                        </indexterm>The color depth to request, in bits-per-pixel.
+                                        This parameter is optional. If specified, this must be
+                                        either 8, 16, 24, or 32. Regardless of what value is chosen
+                                        here, if a particular update uses less than 256 colors,
+                                        Guacamole will always send that update as a 256-color
+                                        PNG.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>swap-red-blue</parameter></entry>
+                                <entry>
+                                    <para>If the colors of your display appear wrong (blues appear
+                                        orange or red, etc.), it may be that your VNC server is
+                                        sending image data incorrectly, and the red and blue
+                                        components of each color are swapped. If this is the case,
+                                        set this parameter to "true" to work around the problem.
+                                        This parameter is optional.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>cursor</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>VNC</primary>
+                                            <secondary>mouse pointer</secondary>
+                                        </indexterm>If set to "remote", the mouse pointer will be
+                                        rendered remotely, and the local position of the mouse
+                                        pointer will be indicated by a small dot. A remote mouse
+                                        cursor will feel slower than a local cursor, but may be
+                                        necessary if the VNC server does not support sending the
+                                        cursor image to the client.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>encodings</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>VNC</primary>
+                                            <secondary>encodings</secondary>
+                                        </indexterm>A space-delimited list of VNC encodings to use.
+                                        The format of this parameter is dictated by libvncclient and
+                                        thus doesn't really follow the form of other Guacamole
+                                        parameters. This parameter is optional, and
+                                            <package>libguac-client-vnc</package> will use any
+                                        supported encoding by default.</para>
+                                    <para>Beware that this parameter is intended to be replaced with
+                                        individual, encoding-specific parameters in a future
+                                        release.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>read-only</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>VNC</primary>
+                                            <secondary>read-only</secondary>
+                                        </indexterm>Whether this connection should be read-only. If
+                                        set to "true", no input will be accepted on the connection
+                                        at all. Users will only see the desktop and whatever other
+                                        users using that same desktop are doing. This parameter is
+                                        optional.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="vnc-repeater">
+                <title>VNC Repeater</title>
+                <para>There exist VNC repeaters, such as UltraVNC Repeater, which act as
+                    intermediaries or proxies, providing a single logical VNC connection which is
+                    then routed to another VNC server elsewhere. Additional parameters are required
+                    to select which VNC host behind the repeater will receive the connection.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>VNC</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>dest-host</parameter></entry>
+                                <entry><indexterm>
+                                        <primary>repeater</primary>
+                                        <secondary>VNC</secondary>
+                                    </indexterm><indexterm>
+                                        <primary>proxy</primary>
+                                        <secondary>VNC</secondary>
                                     </indexterm><indexterm>
                                         <primary>VNC</primary>
-                                        <secondary>PulseAudio</secondary>
-                                    </indexterm>If set to "true", <emphasis>experimental</emphasis>
-                                    sound support will be enabled. VNC does not support sound, but
-                                    Guacamole's VNC support can include sound using
-                                    PulseAudio.</para>
-                                <para>Most Linux systems provide audio through a service called
-                                    PulseAudio. This service is capable of communicating over the
-                                    network. If PulseAudio is configured to allow TCP connections,
-                                    Guacamole can connect to your PulseAudio server and combine its
-                                    audio with the graphics coming over VNC.</para>
-                                <para>Beware that you must disable authentication within PulseAudio
-                                    in order to allow Guacamole to connect, as Guacamole does not
-                                    yet support this. The amount of latency you will see depends
-                                    largely on the network and how PulseAudio is configured.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>audio-servername</parameter></entry>
-                            <entry>
-                                <para>The name of the PulseAudio server to connect to. This will be
-                                    the hostname of the computer providing audio for your connection
-                                    via PulseAudio, most likely the same as the value given for the
-                                        <parameter>hostname</parameter> parameter.</para>
-                                <para>If this parameter is omitted, the default PulseAudio device
-                                    will be used, which will be the PulseAudio server running on the
-                                    same machine as guacd.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>reverse-connect</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>VNC</primary>
-                                        <secondary>reverse connection</secondary>
-                                    </indexterm>Whether reverse connection should be used. If set to
-                                    "true", instead of connecting to a server at a given hostname
-                                    and port, guacd will listen on the given port for inbound
-                                    connections from a VNC server.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>listen-timeout</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>VNC</primary>
-                                        <secondary>listen timeout</secondary>
-                                    </indexterm>If reverse connection is in use, the maximum amount
-                                    of time to wait for an inbound connection from a VNC server, in
-                                    milliseconds. If blank, the default value is 5000 (five
-                                    seconds).</para>
-                            </entry>
-                        </row>
-                    </tbody>
-                </tgroup>
-            </table>
+                                        <secondary>repeater</secondary>
+                                    </indexterm>The destination host to request when connecting to a
+                                    VNC proxy such as UltraVNC Repeater. This is only necessary if
+                                    the VNC proxy in use requires the connecting user to specify
+                                    which VNC server to connect to. If the VNC proxy automatically
+                                    connects to a specific server, this parameter is not
+                                    necessary.</entry>
+                            </row>
+                            <row>
+                                <entry><parameter>dest-port</parameter></entry>
+                                <entry><indexterm>
+                                        <primary>repeater</primary>
+                                        <secondary>VNC</secondary>
+                                    </indexterm><indexterm>
+                                        <primary>proxy</primary>
+                                        <secondary>VNC</secondary>
+                                    </indexterm>The destination port to request when connecting to a
+                                    VNC proxy such as UltraVNC Repeater. This is only necessary if
+                                    the VNC proxy in use requires the connecting user to specify
+                                    which VNC server to connect to. If the VNC proxy automatically
+                                    connects to a specific server, this parameter is not
+                                    necessary.</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="vnc-reverse-connections">
+                <title>Reverse VNC connections</title>
+                <para>Guacamole supports "reverse" VNC connections, where the VNC client listens for
+                    an incoming connection from the VNC server. When reverse VNC connections are
+                    used, the VNC client and server switch network roles, but otherwise function as
+                    they normally would. The VNC server still provides the remote display, and the
+                    VNC client still provides all keyboard and mouse input.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>VNC</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>reverse-connect</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>VNC</primary>
+                                            <secondary>reverse connection</secondary>
+                                        </indexterm>Whether reverse connection should be used. If
+                                        set to "true", instead of connecting to a server at a given
+                                        hostname and port, guacd will listen on the given port for
+                                        inbound connections from a VNC server.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>listen-timeout</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>VNC</primary>
+                                            <secondary>listen timeout</secondary>
+                                        </indexterm>If reverse connection is in use, the maximum
+                                        amount of time to wait for an inbound connection from a VNC
+                                        server, in milliseconds. If blank, the default value is 5000
+                                        (five seconds).</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="vnc-audio">
+                <title>Audio support</title>
+                <para>VNC does not provide any support for audio, but Guacamole's VNC support can
+                    provide audio support through a secondary network connection to a PulseAudio
+                    server running on the same machine as the VNC server. Guacamole will thus
+                    combine two separate streams (one graphical stream and one audio stream) from
+                    two distinct network sources into a single stream of Guacamole protocol
+                    data.</para>
+                <para>The following parameters are available for configuring the experimental audio
+                    support for VNC:</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>VNC</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>enable-audio</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>VNC</primary>
+                                            <secondary>sound</secondary>
+                                        </indexterm><indexterm>
+                                            <primary>VNC</primary>
+                                            <secondary>PulseAudio</secondary>
+                                        </indexterm>If set to "true",
+                                            <emphasis>experimental</emphasis> sound support will be
+                                        enabled. VNC does not support sound, but Guacamole's VNC
+                                        support can include sound using PulseAudio.</para>
+                                    <para>Most Linux systems provide audio through a service called
+                                        PulseAudio. This service is capable of communicating over
+                                        the network. If PulseAudio is configured to allow TCP
+                                        connections, Guacamole can connect to your PulseAudio server
+                                        and combine its audio with the graphics coming over
+                                        VNC.</para>
+                                    <para>Beware that you must disable authentication within
+                                        PulseAudio in order to allow Guacamole to connect, as
+                                        Guacamole does not yet support this. The amount of latency
+                                        you will see depends largely on the network and how
+                                        PulseAudio is configured.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>audio-servername</parameter></entry>
+                                <entry>
+                                    <para>The name of the PulseAudio server to connect to. This will
+                                        be the hostname of the computer providing audio for your
+                                        connection via PulseAudio, most likely the same as the value
+                                        given for the <parameter>hostname</parameter>
+                                        parameter.</para>
+                                    <para>If this parameter is omitted, the default PulseAudio
+                                        device will be used, which will be the PulseAudio server
+                                        running on the same machine as guacd.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <important>
+                    <para><emphasis>Audio support within VNC is experimental</emphasis>. Please
+                        report any problems encountered while using the experimental audio support
+                        for VNC to the Guacamole team by <link
+                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                            xlink:href="https://glyptodon.org/jira/">opening an issue in
+                        JIRA</link>.</para>
+                </important>
+            </section>
             <section xml:id="adding-vnc">
                 <title>Adding a VNC connection</title>
                 <indexterm>
@@ -636,7 +798,7 @@ guacd-port:     4822</programlisting>
                     VNC connection easily and intuitively using the administration interface built
                     into Guacamole. You will not need to edit configuration files.</para>
             </section>
-            <section>
+            <section xml:id="vnc-servers">
                 <title>Which VNC server?</title>
                 <indexterm>
                     <primary>VNC servers</primary>
@@ -644,7 +806,7 @@ guacd-port:     4822</programlisting>
                 <para>The choice of VNC server can make a big difference when it comes to
                     performance, especially over slower networks. While many systems provide VNC
                     access by default, using this is often not the fastest method.</para>
-                <section>
+                <section xml:id="realvnc">
                     <title>RealVNC or TigerVNC</title>
                     <indexterm>
                         <primary>RealVNC</primary>
@@ -658,7 +820,7 @@ guacd-port:     4822</programlisting>
                         Both optimize window movement and (depending on the application) scrolling,
                         giving a very responsive user experience.</para>
                 </section>
-                <section>
+                <section xml:id="tightvnc">
                     <title>TightVNC</title>
                     <indexterm>
                         <primary>TightVNC</primary>
@@ -672,7 +834,7 @@ guacd-port:     4822</programlisting>
                         image for PNG, thus leading to a slower experience overall than if JPEG was
                         simply not used to begin with.</para>
                 </section>
-                <section>
+                <section xml:id="x11vnc">
                     <title>x11vnc</title>
                     <indexterm>
                         <primary>x11vnc</primary>
@@ -683,7 +845,7 @@ guacd-port:     4822</programlisting>
                         TightVNC. If you need to use your desktop locally as well as via VNC, you
                         will likely be quite happy with x11vnc.</para>
                 </section>
-                <section>
+                <section xml:id="vino">
                     <title>vino</title>
                     <indexterm>
                         <primary>vino</primary>
@@ -696,7 +858,7 @@ guacd-port:     4822</programlisting>
                         but simply need an environment you can access remotely, using a VNC server
                         like RealVNC, TigerVNC, or TightVNC is a better choice.</para>
                 </section>
-                <section>
+                <section xml:id="qemu">
                     <title>QEMU or KVM</title>
                     <indexterm>
                         <primary>QEMU</primary>
@@ -725,421 +887,609 @@ guacd-port:     4822</programlisting>
                 officially supported by Guacamole. RDP tends to be faster than VNC due to the use of
                 caching, which Guacamole does take advantage of.</para>
             <para>RDP support for Guacamole is provided by the <package>libguac-client-rdp</package>
-                library, which depends on a recent version of FreeRDP (version 1.0 or higher). If
-                your distribution does not have a recent enough version of FreeRDP, the Guacamole
-                project will not build a <package>libguac-client-rdp</package> package for you. You
-                will need to build and install a recent version of FreeRDP, and then build and
-                install <package>libguac-client-rdp</package> from source.</para>
-            <table frame="all">
-                <title>RDP configuration parameters</title>
-                <indexterm>
-                    <primary>parameters</primary>
-                    <secondary>RDP</secondary>
-                </indexterm>
-                <tgroup cols="2">
-                    <colspec colname="c1" colnum="1" colwidth="1*"/>
-                    <colspec colname="c2" colnum="2" colwidth="3.55*"/>
-                    <thead>
-                        <row>
-                            <entry>Name</entry>
-                            <entry>Description</entry>
-                        </row>
-                    </thead>
-                    <tbody>
-                        <row>
-                            <entry><parameter>hostname</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>RDP</primary>
-                                        <secondary>hostname</secondary>
-                                    </indexterm>The hostname or IP address of the RDP server
-                                    Guacamole should connect to.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>port</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>RDP</primary>
-                                        <secondary>port</secondary>
-                                    </indexterm>The port the RDP server is listening on, usually
-                                    3389. This parameter is optional. If this is not specified, the
-                                    default of 3389 will be used.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>username</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>RDP</primary>
-                                        <secondary>username</secondary>
-                                    </indexterm>The username to use to authenticate, if any. This
-                                    parameter is optional.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>password</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>RDP</primary>
-                                        <secondary>password</secondary>
-                                    </indexterm>The password to use when attempting authentication,
-                                    if any. This parameter is optional.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>domain</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>RDP</primary>
-                                        <secondary>domain</secondary>
-                                    </indexterm>The domain to use when attempting authentication, if
-                                    any. This parameter is optional.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>color-depth</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>RDP</primary>
-                                        <secondary>color depth</secondary>
-                                    </indexterm>The color depth to request, in bits-per-pixel. This
-                                    parameter is optional. If specified, this must be either 8, 16,
-                                    or 24. Regardless of what value is chosen here, if a particular
-                                    update uses less than 256 colors, Guacamole will always send
-                                    that update as a 256-color PNG.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>width</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>RDP</primary>
-                                        <secondary>display size</secondary>
-                                    </indexterm>The width of the display to request, in pixels. This
-                                    parameter is optional. If this value is not specified, the width
-                                    of the connecting client display will be used instead.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>height</parameter></entry>
-                            <entry>
-                                <para>The height of the display to request, in pixels. This
-                                    parameter is optional. If this value is not specified, the
-                                    height of the connecting client display will be used
-                                    instead.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>dpi</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>RDP</primary>
-                                        <secondary>display resolution</secondary>
-                                    </indexterm>The desired effective resolution of the client
-                                    display, in DPI. This parameter is optional. If this value is
-                                    not specified, the resolution and size of the client display
-                                    will be used together to determine, heuristically, an
-                                    appropriate resolution for the RDP session.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>disable-audio</parameter></entry>
-                            <entry><indexterm>
-                                    <primary>disabling audio</primary>
-                                </indexterm><indexterm>
-                                    <primary>audio</primary>
-                                </indexterm><indexterm>
-                                    <primary>RDP</primary>
-                                    <secondary>audio</secondary>
-                                </indexterm>Audio is enabled by default in both the client and in
-                                libguac-client-rdp. If you are concerned about bandwidth usage, or
-                                sound is causing problems, you can explicitly disable sound by
-                                setting this parameter to "true".</entry>
-                        </row>
-                        <row>
-                            <entry><parameter>enable-printing</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>enabling printing</primary>
+                library, which will be installed as part of guacamole-server if the required
+                dependencies are present during the build.</para>
+            <section xml:id="rdp-network-parameters">
+                <title>Network parameters</title>
+                <para>RDP connections require a hostname or IP address defining the destination
+                    machine. The RDP port is defined to be 3389, and will be this value in most
+                    cases. You only need to specify the RDP port if you are not using port
+                    3389.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>RDP</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>hostname</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>hostname</secondary>
+                                        </indexterm>The hostname or IP address of the RDP server
+                                        Guacamole should connect to.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>port</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>port</secondary>
+                                        </indexterm>The port the RDP server is listening on, usually
+                                        3389. This parameter is optional. If this is not specified,
+                                        the default of 3389 will be used.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="rdp-authentication">
+                <title>Authentication and security</title>
+                <para>RDP provides authentication through the use of a username, password, and
+                    optional domain.</para>
+                <para>Most RDP servers will provide a graphical login if the username, password, and
+                    domain parameters are omitted. One notable exception to this is Network Level
+                    Authentication, or NLA, which performs all authentication outside of a desktop
+                    session, and thus in the absence of a graphical interface. If your server
+                    requires NLA, you will need to manually choose this as your security mode, and
+                    you <emphasis>must</emphasis> provide a username and password.</para>
+                <para>All RDP connections are encrypted. Higher-grade encryption is available in the
+                    form of TLS, another possible security mode.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>RDP</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>username</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>username</secondary>
+                                        </indexterm>The username to use to authenticate, if any.
+                                        This parameter is optional.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>password</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>password</secondary>
+                                        </indexterm>The password to use when attempting
+                                        authentication, if any. This parameter is optional.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>domain</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>domain</secondary>
+                                        </indexterm>The domain to use when attempting
+                                        authentication, if any. This parameter is optional.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>security</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>security</secondary>
+                                        </indexterm><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>NLA</secondary>
+                                        </indexterm><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>TLS</secondary>
+                                        </indexterm>The security mode to use for the RDP connection.
+                                        This mode dictates how data will be encrypted and what type
+                                        of authentication will be performed, if any. By default, the
+                                        server is allowed to control what type of security is
+                                        used.</para>
+                                    <para>Possible values are:</para>
+                                    <variablelist>
+                                        <varlistentry>
+                                            <term><constant>rdp</constant></term>
+                                            <listitem>
+                                                <para>Standard RDP encryption. This mode should be
+                                                  supported by all RDP servers.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>nla</constant></term>
+                                            <listitem>
+                                                <para>Network Level Authentication. This mode
+                                                  requires the username and password, and performs
+                                                  an authentication step before the remote desktop
+                                                  session actually starts. If the username and
+                                                  password are not given, the connection cannot be
+                                                  made.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>tls</constant></term>
+                                            <listitem>
+                                                <para>TLS encryption. TLS (Transport Layer Security)
+                                                  is the successor to SSL.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>any</constant></term>
+                                            <listitem>
+                                                <para>Allow the server to choose the type of
+                                                  security. This is the default.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                    </variablelist>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>ignore-cert</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>ignoring certificates</secondary>
+                                        </indexterm>If set to "true", the certificate returned by
+                                        the server will be ignored, even if that certificate cannot
+                                        be validated. This is useful if you universally trust the
+                                        server and your connection to the server, and you know that
+                                        the server's certificate cannot be validated (for example,
+                                        if it is self-signed).</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>disable-auth</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>disabling authentication</secondary>
+                                        </indexterm>If set to "true", authentication will be
+                                        disabled. Note that this refers to authentication that takes
+                                        place while connecting. Any authentication enforced by the
+                                        server over the remote desktop session (such as a login
+                                        dialog) will still take place. By default, authentication is
+                                        enabled and only used when requested by the server.</para>
+                                    <para>If you are using NLA, authentication must be enabled by
+                                        definition.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="rdp-session-settings">
+                <title>Session settings</title>
+                <para>RDP sessions will typically involve the full desktop environment of a normal
+                    user. Alternatively, you can manually specify a program to use instead of the
+                    RDP server's default shell, or connect to the administrative console.</para>
+                <para>Although Guacamole is independent of keyboard layout, RDP is not. This is
+                    because Guacamole represents keys based on what they <emphasis>do</emphasis>
+                    ("press the <keycap>Enter</keycap> key"), while RDP uses identifiers based on
+                    the key's location  ("press the rightmost key in the second row"). To translate
+                    between a Guacamole key event  and an RDP key event, Guacamole must know ahead
+                    of time the keyboard layout of the RDP server.</para>
+                <para>By default, the US English qwerty keyboard will be used. If this does not
+                    match the keyboard layout of your RDP server, keys will not be properly
+                    translated, and you will need to explicitly choose a different layout in your
+                    connection settings. If your keyboard layout is not supported, please notify the
+                    Guacamole team by <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                        xlink:href="https://glyptodon.org/jira/">opening an issue in
+                    JIRA</link>.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>RDP</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>client-name</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>client-name</secondary>
+                                        </indexterm>When connecting to the RDP server, Guacamole
+                                        will normally provide its own hostname as the name of the
+                                        client. If this parameter is specified, Guacamole will use
+                                        its value instead.</para>
+                                    <para>On Windows RDP servers, this value is exposed within the
+                                        session as the <envar>CLIENTNAME</envar> environment
+                                        variable.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>console</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>console</secondary>
+                                        </indexterm>If set to "true", you will be connected to the
+                                        console (admin) session of the RDP server.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>initial-program</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>initial program</secondary>
+                                        </indexterm>The full path to the program to run immediately
+                                        upon connecting. This parameter is optional.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>server-layout</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>keyboard layout</primary>
+                                        </indexterm><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>keyboard layout</secondary>
+                                        </indexterm>The server-side keyboard layout. This is the
+                                        layout of the RDP server and has nothing to do with the
+                                        keyboard layout in use on the client. <emphasis>The
+                                            Guacamole client is independent of keyboard
+                                            layout.</emphasis> The RDP protocol, however, is
+                                            <emphasis>not</emphasis> independent of keyboard layout,
+                                        and Guacamole needs to know the keyboard layout of the
+                                        server in order to send the proper keys when a user is
+                                        typing.</para>
+                                    <para>Possible values are:</para>
+                                    <variablelist>
+                                        <varlistentry>
+                                            <term><constant>en-us-qwerty</constant></term>
+                                            <listitem>
+                                                <para>English (US) keyboard</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>de-de-qwertz</constant></term>
+                                            <listitem>
+                                                <para>German keyboard (qwertz)</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>fr-fr-azerty</constant></term>
+                                            <listitem>
+                                                <para>French keyboard (azerty)</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>it-it-qwerty</constant></term>
+                                            <listitem>
+                                                <para>Italian keyboard</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>sv-se-qwerty</constant></term>
+                                            <listitem>
+                                                <para>Swedish keyboard</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>failsafe</constant></term>
+                                            <listitem>
+                                                <para>Unknown keyboard - this option sends only
+                                                  Unicode events and should work for any keyboard,
+                                                  though not necessarily all RDP servers or
+                                                  applications.</para>
+                                                <para>If your server's keyboard layout is not yet
+                                                  supported, this option should work in the
+                                                  meantime.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                    </variablelist>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="rdp-display-settings">
+                <title>Display settings</title>
+                <para>Guacamole will automatically choose an appropriate display size for RDP
+                    connections based on the size of the browser window and the DPI of the device.
+                    The size of the display can be forced by specifying explicit width or height
+                    values.</para>
+                <para>To reduce bandwidth usage, you may also request that the server reduce its
+                    color depth. Guacamole will automatically detect 256-color images, but this can
+                    be guaranteed for absolutely all graphics sent over the connection by forcing
+                    the color depth to 8-bit. Color depth is otherwise dictated by the RDP
+                    server.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>RDP</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>color-depth</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>color depth</secondary>
+                                        </indexterm>The color depth to request, in bits-per-pixel.
+                                        This parameter is optional. If specified, this must be
+                                        either 8, 16, or 24. Regardless of what value is chosen
+                                        here, if a particular update uses less than 256 colors,
+                                        Guacamole will always send that update as a 256-color
+                                        PNG.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>width</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>display size</secondary>
+                                        </indexterm>The width of the display to request, in pixels.
+                                        This parameter is optional. If this value is not specified,
+                                        the width of the connecting client display will be used
+                                        instead.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>height</parameter></entry>
+                                <entry>
+                                    <para>The height of the display to request, in pixels. This
+                                        parameter is optional. If this value is not specified, the
+                                        height of the connecting client display will be used
+                                        instead.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>dpi</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>display resolution</secondary>
+                                        </indexterm>The desired effective resolution of the client
+                                        display, in DPI. This parameter is optional. If this value
+                                        is not specified, the resolution and size of the client
+                                        display will be used together to determine, heuristically,
+                                        an appropriate resolution for the RDP session.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="rdp-device-redirection">
+                <title>Device redirection</title>
+                <para>Device redirection refers to the use of non-display devices over RDP.
+                    Guacamole's RDP support currently allows redirection of audio, printing, and
+                    disk access, some of which require additional configuration in order to function
+                    properly.</para>
+                <para>Audio redirection will be enabled by default. If Guacamole was correctly
+                    installed, and audio redirection is supported by your RDP server, sound should
+                    play within remote connections without manual intervention.</para>
+                <para>Printing requires <application>GhostScript</application> to be installed on
+                    the Guacamole server, and allows users to print arbitrary documents directly to
+                    PDF. When documents are printed to the redirected printer, the user will receive
+                    a PDF of that document within their web browser.</para>
+                <para>Guacamole provides support for file transfer over RDP by emulating a virtual
+                    disk drive. This drive will persist on the Guacamole server, confined within the
+                    drive path specified. If drive redirection is enabled on a Guacamole SSH
+                    connection, users will be able to upload and download files as described in
+                        <xref linkend="using-guacamole"/>.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>RDP</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>disable-audio</parameter></entry>
+                                <entry><indexterm>
+                                        <primary>disabling audio</primary>
                                     </indexterm><indexterm>
-                                        <primary>printing</primary>
+                                        <primary>audio</primary>
                                     </indexterm><indexterm>
                                         <primary>RDP</primary>
-                                        <secondary>printing</secondary>
-                                    </indexterm>Printing is disabled by default, but with printing
-                                    enabled, RDP users can print to a virtual printer that sends a
-                                    PDF containing the document printed to the Guacamole client.
-                                    Enable printing by setting this parameter to "true".</para>
-                                <para><emphasis>Printing support requires
-                                            <application>GhostScript</application> to be
-                                        installed.</emphasis> If <application>guacd</application>
-                                    cannot find the <filename>gs</filename> executable when
-                                    printing, the print attempt will fail.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>enable-drive</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>enabling file transfer</primary>
-                                    </indexterm><indexterm>
-                                        <primary>file transfer</primary>
-                                    </indexterm><indexterm>
-                                        <primary>RDP</primary>
-                                        <secondary>file transfer</secondary>
-                                    </indexterm>File transfer is disabled by default, but with file
-                                    transfer enabled, RDP users can transfer files to and from a
-                                    virtual drive which persists on the Guacamole server. Enable
-                                    file transfer support by setting this parameter to
-                                    "true".</para>
-                                <para>Files will be stored in the directory specified by the
-                                        "<parameter>drive-path</parameter>" parameter, which is
-                                    required if file transfer is enabled.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>drive-path</parameter></entry>
-                            <entry>
-                                <para>The directory on the Guacamole server in which transfered
-                                    files should be stored. This directory must be accessible by
-                                    guacd and both readable and writable by the user that runs
-                                    guacd. <emphasis>This parameter does not refer to a directory on
-                                        the RDP server.</emphasis></para>
-                                <para>If file transfer is not enabled, this parameter is
-                                    ignored.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>console</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>RDP</primary>
-                                        <secondary>console</secondary>
-                                    </indexterm>If set to "true", you will be connected to the
-                                    console (admin) session of the RDP server.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>console-audio</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>RDP</primary>
-                                        <secondary>console audio</secondary>
-                                    </indexterm>If set to "true", audio will be explicitly enabled
-                                    in the console (admin) session of the RDP server. Setting this
-                                    option to "true" only makes sense if the
-                                        <parameter>console</parameter> parameter is also set to
-                                    "true".</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>initial-program</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>RDP</primary>
-                                        <secondary>initial program</secondary>
-                                    </indexterm>The full path to the program to run immediately upon
-                                    connecting. This parameter is optional.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>server-layout</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>keyboard layout</primary>
-                                    </indexterm><indexterm>
-                                        <primary>RDP</primary>
-                                        <secondary>keyboard layout</secondary>
-                                    </indexterm>The server-side keyboard layout. This is the layout
-                                    of the RDP server and has nothing to do with the keyboard layout
-                                    in use on the client. <emphasis>The Guacamole client is
-                                        independent of keyboard layout.</emphasis> The RDP protocol,
-                                    however, is <emphasis>not</emphasis> independent of keyboard
-                                    layout, and Guacamole needs to know the keyboard layout of the
-                                    server in order to send the proper keys when a user is
-                                    typing.</para>
-                                <para>Possible values are:</para>
-                                <variablelist>
-                                    <varlistentry>
-                                        <term><constant>en-us-qwerty</constant></term>
-                                        <listitem>
-                                            <para>English (US) keyboard</para>
-                                        </listitem>
-                                    </varlistentry>
-                                    <varlistentry>
-                                        <term><constant>de-de-qwertz</constant></term>
-                                        <listitem>
-                                            <para>German keyboard (qwertz)</para>
-                                        </listitem>
-                                    </varlistentry>
-                                    <varlistentry>
-                                        <term><constant>fr-fr-azerty</constant></term>
-                                        <listitem>
-                                            <para>French keyboard (azerty)</para>
-                                        </listitem>
-                                    </varlistentry>
-                                    <varlistentry>
-                                        <term><constant>it-it-qwerty</constant></term>
-                                        <listitem>
-                                            <para>Italian keyboard</para>
-                                        </listitem>
-                                    </varlistentry>
-                                    <varlistentry>
-                                        <term><constant>sv-se-qwerty</constant></term>
-                                        <listitem>
-                                            <para>Swedish keyboard</para>
-                                        </listitem>
-                                    </varlistentry>
-                                    <varlistentry>
-                                        <term><constant>failsafe</constant></term>
-                                        <listitem>
-                                            <para>Unknown keyboard - this option sends only Unicode
-                                                events and should work for any keyboard, though not
-                                                necessarily all RDP servers or applications.</para>
-                                            <para>If your server's keyboard layout is not yet
-                                                supported, this option should work in the
-                                                meantime.</para>
-                                        </listitem>
-                                    </varlistentry>
-                                </variablelist>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>security</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>RDP</primary>
-                                        <secondary>security</secondary>
-                                    </indexterm><indexterm>
-                                        <primary>RDP</primary>
-                                        <secondary>NLA</secondary>
-                                    </indexterm><indexterm>
-                                        <primary>RDP</primary>
-                                        <secondary>TLS</secondary>
-                                    </indexterm>The security mode to use for the RDP connection.
-                                    This mode dictates how data will be encrypted and what type of
-                                    authentication will be performed, if any. By default, the server
-                                    is allowed to control what type of security is used.</para>
-                                <para>Possible values are:</para>
-                                <variablelist>
-                                    <varlistentry>
-                                        <term><constant>rdp</constant></term>
-                                        <listitem>
-                                            <para>Standard RDP encryption. This mode should be
-                                                supported by all RDP servers.</para>
-                                        </listitem>
-                                    </varlistentry>
-                                    <varlistentry>
-                                        <term><constant>nla</constant></term>
-                                        <listitem>
-                                            <para>Network Level Authentication. This mode requires
-                                                the username and password, and performs an
-                                                authentication step before the remote desktop
-                                                session actually starts. If the username and
-                                                password are not given, the connection cannot be
-                                                made.</para>
-                                        </listitem>
-                                    </varlistentry>
-                                    <varlistentry>
-                                        <term><constant>tls</constant></term>
-                                        <listitem>
-                                            <para>TLS encryption. TLS (Transport Layer Security) is
-                                                the successor to SSL.</para>
-                                        </listitem>
-                                    </varlistentry>
-                                    <varlistentry>
-                                        <term><constant>any</constant></term>
-                                        <listitem>
-                                            <para>Allow the server to choose the type of security.
-                                                This is the default.</para>
-                                        </listitem>
-                                    </varlistentry>
-                                </variablelist>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>ignore-cert</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>RDP</primary>
-                                        <secondary>ignoring certificates</secondary>
-                                    </indexterm>If set to "true", the certificate returned by the
-                                    server will be ignored, even if that certificate cannot be
-                                    validated. This is useful if you universally trust the server
-                                    and your connection to the server, and you know that the
-                                    server's certificate cannot be validated (for example, if it is
-                                    self-signed).</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>disable-auth</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>RDP</primary>
-                                        <secondary>disabling authentication</secondary>
-                                    </indexterm>If set to "true", authentication will be disabled.
-                                    Note that this refers to authentication that takes place while
-                                    connecting. Any authentication enforced by the server over the
-                                    remote desktop session (such as a login dialog) will still take
-                                    place. By default, authentication is enabled and only used when
-                                    requested by the server.</para>
-                                <para>If you are using NLA, authentication must be enabled by
-                                    definition.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>remote-app</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>RemoteApp</primary>
-                                    </indexterm>Specifies the RemoteApp to start on the remote
-                                    desktop. If supported by your remote desktop server, this
-                                    application, and only this application, will be visible to the
-                                    user.</para>
-                                <para>Windows requires a special notation for the names of remote
-                                    applications. The names of remote applications must be prefixed
-                                    with two vertical bars. For example, if you have created a
-                                    remote application on your server for
-                                        <filename>notepad.exe</filename> and have assigned it the
-                                    name "notepad", you would set this parameter to:
-                                    "||notepad".</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>remote-app-dir</parameter></entry>
-                            <entry>
-                                <para>The working directory, if any, for the remote application.
-                                    This parameter has no effect if RemoteApp is not in use.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>remote-app-args</parameter></entry>
-                            <entry>
-                                <para>The command-line arguments, if any, for the remote
-                                    application. This parameter has no effect if RemoteApp is not in
-                                    use.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>static-channels</parameter></entry>
-                            <entry>
-                                <para>A comma-separated list of static channel names to open and
-                                    expose as pipes. If you wish to communicate between an
-                                    application running on the remote desktop and JavaScript, this
-                                    is the best way to do it. Guacamole will open an outbound pipe
-                                    with the name of the static channel. If JavaScript needs to
-                                    communicate back in the other direction, it should respond by
-                                    opening another pipe with the same name.</para>
-                                <para>Guacamole allows any number of static channels to be opened,
-                                    but protocol restrictions of RDP limit the size of each channel
-                                    name to 7 characters.</para>
-                            </entry>
-                        </row>
-                    </tbody>
-                </tgroup>
-            </table>
-            <section>
+                                        <secondary>audio</secondary>
+                                    </indexterm>Audio is enabled by default in both the client and
+                                    in libguac-client-rdp. If you are concerned about bandwidth
+                                    usage, or sound is causing problems, you can explicitly disable
+                                    sound by setting this parameter to "true".</entry>
+                            </row>
+                            <row>
+                                <entry><parameter>enable-printing</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>enabling printing</primary>
+                                        </indexterm><indexterm>
+                                            <primary>printing</primary>
+                                        </indexterm><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>printing</secondary>
+                                        </indexterm>Printing is disabled by default, but with
+                                        printing enabled, RDP users can print to a virtual printer
+                                        that sends a PDF containing the document printed to the
+                                        Guacamole client. Enable printing by setting this parameter
+                                        to "true".</para>
+                                    <para><emphasis>Printing support requires
+                                                <application>GhostScript</application> to be
+                                            installed.</emphasis> If
+                                            <application>guacd</application> cannot find the
+                                            <filename>gs</filename> executable when printing, the
+                                        print attempt will fail.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>enable-drive</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>enabling file transfer</primary>
+                                        </indexterm><indexterm>
+                                            <primary>file transfer</primary>
+                                        </indexterm><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>file transfer</secondary>
+                                        </indexterm>File transfer is disabled by default, but with
+                                        file transfer enabled, RDP users can transfer files to and
+                                        from a virtual drive which persists on the Guacamole server.
+                                        Enable file transfer support by setting this parameter to
+                                        "true".</para>
+                                    <para>Files will be stored in the directory specified by the
+                                            "<parameter>drive-path</parameter>" parameter, which is
+                                        required if file transfer is enabled.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>drive-path</parameter></entry>
+                                <entry>
+                                    <para>The directory on the Guacamole server in which transferred
+                                        files should be stored. This directory must be accessible by
+                                        guacd and both readable and writable by the user that runs
+                                        guacd. <emphasis>This parameter does not refer to a
+                                            directory on the RDP server.</emphasis></para>
+                                    <para>If file transfer is not enabled, this parameter is
+                                        ignored.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>console-audio</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>console audio</secondary>
+                                        </indexterm>If set to "true", audio will be explicitly
+                                        enabled in the console (admin) session of the RDP server.
+                                        Setting this option to "true" only makes sense if the
+                                            <parameter>console</parameter> parameter is also set to
+                                        "true".</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>static-channels</parameter></entry>
+                                <entry>
+                                    <para>A comma-separated list of static channel names to open and
+                                        expose as pipes. If you wish to communicate between an
+                                        application running on the remote desktop and JavaScript,
+                                        this is the best way to do it. Guacamole will open an
+                                        outbound pipe with the name of the static channel. If
+                                        JavaScript needs to communicate back in the other direction,
+                                        it should respond by opening another pipe with the same
+                                        name.</para>
+                                    <para>Guacamole allows any number of static channels to be
+                                        opened, but protocol restrictions of RDP limit the size of
+                                        each channel name to 7 characters.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="rdp-remoteapp">
+                <title>RemoteApp</title>
+                <para>Recent versions of Windows provide a feature called RemoteApp which allows
+                    individual applications to be used over RDP, without providing access to the
+                    full desktop environment. If your RDP server has this feature enabled and
+                    configured, you can configure Guacamole connections to use those individual
+                    applications.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>RDP</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>remote-app</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RemoteApp</primary>
+                                        </indexterm>Specifies the RemoteApp to start on the remote
+                                        desktop. If supported by your remote desktop server, this
+                                        application, and only this application, will be visible to
+                                        the user.</para>
+                                    <para>Windows requires a special notation for the names of
+                                        remote applications. The names of remote applications must
+                                        be prefixed with two vertical bars. For example, if you have
+                                        created a remote application on your server for
+                                            <filename>notepad.exe</filename> and have assigned it
+                                        the name "notepad", you would set this parameter to:
+                                        "||notepad".</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>remote-app-dir</parameter></entry>
+                                <entry>
+                                    <para>The working directory, if any, for the remote application.
+                                        This parameter has no effect if RemoteApp is not in
+                                        use.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>remote-app-args</parameter></entry>
+                                <entry>
+                                    <para>The command-line arguments, if any, for the remote
+                                        application. This parameter has no effect if RemoteApp is
+                                        not in use.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="adding-rdp">
                 <title>Adding an RDP connection</title>
                 <indexterm>
                     <primary>RDP</primary>
@@ -1183,132 +1533,222 @@ guacd-port:     4822</programlisting>
                 the server side, and draws the screen of this terminal remotely on the
                 client.</para>
             <para>SSH support for Guacamole is provided by the <package>libguac-client-ssh</package>
-                library, which depends on libssh2 and libssl.</para>
-            <table frame="all">
-                <title>SSH configuration parameters</title>
-                <indexterm>
-                    <primary>parameters</primary>
-                    <secondary>SSH</secondary>
-                </indexterm>
-                <tgroup cols="2">
-                    <colspec colname="c1" colnum="1" colwidth="1*"/>
-                    <colspec colname="c2" colnum="2" colwidth="3.55*"/>
-                    <thead>
-                        <row>
-                            <entry>Name</entry>
-                            <entry>Description</entry>
-                        </row>
-                    </thead>
-                    <tbody>
-                        <row>
-                            <entry><parameter>hostname</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>SSH</primary>
-                                        <secondary>hostname</secondary>
-                                    </indexterm>The hostname or IP address of the SSH server
-                                    Guacamole should connect to.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>port</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>SSH</primary>
-                                        <secondary>port</secondary>
-                                    </indexterm>The port the SSH server is listening on, usually 22.
-                                    This parameter is optional. If this is not specified, the
-                                    default of 22 will be used.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>username</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>SSH</primary>
-                                        <secondary>username</secondary>
-                                    </indexterm>The username to use to authenticate, if any. This
-                                    parameter is optional. If not specified, you will be prompted
-                                    for the username upon connecting.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>password</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>SSH</primary>
-                                        <secondary>password</secondary>
-                                    </indexterm>The password to use when attempting authentication,
-                                    if any. This parameter is optional. If not specified, you will
-                                    be prompted for your password upon connecting.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>font-name</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>SSH</primary>
-                                        <secondary>font</secondary>
-                                    </indexterm>The name of the font to use. This parameter is
-                                    optional. If not specified, the default of "monospace" will be
-                                    used instead.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>font-size</parameter></entry>
-                            <entry>
-                                <para>The size of the font to use, in points. This parameter is
-                                    optional. If not specified, the default of 12 will be used
-                                    instead.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>enable-sftp</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>SSH</primary>
-                                        <secondary>file transfer</secondary>
-                                    </indexterm><indexterm>
-                                        <primary>SFTP</primary>
-                                    </indexterm>Whether file transfer should be enabled. If set to
-                                    "true", the user will be allowed to upload or download files
-                                    from the SSH server using SFTP. Guacamole includes the
-                                        <command>guacctl</command> utility which controls file
-                                    downloads and uploads when run on the SSH server by the user
-                                    over the SSH connection.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>private-key</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>SSH</primary>
-                                        <secondary>public key authentication</secondary>
-                                    </indexterm>The entire contents of the private key to use for
-                                    public key authentication. If this parameter is not specified,
-                                    public key authentication will not be used. The private key must
-                                    be in OpenSSH format, as would be generated by the OpenSSH
-                                        <command>ssh-keygen</command> utility.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>passphrase</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>SSH</primary>
-                                        <secondary>passphrase</secondary>
-                                    </indexterm>The passphrase to use to decrypt the private key for
-                                    use in public key authentication. This parameter is not needed
-                                    if the private key does not require a passphrase. If the private
-                                    key requires a passphrase, but this parameter is not provided,
-                                    the user will be prompted for the passphrase upon
-                                    connecting.</para>
-                            </entry>
-                        </row>
-                    </tbody>
-                </tgroup>
-            </table>
-            <section>
+                library, which will be installed as part of guacamole-server if the required
+                dependencies are present during the build.</para>
+            <section xml:id="ssh-network-parameters">
+                <title>Network parameters</title>
+                <para>SSH connections require a hostname or IP address defining the destination
+                    machine. SSH is standardized to use port 22 and this will be the proper value in
+                    most cases. You only need to specify the SSH port if you are not using the
+                    standard port.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>SSH</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>hostname</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>hostname</secondary>
+                                        </indexterm>The hostname or IP address of the SSH server
+                                        Guacamole should connect to.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>port</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>port</secondary>
+                                        </indexterm>The port the SSH server is listening on, usually
+                                        22. This parameter is optional. If this is not specified,
+                                        the default of 22 will be used.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="ssh-authentication">
+                <title>Authentication</title>
+                <para>SSH provides authentication through passwords and public key
+                    authentication.</para>
+                <para>For Guacamole to use public key authentication, it must have access to your
+                    private key and, if applicable, its passphrase. If the private key requires a
+                    passphrase, but no passphrase is provided, you will be prompted for the
+                    passphrase upon connecting.</para>
+                <para>If no private key is provided, Guacamole will attempt to authenticate using a
+                    password, reading that password from the connection parameters, if provided, or
+                    by prompting the user directly.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>SSH</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>username</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>username</secondary>
+                                        </indexterm>The username to use to authenticate, if any.
+                                        This parameter is optional. If not specified, you will be
+                                        prompted for the username upon connecting.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>password</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>password</secondary>
+                                        </indexterm>The password to use when attempting
+                                        authentication, if any. This parameter is optional. If not
+                                        specified, you will be prompted for your password upon
+                                        connecting.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>private-key</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>public key authentication</secondary>
+                                        </indexterm>The entire contents of the private key to use
+                                        for public key authentication. If this parameter is not
+                                        specified, public key authentication will not be used. The
+                                        private key must be in OpenSSH format, as would be generated
+                                        by the OpenSSH <command>ssh-keygen</command> utility.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>passphrase</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>passphrase</secondary>
+                                        </indexterm>The passphrase to use to decrypt the private key
+                                        for use in public key authentication. This parameter is not
+                                        needed if the private key does not require a passphrase. If
+                                        the private key requires a passphrase, but this parameter is
+                                        not provided, the user will be prompted for the passphrase
+                                        upon connecting.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="ssh-display-settings">
+                <title>Display settings</title>
+                <para>Guacamole's SSH support provides a display, but not in the same sense as a
+                    remote desktop protocol like VNC or RDP. The display is a terminal emulator, and
+                    thus provides options for configuring the font used and its size. In this case,
+                        <emphasis>the chosen font must be installed on the server</emphasis>, as it
+                    is the server that will handle rendering of characters to the terminal display,
+                    not the client.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>SSH</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>font-name</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>font</secondary>
+                                        </indexterm>The name of the font to use. This parameter is
+                                        optional. If not specified, the default of "monospace" will
+                                        be used instead.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>font-size</parameter></entry>
+                                <entry>
+                                    <para>The size of the font to use, in points. This parameter is
+                                        optional. If not specified, the default of 12 will be used
+                                        instead.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="ssh-sftp">
+                <title>SFTP</title>
+                <para>Guacamole provides support for file transfer over SSH using SFTP, the file
+                    transfer protocol built into most SSH servers. If SFTP is enabled on a Guacamole
+                    SSH connection, users will be able to upload and download files as described in
+                        <xref linkend="using-guacamole"/>.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>SSH</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>enable-sftp</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>file transfer</secondary>
+                                        </indexterm><indexterm>
+                                            <primary>SFTP</primary>
+                                        </indexterm>Whether file transfer should be enabled. If set
+                                        to "true", the user will be allowed to upload or download
+                                        files from the SSH server using SFTP. Guacamole includes the
+                                            <command>guacctl</command> utility which controls file
+                                        downloads and uploads when run on the SSH server by the user
+                                        over the SSH connection.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="adding-ssh">
                 <title>Adding an SSH connection</title>
                 <indexterm>
                     <primary>SSH</primary>
@@ -1349,145 +1789,56 @@ guacd-port:     4822</programlisting>
                 emulates a terminal on the server side which renders to the Guacamole client's
                 display.</para>
             <para>Telnet support for Guacamole is provided by the
-                    <package>libguac-client-telnet</package> library, which depends on
-                libtelnet.</para>
-            <table frame="all">
-                <title>Telnet configuration parameters</title>
-                <indexterm>
-                    <primary>parameters</primary>
-                    <secondary>telnet</secondary>
-                </indexterm>
-                <tgroup cols="2">
-                    <colspec colname="c1" colnum="1" colwidth="1*"/>
-                    <colspec colname="c2" colnum="2" colwidth="3.55*"/>
-                    <thead>
-                        <row>
-                            <entry>Name</entry>
-                            <entry>Description</entry>
-                        </row>
-                    </thead>
-                    <tbody>
-                        <row>
-                            <entry><parameter>hostname</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>telnet</primary>
-                                        <secondary>hostname</secondary>
-                                    </indexterm>The hostname or IP address of the telnet server
-                                    Guacamole should connect to.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>port</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>telnet</primary>
-                                        <secondary>port</secondary>
-                                    </indexterm>The port the telnet server is listening on, usually
-                                    23. This parameter is optional. If this is not specified, the
-                                    default of 23 will be used.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>username</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>telnet</primary>
-                                        <secondary>username</secondary>
-                                    </indexterm>The username to use to authenticate, if any. This
-                                    parameter is optional. If not specified, or not supported by the
-                                    telnet server, the login process on the telnet server will
-                                    prompt you for your credentials. For this to work, your telnet
-                                    server must support the <methodname>NEW-ENVIRON</methodname>
-                                    option, and the telnet login process must pay attention to the
-                                        <envar>USER</envar> environment variable. Most telnet
-                                    servers satisfy this criteria.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>username-regex</parameter></entry>
-                            <entry>
-                                <para>The regular expression to use when waiting for the username
-                                    prompt. This parameter is optional. If not specified, a
-                                    reasonable default built into Guacamole will be used. The
-                                    regular expression must be written in the POSIX ERE dialect (the
-                                    dialect typically used by <command>egrep</command>).</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>password</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>telnet</primary>
-                                        <secondary>password</secondary>
-                                    </indexterm>The password to use when attempting authentication,
-                                    if any. This parameter is optional. If specified, your password
-                                    will be typed on your behalf when the password prompt is
-                                    detected.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>password-regex</parameter></entry>
-                            <entry>
-                                <para>The regular expression to use when waiting for the password
-                                    prompt. This parameter is optional. If not specified, a
-                                    reasonable default built into Guacamole will be used. The
-                                    regular expression must be written in the POSIX ERE dialect (the
-                                    dialect typically used by <command>egrep</command>).</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>font-name</parameter></entry>
-                            <entry>
-                                <para><indexterm>
-                                        <primary>telnet</primary>
-                                        <secondary>font</secondary>
-                                    </indexterm>The name of the font to use. This parameter is
-                                    optional. If not specified, the default of "monospace" will be
-                                    used instead.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry><parameter>font-size</parameter></entry>
-                            <entry>
-                                <para>The size of the font to use, in points. This parameter is
-                                    optional. If not specified, the default of 12 will be used
-                                    instead.</para>
-                            </entry>
-                        </row>
-                    </tbody>
-                </tgroup>
-            </table>
-            <section>
-                <title>Adding a telnet connection</title>
-                <indexterm>
-                    <primary>telnet</primary>
-                    <secondary>adding</secondary>
-                </indexterm>
-                <para>If you are using the default authentication built into Guacamole, and you wish
-                    to grant access to a telnet connection to a particular user, you need to locate
-                    the <code>&lt;authorize></code> section for that user within your
-                        <filename>user-mapping.xml</filename>, and add a section like the following
-                    within it:</para>
-                <programlisting>&lt;connection name="<replaceable>Unique Name</replaceable>">
-    &lt;protocol>telnet&lt;/protocol>
-    &lt;param name="hostname"><replaceable>localhost</replaceable>&lt;/param>
-    &lt;param name="port"><replaceable>23</replaceable>&lt;/param>
-&lt;/connection></programlisting>
-                <para>If added exactly as above, a new connection named "<replaceable>Unique
-                        Name</replaceable>" will be available to the user associated with the
-                        <code>&lt;authorize></code> section containing it. The connection will use
-                    telnet to connect to <replaceable>localhost</replaceable> at port
-                        <replaceable>23</replaceable>. Naturally, you will want to change some or
-                    all of these values.</para>
-                <para>As telnet is inherently insecure compared to SSH, you should use SSH instead
-                    wherever possible. If Guacamole is set up to use HTTPS then communication with
-                    the Guacamole <emphasis>client</emphasis> will be encrypted, but communication
-                    between guacd and the telnet server will still be unencrypted. You should not
-                    use telnet unless the network between guacd and the telnet server is
-                    trusted.</para>
+                    <package>libguac-client-telnet</package> library, which will be installed as
+                part of guacamole-server if the required dependencies are present during the
+                build.</para>
+            <section xml:id="telnet-network-parameters">
+                <title>Network parameters</title>
+                <para>Telnet connections require a hostname or IP address defining the destination
+                    machine. Telnet is standardized to use port 23 and this will be the proper value
+                    in most cases. You only need to specify the telnet port if you are not using the
+                    standard port.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>telnet</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>hostname</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>telnet</primary>
+                                            <secondary>hostname</secondary>
+                                        </indexterm>The hostname or IP address of the telnet server
+                                        Guacamole should connect to.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>port</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>telnet</primary>
+                                            <secondary>port</secondary>
+                                        </indexterm>The port the telnet server is listening on,
+                                        usually 23. This parameter is optional. If this is not
+                                        specified, the default of 23 will be used.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
             </section>
-            <section>
+            <section xml:id="telnet-authentication">
                 <title>Authentication</title>
                 <para>Telnet does not actually provide any standard means of authentication.
                     Authentication over telnet depends entirely on the login process running on the
@@ -1519,10 +1870,154 @@ guacd-port:     4822</programlisting>
                         <parameter>password-regex</parameter> parameter. The regular expression must
                     be written in the POSIX ERE dialect (the dialect typically used by
                         <command>egrep</command>).</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>telnet</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>username</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>telnet</primary>
+                                            <secondary>username</secondary>
+                                        </indexterm>The username to use to authenticate, if any.
+                                        This parameter is optional. If not specified, or not
+                                        supported by the telnet server, the login process on the
+                                        telnet server will prompt you for your credentials. For this
+                                        to work, your telnet server must support the
+                                            <methodname>NEW-ENVIRON</methodname> option, and the
+                                        telnet login process must pay attention to the
+                                            <envar>USER</envar> environment variable. Most telnet
+                                        servers satisfy this criteria.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>password</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>telnet</primary>
+                                            <secondary>password</secondary>
+                                        </indexterm>The password to use when attempting
+                                        authentication, if any. This parameter is optional. If
+                                        specified, your password will be typed on your behalf when
+                                        the password prompt is detected.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>username-regex</parameter></entry>
+                                <entry>
+                                    <para>The regular expression to use when waiting for the
+                                        username prompt. This parameter is optional. If not
+                                        specified, a reasonable default built into Guacamole will be
+                                        used. The regular expression must be written in the POSIX
+                                        ERE dialect (the dialect typically used by
+                                            <command>egrep</command>).</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>password-regex</parameter></entry>
+                                <entry>
+                                    <para>The regular expression to use when waiting for the
+                                        password prompt. This parameter is optional. If not
+                                        specified, a reasonable default built into Guacamole will be
+                                        used. The regular expression must be written in the POSIX
+                                        ERE dialect (the dialect typically used by
+                                            <command>egrep</command>).</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="telnet-display-settings">
+                <title>Display settings</title>
+                <para>Guacamole's telnet support provides a display, but not in the same sense as a
+                    remote desktop protocol like VNC or RDP. The display is a terminal emulator, and
+                    thus provides options for configuring the font used and its size. In this case,
+                        <emphasis>the chosen font must be installed on the server</emphasis>, as it
+                    is the server that will handle rendering of characters to the terminal display,
+                    not the client.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>telnet</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>font-name</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>telnet</primary>
+                                            <secondary>font</secondary>
+                                        </indexterm>The name of the font to use. This parameter is
+                                        optional. If not specified, the default of "monospace" will
+                                        be used instead.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>font-size</parameter></entry>
+                                <entry>
+                                    <para>The size of the font to use, in points. This parameter is
+                                        optional. If not specified, the default of 12 will be used
+                                        instead.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="adding-telnet">
+                <title>Adding a telnet connection</title>
+                <indexterm>
+                    <primary>telnet</primary>
+                    <secondary>adding</secondary>
+                </indexterm>
+                <para>If you are using the default authentication built into Guacamole, and you wish
+                    to grant access to a telnet connection to a particular user, you need to locate
+                    the <code>&lt;authorize></code> section for that user within your
+                        <filename>user-mapping.xml</filename>, and add a section like the following
+                    within it:</para>
+                <programlisting>&lt;connection name="<replaceable>Unique Name</replaceable>">
+    &lt;protocol>telnet&lt;/protocol>
+    &lt;param name="hostname"><replaceable>localhost</replaceable>&lt;/param>
+    &lt;param name="port"><replaceable>23</replaceable>&lt;/param>
+&lt;/connection></programlisting>
+                <para>If added exactly as above, a new connection named "<replaceable>Unique
+                        Name</replaceable>" will be available to the user associated with the
+                        <code>&lt;authorize></code> section containing it. The connection will use
+                    telnet to connect to <replaceable>localhost</replaceable> at port
+                        <replaceable>23</replaceable>. Naturally, you will want to change some or
+                    all of these values.</para>
+                <para>As telnet is inherently insecure compared to SSH, you should use SSH instead
+                    wherever possible. If Guacamole is set up to use HTTPS then communication with
+                    the Guacamole <emphasis>client</emphasis> will be encrypted, but communication
+                    between guacd and the telnet server will still be unencrypted. You should not
+                    use telnet unless the network between guacd and the telnet server is
+                    trusted.</para>
             </section>
         </section>
-        <section>
-            <title xml:id="parameter-tokens">Parameter tokens</title>
+        <section xml:id="parameter-tokens">
+            <title>Parameter tokens</title>
             <para>The values of connection parameters can contain "tokens" which will be replaced by
                 Guacamole when used. These tokens allow the values of connection parameters to vary
                 dynamically by the user using the connection, and provide a simple means of
