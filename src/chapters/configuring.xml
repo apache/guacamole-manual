@@ -1522,6 +1522,10 @@ guacd-port:     4822</programlisting>
                 dependencies are present during the build.</para>
             <section xml:id="ssh-network-parameters">
                 <title>Network parameters</title>
+                <para>SSH connections require a hostname or IP address defining the destination
+                    machine. SSH is standardized to use port 22 and this will be the proper value in
+                    most cases. You only need to specify the SSH port if you are not using the
+                    standard port.</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
@@ -1564,6 +1568,15 @@ guacd-port:     4822</programlisting>
             </section>
             <section xml:id="ssh-authentication">
                 <title>Authentication</title>
+                <para>SSH provides authentication through passwords and public key
+                    authentication.</para>
+                <para>For Guacamole to use public key authentication, it must have access to your
+                    private key and, if applicable, its passphrase. If the private key requires a
+                    passphrase, but no passphrase is provided, you will be prompted for the
+                    passphrase upon connecting.</para>
+                <para>If no private key is provided, Guacamole will attempt to authenticate using a
+                    password, reading that password from the connection parameters, if provided, or
+                    by prompting the user directly.</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
@@ -1766,6 +1779,10 @@ guacd-port:     4822</programlisting>
                 build.</para>
             <section xml:id="telnet-network-parameters">
                 <title>Network parameters</title>
+                <para>Telnet connections require a hostname or IP address defining the destination
+                    machine. Telnet is standardized to use port 23 and this will be the proper value
+                    in most cases. You only need to specify the telnet port if you are not using the
+                    standard port.</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
