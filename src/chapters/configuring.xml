@@ -385,9 +385,14 @@ guacd-port:     4822</programlisting>
                 Guacamole tends to be faster than VNC by itself due to decreased bandwidth
                 usage.</para>
             <para>VNC support for Guacamole is provided by the <package>libguac-client-vnc</package>
-                library, installed by default.</para>
+                library, which will be installed as part of guacamole-server if the required
+                dependencies are present during the build.</para>
             <section xml:id="vnc-network-parameters">
                 <title>Network parameters</title>
+                <para>With the exception of reverse-mode VNC connections, VNC works by making
+                    outbound network connections to a particular host which runs one or more VNC
+                    servers. Each VNC server is associated with a display number, from which the
+                    appropriate port number is derived.</para>
                 <informaltable frame="all" xml:id="vnc-parameters">
                     <indexterm>
                         <primary>parameters</primary>
@@ -398,7 +403,7 @@ guacd-port:     4822</programlisting>
                         <colspec colname="c2" colnum="2" colwidth="3.55*"/>
                         <thead>
                             <row>
-                                <entry>Name</entry>
+                                <entry>Parameter name</entry>
                                 <entry>Description</entry>
                             </row>
                         </thead>
@@ -444,6 +449,9 @@ guacd-port:     4822</programlisting>
             </section>
             <section xml:id="vnc-authentication">
                 <title>Authentication</title>
+                <para>The VNC standard defines only password based authentication. Other
+                    authentication mechanisms exist, but are non-standard or proprietary. Guacamole
+                    supports only the password method.</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
@@ -454,7 +462,7 @@ guacd-port:     4822</programlisting>
                         <colspec colname="c2" colnum="2" colwidth="3.55*"/>
                         <thead>
                             <row>
-                                <entry>Name</entry>
+                                <entry>Parameter name</entry>
                                 <entry>Description</entry>
                             </row>
                         </thead>
@@ -475,6 +483,18 @@ guacd-port:     4822</programlisting>
             </section>
             <section xml:id="vnc-display-settings">
                 <title>Display settings</title>
+                <para>VNC servers do not allow the client to request particular display sizes, so
+                    you are at the mercy of your VNC server with respect to display width and
+                    height. However, to reduce bandwidth usage, you may request that the VNC server
+                    reduce its color depth. Guacamole will automatically detect 256-color images,
+                    but this can be guaranteed for absolutely all graphics sent over the connection
+                    by forcing the color depth to 8-bit. Color depth is otherwise dictated by the
+                    VNC server.</para>
+                <para>If you are noticing problems with your VNC display, such as the lack of a
+                    mouse cursor, the presence of multiple mouse cursors, or strange colors (such as
+                    blue colors appearing more like orange or red), these are typically the result
+                    of bugs or limitations within the VNC server, and additional parameters are
+                    available to work around such issues.</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
@@ -485,7 +505,7 @@ guacd-port:     4822</programlisting>
                         <colspec colname="c2" colnum="2" colwidth="3.55*"/>
                         <thead>
                             <row>
-                                <entry>Name</entry>
+                                <entry>Parameter name</entry>
                                 <entry>Description</entry>
                             </row>
                         </thead>
@@ -523,7 +543,10 @@ guacd-port:     4822</programlisting>
                                             <secondary>mouse pointer</secondary>
                                         </indexterm>If set to "remote", the mouse pointer will be
                                         rendered remotely, and the local position of the mouse
-                                        pointer will be indicated by a small dot.</para>
+                                        pointer will be indicated by a small dot. A remote mouse
+                                        cursor will feel slower than a local cursor, but may be
+                                        necessary if the VNC server does not support sending the
+                                        cursor image to the client.</para>
                                 </entry>
                             </row>
                             <row>
@@ -562,6 +585,10 @@ guacd-port:     4822</programlisting>
             </section>
             <section xml:id="vnc-repeater">
                 <title>VNC Repeater</title>
+                <para>There exist VNC repeaters, such as UltraVNC Repeater, which act as
+                    intermediaries or proxies, providing a single logical VNC connection which is
+                    then routed to another VNC server elsewhere. Additional parameters are required
+                    to select which VNC host behind the repeater will receive the connection.</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
@@ -572,7 +599,7 @@ guacd-port:     4822</programlisting>
                         <colspec colname="c2" colnum="2" colwidth="3.55*"/>
                         <thead>
                             <row>
-                                <entry>Name</entry>
+                                <entry>Parameter name</entry>
                                 <entry>Description</entry>
                             </row>
                         </thead>
@@ -616,6 +643,11 @@ guacd-port:     4822</programlisting>
             </section>
             <section xml:id="vnc-reverse-connections">
                 <title>Reverse VNC connections</title>
+                <para>Guacamole supports "reverse" VNC connections, where the VNC client listens for
+                    an incoming connection from the VNC server. When reverse VNC connections are
+                    used, the VNC client and server switch network roles, but otherwise function as
+                    they normally would. The VNC server still provides the remote display, and the
+                    VNC client still provides all keyboard and mouse input.</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
@@ -626,7 +658,7 @@ guacd-port:     4822</programlisting>
                         <colspec colname="c2" colnum="2" colwidth="3.55*"/>
                         <thead>
                             <row>
-                                <entry>Name</entry>
+                                <entry>Parameter name</entry>
                                 <entry>Description</entry>
                             </row>
                         </thead>
@@ -661,6 +693,14 @@ guacd-port:     4822</programlisting>
             </section>
             <section xml:id="vnc-audio">
                 <title>Audio support</title>
+                <para>VNC does not provide any support for audio, but Guacamole's VNC support can
+                    provide audio support through a secondary network connection to a PulseAudio
+                    server running on the same machine as the VNC server. Guacamole will thus
+                    combine two separate streams (one graphical stream and one audio stream) from
+                    two distinct network sources into a single stream of Guacamole protocol
+                    data.</para>
+                <para>The following parameters are available for configuring the experimental audio
+                    support for VNC:</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
@@ -671,7 +711,7 @@ guacd-port:     4822</programlisting>
                         <colspec colname="c2" colnum="2" colwidth="3.55*"/>
                         <thead>
                             <row>
-                                <entry>Name</entry>
+                                <entry>Parameter name</entry>
                                 <entry>Description</entry>
                             </row>
                         </thead>
@@ -718,6 +758,14 @@ guacd-port:     4822</programlisting>
                         </tbody>
                     </tgroup>
                 </informaltable>
+                <important>
+                    <para><emphasis>Audio support within VNC is experimental</emphasis>. Please
+                        report any problems encountered while using the experimental audio support
+                        for VNC to the Guacamole team by <link
+                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                            xlink:href="https://glyptodon.org/jira/">opening an issue in
+                        JIRA</link>.</para>
+                </important>
             </section>
             <section xml:id="adding-vnc">
                 <title>Adding a VNC connection</title>
@@ -839,13 +887,14 @@ guacd-port:     4822</programlisting>
                 officially supported by Guacamole. RDP tends to be faster than VNC due to the use of
                 caching, which Guacamole does take advantage of.</para>
             <para>RDP support for Guacamole is provided by the <package>libguac-client-rdp</package>
-                library, which depends on a recent version of FreeRDP (version 1.0 or higher). If
-                your distribution does not have a recent enough version of FreeRDP, the Guacamole
-                project will not build a <package>libguac-client-rdp</package> package for you. You
-                will need to build and install a recent version of FreeRDP, and then build and
-                install <package>libguac-client-rdp</package> from source.</para>
+                library, which will be installed as part of guacamole-server if the required
+                dependencies are present during the build.</para>
             <section xml:id="rdp-network-parameters">
                 <title>Network parameters</title>
+                <para>RDP connections require a hostname or IP address defining the destination
+                    machine. The RDP port is defined to be 3389, and will be this value in most
+                    cases. You only need to specify the RDP port if you are not using port
+                    3389.</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
@@ -856,7 +905,7 @@ guacd-port:     4822</programlisting>
                         <colspec colname="c2" colnum="2" colwidth="3.55*"/>
                         <thead>
                             <row>
-                                <entry>Name</entry>
+                                <entry>Parameter name</entry>
                                 <entry>Description</entry>
                             </row>
                         </thead>
@@ -887,7 +936,17 @@ guacd-port:     4822</programlisting>
                 </informaltable>
             </section>
             <section xml:id="rdp-authentication">
-                <title>Authentication</title>
+                <title>Authentication and security</title>
+                <para>RDP provides authentication through the use of a username, password, and
+                    optional domain.</para>
+                <para>Most RDP servers will provide a graphical login if the username, password, and
+                    domain parameters are omitted. One notable exception to this is Network Level
+                    Authentication, or NLA, which performs all authentication outside of a desktop
+                    session, and thus in the absence of a graphical interface. If your server
+                    requires NLA, you will need to manually choose this as your security mode, and
+                    you <emphasis>must</emphasis> provide a username and password.</para>
+                <para>All RDP connections are encrypted. Higher-grade encryption is available in the
+                    form of TLS, another possible security mode.</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
@@ -898,7 +957,7 @@ guacd-port:     4822</programlisting>
                         <colspec colname="c2" colnum="2" colwidth="3.55*"/>
                         <thead>
                             <row>
-                                <entry>Name</entry>
+                                <entry>Parameter name</entry>
                                 <entry>Description</entry>
                             </row>
                         </thead>
@@ -1023,6 +1082,22 @@ guacd-port:     4822</programlisting>
             </section>
             <section xml:id="rdp-session-settings">
                 <title>Session settings</title>
+                <para>RDP sessions will typically involve the full desktop environment of a normal
+                    user. Alternatively, you can manually specify a program to use instead of the
+                    RDP server's default shell, or connect to the administrative console.</para>
+                <para>Although Guacamole is independent of keyboard layout, RDP is not. This is
+                    because Guacamole represents keys based on what they <emphasis>do</emphasis>
+                    ("press the <keycap>Enter</keycap> key"), while RDP uses identifiers based on
+                    the key's location  ("press the rightmost key in the second row"). To translate
+                    between a Guacamole key event  and an RDP key event, Guacamole must know ahead
+                    of time the keyboard layout of the RDP server.</para>
+                <para>By default, the US English qwerty keyboard will be used. If this does not
+                    match the keyboard layout of your RDP server, keys will not be properly
+                    translated, and you will need to explicitly choose a different layout in your
+                    connection settings. If your keyboard layout is not supported, please notify the
+                    Guacamole team by <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                        xlink:href="https://glyptodon.org/jira/">opening an issue in
+                    JIRA</link>.</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
@@ -1033,7 +1108,7 @@ guacd-port:     4822</programlisting>
                         <colspec colname="c2" colnum="2" colwidth="3.55*"/>
                         <thead>
                             <row>
-                                <entry>Name</entry>
+                                <entry>Parameter name</entry>
                                 <entry>Description</entry>
                             </row>
                         </thead>
@@ -1128,6 +1203,15 @@ guacd-port:     4822</programlisting>
             </section>
             <section xml:id="rdp-display-settings">
                 <title>Display settings</title>
+                <para>Guacamole will automatically choose an appropriate display size for RDP
+                    connections based on the size of the browser window and the DPI of the device.
+                    The size of the display can be forced by specifying explicit width or height
+                    values.</para>
+                <para>To reduce bandwidth usage, you may also request that the server reduce its
+                    color depth. Guacamole will automatically detect 256-color images, but this can
+                    be guaranteed for absolutely all graphics sent over the connection by forcing
+                    the color depth to 8-bit. Color depth is otherwise dictated by the RDP
+                    server.</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
@@ -1138,7 +1222,7 @@ guacd-port:     4822</programlisting>
                         <colspec colname="c2" colnum="2" colwidth="3.55*"/>
                         <thead>
                             <row>
-                                <entry>Name</entry>
+                                <entry>Parameter name</entry>
                                 <entry>Description</entry>
                             </row>
                         </thead>
@@ -1197,6 +1281,22 @@ guacd-port:     4822</programlisting>
             </section>
             <section xml:id="rdp-device-redirection">
                 <title>Device redirection</title>
+                <para>Device redirection refers to the use of non-display devices over RDP.
+                    Guacamole's RDP support currently allows redirection of audio, printing, and
+                    disk access, some of which require additional configuration in order to function
+                    properly.</para>
+                <para>Audio redirection will be enabled by default. If Guacamole was correctly
+                    installed, and audio redirection is supported by your RDP server, sound should
+                    play within remote connections without manual intervention.</para>
+                <para>Printing requires <application>GhostScript</application> to be installed on
+                    the Guacamole server, and allows users to print arbitrary documents directly to
+                    PDF. When documents are printed to the redirected printer, the user will receive
+                    a PDF of that document within their web browser.</para>
+                <para>Guacamole provides support for file transfer over RDP by emulating a virtual
+                    disk drive. This drive will persist on the Guacamole server, confined within the
+                    drive path specified. If drive redirection is enabled on a Guacamole SSH
+                    connection, users will be able to upload and download files as described in
+                        <xref linkend="using-guacamole"/>.</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
@@ -1207,7 +1307,7 @@ guacd-port:     4822</programlisting>
                         <colspec colname="c2" colnum="2" colwidth="3.55*"/>
                         <thead>
                             <row>
-                                <entry>Name</entry>
+                                <entry>Parameter name</entry>
                                 <entry>Description</entry>
                             </row>
                         </thead>
@@ -1316,6 +1416,11 @@ guacd-port:     4822</programlisting>
             </section>
             <section xml:id="rdp-remoteapp">
                 <title>RemoteApp</title>
+                <para>Recent versions of Windows provide a feature called RemoteApp which allows
+                    individual applications to be used over RDP, without providing access to the
+                    full desktop environment. If your RDP server has this feature enabled and
+                    configured, you can configure Guacamole connections to use those individual
+                    applications.</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
@@ -1326,7 +1431,7 @@ guacd-port:     4822</programlisting>
                         <colspec colname="c2" colnum="2" colwidth="3.55*"/>
                         <thead>
                             <row>
-                                <entry>Name</entry>
+                                <entry>Parameter name</entry>
                                 <entry>Description</entry>
                             </row>
                         </thead>
@@ -1413,7 +1518,8 @@ guacd-port:     4822</programlisting>
                 the server side, and draws the screen of this terminal remotely on the
                 client.</para>
             <para>SSH support for Guacamole is provided by the <package>libguac-client-ssh</package>
-                library, which depends on libssh2 and libssl.</para>
+                library, which will be installed as part of guacamole-server if the required
+                dependencies are present during the build.</para>
             <section xml:id="ssh-network-parameters">
                 <title>Network parameters</title>
                 <informaltable frame="all">
@@ -1426,7 +1532,7 @@ guacd-port:     4822</programlisting>
                         <colspec colname="c2" colnum="2" colwidth="3.55*"/>
                         <thead>
                             <row>
-                                <entry>Name</entry>
+                                <entry>Parameter name</entry>
                                 <entry>Description</entry>
                             </row>
                         </thead>
@@ -1468,7 +1574,7 @@ guacd-port:     4822</programlisting>
                         <colspec colname="c2" colnum="2" colwidth="3.55*"/>
                         <thead>
                             <row>
-                                <entry>Name</entry>
+                                <entry>Parameter name</entry>
                                 <entry>Description</entry>
                             </row>
                         </thead>
@@ -1529,6 +1635,12 @@ guacd-port:     4822</programlisting>
             </section>
             <section xml:id="ssh-display-settings">
                 <title>Display settings</title>
+                <para>Guacamole's SSH support provides a display, but not in the same sense as a
+                    remote desktop protocol like VNC or RDP. The display is a terminal emulator, and
+                    thus provides options for configuring the font used and its size. In this case,
+                        <emphasis>the chosen font must be installed on the server</emphasis>, as it
+                    is the server that will handle rendering of characters to the terminal display,
+                    not the client.</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
@@ -1539,7 +1651,7 @@ guacd-port:     4822</programlisting>
                         <colspec colname="c2" colnum="2" colwidth="3.55*"/>
                         <thead>
                             <row>
-                                <entry>Name</entry>
+                                <entry>Parameter name</entry>
                                 <entry>Description</entry>
                             </row>
                         </thead>
@@ -1569,6 +1681,10 @@ guacd-port:     4822</programlisting>
             </section>
             <section xml:id="ssh-sftp">
                 <title>SFTP</title>
+                <para>Guacamole provides support for file transfer over SSH using SFTP, the file
+                    transfer protocol built into most SSH servers. If SFTP is enabled on a Guacamole
+                    SSH connection, users will be able to upload and download files as described in
+                        <xref linkend="using-guacamole"/>.</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
@@ -1579,7 +1695,7 @@ guacd-port:     4822</programlisting>
                         <colspec colname="c2" colnum="2" colwidth="3.55*"/>
                         <thead>
                             <row>
-                                <entry>Name</entry>
+                                <entry>Parameter name</entry>
                                 <entry>Description</entry>
                             </row>
                         </thead>
@@ -1645,8 +1761,9 @@ guacd-port:     4822</programlisting>
                 emulates a terminal on the server side which renders to the Guacamole client's
                 display.</para>
             <para>Telnet support for Guacamole is provided by the
-                    <package>libguac-client-telnet</package> library, which depends on
-                libtelnet.</para>
+                    <package>libguac-client-telnet</package> library, which will be installed as
+                part of guacamole-server if the required dependencies are present during the
+                build.</para>
             <section xml:id="telnet-network-parameters">
                 <title>Network parameters</title>
                 <informaltable frame="all">
@@ -1659,7 +1776,7 @@ guacd-port:     4822</programlisting>
                         <colspec colname="c2" colnum="2" colwidth="3.55*"/>
                         <thead>
                             <row>
-                                <entry>Name</entry>
+                                <entry>Parameter name</entry>
                                 <entry>Description</entry>
                             </row>
                         </thead>
@@ -1691,6 +1808,36 @@ guacd-port:     4822</programlisting>
             </section>
             <section xml:id="telnet-authentication">
                 <title>Authentication</title>
+                <para>Telnet does not actually provide any standard means of authentication.
+                    Authentication over telnet depends entirely on the login process running on the
+                    server and is interactive. To cope with this, Guacamole provides non-standard
+                    mechanisms for automatically passing the username and entering password. Whether
+                    these mechanisms work depends on specific login process used by your telnet
+                    server.</para>
+                <para>The de-facto method for passing the username automatically via telnet is to
+                    submit it via the <envar>USER</envar> environment variable, sent using the
+                        <methodname>NEW-ENVIRON</methodname> option. This is the mechanism used by
+                    most telnet clients, typically via the <option>-l</option> command-line
+                    option.</para>
+                <para>Passwords cannot typically be sent automatically - at least not as reliably as
+                    the username. There is no <envar>PASSWORD</envar> environment variable (this
+                    would actually be a horrible idea) nor any similar mechanism for passing the
+                    password to the telnet login process, and most telnet clients provide no
+                    built-in support for automatically entering the password. The best that can be
+                    done is to heuristically detect the password prompt, and type the password on
+                    behalf of the user when the prompt appears. The prescribed method for doing this
+                    with a traditional command-line telnet is to use a utility like
+                        <command>expect</command>. Guacamole provides similar functionality by
+                    searching for the password prompt with a regular expression.</para>
+                <para>If Guacamole receives a line of text which matches the regular expression, the
+                    password is automatically sent. If no such line is ever received, the password
+                    is not sent, and the user must type the password manually. Pressing any key
+                    during this process cancels the heuristic password prompt detection.</para>
+                <para>If the password prompt is not being detected properly, you can try using your
+                    own regular expression by specifying it within the
+                        <parameter>password-regex</parameter> parameter. The regular expression must
+                    be written in the POSIX ERE dialect (the dialect typically used by
+                        <command>egrep</command>).</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
@@ -1701,7 +1848,7 @@ guacd-port:     4822</programlisting>
                         <colspec colname="c2" colnum="2" colwidth="3.55*"/>
                         <thead>
                             <row>
-                                <entry>Name</entry>
+                                <entry>Parameter name</entry>
                                 <entry>Description</entry>
                             </row>
                         </thead>
@@ -1763,6 +1910,12 @@ guacd-port:     4822</programlisting>
             </section>
             <section xml:id="telnet-display-settings">
                 <title>Display settings</title>
+                <para>Guacamole's telnet support provides a display, but not in the same sense as a
+                    remote desktop protocol like VNC or RDP. The display is a terminal emulator, and
+                    thus provides options for configuring the font used and its size. In this case,
+                        <emphasis>the chosen font must be installed on the server</emphasis>, as it
+                    is the server that will handle rendering of characters to the terminal display,
+                    not the client.</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
@@ -1773,7 +1926,7 @@ guacd-port:     4822</programlisting>
                         <colspec colname="c2" colnum="2" colwidth="3.55*"/>
                         <thead>
                             <row>
-                                <entry>Name</entry>
+                                <entry>Parameter name</entry>
                                 <entry>Description</entry>
                             </row>
                         </thead>
@@ -1829,39 +1982,6 @@ guacd-port:     4822</programlisting>
                     between guacd and the telnet server will still be unencrypted. You should not
                     use telnet unless the network between guacd and the telnet server is
                     trusted.</para>
-            </section>
-            <section>
-                <title>Authentication</title>
-                <para>Telnet does not actually provide any standard means of authentication.
-                    Authentication over telnet depends entirely on the login process running on the
-                    server and is interactive. To cope with this, Guacamole provides non-standard
-                    mechanisms for automatically passing the username and entering password. Whether
-                    these mechanisms work depends on specific login process used by your telnet
-                    server.</para>
-                <para>The de-facto method for passing the username automatically via telnet is to
-                    submit it via the <envar>USER</envar> environment variable, sent using the
-                        <methodname>NEW-ENVIRON</methodname> option. This is the mechanism used by
-                    most telnet clients, typically via the <option>-l</option> command-line
-                    option.</para>
-                <para>Passwords cannot typically be sent automatically - at least not as reliably as
-                    the username. There is no <envar>PASSWORD</envar> environment variable (this
-                    would actually be a horrible idea) nor any similar mechanism for passing the
-                    password to the telnet login process, and most telnet clients provide no
-                    built-in support for automatically entering the password. The best that can be
-                    done is to heuristically detect the password prompt, and type the password on
-                    behalf of the user when the prompt appears. The prescribed method for doing this
-                    with a traditional command-line telnet is to use a utility like
-                        <command>expect</command>. Guacamole provides similar functionality by
-                    searching for the password prompt with a regular expression.</para>
-                <para>If Guacamole receives a line of text which matches the regular expression, the
-                    password is automatically sent. If no such line is ever received, the password
-                    is not sent, and the user must type the password manually. Pressing any key
-                    during this process cancels the heuristic password prompt detection.</para>
-                <para>If the password prompt is not being detected properly, you can try using your
-                    own regular expression by specifying it within the
-                        <parameter>password-regex</parameter> parameter. The regular expression must
-                    be written in the POSIX ERE dialect (the dialect typically used by
-                        <command>egrep</command>).</para>
             </section>
         </section>
         <section xml:id="parameter-tokens">
