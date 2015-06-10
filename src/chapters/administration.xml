@@ -14,27 +14,90 @@
         extension, this chapter probably does not apply to you, and the management options will not
         be visible in the Guacamole interface. If, on the other hand, you are using one of the
         database authentication providers, and you are logged in as a user with sufficient
-        privileges, you will see management options within the user menu.</para>
+        privileges, you will see management sections listed within the settings screen:</para>
     <informalfigure>
         <mediaobject>
             <imageobject>
-                <imagedata fileref="images/manage-button.png" format="PNG" contentwidth="1.5in"/>
+                <imagedata fileref="images/guacamole-settings-sections.png" format="PNG"
+                    contentwidth="1.5in"/>
             </imageobject>
             <caption>
-                <para>Management options within the Guacamole user menu.</para>
+                <para>Sections within the Guacamole settings screen.</para>
             </caption>
         </mediaobject>
     </informalfigure>
-    <para>Clicking any of these options will take you to a corresponding screen where you can
-        perform administrative tasks.</para>
+    <para>Clicking any of these options will take you to a corresponding management section where
+        you can perform administrative tasks.</para>
+    <section xml:id="session-management">
+        <title>Managing sessions</title>
+        <indexterm>
+            <primary>session management</primary>
+        </indexterm>
+        <para>Clicking "Active Sessions" navigates to the session management screen. The session
+            management screen displays all active sessions and allows system administrators to kill
+            them as needed.</para>
+        <para>When any user accesses a particular remote desktop connection, a unique session is
+            created and will appear in the list of active sessions in the session management screen.
+            Each active session is displayed in a sortable table, showing the corresponding user's
+            username, how long the session has been active, the IP address of the machine from which
+            the user is connecting, and the name of the connection being used.</para>
+        <informalfigure>
+            <screenshot>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/manage-sessions.png" format="PNG"
+                            contentwidth="5in"/>
+                    </imageobject>
+                    <caption>
+                        <para>Session management interface</para>
+                    </caption>
+                </mediaobject>
+            </screenshot>
+        </informalfigure>
+        <para>To kill one or more sessions, select the sessions by clicking their checkboxes. Once
+            all desired sessions have been selected, clicking "Kill Sessions" will immediately
+            disconnect those users from the associated connection.</para>
+        <section xml:id="filtering-sessions">
+            <title>Filtering and sorting</title>
+            <para>The table can be resorted by clicking on the column headers. Clicking any column
+                will resort the table by the values within that column, while clicking a column
+                which is already sorted will toggle between ascending and descending order.</para>
+            <para>The content of the table can be limited through search terms specified in the
+                "Filter" field. Entering search terms will limit the table to only sessions
+                containing those terms. For example, to list only connections by the user
+                "guacadmin" which have been active since March, 2015, you would enter: "guacadmin
+                2015-03". Beware that if a search term needs to contain spaces, it must be enclosed
+                in double quotes to avoid being interpreted as multiple terms.</para>
+            <informalfigure>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/session-filter-example-1.png" format="PNG"
+                            contentwidth="5in"/>
+                    </imageobject>
+                </mediaobject>
+            </informalfigure>
+            <para>If you wish to narrow the content of the table to only those connections which
+                originate from a particular block of IP addresses, you can do this by specifying the
+                block in standard CIDR notation, such "10.0.0.0/8" or "2001:db8:1234::/48". This
+                will work with both IPv4 and IPv6 addresses.</para>
+            <informalfigure>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/session-filter-example-2.png" format="PNG"
+                            contentwidth="5in"/>
+                    </imageobject>
+                </mediaobject>
+            </informalfigure>
+        </section>
+    </section>
     <section xml:id="user-management">
         <title>User management</title>
         <indexterm>
             <primary>user management</primary>
         </indexterm>
-        <para>Clicking "Users" within the user menu will take you to the user management screen.
-            Here you can add new users or edit the properties and privileges of existing
-            users.</para>
+        <para>Clicking "Users" within the list of settings sections will take you to the user
+            management screen. Here you can add new users or edit the properties and privileges of
+            existing users.</para>
         <para>To add a new user, type the username of the new user within the text box inside the
             user management screen, and click the "New User" button. The new user will be added and
             made available. The new user will have no access to any existing connections, nor any
@@ -82,9 +145,9 @@
         <indexterm>
             <primary>groups</primary>
         </indexterm>
-        <para>Clicking "Manage Connections" within the user menu will take you to the connection
-            management screen. The connection management screen allows administrators to create and
-            edit connections and connection groups.</para>
+        <para>Clicking "Connections" within the list of settings sections will take you to the
+            connection management screen. The connection management screen allows administrators to
+            create and edit connections and connection groups.</para>
         <para>To add a new connection or group, click the "New Connection" or "New Group" button.
             This will take you to a screen where you will be allowed to enter the details of the new
             object, such as its location, parameters, and name. This name should be descriptive, but
@@ -152,68 +215,6 @@
                         </caption>
                     </mediaobject>
                 </screenshot>
-            </informalfigure>
-        </section>
-    </section>
-    <section xml:id="session-management">
-        <title>Managing sessions</title>
-        <indexterm>
-            <primary>session management</primary>
-        </indexterm>
-        <para>Clicking "Active Sessions" navigates to the session management screen. The session
-            management screen displays all active sessions and allows system administrators to kill
-            them as needed.</para>
-        <para>When any user accesses a particular remote desktop connection, a unique session is
-            created and will appear in the list of active sessions in the session management screen.
-            Each active session is displayed in a sortable table, showing the corresponding user's
-            username, how long the session has been active, the IP address of the machine from which
-            the user is connecting, and the name of the connection being used.</para>
-        <informalfigure>
-            <screenshot>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/manage-sessions.png" format="PNG"
-                            contentwidth="5in"/>
-                    </imageobject>
-                    <caption>
-                        <para>Session management interface</para>
-                    </caption>
-                </mediaobject>
-            </screenshot>
-        </informalfigure>
-        <para>To kill one or more sessions, select the sessions by clicking their checkboxes. Once
-            all desired sessions have been selected, clicking "Kill Sessions" will immediately
-            disconnect those users from the associated connection.</para>
-        <section xml:id="filtering-sessions">
-            <title>Filtering and sorting</title>
-            <para>The table can be resorted by clicking on the column headers. Clicking any column
-                will resort the table by the values within that column, while clicking a column
-                which is already sorted will toggle between ascending and descending order.</para>
-            <para>The content of the table can be limited through search terms specified in the
-                "Filter" field. Entering search terms will limit the table to only sessions
-                containing those terms. For example, to list only connections by the user
-                "guacadmin" which have been active since March, 2015, you would enter: "guacadmin
-                2015-03". Beware that if a search term needs to contain spaces, it must be enclosed
-                in double quotes to avoid being interpreted as multiple terms.</para>
-            <informalfigure>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/session-filter-example-1.png" format="PNG"
-                            contentwidth="5in"/>
-                    </imageobject>
-                </mediaobject>
-            </informalfigure>
-            <para>If you wish to narrow the content of the table to only those connections which
-                originate from a particular block of IP addresses, you can do this by specifying the
-                block in standard CIDR notation, such "10.0.0.0/8" or "2001:db8:1234::/48". This
-                will work with both IPv4 and IPv6 addresses.</para>
-            <informalfigure>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/session-filter-example-2.png" format="PNG"
-                            contentwidth="5in"/>
-                    </imageobject>
-                </mediaobject>
             </informalfigure>
         </section>
     </section>
