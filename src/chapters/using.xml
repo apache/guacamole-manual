@@ -14,11 +14,12 @@
         possible.</para>
     <section xml:id="home-screen">
         <title>Home screen</title>
-        <para>Once you have successfully logged in, the first thing you will see is the Guacamole
-            home screen. The home screen is a list of available remote desktop connections. This
-            list contains all connections which you have been granted permission to access. If you
-            have used Guacamole in this specific web browser before, you will also see thumbnails of
-            recently used connections.</para>
+        <para>Once you have successfully logged in, you will be taken to either the Guacamole home
+            screen, where all available connections are listed, or directly to a connection, if you
+            only have access to one connection.</para>
+        <para>The list of connections on the home screen contains all connections for which you have
+            been granted access. If you have used Guacamole in this specific web browser before, you
+            will also see thumbnails of recently used connections.</para>
         <informalfigure>
             <screenshot>
                 <mediaobject>
@@ -49,17 +50,19 @@
                 <varlistentry>
                     <term>Home</term>
                     <listitem>
-                        <para>Navigates back to the home screen, if you are not already
-                            there.</para>
+                        <para>Navigates back to the home screen, if you are not already there. If
+                            you only have access to one connection, this will be replaced with a
+                            link to that connection.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term>Change password</term>
+                    <term>Settings</term>
                     <listitem>
-                        <para>Changes the password for your account. This option may not be
-                            available if your user account lacks sufficient permissions, or if the
-                            authentication system installed does not provide for changing
-                            passwords.</para>
+                        <para>Navigates to the settings interface, which provides access to user
+                            preferences such as display language. If you have access to
+                            administrative functions, those are found within the settings interface,
+                            as well, and are discussed in more detail in <xref
+                                linkend="administration"/>.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -70,39 +73,11 @@
                     </listitem>
                 </varlistentry>
             </variablelist>
-            <para>If you have administrator-level access to Guacamole, you may also see options
-                specific to managing users, connection, or sessions. These are discussed in more
-                detail in <xref linkend="administration"/>.</para>
-            <variablelist>
-                <varlistentry>
-                    <term>Users</term>
-                    <listitem>
-                        <para>Shows all other Guacamole user accounts. Depending on your access
-                            level, users may be created, modified, and deleted.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term>Manage connections</term>
-                    <listitem>
-                        <para>Shows available Guacamole connections and connection groups. Depending
-                            on your access level, the connections displayed here may be created,
-                            modified, and deleted.</para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term>Active sessions</term>
-                    <listitem>
-                        <para>Shows all active Guacamole connections, the address from which the
-                            connection originates, and when the connection began. Administrators can
-                            select and kill active connections at will.</para>
-                    </listitem>
-                </varlistentry>
-            </variablelist>
         </section>
     </section>
     <section xml:id="client-screen">
         <title>Client screen</title>
-        <para>Once you open a connection, you will see a realtime view of the remote display. You
+        <para>Once you open a connection, you will see a real-time view of the remote display. You
             can interact with this display just as you would your normal desktop. Your mouse and
             keyboard will function as if they were connected directly to the remote machine.</para>
         <informalfigure>
@@ -176,6 +151,30 @@
             text to be sent to the clipboard of the remote desktop. Similarly, if you copy or cut
             text within the remote desktop, you will see that text within the text area, and can
             manually copy it into the local clipboard if desired.</para>
+    </section>
+    <section>
+        <title>Disconnecting and navigation</title>
+        <para>When you are done using the current connection, or you wish to navigate elsewhere
+            temporarily, options to do so are within the user menu inside the Guacamole menu:</para>
+        <informalfigure>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/guac-menu-disconnect.png" format="PNG"
+                        contentwidth="6in"/>
+                </imageobject>
+                <caption>
+                    <para>The user menu within the Guacamole menu.</para>
+                </caption>
+            </mediaobject>
+            <para>The user menu within the Guacamole menu provides an additional "Disconnect" option
+                that allows you to explicitly close the current connection only. Clicking "Logout"
+                will also implicitly disconnect all active connections, including the current
+                connection.</para>
+            <para>Navigating back to the home screen or to the settings screen will not disconnect
+                you: your connection will continue running in the background while you change
+                settings or initiate another connection, and you can resume any active connection by
+                clicking on it within the home screen.</para>
+        </informalfigure>
     </section>
     <section xml:id="file-transfer">
         <title>Transferring files</title>
@@ -297,6 +296,14 @@ $</screen>
                     "relative" mouse emulation. Relative mouse emulation provides a way to deal with
                     the need for accurate pointer control, when a true pointer device is not
                     present.</para>
+                <informalfigure>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/touchscreen.png" format="PNG"
+                                contentwidth="1.5in"/>
+                        </imageobject>
+                    </mediaobject>
+                </informalfigure>
             </section>
             <section xml:id="relative-mouse-emulation">
                 <title>Relative mode (touchpad)</title>
@@ -311,6 +318,14 @@ $</screen>
                     pinch-to-zoom will not work while relative mouse emulation is enabled. Instead,
                     the screen will automatically pan to keep the mouse pointer in view, and you can
                     zoom through the buttons in the menu.</para>
+                <informalfigure>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/touchpad.png" format="PNG"
+                                contentwidth="1.5in"/>
+                        </imageobject>
+                    </mediaobject>
+                </informalfigure>
             </section>
         </section>
         <section xml:id="text-input">
@@ -332,6 +347,61 @@ $</screen>
                 traditional key presses. Using text input mode within Guacamole thus allows you to
                 use a locally-installed IME, without requiring the IME to be installed on the remote
                 desktop.</para>
+        </section>
+    </section>
+    <section xml:id="preferences">
+        <title>Changing preferences</title>
+        <para>User preferences can be changed within the settings screen. These preferences are
+            stored locally within the browser, so if you use multiple computers to access Guacamole,
+            you can have different settings for each location. The settings screen allows users to
+            change the language of the Guacamole interface, to change the default input method used
+            by Guacamole connections, and to change the default mouse emulation mode for if a touch
+            device is used. If you have sufficient permissions, you may also change your password,
+            or administer the system.</para>
+        <informalfigure>
+            <screenshot>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/guacamole-preferences.png" format="PNG"
+                            contentwidth="6in"/>
+                    </imageobject>
+                    <caption>
+                        <para>Guacamole preferences screen.</para>
+                    </caption>
+                </mediaobject>
+            </screenshot>
+        </informalfigure>
+        <section>
+            <title>Display language</title>
+            <para>The Guacamole interface is currently available in English, French, and Russian. By
+                default, Guacamole will attempt to determine the appropriate display language by
+                checking the language preferences of the browser in use. If this fails, or the
+                browser is using a language not yet available within Guacamole, English will be used
+                as a fallback.</para>
+            <para>If you wish to override the current display language, you can do so by selecting a
+                different language within the "Display language" field. The change will take effect
+                immediately.</para>
+        </section>
+        <section>
+            <title>Changing your password</title>
+            <para>System administrators can restrict the ability of individual users to change their
+                own passwords, so this section may not always be available. If your account
+                    <emphasis>does</emphasis> have permission, the preferences screen will contain a
+                "Change Password" section.</para>
+            <para>To change your password, you must provide your current password, enter the desired
+                new password, and click "Update Password". You will remain logged in, and the change
+                will affect any future login attempt.</para>
+        </section>
+        <section>
+            <title>Default input settings</title>
+            <para>Guacamole provides multiple keyboard input methods and multiple mouse emulation
+                modes. Many of these settings are specifically useful for touch devices, while
+                others are aimed mainly at traditional desktop use. By default, Guacamole will use
+                the keyboard and mouse modes most commonly preferred by users, but you can change
+                these defaults if they do not fit your tastes or your current device.</para>
+            <para>The choices available mirror those within the Guacamole menu discussed earlier in
+                this chapter, and changing these settings will affect the default values selected
+                within the Guacamole menu of future connections.</para>
         </section>
     </section>
 
