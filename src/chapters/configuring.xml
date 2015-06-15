@@ -1429,6 +1429,108 @@ guacd-port:     4822</programlisting>
                     </tgroup>
                 </informaltable>
             </section>
+            <section>
+                <title>Performance flags</title>
+                <para>RDP provides several flags which control the availability of features that
+                    decrease performance and increase bandwidth for the sake of aesthetics, such as
+                    wallpaper, window theming, menu effects, and smooth fonts. These features are
+                    all disabled by default within Guacamole such that bandwidth usage is minimized,
+                    but you can manually re-enable them on a per-connection basis if desired.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>RDP</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="2.75*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>enable-wallpaper</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>wallpaper</secondary>
+                                        </indexterm>If set to "true", enables rendering of the
+                                        desktop wallpaper. By default, wallpaper will be disabled,
+                                        such that unnecessary bandwidth need not be spent redrawing
+                                        the desktop.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>enable-theming</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>theming</secondary>
+                                        </indexterm>If set to "true", enables use of theming of
+                                        windows and controls. By default, theming within RDP
+                                        sessions is disabled.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>enable-font-smoothing</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>font smoothing</secondary>
+                                        </indexterm><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>ClearType</secondary>
+                                        </indexterm>If set to "true", text will be rendered with
+                                        smooth edges. Text over RDP is rendered with rough edges by
+                                        default, as this reduces the number of colors used by text,
+                                        and thus reduces the bandwidth required for the
+                                        connection.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>enable-full-window-drag</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>full window drag</secondary>
+                                        </indexterm>If set to "true", the contents of windows will
+                                        be displayed as windows are moved. By default, the RDP
+                                        server will only draw the window border while windows are
+                                        being dragged.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>enable-desktop-composition</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>desktop composition</secondary>
+                                        </indexterm><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>Aero</secondary>
+                                        </indexterm>If set to "true", graphical effects such as
+                                        transparent windows and shadows will be allowed. By default,
+                                        such effects, if available, are disabled.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>enable-menu-animations</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>menu animations</secondary>
+                                        </indexterm>If set to "true", menu open and close animations
+                                        will be allowed. Menu animations are disabled by
+                                        default.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
             <section xml:id="rdp-remoteapp">
                 <title>RemoteApp</title>
                 <para>Recent versions of Windows provide a feature called RemoteApp which allows
