@@ -314,20 +314,21 @@
                 child extends beyond the parents bounds, it will be clipped.</para>
         </section>
     </section>
-    <section xml:id="guacamole-audio-video">
-        <title>Multimedia streaming and pipes</title>
+    <section xml:id="guacamole-protocol-streaming">
+        <title>Streams and objects</title>
         <para>Guacamole supports transfer of both audio and video data, as well as files and
-            arbitrary named pipes. Streams can be allocated with audio or video instructions for the
-            sake of playing media, with file instructions for file transfer, or with "pipe"
-            instructions for transfer or abtrary data between client and server.</para>
+            arbitrary named pipes. Streams can be allocated directly with audio or video
+            instructions for the sake of playing media, with file instructions for file transfer,
+            with "pipe" instructions for transfer of arbitrary data between client and server, or
+            exposed as structured sets of named streams known as "objects".</para>
         <para>By the nature of the Guacamole protocol, you must know the duration of the audio or
             video data before it is sent. This is because sequential playing of multiple audio or
             video chunks must be carefully timed by the client to avoid gaps in playback. Even a gap
             of only one millisecond will produce an audible "click" in audio playback.</para>
         <para>As far as audio and video are concerned, variance in chunk size gives a trade-off
             between responsiveness and perceived quality. Larger chunks will provide smoother audio
-            and video, but have noticable lag compared to smaller chunks. Smaller chunks provide
-            less lag, but may produce noticable clicking or stutter if the timing of each chunk is
+            and video, but have noticeable lag compared to smaller chunks. Smaller chunks provide
+            less lag, but may produce noticeable clicking or stutter if the timing of each chunk is
             not perfect.</para>
     </section>
     <section xml:id="guacamole-protocol-events">
