@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="put-object-instruction" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>put</title>
+    <indexterm>
+        <primary>put</primary>
+    </indexterm>
+    <para>Allocates a new stream, associating it with the given arbitrary object and stream name.
+        The contents of the stream will later be sent with blob instructions.</para>
+    <variablelist>
+        <varlistentry>
+            <term><parameter>object</parameter></term>
+            <listitem>
+                <para>The index of the object associated with this stream.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>stream</parameter></term>
+            <listitem>
+                <para>The index of the stream to allocate.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>mimetype</parameter></term>
+            <listitem>
+                <para>The mimetype of the data being sent.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>name</parameter></term>
+            <listitem>
+                <para>The name of the stream within the given object to which data is being
+                    sent.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
+</section>

@@ -63,6 +63,14 @@
         <xi:include href="instructions/server/stream/pipe.xml"/>
         <xi:include href="instructions/server/stream/video.xml"/>
     </section>
+    <section xml:id="object-instructions">
+        <title>Object instructions</title>
+        <xi:include href="instructions/server/object/body.xml"/>
+        <xi:include href="instructions/server/object/filesystem.xml"/>
+        <xi:include href="instructions/server/object/get.xml"/>
+        <xi:include href="instructions/server/object/put.xml"/>
+        <xi:include href="instructions/server/object/undefine.xml"/>
+    </section>
     <section xml:id="client-handshake-instructions">
         <title>Client handshake instructions</title>
         <xi:include href="instructions/client/handshake/audio.xml"/>
