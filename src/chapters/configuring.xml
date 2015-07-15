@@ -5,16 +5,28 @@
     xmlns:xi="http://www.w3.org/2001/XInclude">
 
     <title>Configuring Guacamole</title>
-    <para>After installing Guacamole, it will be minimally configured to use the default
-        authentication, which reads all users and connections from a single, monolithic
-            <filename>user-mapping.xml</filename> file. You can modify this configuration if you
-        need to use a different authentication module (such as the MySQL authentication, which is
-        discussed in a separate chapter) or if you need to veer from the defaults.</para>
-    <para>Guacamole's configuration consists of two main pieces: a directory
-        referred to as <varname>GUACAMOLE_HOME</varname>, which is the primary
-        search location for configuration files, and
-            <filename>guacamole.properties</filename>, the main configuration
-        file used by Guacamole and its extensions.</para>
+    <para>After installing Guacamole, you need to configure users and connections before Guacamole
+        will work. This chapter covers general configuration of Guacamole and the use of its default
+        authentication method.</para>
+    <para>Guacamole's default authentication method reads all users and connections from a single
+        file called <filename>user-mapping.xml</filename>. This authentication method is intended to
+        be:</para>
+    <orderedlist>
+        <listitem>
+            <para>Sufficient for small deployments of Guacamole.</para>
+        </listitem>
+        <listitem>
+            <para>A relatively-easy means of verifying that Guacamole has been properly set
+                up.</para>
+        </listitem>
+    </orderedlist>
+    <para>Other, more complex authentication methods which use backend databases, LDAP, etc. are
+        discussed in a separate, dedicated chapters.</para>
+    <para>Regardless of the authentication method you use, Guacamole's configuration always consists
+        of two main pieces: a directory referred to as <varname>GUACAMOLE_HOME</varname>, which is
+        the primary search location for configuration files, and
+            <filename>guacamole.properties</filename>, the main configuration file used by Guacamole
+        and its extensions.</para>
     <section xml:id="guacamole-home">
         <title><varname>GUACAMOLE_HOME</varname></title>
         <indexterm xmlns:xl="http://www.w3.org/1999/xlink">

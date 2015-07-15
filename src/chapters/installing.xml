@@ -708,94 +708,45 @@ Resolving deltas: 100% (3942/3942), done.</computeroutput>
         </informalexample>
         <para>Once the Guacamole web application is built, there will be a .war file in the
                 <filename>guacamole/target/</filename> subdirectory of the current directory (the
-            directory you were in when you ran <application>mvn</application>). This
-                <filename>.war</filename> file contains the entirety of the Guacamole web
-            application, including all dependencies. Installing Guacamole means copying this
-                <filename>.war</filename> file into the directory required by your servlet
-            container.</para>
-        <para>You will probably have to do this as the root user:</para>
-        <informalexample>
-            <screen><prompt>#</prompt> <userinput>cp guacamole/target/guacamole-0.9.7.war /var/lib/tomcat7/webapps/guacamole.war</userinput>
-<prompt>#</prompt></screen>
-        </informalexample>
-        <para>The Guacamole web application also depends on a configuration file,
-                <filename>guacamole.properties</filename>, to tell it the type of authentication to
-            use and how to connect to guacd. A functional example
-                <filename>guacamole.properties</filename> is contained in the
-                <filename>doc/</filename> subdirectory; you can simply copy this somewhere (like
-                <filename>/etc/guacamole</filename>) and then create a symbolic link to in a
-            directory called <filename>.guacamole</filename> within the home directory of your
-            servlet container. The home directory of your servlet container will be the home
-            directory of the user that the servlet container runs as.</para>
-        <informalexample>
-            <screen><prompt>#</prompt> <userinput>mkdir /etc/guacamole</userinput>
-<prompt>#</prompt> <userinput>mkdir <replaceable>/usr/share/tomcat7</replaceable>/.guacamole</userinput>
-<prompt>#</prompt> <userinput>cp guacamole/doc/example/guacamole.properties /etc/guacamole/guacamole.properties</userinput>
-<prompt>#</prompt> <userinput>ln -s /etc/guacamole/guacamole.properties <replaceable>/usr/share/tomcat7</replaceable>/.guacamole/</userinput>
-<prompt>#</prompt>           </screen>
-        </informalexample>
-        <para>You will need to edit <filename>guacamole.properties</filename> to be sure that all
-            the settings are valid for your installation.</para>
-        <para>If you are using the default authentication method, you will also need to install the
-                <filename>user-mapping.xml</filename> file. This file describes the users that
-            should be allowed to log into Guacamole, as well as their passwords, and all
-            corresponding remote desktop connections they should have access to.</para>
-        <para>An example <filename>user-mapping.xml</filename> file is provided in the
-                <filename>doc/</filename> subdirectory. You can simply copy this file to a
-            reasonable location (like <filename>/etc/guacamole/user-mapping.xml</filename>) and then
-            edit <filename>guacamole.properties</filename> to specify the correct location of this
-            file.</para>
-        <para>You will need to edit <filename>user-mapping.xml</filename> to add and remove users,
-            as well as to remove the "default" users included as examples.</para>
+            directory you were in when you ran <application>mvn</application>), ready to be deployed
+            to a servlet container like Tomcat.</para>
     </section>
     <section xml:id="deploying-guacamole">
         <title>Deploying Guacamole</title>
         <indexterm>
             <primary>deploying</primary>
         </indexterm>
-        <para>Typically, deploying Guacamole is a one-time process, and needs to be done only when
-            Guacamole is initially installed. If done correctly, future upgrades to Guacamole will
-            be automatically deployed.</para>
-        <para>There are two critical files involved in the deployment of Guacamole:
-                <filename>guacamole.war</filename>, which is the file containing the web
-            application, and <filename>guacamole.properties</filename>, the main configuration file
-            for Guacamole. The recommend way to set up Guacamole involves placing these files in
-            standard locations, and then creating symbolic links to them so that Tomcat can find
-            them.</para>
-        <para>Ultimately, the <filename>guacamole.war</filename> file, or a symbolic link to it,
-            must be found by your servlet container within the directory it uses for
-                <filename>.war</filename> files, and the <filename>guacamole.properties</filename>
-            file must be within the <filename>.guacamole</filename> directory in the home directory
-            of the user your servlet container runs as. Legacy installations will have
-                <filename>guacamole.properties</filename> placed in the classpath of the servlet
-            container, but this is officially deprecated, and will be unsupported in future
-            releases.</para>
-        <para>We recommend placing <filename>guacamole.properties</filename> and any other
-            configuration files in <filename>/etc/guacamole</filename>, and
-                <filename>guacamole.war</filename> in <filename>/var/lib/guacamole</filename>. You
-            will likely have to create each of these directories manually, as root.</para>
-        <para>With these files in place, you can create symbolic links in the places Tomcat and
-            Guacamole require them, such that future upgrades will only involve placing the new
-            files in standard locations. The standard locations involved are the Tomcat
-                "<filename>webapps</filename>" directory (below,
-                <filename>/var/lib/tomcat7/webapps</filename>, but your installation may be
-            different), and the "<filename>.guacamole</filename>" directory, which must be manually
-            created within the Tomcat user's home directory.</para>
+        <para>The web application portion of Guacamole is packaged as a fully self-contained
+                <filename>.war</filename> file. If you downloaded Guacamole from the main project
+            web site, this file will be called <filename>guacamole.war</filename>. Deploying this
+            involves copying the file into the directory your servlet container uses for
+                <filename>.war</filename> files. In the case of Tomcat, this will be
+                    <filename><replaceable>CATALINA_HOME</replaceable>/webapps/</filename>. The
+            location of <envar>CATALINA_HOME</envar> will vary by how Tomcat was installed, but is
+            commonly <filename>/var/lib/tomcat</filename>, <filename>/var/lib/tomcat7</filename>, or
+            similar:</para>
         <informalexample>
-            <screen><prompt>#</prompt> <userinput>ln -s /var/lib/guacamole/guacamole.war <replaceable>/var/lib/tomcat7</replaceable>/webapps</userinput>
-<prompt>#</prompt> <userinput>ln -s /etc/guacamole/guacamole.properties <replaceable>/usr/share/tomcat7</replaceable>/.guacamole/</userinput>
+            <screen><prompt>#</prompt> <userinput>cp guacamole.war <replaceable>/var/lib/tomcat</replaceable>/webapps</userinput>
 <prompt>#</prompt></screen>
         </informalexample>
-        <para>If you are using a different servlet container or Tomcat is installed in a different
-            location, you will need to replace the directories above with the corresponding
-            directories of your install.</para>
-        <para>Once Guacamole has been deployed, Tomcat must be restarted (as
-                <filename>guacamole.properties</filename> will only be read on servlet container
-            start) and the guacd daemon must be started if it isn't running already. After
-            restarting Tomcat and starting guacd, Guacamole is successfully installed and
-            running.</para>
-        <para>The command to restart Tomcat and guacd will vary by distribution. Typically, you can
-            do this by running the corresponding init scripts with the "restart" option:</para>
+        <para>If you have built guacamole-client from source, the required <filename>.war</filename>
+            file will be within the <filename>guacamole/target/</filename> directory and will
+            contain an additional version suffix. As Tomcat will determine the location of the web
+            application from the name of the <filename>.war</filename> file, you will likely want to
+            rename this to simply <filename>guacamole.war</filename> while copying:</para>
+        <informalexample>
+            <screen><prompt>#</prompt> <userinput>cp guacamole/target/guacamole-0.9.7.war <replaceable>/var/lib/tomcat/webapps</replaceable>/guacamole.war</userinput>
+<prompt>#</prompt></screen>
+        </informalexample>
+        <para>Again, if you are using a different servlet container or if Tomcat is installed to a
+            different location, you will need to check the documentation of your servlet container,
+            distribution, or both to determine the proper location for deploying
+                <filename>.war</filename> files like <filename>guacamole.war</filename>.</para>
+        <para>Once the <filename>.war</filename> file is in place, you may need to restart Tomcat to
+            force Tomcat to deploy the new web application, and the <package>guacd</package> daemon
+            must be started if it isn't running already. The command to restart Tomcat and
+                <package>guacd</package> will vary by distribution. Typically, you can do this by
+            running the corresponding init scripts with the "restart" option:</para>
         <informalexample>
             <screen><prompt>#</prompt> <userinput>/etc/init.d/tomcat7 restart</userinput>
 <computeroutput>Stopping Tomcat... OK
@@ -805,9 +756,16 @@ Starting Tomcat... OK</computeroutput>
 guacd[6229]: INFO:  Guacamole proxy daemon (guacd) version 0.9.7 started</computeroutput>
 <prompt>#</prompt></screen>
         </informalexample>
-        <para>If you want Guacamole to start on boot, you will need to configure the Tomcat and
-            guacd services to run automatically. Your distribution will provide documentation for
-            doing this.</para>
+        <important>
+            <para>If you want Guacamole to start on boot, you will need to configure the Tomcat and
+                    <package>guacd</package> services to run automatically. Your distribution will
+                provide documentation for doing this.</para>
+        </important>
+        <para>After restarting Tomcat and starting <package>guacd</package>, Guacamole is
+            successfully installed, though it will not be fully running. In its current state, it is
+            completely unconfigured, and further steps are required to add at least one Guacamole
+            user and a few connections. This is covered in <xref
+                xmlns:xlink="http://www.w3.org/1999/xlink" linkend="configuring-guacamole"/>.</para>
         <section>
             <title>What about WebSocket?</title>
             <indexterm>
