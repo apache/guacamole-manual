@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="png-instruction" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>img</title>
+    <indexterm>
+        <primary>img</primary>
+    </indexterm>
+    <para>Allocates a new stream, associating it with the metadata of an image update, including the
+        image type, the destination layer, and destination coordinates. The contents of the image
+        will later be sent along the stream with blob instructions. The full size of the image need
+        not be known ahead of time.</para>
+    <variablelist>
+        <varlistentry>
+            <term><parameter>stream</parameter></term>
+            <listitem>
+                <para>The index of the stream to allocate.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>mimetype</parameter></term>
+            <listitem>
+                <para>The mimetype of the image being sent.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>mask</parameter></term>
+            <listitem>
+                <para>The channel mask to apply when drawing the image data.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>layer</parameter></term>
+            <listitem>
+                <para>The destination layer.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>x</parameter></term>
+            <listitem>
+                <para>The X coordinate of the upper-left corner of the destination within the
+                    destination layer.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>y</parameter></term>
+            <listitem>
+                <para>The Y coordinate of the upper-left corner of the destination within the
+                    destination layer.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
+</section>

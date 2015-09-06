@@ -40,7 +40,6 @@
         <xi:include href="instructions/server/drawing/line.xml"/>
         <xi:include href="instructions/server/drawing/lstroke.xml"/>
         <xi:include href="instructions/server/drawing/move.xml"/>
-        <xi:include href="instructions/server/drawing/png.xml"/>
         <xi:include href="instructions/server/drawing/pop.xml"/>
         <xi:include href="instructions/server/drawing/push.xml"/>
         <xi:include href="instructions/server/drawing/rect.xml"/>
@@ -59,6 +58,7 @@
         <xi:include href="instructions/server/stream/blob.xml"/>
         <xi:include href="instructions/server/stream/end.xml"/>
         <xi:include href="instructions/server/stream/file.xml"/>
+        <xi:include href="instructions/server/stream/img.xml"/>
         <xi:include href="instructions/server/stream/nest.xml"/>
         <xi:include href="instructions/server/stream/pipe.xml"/>
         <xi:include href="instructions/server/stream/video.xml"/>
