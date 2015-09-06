@@ -141,12 +141,12 @@
             one or more instructions which are part of the documented
             protocol.</para>
         <para>Most drawing using libguac is done using Cairo functions on a
-                <classname>cairo_surface_t</classname> (see the Cairo API
-            documentation) which is later used in a png instruction, sent via
-                <methodname>guac_protocol_send_png()</methodname>. Cairo was
-            chosen as a dependency of libguac to provide developers an existing
-            and stable means of drawing to image buffers which will ultimately
-            be sent as easy-to-digest PNG images.</para>
+                <classname>cairo_surface_t</classname> (see the Cairo API documentation) which is
+            later streamed to the client using an <methodname>img</methodname> instruction and
+            subsequent <methodname>blob</methodname> instructions, sent via
+                <methodname>guac_client_stream_png()</methodname>. Cairo was chosen as a dependency
+            of libguac to provide developers an existing and stable means of drawing to image
+            buffers which will ultimately be sent as easy-to-digest PNG images.</para>
         <para>The Guacamole protocol also supports drawing primitives similar to
             those present in the Cairo API and HTML5's canvas tag. These
             instructions are documented individually in the Guacamole Protocol
