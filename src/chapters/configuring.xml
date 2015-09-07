@@ -705,11 +705,43 @@ guacd-port:     4822</programlisting>
             </section>
             <section xml:id="vnc-audio">
                 <title>Audio support (via PulseAudio)</title>
-                <para>VNC does not provide any support for audio, but Guacamole's VNC support can
-                    obtain audio through a secondary network connection to a PulseAudio server
-                    running on the same machine as the VNC server. Guacamole will combine the two
-                    separate streams (one graphical stream and one audio stream) from these two
-                    distinct network sources into a single stream of Guacamole protocol data.</para>
+                <para>VNC does not provide its own support for audio, but Guacamole's VNC support
+                    can obtain audio through a secondary network connection to a PulseAudio server
+                    running on the same machine as the VNC server.</para>
+                <para>Most Linux systems provide audio through a service called PulseAudio. This
+                    service is capable of communicating over the network, and if PulseAudio is
+                    configured to allow TCP connections, Guacamole can connect to your PulseAudio
+                    server and combine its audio with the graphics coming over VNC.</para>
+                <para>Configuring PulseAudio for network connections requires an additional line
+                    within the PulseAudio configuration file, usually
+                        <filename>/etc/pulse/default.pa</filename>:</para>
+                <informalexample>
+                    <programlisting>load-module module-native-protocol-tcp auth-ip-acl=<replaceable>192.168.1.0/24</replaceable> auth-anonymous=1</programlisting>
+                </informalexample>
+                <para>This loads the TCP module for PulseAudio, configuring it to accept connections
+                    without authentication and <emphasis>only</emphasis> from the
+                        <replaceable>192.168.1.0/24</replaceable> subnet. You will want to replace
+                    this value with the subnet or IP address from which guacd will be connecting. It
+                    is possible to allow connections from absolutely anywhere, but beware that you
+                    should only do so if the nature of your network prevents unauthorized
+                    access:</para>
+                <informalexample>
+                    <programlisting>load-module module-native-protocol-tcp auth-anonymous=1</programlisting>
+                </informalexample>
+                <para>In either case, the <code>auth-anonymous=1</code> parameter is strictly
+                    required. Guacamole does not currently support the cookie-based authentication
+                    used by PulseAudio for non-anonymous connections. If this parameter is omitted,
+                    Guacamole will not be able to connect to PulseAudio.</para>
+                <para>Once the PulseAudio configuration file has been modified appropriately,
+                    restart the PulseAudio service. PulseAudio should then begin listening on port
+                    4713 (the default PulseAudio port) for incoming TCP connections. You can verify
+                    this using a utility like <command>netstat</command>:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <userinput>netstat -ln | grep 4713</userinput>
+<computeroutput>tcp        0      0 0.0.0.0:4713            0.0.0.0:*               LISTEN
+tcp6       0      0 :::4713                 :::*                    LISTEN</computeroutput>
+<prompt>$</prompt></screen>
+                </informalexample>
                 <para>The following parameters are available for configuring the audio support for
                     VNC:</para>
                 <informaltable frame="all">
@@ -736,20 +768,10 @@ guacd-port:     4822</programlisting>
                                         </indexterm><indexterm>
                                             <primary>VNC</primary>
                                             <secondary>PulseAudio</secondary>
-                                        </indexterm>If set to "true", audio support will be enabled.
-                                        VNC does not itself support sound, but Guacamole's VNC
-                                        support can include sound using PulseAudio.</para>
-                                    <para>Most Linux systems provide audio through a service called
-                                        PulseAudio. This service is capable of communicating over
-                                        the network. If PulseAudio is configured to allow TCP
-                                        connections, Guacamole can connect to your PulseAudio server
-                                        and combine its audio with the graphics coming over
-                                        VNC.</para>
-                                    <para>Beware that you must disable authentication within
-                                        PulseAudio in order to allow Guacamole to connect, as
-                                        Guacamole does not yet support this. The amount of latency
-                                        you will see depends largely on the network and how
-                                        PulseAudio is configured.</para>
+                                        </indexterm>If set to "true", audio support will be enabled,
+                                        and a second connection for PulseAudio will be made in
+                                        addition to the VNC connection. By default, audio support
+                                        within VNC is disabled.</para>
                                 </entry>
                             </row>
                             <row>
