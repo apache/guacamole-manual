@@ -2119,6 +2119,49 @@ guacd-port:     4822</programlisting>
                         </thead>
                         <tbody>
                             <row>
+                                <entry><parameter>color-scheme</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>color scheme</secondary>
+                                        </indexterm>The color scheme to use for the terminal
+                                        emulator used by SSH connections. Each color scheme dictates
+                                        the default foreground and background color for the
+                                        terminal. Programs which specify colors when printing text
+                                        will override these defaults.</para>
+                                    <para>This parameter is optional. By default, Guacamole will
+                                        render text as gray over a black background.</para>
+                                    <para>Possible values are:</para>
+                                    <variablelist>
+                                        <varlistentry>
+                                            <term><constant>black-white</constant></term>
+                                            <listitem>
+                                                <para>Black text over a white background.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>gray-black</constant></term>
+                                            <listitem>
+                                                <para>Gray text over a black background. This is the
+                                                  default color scheme.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>green-black</constant></term>
+                                            <listitem>
+                                                <para>Green text over a black background.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>white-black</constant></term>
+                                            <listitem>
+                                                <para>White text over a black background.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                    </variablelist>
+                                </entry>
+                            </row>
+                            <row>
                                 <entry><parameter>font-name</parameter></entry>
                                 <entry>
                                     <para><indexterm>
@@ -2397,6 +2440,49 @@ guacd-port:     4822</programlisting>
                             </row>
                         </thead>
                         <tbody>
+                            <row>
+                                <entry><parameter>color-scheme</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>telnet</primary>
+                                            <secondary>color scheme</secondary>
+                                        </indexterm>The color scheme to use for the terminal
+                                        emulator used by telnet connections. Each color scheme
+                                        dictates the default foreground and background color for the
+                                        terminal. Programs which specify colors when printing text
+                                        will override these defaults.</para>
+                                    <para>This parameter is optional. By default, Guacamole will
+                                        render text as gray over a black background.</para>
+                                    <para>Possible values are:</para>
+                                    <variablelist>
+                                        <varlistentry>
+                                            <term><constant>black-white</constant></term>
+                                            <listitem>
+                                                <para>Black text over a white background.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>gray-black</constant></term>
+                                            <listitem>
+                                                <para>Gray text over a black background. This is the
+                                                  default color scheme.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>green-black</constant></term>
+                                            <listitem>
+                                                <para>Green text over a black background.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>white-black</constant></term>
+                                            <listitem>
+                                                <para>White text over a black background.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                    </variablelist>
+                                </entry>
+                            </row>
                             <row>
                                 <entry><parameter>font-name</parameter></entry>
                                 <entry>
