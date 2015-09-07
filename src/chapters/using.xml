@@ -373,11 +373,11 @@ $</screen>
         </informalfigure>
         <section xml:id="display-language">
             <title>Display language</title>
-            <para>The Guacamole interface is currently available in English, French, and Russian. By
-                default, Guacamole will attempt to determine the appropriate display language by
-                checking the language preferences of the browser in use. If this fails, or the
-                browser is using a language not yet available within Guacamole, English will be used
-                as a fallback.</para>
+            <para>The Guacamole interface is currently available in English, Dutch, French, German,
+                Italian, and Russian. By default, Guacamole will attempt to determine the
+                appropriate display language by checking the language preferences of the browser in
+                use. If this fails, or the browser is using a language not yet available within
+                Guacamole, English will be used as a fallback.</para>
             <para>If you wish to override the current display language, you can do so by selecting a
                 different language within the "Display language" field. The change will take effect
                 immediately.</para>
