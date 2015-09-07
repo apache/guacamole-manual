@@ -704,15 +704,14 @@ guacd-port:     4822</programlisting>
                 </informaltable>
             </section>
             <section xml:id="vnc-audio">
-                <title>Audio support</title>
+                <title>Audio support (via PulseAudio)</title>
                 <para>VNC does not provide any support for audio, but Guacamole's VNC support can
-                    provide audio support through a secondary network connection to a PulseAudio
-                    server running on the same machine as the VNC server. Guacamole will thus
-                    combine two separate streams (one graphical stream and one audio stream) from
-                    two distinct network sources into a single stream of Guacamole protocol
-                    data.</para>
-                <para>The following parameters are available for configuring the experimental audio
-                    support for VNC:</para>
+                    obtain audio through a secondary network connection to a PulseAudio server
+                    running on the same machine as the VNC server. Guacamole will combine the two
+                    separate streams (one graphical stream and one audio stream) from these two
+                    distinct network sources into a single stream of Guacamole protocol data.</para>
+                <para>The following parameters are available for configuring the audio support for
+                    VNC:</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
@@ -737,9 +736,8 @@ guacd-port:     4822</programlisting>
                                         </indexterm><indexterm>
                                             <primary>VNC</primary>
                                             <secondary>PulseAudio</secondary>
-                                        </indexterm>If set to "true",
-                                            <emphasis>experimental</emphasis> sound support will be
-                                        enabled. VNC does not support sound, but Guacamole's VNC
+                                        </indexterm>If set to "true", audio support will be enabled.
+                                        VNC does not itself support sound, but Guacamole's VNC
                                         support can include sound using PulseAudio.</para>
                                     <para>Most Linux systems provide audio through a service called
                                         PulseAudio. This service is capable of communicating over
@@ -770,14 +768,6 @@ guacd-port:     4822</programlisting>
                         </tbody>
                     </tgroup>
                 </informaltable>
-                <important>
-                    <para><emphasis>Audio support within VNC is experimental</emphasis>. Please
-                        report any problems encountered while using the experimental audio support
-                        for VNC to the Guacamole team by <link
-                            xmlns:xlink="http://www.w3.org/1999/xlink"
-                            xlink:href="https://glyptodon.org/jira/">opening an issue in
-                        JIRA</link>.</para>
-                </important>
             </section>
             <section xml:id="adding-vnc">
                 <title>Adding a VNC connection</title>
