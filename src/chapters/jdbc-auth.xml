@@ -17,10 +17,16 @@
         managed from within the web application. Unlike the default, XML-driven authentication
         module, all changes to users and connections take effect immediately; users need not logout
         and back in to see new connections.</para>
-    <para>The official database authentication also supports load balancing through the use of
-        "balancing groups". When a balancing group is created, it can be used like any other
-        connection, but will use the least-used of its underlying connections, spreading load evenly
-        across any connections contained within.</para>
+    <para>The database authentication supports load balancing through the use of "balancing groups".
+        When a balancing group is created, it can be used like any other connection, but will use
+        the least-used of its underlying connections, spreading load evenly across any connections
+        contained within.</para>
+    <para>While most authentication extensions function independently, the database authentication
+        can act in a subordinate role to other installed authentication extensions. If another
+        authentication extension is installed, such as the LDAP authentication, can be associated
+        with connections within the database. Users from other authentication extensions will be
+        considered identical to users within the database if they have the same usernames, and will
+        be able to see data from each system after successfully logging in.</para>
     <para>To use the database authentication extension, you will need:</para>
     <orderedlist>
         <listitem>
@@ -97,8 +103,8 @@
     </section>
     <section xml:id="jdbc-auth-database-creation">
         <title>Creating the Guacamole database</title>
-        <para>The database authentication module will need a database to store all authentication
-            data and a user to use only for data access and manipulation. You can use an existing
+        <para>The database authentication module will need a database to store authentication data
+            and a user to use only for data access and manipulation. You can use an existing
             database and existing user, but for the sake of simplicity and security, these
             instructions assume you will be creating a new database and new user that will be used
             only by Guacamole and only for this authentication module.</para>
