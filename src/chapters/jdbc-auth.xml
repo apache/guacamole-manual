@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <chapter xml:id="jdbc-auth" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
-    xmlns:xi="http://www.w3.org/2001/XInclude">
+    xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>Database authentication</title>
     <indexterm>
         <primary>MySQL</primary>
@@ -40,7 +40,7 @@
                 <varname>GUACAMOLE_HOME</varname> is located on your system, please consult <xref
                 linkend="configuring-guacamole"/> before proceeding.</para>
     </important>
-    <section xmlns:xlink="http://www.w3.org/1999/xlink">
+    <section>
         <title>Downloading the database authentication extension</title>
         <para>The database authentication extension is available separately from the main
                 <filename>guacamole.war</filename>. The link for this and all other
@@ -628,9 +628,8 @@ result of setting "postgresql-disallow-simultaneous-connections" to
                                 <property>valid_from</property>, and
                                 <property>valid_until</property> values. This value may be any Java
                                 <classname>TimeZone</classname> ID, as defined by <link
-                                xmlns:xlink="http://www.w3.org/1999/xlink"
                                 xlink:href="http://docs.oracle.com/javase/7/docs/api/java/util/TimeZone.html#getAvailableIDs()"
-                                    ><methodname xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    ><methodname
                                     >getAvailableIDs()</methodname></link>, though the Guacamole
                             management interface will only present a subset of these time
                             zones.</para>
