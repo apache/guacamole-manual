@@ -263,8 +263,9 @@ guacd-port:     4822</programlisting>
         </indexterm>
         <para>Guacamole's default authentication module is simple and consists of a mapping of
             usernames to configurations. This authentication module comes with Guacamole and simply
-            reads usernames and passwords from an XML file. If you wish to use this authentication
-            mechanism, simply do not install and authentication extensions.</para>
+            reads usernames and passwords from an XML file. It is always enabled, but will only read
+            from the XML file if it exists, and is always last in priority relative to any other
+            authentication extensions.</para>
         <para>There are other authentication modules available. The Guacamole project provides
             database-backed authentication modules with the ability to manage connections and users
             from the web interface, and other authentication modules can be created using the
@@ -280,7 +281,7 @@ guacd-port:     4822</programlisting>
                 default, Guacamole will look for this file at
                     <filename>GUACAMOLE_HOME/user-mapping.xml</filename>, but this can be overridden
                 by specifying the location with the <property>user-mapping</property> property
-                within guacamole.properties:</para>
+                within <filename>guacamole.properties</filename>:</para>
             <informalexample>
                 <programlisting>user-mapping: <replaceable>/path/to/user-mapping.xml</replaceable></programlisting>
             </informalexample>
