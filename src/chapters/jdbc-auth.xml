@@ -55,10 +55,10 @@
                 <term><filename>mysql/</filename></term>
                 <listitem>
                     <para>Contains the MySQL/MariaDB authentication extension,
-                            <filename>guacamole-auth-jdbc-mysql-0.9.7.jar</filename>, along with a
+                            <filename>guacamole-auth-jdbc-mysql-0.9.8.jar</filename>, along with a
                             <filename>schema/</filename> directory containing MySQL-specific SQL
                         scripts required to set up the database. The
-                            <filename>guacamole-auth-jdbc-mysql-0.9.7.jar</filename> file will
+                            <filename>guacamole-auth-jdbc-mysql-0.9.8.jar</filename> file will
                         ultimately need to be placed within
                             <filename>GUACAMOLE_HOME/extensions</filename>, while the MySQL JDBC
                         driver must be placed within <filename>GUACAMOLE_HOME/lib</filename>.</para>
@@ -75,10 +75,10 @@
                 <term><filename>postgresql/</filename></term>
                 <listitem>
                     <para>Contains the PostgreSQL authentication extension,
-                            <filename>guacamole-auth-jdbc-postgresql-0.9.7.jar</filename>, along
+                            <filename>guacamole-auth-jdbc-postgresql-0.9.8.jar</filename>, along
                         with a <filename>schema/</filename> directory containing PostgreSQL-specific
                         SQL scripts required to set up the database. The
-                            <filename>guacamole-auth-jdbc-postgresql-0.9.7.jar</filename> file will
+                            <filename>guacamole-auth-jdbc-postgresql-0.9.8.jar</filename> file will
                         ultimately need to be placed within
                             <filename>GUACAMOLE_HOME/extensions</filename>, while the PostgreSQL
                         JDBC driver must be placed within
@@ -256,9 +256,9 @@ Type "help" for help.
                     support using multiple authentication extensions at the same time.</para>
             </step>
             <step>
-                <para>Copy <filename>guacamole-auth-jdbc-mysql-0.9.7.jar</filename>
+                <para>Copy <filename>guacamole-auth-jdbc-mysql-0.9.8.jar</filename>
                     <emphasis>or</emphasis>
-                    <filename>guacamole-auth-jdbc-postgresql-0.9.7.jar</filename> within
+                    <filename>guacamole-auth-jdbc-postgresql-0.9.8.jar</filename> within
                         <filename>GUACAMOLE_HOME/extensions</filename>, depending on whether you are
                     using MySQL/MariaDB or PostgreSQL.</para>
             </step>
