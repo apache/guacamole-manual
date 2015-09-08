@@ -121,7 +121,7 @@
                             desktop</para>
                     </listitem>
                     <listitem>
-                        <para>Uploading files and monitoring file transfer progress</para>
+                        <para>Uploading and downloading files</para>
                     </listitem>
                     <listitem>
                         <para>Selecting alternative methods of typing or controlling the mouse,
@@ -183,30 +183,99 @@
         </indexterm>
         <para>You can transfer files back and forth between your local computer and the remote
             desktop if it is supported by the underlying protocol and enabled on the connection.
-            Currently, both RDP and SSH have support for file transfer, though with slightly
-            different semantics. RDP provides file transfer by emulating a virtual drive, while SSH
-            provides file transfer by using SFTP.</para>
-        <para>To transfer files to the remote computer, drag the files into your browser window, or
-            use the "Upload Files" button within the Guacamole menu. If file transfer is enabled,
-            you will see a progress indicator appear within the menu. If file transfer is not
-            enabled or not supported, you will instead see a notification with an error message
-            describing the problem. Completed transfers can be removed from the list by clicking
-            "Clear Completed Transfers".</para>
-        <para>The method for downloading files from the remote computer depends on the protocol. In
-            the case of RDP, you must drag, copy, move, or save the files into the special
-            "Download" folder located in the virtual drive. All files dropped into this folder will
-            automatically begin uploading to the client, and thus downloading through your
-            browser.</para>
-        <para><indexterm>
-                <primary>guacctl</primary>
-            </indexterm>To download files over SSH, you must use the <command>guacctl</command>
-            utility. The <command>guacctl</command> utility is a simple shell script that is <link
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-                xlink:href="https://raw.githubusercontent.com/glyptodon/guacamole-server/master/bin/guacctl"
-                >included with Guacamole</link> and allows you to initiate a file download or to
-            change the directory in which uploaded files will be placed:</para>
-        <informalexample>
-            <screen><prompt>$</prompt> <userinput>guacctl</userinput>
+            Currently, Guacamole supports file transfer for VNC, RDP, and SSH, using either the
+            native file transfer support of the protocol or SFTP.</para>
+        <para>Files can be transferred to the remote computer by dragging and dropping the files
+            into your browser window, or through using the file browser located in the Guacamole
+            menu.</para>
+        <section xml:id="file-browser">
+            <title>Using the file browser</title>
+            <para>If file transfer is enabled on the connection, you will see one or more filesystem
+                devices listed within the Guacamole menu. Clicking on one of the filesystems opens a
+                file browser which lists the files and directories within that filesystem.</para>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/file-browser.png" format="PNG" contentwidth="3in"/>
+                </imageobject>
+                <caption>
+                    <para>The file browser within the Guacamole menu.</para>
+                </caption>
+            </mediaobject>
+            <para>Double-clicking on any directory will change the current location of the file
+                browser to that directory, updating the list of files shown as well as the
+                "breadcrumbs" at the top of the file browser. Clicking on any of the directory names
+                listed in the breadcrumbs will bring you back to that directory, and clicking on the
+                drive icon on the far left will bring you all the way back to the root level.</para>
+            <para>Downloads are initiated by double-clicking on any file shown, while uploads are
+                initiated by clicking the "Upload Files" button. Clicking "Upload Files" will open a
+                file browsing dialog where you can choose one or more files from your local
+                computer, ultimately uploading the selected files to the directory currently
+                displayed within the file browser.</para>
+            <para>The state of all file transfers can be observed within the notification dialog
+                that appears once a download or upload begins, and completed file transfers can be
+                cleared by clicking the "Clear" button within the notification dialog.</para>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/file-transfers.png" format="PNG" contentwidth="3in"/>
+                </imageobject>
+                <caption>
+                    <para>In-progress and completed file transfers.</para>
+                </caption>
+            </mediaobject>
+            <para>When you are done browsing the filesystem and transferring files, click "Back" to
+                return to the Guacamole menu.</para>
+        </section>
+        <section xml:id="rdp-virtual-drive">
+            <title>The RDP virtual drive</title>
+            <para>RDP provides its own native support for file transfer called "drive redirection"
+                or "RDPDR". Guacamole provides support for this mechanism by emulating a virtual
+                drive. Typically, this virtual drive will appear as a network drive within the RDP
+                session. Files uploaded and downloaded will be preserved within this drive, even
+                after disconnecting.</para>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/guacamole-drive.png" format="PNG" contentwidth="5in"
+                    />
+                </imageobject>
+                <caption>
+                    <para>The Guacamole drive within a Windows RDP session.</para>
+                </caption>
+            </mediaobject>
+            <para>Files can be downloaded from this drive using the file browser in the Guacamole
+                menu or using the special "Download" folder within the virtual drive. All files
+                dropped into this folder will automatically begin uploading to the client, and thus
+                downloading through the browser.</para>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/guacamole-drive-download.png" format="PNG"
+                        contentwidth="5in"/>
+                </imageobject>
+                <caption>
+                    <para>The Guacamole drive's "Download" folder.</para>
+                </caption>
+            </mediaobject>
+        </section>
+        <section xml:id="guacctl">
+            <title><command>guacctl</command> / <command>guacget</command></title>
+            <para><indexterm>
+                    <primary><command>guacctl</command></primary>
+                </indexterm><indexterm>
+                    <primary><command>guacget</command></primary>
+                </indexterm><indexterm>
+                    <primary>SSH</primary>
+                    <secondary><command>guacctl</command></secondary>
+                </indexterm><indexterm>
+                    <primary>SSH</primary>
+                    <secondary><command>guacget</command></secondary>
+                </indexterm>In addition to traditional drag-and-drop and the file browser,
+                Guacamole's SSH support can be used with the <command>guacctl</command> utility. The
+                    <command>guacctl</command> utility is a simple shell script <link
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    xlink:href="https://raw.githubusercontent.com/glyptodon/guacamole-server/master/bin/guacctl"
+                    >included with Guacamole</link> which allows you to use and configure file
+                transfer directly from the command line within the SSH session:</para>
+            <informalexample>
+                <screen><prompt>$</prompt> <userinput>guacctl</userinput>
 <computeroutput>guacctl 0.8.0, Guacamole SSH session control utility.
 Usage: guacctl [OPTION] [FILE]...
 
@@ -216,11 +285,13 @@ Usage: guacctl [OPTION] [FILE]...
 <prompt>$</prompt> <userinput>guacctl -d <replaceable>FILENAME</replaceable></userinput>
 <prompt>$</prompt> <userinput>guacctl -s <replaceable>DIRECTORY</replaceable></userinput>
 $</screen>
-        </informalexample>
-        <para>You may also create a symbolic link or alias to <command>guacctl</command> called
-                <command>guacget</command>. When run as <command>guacget</command>, it behaves as if
-            the <option>--download</option> option was supplied and initiates a download for each
-            file specified on the command line.</para>
+            </informalexample>
+            <para>For convenience, you may also create a symbolic link or alias to
+                    <command>guacctl</command> called <command>guacget</command>. When run as
+                    <command>guacget</command>, the utility behaves as if the
+                    <option>--download</option> option were supplied and initiates a download for
+                each file specified on the command line.</para>
+        </section>
     </section>
     <section xml:id="using-the-osk">
         <title>On-screen keyboard</title>
