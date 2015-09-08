@@ -162,7 +162,7 @@
                     <filename>guac-manifest.json</filename> will look something like this:</para>
             <informalexample>
                 <programlisting>{
-    "guacamoleVersion" : "0.9.7",
+    "guacamoleVersion" : "0.9.8",
     "name" : "My Extension",
     "namespace" : "my-extension"
 }</programlisting>
@@ -174,7 +174,7 @@
             <informalexample>
                 <programlisting>{
 
-    "guacamoleVersion" : "0.9.7",
+    "guacamoleVersion" : "0.9.8",
 
     "name"      : "My Extension",
     "namespace" : "my-extension",
