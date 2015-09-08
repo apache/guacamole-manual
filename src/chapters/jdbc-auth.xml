@@ -372,30 +372,53 @@ postgresql-password: <replaceable>some_password</replaceable></programlisting>
                 parameters are not correct.</para>
             <section xml:id="jdbc-auth-concurrency">
                 <title>Concurrent use of Guacamole connections</title>
-                <para>The database authentication module also provides configuration options to
-                    restrict concurrent use of connections if desired:</para>
+                <para>The database authentication module provides configuration options to restrict
+                    concurrent use of connections or connection groups. These options are set
+                    through <filename>guacamole.properties</filename> and specify the default
+                    concurrency policies for connections and connection groups. The values set
+                    through the properties can be overridden later on a per-connection basis using
+                    the administrative interface:</para>
                 <informalexample>
                     <programlisting># MySQL
-mysql-disallow-simultaneous-connections: true
+mysql-default-max-connections: 1
+mysql-default-max-group-connections: 1
 
 # PostgreSQL
-postgresql-disallow-simultaneous-connections: true</programlisting>
+postgresql-default-max-connections: 1
+postgresql-default-max-group-connections: 1</programlisting>
                 </informalexample>
-                <para>This is not required, but with the above property in place, users attempting
-                    to use a connection that is already in use by another user will be denied
-                    access. By default, concurrent access is allowed. This does not affect balancing
-                    groups, but does affect the usage of connections within balancing groups.</para>
-                <para>Concurrent access to balancing groups is restricted by default, and while
-                    balancing groups can be used by any number of users simultaneously, each
-                    individual user may only have one active connection to a balancing group. You
-                    can change this if you wish, but beware that individual users will then be able
-                    to exhaust the available connections of a balancing group:</para>
+                <para>These properties are not required, but with the above properties in place,
+                    users attempting to use a connection or group that is already in use will be
+                    denied access. By default, concurrent access is allowed.</para>
+                <para>Concurrent access can also be restricted such that a particular user may only
+                    use a connection or group a certain number of times. By default, per-user
+                    concurrent use is limited for connection groups (to avoid allowing a single user
+                    to exhaust the contents of the group) but otherwise unrestricted. This default
+                    behavior can be modified through <filename>guacamole.properties</filename> or
+                    the per-connection settings exposed in the administrative interface:</para>
                 <informalexample>
                     <programlisting># MySQL
-mysql-disallow-duplicate-connections: false
+mysql-default-max-connections-per-user: 0
+mysql-default-max-group-connections-per-user: 0
 
 # PostgreSQL
-postgresql-disallow-duplicate-connections: false</programlisting>
+postgresql-default-max-connections-per-user: 0
+postgresql-default-max-group-connections-per-user: 0</programlisting>
+                </informalexample>
+                <para>The above properties replace the "simultaneous" and "duplicate" properties used
+                    by prior Guacamole releases. The older properties will still work, but are now
+                    deprecated. If you continue to use those properties, you will receive warnings
+                    in the logs advising you of their deprecated status and including examples for
+                    providing the same behavior with the new properties described above:</para>
+                <informalexample>
+                    <screen><computeroutput>WARN  o.g.g.a.p.PostgreSQLAuthenticationProvider - The
+"postgresql-disallow-simultaneous-connections" property is deprecated.
+Use "postgresql-default-max-connections" and
+"postgresql-default-max-group-connections" instead.
+INFO  o.g.g.a.p.PostgreSQLAuthenticationProvider - To achieve the same
+result of setting "postgresql-disallow-simultaneous-connections" to
+"false", set "postgresql-default-max-connections" to "0" and
+"postgresql-default-max-group-connections" to "0".</computeroutput></screen>
                 </informalexample>
             </section>
         </section>
@@ -530,6 +553,63 @@ postgresql-disallow-duplicate-connections: false</programlisting>
                             required upon login.</para>
                     </listitem>
                 </varlistentry>
+                <varlistentry>
+                    <term><property>access_window_start</property></term>
+                    <listitem>
+                        <para>The time of day (not date) after which this user account may be used.
+                            If <constant>NULL</constant>, this restriction does not apply. If set to
+                                non-<constant>NULL</constant>, attempts to log in after the
+                            specified time will be allowed, while attempts to log in before the
+                            specified time will be denied.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>access_window_end</property></term>
+                    <listitem>
+                        <para>The time of day (not date) after which this user account may
+                                <emphasis>not</emphasis> be used. If <constant>NULL</constant>, this
+                            restriction does not apply. If set to non-<constant>NULL</constant>,
+                            attempts to log in after the specified time will be denied, while
+                            attempts to log in before the specified time will be allowed.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>valid_from</property></term>
+                    <listitem>
+                        <para>The date (not time of day) after which this user account may be used.
+                            If <constant>NULL</constant>, this restriction does not apply. If set to
+                                non-<constant>NULL</constant>, attempts to log in after the
+                            specified date will be allowed, while attempts to log in before the
+                            specified date will be denied.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>valid_until</property></term>
+                    <listitem>
+                        <para>The date (not time of day) after which this user account may
+                                <emphasis>not</emphasis> be used. If <constant>NULL</constant>, this
+                            restriction does not apply. If set to non-<constant>NULL</constant>,
+                            attempts to log in after the specified date will be denied, while
+                            attempts to log in before the specified date will be allowed.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>timezone</property></term>
+                    <listitem>
+                        <para>The time zone to use when interpreting the
+                                <property>access_window_start</property>,
+                                <property>access_window_end</property>,
+                                <property>valid_from</property>, and
+                                <property>valid_until</property> values. This value may be any Java
+                                <classname>TimeZone</classname> ID, as defined by <link
+                                xmlns:xlink="http://www.w3.org/1999/xlink"
+                                xlink:href="http://docs.oracle.com/javase/7/docs/api/java/util/TimeZone.html#getAvailableIDs()"
+                                    ><methodname xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    >getAvailableIDs()</methodname></link>, though the Guacamole
+                            management interface will only present a subset of these time
+                            zones.</para>
+                    </listitem>
+                </varlistentry>
             </variablelist>
             <important>
                 <para>If you choose to manually set unsalted password hashes, please be sure you
@@ -606,6 +686,30 @@ INSERT INTO guacamole_user (username, password_salt, password_hash)
                         <para>The unique integer associated with the connection group containing
                             this connection, or <constant>NULL</constant> if this connection is
                             within the root group.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>max_connections</property></term>
+                    <listitem>
+                        <para>The maximum number of concurrent connections to allow to this
+                            connection at any one time <emphasis>regardless of user</emphasis>.
+                                <constant>NULL</constant> will use the default value specified in
+                                <filename>guacamole.properties</filename> with the
+                                <property>mysql-default-max-connections</property> or
+                                <property>postgresql-default-max-connections</property> properties,
+                            and a value of <constant>0</constant> denotes unlimited.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>max_connections_per_user</property></term>
+                    <listitem>
+                        <para>The maximum number of concurrent connections to allow to this
+                            connection at any one time <emphasis>from a single user</emphasis>.
+                                <constant>NULL</constant> will use the default value specified in
+                                <filename>guacamole.properties</filename> with the
+                                <property>mysql-default-max-connections</property> or
+                                <property>postgresql-default-max-connections</property> properties,
+                            and a value of <constant>0</constant> denotes unlimited.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -757,6 +861,32 @@ INSERT INTO guacamole_connection_parameter VALUES (<replaceable>1</replaceable>,
                         <para>The unique integer associated with the connection group containing
                             this connection group, or <constant>NULL</constant> if this connection
                             group is within the root group.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>max_connections</property></term>
+                    <listitem>
+                        <para>The maximum number of concurrent connections to allow to this
+                            connection group at any one time <emphasis>regardless of
+                            user</emphasis>. <constant>NULL</constant> will use the default value
+                            specified in <filename>guacamole.properties</filename> with the
+                                <property>mysql-default-max-connections</property> or
+                                <property>postgresql-default-max-connections</property> properties,
+                            and a value of <constant>0</constant> denotes unlimited. This only has
+                            an effect on <type>BALANCING</type> groups.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>max_connections_per_user</property></term>
+                    <listitem>
+                        <para>The maximum number of concurrent connections to allow to this
+                            connection group at any one time <emphasis>from a single
+                            user</emphasis>. <constant>NULL</constant> will use the default value
+                            specified in <filename>guacamole.properties</filename> with the
+                                <property>mysql-default-max-connections</property> or
+                                <property>postgresql-default-max-connections</property> properties,
+                            and a value of <constant>0</constant> denotes unlimited. This only has
+                            an effect on <type>BALANCING</type> groups.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
