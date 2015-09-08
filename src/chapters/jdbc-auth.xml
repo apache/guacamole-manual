@@ -165,7 +165,8 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
                     script located within the <filename>upgrade/</filename> directory:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>ls schema/upgrade/</userinput>
-<computeroutput>upgrade-pre-0.8.2.sql  upgrade-pre-0.9.6.sql upgrade-pre-0.9.7.sql</computeroutput>
+<computeroutput>upgrade-pre-0.8.2.sql upgrade-pre-0.9.7.sql
+upgrade-pre-0.9.6.sql upgrade-pre-0.9.8.sql</computeroutput>
 <prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.8.2.sql</userinput>
 <prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
 <prompt>$</prompt></screen>
@@ -184,6 +185,14 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
                     applied:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.9.7.sql</userinput>
+<prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
+<prompt>$</prompt></screen>
+                </informalexample>
+                <para>If you are upgrading from a version of Guacamole before 0.9.8, schema changes
+                    regarding support for restricting user access times and concurrent connection
+                    use need to be applied:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.9.8.sql</userinput>
 <prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
 <prompt>$</prompt></screen>
                 </informalexample>
@@ -232,10 +241,27 @@ Type "help" for help.
                     directory:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>ls schema/upgrade/</userinput>
-<computeroutput>upgrade-pre-0.9.7.sql</computeroutput>
-<prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.9.7.sql</userinput>
-<prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
+<computeroutput>upgrade-pre-0.9.7.sql upgrade-pre-0.9.8.sql</computeroutput>
+<prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable> -f schema/upgrade/upgrade-pre-0.9.7.sql</userinput>
+<computeroutput>ALTER TABLE
+ALTER TABLE</computeroutput>
 <prompt>$</prompt></screen>
+                    <para>If you are upgrading from a version of Guacamole before 0.9.8, schema
+                        changes regarding support for restricting user access times and concurrent
+                        connection use need to be applied:</para>
+                    <informalexample>
+                        <screen><prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable> -f schema/upgrade/upgrade-pre-0.9.8.sql</userinput>
+<computeroutput>ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE</computeroutput>
+<prompt>$</prompt></screen>
+                    </informalexample>
                 </informalexample>
             </important>
         </section>
