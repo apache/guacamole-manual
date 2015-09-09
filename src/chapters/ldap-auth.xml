@@ -29,7 +29,7 @@
                 <varname>GUACAMOLE_HOME</varname> is located on your system, please consult <xref
                 linkend="configuring-guacamole"/> before proceeding.</para>
     </important>
-    <section>
+    <section xml:id="ldap-architecture">
         <title>How Guacamole uses LDAP</title>
         <para>If the LDAP extension is installed, Guacamole will authenticate users against your
             LDAP server by attempting a bind as that user. The given username and password will be
@@ -61,15 +61,23 @@
                     represented by a group.</para>
             </listitem>
         </orderedlist>
+        <important>
+            <para>Though Guacamole connections can be stored within the LDAP directory, this is not
+                required. Connection data can alternatively be stored within a database like MySQL
+                or PostgreSQL as long as the LDAP username matches the username of the database
+                user. Configuring Guacamole to use a database for authentication or connection
+                storage is covered in <xref linkend="jdbc-auth"/> and later in this chapter in <xref
+                    linkend="ldap-and-database"/>.</para>
+        </important>
     </section>
-    <section>
+    <section xml:id="ldap-downloading">
         <title>Downloading the LDAP extension</title>
         <para>The LDAP authentication extension is available separately from the main
                 <filename>guacamole.war</filename>. The link for this and all other
             officially-supported and compatible extensions for a particular version of Guacamole are
             provided on the release notes for that version. You can find the release notes for
             current versions of Guacamole here: <link xlink:href="http://guac-dev.org/releases/"
-            >http://guac-dev.org/releases/</link>.</para>
+                >http://guac-dev.org/releases/</link>.</para>
         <para>The LDAP authentication extension is packaged as a <filename>.tar.gz</filename> file
             containing:</para>
         <variablelist>
@@ -91,20 +99,22 @@
             </varlistentry>
         </variablelist>
     </section>
-    <section>
-        <title>Preparing your LDAP directory</title>
+    <section xml:id="ldap-schema-changes">
+        <title>Preparing your LDAP directory (optional)</title>
         <para>Although your LDAP directory already provides a means of storing and authenticating
             users, Guacamole also needs storage of connection configuration data, such as hostnames
             and ports, and a means of associating users with connections that they should have
-            access to.</para>
-        <para>This need for additional connection storage means that the LDAP directory schema must
-            be modified. An additional object, <classname>guacConfigGroup</classname>, contains all
-            configuration information for a particular connection, and can be associated with
-            arbitrarily-many users. Only users which are members of a connection's group will have
-            access to that connection.</para>
-        <para>The necessary modifications to the LDAP schema are made through applying one of the
-            provided schema files. <emphasis>This must be done before Guacamole can be used with
-                LDAP</emphasis>.</para>
+            access to. You can do this either through modifying the LDAP directory schema, or
+            through using a database like MySQL or PostgreSQL. If you do not wish to use the LDAP
+            directory for connection storage, skip ahead to <xref linkend="ldap-and-database"
+            />.</para>
+        <para>If you wish to store connection data directly within the LDAP directory, the required
+            modifications to the LDAP schema are made through applying one of the provided schema
+            files. These schema files define an additional object class,
+                <classname>guacConfigGroup</classname>, which contains all configuration information
+            for a particular connection, and can be associated with arbitrarily-many users. Only
+            users which are members of a connection's group will have access to that
+            connection.</para>
         <important>
             <para>The instructions given for applying the Guacamole LDAP schema changes are specific
                 to OpenLDAP, but other LDAP implementations, including Active Directory, will have
@@ -166,6 +176,26 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
 <prompt>#</prompt></screen>
             </informalexample>
         </section>
+    </section>
+    <section xml:id="ldap-and-database">
+        <title>Associating LDAP with a database</title>
+        <para>If you install both the LDAP authentication as well as support for MySQL or PostgreSQL
+            (following the instructions in <xref linkend="jdbc-auth"/>), Guacamole will
+            automatically attempt to authenticate against both systems whenever a user attempts to
+            log in. That user will have access to any data associated with them via the database, as
+            well as any visible objects within the LDAP directory. The LDAP account will be
+            considered equivalent to the database user if the username is identical.</para>
+        <para>Data can be manually associated with LDAP users by creating corresponding user
+            accounts within the database which each have the same usernames as valid LDAP users. As
+            long as the username is identical, a successful login attempt against LDAP will be
+            trusted by the database authentication, and that user's associated data will be
+            visible.</para>
+        <para>If an administrator account (such as the default <systemitem>guacadmin</systemitem>
+            user provided with the database authentication) has a corresponding user in the LDAP
+            directory with permission to list and read other LDAP users, the Guacamole
+            administrative interface will include LDAP users in the overall user list presented to
+            the administrator, and allow connections from the database to be associated with those
+            users directly.</para>
     </section>
     <section xml:id="installing-ldap-auth">
         <title>Installing LDAP authentication</title>
