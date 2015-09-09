@@ -99,10 +99,7 @@
                             <entry>
                                 <para>An array of the classnames of all
                                         <classname>AuthenticationProvider</classname> subclasses
-                                    provided by this extension. Guacamole currently only supports
-                                    one <classname>AuthenticationProvider</classname> being loaded
-                                    at a time, thus this array must only contain one element, if it
-                                    is present at all.</para>
+                                    provided by this extension.</para>
                             </entry>
                         </row>
                         <row>
