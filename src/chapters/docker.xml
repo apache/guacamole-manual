@@ -95,7 +95,8 @@
             configuration will be automatically generated at startup.</para>
         <para>The name of the database and all associated credentials are specified with environment
             variables given when the container is created. All other configuration information is
-            generated from the Docker links.</para>
+            generated from the Docker links, and need only be explicitly provided if Docker is not
+            used to host the database.</para>
         <important>
             <para><emphasis>You will need to initialize the database manually</emphasis>. Guacamole
                 will not automatically create its own tables, but SQL scripts are provided to do
@@ -117,8 +118,9 @@
                             <package>guacd</package>.</para>
                 </listitem>
                 <listitem>
-                    <para>A Docker container running the <systemitem>mysql</systemitem>
-                        image.</para>
+                    <para>A Docker container running the <systemitem>mysql</systemitem> image,
+                            <emphasis>or</emphasis> network access to a working installation of
+                        MySQL.</para>
                 </listitem>
             </orderedlist>
             <section xml:id="initializing-guacamole-docker-mysql">
@@ -153,8 +155,9 @@
             </section>
             <section>
                 <title xml:id="deploying-guacamole-docker-mysql">Deploying Guacamole</title>
-                <para>Linking Guacamole to MySQL will require three environment variables. These
-                    variables collectively describe how Guacamole will connect to MySQL:</para>
+                <para>Linking Guacamole to MySQL will requires additional configuration parameters
+                    specified via environment variables. These variables collectively describe how
+                    Guacamole will connect to MySQL:</para>
                 <informaltable frame="all">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1" colwidth="1*"/>
@@ -194,15 +197,62 @@
                     above variables are known, Guacamole can be deployed through Docker:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacamole</replaceable> --link <replaceable>some-guacd</replaceable>:guacd \
-    --link <replaceable>some-mysql</replaceable>:mysql      \
+    --link <replaceable>some-mysql</replaceable>:mysql         \
     -e MYSQL_DATABASE=<replaceable>guacamole_db</replaceable>  \
     -e MYSQL_USER=<replaceable>guacamole_user</replaceable>    \
     -e MYSQL_PASSWORD=<replaceable>some_password</replaceable> \
     -d -p 8080:8080 glyptodon/guacamole</screen>
                 </informalexample>
-                <para>If any of the configuration environment variables are omitted, you will
-                    receive an error message, and the image will stop. You will then need to
-                    recreate the container with the proper variables specified.</para>
+                <para>The network connection information for MySQL is normally implied through the
+                        "<property>mysql</property>" Docker link, and thus does not need to be
+                    explicitly specified. If you are not using Docker to provide your MySQL
+                    database, you will need to provide the network connection information yourself
+                    using additional environment variables:</para>
+                <informaltable frame="all">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="4*"/>
+                        <thead>
+                            <row>
+                                <entry>Variable</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><envar>MYSQL_HOSTNAME</envar></entry>
+                                <entry>
+                                    <para>The hostname of the database to use for Guacamole
+                                        authentication. <emphasis>This is required if you are not
+                                            using Docker to provide your MySQL
+                                        database.</emphasis></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>MYSQL_PORT</envar></entry>
+                                <entry>
+                                    <para>The user that Guacamole will use to connect to MySQL. This
+                                        environment variable is optional. If not provided, the
+                                        standard MySQL port of 3306 will be used.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para>The <envar>MYSQL_HOSTNAME</envar> and, if necessary, <envar>MYSQL_POST</envar>
+                    environment variables can thus be used in place of a Docker link if using a
+                    Docker link is impossible or undesirable:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacamole</replaceable> --link <replaceable>some-guacd</replaceable>:guacd \
+    <emphasis>-e MYSQL_HOSTNAME=<replaceable>172.17.42.1</replaceable>   \</emphasis>
+    -e MYSQL_DATABASE=<replaceable>guacamole_db</replaceable>  \
+    -e MYSQL_USER=<replaceable>guacamole_user</replaceable>    \
+    -e MYSQL_PASSWORD=<replaceable>some_password</replaceable> \
+    -d -p 8080:8080 glyptodon/guacamole</screen>
+                </informalexample>
+                <para>If any required environment variables are omitted, you will receive an error
+                    message in the logs, and the image will stop. You will then need to recreate the
+                    container with the proper variables specified.</para>
             </section>
             <section xml:id="verifying-guacamole-docker-mysql">
                 <title>Verifying the Guacamole install</title>
@@ -240,8 +290,9 @@
                             <package>guacd</package>.</para>
                 </listitem>
                 <listitem>
-                    <para>A Docker container running the <systemitem>postgresql</systemitem>
-                        image.</para>
+                    <para>A Docker container running the <systemitem>postgresql</systemitem> image,
+                            <emphasis>or</emphasis> network access to a working installation of
+                        PostgreSQL.</para>
                 </listitem>
             </orderedlist>
             <section xml:id="initializing-guacamole-docker-postgresql">
@@ -277,9 +328,9 @@
             </section>
             <section xml:id="deploying-guacamole-docker-postgresql">
                 <title>Deploying Guacamole</title>
-                <para>Linking Guacamole to your PostgreSQL database will require three environment
-                    variables. These variables collectively describe how Guacamole will connect to
-                    PostgreSQL:</para>
+                <para>Linking Guacamole to your PostgreSQL database will require additional
+                    configuration parameters specified via environment variables. These variables
+                    collectively describe how Guacamole will connect to PostgreSQL:</para>
                 <informaltable frame="all">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1" colwidth="1*"/>
@@ -325,9 +376,56 @@
     -e POSTGRES_PASSWORD=<replaceable>some_password</replaceable> \
     -d -p 8080:8080 glyptodon/guacamole</screen>
                 </informalexample>
-                <para>If any of the configuration environment variables are omitted, you will
-                    receive an error message, and the image will stop. You will then need to
-                    recreate the container with the proper variables specified.</para>
+                <para>The network connection information for PostgreSQL is normally implied through
+                    the "<property>postgres</property>" Docker link, and thus does not need to be
+                    explicitly specified. If you are not using Docker to provide your PostgreSQL
+                    database, you will need to provide the network connection information yourself
+                    using additional environment variables:</para>
+                <informaltable frame="all">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="4*"/>
+                        <thead>
+                            <row>
+                                <entry>Variable</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><envar>POSTGRES_HOSTNAME</envar></entry>
+                                <entry>
+                                    <para>The hostname of the database to use for Guacamole
+                                        authentication. <emphasis>This is required if you are not
+                                            using Docker to provide your PostgreSQL
+                                            database.</emphasis></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>POSTGRES_PORT</envar></entry>
+                                <entry>
+                                    <para>The user that Guacamole will use to connect to PostgreSQL.
+                                        This environment variable is optional. If not provided, the
+                                        standard PostgreSQL port of 5432 will be used.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para>The <envar>POSTGRES_HOSTNAME</envar> and, if necessary,
+                        <envar>POSTGRES_POST</envar> environment variables can thus be used in place
+                    of a Docker link if using a Docker link is impossible or undesirable:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacamole</replaceable> --link <replaceable>some-guacd</replaceable>:guacd \
+    <emphasis>-e POSTGRES_HOSTNAME=<replaceable>172.17.42.1</replaceable>   \</emphasis>
+    -e POSTGRES_DATABASE=<replaceable>guacamole_db</replaceable>  \
+    -e POSTGRES_USER=<replaceable>guacamole_user</replaceable>    \
+    -e POSTGRES_PASSWORD=<replaceable>some_password</replaceable> \
+    -d -p 8080:8080 glyptodon/guacamole</screen>
+                </informalexample>
+                <para>If any required environment variables are omitted, you will receive an error
+                    message in the logs, and the image will stop. You will then need to recreate the
+                    container with the proper variables specified.</para>
             </section>
             <section xml:id="verifying-guacamole-docker-postgresql">
                 <title>Verifying the Guacamole install</title>
