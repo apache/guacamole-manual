@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="image-handshake-instruction" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>image</title>
+    <indexterm>
+        <primary>image</primary>
+    </indexterm>
+    <para>Specifies which image mimetypes are supported by the client. Each parameter must be a
+        single mimetype, listed in order of client preference, with the optimal mimetype being the
+        first parameter. This is the fifth instruction sent during the handshake phase.</para>
+    <para>It is expected that the supported mimetypes will include at least "image/png" and
+        "image/jpeg", and the server <emphasis>may</emphasis> safely assume that these mimetypes are
+        supported, even if they are absent from the handshake.</para>
+</section>

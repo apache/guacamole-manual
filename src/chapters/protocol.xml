@@ -63,21 +63,23 @@
             <programlisting>4.args,8.hostname,4.port,8.password,13.swap-red-blue,9.read-only;</programlisting>
         </informalexample>
         <para>After receiving the list of arguments, the client is required to respond with the list
-            of supported audio and video mimetypes, the optimal display size and resolution, and the
-            values for all arguments available, even if blank. If any of these requirements are left
-            out, the connection will close:</para>
+            of supported audio, video, and image mimetypes, the optimal display size and resolution,
+            and the values for all arguments available, even if blank. If any of these requirements
+            are left out, the connection will close:</para>
         <informalexample>
             <programlisting>4.size,4.1024,3.768,2.96;
 5.audio,9.audio/ogg;
 5.video;
+5.image,9.image/png,10.image/jpeg;
 7.connect,9.localhost,4.5900,0.,0.,0.;</programlisting>
         </informalexample>
         <para>For clarity, we've put each instruction on its own line, but in the real protocol, no
             newlines exist between instructions. In fact, if there is anything after an instruction
             other than the start of a new instruction, the connection is closed.</para>
         <para>Here, the client is specifying that the optimal display size is 1024x768 at 96 DPI and
-            it supports Ogg Vorbis audio, but no video. It wants to connect to localhost at port
-            5900, and is leaving the three other parameters blank.</para>
+            it supports Ogg Vorbis audio, but no video, and can accept both PNG and JPEG images. It
+            wants to connect to localhost at port 5900, and is leaving the three other parameters
+            blank.</para>
         <para>Once these instructions have been sent by the client, the server will attempt to
             initialize the connection with the parameters received and, if successful, respond with
             a "ready" instruction. This instruction contains the ID of the new client connection and
