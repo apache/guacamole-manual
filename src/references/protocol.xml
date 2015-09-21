@@ -75,6 +75,7 @@
         <title>Client handshake instructions</title>
         <xi:include href="instructions/client/handshake/audio.xml"/>
         <xi:include href="instructions/client/handshake/connect.xml"/>
+        <xi:include href="instructions/client/handshake/image.xml"/>
         <xi:include href="instructions/client/handshake/select.xml"/>
         <xi:include href="instructions/client/handshake/size.xml"/>
         <xi:include href="instructions/client/handshake/video.xml"/>
