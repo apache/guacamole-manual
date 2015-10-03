@@ -303,7 +303,7 @@
                 <para>To generate a SQL script which can be used to initialize a fresh PostgreSQL
                     database as documented in <xref linkend="jdbc-auth"/>:</para>
                 <informalexample>
-                    <screen><prompt>$</prompt> <command>docker</command> run --rm glyptodon/guacamole /opt/guacamole/bin/initdb.sh --postgresql > <replaceable>initdb.sql</replaceable></screen>
+                    <screen><prompt>$</prompt> <command>docker</command> run --rm glyptodon/guacamole /opt/guacamole/bin/initdb.sh --postgres > <replaceable>initdb.sql</replaceable></screen>
                 </informalexample>
                 <para>Alternatively, you can use the SQL scripts included with the database
                     authentication.</para>
