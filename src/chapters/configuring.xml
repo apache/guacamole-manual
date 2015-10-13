@@ -122,9 +122,39 @@
         </orderedlist>
         <para>The <filename>guacamole.properties</filename> file is optional and is used to
             configure Guacamole in situations where the defaults are insufficient, or to provide
-            additional configuration information for extensions. There are three standard properties
-            that are always available for use:</para>
+            additional configuration information for extensions. There are several standard
+            properties that are always available for use:</para>
         <variablelist>
+            <varlistentry>
+                <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+                        <primary>api-session-timeout</primary>
+                    </indexterm><parameter>api-session-timeout</parameter></term>
+                <listitem>
+                    <para>The amount of time, in minutes, to allow Guacamole sessions
+                        (authentication tokens) to remain valid despite inactivity. If omitted,
+                        Guacamole sessions will expire after 60 minutes of inactivity.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+                        <primary>available-languages</primary>
+                    </indexterm><parameter>available-languages</parameter></term>
+                <listitem>
+                    <para>A comma-separated whitelist of language keys to allow as display language
+                        choices within the Guacamole interface. For example, to restrict Guacamole
+                        to only English and German, you would specify:</para>
+                    <informalexample>
+                        <programlisting>available-languages: en, de</programlisting>
+                    </informalexample>
+                    <para>As English is the fallback language, used whenever a translation key is
+                        missing from the chosen language, English should only be omitted from this
+                        list if you are absolutely positive that no strings are missing.</para>
+                    <para>The corresponding JSON of any built-in languages not listed here will
+                        still be available over HTTP, but the Guacamole interface will not use them,
+                        nor will they be used automatically based on local browser language. If
+                        omitted, all defined languages will be available.</para>
+                </listitem>
+            </varlistentry>
             <varlistentry>
                 <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
                         <primary>guacd-host</primary>
