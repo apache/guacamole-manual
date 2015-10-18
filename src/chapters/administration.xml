@@ -90,6 +90,47 @@
             </informalfigure>
         </section>
     </section>
+    <section xml:id="connection-history">
+        <title>Connection history</title>
+        <indexterm>
+            <primary>history</primary>
+        </indexterm>
+        <indexterm>
+            <primary>connection history</primary>
+        </indexterm>
+        <para>Clicking "History" navigates to the connection history screen. The connection history
+            screen displays a table of the most recent connections, including the user that used
+            that connection, the time the connection began, and the time the connection
+            ended.</para>
+        <informalfigure>
+            <screenshot>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/manage-history.png" format="PNG"
+                            contentwidth="5in"/>
+                    </imageobject>
+                    <caption>
+                        <para>Connection history interface</para>
+                    </caption>
+                </mediaobject>
+            </screenshot>
+        </informalfigure>
+        <section xml:id="filtering-history">
+            <title>Filtering and sorting</title>
+            <para>Initially, the connection history table will display only the most recent history
+                records. You can page through these records to see how and when Guacamole has been
+                used.</para>
+            <para>Just as with the table of active sessions described earlier, the table of history
+                records can be resorted by clicking on the column headers or filtered by entering
+                search terms within the "Filter" field.</para>
+            <para>The same filtering format applies - a search term containing spaces must be
+                enclosed in double quotes to avoid being interpreted as multiple terms, and only
+                history records which contain each term will be included in the history table.
+                Unlike the table of active sessions, however, the filter will only take effect once
+                you click the "Search" button. This is due to the nature of the connection history,
+                as the number of records may be quite extensive.</para>
+        </section>
+    </section>
     <section xml:id="user-management">
         <title>User management</title>
         <indexterm>
