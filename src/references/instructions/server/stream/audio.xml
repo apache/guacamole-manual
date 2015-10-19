@@ -8,8 +8,8 @@
     </indexterm>
     <para>Allocates a new stream, associating it with the given audio metadata. Audio data will
         later be sent along the stream with blob instructions. The mimetype given must be a mimetype
-        previously specified by the client during the handshake procedure, and the duration of the
-        audio must be known ahead of time.</para>
+        previously specified by the client during the handshake procedure. Playback will begin
+        immediately and will continue as long as blobs are received along the stream.</para>
     <variablelist>
         <varlistentry>
             <term><parameter>stream</parameter></term>
@@ -18,35 +18,9 @@
             </listitem>
         </varlistentry>
         <varlistentry>
-            <term><parameter>channel</parameter></term>
-            <listitem>
-                <para>The index of the audio channel to use. All audio chunks
-                    within the same channel play sequentially, while audio
-                    chunks in separate channels play in parallel. This is not
-                    the same as the left or right audio channel, and refers only
-                    to a channel to which audio data is streamed, where that
-                    audio data consists of chunks that may themselves consist of
-                    multiple channels in the usual sense of the word. This
-                    number is completely arbitrary, and denotes only how audio
-                    data should be scheduled for playback.</para>
-            </listitem>
-        </varlistentry>
-        <varlistentry>
             <term><parameter>mimetype</parameter></term>
             <listitem>
                 <para>The mimetype of the audio data being sent.</para>
-            </listitem>
-        </varlistentry>
-        <varlistentry>
-            <term><parameter>duration</parameter></term>
-            <listitem>
-                <para>The duration of the audio data being sent, in
-                    milliseconds. This value may be a decimal, and need not be
-                    expressed in whole milliseconds. This is particularly
-                    important for audio formats that do not encode their own
-                    durations losslessly (MP3, for example), as well as for
-                    scheduling playback of future chunks within the same
-                    channel.</para>
             </listitem>
         </varlistentry>
     </variablelist>
