@@ -2227,6 +2227,44 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                     </tgroup>
                 </informaltable>
             </section>
+            <section xml:id="ssh-command">
+                <title>Running a command (instead of a shell)</title>
+                <para>By default, SSH sessions will start an interactive shell. The shell which will
+                    be used is determined by the SSH server, normally by reading the user's default
+                    shell previously set with <command>chsh</command> or within
+                        <filename>/etc/passwd</filename>. If you wish to override this and instead
+                    run a specific command, you can do so by specifying that command in the
+                    configuration of the Guacamole SSH connection.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>SSH</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>command</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>command</secondary>
+                                        </indexterm>The command to execute over the SSH session, if
+                                        any. This parameter is optional. If not specified, the SSH
+                                        session will use the user's default shell.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
             <section xml:id="ssh-sftp">
                 <title>SFTP</title>
                 <para>Guacamole provides support for file transfer over SSH using SFTP, the file
