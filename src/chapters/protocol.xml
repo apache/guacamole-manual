@@ -256,19 +256,17 @@
             <para>The Guacamole protocol, like many remote desktop protocols, provides a method of
                 sending an arbitrary rectangle of image data and placing it either within a buffer
                 or in a visible rectangle of the screen. Raw image data in the Guacamole protocol is
-                sent within PNG chunks using the "png" instruction, and thus provides the same level
-                of image compression and color representation. Image updates sent in this way can be
+                streamed as PNG, JPEG, or WebP data over a stream allocated with the "img"
+                instruction. Depending on the format used, image updates sent in this manner can be
                 RGB or RGBA (alpha transparency) and are automatically palettized if sent using
-                libguac.</para>
-            <para>Image data in the Guacamole protocol is sent base64-encoded, as the Guacamole
-                protocol is entirely text-based. This works out well, because all browsers have
-                native support for base64, and are required to at least support PNG, thus the
-                Guacamole "png" instruction is one of the more efficient ways to stream image data
-                to a browser.</para>
-            <para>Each chunk of image data can be sent to any specified rectangle within a layer or
-                buffer. Sending the data to a layer means that the image becomes immediately
-                visible, while sending the data to a buffer allows that data to be reused
-                later.</para>
+                libguac. The streaming system used for image data is generalized and used by
+                Guacamole for other types of streams, including audio and file transfer. For more
+                information about streams in the Guacamole protocol, see <xref
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    linkend="guacamole-protocol-streaming"/>.</para>
+            <para>Image data can be sent to any specified rectangle within a layer or buffer.
+                Sending the data to a layer means that the image becomes immediately visible, while
+                sending the data to a buffer allows that data to be reused later.</para>
         </section>
         <section xml:id="guacamole-protocol-copying-images">
             <title>Copying image data between layers</title>
@@ -318,20 +316,15 @@
     </section>
     <section xml:id="guacamole-protocol-streaming">
         <title>Streams and objects</title>
-        <para>Guacamole supports transfer of both audio and video data, as well as files and
-            arbitrary named pipes. Streams can be allocated directly with audio or video
-            instructions for the sake of playing media, with file instructions for file transfer,
-            with "pipe" instructions for transfer of arbitrary data between client and server, or
-            exposed as structured sets of named streams known as "objects".</para>
-        <para>By the nature of the Guacamole protocol, you must know the duration of the audio or
-            video data before it is sent. This is because sequential playing of multiple audio or
-            video chunks must be carefully timed by the client to avoid gaps in playback. Even a gap
-            of only one millisecond will produce an audible "click" in audio playback.</para>
-        <para>As far as audio and video are concerned, variance in chunk size gives a trade-off
-            between responsiveness and perceived quality. Larger chunks will provide smoother audio
-            and video, but have noticeable lag compared to smaller chunks. Smaller chunks provide
-            less lag, but may produce noticeable clicking or stutter if the timing of each chunk is
-            not perfect.</para>
+        <para>Guacamole supports transfer of audio, video, and image data, as well as files and
+            arbitrary named pipes.</para>
+        <para>Streams can be allocated directly with "audio" or "video" instructions for the sake of
+            playing media, with file instructions for file transfer, with "pipe" instructions for
+            transfer of arbitrary data between client and server, or exposed as structured sets of
+            named streams known as "objects".</para>
+        <para>Once a stream is allocated, data is sent along the stream in chunks using "blob"
+            instructions, which may be acknowledged by the receiving end by "ack" instructions. The
+            end of the stream is finally signalled with an "end" instruction.</para>
     </section>
     <section xml:id="guacamole-protocol-events">
         <title>Events</title>

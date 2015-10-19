@@ -8,8 +8,8 @@
     </indexterm>
     <para>Allocates a new stream, associating it with the given video metadata. Video data will
         later be sent along the stream with blob instructions. The mimetype given must be a mimetype
-        previously specified by the client during the handshake procedure, and the duration of the
-        audio must be known ahead of time.</para>
+        previously specified by the client during the handshake procedure. Playback will begin
+        immediately and will continue as long as blobs are received along the stream.</para>
     <variablelist>
         <varlistentry>
             <term><parameter>stream</parameter></term>
@@ -20,22 +20,16 @@
         <varlistentry>
             <term><parameter>layer</parameter></term>
             <listitem>
-                <para>The index of the layer to stream the video data into. Future drawing
-                    operations into this layer will block until the video has finished playing.
-                    Playback of this video will not block operations in other layers.</para>
+                <para>The index of the layer to stream the video data into. The effect of other
+                    drawing operations on this layer during playback is undefined, as the client
+                    codec implementation may leverage any rendering mechanism it sees fit, including
+                    hardware decoding.</para>
             </listitem>
         </varlistentry>
         <varlistentry>
             <term><parameter>mimetype</parameter></term>
             <listitem>
                 <para>The mimetype of the video data being sent.</para>
-            </listitem>
-        </varlistentry>
-        <varlistentry>
-            <term><parameter>duration</parameter></term>
-            <listitem>
-                <para>The duration of the video data being sent, in milliseconds. This value may be
-                    a decimal, and need not be expressed in whole milliseconds.</para>
             </listitem>
         </varlistentry>
     </variablelist>

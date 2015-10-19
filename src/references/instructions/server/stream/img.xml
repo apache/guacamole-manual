@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<section xml:id="png-instruction" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+<section xml:id="img-instruction" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude">
     <title>img</title>
     <indexterm>
