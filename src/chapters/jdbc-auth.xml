@@ -282,11 +282,6 @@ ALTER TABLE</computeroutput>
                     does not already exist.</para>
             </step>
             <step>
-                <para>Remove any existing authentication extensions from
-                        <filename>GUACAMOLE_HOME/extensions</filename>. Guacamole does not currently
-                    support using multiple authentication extensions at the same time.</para>
-            </step>
-            <step>
                 <para>Copy <filename>guacamole-auth-jdbc-mysql-0.9.8.jar</filename>
                     <emphasis>or</emphasis>
                     <filename>guacamole-auth-jdbc-postgresql-0.9.8.jar</filename> within

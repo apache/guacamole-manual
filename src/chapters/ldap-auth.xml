@@ -208,11 +208,6 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                     does not already exist.</para>
             </step>
             <step>
-                <para>Remove any existing authentication extensions from
-                        <filename>GUACAMOLE_HOME/extensions</filename>. Guacamole does not currently
-                    support using multiple authentication extensions at the same time.</para>
-            </step>
-            <step>
                 <para>Copy <filename>guacamole-auth-ldap-0.9.8.jar</filename> within
                         <filename>GUACAMOLE_HOME/extensions</filename>.</para>
             </step>
