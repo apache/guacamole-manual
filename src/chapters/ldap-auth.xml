@@ -231,52 +231,87 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                 <primary>LDAP</primary>
                 <secondary>configuration</secondary>
             </indexterm>
-            <para>Additional properties must be added to <filename>guacamole.properties</filename>
-                for Guacamole to load the LDAP support and for the LDAP support to properly connect
-                to your LDAP server:</para>
-            <programlisting># LDAP properties
-ldap-hostname:           <replaceable>localhost</replaceable>
-ldap-port:               <replaceable>389</replaceable>
-ldap-user-base-dn:       <replaceable>ou=people,dc=example,dc=net</replaceable>
-ldap-username-attribute: <replaceable>uid</replaceable>
-ldap-config-base-dn:     <replaceable>ou=groups,dc=example,dc=net</replaceable></programlisting>
-            <para>To use Guacamole's LDAP support, you must specify each of the following
-                properties, as shown in the example above:</para>
+            <para>Additional properties may be added to <filename>guacamole.properties</filename> to
+                describe how your LDAP directory is organized and how Guacamole should connect (and
+                bind) to your LDAP server. Among these properties, only the
+                    <property>ldap-user-base-dn</property> property is required:</para>
             <variablelist>
                 <varlistentry>
                     <term><property>ldap-hostname</property></term>
                     <listitem>
-                        <para>The hostname of your LDAP server. In the example above, this is given
-                            as "localhost" - the same machine as the web server hosting Guacamole.
-                            You will need to use a different value if your LDAP server is located
-                            elsewhere.</para>
+                        <para>The hostname of your LDAP server. If omitted, "localhost" will be used
+                            by default. You will need to use a different value if your LDAP server
+                            is located elsewhere.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><property>ldap-port</property></term>
                     <listitem>
-                        <para>The port your LDAP server listens on. The example above uses the
-                            standard port 389. Unless you manually configured your LDAP server to do
-                            otherwise, your LDAP server probably listens on port 389 as well.</para>
+                        <para>The port your LDAP server listens on. If omitted, the standard LDAP
+                            port of 389 will be used. Unless you manually configured your LDAP
+                            server to do otherwise, your LDAP server probably listens on port
+                            389.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>ldap-search-bind-dn</property></term>
+                    <listitem>
+                        <para>The DN (Distinguished Name) of the user to bind as when authenticating
+                            users that are attempting to log in. If specified, Guacamole will query
+                            the LDAP directory to determine the DN of each user that logs in. If
+                            omitted, each user's DN will be derived directly using the base DN
+                            specified with <property>ldap-user-base-dn</property>.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>ldap-search-bind-password</property></term>
+                    <listitem>
+                        <para>The password to provide to the LDAP server when binding as
+                                <property>ldap-search-bind-dn</property> to authenticate other
+                            users. This property is only used if
+                                <property>ldap-search-bind-dn</property> is specified. If omitted,
+                            but <property>ldap-search-bind-dn</property> is specified, Guacamole
+                            will attempt to bind with the LDAP server without a password.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><property>ldap-user-base-dn</property></term>
                     <listitem>
-                        <para>The base of the DN (Distinguished Name) for all Guacamole users. This
-                            will be appended to the username when a user logs in.</para>
+                        <para>The base of the DN for all Guacamole users. <emphasis>This property is
+                                absolutely required in all cases.</emphasis> All Guacamole users
+                            must be descendents of this base DN.</para>
+                        <para>If a search DN is provided (via
+                                <property>ldap-search-bind-dn</property>), then Guacamole users need
+                            only be somewhere within the subtree of the specified user base
+                            DN.</para>
+                        <para>If a search DN <emphasis>is not</emphasis> provided, then all
+                            Guacamole users must be <emphasis>direct descendents</emphasis> of this
+                            base DN, as the base DN will be appended to the username to derive the
+                            user's DN. For example, if <property>ldap-user-base-dn</property> is
+                                "<systemitem>ou=people,dc=example,dc=net</systemitem>", and
+                                <property>ldap-username-attribute</property> is
+                                "<property>uid</property>", then a person attempting to login as
+                                "<systemitem>user</systemitem>" would be mapped to the following
+                            full DN:
+                            "<systemitem>uid=user,ou=people,dc=example,dc=net</systemitem>".</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><property>ldap-username-attribute</property></term>
                     <listitem>
-                        <para>The attribute which contains the username and which is part of the DN
-                            for all Guacamole users. Usually, this will be
-                            "<property>uid</property>". This is used together with the user base DN
-                            to derive the full DN of each user logging in.</para>
-                        <para>For example, if <property>ldap-user-base-dn</property> is
-                                "<systemitem>ou=people,dc=example,dc=net</systemitem>", as in the
-                            example above, and <property>ldap-username-attribute</property> is
+                        <para>The attribute or attributes which contain the username within all
+                            Guacamole user objects in the LDAP directory. Usually, and by default,
+                            this will simply be "<property>uid</property>".  If your LDAP directory
+                            contains users whose usernames are dictated by different attributes,
+                            multiple attributes can be specified here, separated by commas, but
+                            beware: <emphasis>doing so requires that a search DN be provided with
+                                    <property>ldap-search-bind-dn</property></emphasis>.</para>
+                        <para>If a search DN <emphasis>is not</emphasis> provided, then the single
+                            username attribute specified here will be used together with the user
+                            base DN to directly derive the full DN of each user. For example, if
+                                <property>ldap-user-base-dn</property> is
+                                "<systemitem>ou=people,dc=example,dc=net</systemitem>", and
+                                <property>ldap-username-attribute</property> is
                                 "<property>uid</property>", then a person attempting to login as
                                 "<systemitem>user</systemitem>" would be mapped to the following
                             full DN:
@@ -286,16 +321,25 @@ ldap-config-base-dn:     <replaceable>ou=groups,dc=example,dc=net</replaceable><
                 <varlistentry>
                     <term><property>ldap-config-base-dn</property></term>
                     <listitem>
-                        <para>The base of the DN for all Guacamole configurations. Each
-                            configuration is analogous to a connection. Within Guacamole's LDAP
-                            support, each configuration functions as a group, having user members,
-                            where each member of a particular configuration group will have access
-                            to that configuration.</para>
-                        <para>This base DN will be used when querying the configurations accessible
-                            by a user once they have successfully logged in.</para>
+                        <para>The base of the DN for all Guacamole configurations. <emphasis>This
+                                property is optional.</emphasis> If omitted, the configurations of
+                            Guacamole connections will simply not be queried from the LDAP
+                            directory. If specified, this base DN will be used when querying the
+                            configurations accessible by a user once they have successfully logged
+                            in.</para>
+                        <para>Each configuration is analogous to a connection. Within Guacamole's
+                            LDAP support, each configuration functions as a group, having user
+                            members, where each member of a particular configuration group will have
+                            access to that configuration.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
+            <para>Again, even if the defaults are sufficient for the other properties, <emphasis>you
+                    must still specify the <property>ldap-user-base-dn</property>
+                    property</emphasis>. An absolutely minimal configuration for LDAP authentication
+                will look like the following:</para>
+            <programlisting># LDAP properties
+ldap-user-base-dn:       <replaceable>ou=people,dc=example,dc=net</replaceable></programlisting>
         </section>
         <section>
             <title>Completing the installation</title>
