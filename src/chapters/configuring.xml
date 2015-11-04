@@ -1699,6 +1699,88 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                     </tgroup>
                 </informaltable>
             </section>
+            <section xml:id="rdp-preconnection-pdu">
+                <title>Preconnection PDU (Hyper-V)</title>
+                <para><indexterm>
+                        <primary>preconnection PDU</primary>
+                    </indexterm><indexterm>
+                        <primary>Hyper-V</primary>
+                    </indexterm>Some RDP servers host multiple logical RDP connections behind a
+                    single server listening on a single TCP port. To select between these logical
+                    connections, an RDP client must send the "preconnection PDU" - a message which
+                    contains values that uniquely identify the destination, referred to as the "RDP
+                    source". This mechanism is defined by the <link
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        xlink:href="https://msdn.microsoft.com/en-us/library/cc242359.aspx">"Session
+                        Selection Extension"</link> for the RDP protocol, and is implemented by
+                    Microsoft's Hyper-V hypervisor.</para>
+                <para>If you are using Hyper-V, you will need to specify the ID of the destination
+                    virtual machine within the <parameter>preconnection-blob</parameter> parameter.
+                    This value can be determined using PowerShell:</para>
+                <informalexample>
+                    <screen><computeroutput><prompt>PS C:\> </prompt></computeroutput><userinput>Get-VM <replaceable>VirtualMachineName</replaceable> | Select-Object Id
+</userinput><computeroutput>
+Id
+--
+ed272546-87bd-4db9-acba-e36e1a9ca20a
+
+
+<prompt>PS C:\> </prompt></computeroutput></screen>
+                </informalexample>
+                <para>The preconnection PDU is intentionally generic. While its primary use is as a
+                    means for selecting virtual machines behind Hyper-V, other RDP servers may use
+                    it as well. It is up to the RDP server itself to determine whether the
+                    preconnection ID, BLOB, or both will be used, and what their values mean.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>RDP</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>preconnection-id</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>preconnection ID</primary>
+                                        </indexterm>The numeric ID of the RDP source. This is a
+                                        non-negative integer value dictating which of potentially
+                                        several logical RDP connections should be used. This
+                                        parameter is optional, and is only required if the RDP
+                                        server is documented as requiring it. <emphasis>If using
+                                            Hyper-V, this should be left blank.</emphasis></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>preconnection-blob</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>preconnection BLOB</primary>
+                                        </indexterm><indexterm>
+                                            <primary>Hyper-V</primary>
+                                        </indexterm>An arbitrary string which identifies the RDP
+                                        source - one of potentially several logical RDP connections
+                                        hosted by the same RDP server. This parameter is optional,
+                                        and is only required if the RDP server is documented as
+                                        requiring it, such as Hyper-V. In all cases, the meaning of
+                                        this parameter is opaque to the RDP protocol itself and is
+                                        dictated by the RDP server. <emphasis>For Hyper-V, this will
+                                            be the ID of the destination virtual
+                                        machine.</emphasis></para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
             <section xml:id="rdp-sftp">
                 <title>RDP + SFTP</title>
                 <para>Guacamole can provide file transfer over SFTP even when the remote desktop is
