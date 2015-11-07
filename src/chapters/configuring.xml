@@ -1258,16 +1258,17 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                                             <secondary>TLS</secondary>
                                         </indexterm>The security mode to use for the RDP connection.
                                         This mode dictates how data will be encrypted and what type
-                                        of authentication will be performed, if any. By default, the
-                                        server is allowed to control what type of security is
-                                        used.</para>
+                                        of authentication will be performed, if any. By default,
+                                        standard RDP encryption is requested, as it is the most
+                                        widely supported.</para>
                                     <para>Possible values are:</para>
                                     <variablelist>
                                         <varlistentry>
                                             <term><constant>rdp</constant></term>
                                             <listitem>
-                                                <para>Standard RDP encryption. This mode should be
-                                                  supported by all RDP servers.</para>
+                                                <para>Standard RDP encryption. <emphasis>This is the
+                                                  default</emphasis> and should be supported by all
+                                                  RDP servers.</para>
                                             </listitem>
                                         </varlistentry>
                                         <varlistentry>
@@ -1292,7 +1293,7 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                                             <term><constant>any</constant></term>
                                             <listitem>
                                                 <para>Allow the server to choose the type of
-                                                  security. This is the default.</para>
+                                                  security.</para>
                                             </listitem>
                                         </varlistentry>
                                     </variablelist>
@@ -1731,6 +1732,32 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                     means for selecting virtual machines behind Hyper-V, other RDP servers may use
                     it as well. It is up to the RDP server itself to determine whether the
                     preconnection ID, BLOB, or both will be used, and what their values mean.</para>
+                <para>If you do intend to use Hyper-V, beware that its built-in RDP server uses
+                    slightly different parameters for both authentication and the port number, and
+                    Guacamole's defaults will not work. In most cases, you will need to do the
+                    following when connecting to Hyper-V:</para>
+                <orderedlist>
+                    <listitem>
+                        <para>Set "<parameter>port</parameter>" to "<constant>2179</constant>", as
+                            this is the default port used by Hyper-V. The standard RDP port is 3389,
+                            and Guacamole will use port 3389 unless a different value is
+                            specified.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Specify both "<parameter>username</parameter>" and
+                                "<parameter>password</parameter>" appropriately, and set
+                                "<parameter>security</parameter>" to "<constant>nla</constant>" or
+                                "<constant>any</constant>". Hyper-V requires Network Level
+                            Authentication from connecting clients. Guacamole's default is to use
+                            standard RDP encryption without Network Level Authentication, which
+                            Hyper-V does not support.</para>
+                    </listitem>
+                    <listitem>
+                        <para>If necessary, set "<parameter>ignore-cert</parameter>" to
+                                "<constant>true</constant>". Hyper-V may use a self-signed
+                            certificate.</para>
+                    </listitem>
+                </orderedlist>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
