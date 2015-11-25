@@ -100,8 +100,8 @@
         </indexterm>
         <para>Clicking "History" navigates to the connection history screen. The connection history
             screen displays a table of the most recent connections, including the user that used
-            that connection, the time the connection began, and the time the connection
-            ended.</para>
+            that connection, the time the connection began, and how long the connection was
+            used.</para>
         <informalfigure>
             <screenshot>
                 <mediaobject>
