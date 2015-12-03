@@ -138,12 +138,13 @@
         </indexterm>
         <para>Clicking "Users" within the list of settings sections will take you to the user
             management screen. Here you can add new users or edit the properties and privileges of
-            existing users.</para>
-        <para>To add a new user, type the username of the new user within the text box inside the
-            user management screen, and click the "New User" button. The new user will be added and
-            made available. The new user will have no access to any existing connections, nor any
-            administrative privileges, and you will need to manually set the user's password before
-            they will be able to log in.</para>
+            existing users. If you have a large number of users, you can also enter search terms
+            within the "Filter" field to filter the list of users by username.</para>
+        <para>To add a new user, click the "New User" button. This will take you to a screen where
+            you will be allowed to enter the details of the new user, such as the password and
+            username. Note that, unless you specify otherwise, the new user will have no access to
+            any existing connections, nor any administrative privileges, and you will need to
+            manually set the user's password before they will be able to log in.</para>
         <informalfigure>
             <screenshot>
                 <mediaobject>
