@@ -193,7 +193,9 @@
         </indexterm>
         <para>Clicking "Connections" within the list of settings sections will take you to the
             connection management screen. The connection management screen allows administrators to
-            create and edit connections and connection groups.</para>
+            create and edit connections and connection groups. If you have a large number of
+            connections, you can also enter search terms within the "Filter" field to filter the
+            list of connections by name or protocol.</para>
         <para>To add a new connection or group, click the "New Connection" or "New Group" button.
             This will take you to a screen where you will be allowed to enter the details of the new
             object, such as its location, parameters, and name. This name should be descriptive, but
