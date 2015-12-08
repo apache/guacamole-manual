@@ -161,7 +161,10 @@
         <para>To edit a user, just click on the user you wish to edit. You will be taken to a screen
             which allows you to change the user's password, expire their password (such that it must
             be changed at next login), add or remove administrative permissions, and add or remove
-            read access to specific connections or groups.</para>
+            read access to specific connections or groups. If you are managing a large number of
+            connections or groups and wish to reduce the size of the list displayed, you can do so
+            by specifying search terms within the "Filter" field. Groups will be filtered by name
+            and connections will be filtered by name or protocol.</para>
         <para>If you have delete permission on the user, you will also see a "Delete" button.
             Clicking this button will permanently delete the user. Alternatively, if you only wish
             to temporarily disable the account, checking "Login disabled" will achieve the same
