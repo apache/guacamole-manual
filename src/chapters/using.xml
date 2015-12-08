@@ -17,9 +17,11 @@
         <para>Once you have successfully logged in, you will be taken to either the Guacamole home
             screen, where all available connections are listed, or directly to a connection, if you
             only have access to one connection.</para>
-        <para>The list of connections on the home screen contains all connections for which you have
-            been granted access. If you have used Guacamole in this specific web browser before, you
-            will also see thumbnails of recently used connections.</para>
+        <para>The home screen will contain a list of all connections to which you have access, along
+            with thumbnails of any recently used or active connections. If you have access to a
+            large number of connections and wish to quickly locate a specific connection, you can
+            also enter search terms within the "Filter" field to filter the list of connections by
+            name.</para>
         <informalfigure>
             <screenshot>
                 <mediaobject>
