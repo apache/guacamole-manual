@@ -247,10 +247,36 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                 <varlistentry>
                     <term><property>ldap-port</property></term>
                     <listitem>
-                        <para>The port your LDAP server listens on. If omitted, the standard LDAP
-                            port of 389 will be used. Unless you manually configured your LDAP
-                            server to do otherwise, your LDAP server probably listens on port
-                            389.</para>
+                        <para>The port your LDAP server listens on. If omitted, the standard LDAP or
+                            LDAPS port will be used, depending on the encryption method specified
+                            with <property>ldap-encryption-method</property> (if any). Unencrypted
+                            LDAP uses the standard port of 389, while LDAPS uses port 636. Unless
+                            you manually configured your LDAP server to do otherwise, your LDAP
+                            server probably listens on port 389.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>ldap-encryption-method</property></term>
+                    <listitem>
+                        <para>The encryption mechanism that Guacamole should use when communicating
+                            with your LDAP server. Legal values are "none" for unencrypted LDAP,
+                            "ssl" for LDAP over SSL/TLS (commonly known as LDAPS), or "starttls" for
+                            STARTTLS. If omitted, encryption will not be used.</para>
+                        <para>If you do use encryption when connecting to your LDAP server, you will
+                            need to ensure that its certificate chain can be verified using the
+                            certificates in Java's trust store, often referred to as
+                                <filename>cacerts</filename>. If this is not the case, you will need
+                            to use Java's <command>keytool</command> utility to either add the
+                            necessary certificates or to create a new trust store containing those
+                            certificates.</para>
+                        <para>If you will be using your own trust store and not the default
+                                <filename>cacerts</filename>, you will need to specify the full path
+                            to that trust store using the system property
+                                <property>javax.net.ssl.trustStore</property>. Note that this is a
+                            system property and <emphasis>not</emphasis> a Guacamole property; it
+                            must be specified when starting the JVM using the <option>-D</option>
+                            option. Your servlet container will provide some means of specifying
+                            startup options for the JVM.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
