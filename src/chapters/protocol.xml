@@ -316,12 +316,14 @@
     </section>
     <section xml:id="guacamole-protocol-streaming">
         <title>Streams and objects</title>
-        <para>Guacamole supports transfer of audio, video, and image data, as well as files and
-            arbitrary named pipes.</para>
-        <para>Streams can be allocated directly with "audio" or "video" instructions for the sake of
-            playing media, with file instructions for file transfer, with "pipe" instructions for
-            transfer of arbitrary data between client and server, or exposed as structured sets of
-            named streams known as "objects".</para>
+        <para>Guacamole supports transfer of clipboard contents, audio, video, and image data, as
+            well as files and arbitrary named pipes.</para>
+        <para>Streams are allocated directly with instructions that associate the new stream with
+            particular semantics and metadata, such as the "audio" or "video" instructions used for
+            playing media, the "file" instruction used for file transfer, and the "pipe" instruction
+            for transfer of completely  arbitrary data between client and server. In some cases, the
+            availability and semantics of streams may be explicitly advertised using structured sets
+            of named streams known as "objects".</para>
         <para>Once a stream is allocated, data is sent along the stream in chunks using "blob"
             instructions, which may be acknowledged by the receiving end by "ack" instructions. The
             end of the stream is finally signalled with an "end" instruction.</para>
