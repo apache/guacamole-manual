@@ -56,6 +56,7 @@
         <xi:include href="instructions/server/stream/ack.xml"/>
         <xi:include href="instructions/server/stream/audio.xml"/>
         <xi:include href="instructions/server/stream/blob.xml"/>
+        <xi:include href="instructions/server/stream/clipboard.xml"/>
         <xi:include href="instructions/server/stream/end.xml"/>
         <xi:include href="instructions/server/stream/file.xml"/>
         <xi:include href="instructions/server/stream/img.xml"/>
@@ -125,16 +126,7 @@
             <primary>client instructions</primary>
             <secondary>events</secondary>
         </indexterm>
-        <xi:include href="instructions/client/event/clipboard.xml"/>
         <xi:include href="instructions/client/event/key.xml"/>
         <xi:include href="instructions/client/event/mouse.xml"/>
-    </section>
-    <section xml:id="server-events">
-        <title>Server events</title>
-        <indexterm>
-            <primary>server instructions</primary>
-            <secondary>events</secondary>
-        </indexterm>
-        <xi:include href="instructions/server/event/clipboard.xml"/>
     </section>
 </appendix>
