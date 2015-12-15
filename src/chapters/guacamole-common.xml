@@ -79,7 +79,7 @@
         GuacamoleSocket socket;
 
         // Return a new tunnel which uses the connected socket
-        return new GuacamoleTunnel(socket);
+        return new SimpleGuacamoleTunnel(socket);
 
     }
 
