@@ -82,7 +82,7 @@
             containing:</para>
         <variablelist>
             <varlistentry>
-                <term><filename>guacamole-auth-ldap-0.9.8.jar</filename></term>
+                <term><filename>guacamole-auth-ldap-0.9.9.jar</filename></term>
                 <listitem>
                     <para>The Guacamole LDAP support extension itself, which must be placed in
                             <filename>GUACAMOLE_HOME/extensions</filename>.</para>
@@ -208,7 +208,7 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                     does not already exist.</para>
             </step>
             <step>
-                <para>Copy <filename>guacamole-auth-ldap-0.9.8.jar</filename> within
+                <para>Copy <filename>guacamole-auth-ldap-0.9.9.jar</filename> within
                         <filename>GUACAMOLE_HOME/extensions</filename>.</para>
             </step>
             <step>

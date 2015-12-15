@@ -112,7 +112,7 @@
     &lt;groupId>org.glyptodon.guacamole&lt;/groupId>
     &lt;artifactId>guacamole-tutorial&lt;/artifactId>
     &lt;packaging>war&lt;/packaging>
-    &lt;version>0.9.8&lt;/version>
+    &lt;version>0.9.9&lt;/version>
     &lt;name>guacamole-tutorial&lt;/name>
     &lt;url>http://guac-dev.org/&lt;/url>
 
@@ -201,7 +201,7 @@
             </informalexample>
             <para>Assuming you see the "<computeroutput>BUILD SUCCESSFUL</computeroutput>" message
                 when you build the web application, there will be a new file,
-                    <filename>target/guacamole-tutorial-0.7.0.war</filename>, which can be deployed
+                    <filename>target/guacamole-tutorial-0.9.9.war</filename>, which can be deployed
                 to your servlet container and tested. If you changed the name or version of the
                 project in the <filename>pom.xml</filename> file, the name of this new
                     <filename>.war</filename> file will be different, but it can still be found
@@ -302,7 +302,7 @@
         &lt;dependency>
             &lt;groupId>org.glyptodon.guacamole&lt;/groupId>
             &lt;artifactId>guacamole-common&lt;/artifactId>
-            &lt;version>0.9.7&lt;/version>
+            &lt;version>0.9.9&lt;/version>
             &lt;scope>compile&lt;/scope>
         &lt;/dependency>
 
@@ -310,7 +310,7 @@
         &lt;dependency>
             &lt;groupId>org.glyptodon.guacamole&lt;/groupId>
             &lt;artifactId>guacamole-common-js&lt;/artifactId>
-            &lt;version>0.9.8&lt;/version>
+            &lt;version>0.9.9&lt;/version>
             &lt;type>zip&lt;/type>
             &lt;scope>runtime&lt;/scope>
         &lt;/dependency>
@@ -329,8 +329,8 @@
                 web application should build successfully, and the Guacamole JavaScript API should
                 be accessible in the <filename>guacamole-common-js/</filename> subdirectory of your
                 web application after it is deployed. A quick check that you can access
-                    <uri>/guacamole-tutorial-0.8.0/guacamole-common-js/guacamole.js</uri> is
-                probably worth the effort.</para>
+                    <uri>/guacamole-tutorial-0.9.9/guacamole-common-js/all.min.js</uri> is probably
+                worth the effort.</para>
         </section>
         <section xml:id="simple-tunnel">
             <title>The simplest tunnel possible</title>
@@ -438,7 +438,7 @@ public class TutorialGuacamoleTunnelServlet
                 to the URL we wish to use when making HTTP requests to the servlet:
                     <uri>/tunnel</uri>. This URL is relative to the context root of the web
                 application. In the case of this web application, the final absolute URL will be
-                    <uri>/guacamole-tutorial-0.8.0/tunnel</uri>.</para>
+                    <uri>/guacamole-tutorial-0.9.9/tunnel</uri>.</para>
         </section>
         <section xml:id="simple-client">
             <title>Adding the client</title>

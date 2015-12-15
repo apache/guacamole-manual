@@ -18,11 +18,9 @@
         information saved in properties inside the <filename>guacamole.properties</filename>
         file.</para>
     <para>In general, all other authentication plugins for Guacamole will use the principles
-        demonstrated here. However, as of Guacamole 0.8.0, the authentication model has been
-        significantly enhanced, and supports more than simply translating a username/password pair
-        into a set of authorized configurations. This tutorial demonstrates the simplest way to
-        create an authentication plugin for Guacamole - an authentication plugin that does not
-        support management of users and connections via the web interface.</para>
+        demonstrated here. This tutorial demonstrates the simplest way to create an authentication
+        plugin for Guacamole - an authentication plugin that does not support management of users
+        and connections via the web interface.</para>
     <section xml:id="auth-model">
         <title>Guacamole's authentication model</title>
         <para>When you view any page in Guacamole, whether that be the login screen or the client
@@ -60,7 +58,7 @@
     &lt;groupId>org.glyptodon.guacamole&lt;/groupId>
     &lt;artifactId>guacamole-auth-tutorial&lt;/artifactId>
     &lt;packaging>jar&lt;/packaging>
-    &lt;version>0.9.8&lt;/version>
+    &lt;version>0.9.9&lt;/version>
     &lt;name>guacamole-auth-tutorial&lt;/name>
     &lt;url>http://guac-dev.org/&lt;/url>
 
@@ -90,7 +88,7 @@
         &lt;dependency>
             &lt;groupId>org.glyptodon.guacamole&lt;/groupId>
             &lt;artifactId>guacamole-common&lt;/artifactId>
-            &lt;version>0.9.7&lt;/version>
+            &lt;version>0.9.9&lt;/version>
             &lt;scope>provided&lt;/scope>
         &lt;/dependency>
 
@@ -98,7 +96,7 @@
         &lt;dependency>
             &lt;groupId>org.glyptodon.guacamole&lt;/groupId>
             &lt;artifactId>guacamole-ext&lt;/artifactId>
-            &lt;version>0.9.8&lt;/version>
+            &lt;version>0.9.9&lt;/version>
             &lt;scope>provided&lt;/scope>
         &lt;/dependency>
 
