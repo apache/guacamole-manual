@@ -48,33 +48,19 @@
                 <methodname>doConnect()</methodname> does not create the tunnel,
             communication between the JavaScript client and guacd cannot take
             place, which is an ideal power to have as an authenticator.</para>
-        <para>The <methodname>doConnect()</methodname> function is expected to
-            "attach" a <classname>GuacamoleTunnel</classname> to the web
-            session, abstracted by <classname>GuacamoleSession</classname>.
-            Attaching a tunnel to the session allows future tunnel requests to
-            retrieve the same tunnel and use it, thus allowing one tunnel to be
-            split across multiple requests. Assuming the
-                <methodname>doConnect()</methodname> function successfully
-            creates the tunnel, it must then return the created tunnel. The
-            already-implemented parts of
-                <classname>GuacamoleHTTPTunnelServlet</classname> then return
-            the unique identifier of this tunnel to the JavaScript client,
-            allowing its own tunnel implementation to continue to communicate
-            with the tunnel existing on the Java side.</para>
-        <para>Instances of <classname>GuacamoleTunnel</classname> are created
-            associated with a <classname>GuacamoleSocket</classname>, which is
-            the abstract interface surrounding the low-level connection to
-            guacd. Overall, there is a socket
-                (<classname>GuacamoleSocket</classname>) which provides a TCP
-            connection to guacd. This socket is exposed to
-                <classname>GuacamoleTunnel</classname>, which provides abstract
-            protocol access around what is actually (but secretly, through the
-            abstraction of the API) a TCP socket. The
-                <classname>GuacamoleSession</classname> allows instances of
-                <classname>GuacamoleTunnel</classname> to be shared across
-            requests, and <classname>GuacamoleHTTPTunnelServlet</classname>
-            pulls these tunnels from the session as necessary to fulfill
-            requests made by the JavaScript client.</para>
+        <para>The <methodname>doConnect()</methodname> function is expected to return a new
+                <classname>GuacamoleTunnel</classname>, but it is completely up to the
+            implementation to decide how that tunnel is to be created. The already-implemented parts
+            of <classname>GuacamoleHTTPTunnelServlet</classname> then return the unique identifier
+            of this tunnel to the JavaScript client, allowing its own tunnel implementation to
+            continue to communicate with the tunnel existing on the Java side.</para>
+        <para>Instances of <classname>GuacamoleTunnel</classname> are created associated with a
+                <classname>GuacamoleSocket</classname>, which is the abstract interface surrounding
+            the low-level connection to guacd. Overall, there is a socket
+                (<classname>GuacamoleSocket</classname>) which provides a TCP connection to guacd.
+            This socket is exposed to <classname>GuacamoleTunnel</classname>, which provides
+            abstract protocol access around what is actually (but secretly, through the abstraction
+            of the API) a TCP socket.</para>
         <para>The Guacamole web application extends this tunnel servlet in order
             to implement authentication at the lowest possible level,
             effectively prohibiting communication between the client and any
@@ -92,15 +78,8 @@
         // Connect to guacd here (this is a STUB)
         GuacamoleSocket socket;
 
-        // Establish the tunnel using the connected socket
-        GuacamoleTunnel tunnel = new GuacamoleTunnel(socket);
-
-        // Attach tunnel to session
-        GuacamoleSession session = new GuacamoleSession(httpSession);
-        session.attachTunnel(tunnel);
-
-        // Return pre-attached tunnel
-        return tunnel;
+        // Return a new tunnel which uses the connected socket
+        return new GuacamoleTunnel(socket);
 
     }
 
