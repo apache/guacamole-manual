@@ -156,10 +156,13 @@
                 successfully. However, as the <filename>web.xml</filename> refers to a "welcome
                 file" called <filename>index.html</filename> (which will ultimately contain our
                 client), we need to put this in place so the servlet container will have something
-                to serve. For now, this can be anything - we will replace it later:</para>
+                to serve. This file, as well as any other future static files, belongs within
+                    <filename>src/main/webapp</filename>.</para>
+            <para>For now, this file can contain anything, since the other parts of our
+                Guacamole-driven web application are not written yet. It is a placeholder which we
+                will replace later:</para>
             <informalexample>
                 <programlisting>&lt;!DOCTYPE HTML>
-
 &lt;html>
 
     &lt;head>
@@ -167,9 +170,7 @@
     &lt;/head>
 
     &lt;body>
-
         &lt;p>Hello World&lt;/p>
-
     &lt;/body>
 
 &lt;/html></programlisting>
@@ -355,14 +356,14 @@
             <para>Create a new file, <filename>TutorialGuacamoleTunnelServlet.java</filename>,
                 defining a basic implementation of a tunnel servlet class:</para>
             <informalexample>
-                <programlisting>
-package org.glyptodon.guacamole.net.example;
+                <programlisting>package org.glyptodon.guacamole.net.example;
 
 import javax.servlet.http.HttpServletRequest;
 import org.glyptodon.guacamole.GuacamoleException;
 import org.glyptodon.guacamole.net.GuacamoleSocket;
 import org.glyptodon.guacamole.net.GuacamoleTunnel;
 import org.glyptodon.guacamole.net.InetGuacamoleSocket;
+import org.glyptodon.guacamole.net.SimpleGuacamoleTunnel;
 import org.glyptodon.guacamole.protocol.ConfiguredGuacamoleSocket;
 import org.glyptodon.guacamole.protocol.GuacamoleConfiguration;
 import org.glyptodon.guacamole.servlet.GuacamoleHTTPTunnelServlet;
@@ -388,14 +389,14 @@ public class TutorialGuacamoleTunnelServlet
         );
 
         // Return a new tunnel which uses the connected socket
-        return new GuacamoleTunnel(socket);;
+        return new SimpleGuacamoleTunnel(socket);;
 
     }
 
 }</programlisting>
             </informalexample>
             <para>Place this file in the
-                    <filename>src/main/java/net/sourceforge/guacamole/net/example</filename>
+                    <filename>src/main/java/org/glyptodon/guacamole/net/example</filename>
                 subdirectory of the project. The initial part of this subdirectory,
                     <filename>src/main/java</filename>, is the path required by Maven, while the
                 rest is the directory required by Java based on the package associated with the
@@ -496,8 +497,7 @@ public class TutorialGuacamoleTunnelServlet
                 their corresponding input events, calling whichever function of the Guacamole client
                 is appropriate to send the input event through the tunnel to guacd:</para>
             <informalexample>
-                <programlisting>        
-        ...
+                <programlisting>        ...
 
         &lt;!-- Init -->
         &lt;script type="text/javascript"> /* &lt;![CDATA[ */
@@ -524,7 +524,9 @@ public class TutorialGuacamoleTunnelServlet
                 guac.sendKeyEvent(0, keysym);
             };
 
-        /* ]]&gt; */ &lt;/script></programlisting>
+        /* ]]&gt; */ &lt;/script>
+
+        ...</programlisting>
             </informalexample>
         </section>
     </section>
