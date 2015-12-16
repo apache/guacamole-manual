@@ -122,7 +122,12 @@ import org.glyptodon.guacamole.net.auth.Credentials;
 import org.glyptodon.guacamole.protocol.GuacamoleConfiguration;
 
 public class TutorialAuthenticationProvider extends SimpleAuthenticationProvider {
-       
+
+    @Override
+    public String getIdentifier() {
+        return "tutorial";
+    }
+
     @Override
     public Map&lt;String, GuacamoleConfiguration>
         getAuthorizedConfigurations(Credentials credentials)
@@ -136,19 +141,21 @@ public class TutorialAuthenticationProvider extends SimpleAuthenticationProvider
 }</programlisting>
         </example>
         <para>To conform with Maven, this skeleton file must be placed within
-                <filename>src/main/java/net/sourceforge/guacamole/auth</filename> as
+                <filename>src/main/java/org/glyptodon/guacamole/auth</filename> as
                 <filename>TutorialAuthenticationProvider.java</filename>.</para>
         <para>Notice how simple the authentication provider is. The
                 <classname>AuthenticationProvider</classname> interface requires nothing more than a
-            single <methodname>getAuthorizedConfigurations()</methodname> implementation, which must
+            unique identifier (we will use "tutorial") and a single
+                <methodname>getAuthorizedConfigurations()</methodname> implementation, which must
             return a <classname>Map</classname> of <classname>GuacamoleConfiguration</classname>
             each associated with some arbitrary unique ID. This unique ID will be presented to the
             user in the connection list after they log in.</para>
-        <para>For now, we just return <varname>null</varname>, which will cause Guacamole to report
-            an invalid login for every attempt. Note that there is a difference in semantics between
-            returning an empty map and returning <varname>null</varname>, as the former indicates
-            the credentials are authorized but simply have no associated configurations, while the
-            latter indicates the credentials are not authorized at all.</para>
+        <para>For now, <methodname>getAuthorizedConfigurations()</methodname> will just return
+                <varname>null</varname>. This will cause Guacamole to report an invalid login for
+            every attempt. Note that there is a difference in semantics between returning an empty
+            map and returning <varname>null</varname>, as the former indicates the credentials are
+            authorized but simply have no associated configurations, while the latter indicates the
+            credentials are not authorized at all.</para>
     </section>
     <section xml:id="user-auth-example">
         <title>Actually authenticating the user</title>
@@ -284,18 +291,21 @@ public Map&lt;String, GuacamoleConfiguration>
     getAuthorizedConfigurations(Credentials credentials)
     throws GuacamoleException {
 
-    // Get username
-    String username = GuacamoleProperties.getRequiredProperty(
-        TutorialProperties.TUTORIAL_USER
+    // Get the Guacamole server environment
+    Environment environment = new LocalEnvironment();
+
+    // Get username from guacamole.properties
+    String username = environment.getRequiredProperty(
+        TutorialGuacamoleProperties.TUTORIAL_USER
     );      
 
     // If wrong username, fail
     if (!username.equals(credentials.getUsername()))
         return null;
 
-    // Get password
-    String password = GuacamoleProperties.getRequiredProperty(
-        TutorialProperties.TUTORIAL_PASSWORD
+    // Get password from guacamole.properties
+    String password = environment.getRequiredProperty(
+        TutorialGuacamoleProperties.TUTORIAL_PASSWORD
     );      
 
     // If wrong password, fail
@@ -326,18 +336,21 @@ public Map&lt;String, GuacamoleConfiguration>
     getAuthorizedConfigurations(Credentials credentials)
     throws GuacamoleException {
 
-    // Get username
-    String username = GuacamoleProperties.getRequiredProperty(
-        TutorialProperties.TUTORIAL_USER
+    // Get the Guacamole server environment
+    Environment environment = new LocalEnvironment();
+
+    // Get username from guacamole.properties
+    String username = environment.getRequiredProperty(
+        TutorialGuacamoleProperties.TUTORIAL_USER
     );      
 
     // If wrong username, fail
     if (!username.equals(credentials.getUsername()))
         return null;
 
-    // Get password
-    String password = GuacamoleProperties.getRequiredProperty(
-        TutorialProperties.TUTORIAL_PASSWORD
+    // Get password from guacamole.properties
+    String password = environment.getRequiredProperty(
+        TutorialGuacamoleProperties.TUTORIAL_PASSWORD
     );      
 
     // If wrong password, fail
@@ -352,19 +365,19 @@ public Map&lt;String, GuacamoleConfiguration>
     GuacamoleConfiguration config = new GuacamoleConfiguration();
 
     // Set protocol specified in properties
-    config.setProtocol(GuacamoleProperties.getRequiredProperty(
-        TutorialProperties.TUTORIAL_PROTOCOL
+    config.setProtocol(environment.getRequiredProperty(
+        TutorialGuacamoleProperties.TUTORIAL_PROTOCOL
     ));
 
     // Set all parameters, splitting at commas
-    for (String parameterValue : GuacamoleProperties.getRequiredProperty(
-        TutorialProperties.TUTORIAL_PARAMETERS
+    for (String parameterValue : environment.getRequiredProperty(
+        TutorialGuacamoleProperties.TUTORIAL_PARAMETERS
     ).split(",\\s*")) {
 
         // Find the equals sign
         int equals = parameterValue.indexOf('=');
         if (equals == -1)
-            throw new GuacamoleException("Required equals sign missing");
+            throw new GuacamoleServerException("Required equals sign missing");
 
         // Get name and value from parameter string
         String name = parameterValue.substring(0, equals);
@@ -375,7 +388,7 @@ public Map&lt;String, GuacamoleConfiguration>
 
     }
 
-    configs.put("DEFAULT", config);
+    configs.put("Tutorial Connection", config);
     return configs;
 
 }</programlisting>
