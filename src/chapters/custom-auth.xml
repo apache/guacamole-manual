@@ -121,6 +121,11 @@ import org.glyptodon.guacamole.net.auth.simple.SimpleAuthenticationProvider;
 import org.glyptodon.guacamole.net.auth.Credentials;
 import org.glyptodon.guacamole.protocol.GuacamoleConfiguration;
 
+/**
+ * Authentication provider implementation intended to demonstrate basic use
+ * of Guacamole's extension API. The credentials and connection information for
+ * a single user are stored directly in guacamole.properties.
+ */
 public class TutorialAuthenticationProvider extends SimpleAuthenticationProvider {
 
     @Override
@@ -208,6 +213,11 @@ public class TutorialAuthenticationProvider extends SimpleAuthenticationProvider
 
 import org.glyptodon.guacamole.properties.StringGuacamoleProperty;
 
+/**
+ * Utility class containing all properties used by the custom authentication
+ * tutorial. The properties defined here must be specified within
+ * guacamole.properties to configure the tutorial authentication provider.
+ */
 public class TutorialGuacamoleProperties {
 
     /**

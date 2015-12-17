@@ -2,6 +2,11 @@ package org.glyptodon.guacamole.auth;
 
 import org.glyptodon.guacamole.properties.StringGuacamoleProperty;
 
+/**
+ * Utility class containing all properties used by the custom authentication
+ * tutorial. The properties defined here must be specified within
+ * guacamole.properties to configure the tutorial authentication provider.
+ */
 public class TutorialGuacamoleProperties {
 
     /**
