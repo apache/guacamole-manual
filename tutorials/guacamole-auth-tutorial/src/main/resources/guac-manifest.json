@@ -1,0 +1,12 @@
+{
+
+    "guacamoleVersion" : "0.9.9",
+
+    "name"      : "Tutorial Authentication Extension",
+    "namespace" : "guac-auth-tutorial",
+
+    "authProviders" : [
+        "org.glyptodon.guacamole.auth.TutorialAuthenticationProvider"
+    ]
+
+}
