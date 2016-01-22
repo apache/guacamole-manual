@@ -2745,7 +2745,7 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                 <varlistentry>
                     <term><varname>${GUAC_USERNAME}</varname></term>
                     <listitem>
-                        <para>The username of the current Guacamole user. When a user accesses this
+                        <para>The username of the current Guacamole user. When a user accesses a
                             connection, this token will be dynamically replaced with the username
                             they provided when logging in to Guacamole.</para>
                     </listitem>
@@ -2753,9 +2753,29 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                 <varlistentry>
                     <term><varname>${GUAC_PASSWORD}</varname></term>
                     <listitem>
-                        <para>The password of the current Guacamole user. When a user accesses this
+                        <para>The password of the current Guacamole user. When a user accesses a
                             connection, this token will be dynamically replaced with the password
                             they used when logging in to Guacamole.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><varname>${GUAC_DATE}</varname></term>
+                    <listitem>
+                        <para>The current date in the local time zone of the Guacamole server. This
+                            will be written in "YYYYMMDD" format, where "YYYY" is the year, "MM" is
+                            the month number, and "DD" is the day of the month, all zero-padded.
+                            When a user accesses a connection, this token will be dynamically
+                            replaced with the date that the connection began.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><varname>${GUAC_TIME}</varname></term>
+                    <listitem>
+                        <para>The current time in the local time zone of the Guacamole server. This
+                            will be written in "HHMMSS" format, where "HH" is hours in 24-hour time,
+                            "MM" is minutes, and "SS" is seconds, all zero-padded. When a user
+                            accesses a connection, this token will be dynamically replaced with the
+                            time that the connection began.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
