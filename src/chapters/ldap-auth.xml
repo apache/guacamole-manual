@@ -39,7 +39,7 @@
             Guacamole connection is represented within the directory as a special type of group:
                 <classname>guacConfigGroup</classname>. Attributes associated with the group define
             the protocol and parameters of the connection, and users are allowed access to the
-            connection only if they are members of that group.</para>
+            connection only if they are associated with that group.</para>
         <para>This architecture has a number of benefits:</para>
         <orderedlist>
             <listitem>
@@ -112,9 +112,11 @@
             modifications to the LDAP schema are made through applying one of the provided schema
             files. These schema files define an additional object class,
                 <classname>guacConfigGroup</classname>, which contains all configuration information
-            for a particular connection, and can be associated with arbitrarily-many users. Only
-            users which are members of a connection's group will have access to that
-            connection.</para>
+            for a particular connection, and can be associated with arbitrarily-many users and
+            groups. Each connection defined by a <classname>guacConfigGroup</classname> will be
+            accessible only by users who are members of that group (specified with the
+                <property>member</property> attribute), or who are members of associated groups
+            (specified with the <property>seeAlso</property> attribute).</para>
         <important>
             <para>The instructions given for applying the Guacamole LDAP schema changes are specific
                 to OpenLDAP, but other LDAP implementations, including Active Directory, will have
@@ -355,8 +357,21 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                             in.</para>
                         <para>Each configuration is analogous to a connection. Within Guacamole's
                             LDAP support, each configuration functions as a group, having user
-                            members, where each member of a particular configuration group will have
-                            access to that configuration.</para>
+                            members (via the <property>member</property> attribute) and optionally
+                            group members (via the <property>seeAlso</property> attribute), where
+                            each member of a particular configuration group will have access to the
+                            connection defined by that configuration.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>ldap-group-base-dn</property></term>
+                    <listitem>
+                        <para>The base of the DN for all groups that may be referenced within
+                            Guacamole configurations using the standard <property>seeAlso</property>
+                            attribute. All groups which will be used to control access to Guacamole
+                            configurations must be descendents of this base DN. <emphasis>If this
+                                property is omitted, the <property>seeAlso</property> attribute will
+                                have no effect on Guacamole configurations.</emphasis></para>
                     </listitem>
                 </varlistentry>
             </variablelist>
