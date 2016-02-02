@@ -193,6 +193,71 @@
                         </tbody>
                     </tgroup>
                 </informaltable>
+                <para>Additional optional environment variables may be used to configure Guacamole's
+                    default behavior with respect to concurrent connection use by one or more users.
+                    Concurrent use of connections and connection groups can be limited to an overall
+                    maximum and/or a per-user maximum:</para>
+                <informaltable frame="all">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.15*"/>
+                        <thead>
+                            <row>
+                                <entry>Variable</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><envar>MYSQL_DEFAULT_MAX_CONNECTIONS</envar></entry>
+                                <entry>
+                                    <para>The maximum number of concurrent connections to allow to
+                                        any one Guacamole connection. If set to "0", this will be
+                                        unlimited. This can be overridden on a per-connection basis
+                                        when editing a connection.</para>
+                                    <para><emphasis>By default, overall concurrent use of
+                                            connections is unlimited ("0").</emphasis></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>MYSQL_DEFAULT_MAX_GROUP_CONNECTIONS</envar></entry>
+                                <entry>
+                                    <para>The maximum number of concurrent connections to allow to
+                                        any one Guacamole connection group. If set to "0", this will
+                                        be unlimited. This can be overridden on a per-group basis
+                                        when editing a connection group.</para>
+                                    <para><emphasis>By default, overall concurrent use of connection
+                                            groups is unlimited ("0").</emphasis></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>MYSQL_DEFAULT_MAX_CONNECTIONS_PER_USER</envar></entry>
+                                <entry>
+                                    <para>The maximum number of concurrent connections to allow a
+                                        single user to maintain to any one Guacamole connection. If
+                                        set to "0", this will be unlimited. This can be overridden
+                                        on a per-connection basis when editing a connection.</para>
+                                    <para><emphasis>By default, per-user concurrent use of
+                                            connections is unlimited ("0").</emphasis></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>MYSQL_DEFAULT_MAX_GROUP_CONNECTIONS_PER_USER</envar></entry>
+                                <entry>
+                                    <para>The maximum number of concurrent connections to allow a
+                                        single user to maintain to any one Guacamole connection
+                                        group. If set to "0", this will be unlimited. This can be
+                                        overridden on a per-group basis when editing a connection
+                                        group.</para>
+                                    <para><emphasis>By default, per-user concurrent use of
+                                            connection groups is limited to one ("1")</emphasis>, to
+                                        prevent a balancing connection group from being completely
+                                        exhausted by one user alone.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
                 <para>Once your <package>guacd</package> container is ready, and the values of the
                     above variables are known, Guacamole can be deployed through Docker:</para>
                 <informalexample>
@@ -361,6 +426,71 @@
                                 <entry>
                                     <para>The password that Guacamole will provide when connecting
                                         to PostgreSQL as <envar>POSTGRES_USER</envar>.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para>Additional optional environment variables may be used to configure Guacamole's
+                    default behavior with respect to concurrent connection use by one or more users.
+                    Concurrent use of connections and connection groups can be limited to an overall
+                    maximum and/or a per-user maximum:</para>
+                <informaltable frame="all">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.15*"/>
+                        <thead>
+                            <row>
+                                <entry>Variable</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><envar>POSTGRES_DEFAULT_MAX_CONNECTIONS</envar></entry>
+                                <entry>
+                                    <para>The maximum number of concurrent connections to allow to
+                                        any one Guacamole connection. If set to "0", this will be
+                                        unlimited. This can be overridden on a per-connection basis
+                                        when editing a connection.</para>
+                                    <para><emphasis>By default, overall concurrent use of
+                                            connections is unlimited ("0").</emphasis></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>POSTGRES_DEFAULT_MAX_GROUP_CONNECTIONS</envar></entry>
+                                <entry>
+                                    <para>The maximum number of concurrent connections to allow to
+                                        any one Guacamole connection group. If set to "0", this will
+                                        be unlimited. This can be overridden on a per-group basis
+                                        when editing a connection group.</para>
+                                    <para><emphasis>By default, overall concurrent use of connection
+                                            groups is unlimited ("0").</emphasis></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>POSTGRES_DEFAULT_MAX_CONNECTIONS_PER_USER</envar></entry>
+                                <entry>
+                                    <para>The maximum number of concurrent connections to allow a
+                                        single user to maintain to any one Guacamole connection. If
+                                        set to "0", this will be unlimited. This can be overridden
+                                        on a per-connection basis when editing a connection.</para>
+                                    <para><emphasis>By default, per-user concurrent use of
+                                            connections is unlimited ("0").</emphasis></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>POSTGRES_DEFAULT_MAX_GROUP_CONNECTIONS_PER_USER</envar></entry>
+                                <entry>
+                                    <para>The maximum number of concurrent connections to allow a
+                                        single user to maintain to any one Guacamole connection
+                                        group. If set to "0", this will be unlimited. This can be
+                                        overridden on a per-group basis when editing a connection
+                                        group.</para>
+                                    <para><emphasis>By default, per-user concurrent use of
+                                            connection groups is limited to one ("1")</emphasis>, to
+                                        prevent a balancing connection group from being completely
+                                        exhausted by one user alone.</para>
                                 </entry>
                             </row>
                         </tbody>
