@@ -581,5 +581,199 @@
                     />.</para>
             </section>
         </section>
+        <section xml:id="guacamole-docker-ldap">
+            <title>Deploying Guacamole with LDAP authentication</title>
+            <para>Before deploying Guacamole with the intent of using LDAP for authentication,
+                please ensure that you have each of the following already prepared:</para>
+            <orderedlist>
+                <listitem>
+                    <para>A Docker container running the <systemitem>glyptodon/guacd</systemitem>
+                        image. Guacamole needs <package>guacd</package> in order to function, and
+                        the Guacamole Docker image depends on a linked Docker container running
+                            <package>guacd</package>.</para>
+                </listitem>
+                <listitem>
+                    <para>Network access to a working LDAP server.</para>
+                </listitem>
+            </orderedlist>
+            <section xml:id="deploying-guacamole-docker-ldap">
+                <title>Deploying Guacamole</title>
+                <para>Linking Guacamole to your LDAP directory will require additional configuration
+                    parameters specified via environment variables. These variables collectively
+                    describe how Guacamole will connect to LDAP:</para>
+                <informaltable frame="all">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="4*"/>
+                        <thead>
+                            <row>
+                                <entry>Variable</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><envar>LDAP_HOSTNAME</envar></entry>
+                                <entry>
+                                    <para>The hostname or IP address of your LDAP server.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>LDAP_USER_BASE_DN</envar></entry>
+                                <entry>
+                                    <para>The base of the DN for all Guacamole users. All Guacamole
+                                        users that will be authenticating against LDAP must be
+                                        descendents of this base DN.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para>Additional optional environment variables may be used to configure the details
+                    of your LDAP directory hierarchy, encryption, or to enable more flexible
+                    searching for user accounts:</para>
+                <informaltable frame="all">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="2.25*"/>
+                        <thead>
+                            <row>
+                                <entry>Variable</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><envar>LDAP_PORT</envar></entry>
+                                <entry>
+                                    <para>The port your LDAP server listens on. By default, this
+                                        will be 389 for unencrypted LDAP or LDAP using STARTTLS, and
+                                        636 for LDAP over SSL (LDAPS).</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>LDAP_ENCRYPTION_METHOD</envar></entry>
+                                <entry>
+                                    <para>The encryption mechanism that Guacamole should use when
+                                        communicating with your LDAP server. Legal values are "none"
+                                        for unencrypted LDAP, "ssl" for LDAP over SSL/TLS (commonly
+                                        known as LDAPS), or "starttls" for STARTTLS. If omitted,
+                                        encryption will not be used.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>LDAP_GROUP_BASE_DN</envar></entry>
+                                <entry>
+                                    <para>The base of the DN for all groups that may be referenced
+                                        within Guacamole configurations using the standard
+                                            <property>seeAlso</property> attribute. All groups which
+                                        will be used to control access to Guacamole configurations
+                                        must be descendents of this base DN. <emphasis>If this
+                                            variable is omitted, the <property>seeAlso</property>
+                                            attribute will have no effect on Guacamole
+                                            configurations.</emphasis></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>LDAP_SEARCH_BIND_DN</envar></entry>
+                                <entry>
+                                    <para>The DN (Distinguished Name) of the user to bind as when
+                                        authenticating users that are attempting to log in. If
+                                        specified, Guacamole will query the LDAP directory to
+                                        determine the DN of each user that logs in. If omitted, each
+                                        user's DN will be derived directly using the base DN
+                                        specified with <envar>LDAP_USER_BASE_DN</envar>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>LDAP_SEARCH_BIND_PASSWORD</envar></entry>
+                                <entry>
+                                    <para>The password to provide to the LDAP server when binding as
+                                            <envar>LDAP_SEARCH_BIND_DN</envar> to authenticate other
+                                        users. This variable is only used if
+                                            <envar>LDAP_SEARCH_BIND_DN</envar> is specified. If
+                                        omitted, but <envar>LDAP_SEARCH_BIND_DN</envar> is
+                                        specified, Guacamole will attempt to bind with the LDAP
+                                        server without a password.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>LDAP_USERNAME_ATTRIBUTE</envar></entry>
+                                <entry>
+                                    <para>The attribute or attributes which contain the username
+                                        within all Guacamole user objects in the LDAP directory.
+                                        Usually, and by default, this will simply be
+                                            "<property>uid</property>". If your LDAP directory
+                                        contains users whose usernames are dictated by different
+                                        attributes, multiple attributes can be specified here,
+                                        separated by commas, but beware: <emphasis>doing so requires
+                                            that a search DN be provided with
+                                                <envar>LDAP_SEARCH_BIND_DN</envar></emphasis>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>LDAP_CONFIG_BASE_DN</envar></entry>
+                                <entry>
+                                    <para>The base of the DN for all Guacamole configurations. If
+                                        omitted, the configurations of Guacamole connections will
+                                        simply not be queried from the LDAP directory, and you will
+                                        need to store them elsewhere, such as within a MySQL or
+                                        PostgreSQL database.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para>Once your <package>guacd</package> container is ready, and the values of the
+                    above variables are known, Guacamole can be deployed through Docker:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacamole</replaceable> --link <replaceable>some-guacd</replaceable>:guacd \
+    -e LDAP_HOSTNAME=<replaceable>172.17.42.1</replaceable>                            \
+    -e LDAP_USER_BASE_DN=<replaceable>ou=people,dc=example,dc=com</replaceable>        \
+    -e LDAP_CONFIG_BASE_DN=<replaceable>ou=connections,dc=example,dc=com</replaceable> \
+    -d -p 8080:8080 glyptodon/guacamole</screen>
+                </informalexample>
+                <para>As documented in <xref xmlns:xlink="http://www.w3.org/1999/xlink"
+                        linkend="ldap-auth"/>, Guacamole does support combining LDAP with a MySQL or
+                    PostgreSQL database, and this can be configured with the Guacamole Docker image,
+                    as well. By providing the required environment variables for both systems,
+                    Guacamole will automatically be configured to use both when the Docker image
+                    starts:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacamole</replaceable> --link <replaceable>some-guacd</replaceable>:guacd \
+    -e LDAP_HOSTNAME=<replaceable>172.17.42.1</replaceable>                            \
+    -e LDAP_USER_BASE_DN=<replaceable>ou=people,dc=example,dc=com</replaceable>        \
+    -e LDAP_CONFIG_BASE_DN=<replaceable>ou=connections,dc=example,dc=com</replaceable> \
+    <emphasis>-e MYSQL_HOSTNAME=<replaceable>172.17.42.1</replaceable>   \
+    -e MYSQL_DATABASE=<replaceable>guacamole_db</replaceable>  \
+    -e MYSQL_USER=<replaceable>guacamole_user</replaceable>    \
+    -e MYSQL_PASSWORD=<replaceable>some_password</replaceable> \</emphasis>
+    -d -p 8080:8080 glyptodon/guacamole</screen>
+                </informalexample>
+                <para>If any required environment variables are omitted, you will receive an error
+                    message in the logs, and the image will stop. You will then need to recreate the
+                    container with the proper variables specified.</para>
+            </section>
+            <section xml:id="verifying-guacamole-auth-ldap">
+                <title>Verifying the Guacamole install</title>
+                <para>Now that the Guacamole image is running, Guacamole should be accessible at
+                            <uri>http://<replaceable>HOSTNAME</replaceable>:8080/guacamole/</uri>,
+                    where <replaceable>HOSTNAME</replaceable> is the hostname or address of the
+                    machine hosting Docker.</para>
+                <para>If you cannot access Guacamole, check the logs using Docker to determine if
+                    something is wrong. Configuration parameters may have been given incorrectly, or
+                    the database may be improperly initialized:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <command>docker</command> logs <replaceable>some-guacamole</replaceable></screen>
+                </informalexample>
+                <para>If Guacamole has been successfully installed, you will see the Guacamole login
+                    screen, and should be able to login using an LDAP account beneath
+                        <envar>LDAP_USER_BASE_DN</envar>. You will be able to access any connections
+                    defined within <envar>LDAP_CONFIG_BASE_DN</envar> for which your user has
+                    access. If a MySQL or PostgreSQL database has also been configured, and your
+                    user has an account within that database, you will also be able to access your
+                    connections from that database.</para>
+            </section>
+        </section>
     </section>
 </chapter>
