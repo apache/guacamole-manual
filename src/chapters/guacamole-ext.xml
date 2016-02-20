@@ -41,7 +41,7 @@
                 <filename>.jar</filename> relative to the root, as well.</para>
         <para>Beyond this, the semantics and locations associated with all other resources within
             the extension are determined by the extension manifest alone.</para>
-        <section>
+        <section xml:id="extension-manifest">
             <title>Extension manifest</title>
             <para>The Guacamole extension manifest is a single JSON file,
                     <filename>guac-manifest.json</filename>, which describes the location of each
@@ -123,6 +123,21 @@
                             </entry>
                         </row>
                         <row>
+                            <entry><property>html</property></entry>
+                            <entry>
+                                <para>An array of all HTML files within the extension that should be
+                                    used to update or replace existing HTML within the Guacamole
+                                    interface. All paths within this array must be relative paths,
+                                    and will be interpreted relative to the root of the
+                                    archive.</para>
+                                <para>HTML files declared here will be automatically applied to
+                                    other HTML within the Guacamole interface when the web
+                                    application loads within the user's browser. The manner in which
+                                    the files are applied is dictated by <tag>&lt;meta ...></tag>
+                                    within those same files.</para>
+                            </entry>
+                        </row>
+                        <row>
                             <entry><property>translations</property></entry>
                             <entry>
                                 <para>An array of all translation files within the extension. All
@@ -178,6 +193,8 @@
 
     "css" : [ "theme.css" ],
 
+    "html" : [ "loginDisclaimer.html" ],
+
     "resources" : {
         "images/logo.png"   : "image/png",
         "images/cancel.png" : "image/png",
@@ -186,6 +203,99 @@
 
 }</programlisting>
             </informalexample>
+        </section>
+        <section xml:id="patch-html">
+            <title>Updating existing HTML</title>
+            <para>The existing HTML structure of Guacamole's interface can be modified by extensions
+                through special "patch" HTML files declared by the <property>html</property>
+                property in <filename>guac-manifest.json</filename>. These files are HTML fragments
+                and are identical to any other HTML file except that they contain Guacamole-specific
+                    <tag>meta</tag> tags that instruct Guacamole to modify its own HTML in a
+                particular way. Each <tag>meta</tag> tag takes the following form:</para>
+            <informalexample>
+                <programlisting>&lt;meta name="<replaceable>NAME</replaceable>" content="<replaceable>SELECTOR</replaceable>"></programlisting>
+            </informalexample>
+            <para>where <replaceable>SELECTOR</replaceable> is a CSS selector that matches the
+                elements within the Guacamole interface that serve as a basis for the modification,
+                and <replaceable>NAME</replaceable> is any one of the following defined
+                modifications:</para>
+            <informaltable frame="all">
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1" colwidth="1*"/>
+                    <colspec colname="c2" colnum="2" colwidth="4*"/>
+                    <thead>
+                        <row>
+                            <entry>Name</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry><property>before</property></entry>
+                            <entry>
+                                <para>Inserts the specified HTML immediately before any element
+                                    matching the CSS selector.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><property>after</property></entry>
+                            <entry>
+                                <para>Inserts the specified HTML immediately after any element
+                                    matching the CSS selector.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><property>replace</property></entry>
+                            <entry>
+                                <para>Replaces any element matching the CSS selector with the
+                                    specified HTML.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><property>before-children</property></entry>
+                            <entry>
+                                <para>Inserts the specified HTML immediately before the first child
+                                    (if any) of any element matching the CSS selector. If a matching
+                                    element has no children, the HTML simply becomes the entire
+                                    contents of the matching element.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><property>after-children</property></entry>
+                            <entry>
+                                <para>Inserts the specified HTML immediately after the last child
+                                    (if any) of any element matching the CSS selector. If a matching
+                                    element has no children, the HTML simply becomes the entire
+                                    contents of the matching element.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><property>replace-children</property></entry>
+                            <entry>
+                                <para>Replaces the entire contents of any element matching the CSS
+                                    selector with the specified HTML.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <para>For example, to add a welcome message and link to some corporate privacy policy (a
+                fairly common need), you would add an HTML file like the following:</para>
+            <informalexample>
+                <programlisting>&lt;meta name="after" content=".login-ui .login-dialog">
+
+&lt;div class="welcome">
+    &lt;h2>Welcome to our Guacamole server!&lt;/h2>
+    &lt;p>
+        Please be sure to read our &lt;a href="/path/to/some/privacy.html">privacy
+        policy&lt;/a> before continuing.
+    &lt;/p>
+&lt;/div></programlisting>
+            </informalexample>
+            <para>After the extension is installed and Guacamole is restarted, the "welcome" div and
+                its contents will automatically be inserted directly below the login dialog (the
+                only element that would match <code>.login-ui .login-dialog</code>) as if they were
+                part of Guacamole's HTML in the first place.</para>
         </section>
     </section>
     <section xml:id="environment">
