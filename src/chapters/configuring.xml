@@ -1549,6 +1549,44 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                                         an appropriate resolution for the RDP session.</para>
                                 </entry>
                             </row>
+                            <row>
+                                <entry><parameter>resize-method</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>display size</secondary>
+                                        </indexterm>The method to use to update the RDP server when
+                                        the width or height of the client display changes. This
+                                        parameter is optional. If this value is not specified, no
+                                        action will be taken when the client display changes
+                                        size.</para>
+                                    <para>Normally, the display size of an RDP session is constant
+                                        and can only be changed when initially connecting. As of RDP
+                                        8.1, the "Display Update" channel can be used to request
+                                        that the server change the display size. For older RDP
+                                        servers, the only option is to disconnect and reconnect with
+                                        the new size.</para>
+                                    <para>Possible values are:</para>
+                                    <variablelist>
+                                        <varlistentry>
+                                            <term><constant>display-update</constant></term>
+                                            <listitem>
+                                                <para>Uses the "Display Update" channel added with
+                                                  RDP 8.1 to signal the server when the client
+                                                  display size has changed.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>reconnect</constant></term>
+                                            <listitem>
+                                                <para>Automatically disconnects the RDP session when
+                                                  the client display size has changed, and
+                                                  reconnects with the new size.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                    </variablelist>
+                                </entry>
+                            </row>
                         </tbody>
                     </tgroup>
                 </informaltable>
