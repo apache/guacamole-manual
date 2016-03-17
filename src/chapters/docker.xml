@@ -209,6 +209,19 @@
                         </thead>
                         <tbody>
                             <row>
+                                <entry><envar>MYSQL_ABSOLUTE_MAX_CONNECTIONS</envar></entry>
+                                <entry>
+                                    <para>The absolute maximum number of concurrent connections to
+                                        allow at any time, regardless of the Guacamole connection or
+                                        user involved. If set to "0", this will be unlimited.
+                                        Because this limit applies across all Guacamole connections,
+                                        it cannot be overridden if set.</para>
+                                    <para><emphasis>By default, the absolute total number of
+                                            concurrent connections is unlimited
+                                        ("0").</emphasis></para>
+                                </entry>
+                            </row>
+                            <row>
                                 <entry><envar>MYSQL_DEFAULT_MAX_CONNECTIONS</envar></entry>
                                 <entry>
                                     <para>The maximum number of concurrent connections to allow to
@@ -446,6 +459,19 @@
                             </row>
                         </thead>
                         <tbody>
+                            <row>
+                                <entry><envar>POSTGRES_ABSOLUTE_MAX_CONNECTIONS</envar></entry>
+                                <entry>
+                                    <para>The absolute maximum number of concurrent connections to
+                                        allow at any time, regardless of the Guacamole connection or
+                                        user involved. If set to "0", this will be unlimited.
+                                        Because this limit applies across all Guacamole connections,
+                                        it cannot be overridden if set.</para>
+                                    <para><emphasis>By default, the absolute total number of
+                                            concurrent connections is unlimited
+                                        ("0").</emphasis></para>
+                                </entry>
+                            </row>
                             <row>
                                 <entry><envar>POSTGRES_DEFAULT_MAX_CONNECTIONS</envar></entry>
                                 <entry>
