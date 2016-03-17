@@ -464,6 +464,17 @@ result of setting "postgresql-disallow-simultaneous-connections" to
 "false", set "postgresql-default-max-connections" to "0" and
 "postgresql-default-max-group-connections" to "0".</computeroutput></screen>
                 </informalexample>
+                <para>If you wish to impose an absolute limit on the number of connections that can
+                    be established through Guacamole, ignoring which users or connections are
+                    involved, this can be done as well. By default, Guacamole will impose no such
+                    limit:</para>
+                <informalexample>
+                    <programlisting># MySQL
+mysql-absolute-max-connections: 0
+
+# PostgreSQL
+postgresql-absolute-max-connections: 0</programlisting>
+                </informalexample>
             </section>
         </section>
         <section>
