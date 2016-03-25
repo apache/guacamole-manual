@@ -72,6 +72,10 @@ pre .emphasis em {
     display: none;
 }
 
+.titlepage .legalnotice {
+    text-align: left;
+}
+
 .mediaobject {
     text-align: center;
     float: none;
