@@ -1639,6 +1639,22 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                                     sound by setting this parameter to "true".</entry>
                             </row>
                             <row>
+                                <entry><parameter>enable-audio-input</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>enabling audio input</primary>
+                                        </indexterm><indexterm>
+                                            <primary>audio input</primary>
+                                        </indexterm><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>audio input</secondary>
+                                        </indexterm>If set to "true", audio input support
+                                        (microphone) will be enabled, leveraging the standard
+                                        "AUDIO_INPUT" channel of RDP. By default, audio input
+                                        support within RDP is disabled.</para>
+                                </entry>
+                            </row>
+                            <row>
                                 <entry><parameter>enable-printing</parameter></entry>
                                 <entry>
                                     <para><indexterm>
