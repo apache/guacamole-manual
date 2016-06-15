@@ -846,8 +846,10 @@ INSERT INTO guacamole_connection_parameter VALUES (<replaceable>1</replaceable>,
                     <varlistentry>
                         <term><property>username</property></term>
                         <listitem>
-                            <para>The name associated with the user at the time that they used the
-                                connection.</para>
+                            <para>The username associated with the user at the time that they used
+                                the connection. This username value is not guaranteed to uniquely
+                                identify a user, as the original user may be subsequently renamed or
+                                deleted.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
