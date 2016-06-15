@@ -846,8 +846,8 @@ INSERT INTO guacamole_connection_parameter VALUES (<replaceable>1</replaceable>,
                     <varlistentry>
                         <term><property>username</property></term>
                         <listitem>
-                            <para>The unique name associated with the user at the time that they
-                                used the connection.</para>
+                            <para>The name associated with the user at the time that they used the
+                                connection.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
@@ -863,8 +863,8 @@ INSERT INTO guacamole_connection_parameter VALUES (<replaceable>1</replaceable>,
                     <varlistentry>
                         <term><property>connection_name</property></term>
                         <listitem>
-                            <para>The unique name associated with the connection at the time that it
-                                was used.</para>
+                            <para>The name associated with the connection at the time that it was
+                                used.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
