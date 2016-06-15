@@ -943,6 +943,19 @@ INSERT INTO guacamole_connection_parameter VALUES (<replaceable>1</replaceable>,
                             an effect on <type>BALANCING</type> groups.</para>
                     </listitem>
                 </varlistentry>
+                <varlistentry>
+                    <term><property>enable_session_affinity</property></term>
+                    <listitem>
+                        <para>Whether session affinity should apply to this connection group. If
+                            this column is set to <constant>TRUE</constant> or
+                                <constant>1</constant>, users will be consistently routed to the
+                            same underlying connection until they log out. The normal balancing
+                            behavior will only apply for each user's first connection attempt during
+                            any one Guacamole session. By default, session affinity is not enabled,
+                            and connections will always be balanced across the entire connection
+                            group. This only has an effect on <type>BALANCING</type> groups.</para>
+                    </listitem>
+                </varlistentry>
             </variablelist>
             <para>Adding a connection group is even simpler than adding a new connection as there
                 are no associated parameters stored in a separate table:</para>
