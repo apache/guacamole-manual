@@ -839,7 +839,17 @@ INSERT INTO guacamole_connection_parameter VALUES (<replaceable>1</replaceable>,
                         <listitem>
                             <para>The value of the <property>user_id</property> from the entry in
                                     <classname>guacamole_user</classname> associated with the user
-                                using the connection.</para>
+                                using the connection. If the user no longer exists, this will be
+                                    <constant>NULL</constant>.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>username</property></term>
+                        <listitem>
+                            <para>The username associated with the user at the time that they used
+                                the connection. This username value is not guaranteed to uniquely
+                                identify a user, as the original user may be subsequently renamed or
+                                deleted.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
@@ -847,7 +857,16 @@ INSERT INTO guacamole_connection_parameter VALUES (<replaceable>1</replaceable>,
                         <listitem>
                             <para>The value of the <property>connection_id</property> from the entry
                                 in <classname>guacamole_connection</classname> associated the
-                                connection being used.</para>
+                                connection being used. If the connection associated with the history
+                                record no longer exists, this will be
+                                <constant>NULL</constant>.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>connection_name</property></term>
+                        <listitem>
+                            <para>The name associated with the connection at the time that it was
+                                used.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
