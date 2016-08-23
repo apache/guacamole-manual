@@ -628,6 +628,17 @@ postgresql-absolute-max-connections: 0</programlisting>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
+                    <term><property>password_date</property></term>
+                    <listitem>
+                        <para>The date (and time) that the password was last changed. If not
+                            provided, this will automatically be set to the current time. When a
+                            password is changed via the Guacamole interface, this value is updated.
+                            This, along with the contents of the
+                                <classname>guacamole_user_password_history</classname> table, is
+                            used to enforce password policies.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
                     <term><property>disabled</property></term>
                     <listitem>
                         <para>Whether login attempts as this user account should be rejected. If
@@ -732,6 +743,77 @@ INSERT INTO guacamole_user (username, password_salt, password_hash)
                     <methodname>SHA2</methodname> function, you will need to calculate the SHA-256
                 value manually (by using the <command>sha256sum</command> command, for
                 example).</para>
+            <section xml:id="jdbc-auth-schema-password-history">
+                <title>Password history</title>
+                <indexterm>
+                    <primary><classname>guacamole_user_password_history</classname></primary>
+                </indexterm>
+                <para>When a user's password is changed, a copy of the previous password's hash and
+                    salt is made within the <classname>guacamole_user_password_history</classname>.
+                    Each entry in this table is associated with the user whose password changed,
+                    along with the date that password first applied.</para>
+                <para>Old entries within this table are automatically deleted on a per-user basis
+                    depending on the requirements of the password policy. For example, if the
+                    password policy has been configured to require that users not reuse any of their
+                    previous six passwords, then there will be no more than six entries in this
+                    table for each user.</para>
+                <variablelist>
+                    <varlistentry>
+                        <term><property>password_history_id</property></term>
+                        <listitem>
+                            <para>The unique integer associated with each password history record.
+                                This value is generated automatically when a new entry is inserted
+                                into the <classname>guacamole_user_password_history</classname>
+                                table.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>user_id</property></term>
+                        <listitem>
+                            <para>The value of the <property>user_id</property> column from the
+                                entry in <classname>guacamole_user</classname> associated with the
+                                user who previously had this password.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>password_hash</property></term>
+                        <listitem>
+                            <para>The hashed password specified within the
+                                    <property>password_hash</property> column of
+                                    <classname>guacamole_user</classname> prior to the password
+                                being changed.</para>
+                            <para>In most cases, this will be a salted hash, though it is possible
+                                to force the use of unsalted hashes when making changes to the
+                                database manually or through an external system.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>password_salt</property></term>
+                        <listitem>
+                            <para>The salt value specified within the
+                                    <property>password_salt</property> column of
+                                    <classname>guacamole_user</classname> prior to the password
+                                being changed.</para>
+                            <para>This will always be set for users whose passwords are set through
+                                Guacamole, but it is possible to use unsalted password hashes when
+                                inserted manually or through an external system, in which case this
+                                may be <constant>NULL</constant>.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>password_date</property></term>
+                        <listitem>
+                            <para>The date (and time) that the password was set. The time that the
+                                password ceased being used is recorded either by the password_date
+                                of the next related entry in
+                                    <classname>guacamole_user_password_history</classname> or
+                                    <property>password_date</property> of
+                                    <classname>guacamole_user</classname> (if there is no such
+                                history entry).</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+            </section>
         </section>
         <section xml:id="jdbc-auth-schema-connections">
             <title>Connections and parameters</title>
