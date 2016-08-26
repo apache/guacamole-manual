@@ -35,7 +35,7 @@
             packaged as a <filename>.tar.gz</filename> file containing:</para>
         <variablelist>
             <varlistentry>
-                <term><filename>guacamole-auth-noauth-0.9.9.jar</filename></term>
+                <term><filename>guacamole-auth-noauth-0.9.10-incubating.jar</filename></term>
                 <listitem>
                     <para>The NoAuth extension itself, which must be placed in
                             <filename>GUACAMOLE_HOME/extensions</filename>.</para>
@@ -61,7 +61,7 @@
                     does not already exist.</para>
             </step>
             <step>
-                <para>Copy <filename>guacamole-auth-noauth-0.9.9.jar</filename> within
+                <para>Copy <filename>guacamole-auth-noauth-0.9.10-incubating.jar</filename> within
                         <filename>GUACAMOLE_HOME/extensions</filename>.</para>
             </step>
             <step>
