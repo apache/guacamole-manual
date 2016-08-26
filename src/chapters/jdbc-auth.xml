@@ -60,11 +60,11 @@
                 <term><filename>mysql/</filename></term>
                 <listitem>
                     <para>Contains the MySQL/MariaDB authentication extension,
-                            <filename>guacamole-auth-jdbc-mysql-0.9.9.jar</filename>, along with a
-                            <filename>schema/</filename> directory containing MySQL-specific SQL
-                        scripts required to set up the database. The
-                            <filename>guacamole-auth-jdbc-mysql-0.9.9.jar</filename> file will
-                        ultimately need to be placed within
+                            <filename>guacamole-auth-jdbc-mysql-0.9.10-incubating.jar</filename>,
+                        along with a <filename>schema/</filename> directory containing
+                        MySQL-specific SQL scripts required to set up the database. The
+                            <filename>guacamole-auth-jdbc-mysql-0.9.10-incubating.jar</filename>
+                        file will ultimately need to be placed within
                             <filename>GUACAMOLE_HOME/extensions</filename>, while the MySQL JDBC
                         driver must be placed within <filename>GUACAMOLE_HOME/lib</filename>.</para>
                     <para><emphasis>The MySQL JDBC driver is not included with the
@@ -80,11 +80,11 @@
                 <term><filename>postgresql/</filename></term>
                 <listitem>
                     <para>Contains the PostgreSQL authentication extension,
-                            <filename>guacamole-auth-jdbc-postgresql-0.9.9.jar</filename>, along
-                        with a <filename>schema/</filename> directory containing PostgreSQL-specific
-                        SQL scripts required to set up the database. The
-                            <filename>guacamole-auth-jdbc-postgresql-0.9.9.jar</filename> file will
-                        ultimately need to be placed within
+                            <filename>guacamole-auth-jdbc-postgresql-0.9.10-incubating.jar</filename>,
+                        along with a <filename>schema/</filename> directory containing
+                        PostgreSQL-specific SQL scripts required to set up the database. The
+                            <filename>guacamole-auth-jdbc-postgresql-0.9.10-incubating.jar</filename>
+                        file will ultimately need to be placed within
                             <filename>GUACAMOLE_HOME/extensions</filename>, while the PostgreSQL
                         JDBC driver must be placed within
                         <filename>GUACAMOLE_HOME/lib</filename>.</para>
@@ -170,8 +170,8 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
                     script located within the <filename>upgrade/</filename> directory:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>ls schema/upgrade/</userinput>
-<computeroutput>upgrade-pre-0.8.2.sql upgrade-pre-0.9.7.sql upgrade-pre-0.9.9.sql
-upgrade-pre-0.9.6.sql upgrade-pre-0.9.8.sql</computeroutput>
+<computeroutput>upgrade-pre-0.8.2.sql   upgrade-pre-0.9.6.sql  upgrade-pre-0.9.8.sql
+upgrade-pre-0.9.10.sql  upgrade-pre-0.9.7.sql  upgrade-pre-0.9.9.sql</computeroutput>
 <prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.8.2.sql</userinput>
 <prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
 <prompt>$</prompt></screen>
@@ -206,6 +206,14 @@ upgrade-pre-0.9.6.sql upgrade-pre-0.9.8.sql</computeroutput>
                     to be applied:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.9.9.sql</userinput>
+<prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
+<prompt>$</prompt></screen>
+                </informalexample>
+                <para>If you are upgrading from a version of Guacamole before 0.9.10-incubating,
+                    schema changes which add support for screen sharing and session affinity
+                    need to be applied:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.9.10.sql</userinput>
 <prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
 <prompt>$</prompt></screen>
                 </informalexample>
@@ -254,16 +262,18 @@ Type "help" for help.
                     directory:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>ls schema/upgrade/</userinput>
-<computeroutput>upgrade-pre-0.9.7.sql upgrade-pre-0.9.8.sql</computeroutput>
+<computeroutput>upgrade-pre-0.9.10.sql  upgrade-pre-0.9.8.sql
+upgrade-pre-0.9.7.sql   upgrade-pre-0.9.9.sql</computeroutput>
 <prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable> -f schema/upgrade/upgrade-pre-0.9.7.sql</userinput>
 <computeroutput>ALTER TABLE
 ALTER TABLE</computeroutput>
 <prompt>$</prompt></screen>
-                    <para>If you are upgrading from a version of Guacamole before 0.9.8, schema
-                        changes regarding support for restricting user access times and concurrent
-                        connection use need to be applied:</para>
-                    <informalexample>
-                        <screen><prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable> -f schema/upgrade/upgrade-pre-0.9.8.sql</userinput>
+                </informalexample>
+                <para>If you are upgrading from a version of Guacamole before 0.9.8, schema
+                    changes regarding support for restricting user access times and concurrent
+                    connection use need to be applied:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable> -f schema/upgrade/upgrade-pre-0.9.8.sql</userinput>
 <computeroutput>ALTER TABLE
 ALTER TABLE
 ALTER TABLE
@@ -274,17 +284,48 @@ ALTER TABLE
 ALTER TABLE
 ALTER TABLE</computeroutput>
 <prompt>$</prompt></screen>
-                    </informalexample>
-                    <para>If you are upgrading from a version of Guacamole before 0.9.9, schema
-                        changes which add indexes improving the performance of connection history
-                        searches need to be applied:</para>
-                    <informalexample>
-                        <screen><prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable> -f schema/upgrade/upgrade-pre-0.9.9.sql</userinput>
+                </informalexample>
+                <para>If you are upgrading from a version of Guacamole before 0.9.9, schema
+                    changes which add indexes improving the performance of connection history
+                    searches need to be applied:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable> -f schema/upgrade/upgrade-pre-0.9.9.sql</userinput>
 <computeroutput>CREATE INDEX
 CREATE INDEX
 CREATE INDEX</computeroutput>
 <prompt>$</prompt></screen>
-                    </informalexample>
+                </informalexample>
+                <para>If you are upgrading from a version of Guacamole before
+                    0.9.10-incubating, schema changes which add support for screen sharing
+                    and session affinity need to be applied:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable> -f schema/upgrade/upgrade-pre-0.9.10.sql</userinput>
+<computeroutput>ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+UPDATE 0
+UPDATE 0
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TYPE
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE INDEX</computeroutput>
+<prompt>$</prompt></screen>
                 </informalexample>
             </important>
         </section>
@@ -300,9 +341,9 @@ CREATE INDEX</computeroutput>
                     does not already exist.</para>
             </step>
             <step>
-                <para>Copy <filename>guacamole-auth-jdbc-mysql-0.9.9.jar</filename>
+                <para>Copy <filename>guacamole-auth-jdbc-mysql-0.9.10-incubating.jar</filename>
                     <emphasis>or</emphasis>
-                    <filename>guacamole-auth-jdbc-postgresql-0.9.9.jar</filename> within
+                    <filename>guacamole-auth-jdbc-postgresql-0.9.10-incubating.jar</filename> within
                         <filename>GUACAMOLE_HOME/extensions</filename>, depending on whether you are
                     using MySQL/MariaDB or PostgreSQL.</para>
             </step>
