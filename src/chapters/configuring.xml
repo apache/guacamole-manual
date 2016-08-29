@@ -626,6 +626,97 @@ guacd-port:     4822</programlisting>
                     </tgroup>
                 </informaltable>
             </section>
+            <section xml:id="vnc-recording">
+                <title>Session recording</title>
+                <para>VNC sessions can be recorded graphically. These recordings take the form of
+                    Guacamole protocol dumps and are recorded automatically to a specified
+                    directory. Recordings can be subsequently translated to a normal video stream
+                    using the <command>guacenc</command> utility provided with
+                    guacamole-server.</para>
+                <para>For example, to produce a video called "<replaceable>NAME</replaceable>.m4v"
+                    from the recording "<replaceable>NAME</replaceable>", you would run:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <userinput>guacenc <replaceable>/path/to/recording/NAME</replaceable></userinput></screen>
+                </informalexample>
+                <para>The <command>guacenc</command> utility has additional options for overriding
+                    default behavior, including tweaking the output format, which are documented in
+                    detail within the manpage:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <userinput>man guacenc</userinput></screen>
+                </informalexample>
+                <important>
+                    <para>Guacamole will never overwrite an existing recording. If necessary, a
+                        numeric suffix like ".1", ".2", ".3", etc. will be appended to
+                            <replaceable>NAME</replaceable> to avoid overwriting an existing
+                        recording. If even appending a numeric suffix does not help, the session
+                        will simply not be recorded.</para>
+                </important>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>VNC</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>recording-path</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>VNC</primary>
+                                            <secondary>graphical recording</secondary>
+                                        </indexterm>The directory in which screen recording files
+                                        should be created. <emphasis>If a graphical recording needs
+                                            to be created, then this parameter is
+                                            required.</emphasis> Specifying this parameter enables
+                                        graphical screen recording. If this parameter is omitted, no
+                                        graphical recording will be created.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>create-recording-path</parameter></entry>
+                                <entry>
+                                    <para>If set to "true", the directory specified by the
+                                            <parameter>recording-path</parameter> parameter will
+                                        automatically be created if it does not yet exist. Only the
+                                        final directory in the path will be created - if other
+                                        directories earlier in the path do not exist, automatic
+                                        creation will fail, and an error will be logged.</para>
+                                    <para><emphasis>This parameter is optional.</emphasis> By
+                                        default, the directory specified by the
+                                            <parameter>recording-path</parameter> parameter will not
+                                        automatically be created, and attempts to create recordings
+                                        within a non-existent directory will be logged as
+                                        errors.</para>
+                                    <para>This parameter only has an effect if graphical recording
+                                        is enabled. If the <parameter>recording-path</parameter> is
+                                        not specified, graphical session recording will be disabled,
+                                        and this parameter will be ignored.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>recording-name</parameter></entry>
+                                <entry>
+                                    <para>The filename to use for any created recordings.
+                                            <emphasis>This parameter is optional.</emphasis> If
+                                        omitted, the value "recording" will be used instead.</para>
+                                    <para>This parameter only has an effect if graphical recording
+                                        is enabled. If the <parameter>recording-path</parameter> is
+                                        not specified, graphical session recording will be disabled,
+                                        and this parameter will be ignored.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
             <section xml:id="vnc-sftp">
                 <title>File transfer (via SFTP)</title>
                 <para>VNC does not normally support file transfer, but Guacamole can provide file
@@ -1591,6 +1682,97 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                     </tgroup>
                 </informaltable>
             </section>
+            <section xml:id="rdp-recording">
+                <title>Session recording</title>
+                <para>RDP sessions can be recorded graphically. These recordings take the form of
+                    Guacamole protocol dumps and are recorded automatically to a specified
+                    directory. Recordings can be subsequently translated to a normal video stream
+                    using the <command>guacenc</command> utility provided with
+                    guacamole-server.</para>
+                <para>For example, to produce a video called "<replaceable>NAME</replaceable>.m4v"
+                    from the recording "<replaceable>NAME</replaceable>", you would run:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <userinput>guacenc <replaceable>/path/to/recording/NAME</replaceable></userinput></screen>
+                </informalexample>
+                <para>The <command>guacenc</command> utility has additional options for overriding
+                    default behavior, including tweaking the output format, which are documented in
+                    detail within the manpage:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <userinput>man guacenc</userinput></screen>
+                </informalexample>
+                <important>
+                    <para>Guacamole will never overwrite an existing recording. If necessary, a
+                        numeric suffix like ".1", ".2", ".3", etc. will be appended to
+                            <replaceable>NAME</replaceable> to avoid overwriting an existing
+                        recording. If even appending a numeric suffix does not help, the session
+                        will simply not be recorded.</para>
+                </important>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>RDP</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>recording-path</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>graphical recording</secondary>
+                                        </indexterm>The directory in which screen recording files
+                                        should be created. <emphasis>If a graphical recording needs
+                                            to be created, then this parameter is
+                                            required.</emphasis> Specifying this parameter enables
+                                        graphical screen recording. If this parameter is omitted, no
+                                        graphical recording will be created.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>create-recording-path</parameter></entry>
+                                <entry>
+                                    <para>If set to "true", the directory specified by the
+                                            <parameter>recording-path</parameter> parameter will
+                                        automatically be created if it does not yet exist. Only the
+                                        final directory in the path will be created - if other
+                                        directories earlier in the path do not exist, automatic
+                                        creation will fail, and an error will be logged.</para>
+                                    <para><emphasis>This parameter is optional.</emphasis> By
+                                        default, the directory specified by the
+                                            <parameter>recording-path</parameter> parameter will not
+                                        automatically be created, and attempts to create recordings
+                                        within a non-existent directory will be logged as
+                                        errors.</para>
+                                    <para>This parameter only has an effect if graphical recording
+                                        is enabled. If the <parameter>recording-path</parameter> is
+                                        not specified, graphical session recording will be disabled,
+                                        and this parameter will be ignored.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>recording-name</parameter></entry>
+                                <entry>
+                                    <para>The filename to use for any created recordings.
+                                            <emphasis>This parameter is optional.</emphasis> If
+                                        omitted, the value "recording" will be used instead.</para>
+                                    <para>This parameter only has an effect if graphical recording
+                                        is enabled. If the <parameter>recording-path</parameter> is
+                                        not specified, graphical session recording will be disabled,
+                                        and this parameter will be ignored.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
             <section xml:id="rdp-device-redirection">
                 <title>Device redirection</title>
                 <para>Device redirection refers to the use of non-display devices over RDP.
@@ -2537,6 +2719,97 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                     </tgroup>
                 </informaltable>
             </section>
+            <section xml:id="ssh-recording">
+                <title>Graphical session recording</title>
+                <para>In addition to text-based recordings, SSH sessions can be recorded
+                    graphically. These recordings take the form of Guacamole protocol dumps and are
+                    recorded automatically to a specified directory. Recordings can be subsequently
+                    translated to a normal video stream using the <command>guacenc</command> utility
+                    provided with guacamole-server.</para>
+                <para>For example, to produce a video called "<replaceable>NAME</replaceable>.m4v"
+                    from the recording "<replaceable>NAME</replaceable>", you would run:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <userinput>guacenc <replaceable>/path/to/recording/NAME</replaceable></userinput></screen>
+                </informalexample>
+                <para>The <command>guacenc</command> utility has additional options for overriding
+                    default behavior, including tweaking the output format, which are documented in
+                    detail within the manpage:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <userinput>man guacenc</userinput></screen>
+                </informalexample>
+                <important>
+                    <para>Guacamole will never overwrite an existing recording. If necessary, a
+                        numeric suffix like ".1", ".2", ".3", etc. will be appended to
+                            <replaceable>NAME</replaceable> to avoid overwriting an existing
+                        recording. If even appending a numeric suffix does not help, the session
+                        will simply not be recorded.</para>
+                </important>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>SSH</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>recording-path</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>graphical recording</secondary>
+                                        </indexterm>The directory in which screen recording files
+                                        should be created. <emphasis>If a graphical recording needs
+                                            to be created, then this parameter is
+                                            required.</emphasis> Specifying this parameter enables
+                                        graphical screen recording. If this parameter is omitted, no
+                                        graphical recording will be created.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>create-recording-path</parameter></entry>
+                                <entry>
+                                    <para>If set to "true", the directory specified by the
+                                            <parameter>recording-path</parameter> parameter will
+                                        automatically be created if it does not yet exist. Only the
+                                        final directory in the path will be created - if other
+                                        directories earlier in the path do not exist, automatic
+                                        creation will fail, and an error will be logged.</para>
+                                    <para><emphasis>This parameter is optional.</emphasis> By
+                                        default, the directory specified by the
+                                            <parameter>recording-path</parameter> parameter will not
+                                        automatically be created, and attempts to create recordings
+                                        within a non-existent directory will be logged as
+                                        errors.</para>
+                                    <para>This parameter only has an effect if graphical recording
+                                        is enabled. If the <parameter>recording-path</parameter> is
+                                        not specified, graphical session recording will be disabled,
+                                        and this parameter will be ignored.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>recording-name</parameter></entry>
+                                <entry>
+                                    <para>The filename to use for any created recordings.
+                                            <emphasis>This parameter is optional.</emphasis> If
+                                        omitted, the value "recording" will be used instead.</para>
+                                    <para>This parameter only has an effect if graphical recording
+                                        is enabled. If the <parameter>recording-path</parameter> is
+                                        not specified, graphical session recording will be disabled,
+                                        and this parameter will be ignored.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
             <section xml:id="ssh-sftp">
                 <title>SFTP</title>
                 <para>Guacamole provides support for file transfer over SSH using SFTP, the file
@@ -2955,6 +3228,97 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                                     <para>This parameter only has an effect if typescript recording
                                         is enabled. If the <parameter>typescript-path</parameter> is
                                         not specified, recording of typescripts will be disabled,
+                                        and this parameter will be ignored.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="telnet-recording">
+                <title>Graphical session recording</title>
+                <para>In addition to text-based recordings, telnet sessions can be recorded
+                    graphically. These recordings take the form of Guacamole protocol dumps and are
+                    recorded automatically to a specified directory. Recordings can be subsequently
+                    translated to a normal video stream using the <command>guacenc</command> utility
+                    provided with guacamole-server.</para>
+                <para>For example, to produce a video called "<replaceable>NAME</replaceable>.m4v"
+                    from the recording "<replaceable>NAME</replaceable>", you would run:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <userinput>guacenc <replaceable>/path/to/recording/NAME</replaceable></userinput></screen>
+                </informalexample>
+                <para>The <command>guacenc</command> utility has additional options for overriding
+                    default behavior, including tweaking the output format, which are documented in
+                    detail within the manpage:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <userinput>man guacenc</userinput></screen>
+                </informalexample>
+                <important>
+                    <para>Guacamole will never overwrite an existing recording. If necessary, a
+                        numeric suffix like ".1", ".2", ".3", etc. will be appended to
+                            <replaceable>NAME</replaceable> to avoid overwriting an existing
+                        recording. If even appending a numeric suffix does not help, the session
+                        will simply not be recorded.</para>
+                </important>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>telnet</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>recording-path</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>telnet</primary>
+                                            <secondary>graphical recording</secondary>
+                                        </indexterm>The directory in which screen recording files
+                                        should be created. <emphasis>If a graphical recording needs
+                                            to be created, then this parameter is
+                                            required.</emphasis> Specifying this parameter enables
+                                        graphical screen recording. If this parameter is omitted, no
+                                        graphical recording will be created.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>create-recording-path</parameter></entry>
+                                <entry>
+                                    <para>If set to "true", the directory specified by the
+                                            <parameter>recording-path</parameter> parameter will
+                                        automatically be created if it does not yet exist. Only the
+                                        final directory in the path will be created - if other
+                                        directories earlier in the path do not exist, automatic
+                                        creation will fail, and an error will be logged.</para>
+                                    <para><emphasis>This parameter is optional.</emphasis> By
+                                        default, the directory specified by the
+                                            <parameter>recording-path</parameter> parameter will not
+                                        automatically be created, and attempts to create recordings
+                                        within a non-existent directory will be logged as
+                                        errors.</para>
+                                    <para>This parameter only has an effect if graphical recording
+                                        is enabled. If the <parameter>recording-path</parameter> is
+                                        not specified, graphical session recording will be disabled,
+                                        and this parameter will be ignored.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>recording-name</parameter></entry>
+                                <entry>
+                                    <para>The filename to use for any created recordings.
+                                            <emphasis>This parameter is optional.</emphasis> If
+                                        omitted, the value "recording" will be used instead.</para>
+                                    <para>This parameter only has an effect if graphical recording
+                                        is enabled. If the <parameter>recording-path</parameter> is
+                                        not specified, graphical session recording will be disabled,
                                         and this parameter will be ignored.</para>
                                 </entry>
                             </row>
