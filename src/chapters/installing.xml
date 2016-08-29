@@ -224,17 +224,41 @@
         </section>
         <section xml:id="optional-dependencies">
             <title>Optional dependencies</title>
-            <para>The optional dependencies of Guacamole dictate which protocol support will be
-                built, and whether additional features of those protocols will be enabled.</para>
-            <para>Guacamole currently supports VNC, RDP, SSH, and telnet. Each protocol corresponds
-                to a separate library that will be built with <package>guacamole-server</package> if
-                you have its corresponding optional dependencies.</para>
-            <para>VNC support depends on the <package>libvncclient</package> library, which is part
-                of <package>libVNCServer</package>, RDP support depends on a recent version of
-                    <package>FreeRDP</package> - 1.0 or higher, SSH support depends on
-                    <package>libssh2</package>, and telnet depends on <package>libtelnet</package>.
-                    <package>Pango</package>, a font rendering and text layout library, is required
-                for both SSH and telnet support.</para>
+            <para>The optional dependencies of Guacamole dictate which parts of
+                    <package>guacamole-server</package> will be built. This includes the support for
+                various remote desktop protocols, as well as any additional features of those
+                protocols:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>VNC support depends on the <package>libvncclient</package> library, which
+                        is part of <package>libVNCServer</package>.</para>
+                </listitem>
+                <listitem>
+                    <para>RDP support depends on a recent version of <package>FreeRDP</package> (1.0
+                        or higher, but please <link
+                            xl:href="https://github.com/FreeRDP/FreeRDP/issues/2839">not a
+                            non-release version from git</link>).</para>
+                </listitem>
+                <listitem>
+                    <para>SSH support depends on <package>libssh2</package> and
+                            <package>Pango</package> (a font rendering and text layout library, used
+                        by Guacamole's built-in terminal emulator).</para>
+                </listitem>
+                <listitem>
+                    <para>Telnet depends on <package>libtelnet</package> and
+                            <package>Pango</package>.</para>
+                </listitem>
+            </itemizedlist>
+            <para>The <command>guacenc</command> utility, provided by
+                    <package>guacamole-server</package> to translate screen recordings into video,
+                depends on FFmpeg, and will only be built if at least the
+                    <package>libavcodec</package>, <package>libavutil</package>, and
+                    <package>libswscale</package> libraries provided by FFmpeg are installed.</para>
+            <important>
+                <para>If you lack these dependencies, <emphasis>then the features or protocols which
+                        depend on them will not be enabled</emphasis>. Please read this section
+                    carefully before deciding not to install an optional dependency.</para>
+            </important>
             <informaltable frame="all">
                 <tgroup cols="2">
                     <colspec colname="lib-name" colnum="1" colwidth="1*"/>
@@ -246,6 +270,41 @@
                         </row>
                     </thead>
                     <tbody>
+                        <row>
+                            <entry><link xl:href="https://ffmpeg.org/">FFmpeg</link></entry>
+                            <entry>
+                                <para>The <package>libavcodec</package>,
+                                        <package>libavutil</package>, and
+                                        <package>libswscale</package> libraries provided by FFmpeg
+                                    are used by <command>guacenc</command> to encode video streams
+                                    when translating recordings of Guacamole sessions. Without
+                                    FFmpeg, the <command>guacenc</command> utility will simply not
+                                    be built.</para>
+                                <para>If you do not wish to make graphical recordings of Guacamole
+                                    sessions, or do not wish to translate such recordings into
+                                    video, then FFmpeg is not needed.</para>
+                                <informaltable frame="none" rowheader="firstcol">
+                                    <tgroup cols="2">
+                                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                                        <tbody>
+                                            <row>
+                                                <entry>Debian / Ubuntu package</entry>
+                                                <entry>
+                                                  <para><package>libavcodec-dev</package>,
+                                                  <package>libavutil-dev</package>,
+                                                  <package>libswscale-dev</package></para>
+                                                </entry>
+                                            </row>
+                                            <row>
+                                                <entry>Fedora / CentOS / RHEL package</entry>
+                                                <entry><package>ffmpeg-devel</package></entry>
+                                            </row>
+                                        </tbody>
+                                    </tgroup>
+                                </informaltable>
+                            </entry>
+                        </row>
                         <row>
                             <entry><link xl:href="http://www.freerdp.com/">FreeRDP</link></entry>
                             <entry>
@@ -552,8 +611,11 @@ guacamole-server version 0.9.10-incubating
 
      freerdp ............. yes
      pango ............... yes
+     libavcodec .......... yes
+     libavutil ........... yes
      libssh2 ............. yes
      libssl .............. yes
+     libswscale .......... yes
      libtelnet ........... yes
      libVNCServer ........ yes
      libvorbis ........... yes
@@ -566,6 +628,11 @@ guacamole-server version 0.9.10-incubating
       SSH ....... yes
       Telnet .... yes
       VNC ....... yes
+
+   Services / tools:
+
+      guacd ...... yes
+      guacenc .... yes
 
    Init scripts: /etc/init.d
 
