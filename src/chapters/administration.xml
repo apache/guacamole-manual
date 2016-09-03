@@ -253,7 +253,16 @@
                 connections it contains, choosing the connection with the fewest number of active
                 users. Unlike organizational groups, clicking on a balancing group causes a new
                 connection to be opened. The actual underlying connection used depends on which
-                connection has the least load at the time the group was clicked.</para>
+                connection has the least load at the time the group was clicked, and whether session
+                affinity is enabled on that group.</para>
+            <para><indexterm>
+                    <primary>session affinity</primary>
+                </indexterm>Enabling session affinity for a balancing group ensures that users are
+                consistently routed to the same underlying connections until they log out of
+                Guacamole. The load balancing behavior of the balancing group will apply only for
+                the first time a particular user connects to the group. If your users may lose their
+                desktop state if they are routed to a different underlying connection, this option
+                should be enabled.</para>
             <informalfigure>
                 <screenshot>
                     <mediaobject>
