@@ -8,13 +8,22 @@
     <indexterm>
         <primary>select</primary>
     </indexterm>
-    <para>Requests that the connection be made using the specified protocol.
-        This is the first instruction sent during the handshake phase.</para>
+    <para>Requests that the connection be made using the specified protocol, or to the specified
+        existing connection. Whether a new connection is established or an existing connection is
+        joined depends on whether the ID of an active connection is provided. The Guacamole protocol
+        dictates that the IDs generated for active connections (provided during the handshake of
+        those connections via the <link xmlns:xlink="http://www.w3.org/1999/xlink"
+            linkend="ready-instruction">ready instruction</link>) must not collide with any
+        supported protocols.</para>
+    <para>This is the first instruction sent during the handshake phase.</para>
     <variablelist>
         <varlistentry>
-            <term><parameter>protocol</parameter></term>
+            <term><parameter>ID</parameter></term>
             <listitem>
-                <para>The protocol to use.</para>
+                <para>The name of the protocol to use, such as "vnc" or "rdp", or the ID of the
+                    active connection to be joined, as returned via the <link
+                        xmlns:xlink="http://www.w3.org/1999/xlink" linkend="ready-instruction">ready
+                        instruction</link>.</para>
             </listitem>
         </varlistentry>
     </variablelist>
