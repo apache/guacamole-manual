@@ -213,9 +213,10 @@
                 file browsing dialog where you can choose one or more files from your local
                 computer, ultimately uploading the selected files to the directory currently
                 displayed within the file browser.</para>
-            <para>The state of all file transfers can be observed within the notification dialog
-                that appears once a download or upload begins, and completed file transfers can be
-                cleared by clicking the "Clear" button within the notification dialog.</para>
+            <para>The state of all file uploads can be observed within the notification dialog that
+                appears once an upload begins, and can be cleared once completed by clicking the
+                "Clear" button. Downloads are tracked through your browser's own download
+                notification system.</para>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/file-transfers.png" format="PNG" contentwidth="3in"/>
