@@ -119,6 +119,9 @@
                         <para>Navigating back to the home screen</para>
                     </listitem>
                     <listitem>
+                        <para>Sharing the current connection</para>
+                    </listitem>
+                    <listitem>
                         <para>Reading from (and writing to) the clipboard of the remote
                             desktop</para>
                     </listitem>
@@ -177,6 +180,37 @@
                 settings or initiate another connection, and you can resume any active connection by
                 clicking on it within the home screen.</para>
         </informalfigure>
+    </section>
+    <section xml:id="client-share-menu">
+        <title>Sharing the connection</title>
+        <para>If the Guacamole server is configured to allow connection sharing, and you have been
+            granted permission to share the current connection, an additional "Share" menu will
+            appear next to your username in the Guacamole menu. Clicking on this menu opens a list
+            of options for sharing the current connection.</para>
+        <informalfigure>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/guac-menu-share.png" format="PNG" contentwidth="6in"
+                    />
+                </imageobject>
+            </mediaobject>
+        </informalfigure>
+        <para>Clicking any of the options within the "Share" menu will immediately generate a unique
+            share link which can be distributed to anyone, even to users which do not otherwise have
+            accounts within the same Guacamole system.</para>
+        <informalfigure>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/guac-menu-share-link.png" format="PNG"
+                        contentwidth="6in"/>
+                </imageobject>
+            </mediaobject>
+        </informalfigure>
+        <para>When the link is visited, that user will be given temporary access to your connection,
+            restricted according to the sharing option chosen. This access, and the validity of the
+            link overall, lasts only until you disconnect. Once the connection is closed, the link
+            ceases to be valid, and any users sharing the connection with you will be
+            disconnected.</para>
     </section>
     <section xml:id="file-transfer">
         <title>Transferring files</title>
