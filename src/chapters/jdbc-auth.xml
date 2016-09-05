@@ -859,7 +859,9 @@ INSERT INTO guacamole_connection_parameter VALUES (<replaceable>1</replaceable>,
                 <para>When a connection is initiated or terminated, a corresponding entry in the
                         <classname>guacamole_connection_history</classname> table is created or
                     updated respectively. Each entry is associated with the user using the
-                    connection, the connection itself, and the time the connection started. If the
+                    connection, the connection itself, the  <link
+                        linkend="jdbc-auth-schema-sharing-profiles">sharing profile</link> in use
+                    (if the connection is being shared), and the time the connection started. If the
                     connection has ended, the end time is also stored.</para>
                 <para>It is very unlikely that a user will need to update this table, but knowing
                     the structure is potentially useful if you wish to generate a report of
@@ -911,6 +913,26 @@ INSERT INTO guacamole_connection_parameter VALUES (<replaceable>1</replaceable>,
                         </listitem>
                     </varlistentry>
                     <varlistentry>
+                        <term><property>sharing_profile_id</property></term>
+                        <listitem>
+                            <para>The value of the <property>sharing_profile_id</property> from the
+                                entry in <classname>guacamole_sharing_profile</classname> associated
+                                the sharing profile being used to access the connection. If the
+                                connection is not being shared (no sharing profile is being used),
+                                or if the sharing profile associated with the history record no
+                                longer exists, this will be <constant>NULL</constant>.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>sharing_profile_name</property></term>
+                        <listitem>
+                            <para>The name associated with the sharing profile being used to access
+                                the connection at the time this history entry was recorded. If the
+                                connection is not being shared, this will be
+                                    <constant>NULL</constant>.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
                         <term><property>start_date</property></term>
                         <listitem>
                             <para>The time at which the connection was started by the user
@@ -929,6 +951,84 @@ INSERT INTO guacamole_connection_parameter VALUES (<replaceable>1</replaceable>,
                     </varlistentry>
                 </variablelist>
             </section>
+        </section>
+        <section xml:id="jdbc-auth-schema-sharing-profiles">
+            <title>Sharing profiles and parameters</title>
+            <indexterm>
+                <primary><classname>guacamole_sharing_profile</classname></primary>
+            </indexterm>
+            <indexterm>
+                <primary><classname>guacamole_sharing_profile_parameter</classname></primary>
+            </indexterm>
+            <para>Each sharing profile has an entry in the
+                    <classname>guacamole_sharing_profile</classname> table, with a one-to-many
+                relationship to parameters, stored as name/value pairs in the
+                    <classname>guacamole_sharing_profile_parameter</classname> table.</para>
+            <para>The <classname>guacamole_sharing_profile</classname> table is simply a pairing of
+                a unique and descriptive name with the connection that can be shared using the
+                sharing profile, also known as the "primary connection". It contains the following
+                columns:</para>
+            <variablelist>
+                <varlistentry>
+                    <term><property>sharing_profile_id</property></term>
+                    <listitem>
+                        <para>The unique integer associated with each sharing profile. This value is
+                            generated automatically when a new entry is inserted into the
+                                <classname>guacamole_sharing_profile</classname> table.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>sharing_profile_name</property></term>
+                    <listitem>
+                        <para>The unique name associated with each sharing profile. This value must
+                            be specified manually, and must be different from any existing sharing
+                            profile name associated with the same primary connection. References to
+                            sharing profiles in other tables use the value from
+                                <property>sharing_profile_id</property>, not
+                                <property>sharing_profile_name</property>.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>primary_connection_id</property></term>
+                    <listitem>
+                        <para>The unique integer associated with the primary connection. The
+                            "primary connection" is the connection which can be shared using this
+                            sharing profile.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <para>As there are potentially multiple parameters per sharing profile, where the names
+                of each parameter are completely arbitrary and determined only by the protocol
+                associated with the primary connection, every parameter for a given sharing profile
+                has an entry in the <classname>guacamole_sharing_profile_parameter</classname> table
+                associated with its corresponding sharing profile. This table contains the following
+                columns:</para>
+            <variablelist>
+                <varlistentry>
+                    <term><property>sharing_profile_id</property></term>
+                    <listitem>
+                        <para>The <property>sharing_profile_id</property> value from the entry in
+                            the <classname>guacamole_sharing_profile</classname> table for the
+                            sharing profile this parameter applies to.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>parameter_name</property></term>
+                    <listitem>
+                        <para>The name of the parameter to set. This is the name listed in the
+                            documentation for the protocol of the primary connection of the
+                            associated sharing profile.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>parameter_value</property></term>
+                    <listitem>
+                        <para>The value to assign to the parameter named. While this value is an
+                            arbitrary string, it must conform to the requirements of the protocol as
+                            documented.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
         </section>
         <section xml:id="jdbc-auth-schema-connection-groups">
             <title>Connection groups</title>
@@ -1148,6 +1248,51 @@ INSERT INTO guacamole_connection_group (connection_group_name, type)
                                     <constant>UPDATE</constant>, which grants the ability to update
                                 data associated with the connection, or <constant>DELETE</constant>,
                                 which grants the ability to delete the connection.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+            </section>
+            <section xml:id="jdbc-auth-schema-sharing-profile-permissions">
+                <title>Sharing profile permissions</title>
+                <indexterm>
+                    <primary><classname>guacamole_sharing_profile_permission</classname></primary>
+                </indexterm>
+                <para>Sharing profile permissions are defined by entries in the
+                        <classname>guacamole_sharing_profile_permission</classname> table. Each
+                    entry grants permission for a specific user to perform a specific operation on
+                    an existing sharing profile.</para>
+                <para>The <classname>guacamole_sharing_profile_permission</classname> table contains
+                    the following columns:</para>
+                <variablelist>
+                    <varlistentry>
+                        <term><property>user_id</property></term>
+                        <listitem>
+                            <para>The value of the <property>user_id</property> column of the entry
+                                associated with the user owning this permission.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>sharing_profile_id</property></term>
+                        <listitem>
+                            <para>The value of the <property>sharing_profile_id</property> column of
+                                the entry associated with the sharing profile affected by this
+                                permission. This is the sharing profile that would be the object of
+                                the operation represented by this permission.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>permission</property></term>
+                        <listitem>
+                            <para>The permission being granted. This column can have one of four
+                                possible values: <constant>ADMINISTER</constant>, which grants the
+                                ability to add or remove permissions which affect the sharing
+                                profile, <constant>READ</constant>, which grants the ability to read
+                                data associated with the sharing profile (a prerequisite for using
+                                the sharing profile to share an active connection),
+                                    <constant>UPDATE</constant>, which grants the ability to update
+                                data associated with the sharing profile, or
+                                    <constant>DELETE</constant>, which grants the ability to delete
+                                the sharing profile.</para>
                         </listitem>
                     </varlistentry>
                 </variablelist>
