@@ -84,13 +84,27 @@
             initialize the connection with the parameters received and, if successful, respond with
             a "ready" instruction. This instruction contains the ID of the new client connection and
             marks the beginning of the interactive phase. The ID is an arbitrary string, but is
-            guaranteed to be unique from all other active connections:</para>
+            guaranteed to be unique from all other active connections, as well as from the names of
+            all supported protocols:</para>
         <informalexample>
             <programlisting>5.ready,37.$260d01da-779b-4ee9-afc1-c16bae885cc7;</programlisting>
         </informalexample>
         <para>The actual interactive phase begins immediately after the "ready" instruction is sent.
             Drawing and event instructions pass back and forth until the connection is
             closed.</para>
+        <section xml:id="guacamole-protocol-joining">
+            <title>Joining an existing connection</title>
+            <para>Once the handshake phase has completed, that connection is considered active and
+                can be joined by other connections if the ID is provided instead of a protocol name
+                via the "select" instruction:</para>
+            <informalexample>
+                <programlisting>6.select,37.$260d01da-779b-4ee9-afc1-c16bae885cc7;</programlisting>
+                <para>The rest of the handshake phase for a joining connection is identical. Just as
+                    with a new connection, the restrictions or features which apply to the joining
+                    connection are dictated by the parameter values supplied during the
+                    handshake.</para>
+            </informalexample>
+        </section>
     </section>
     <section xml:id="guacamole-protocol-nesting">
         <title>Nesting and interleaving</title>
