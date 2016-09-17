@@ -13,7 +13,7 @@
         together at creation time:</para>
     <variablelist>
         <varlistentry>
-            <term><systemitem>glyptodon/guacd</systemitem></term>
+            <term><systemitem>guacamole/guacd</systemitem></term>
             <listitem>
                 <para>Provides the <package>guacd</package> daemon, built from the released
                         <package>guacamole-server</package> source with support for VNC, RDP, SSH,
@@ -21,7 +21,7 @@
             </listitem>
         </varlistentry>
         <varlistentry>
-            <term><systemitem>glyptodon/guacamole</systemitem></term>
+            <term><systemitem>guacamole/guacamole</systemitem></term>
             <listitem>
                 <para>Provides the Guacamole web application running within Tomcat 8 with support
                     for WebSocket. The configuration necessary to connect to the linked
@@ -57,7 +57,7 @@
                 will be handled automatically by Docker during linking, and the Guacamole image will
                 properly detect and configure the connection to <package>guacd</package>.</para>
             <informalexample>
-                <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacd</replaceable> -d glyptodon/guacd</screen>
+                <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacd</replaceable> -d guacamole/guacd</screen>
             </informalexample>
             <para>When run in this manner, <package>guacd</package> will be listening on its default
                 port 4822, but this port will only be available to Docker containers that have been
@@ -79,7 +79,7 @@
                     a jumping point to other systems.</para>
             </important>
             <informalexample>
-                <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacd</replaceable> -d -p 4822:4822 glyptodon/guacd</screen>
+                <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacd</replaceable> -d -p 4822:4822 guacamole/guacd</screen>
             </informalexample>
             <para><package>guacd</package> will now be listening on port 4822, and Docker will
                 expose this port on the same server hosting Docker. Other services, such as an
@@ -112,7 +112,7 @@
                 please ensure that you have each of the following already prepared:</para>
             <orderedlist>
                 <listitem>
-                    <para>A Docker container running the <systemitem>glyptodon/guacd</systemitem>
+                    <para>A Docker container running the <systemitem>guacamole/guacd</systemitem>
                         image. Guacamole needs <package>guacd</package> in order to function, and
                         the Guacamole Docker image depends on a linked Docker container running
                             <package>guacd</package>.</para>
@@ -131,7 +131,7 @@
                 <para>To generate a SQL script which can be used to initialize a fresh MySQL
                     database as documented in <xref linkend="jdbc-auth"/>:</para>
                 <informalexample>
-                    <screen><prompt>$</prompt> <command>docker</command> run --rm glyptodon/guacamole /opt/guacamole/bin/initdb.sh --mysql > <replaceable>initdb.sql</replaceable></screen>
+                    <screen><prompt>$</prompt> <command>docker</command> run --rm guacamole/guacamole /opt/guacamole/bin/initdb.sh --mysql > <replaceable>initdb.sql</replaceable></screen>
                 </informalexample>
                 <para>Alternatively, you can use the SQL scripts included with the database
                     authentication.</para>
@@ -279,7 +279,7 @@
     -e MYSQL_DATABASE=<replaceable>guacamole_db</replaceable>  \
     -e MYSQL_USER=<replaceable>guacamole_user</replaceable>    \
     -e MYSQL_PASSWORD=<replaceable>some_password</replaceable> \
-    -d -p 8080:8080 glyptodon/guacamole</screen>
+    -d -p 8080:8080 guacamole/guacamole</screen>
                 </informalexample>
                 <para>The network connection information for MySQL is normally implied through the
                         "<property>mysql</property>" Docker link, and thus does not need to be
@@ -326,7 +326,7 @@
     -e MYSQL_DATABASE=<replaceable>guacamole_db</replaceable>  \
     -e MYSQL_USER=<replaceable>guacamole_user</replaceable>    \
     -e MYSQL_PASSWORD=<replaceable>some_password</replaceable> \
-    -d -p 8080:8080 glyptodon/guacamole</screen>
+    -d -p 8080:8080 guacamole/guacamole</screen>
                 </informalexample>
                 <para>If any required environment variables are omitted, you will receive an error
                     message in the logs, and the image will stop. You will then need to recreate the
@@ -362,7 +362,7 @@
                 please ensure that you have each of the following already prepared:</para>
             <orderedlist>
                 <listitem>
-                    <para>A Docker container running the <systemitem>glyptodon/guacd</systemitem>
+                    <para>A Docker container running the <systemitem>guacamole/guacd</systemitem>
                         image. Guacamole needs <package>guacd</package> in order to function, and
                         the Guacamole Docker image depends on a linked Docker container running
                             <package>guacd</package>.</para>
@@ -381,7 +381,7 @@
                 <para>To generate a SQL script which can be used to initialize a fresh PostgreSQL
                     database as documented in <xref linkend="jdbc-auth"/>:</para>
                 <informalexample>
-                    <screen><prompt>$</prompt> <command>docker</command> run --rm glyptodon/guacamole /opt/guacamole/bin/initdb.sh --postgres > <replaceable>initdb.sql</replaceable></screen>
+                    <screen><prompt>$</prompt> <command>docker</command> run --rm guacamole/guacamole /opt/guacamole/bin/initdb.sh --postgres > <replaceable>initdb.sql</replaceable></screen>
                 </informalexample>
                 <para>Alternatively, you can use the SQL scripts included with the database
                     authentication.</para>
@@ -530,7 +530,7 @@
     -e POSTGRES_DATABASE=<replaceable>guacamole_db</replaceable>  \
     -e POSTGRES_USER=<replaceable>guacamole_user</replaceable>    \
     -e POSTGRES_PASSWORD=<replaceable>some_password</replaceable> \
-    -d -p 8080:8080 glyptodon/guacamole</screen>
+    -d -p 8080:8080 guacamole/guacamole</screen>
                 </informalexample>
                 <para>The network connection information for PostgreSQL is normally implied through
                     the "<property>postgres</property>" Docker link, and thus does not need to be
@@ -577,7 +577,7 @@
     -e POSTGRES_DATABASE=<replaceable>guacamole_db</replaceable>  \
     -e POSTGRES_USER=<replaceable>guacamole_user</replaceable>    \
     -e POSTGRES_PASSWORD=<replaceable>some_password</replaceable> \
-    -d -p 8080:8080 glyptodon/guacamole</screen>
+    -d -p 8080:8080 guacamole/guacamole</screen>
                 </informalexample>
                 <para>If any required environment variables are omitted, you will receive an error
                     message in the logs, and the image will stop. You will then need to recreate the
@@ -613,7 +613,7 @@
                 please ensure that you have each of the following already prepared:</para>
             <orderedlist>
                 <listitem>
-                    <para>A Docker container running the <systemitem>glyptodon/guacd</systemitem>
+                    <para>A Docker container running the <systemitem>guacamole/guacd</systemitem>
                         image. Guacamole needs <package>guacd</package> in order to function, and
                         the Guacamole Docker image depends on a linked Docker container running
                             <package>guacd</package>.</para>
@@ -757,7 +757,7 @@
     -e LDAP_HOSTNAME=<replaceable>172.17.42.1</replaceable>                            \
     -e LDAP_USER_BASE_DN=<replaceable>ou=people,dc=example,dc=com</replaceable>        \
     -e LDAP_CONFIG_BASE_DN=<replaceable>ou=connections,dc=example,dc=com</replaceable> \
-    -d -p 8080:8080 glyptodon/guacamole</screen>
+    -d -p 8080:8080 guacamole/guacamole</screen>
                 </informalexample>
                 <para>As documented in <xref xmlns:xlink="http://www.w3.org/1999/xlink"
                         linkend="ldap-auth"/>, Guacamole does support combining LDAP with a MySQL or
@@ -774,7 +774,7 @@
     -e MYSQL_DATABASE=<replaceable>guacamole_db</replaceable>  \
     -e MYSQL_USER=<replaceable>guacamole_user</replaceable>    \
     -e MYSQL_PASSWORD=<replaceable>some_password</replaceable> \</emphasis>
-    -d -p 8080:8080 glyptodon/guacamole</screen>
+    -d -p 8080:8080 guacamole/guacamole</screen>
                 </informalexample>
                 <para>If any required environment variables are omitted, you will receive an error
                     message in the logs, and the image will stop. You will then need to recreate the
