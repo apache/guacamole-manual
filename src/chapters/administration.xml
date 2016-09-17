@@ -161,10 +161,10 @@
         <para>To edit a user, just click on the user you wish to edit. You will be taken to a screen
             which allows you to change the user's password, expire their password (such that it must
             be changed at next login), add or remove administrative permissions, and add or remove
-            read access to specific connections or groups. If you are managing a large number of
-            connections or groups and wish to reduce the size of the list displayed, you can do so
-            by specifying search terms within the "Filter" field. Groups will be filtered by name
-            and connections will be filtered by name or protocol.</para>
+            read access to specific connections, sharing profiles, or groups. If you are managing a
+            large number of connections or groups and wish to reduce the size of the list displayed,
+            you can do so by specifying search terms within the "Filter" field. Groups will be
+            filtered by name and connections will be filtered by name or protocol.</para>
         <para>If you have delete permission on the user, you will also see a "Delete" button.
             Clicking this button will permanently delete the user. Alternatively, if you only wish
             to temporarily disable the account, checking "Login disabled" will achieve the same
@@ -196,14 +196,15 @@
         </indexterm>
         <para>Clicking "Connections" within the list of settings sections will take you to the
             connection management screen. The connection management screen allows administrators to
-            create and edit connections and connection groups. If you have a large number of
-            connections, you can also enter search terms within the "Filter" field to filter the
-            list of connections by name or protocol.</para>
-        <para>To add a new connection or group, click the "New Connection" or "New Group" button.
-            This will take you to a screen where you will be allowed to enter the details of the new
-            object, such as its location, parameters, and name. This name should be descriptive, but
-            must also be unique with respect to other connections or groups in the same
-            location.</para>
+            create and edit connections, sharing profiles, and connection groups. If you have a
+            large number of connections, you can also enter search terms within the "Filter" field
+            to filter the list of connections by name or protocol.</para>
+        <para>To add a new connection or group, click the "New Connection" or "New Group" button, or
+            the "New Connection" or "New Group" placeholders which appear when you expand an
+            existing group. These options will take you to a screen where you will be allowed to
+            enter the details of the new object, such as its location, parameters, and name. This
+            name should be descriptive, but must also be unique with respect to other objects in the
+            same location.</para>
         <para>Once you click "Save", the new object will be added, but will initially only be usable
             by administrators and your current user. To grant another user access to the new
             connection or group, you must edit that user, checking the box corresponding to the
@@ -221,10 +222,10 @@
                 </mediaobject>
             </screenshot>
         </informalfigure>
-        <para>Editing connections and groups works identically to editing a user. Click on the
-            object you wish to edit, and you will be taken to screen which allows you to edit it.
-            The screen will display all properties of the object, including its usage history, if
-            applicable.</para>
+        <para>Editing connections, sharing profiles, and groups works identically to editing a user.
+            Click on the object you wish to edit, and you will be taken to screen which allows you
+            to edit it. The screen will display all properties of the object, including its usage
+            history, if applicable.</para>
         <para>If you have delete permission on the object, you will also see a "Delete" button.
             Clicking this button will permanently delete the object being edited.</para>
         <informalfigure>
@@ -272,6 +273,62 @@
                         </imageobject>
                         <caption>
                             <para>Editing a connection group</para>
+                        </caption>
+                    </mediaobject>
+                </screenshot>
+            </informalfigure>
+        </section>
+        <section>
+            <title>Connection sharing</title>
+            <para>The ability to share a connection is governed through the use of "sharing
+                profiles". If a sharing profile is created for a connection, users with access to
+                both that connection and that sharing profile will be able to share the connection
+                with other users by <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                    linkend="client-share-menu">generating connection sharing links</link>, even if
+                those users do not otherwise have user accounts within Guacamole.</para>
+            <para>The name of the sharing profile will be presented an option within the <link
+                    xmlns:xlink="http://www.w3.org/1999/xlink" linkend="client-share-menu">share
+                    menu</link> for any users with access, while the level of access granted to
+                users of generated share links will be dictated by the parameters specified for the
+                sharing profile.</para>
+            <important>
+                <para><emphasis>The only extension which ships with Guacamole and implements enough
+                        of the <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                            linkend="guacamole-ext">Guacamole extension API</link> to share its
+                        connections is the <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                            linkend="jdbc-auth">database authentication extension</link></emphasis>.
+                    If you wish to share connections (or allow your users to share connections), you
+                    will need to use the database authentication extension to store those
+                    connections.</para>
+                <para>If you need to use other authentication schemes, keep in mind that the
+                    database authentication extension can be used <link
+                        xmlns:xlink="http://www.w3.org/1999/xlink" linkend="ldap-and-database"
+                        >alongside other extensions</link>, with the database handling connection
+                    storage and permissions only. Writing your own extension which supports sharing
+                    is another alternative, though that may be overly complicated if everything you
+                    need is already provided.</para>
+            </important>
+            <para>Unlike connections and groups, there is no "New Sharing Profile" button. Sharing
+                profiles are created through clicking the "New Sharing Profile" placeholders which
+                appear when connections are expanded. Just as expanding a connection group reveals
+                the connections or groups therein, expanding a connection reveals the sharing
+                profiles associated with that connection. This holds true with both <link
+                    xmlns:xlink="http://www.w3.org/1999/xlink" linkend="connection-management">the
+                    list of connections in the connection management screen</link> and <link
+                    xmlns:xlink="http://www.w3.org/1999/xlink" linkend="user-management">the list of
+                    connections in the user editor</link>.</para>
+            <para>Creating or editing a sharing profile is virtually identical to creating or
+                editing a connection, with the exception that not all connection parameters are
+                available:</para>
+            <informalfigure>
+                <screenshot>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/edit-sharing-profile.png" format="PNG"
+                                contentwidth="5in"/>
+                        </imageobject>
+                        <caption>
+                            <para>Editing a sharing profile</para>
                         </caption>
                     </mediaobject>
                 </screenshot>
