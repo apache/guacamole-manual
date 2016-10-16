@@ -567,8 +567,7 @@
                         <listitem>
                             <para>The user is allowed to create new connections. If a user has this
                                 permission, the management interface will display components related
-                                to connection creation, such as the "Manage" and "New Connection"
-                                buttons.</para>
+                                to connection creation.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
@@ -576,8 +575,15 @@
                         <listitem>
                             <para>The user is allowed to create new connection groups. If a user has
                                 this permission, the management interface will display components
-                                related to connection group creation, such as the "Manage" and "New
-                                Group" buttons.</para>
+                                related to connection group creation.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><constant>CREATE_SHARING_PROFILE</constant></term>
+                        <listitem>
+                            <para>The user is allowed to create new sharing profiles. If a user has
+                                this permission, the management interface will display components
+                                related to sharing profile creation.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
@@ -585,8 +591,7 @@
                         <listitem>
                             <para>The user is allowed to create other users. If a user has this
                                 permission, the management interface will display components related
-                                to user creation, such as the "Manage" and "New User"
-                                buttons.</para>
+                                to user creation.</para>
                         </listitem>
                     </varlistentry>
                 </variablelist>
@@ -594,10 +599,10 @@
             <section>
                 <title>Object permissions</title>
                 <para>Object permissions describe access to operations that affect a particular
-                    object. Guacamole currently defines three types of objects which can be
-                    associated with permissions: users, connections, and connection groups. Each
-                    object permission associates a single user with an action that may be performed
-                    on a single object.</para>
+                    object. Guacamole currently defines four types of objects which can be
+                    associated with permissions: users, connections, connection groups, and sharing
+                    profiles. Each object permission associates a single user with an action that
+                    may be performed on a single object.</para>
                 <variablelist>
                     <varlistentry>
                         <term><constant>ADMINISTER</constant></term>
@@ -624,8 +629,9 @@
                                 of that object.</para>
                             <para>Note that the implementation is <emphasis>not required to divulge
                                     the true underlying properties of any object</emphasis>. The
-                                parameters of a connection, the type or contents of a connection
-                                group, the password of a user, etc. all need not be exposed.</para>
+                                parameters of a connection or sharing profile, the type or contents
+                                of a connection group, the password of a user, etc. all need not be
+                                exposed.</para>
                             <para>This is particularly important from the perspective of security
                                 when it comes to connections, as the parameters of a connection are
                                 only truly needed when a connection is being modified, and likely
@@ -646,8 +652,9 @@
                                 object.</para>
                             <para>The properties of a connection include its name, protocol, parent
                                 connection group, and parameters. The properties of a connection
-                                group include its name, type, parent connection group, and
-                                children.</para>
+                                group include its name, type, parent connection group, and children.
+                                The properties of a sharing profile include its name, primary
+                                connection, and parameters.</para>
                         </listitem>
                     </varlistentry>
                 </variablelist>
