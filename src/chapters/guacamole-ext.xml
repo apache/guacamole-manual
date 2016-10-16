@@ -717,4 +717,61 @@
                     <classname>Connection</classname> can be used to make life easier.</para>
         </important>
     </section>
+    <section xml:id="ext-active-connections">
+        <title>Managing/sharing active connections</title>
+        <para>After a connection has been established, its underlying
+                <classname>GuacamoleTunnel</classname> can be exposed by a
+                <classname>UserContext</classname> through the <classname>Directory</classname>
+            returned by <methodname>getActiveConnectionDirectory()</methodname>. The
+                <classname>ActiveConnection</classname> objects accessible through this
+                <classname>Directory</classname> are the means by which an administrator may monitor
+            or forcibly terminate another user's connection, ultimately resulting in Guacamole
+            invoking the <methodname>close()</methodname> function of the underlying
+                <classname>GuacamoleTunnel</classname>, and also serve as the basis for screen
+            sharing.</para>
+        <para>Screen sharing is implemented through the use of <classname>SharingProfile</classname>
+            objects, exposed through yet another <classname>Directory</classname> beneath the
+                <classname>UserContext</classname>. Each sharing profile is associated with a single
+            connection that it can be used to share, referred to as the "primary connection". If a
+            user has read access to a sharing profile associated with their current connection, that
+            sharing profile will be displayed as an option within <link
+                xmlns:xlink="http://www.w3.org/1999/xlink" linkend="client-share-menu">the share
+                menu of the Guacamole menu</link>.</para>
+        <para>The overall sharing process is as follows:</para>
+        <orderedlist>
+            <listitem>
+                <para>A user, having access to a sharing profile associated with their current
+                    active connection, clicks its option within the <link
+                        xmlns:xlink="http://www.w3.org/1999/xlink" linkend="client-share-menu">share
+                        menu</link>.</para>
+            </listitem>
+            <listitem>
+                <para>Guacamole locates the <classname>ActiveConnection</classname> and invokes its
+                        <methodname>getSharingCredentials()</methodname> function with the
+                    identifier of the sharing profile. The contents of the returned
+                        <classname>UserCredentials</classname> object is used by Guacamole to
+                    generate a sharing link which can be given to other users.</para>
+            </listitem>
+            <listitem>
+                <para>When another user visits the sharing link, the credentials embedded in the
+                    link are passed to the authentication providers associated with each installed
+                    extension. <emphasis>It is up to the extension that originally provided those
+                        credentials to authenticate the user and provide them with access to the
+                        shared connection.</emphasis></para>
+            </listitem>
+            <listitem>
+                <para>When the user attempts to connect to the shared connection, the extension
+                    establishes the connection using the ID of the connection being joined.
+                        <emphasis>This is not the connection identifier as dictated by
+                        guacamole-ext, but rather <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                            linkend="guacamole-protocol-joining">the unique ID assigned by guacd as
+                            required by the Guacamole protocol</link>.</emphasis> This ID can be
+                    retrieved from a <methodname>ConfiguredGuacamoleSocket</methodname> via
+                        <methodname>getConnectionID()</methodname>, and can be passed through a
+                        <methodname>GuacamoleConfiguration</methodname> through
+                        <methodname>setConnectionID()</methodname> (instead of specifying a
+                    protocol, as would be done for a brand new connection).</para>
+            </listitem>
+        </orderedlist>
+    </section>
 </chapter>
