@@ -267,35 +267,5 @@ user->mouse_handler = mouse_handler;</programlisting>
 user->clipboard_handler = clipboard_handler;</programlisting>
             </informalexample>
         </section>
-        <section xml:id="libguac-message-handling">
-            <title>Handling server messages</title>
-            <para>A client plugin implementation is expected to only handle
-                server messages when control is given to it via a call to the
-                message handler installed in the
-                    <property>handle_messages</property> member of the
-                    <classname>guac_client</classname>. While it might seem
-                intuitive to simply create a thread which handles server message
-                in the background, it is important that you do not do this, as
-                guacd pays attention to the exchange of sync instructions back
-                and forth between itself and the client to determine if the
-                client is under load or falling behind due to network problems,
-                and will restrict how frequently the message handler is called
-                accordingly. Ignoring this can lead to the client being
-                overwhelmed with instructions, leading to a bad user
-                experience.</para>
-            <para>The message handler is simpler than all the other handlers,
-                receiving only a pointer to the current
-                    <classname>guac_client</classname>:</para>
-            <informalexample>
-                <programlisting>int message_handler(guac_client* client) {
-    /* Handle server messages */
-}
-
-...
-
-/* Within guac_client_init */
-client->handle_messages = message_handler;</programlisting>
-            </informalexample>
-        </section>
     </section>
 </chapter>
