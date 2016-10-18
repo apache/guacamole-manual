@@ -164,69 +164,6 @@
             <programlisting>guac_protocol_send_size(client->socket, GUAC_DEFAULT_LAYER, 1024, 768);</programlisting>
         </informalexample>
     </section>
-    <section xml:id="libguac-protocol-nesting">
-        <title>Protocol nesting</title>
-        <para>When large instructions need to be sent, particularly those
-            associated with audio or video, it is best to send those
-            instructions broken into individual packets using nest instructions,
-            such that the larger instruction can be interleaved with the smaller
-            instructions such that normal responsiveness is not lessened. As
-            future instructions cannot be parsed until the earlier instructions
-            finish parsing, avoiding large instructions is important if the user
-            is expected to interact with their display in real-time.</para>
-        <para>libguac provides rudimentary means of automatically nesting
-            instructions using the <methodname>guac_socket_nest()</methodname>
-            function. This function returns a new
-                <classname>guac_socket</classname> which writes data to nest
-            instructions to its parent <classname>guac_socket</classname>,
-            rather than to the client's stream directly. By using this and the
-            piecemeal versions of the instruction-sending functions required,
-            audio or video data can be stretched over multiple instructions
-            rather than one single instruction:</para>
-        <informalexample>
-            <programlisting>/* Get nested socket */
-guac_socket* nested_socket = guac_socket_nest(client->socket, 0);
-
-/* Write audio header */
-guac_protocol_send_audio_header(nested_socket,
-    0, "audio/ogg", 250, buffer_size);
-
-...
-
-/* Write data packets */
-guac_protocol_send_audio_data(nested_socket, data, sizeof(data));
-
-...
-
-/* Finish audio instruction */
-guac_protocol_send_audio_end(nested_socket);
-
-/* When done, close the socket */
-guac_socket_close(nested_socket);</programlisting>
-        </informalexample>
-        <para>Providing that calls to guac_protocol_send_audio_data() (or the
-            similar video functions) are made interleaved with calls to smaller
-            instructions, those smaller instructions will not be blocked by the
-            size of the audio data that must be sent.</para>
-        <important>
-            <para>Because of the nature of the Guacamole protocol, the size and
-                duration of audio or video data must be known beforehand. If
-                audio or video data must be streamed in real-time, it will need
-                to be divided into individual self-contained chunks. Smaller
-                chunks have a greater chance of causing noticeable gaps due to
-                network hiccups, but are more responsive and will seem more
-                in-line with what is happening from the user's perspective,
-                while larger chunks will be less vulnerable to network issues,
-                but obviously will require the client to wait for a longer time
-                before the audio or video actually starts playing.</para>
-            <para>Note that the size of each audio or video packet is not
-                related to the size of each nest instruction. Choosing larger
-                audio or video packets does not mean that the nest instruction
-                cannot be used; in fact, this is the purpose of the nest
-                instruction: to allow larger instructions to be broken up into
-                smaller instructions.</para>
-        </important>
-    </section>
     <section xml:id="libguac-event-handling">
         <title>Event handling</title>
         <para>Generally, as guacd receives instructions from the connected
