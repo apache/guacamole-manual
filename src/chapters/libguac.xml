@@ -134,12 +134,10 @@
     </section>
     <section xml:id="libguac-sending-instructions">
         <title>Sending instructions</title>
-        <para>All drawing in Guacamole is accomplished through the sending of
-            instructions to the connected client using the Guacamole protocol.
-            The same goes for streaming audio, video, or file content. All
-            features and content supported by Guacamole ultimately reduces to
-            one or more instructions which are part of the documented
-            protocol.</para>
+        <para>All drawing in Guacamole is accomplished through the sending of instructions to the
+            connected client using the Guacamole protocol. The same goes for streaming audio, video,
+            or file content. All features and content supported by Guacamole ultimately reduce to
+            one or more instructions which are part of the documented protocol.</para>
         <para>Most drawing using libguac is done using Cairo functions on a
                 <classname>cairo_surface_t</classname> (see the Cairo API documentation) which is
             later streamed to the client using an <methodname>img</methodname> instruction and
@@ -154,15 +152,27 @@
             all Guacamole protocol instructions, each instruction has a
             corresponding function in libguac following the naming convention
                     <methodname>guac_protocol_send_<replaceable>OPCODE</replaceable>()</methodname>.</para>
-        <para>Each protocol function takes a <classname>guac_socket</classname>
-            as an argument, which is the buffered I/O object used by libguac.
-            The <classname>guac_socket</classname> corresponding to the
-            connected client is stored within the socket member of the
-                <classname>guac_client</classname> object in use, for
-            example:</para>
+        <para>Each protocol function takes a <classname>guac_socket</classname> as an argument,
+            which is the buffered I/O object used by libguac. For each active connection, there are
+            two important types of <classname>guac_socket</classname> instance: the broadcast
+            socket, which exists at the client level within the <classname>guac_client</classname>,
+            and the per-user socket, which is accessible within each
+                <classname>guac_user</classname>. Data sent along the client-level broadcast socket
+            will be sent to all connected users beneath that <classname>guac_client</classname>,
+            while data sent along a user-level socket will be sent only to that user.</para>
+        <para>For example, to send a "size" instruction to all connected users via the client-level
+            broadcast socket, you could invoke:</para>
         <informalexample>
             <programlisting>guac_protocol_send_size(client->socket, GUAC_DEFAULT_LAYER, 1024, 768);</programlisting>
         </informalexample>
+        <para>Or, if the instruction is only relevant to a particular user, the socket associated
+            with that user can be used instead:</para>
+        <informalexample>
+            <programlisting>guac_protocol_send_size(<emphasis>user</emphasis>->socket, GUAC_DEFAULT_LAYER, 1024, 768);</programlisting>
+        </informalexample>
+        <para>The sockets provided by libguac are threadsafe at the protocol level. Instructions
+            written to a socket by multiple threads are guaranteed to be written atomically with
+            respect to that socket.</para>
     </section>
     <section xml:id="libguac-event-handling">
         <title>Event handling</title>
