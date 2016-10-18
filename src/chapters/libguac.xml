@@ -215,6 +215,43 @@ client->free_handler = free_handler;</programlisting>
             somehow, this is the layer you want to use as the operand of your
             drawing instruction.</para>
     </section>
+    <section xml:id="libguac-streams">
+        <title>Streams</title>
+        <para>In addition to drawing, the Guacamole protocol supports streaming of arbitrary data.
+            The main operand of all streaming instructions is the stream, represented within libguac
+            by the <classname>guac_stream</classname> structure. Each
+                <classname>guac_stream</classname> exists either at the user or client levels,
+            depending on whether the stream is intended to be broadcast to all users or just one,
+            and is thus allocated using either <methodname>guac_client_alloc_stream()</methodname>
+            or <methodname>guac_user_alloc_stream()</methodname>. Explicitly-allocated streams must
+            eventually be freed with <methodname>guac_client_free_stream()</methodname> or
+                <methodname>guac_user_free_stream()</methodname>.</para>
+        <important>
+            <para>Just as with layers, care must be taken to invoke the allocate and free pairs
+                correctly for each explicitly-allocated stream.
+                    <methodname>guac_client_free_stream()</methodname> should only be used to free
+                streams allocated with <methodname>guac_client_alloc_stream()</methodname>, and
+                    <methodname>guac_user_free_stream()</methodname> should only be used to free
+                streams allocated with <methodname>guac_user_alloc_stream()</methodname>.</para>
+            <para>If these restrictions are not observed, the effect of invoking these functions is
+                undefined.</para>
+        </important>
+        <para>Streams are the means by which data is transmitted for clipboard (via the <link
+                xmlns:xlink="http://www.w3.org/1999/xlink" linkend="clipboard-instruction"
+                >"clipboard" instruction</link>), audio (via the <link
+                xmlns:xlink="http://www.w3.org/1999/xlink" linkend="audio-stream-instruction"
+                >"audio" instruction</link>), and even the images which make up typical drawing
+            operations (via the <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                linkend="img-instruction">"img" instruction</link>). They will either be allocated
+            for you, when an inbound stream is received from a user, or allocated manually, when an
+            outbound stream needs to be sent to a user. As with <classname>guac_client</classname>
+            and <classname>guac_user</classname>, each <classname>guac_stream</classname> has a set
+            of handlers which correspond to instructions received related to streams. These
+            instructions are documented in more detail in <xref
+                xmlns:xlink="http://www.w3.org/1999/xlink" linkend="guacamole-protocol-streaming"/>
+            and <xref xmlns:xlink="http://www.w3.org/1999/xlink" linkend="protocol-reference"
+            />.</para>
+    </section>
     <section xml:id="libguac-sending-instructions">
         <title>Sending instructions</title>
         <para>All drawing in Guacamole is accomplished through the sending of instructions to the
@@ -344,7 +381,7 @@ user->mouse_handler = mouse_handler;</programlisting>
             </variablelist>
         </section>
         <section xml:id="libguac-clipboard-events">
-            <title>Clipboard events</title>
+            <title>Clipboard, file, and other stream events</title>
             <para>If a connected user sends data which should be sent to the clipboard of the remote
                 desktop, guacd will trigger the clipboard handler installed in the
                     <property>clipboard_handler</property> member of the
@@ -359,6 +396,33 @@ user->mouse_handler = mouse_handler;</programlisting>
 /* Within the "join" handler of guac_client */
 user->clipboard_handler = clipboard_handler;</programlisting>
             </informalexample>
+            <para>The handler is expected to assign further handlers to the provided
+                    <classname>guac_stream</classname> as necessary, such that the <link
+                    xmlns:xlink="http://www.w3.org/1999/xlink" linkend="blob-instruction"
+                    >"blob"</link> and <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                    linkend="end-instruction">"end"</link> instructions received along the stream
+                can be handled. A similar handler is provided for received files:</para>
+            <informalexample>
+                <programlisting>int file_handler(guac_user* user, guac_stream* stream,
+        char* mimetype, char* filename) {
+    /* Do something */
+}
+
+...
+
+/* Within the "join" handler of guac_client */
+user->file_handler = file_handler;</programlisting>
+            </informalexample>
+            <para>This pattern continues for all other types of streams which can be received from a
+                user. The instruction which begins the stream has a corresponding handler within
+                    <classname>guac_user</classname>, and the metadata describing that stream and
+                provided with the instruction is included within the parameters passed to that
+                handler.</para>
+            <para>These handlers are, of course, optional. If any type of stream lacks a
+                corresponding handler, guacd will automatically close the stream and respond with an
+                    <link xmlns:xlink="http://www.w3.org/1999/xlink" linkend="ack-instruction">"ack"
+                    instruction</link> and appropriate error code, informing the user's Guacamole
+                client that the stream is unsupported.</para>
         </section>
     </section>
 </chapter>
