@@ -166,54 +166,50 @@
     </section>
     <section xml:id="libguac-event-handling">
         <title>Event handling</title>
-        <para>Generally, as guacd receives instructions from the connected
-            client, it invokes event handlers if set within the associated
-                <classname>guac_client</classname> instance. These handlers
-            correspond to the instructions received, which in turn correspond to
-            events which occur on the client side. The only exception to this is
-            when guacd wishes to give the client plugin control and allow it to
-            handle any messages that may have arrived from the remote desktop
-            server, in which case it invokes a specific event handler dedicated
-            to this purpose.</para>
+        <para>Generally, as guacd receives instructions from the connected client, it invokes event
+            handlers if set within the associated <classname>guac_user</classname> or
+                <classname>guac_client</classname>, depending on the nature of the event. Most
+            events are user-specific, and thus the event handlers reside within the
+                <classname>guac_user</classname> structure, but there are client-specific events as
+            well, such as a user joining or leaving the current connection. Event handlers typically
+            correspond to Guacamole protocol instructions received over the socket by a connected
+            user, which in turn correspond to events which occur on the client side.</para>
         <section xml:id="libguac-key-events">
             <title>Key events</title>
-            <para>When keys are pressed or released on the client side, the
-                client sends key instructions to the server. These instructions
-                are parsed and handled by calling the key event handler
-                installed in the <property>key_handler</property> member of the
-                    <classname>guac_client</classname>. This key handler is
-                given the keysym of the key that was changed, and a boolean
-                value indicating whether the key was pressed or released.</para>
+            <para>When keys are pressed or released on the client side, the client sends key
+                instructions to the server. These instructions are parsed and handled by calling the
+                key event handler installed in the <property>key_handler</property> member of the
+                    <classname>guac_user</classname>. This key handler is given the keysym of the
+                key that was changed, and a boolean value indicating whether the key was pressed or
+                released.</para>
             <informalexample>
-                <programlisting>int key_handler(guac_client* client, int keysym, int pressed) {
+                <programlisting>int key_handler(guac_user* user, int keysym, int pressed) {
     /* Do something */
 }
 
 ...
 
-/* Within guac_client_init */
-client->key_handler = key_handler;</programlisting>
+/* Within the "join" handler of guac_client */
+user->key_handler = key_handler;</programlisting>
             </informalexample>
         </section>
         <section xml:id="libguac-mouse-events">
             <title>Mouse events</title>
-            <para>When the mouse is moved, and buttons are pressed or released,
-                the client sends mouse instructions to the server. These
-                instructions are parsed and handled by calling the mouse event
-                handler installed in the <property>mouse_handler</property>
-                member of the <classname>guac_client</classname>. This mouse
-                handler is given the current X and Y coordinates of the mouse
-                pointer, as well as a mask indicating which buttons are pressed
-                and which are released.</para>
+            <para>When the mouse is moved, and buttons are pressed or released, the client sends
+                mouse instructions to the server. These instructions are parsed and handled by
+                calling the mouse event handler installed in the <property>mouse_handler</property>
+                member of the <classname>guac_user</classname>. This mouse handler is given the
+                current X and Y coordinates of the mouse pointer, as well as a mask indicating which
+                buttons are pressed and which are released.</para>
             <informalexample>
-                <programlisting>int mouse_handler(guac_client* client, int x, int y, int button_mask) {
+                <programlisting>int mouse_handler(guac_user* user, int x, int y, int button_mask) {
     /* Do something */
 }
 
 ...
 
-/* Within guac_client_init */
-client->mouse_handler = mouse_handler;</programlisting>
+/* Within the "join" handler of guac_client */
+user->mouse_handler = mouse_handler;</programlisting>
             </informalexample>
             <para>The file <filename>client.h</filename> also defines the mask
                 of each button for convenience:</para>
@@ -256,24 +252,20 @@ client->mouse_handler = mouse_handler;</programlisting>
         </section>
         <section xml:id="libguac-clipboard-events">
             <title>Clipboard events</title>
-            <para>If the client sends data which should be sent to the clipboard
-                of the remote desktop, guacd will trigger the clipboard handler
-                installed in the <property>clipboard_handler</property> member
-                of the <classname>guac_client</classname>.</para>
+            <para>If a connected user sends data which should be sent to the clipboard of the remote
+                desktop, guacd will trigger the clipboard handler installed in the
+                    <property>clipboard_handler</property> member of the
+                    <classname>guac_user</classname> associated with that user.</para>
             <informalexample>
-                <programlisting>int clipboard_handler(guac_client* client, char* text) {
+                <programlisting>int clipboard_handler(guac_user* user, guac_stream* stream, char* mimetype) {
     /* Do something */
 }
 
 ...
 
-/* Within guac_client_init */
-client->clipboard_handler = clipboard_handler;</programlisting>
+/* Within the "join" handler of guac_client */
+user->clipboard_handler = clipboard_handler;</programlisting>
             </informalexample>
-            <para>The data given will always be a
-                <constant>NULL</constant>-terminated string of UTF8-encoded
-                text. The Guacamole protocol does not yet support clipboard data
-                in other formats.</para>
         </section>
         <section xml:id="libguac-message-handling">
             <title>Handling server messages</title>
