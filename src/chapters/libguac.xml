@@ -45,52 +45,135 @@
     </section>
     <section xml:id="libguac-client-plugins">
         <title>Client plugins</title>
-        <para>Client plugins are libraries loaded dynamically using the
-            functions of libdl. Each client plugin is required to follow a
-            naming convention, where the name of the library is
-                    <package>libguac-client-<replaceable>PROTOCOL</replaceable></package>.
-            Failing to do this means that guacd will be unable to find the
-            library when the client plugin needs to be loaded.</para>
-        <para>To load a client plugin, guacd calls the guac_client_plugin_open()
-            function with the name of the protocol corresponding to the plugin
-            to be loaded. Upon success,
-                <methodname>guac_client_plugin_open()</methodname> returns a
-            handle to the library containing the client plugin within an
-            instance of <classname>guac_client_plugin</classname>. This instance
-            will eventually be cleaned up by
-                <methodname>guac_client_plugin_close()</methodname> when guacd
-            is finished using it. While these functions are intended to be used
-            by guacd, there is no reason they cannot be used in another proxy
-            implementation, even if that proxy implementation resides within
-            another client plugin.</para>
-        <para>Once the client plugin is successfully loaded, guacd makes a call
-            to <methodname>guac_client_plugin_init_client()</methodname> to
-            initialize the client. This function calls the
-                <methodname>guac_client_init()</methodname> function within the
-            client plugin which absolutely all client plugins must define. This
-            function is the entry point of all client plugins, similar to the
-                <methodname>main()</methodname> function of a C program.</para>
-        <para>As guacd handles the handshake procedure required by the Guacamole
-            protocol, it reads a statically-allocated,
-            <constant>NULL</constant>-terminated set of argument names declared
-            within the client plugin: <varname>GUAC_CLIENT_ARGS</varname>. As
-            with <methodname>guac_client_init()</methodname>, all client plugins
-            must define this variable if they are to work. As the handshake
-            procedure is completed, guacd will initialize and populate a
-                <classname>guac_client</classname> structure, including the
-                <classname>guac_client_info</classname> structure contained
-            within it, and pass it to
-                <methodname>guac_client_init()</methodname> along with the
-            argument count and argument values received by the connecting
-            client.</para>
-        <para>It is the duty of the client plugin implementation to populate the
-            event handlers of the <classname>guac_client</classname> it receives
-            as applicable. Once this is done, and the
-                <methodname>guac_client_init()</methodname> function returns
-            successfully, communication with the connected client begins, and
-            guacd will invoke the event handlers of the
-                <classname>guac_client</classname> as necessary for any
-            instruction received.</para>
+        <para>Client plugins are libraries which follow specific conventions such that they can be
+            loaded dynamically by guacd. All client plugins <emphasis>must</emphasis>:</para>
+        <orderedlist>
+            <listitem>
+                <para>Follow a naming convention, where the name of the library is
+                            <package>libguac-client-<replaceable>PROTOCOL</replaceable></package>.
+                        <emphasis>This is necessary for guacd to locate the library for a requested
+                        protocol.</emphasis></para>
+            </listitem>
+            <listitem>
+                <para>Be linked against libguac, the library used by guacd to handle the Guacamole
+                    protocol. The structures which are given to functions invoked by guacd are
+                    defined by libguac, and are expected to be manipulated via the functions
+                    provided by libguac or as otherwise documented within the structure itself.
+                        <emphasis>Communication between guacd and client plugins is only possible if
+                        they share the same core structural and functional definitions provided by
+                        libguac.</emphasis></para>
+            </listitem>
+            <listitem>
+                <para>Implement the standard entry point for client plugins,
+                        <methodname>guac_client_init()</methodname>, described in more detail below.
+                    It is this function which initializes the structures provided by guacd such that
+                    users can join and interact with the connection.</para>
+            </listitem>
+        </orderedlist>
+        <section xml:id="libguac-lifecycle-entry">
+            <title>Entry point</title>
+            <para>All client plugins must provide a function named
+                    <methodname>guac_client_init</methodname> which accepts, as its sole argument, a
+                pointer to a <classname>guac_client</classname> structure. This function is similar
+                in principle to the <methodname>main()</methodname> function of a C program, and it
+                is the responsibility of this function to initialize the provided structure as
+                necessary to begin the actual remote desktop connection, allow users to join/leave,
+                etc.</para>
+            <para>The provided <classname>guac_client</classname> will already have been initialized
+                with handlers for logging, the broadcast socket, etc. The absolutely critical pieces
+                which must be provided by <methodname>guac_client_init</methodname> are:</para>
+            <orderedlist>
+                <listitem>
+                    <para>A handler for users which join the connection
+                            (<property>join_handler</property>). The join handler is also usually
+                        the most appropriate place for the actual remote desktop connection to be
+                        established.</para>
+                </listitem>
+                <listitem>
+                    <para>A <constant>NULL</constant>-terminated set of argument names which the
+                        client plugin accepts, assigned to the <property>args</property> property of
+                        the given <classname>guac_client</classname>. As the handshake procedure is
+                        completed for each connecting user, these argument names will be presented
+                        as part of the handshake, and the values for those arguments will be passed
+                        to the join handler once the handshake completes.</para>
+                </listitem>
+                <listitem>
+                    <para>A handler for users leaving the connection
+                            (<property>leave_handler</property>), if any cleanup, updates, etc. are
+                        required.</para>
+                </listitem>
+                <listitem>
+                    <para>A handler for freeing the data associated with the
+                            <classname>guac_client</classname> after the connection has terminated
+                            (<property>free_handler</property>). If your plugin will allocate any
+                        data at all, implementing the free handler is necessary to avoid memory
+                        leaks.</para>
+                </listitem>
+            </orderedlist>
+            <para>If <methodname>guac_client_init</methodname> returns successfully, guacd will
+                proceed with allowing the first use to join the connection, and the rest of the
+                plugin lifecycle commences.</para>
+        </section>
+        <section xml:id="libguac-lifecycle-users">
+            <title>Joining/leaving a connection</title>
+            <para>Whenever a user joins a connection, including the very first user of a connection
+                (the user which is establishing the remote desktop connection in the first place),
+                the join handler of the <property>guac_client</property> will be invoked. This
+                handler is provided with the <classname>guac_user</classname> structure representing
+                the user that just joined, along with the arguments provided during the handshake
+                procedure:</para>
+            <informalexample>
+                <programlisting>int join_handler(guac_user* user, int argc, char** argv) {
+    /* Synchronize display state, init the user, etc. */
+}
+
+...
+
+/* Within guac_client_init  */
+client->join_handler = join_handler;</programlisting>
+            </informalexample>
+            <para>As the parameters and user information provided during the Guacamole protocol
+                handshake are often required to be known before the remote desktop connection can be
+                established, the join handler is usually the best place to create a thread which
+                establishes the remote desktop connection and updates the display
+                accordingly.</para>
+            <para>If necessary, the user which first established the connection can be distinguished
+                from all other users by the <property>owner</property> flag of
+                    <classname>guac_user</classname>, which will be set to a non-zero value.</para>
+            <para>Once a user has disconnected, the leave handler of
+                    <classname>guac_client</classname> will be invoked. Just as with the join
+                handler, this handler is provided the <classname>guac_user</classname> structure of
+                the user that disconnected. The <classname>guac_user</classname> structure will be
+                freed immediately after the handler completes:</para>
+            <informalexample>
+                <programlisting>int leave_handler(guac_user* user) {
+    /* Free user-specific data and clean up */
+}
+
+...
+
+/* Within guac_client_init  */
+client->leave_handler = leave_handler;</programlisting>
+            </informalexample>
+        </section>
+        <section xml:id="libguac-lifecycle-termination">
+            <title>Termination</title>
+            <para>Once the last user of a connection has left, guacd will begin freeing resources
+                allocated to that connection, invoking the free handler of the
+                    <classname>guac_client</classname>. At this point, the "leave" handler has been
+                invoked for all previous users. All that remains is for the client plugin to free
+                any remaining data that it allocated, such that guacd can clean up the rest:</para>
+            <informalexample>
+                <programlisting>int free_handler(guac_client* client) {
+    /* Disconnect, free client-specific data, etc. */
+}
+
+...
+
+/* Within guac_client_init  */
+client->free_handler = free_handler;</programlisting>
+            </informalexample>
+        </section>
     </section>
     <section xml:id="libguac-layers">
         <title>Layers and buffers</title>
