@@ -106,21 +106,6 @@
             </informalexample>
         </section>
     </section>
-    <section xml:id="guacamole-protocol-nesting">
-        <title>Nesting and interleaving</title>
-        <para>The Guacamole protocol can be nested within itself, such that long instructions or
-            independent streams of multiple instructions need not block each other; they can be
-            multiplexed into the same stream. Nesting is accomplished with the "nest"
-            instruction.</para>
-        <para>A nest instruction has only two parameters: an arbitrary integer index denoting what
-            stream the data is associated with, and the instruction data itself. The integer index
-            is important as it defines how the instruction will be reassembled. The data from nest
-            instructions with the same stream index is reassembled by the client in the order
-            received, and instructions within that data are executed immediately once
-            completed.</para>
-        <para>This is particularly important when data needs to be trickled to the client rather
-            than as a single atomic instruction.</para>
-    </section>
     <section xml:id="guacamole-protocol-drawing">
         <title>Drawing</title>
         <section xml:id="guacamole-protocol-compositing">
