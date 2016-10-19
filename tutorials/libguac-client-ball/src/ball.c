@@ -49,8 +49,8 @@ void* ball_render_thread(void* arg) {
             data->ball_x = -data->ball_x;
             data->ball_velocity_x = -data->ball_velocity_x;
         }
-        else if (data->ball_x >= 1024-128) {
-            data->ball_x = (2*(1024-128)) - data->ball_x;
+        else if (data->ball_x >= 1024 - 128) {
+            data->ball_x = (2 * (1024 - 128)) - data->ball_x;
             data->ball_velocity_x = -data->ball_velocity_x;
         }
 
@@ -58,8 +58,8 @@ void* ball_render_thread(void* arg) {
             data->ball_y = -data->ball_y;
             data->ball_velocity_y = -data->ball_velocity_y;
         }
-        else if (data->ball_y >= (768-128)) {
-            data->ball_y = (2*(768-128)) - data->ball_y;
+        else if (data->ball_y >= 768 - 128) {
+            data->ball_y = (2 * (768 - 128)) - data->ball_y;
             data->ball_velocity_y = -data->ball_velocity_y;
         }
 
@@ -109,10 +109,11 @@ int ball_join_handler(guac_user* user, int argc, char** argv) {
     guac_protocol_send_cfill(socket, GUAC_COMP_OVER, texture,
             0xDD, 0xDD, 0xDD, 0xFF);
 
-    /* Fill with texture */
+    /* Prepare a curve which covers the entire layer */
     guac_protocol_send_rect(socket, GUAC_DEFAULT_LAYER,
             0, 0, 1024, 768);
 
+    /* Fill curve with texture */
     guac_protocol_send_lfill(socket,
             GUAC_COMP_OVER, GUAC_DEFAULT_LAYER,
             texture);
@@ -120,17 +121,19 @@ int ball_join_handler(guac_user* user, int argc, char** argv) {
     /* Set up ball layer */
     guac_protocol_send_size(socket, ball, 128, 128);
 
-    /* Fill with solid color */
+    /* Prepare a circular curve */
     guac_protocol_send_arc(socket, data->ball,
             64, 64, 62, 0, 6.28, 0);
 
     guac_protocol_send_close(socket, data->ball);
 
+    /* Draw a 4-pixel black border */
     guac_protocol_send_cstroke(socket,
             GUAC_COMP_OVER, data->ball,
             GUAC_LINE_CAP_ROUND, GUAC_LINE_JOIN_ROUND, 4,
             0x00, 0x00, 0x00, 0xFF);
 
+    /* Fill the circle with color */
     guac_protocol_send_cfill(socket,
             GUAC_COMP_OVER, data->ball,
             0x00, 0x80, 0x80, 0x80);
