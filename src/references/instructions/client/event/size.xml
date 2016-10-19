@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="size-event-instruction" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>size</title>
+    <indexterm>
+        <primary>size</primary>
+    </indexterm>
+    <para>Specifies that the client's optimal screen size has changed from what was specified during
+        the handshake, or from previously-sent "size" instructions.</para>
+    <variablelist>
+        <varlistentry>
+            <term><parameter>width</parameter></term>
+            <listitem>
+                <para>The new, optimal screen width.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>height</parameter></term>
+            <listitem>
+                <para>The new, optimal screen height.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
+</section>
