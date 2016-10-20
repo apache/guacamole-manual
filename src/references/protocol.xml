@@ -128,5 +128,6 @@
         </indexterm>
         <xi:include href="instructions/client/event/key.xml"/>
         <xi:include href="instructions/client/event/mouse.xml"/>
+        <xi:include href="instructions/client/event/size.xml"/>
     </section>
 </appendix>
