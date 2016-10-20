@@ -8,6 +8,7 @@ AC_CONFIG_MACRO_DIRS([m4])
 
 # Check for required build tools
 AC_PROG_CC
+AC_PROG_CC_C99
 AC_PROG_LIBTOOL
 
 # Check for libguac (http://guac-dev.org/)

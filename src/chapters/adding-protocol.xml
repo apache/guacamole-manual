@@ -202,6 +202,7 @@ AC_CONFIG_MACRO_DIRS([m4])
 
 # Check for required build tools
 AC_PROG_CC
+AC_PROG_CC_C99
 AC_PROG_LIBTOOL
 
 # Check for libguac (http://guac-dev.org/)
@@ -267,10 +268,11 @@ libguac_client_ball_la_LDFLAGS = -version-info 0:0:0</programlisting></para>
     /* Send the display size */
     guac_protocol_send_size(socket, GUAC_DEFAULT_LAYER, 1024, 768);
 
-    /* Fill with solid color */
+    /* Prepare a curve which covers the entire layer */
     guac_protocol_send_rect(socket, GUAC_DEFAULT_LAYER,
             0, 0, 1024, 768);
 
+    /* Fill curve with solid color */
     guac_protocol_send_cfill(socket,
             GUAC_COMP_OVER, GUAC_DEFAULT_LAYER,
             0x80, 0x80, 0x80, 0xFF);
@@ -343,10 +345,10 @@ int guac_client_init(guac_client* client) {
             bounce. While we could repeatedly draw and erase a ball on the remote display, a more
             efficient technique would be to leverage Guacamole's layers.</para>
         <para>The remote display has a single root layer, <varname>GUAC_DEFAULT_LAYER</varname>, but
-            there can be infinitely many other child layers, which can have themselves have child
-            layers, and so on. Each layer can be dynamically repositioned within and relative to
-            another layer. Because the compositing of these layers is handled by the remote display,
-            and is likely hardware-accelerated, this is a much better way to repeatedly reposition
+            there can be infinitely many other child layers, which can themselves have child layers,
+            and so on. Each layer can be dynamically repositioned within and relative to another
+            layer. Because the compositing of these layers is handled by the remote display, and is
+            likely hardware-accelerated, this is a much better way to repeatedly reposition
             something we expect to move a lot.</para>
         <para>Since we're finally adding the ball, and there needs to be some structure which
             maintains the state of the ball, we must create a header file,
@@ -411,10 +413,11 @@ int ball_join_handler(guac_user* user, int argc, char** argv) {
     /* Set up ball layer */
     guac_protocol_send_size(socket, ball, 128, 128);
 
-    /* Fill with solid color */
+    /* Prepare a curve which covers the entire layer */
     guac_protocol_send_rect(socket, ball,
             0, 0, 128, 128);
 
+    /* Fill curve with solid color */
     guac_protocol_send_cfill(socket,
             GUAC_COMP_OVER, ball,
             0x00, 0x80, 0x80, 0xFF);
@@ -545,8 +548,8 @@ typedef struct ball_client_data {
             data->ball_x = -data->ball_x;
             data->ball_velocity_x = -data->ball_velocity_x;
         }
-        else if (data->ball_x >= 1024-128) {
-            data->ball_x = (2*(1024-128)) - data->ball_x;
+        else if (data->ball_x >= 1024 - 128) {
+            data->ball_x = (2 * (1024 - 128)) - data->ball_x;
             data->ball_velocity_x = -data->ball_velocity_x;
         }
 
@@ -554,8 +557,8 @@ typedef struct ball_client_data {
             data->ball_y = -data->ball_y;
             data->ball_velocity_y = -data->ball_velocity_y;
         }
-        else if (data->ball_y >= (768-128)) {
-            data->ball_y = (2*(768-128)) - data->ball_y;
+        else if (data->ball_y >= 768 - 128) {
+            data->ball_y = (2 * (768 - 128)) - data->ball_y;
             data->ball_velocity_y = -data->ball_velocity_y;
         }
 
@@ -573,8 +576,8 @@ typedef struct ball_client_data {
 }</emphasis>
 
 ...</programlisting></informalexample>
-        <para>Just as with the join handler, this thread sends a "sync" instruction to denote the end
-            of each frame, though here this is accomplished with
+        <para>Just as with the join handler, this thread sends a "sync" instruction to denote the
+            end of each frame, though here this is accomplished with
                 <function>guac_client_end_frame()</function>. This function sends a "sync"
             containing the current timestamp, and updates the properties of the
                 <classname>guac_client</classname> with the last-sent timestamp (the value that our
@@ -582,7 +585,7 @@ typedef struct ball_client_data {
             whole display with each frame - we simply update the position of the ball layer using a
                 <link xmlns:xlink="http://www.w3.org/1999/xlink" linkend="move-instruction">"move"
                 instruction</link>, and rely on the remote display to handle compositing on its
-            own.Th</para>
+            own.</para>
         <para>We now need to update <methodname>guac_client_init</methodname> to actually create
             this thread, initialize the ball state within the structure, and store the thread for
             future cleanup when the client terminates:</para>
@@ -666,11 +669,11 @@ int guac_client_init(guac_client* client) {
             0xDD, 0xDD, 0xDD, 0xFF);
 </emphasis>
 
-    /* Fill with <emphasis>texture</emphasis> */
+    /* Prepare a curve which covers the entire layer */
     guac_protocol_send_rect(socket, GUAC_DEFAULT_LAYER,
             0, 0, 1024, 768);
 
-
+     /* Fill curve with <emphasis>texture</emphasis> */
     <emphasis>guac_protocol_send_lfill</emphasis>(socket,
             GUAC_COMP_OVER, GUAC_DEFAULT_LAYER,
             <emphasis>texture</emphasis>);
@@ -678,17 +681,19 @@ int guac_client_init(guac_client* client) {
     /* Set up ball layer */
     guac_protocol_send_size(socket, ball, 128, 128);
 <emphasis>
-    /* Fill with solid color */
+    /* Prepare a circular curve */
     guac_protocol_send_arc(socket, data->ball,
             64, 64, 62, 0, 6.28, 0);
 
     guac_protocol_send_close(socket, data->ball);
 
+    /* Draw a 4-pixel black border */
     guac_protocol_send_cstroke(socket,
             GUAC_COMP_OVER, data->ball,
             GUAC_LINE_CAP_ROUND, GUAC_LINE_JOIN_ROUND, 4,
             0x00, 0x00, 0x00, 0xFF);
 
+    /* Fill the circle with color */
     guac_protocol_send_cfill(socket,
             GUAC_COMP_OVER, data->ball,
             0x00, 0x80, 0x80, 0x80);
