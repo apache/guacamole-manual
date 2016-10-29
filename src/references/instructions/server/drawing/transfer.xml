@@ -8,11 +8,15 @@
     <indexterm>
         <primary>transfer</primary>
     </indexterm>
-    <para>Transfers image data from the specified rectangle of the specified
-        layer or buffer to a different location of another specified layer or
-        buffer, using the specified transfer function. For a list of available
-        functions, see
-        [[http://guac-dev.org/trac/browser/libguac/include/protocol.h|guacamole/protocol.h.</para>
+    <para>Transfers image data from the specified rectangle of the specified layer or buffer to a
+        different location of another specified layer or buffer, using the specified transfer
+        function. </para>
+    <para>For a list of available functions, see the definition of
+            <classname>guac_transfer_function</classname> within the <link
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            xlink:href="https://github.com/apache/incubator-guacamole-server/blob/master/src/libguac/guacamole/protocol-types.h"
+                ><filename>guacamole/protocol-types.h</filename></link> header included with
+        libguac.</para>
     <variablelist>
         <varlistentry>
             <term><parameter>srclayer</parameter></term>
@@ -51,9 +55,13 @@
         <varlistentry>
             <term><parameter>function</parameter></term>
             <listitem>
-                <para>The index of the transfer function to use. For a list of
-                    available functions, see
-                    [[http://guac-dev.org/trac/browser/libguac/include/protocol.h|guacamole/protocol.h.</para>
+                <para>The index of the transfer function to use.</para>
+                <para>For a list of available functions, see the definition of
+                        <classname>guac_transfer_function</classname> within the <link
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        xlink:href="https://github.com/apache/incubator-guacamole-server/blob/master/src/libguac/guacamole/protocol-types.h"
+                            ><filename>guacamole/protocol-types.h</filename></link> header included
+                    with libguac.</para>
             </listitem>
         </varlistentry>
         <varlistentry>

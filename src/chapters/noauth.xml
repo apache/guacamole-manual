@@ -29,8 +29,8 @@
             and all other officially-supported and compatible extensions for a particular version of
             Guacamole are provided on the release notes for that version. You can find the release
             notes for current versions of Guacamole here: <link
-                xlink:href="http://guac-dev.org/releases/"
-            >http://guac-dev.org/releases/</link>.</para>
+                xlink:href="http://guacamole.incubator.apache.org/releases/"
+                >http://guacamole.incubator.apache.org/releases/</link>.</para>
         <para xmlns:xlink="http://www.w3.org/1999/xlink">The NoAuth authentication extension is
             packaged as a <filename>.tar.gz</filename> file containing:</para>
         <variablelist>

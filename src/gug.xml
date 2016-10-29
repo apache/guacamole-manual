@@ -4,13 +4,6 @@
     <info>
         <title>Guacamole Manual</title>
         <edition>0.9.10-incubating</edition>
-        <authorgroup>
-            <author>
-                <personname><firstname>Michael</firstname>
-                    <surname>Jumper</surname></personname>
-                <email>mjumper@apache.org</email>
-            </author>
-        </authorgroup>
         <legalnotice>
             <para>Licensed to the Apache Software Foundation (ASF) under one or more contributor
                 license agreements. See the <filename>NOTICE</filename> file distributed with this
@@ -27,11 +20,11 @@
     </info>
     <preface xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="preface">
         <title>Introduction</title>
-        <para>This book is the official Guacamole manual, written by the upstream developers of the
-            Guacamole project. It is also the official general documentation, and an online version
-            at <link xlink:href="http://guac-dev.org/">http://guac-dev.org/</link>. It is a work in
-            progress which will be continuously updated as Guacamole changes with each
-            release.</para>
+        <para>This book is the official Apache Guacamole manual, written by the upstream developers
+            of the Guacamole project. It is also the official general documentation, and an online
+            version at <link xlink:href="http://guacamole.incubator.apache.org/"
+                >http://guacamole.incubator.apache.org/</link>. It is a work in progress which will
+            be continuously updated as Guacamole changes with each release.</para>
         <para>We decided to maintain the documentation for Guacamole as a book, as there is an awful
             lot that can be done with the Guacamole web application, and even more that can be done
             with the API. This book is intended to explore the possibilities of Guacamole as an
