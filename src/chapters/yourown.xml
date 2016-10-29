@@ -109,12 +109,11 @@
                              http://maven.apache.org/maven-v4_0_0.xsd">
 
     &lt;modelVersion>4.0.0&lt;/modelVersion>
-    &lt;groupId>org.glyptodon.guacamole&lt;/groupId>
+    &lt;groupId>org.apache.guacamole&lt;/groupId>
     &lt;artifactId>guacamole-tutorial&lt;/artifactId>
     &lt;packaging>war&lt;/packaging>
     &lt;version>0.9.10-incubating&lt;/version>
     &lt;name>guacamole-tutorial&lt;/name>
-    &lt;url>http://guac-dev.org/&lt;/url>
 
     &lt;properties>
         &lt;project.build.sourceEncoding>UTF-8&lt;/project.build.sourceEncoding>
@@ -236,6 +235,7 @@
             &lt;plugin>
                 &lt;groupId>org.apache.maven.plugins&lt;/groupId>
                 &lt;artifactId>maven-compiler-plugin&lt;/artifactId>
+                &lt;version>3.3&lt;/version>
                 &lt;configuration>
                     &lt;source>1.6&lt;/source>
                     &lt;target>1.6&lt;/target>
@@ -264,10 +264,11 @@
             &lt;plugin>
                 &lt;groupId>org.apache.maven.plugins&lt;/groupId>
                 &lt;artifactId>maven-war-plugin&lt;/artifactId>
+                &lt;version>2.6&lt;/version>
                 &lt;configuration>
                     &lt;overlays>
                         &lt;overlay>
-                            &lt;groupId>org.glyptodon.guacamole&lt;/groupId>
+                            &lt;groupId>org.apache.guacamole&lt;/groupId>
                             &lt;artifactId>guacamole-common-js&lt;/artifactId>
                             &lt;type>zip&lt;/type>
                         &lt;/overlay>
@@ -301,7 +302,7 @@
 
         &lt;!-- Main Guacamole library -->
         &lt;dependency>
-            &lt;groupId>org.glyptodon.guacamole&lt;/groupId>
+            &lt;groupId>org.apache.guacamole&lt;/groupId>
             &lt;artifactId>guacamole-common&lt;/artifactId>
             &lt;version>0.9.10-incubating&lt;/version>
             &lt;scope>compile&lt;/scope>
@@ -309,7 +310,7 @@
 
         &lt;!-- Guacamole JavaScript library -->
         &lt;dependency>
-            &lt;groupId>org.glyptodon.guacamole&lt;/groupId>
+            &lt;groupId>org.apache.guacamole&lt;/groupId>
             &lt;artifactId>guacamole-common-js&lt;/artifactId>
             &lt;version>0.9.10-incubating&lt;/version>
             &lt;type>zip&lt;/type>
@@ -356,17 +357,17 @@
             <para>Create a new file, <filename>TutorialGuacamoleTunnelServlet.java</filename>,
                 defining a basic implementation of a tunnel servlet class:</para>
             <informalexample>
-                <programlisting>package org.glyptodon.guacamole.net.example;
+                <programlisting>package org.apache.guacamole.net.example;
 
 import javax.servlet.http.HttpServletRequest;
-import org.glyptodon.guacamole.GuacamoleException;
-import org.glyptodon.guacamole.net.GuacamoleSocket;
-import org.glyptodon.guacamole.net.GuacamoleTunnel;
-import org.glyptodon.guacamole.net.InetGuacamoleSocket;
-import org.glyptodon.guacamole.net.SimpleGuacamoleTunnel;
-import org.glyptodon.guacamole.protocol.ConfiguredGuacamoleSocket;
-import org.glyptodon.guacamole.protocol.GuacamoleConfiguration;
-import org.glyptodon.guacamole.servlet.GuacamoleHTTPTunnelServlet;
+import org.apache.guacamole.GuacamoleException;
+import org.apache.guacamole.net.GuacamoleSocket;
+import org.apache.guacamole.net.GuacamoleTunnel;
+import org.apache.guacamole.net.InetGuacamoleSocket;
+import org.apache.guacamole.net.SimpleGuacamoleTunnel;
+import org.apache.guacamole.protocol.ConfiguredGuacamoleSocket;
+import org.apache.guacamole.protocol.GuacamoleConfiguration;
+import org.apache.guacamole.servlet.GuacamoleHTTPTunnelServlet;
 
 public class TutorialGuacamoleTunnelServlet
     extends GuacamoleHTTPTunnelServlet {
@@ -396,8 +397,8 @@ public class TutorialGuacamoleTunnelServlet
 }</programlisting>
             </informalexample>
             <para>Place this file in the
-                    <filename>src/main/java/org/glyptodon/guacamole/net/example</filename>
-                subdirectory of the project. The initial part of this subdirectory,
+                    <filename>src/main/java/org/apache/guacamole/net/example</filename> subdirectory
+                of the project. The initial part of this subdirectory,
                     <filename>src/main/java</filename>, is the path required by Maven, while the
                 rest is the directory required by Java based on the package associated with the
                 class.</para>
@@ -413,7 +414,7 @@ public class TutorialGuacamoleTunnelServlet
         &lt;description>Tunnel servlet.&lt;/description>
         &lt;servlet-name>Tunnel&lt;/servlet-name>
         &lt;servlet-class>
-            org.glyptodon.guacamole.net.example.TutorialGuacamoleTunnelServlet
+            org.apache.guacamole.net.example.TutorialGuacamoleTunnelServlet
         &lt;/servlet-class>
     &lt;/servlet>
 
