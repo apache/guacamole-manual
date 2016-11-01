@@ -3,14 +3,14 @@
  About this README
 ------------------------------------------------------------
 
-This README is intended to document the build process of the Guacamole manual
-for technical users who wish to contribute or who simply wish to build the
-manual themselves.
+This README is intended to document the build process of the Apache Guacamole
+manual for technical users who wish to contribute or who simply wish to build
+the manual themselves.
 
 The latest version of the manual is provided on the Guacamole web site, and
 snapshot copies of each release are included in the release archives:
 
-    http://guac-dev.org/
+    http://guacamole.incubator.apache.org/
 
 
 ------------------------------------------------------------
@@ -89,5 +89,5 @@ processor called "xsltproc", applying the standard DocBook XSL stylesheets.
 Please report any bugs encountered by opening a new issue in the JIRA system
 hosted at:
 
-    http://glyptodon.org/jira/
+    https://issues.apache.org/jira/browse/GUACAMOLE
 

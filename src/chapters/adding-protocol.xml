@@ -205,7 +205,7 @@ AC_PROG_CC
 AC_PROG_CC_C99
 AC_PROG_LIBTOOL
 
-# Check for libguac (http://guac-dev.org/)
+# Check for libguac
 AC_CHECK_LIB([guac], [guac_client_stream_png],,
       AC_MSG_ERROR("libguac is required for communication via "
                    "the Guacamole protocol"))

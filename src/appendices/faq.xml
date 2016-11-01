@@ -203,13 +203,15 @@
             </question>
             <answer>
 
-                <para>The project hosts a bug tracking tool called Trac at
-                    http://guac-dev.org/trac/. All bugs should be reported there as new tickets.
-                    This is also where you would request a new feature. </para>
-
-                <para>If the bug you found is security-related, we would prefer to be contacted
-                    personally via email, such that the bug can be fixed before becoming dangerously
-                    widely known. </para>
+                <para>The project tracks in-progress tasks and bugs via the JIRA instance hosted by
+                    the Apache Software Foundation:</para>
+                <para><link xmlns:xlink="http://www.w3.org/1999/xlink"
+                        xlink:href="https://issues.apache.org/jira/browse/GUACAMOLE/"
+                            ><uri>https://issues.apache.org/jira/browse/GUACAMOLE/</uri></link></para>
+                <para>All bugs should be reported there as new issues. This is also where you would
+                    request a new feature. If the bug you found is security-related, we would prefer
+                    to be contacted personally via email, such that the bug can be fixed before
+                    becoming dangerously widely known. </para>
 
             </answer>
         </qandaentry>
@@ -222,15 +224,41 @@
             </question>
             <answer>
 
-                <para>The project hosts forums at http://sourceforge.net/projects/guacamole/forums.
-                    If you have a SourceForge username (or don't mind registering one), this is a
-                    good place to start. </para>
-
-                <para>Otherwise, there are Guacamole-specific official IRC channels on freenode.net:
-                    #guacamole, #guacamole-dev, and #guacamole-help. </para>
-
-                <para>If none of those options suffice, you can always email any of the project
-                    members directly. You will usually get a personal response, time permitting. </para>
+                <para>If you would like help with Apache Guacamole, or wish to help others, we
+                    highly recommend sending an email to the one of the project’s <link
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        xlink:href="http://guacamole.incubator.apache.org/support/#mailing-lists"
+                        >mailing lists</link>. <emphasis>You will need to subscribe prior to sending
+                        email to any list.</emphasis> All mailing lists are actively filtered for
+                    spam, and any email not originating from a subscriber will bounce.</para>
+                <para>There are two primary mailing lists:</para>
+                <variablelist>
+                    <varlistentry>
+                        <term><link xmlns:xlink="http://www.w3.org/1999/xlink"
+                                xlink:href="http://mail-archives.apache.org/mod_mbox/incubator-guacamole-user/"
+                                    ><email>user@guacamole.incubator.apache.org</email></link></term>
+                        <listitem>
+                            <para>The user list is intended for general questions and discussions
+                                which do not necessarily pertain to development. This list replaces
+                                the old <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    xlink:href="https://sourceforge.net/p/guacamole/discussion/"
+                                    >SourceForge forums</link> used by Guacamole prior to its
+                                acceptance into the Apache Incubator.</para>
+                            <para><emphasis>If you're not sure which mailing list to use, the user
+                                    list is probably the correct choice.</emphasis></para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><link xmlns:xlink="http://www.w3.org/1999/xlink"
+                                xlink:href="http://mail-archives.apache.org/mod_mbox/incubator-guacamole-dev/"
+                                    ><email>dev@guacamole.incubator.apache.org</email></link></term>
+                        <listitem>
+                            <para>The development list is for development-related discussion
+                                involving people who are contributors to the Apache Guacamole
+                                project (or who wish to become contributors).</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
 
             </answer>
         </qandaentry>

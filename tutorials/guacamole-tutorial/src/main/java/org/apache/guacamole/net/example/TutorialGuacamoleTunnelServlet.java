@@ -1,14 +1,14 @@
-package org.glyptodon.guacamole.net.example;
+package org.apache.guacamole.net.example;
 
 import javax.servlet.http.HttpServletRequest;
-import org.glyptodon.guacamole.GuacamoleException;
-import org.glyptodon.guacamole.net.GuacamoleSocket;
-import org.glyptodon.guacamole.net.GuacamoleTunnel;
-import org.glyptodon.guacamole.net.InetGuacamoleSocket;
-import org.glyptodon.guacamole.net.SimpleGuacamoleTunnel;
-import org.glyptodon.guacamole.protocol.ConfiguredGuacamoleSocket;
-import org.glyptodon.guacamole.protocol.GuacamoleConfiguration;
-import org.glyptodon.guacamole.servlet.GuacamoleHTTPTunnelServlet;
+import org.apache.guacamole.GuacamoleException;
+import org.apache.guacamole.net.GuacamoleSocket;
+import org.apache.guacamole.net.GuacamoleTunnel;
+import org.apache.guacamole.net.InetGuacamoleSocket;
+import org.apache.guacamole.net.SimpleGuacamoleTunnel;
+import org.apache.guacamole.protocol.ConfiguredGuacamoleSocket;
+import org.apache.guacamole.protocol.GuacamoleConfiguration;
+import org.apache.guacamole.servlet.GuacamoleHTTPTunnelServlet;
 
 public class TutorialGuacamoleTunnelServlet
     extends GuacamoleHTTPTunnelServlet {

@@ -1,6 +1,6 @@
-package org.glyptodon.guacamole.auth;
+package org.apache.guacamole.auth;
 
-import org.glyptodon.guacamole.properties.StringGuacamoleProperty;
+import org.apache.guacamole.properties.StringGuacamoleProperty;
 
 /**
  * Utility class containing all properties used by the custom authentication

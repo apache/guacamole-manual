@@ -6,7 +6,7 @@
     "namespace" : "guac-auth-tutorial",
 
     "authProviders" : [
-        "org.glyptodon.guacamole.auth.TutorialAuthenticationProvider"
+        "org.apache.guacamole.auth.TutorialAuthenticationProvider"
     ]
 
 }
