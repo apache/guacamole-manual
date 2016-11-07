@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<section xml:id="server-disconnect-instruction" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>disconnect</title>
+    <indexterm>
+        <primary>disconnect</primary>
+    </indexterm>
+    <para>Notifies the client that the connection is about to be closed by the server. This message
+        can be sent by the server during any phase, and takes no parameters.</para>
+</section>
