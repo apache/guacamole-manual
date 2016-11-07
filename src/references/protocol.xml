@@ -107,6 +107,7 @@
             <primary>server instructions</primary>
             <secondary>control</secondary>
         </indexterm>
+        <xi:include href="instructions/server/control/disconnect.xml"/>
         <xi:include href="instructions/server/control/error.xml"/>
         <xi:include href="instructions/server/control/log.xml"/>
         <xi:include href="instructions/server/control/nop.xml"/>
