@@ -519,6 +519,32 @@ postgresql-absolute-max-connections: 0</programlisting>
                 </informalexample>
             </section>
         </section>
+        <section xml:id="jdbc-auth-restrict">
+            <title>Restricting authentication to database users only</title>
+            <para>By default, users will be allowed access to Guacamole as long as they are
+                authenticated by at least one extension. If database authentication is in use, and a
+                user is not associated with the database, then that user will be allowed access to
+                Guacamole if another extension grants this access, and will be provided with a view
+                of the data exposed by other extensions for that user account.</para>
+            <para>In some situations, such as when <link linkend="ldap-and-database">combining LDAP
+                    with a database</link>, it would be preferable to let the database have the last
+                word regarding whether a user should be allowed into the system: restricting access
+                to only those users which exist in the database, and explicitly denying
+                authentication through all other means unless that user has been associated with the
+                database as well. This behavior can be forced by setting properties which declare
+                that database user accounts are required:</para>
+            <informalexample>
+                <programlisting># MySQL
+mysql-user-required: true
+
+# PostgreSQL
+postgresql-user-required: true</programlisting>
+            </informalexample>
+            <para>With the above properties set, successful authentication attempts for users which
+                are not associated with the database will be vetoed by the database authentication.
+                Guacamole will report that the login is invalid, as if the user does not exist at
+                all.</para>
+        </section>
         <section>
             <title>Completing the installation</title>
             <para>Guacamole will only reread <filename>guacamole.properties</filename> and load
