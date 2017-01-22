@@ -770,8 +770,7 @@ postgresql-user-required: true</programlisting>
                 <varlistentry>
                     <term><property>password_date</property></term>
                     <listitem>
-                        <para>The date (and time) that the password was last changed. If not
-                            provided, this will automatically be set to the current time. When a
+                        <para>The date (and time) that the password was last changed. When a
                             password is changed via the Guacamole interface, this value is updated.
                             This, along with the contents of the
                                 <classname>guacamole_user_password_history</classname> table, is
