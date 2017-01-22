@@ -24,9 +24,10 @@
             <term><systemitem>guacamole/guacamole</systemitem></term>
             <listitem>
                 <para>Provides the Guacamole web application running within Tomcat 8 with support
-                    for WebSocket. The configuration necessary to connect to the linked
-                        <package>guacd</package> container and MySQL or PostgreSQL database will be
-                    generated automatically when the image starts.</para>
+                    for WebSocket. The configuration necessary to connect to
+                        <package>guacd</package>, MySQL, PostgreSQL, LDAP, etc. will be generated
+                    automatically when the image starts based on Docker links or environment
+                    variables.</para>
             </listitem>
         </varlistentry>
     </variablelist>
@@ -90,39 +91,97 @@
     <section xml:id="guacamole-docker-image">
         <title>The Guacamole Docker image</title>
         <para>The Guacamole Docker image is built on top of a standard Tomcat 8 image and takes care
-            of all configuration automatically. When properly linked to a <package>guacd</package>
-            container and either a PostgreSQL or MySQL database, the necessary Guacamole
-            configuration will be automatically generated at startup.</para>
-        <para>The name of the database and all associated credentials are specified with environment
-            variables given when the container is created. All other configuration information is
-            generated from the Docker links, and need only be explicitly provided if Docker is not
-            used to host the database.</para>
+            of all configuration automatically. The configuration information required for
+                <package>guacd</package> and the various authentication mechanisms are specified
+            with environment variables or Docker links given when the container is created.</para>
         <important>
-            <para><emphasis>You will need to initialize the database manually</emphasis>. Guacamole
-                will not automatically create its own tables, but SQL scripts are provided to do
-                this.</para>
+            <para>If using <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                    linkend="guacamole-docker-postgresql">PostgreSQL</link> or <link
+                    xmlns:xlink="http://www.w3.org/1999/xlink" linkend="guacamole-docker-mysql"
+                    >MySQL</link> for authentication, <emphasis>you will need to initialize the
+                    database manually</emphasis>. Guacamole will not automatically create its own
+                tables, but SQL scripts are provided to do this.</para>
         </important>
         <para>Once the Guacamole image is running, Guacamole will be accessible at
                     <uri>http://<replaceable>HOSTNAME</replaceable>:8080/guacamole/</uri>, where
                 <replaceable>HOSTNAME</replaceable> is the hostname or address of the machine
             hosting Docker.</para>
+        <section xml:id="guacamole-docker-guacd">
+            <title>Connecting Guacamole to <package>guacd</package></title>
+            <para>The Guacamole Docker image needs to be able to connect to <package>guacd</package>
+                to establish remote desktop connections, just like any other Guacamole deployment.
+                The connection information needed by Guacamole will be provided either via a Docker
+                link or through environment variables.</para>
+            <para>If you will be using Docker to provide <package>guacd</package>, and you wish to
+                use a Docker link to connect the Guacamole image to <package>guacd</package>, the
+                connection details are implied by the Docker link:</para>
+            <informalexample>
+                <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacamole</replaceable> \
+    <emphasis>--link <replaceable>some-guacd</replaceable>:guacd</emphasis>        \
+    ...
+    -d -p 8080:8080 guacamole/guacamole</screen>
+                <para>If you are not using Docker to provide <package>guacd</package>, you will need
+                    to provide the network connection information yourself using additional
+                    environment variables:</para>
+                <informaltable frame="all">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="4*"/>
+                        <thead>
+                            <row>
+                                <entry>Variable</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><envar>GUACD_HOSTNAME</envar></entry>
+                                <entry>
+                                    <para>The hostname of the <package>guacd</package> instance to
+                                        use to establish remote desktop connections. <emphasis>This
+                                            is required if you are not using Docker to provide
+                                                <package>guacd</package>.</emphasis></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>GUACD_PORT</envar></entry>
+                                <entry>
+                                    <para>The port that Guacamole should use when connecting to
+                                            <package>guacd</package>. This environment variable is
+                                        optional. If not provided, the standard
+                                            <package>guacd</package> port of 4822 will be
+                                        used.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para>The <envar>GUACD_HOSTNAME</envar> and, if necessary, <envar>GUACD_PORT</envar>
+                    environment variables can thus be used in place of a Docker link if using a
+                    Docker link is impossible or undesirable:</para>
+                <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacamole</replaceable> \
+    <emphasis>-e GUACD_HOSTNAME=<replaceable>172.17.42.1</replaceable>  \
+    -e GUACD_PORT=<replaceable>4822</replaceable></emphasis>             \
+    ...
+    -d -p 8080:8080 guacamole/guacamole</screen>
+            </informalexample>
+            <para><emphasis>A connection to <package>guacd</package> is not the only thing required
+                    for Guacamole to work</emphasis>; some authentication mechanism needs to be
+                configured, as well. <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                    linkend="guacamole-docker-mysql">MySQL</link>, <link
+                    xmlns:xlink="http://www.w3.org/1999/xlink" linkend="guacamole-docker-postgresql"
+                    >PostgreSQL</link>, and <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                    linkend="guacamole-docker-ldap">LDAP</link> are supported for this, and are
+                described in more detail in the sections below. If the required configuration
+                options for at least one authentication mechanism are not provided, the Guacamole
+                image will not be able to start up, and you will see an error.</para>
+        </section>
         <section xml:id="guacamole-docker-mysql">
-            <title>Deploying Guacamole with MySQL authentication</title>
-            <para>Before deploying Guacamole with the intent of using MySQL for authentication,
-                please ensure that you have each of the following already prepared:</para>
-            <orderedlist>
-                <listitem>
-                    <para>A Docker container running the <systemitem>guacamole/guacd</systemitem>
-                        image. Guacamole needs <package>guacd</package> in order to function, and
-                        the Guacamole Docker image depends on a linked Docker container running
-                            <package>guacd</package>.</para>
-                </listitem>
-                <listitem>
-                    <para>A Docker container running the <systemitem>mysql</systemitem> image,
-                            <emphasis>or</emphasis> network access to a working installation of
-                        MySQL.</para>
-                </listitem>
-            </orderedlist>
+            <title>MySQL authentication</title>
+            <para>To use Guacamole with the MySQL authentication backend, you will need either a
+                Docker container running the <systemitem>mysql</systemitem> image, or network access
+                to a working installation of MySQL. The connection to MySQL can be specified using
+                either environment variables or a Docker link.</para>
             <section xml:id="initializing-guacamole-docker-mysql">
                 <title>Initializing the MySQL database</title>
                 <para>If your database is not already initialized with the Guacamole schema, you
@@ -153,9 +212,74 @@
                 <para>The process for doing this via the <command>mysql</command> utility included
                     with MySQL is documented in <xref linkend="jdbc-auth"/>.</para>
             </section>
-            <section>
-                <title xml:id="deploying-guacamole-docker-mysql">Deploying Guacamole</title>
-                <para>Linking Guacamole to MySQL will requires additional configuration parameters
+            <section xml:id="guacamole-docker-mysql-connecting">
+                <title>Connecting Guacamole to MySQL</title>
+                <para>If your MySQL database is provided by another Docker container, and you wish
+                    to use a Docker link to connect the Guacamole image to your database, the
+                    connection details are implied by the Docker link itself:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacamole</replaceable> \
+    --link some-guacd:guacd         \
+    <emphasis>--link <replaceable>some-mysql</replaceable>:mysql</emphasis>        \
+    ...
+    -d -p 8080:8080 guacamole/guacamole</screen>
+                </informalexample>
+                <para>If you are not using Docker to provide your MySQL database, you will need to
+                    provide the network connection information yourself using additional environment
+                    variables:</para>
+                <informaltable frame="all">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="4*"/>
+                        <thead>
+                            <row>
+                                <entry>Variable</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><envar>MYSQL_HOSTNAME</envar></entry>
+                                <entry>
+                                    <para>The hostname of the database to use for Guacamole
+                                        authentication. <emphasis>This is required if you are not
+                                            using Docker to provide your MySQL
+                                        database.</emphasis></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>MYSQL_PORT</envar></entry>
+                                <entry>
+                                    <para>The port that Guacamole should use when connecting to
+                                        MySQL. This environment variable is optional. If not
+                                        provided, the standard MySQL port of 3306 will be
+                                        used.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para>The <envar>MYSQL_HOSTNAME</envar> and, if necessary, <envar>MYSQL_PORT</envar>
+                    environment variables can thus be used in place of a Docker link if using a
+                    Docker link is impossible or undesirable:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacamole</replaceable> \
+    --link some-guacd:guacd         \
+    <emphasis>-e MYSQL_HOSTNAME=<replaceable>172.17.42.1</replaceable>  \</emphasis>
+    ...
+    -d -p 8080:8080 guacamole/guacamole</screen>
+                </informalexample>
+                <para>Note that a Docker link to <package>guacd</package> (the <option>--link
+                        some-guacd:guacd</option> option above) is not required any more than a
+                    Docker link is required for MySQL. The connection information for
+                        <package>guacd</package> can be specified using environment variables, as
+                    described in <xref xmlns:xlink="http://www.w3.org/1999/xlink"
+                        linkend="guacamole-docker-guacd"/>.</para>
+            </section>
+            <section xml:id="guacamole-docker-mysql-required-vars">
+                <title xml:id="deploying-guacamole-docker-mysql">Required environment
+                    variables</title>
+                <para>Using MySQL for authentication requires additional configuration parameters
                     specified via environment variables. These variables collectively describe how
                     Guacamole will connect to MySQL:</para>
                 <informaltable frame="all">
@@ -193,7 +317,13 @@
                         </tbody>
                     </tgroup>
                 </informaltable>
-                <para>Additional optional environment variables may be used to configure Guacamole's
+                <para>If any required environment variables are omitted, you will receive an error
+                    message in the logs, and the image will stop. You will then need to recreate the
+                    container with the proper variables specified.</para>
+            </section>
+            <section xml:id="guacamole-docker-mysql-optional-vars">
+                <title>Optional environment variables</title>
+                <para>Additional optional environment variables may be used to override Guacamole's
                     default behavior with respect to concurrent connection use by one or more users.
                     Concurrent use of connections and connection groups can be limited to an overall
                     maximum and/or a per-user maximum:</para>
@@ -271,108 +401,14 @@
                         </tbody>
                     </tgroup>
                 </informaltable>
-                <para>Once your <package>guacd</package> container is ready, and the values of the
-                    above variables are known, Guacamole can be deployed through Docker:</para>
-                <informalexample>
-                    <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacamole</replaceable> --link <replaceable>some-guacd</replaceable>:guacd \
-    --link <replaceable>some-mysql</replaceable>:mysql         \
-    -e MYSQL_DATABASE=<replaceable>guacamole_db</replaceable>  \
-    -e MYSQL_USER=<replaceable>guacamole_user</replaceable>    \
-    -e MYSQL_PASSWORD=<replaceable>some_password</replaceable> \
-    -d -p 8080:8080 guacamole/guacamole</screen>
-                </informalexample>
-                <para>The network connection information for MySQL is normally implied through the
-                        "<property>mysql</property>" Docker link, and thus does not need to be
-                    explicitly specified. If you are not using Docker to provide your MySQL
-                    database, you will need to provide the network connection information yourself
-                    using additional environment variables:</para>
-                <informaltable frame="all">
-                    <tgroup cols="2">
-                        <colspec colname="c1" colnum="1" colwidth="1*"/>
-                        <colspec colname="c2" colnum="2" colwidth="4*"/>
-                        <thead>
-                            <row>
-                                <entry>Variable</entry>
-                                <entry>Description</entry>
-                            </row>
-                        </thead>
-                        <tbody>
-                            <row>
-                                <entry><envar>MYSQL_HOSTNAME</envar></entry>
-                                <entry>
-                                    <para>The hostname of the database to use for Guacamole
-                                        authentication. <emphasis>This is required if you are not
-                                            using Docker to provide your MySQL
-                                        database.</emphasis></para>
-                                </entry>
-                            </row>
-                            <row>
-                                <entry><envar>MYSQL_PORT</envar></entry>
-                                <entry>
-                                    <para>The user that Guacamole will use to connect to MySQL. This
-                                        environment variable is optional. If not provided, the
-                                        standard MySQL port of 3306 will be used.</para>
-                                </entry>
-                            </row>
-                        </tbody>
-                    </tgroup>
-                </informaltable>
-                <para>The <envar>MYSQL_HOSTNAME</envar> and, if necessary, <envar>MYSQL_POST</envar>
-                    environment variables can thus be used in place of a Docker link if using a
-                    Docker link is impossible or undesirable:</para>
-                <informalexample>
-                    <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacamole</replaceable> --link <replaceable>some-guacd</replaceable>:guacd \
-    <emphasis>-e MYSQL_HOSTNAME=<replaceable>172.17.42.1</replaceable>   \</emphasis>
-    -e MYSQL_DATABASE=<replaceable>guacamole_db</replaceable>  \
-    -e MYSQL_USER=<replaceable>guacamole_user</replaceable>    \
-    -e MYSQL_PASSWORD=<replaceable>some_password</replaceable> \
-    -d -p 8080:8080 guacamole/guacamole</screen>
-                </informalexample>
-                <para>If any required environment variables are omitted, you will receive an error
-                    message in the logs, and the image will stop. You will then need to recreate the
-                    container with the proper variables specified.</para>
-            </section>
-            <section xml:id="verifying-guacamole-docker-mysql">
-                <title>Verifying the Guacamole install</title>
-                <para>Now that the Guacamole image is running, Guacamole should be accessible at
-                            <uri>http://<replaceable>HOSTNAME</replaceable>:8080/guacamole/</uri>,
-                    where <replaceable>HOSTNAME</replaceable> is the hostname or address of the
-                    machine hosting Docker.</para>
-                <para>If you cannot access Guacamole, check the logs using Docker to determine if
-                    something is wrong. Configuration parameters may have been given incorrectly, or
-                    the database may be improperly initialized:</para>
-                <informalexample>
-                    <screen><prompt>$</prompt> <command>docker</command> logs <replaceable>some-guacamole</replaceable></screen>
-                </informalexample>
-                <para>If Guacamole has been successfully installed, you will see the Guacamole login
-                    screen. The database initialization scripts will create the default
-                    administrative user as "<systemitem>guacadmin</systemitem>" with the password
-                        "<systemitem>guacadmin</systemitem>". <emphasis>You should change your
-                        password immediately after verifying that your login
-                    works</emphasis>.</para>
-                <para>Once you have verified Guacamole has been deployed successfully, you can
-                    create connections and add users through the web interface as described in <xref
-                        xmlns:xlink="http://www.w3.org/1999/xlink" linkend="administration"
-                    />.</para>
             </section>
         </section>
         <section xml:id="guacamole-docker-postgresql">
-            <title>Deploying Guacamole with PostgreSQL authentication</title>
-            <para>Before deploying Guacamole with the intent of using PostgreSQL for authentication,
-                please ensure that you have each of the following already prepared:</para>
-            <orderedlist>
-                <listitem>
-                    <para>A Docker container running the <systemitem>guacamole/guacd</systemitem>
-                        image. Guacamole needs <package>guacd</package> in order to function, and
-                        the Guacamole Docker image depends on a linked Docker container running
-                            <package>guacd</package>.</para>
-                </listitem>
-                <listitem>
-                    <para>A Docker container running the <systemitem>postgresql</systemitem> image,
-                            <emphasis>or</emphasis> network access to a working installation of
-                        PostgreSQL.</para>
-                </listitem>
-            </orderedlist>
+            <title>PostgreSQL authentication</title>
+            <para>To use Guacamole with the PostgreSQL authentication backend, you will need either
+                a Docker container running the <systemitem>postgres</systemitem> image, or network
+                access to a working installation of PostgreSQL. The connection to PostgreSQL can be
+                specified using either environment variables or a Docker link.</para>
             <section xml:id="initializing-guacamole-docker-postgresql">
                 <title>Initializing the PostgreSQL database</title>
                 <para>If your database is not already initialized with the Guacamole schema, you
@@ -404,11 +440,75 @@
                         <command>createdb</command> utilities included with PostgreSQL is documented
                     in <xref linkend="jdbc-auth"/>.</para>
             </section>
-            <section xml:id="deploying-guacamole-docker-postgresql">
-                <title>Deploying Guacamole</title>
-                <para>Linking Guacamole to your PostgreSQL database will require additional
-                    configuration parameters specified via environment variables. These variables
-                    collectively describe how Guacamole will connect to PostgreSQL:</para>
+            <section xml:id="guacamole-docker-postgresql-connecting">
+                <title>Connecting Guacamole to PostgreSQL</title>
+                <para>If your PostgreSQL database is provided by another Docker container, and you
+                    wish to use a Docker link to connect the Guacamole image to your database, the
+                    connection details are implied by the Docker link itself:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacamole</replaceable> \
+    --link some-guacd:guacd         \
+    <emphasis>--link <replaceable>some-postgres</replaceable>:postgres</emphasis>  \
+    ...
+    -d -p 8080:8080 guacamole/guacamole</screen>
+                </informalexample>
+                <para>If you are not using Docker to provide your PostgreSQL database, you will need
+                    to provide the network connection information yourself using additional
+                    environment variables:</para>
+                <informaltable frame="all">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="4*"/>
+                        <thead>
+                            <row>
+                                <entry>Variable</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><envar>POSTGRES_HOSTNAME</envar></entry>
+                                <entry>
+                                    <para>The hostname of the database to use for Guacamole
+                                        authentication. <emphasis>This is required if you are not
+                                            using Docker to provide your PostgreSQL
+                                            database.</emphasis></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>POSTGRES_PORT</envar></entry>
+                                <entry>
+                                    <para>The port that Guacamole should use when connecting to
+                                        PostgreSQL. This environment variable is optional. If not
+                                        provided, the standard PostgreSQL port of 5432 will be
+                                        used.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para>The <envar>POSTGRES_HOSTNAME</envar> and, if necessary,
+                        <envar>POSTGRES_PORT</envar> environment variables can thus be used in place
+                    of a Docker link if using a Docker link is impossible or undesirable:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacamole</replaceable>   \
+    --link some-guacd:guacd           \
+    <emphasis>-e POSTGRES_HOSTNAME=<replaceable>172.17.42.1</replaceable> \</emphasis>
+    ...
+    -d -p 8080:8080 guacamole/guacamole</screen>
+                </informalexample>
+                <para>Note that a Docker link to <package>guacd</package> (the <option>--link
+                        some-guacd:guacd</option> option above) is not required any more than a
+                    Docker link is required for PostgreSQL. The connection information for
+                        <package>guacd</package> can be specified using environment variables, as
+                    described in <xref xmlns:xlink="http://www.w3.org/1999/xlink"
+                        linkend="guacamole-docker-guacd"/>.</para>
+            </section>
+            <section xml:id="guacamole-docker-postgresql-required-vars">
+                <title>Required environment variables</title>
+                <para>Using PostgreSQL for authentication requires additional configuration
+                    parameters specified via environment variables. These variables collectively
+                    describe how Guacamole will connect to PostgreSQL:</para>
                 <informaltable frame="all">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1" colwidth="1*"/>
@@ -444,7 +544,13 @@
                         </tbody>
                     </tgroup>
                 </informaltable>
-                <para>Additional optional environment variables may be used to configure Guacamole's
+                <para>If any required environment variables are omitted, you will receive an error
+                    message in the logs, and the image will stop. You will then need to recreate the
+                    container with the proper variables specified.</para>
+            </section>
+            <section xml:id="guacamole-docker-postgresql-optional-vars">
+                <title>Optional environment variables</title>
+                <para>Additional optional environment variables may be used to override Guacamole's
                     default behavior with respect to concurrent connection use by one or more users.
                     Concurrent use of connections and connection groups can be limited to an overall
                     maximum and/or a per-user maximum:</para>
@@ -522,111 +628,73 @@
                         </tbody>
                     </tgroup>
                 </informaltable>
-                <para>Once your <package>guacd</package> container is ready, and the values of the
-                    above variables are known, Guacamole can be deployed through Docker:</para>
-                <informalexample>
-                    <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacamole</replaceable> --link <replaceable>some-guacd</replaceable>:guacd \
-    --link <replaceable>some-postgres</replaceable>:postgres      \
-    -e POSTGRES_DATABASE=<replaceable>guacamole_db</replaceable>  \
-    -e POSTGRES_USER=<replaceable>guacamole_user</replaceable>    \
-    -e POSTGRES_PASSWORD=<replaceable>some_password</replaceable> \
-    -d -p 8080:8080 guacamole/guacamole</screen>
-                </informalexample>
-                <para>The network connection information for PostgreSQL is normally implied through
-                    the "<property>postgres</property>" Docker link, and thus does not need to be
-                    explicitly specified. If you are not using Docker to provide your PostgreSQL
-                    database, you will need to provide the network connection information yourself
-                    using additional environment variables:</para>
-                <informaltable frame="all">
-                    <tgroup cols="2">
-                        <colspec colname="c1" colnum="1" colwidth="1*"/>
-                        <colspec colname="c2" colnum="2" colwidth="4*"/>
-                        <thead>
-                            <row>
-                                <entry>Variable</entry>
-                                <entry>Description</entry>
-                            </row>
-                        </thead>
-                        <tbody>
-                            <row>
-                                <entry><envar>POSTGRES_HOSTNAME</envar></entry>
-                                <entry>
-                                    <para>The hostname of the database to use for Guacamole
-                                        authentication. <emphasis>This is required if you are not
-                                            using Docker to provide your PostgreSQL
-                                            database.</emphasis></para>
-                                </entry>
-                            </row>
-                            <row>
-                                <entry><envar>POSTGRES_PORT</envar></entry>
-                                <entry>
-                                    <para>The user that Guacamole will use to connect to PostgreSQL.
-                                        This environment variable is optional. If not provided, the
-                                        standard PostgreSQL port of 5432 will be used.</para>
-                                </entry>
-                            </row>
-                        </tbody>
-                    </tgroup>
-                </informaltable>
-                <para>The <envar>POSTGRES_HOSTNAME</envar> and, if necessary,
-                        <envar>POSTGRES_POST</envar> environment variables can thus be used in place
-                    of a Docker link if using a Docker link is impossible or undesirable:</para>
-                <informalexample>
-                    <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacamole</replaceable> --link <replaceable>some-guacd</replaceable>:guacd \
-    <emphasis>-e POSTGRES_HOSTNAME=<replaceable>172.17.42.1</replaceable>   \</emphasis>
-    -e POSTGRES_DATABASE=<replaceable>guacamole_db</replaceable>  \
-    -e POSTGRES_USER=<replaceable>guacamole_user</replaceable>    \
-    -e POSTGRES_PASSWORD=<replaceable>some_password</replaceable> \
-    -d -p 8080:8080 guacamole/guacamole</screen>
-                </informalexample>
-                <para>If any required environment variables are omitted, you will receive an error
-                    message in the logs, and the image will stop. You will then need to recreate the
-                    container with the proper variables specified.</para>
-            </section>
-            <section xml:id="verifying-guacamole-docker-postgresql">
-                <title>Verifying the Guacamole install</title>
-                <para>Now that the Guacamole image is running, Guacamole should be accessible at
-                            <uri>http://<replaceable>HOSTNAME</replaceable>:8080/guacamole/</uri>,
-                    where <replaceable>HOSTNAME</replaceable> is the hostname or address of the
-                    machine hosting Docker.</para>
-                <para>If you cannot access Guacamole, check the logs using Docker to determine if
-                    something is wrong. Configuration parameters may have been given incorrectly, or
-                    the database may be improperly initialized:</para>
-                <informalexample>
-                    <screen><prompt>$</prompt> <command>docker</command> logs <replaceable>some-guacamole</replaceable></screen>
-                </informalexample>
-                <para>If Guacamole has been successfully installed, you will see the Guacamole login
-                    screen. The database initialization scripts will create the default
-                    administrative user as "<systemitem>guacadmin</systemitem>" with the password
-                        "<systemitem>guacadmin</systemitem>". <emphasis>You should change your
-                        password immediately after verifying that your login
-                    works</emphasis>.</para>
-                <para>Once you have verified Guacamole has been deployed successfully, you can
-                    create connections and add users through the web interface as described in <xref
-                        xmlns:xlink="http://www.w3.org/1999/xlink" linkend="administration"
-                    />.</para>
             </section>
         </section>
         <section xml:id="guacamole-docker-ldap">
-            <title>Deploying Guacamole with LDAP authentication</title>
-            <para>Before deploying Guacamole with the intent of using LDAP for authentication,
-                please ensure that you have each of the following already prepared:</para>
-            <orderedlist>
-                <listitem>
-                    <para>A Docker container running the <systemitem>guacamole/guacd</systemitem>
-                        image. Guacamole needs <package>guacd</package> in order to function, and
-                        the Guacamole Docker image depends on a linked Docker container running
-                            <package>guacd</package>.</para>
-                </listitem>
-                <listitem>
-                    <para>Network access to a working LDAP server.</para>
-                </listitem>
-            </orderedlist>
-            <section xml:id="deploying-guacamole-docker-ldap">
-                <title>Deploying Guacamole</title>
-                <para>Linking Guacamole to your LDAP directory will require additional configuration
-                    parameters specified via environment variables. These variables collectively
-                    describe how Guacamole will connect to LDAP:</para>
+            <title>LDAP authentication</title>
+            <para>To use Guacamole with the LDAP authentication backend, you will need network
+                access to an LDAP directory. Unlike MySQL and PostgreSQL, the Guacamole Docker image
+                does support Docker links for LDAP; the connection information
+                    <emphasis>must</emphasis> be specified using environment variables:</para>
+            <informaltable frame="all">
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1" colwidth="1*"/>
+                    <colspec colname="c2" colnum="2" colwidth="3.5*"/>
+                    <thead>
+                        <row>
+                            <entry>Variable</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry><envar>LDAP_HOSTNAME</envar></entry>
+                            <entry>
+                                <para>The hostname or IP address of your LDAP server.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><envar>LDAP_PORT</envar></entry>
+                            <entry>
+                                <para>The port your LDAP server listens on. By default, this will be
+                                    389 for unencrypted LDAP or LDAP using STARTTLS, and 636 for
+                                    LDAP over SSL (LDAPS).</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><envar>LDAP_ENCRYPTION_METHOD</envar></entry>
+                            <entry>
+                                <para>The encryption mechanism that Guacamole should use when
+                                    communicating with your LDAP server. Legal values are "none" for
+                                    unencrypted LDAP, "ssl" for LDAP over SSL/TLS (commonly known as
+                                    LDAPS), or "starttls" for STARTTLS. If omitted, encryption will
+                                    not be used.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <para>Only the <envar>LDAP_HOSTNAME</envar> variable is required, but you may also need
+                to specify <envar>LDAP_PORT</envar> or <envar>LDAP_ENCRYPTION_METHOD</envar> if your
+                LDAP directory uses encryption or listens on a non-standard port:</para>
+            <informalexample>
+                <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacamole</replaceable> \
+    --link some-guacd:guacd         \
+    <emphasis>-e LDAP_HOSTNAME=<replaceable>172.17.42.1</replaceable>   \</emphasis>
+    ...
+    -d -p 8080:8080 guacamole/guacamole</screen>
+            </informalexample>
+            <para>Note that a Docker link to <package>guacd</package> (the <option>--link
+                    some-guacd:guacd</option> option above) is not required. Similar to LDAP, the
+                connection information for <package>guacd</package> can be specified using
+                environment variables, as described in <xref
+                    xmlns:xlink="http://www.w3.org/1999/xlink" linkend="guacamole-docker-guacd"
+                />.</para>
+            <section xml:id="guacamole-docker-ldap-required-vars">
+                <title>Required environment variables</title>
+                <para>Using LDAP for authentication requires additional configuration parameters
+                    specified via environment variables. These variables collectively describe how
+                    Guacamole will query your LDAP directory:</para>
                 <informaltable frame="all">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1" colwidth="1*"/>
@@ -638,12 +706,6 @@
                             </row>
                         </thead>
                         <tbody>
-                            <row>
-                                <entry><envar>LDAP_HOSTNAME</envar></entry>
-                                <entry>
-                                    <para>The hostname or IP address of your LDAP server.</para>
-                                </entry>
-                            </row>
                             <row>
                                 <entry><envar>LDAP_USER_BASE_DN</envar></entry>
                                 <entry>
@@ -655,9 +717,17 @@
                         </tbody>
                     </tgroup>
                 </informaltable>
+                <para>As with the other authentication mechanisms, if any required environment
+                    variables are omitted (including those required for connecting to the LDAP
+                    directory over the network), you will receive an error message in the logs, and
+                    the image will stop. You will then need to recreate the container with the
+                    proper variables specified.</para>
+            </section>
+            <section xml:id="guacamole-docker-ldap-optional-vars">
+                <title>Optional environment variables</title>
                 <para>Additional optional environment variables may be used to configure the details
-                    of your LDAP directory hierarchy, encryption, or to enable more flexible
-                    searching for user accounts:</para>
+                    of your LDAP directory hierarchy, or to enable more flexible searching for user
+                    accounts:</para>
                 <informaltable frame="all">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1" colwidth="1*"/>
@@ -669,24 +739,6 @@
                             </row>
                         </thead>
                         <tbody>
-                            <row>
-                                <entry><envar>LDAP_PORT</envar></entry>
-                                <entry>
-                                    <para>The port your LDAP server listens on. By default, this
-                                        will be 389 for unencrypted LDAP or LDAP using STARTTLS, and
-                                        636 for LDAP over SSL (LDAPS).</para>
-                                </entry>
-                            </row>
-                            <row>
-                                <entry><envar>LDAP_ENCRYPTION_METHOD</envar></entry>
-                                <entry>
-                                    <para>The encryption mechanism that Guacamole should use when
-                                        communicating with your LDAP server. Legal values are "none"
-                                        for unencrypted LDAP, "ssl" for LDAP over SSL/TLS (commonly
-                                        known as LDAPS), or "starttls" for STARTTLS. If omitted,
-                                        encryption will not be used.</para>
-                                </entry>
-                            </row>
                             <row>
                                 <entry><envar>LDAP_GROUP_BASE_DN</envar></entry>
                                 <entry>
@@ -750,56 +802,33 @@
                         </tbody>
                     </tgroup>
                 </informaltable>
-                <para>Once your <package>guacd</package> container is ready, and the values of the
-                    above variables are known, Guacamole can be deployed through Docker:</para>
-                <informalexample>
-                    <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacamole</replaceable> --link <replaceable>some-guacd</replaceable>:guacd \
-    -e LDAP_HOSTNAME=<replaceable>172.17.42.1</replaceable>                            \
-    -e LDAP_USER_BASE_DN=<replaceable>ou=people,dc=example,dc=com</replaceable>        \
-    -e LDAP_CONFIG_BASE_DN=<replaceable>ou=connections,dc=example,dc=com</replaceable> \
-    -d -p 8080:8080 guacamole/guacamole</screen>
-                </informalexample>
                 <para>As documented in <xref xmlns:xlink="http://www.w3.org/1999/xlink"
                         linkend="ldap-auth"/>, Guacamole does support combining LDAP with a MySQL or
                     PostgreSQL database, and this can be configured with the Guacamole Docker image,
-                    as well. By providing the required environment variables for both systems,
-                    Guacamole will automatically be configured to use both when the Docker image
-                    starts:</para>
-                <informalexample>
-                    <screen><prompt>$</prompt> <command>docker</command> run --name <replaceable>some-guacamole</replaceable> --link <replaceable>some-guacd</replaceable>:guacd \
-    -e LDAP_HOSTNAME=<replaceable>172.17.42.1</replaceable>                            \
-    -e LDAP_USER_BASE_DN=<replaceable>ou=people,dc=example,dc=com</replaceable>        \
-    -e LDAP_CONFIG_BASE_DN=<replaceable>ou=connections,dc=example,dc=com</replaceable> \
-    <emphasis>-e MYSQL_HOSTNAME=<replaceable>172.17.42.1</replaceable>   \
-    -e MYSQL_DATABASE=<replaceable>guacamole_db</replaceable>  \
-    -e MYSQL_USER=<replaceable>guacamole_user</replaceable>    \
-    -e MYSQL_PASSWORD=<replaceable>some_password</replaceable> \</emphasis>
-    -d -p 8080:8080 guacamole/guacamole</screen>
-                </informalexample>
-                <para>If any required environment variables are omitted, you will receive an error
-                    message in the logs, and the image will stop. You will then need to recreate the
-                    container with the proper variables specified.</para>
+                    as well. Each of these authentication mechanisms is independently configurable
+                    using their respective environment variables, and by providing the required
+                    environment variables for multiple systems, Guacamole will automatically be
+                    configured to use each when the Docker image starts.</para>
             </section>
-            <section xml:id="verifying-guacamole-auth-ldap">
-                <title>Verifying the Guacamole install</title>
-                <para>Now that the Guacamole image is running, Guacamole should be accessible at
-                            <uri>http://<replaceable>HOSTNAME</replaceable>:8080/guacamole/</uri>,
-                    where <replaceable>HOSTNAME</replaceable> is the hostname or address of the
-                    machine hosting Docker.</para>
-                <para>If you cannot access Guacamole, check the logs using Docker to determine if
-                    something is wrong. Configuration parameters may have been given incorrectly, or
-                    the database may be improperly initialized:</para>
-                <informalexample>
-                    <screen><prompt>$</prompt> <command>docker</command> logs <replaceable>some-guacamole</replaceable></screen>
-                </informalexample>
-                <para>If Guacamole has been successfully installed, you will see the Guacamole login
-                    screen, and should be able to login using an LDAP account beneath
-                        <envar>LDAP_USER_BASE_DN</envar>. You will be able to access any connections
-                    defined within <envar>LDAP_CONFIG_BASE_DN</envar> for which your user has
-                    access. If a MySQL or PostgreSQL database has also been configured, and your
-                    user has an account within that database, you will also be able to access your
-                    connections from that database.</para>
-            </section>
+        </section>
+        <section xml:id="verifying-guacamole-docker">
+            <title>Verifying the Guacamole install</title>
+            <para>Once the Guacamole image is running, Guacamole should be accessible at
+                        <uri>http://<replaceable>HOSTNAME</replaceable>:8080/guacamole/</uri>, where
+                    <replaceable>HOSTNAME</replaceable> is the hostname or address of the machine
+                hosting Docker, and you <emphasis>should</emphasis> a login screen. If using MySQL
+                or PostgreSQL, the database initialization scripts will have created a default
+                administrative user called "<systemitem>guacadmin</systemitem>" with the password
+                    "<systemitem>guacadmin</systemitem>". <emphasis>You should log in and change
+                    your password immediately.</emphasis> If using LDAP, you should be able to log
+                in as any valid user within your LDAP directory.</para>
+            <para>If you cannot access Guacamole, or you do not see a login screen, check Docker's
+                logs using the <command>docker logs</command> command to determine if something is
+                wrong. Configuration parameters may have been given incorrectly, or the database may
+                be improperly initialized:</para>
+            <informalexample>
+                <screen><prompt>$</prompt> <command>docker</command> logs <replaceable>some-guacamole</replaceable></screen>
+            </informalexample>
         </section>
     </section>
 </chapter>
