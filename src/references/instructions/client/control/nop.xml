@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xml:id="client-nop-instruction" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>nop</title>
+    <indexterm>
+        <primary>nop</primary>
+    </indexterm>
+    <para>The client "nop" instruction does absolutely nothing, has no parameters, and is
+        universally ignored by the Guacamole server. Its main use is as a keep-alive signal, and may
+        be sent by Guacamole clients when there is no activity to ensure the socket is not closed
+        due to timeout.</para>
+</section>
