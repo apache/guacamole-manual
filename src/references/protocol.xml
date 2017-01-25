@@ -99,6 +99,7 @@
             <secondary>control</secondary>
         </indexterm>
         <xi:include href="instructions/client/control/disconnect.xml"/>
+        <xi:include href="instructions/client/control/nop.xml"/>
         <xi:include href="instructions/client/control/sync.xml"/>
     </section>
     <section xml:id="server-control-instructions">
