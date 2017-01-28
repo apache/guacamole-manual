@@ -3389,6 +3389,24 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                     </listitem>
                 </varlistentry>
                 <varlistentry>
+                    <term><varname>${GUAC_CLIENT_ADDRESS}</varname></term>
+                    <listitem>
+                        <para>The IPv4 or IPv6 address of the current Guacamole user. This will be
+                            the address of the client side of the HTTP connection to the Guacamole
+                            server at the time the current user logged in.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><varname>${GUAC_CLIENT_HOSTNAME}</varname></term>
+                    <listitem>
+                        <para>The hostname of the current Guacamole user. This will be the hostname
+                            of the client side of the HTTP connection to the Guacamole server at the
+                            time the current user logged in. If no such hostname can be determined,
+                            the IPv4 or IPv6 address will be used instead, and this token will be
+                            equivalent to <varname>${GUAC_CLIENT_ADDRESS}</varname>.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
                     <term><varname>${GUAC_DATE}</varname></term>
                     <listitem>
                         <para>The current date in the local time zone of the Guacamole server. This
