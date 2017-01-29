@@ -1530,6 +1530,12 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                                             </listitem>
                                         </varlistentry>
                                         <varlistentry>
+                                            <term><constant>fr-ch-qwertz</constant></term>
+                                            <listitem>
+                                                <para>Swiss French keyboard (qwertz)</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
                                             <term><constant>it-it-qwerty</constant></term>
                                             <listitem>
                                                 <para>Italian keyboard</para>
