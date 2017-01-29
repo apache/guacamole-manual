@@ -157,8 +157,8 @@
             </varlistentry>
             <varlistentry>
                 <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
-                        <primary>guacd-host</primary>
-                    </indexterm><parameter>guacd-host</parameter></term>
+                        <primary>guacd-hostname</primary>
+                    </indexterm><parameter>guacd-hostname</parameter></term>
                 <listitem>
                     <para>The host the Guacamole proxy daemon (<package>guacd</package>) is
                         listening on. If omitted, Guacamole will assume <package>guacd</package> is
