@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter xml:id="header-auth" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>HTTP header authentication</title>
+    <indexterm>
+        <primary>HTTP header authentication</primary>
+    </indexterm>
+    <para>Guacamole supports delegating authentication to an arbitrary external service, relying on
+        the presence of an HTTP header which contains the username of the authenticated user. This
+        authentication method must be layered on top of some other authentication extension, such as
+        those available from the main project website, in order to provide access to actual
+        connections.</para>
+    <important>
+        <para>All external requests must be properly sanitized if this extension is used. The chosen
+            HTTP header must be stripped from untrusted requests, such that the authentication
+            service is the only possible source of that header. <emphasis>If such sanitization is
+                not performed, it will be trivial for malicious users to add this header manually,
+                and thus gain unrestricted access.</emphasis></para>
+    </important>
+    <section xml:id="header-downloading">
+        <title>Downloading the HTTP header authentication extension</title>
+        <para>The HTTP header authentication extension is available separately from the main
+                <filename>guacamole.war</filename>. The link for this and all other
+            officially-supported and compatible extensions for a particular version of Guacamole are
+            provided on the release notes for that version. You can find the release notes for
+            current versions of Guacamole here: <link
+                xlink:href="http://guacamole.incubator.apache.org/releases/"
+                >http://guacamole.incubator.apache.org/releases/</link>.</para>
+        <para>The HTTP header authentication extension is packaged as a <filename>.tar.gz</filename>
+            file containing only the extension itself,
+                <filename>guacamole-auth-header-0.9.11-incubating.jar</filename>, which must
+            ultimately be placed in <filename>GUACAMOLE_HOME/extensions</filename>.</para>
+    </section>
+    <section xml:id="installing-header-auth">
+        <title>Installing HTTP header authentication</title>
+        <para>Guacamole extensions are self-contained <filename>.jar</filename> files which are
+            located within the <filename>GUACAMOLE_HOME/extensions</filename> directory.
+                <emphasis>If you are unsure where <varname>GUACAMOLE_HOME</varname> is located on
+                your system, please consult <xref linkend="configuring-guacamole"/> before
+                proceeding.</emphasis></para>
+        <para>To install the HTTP header authentication extension, you must:</para>
+        <procedure>
+            <step>
+                <para>Create the <filename>GUACAMOLE_HOME/extensions</filename> directory, if it
+                    does not already exist.</para>
+            </step>
+            <step>
+                <para>Copy <filename>guacamole-auth-header-0.9.11-incubating.jar</filename> within
+                        <filename>GUACAMOLE_HOME/extensions</filename>.</para>
+            </step>
+            <step>
+                <para>Configure Guacamole to use HTTP header authentication, as described
+                    below.</para>
+            </step>
+        </procedure>
+        <section xml:id="guac-header-config">
+            <title>Configuring Guacamole for HTTP header authentication</title>
+            <indexterm>
+                <primary>configuring HTTP header authentication</primary>
+            </indexterm>
+            <indexterm>
+                <primary>HTTP header authentication</primary>
+                <secondary>configuration</secondary>
+            </indexterm>
+            <para>The HTTP header authentication extension provides only one configuration property,
+                and it is optional. By default, the extension will pull the username of the
+                authenticated user from the <constant>REMOTE_USER</constant> header, if present. If
+                your authentication system uses a different HTTP header, you will need to override
+                this by specifying the <property>http-auth-header</property> property within <link
+                    linkend="initial-setup"><filename>guacamole.properties</filename></link>:</para>
+            <variablelist>
+                <varlistentry>
+                    <term><property>http-auth-header</property></term>
+                    <listitem>
+                        <para>The HTTP header containing the username of the authenticated user.
+                            This property is optional. If not specified,
+                                <constant>REMOTE_USER</constant> will be used by default.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </section>
+        <section xml:id="completing-header-install">
+            <title>Completing the installation</title>
+            <para>Guacamole will only reread <filename>guacamole.properties</filename> and load
+                newly-installed extensions during startup, so your servlet container will need to be
+                restarted before HTTP header authentication can be used. <emphasis>Doing this will
+                    disconnect all active users, so be sure that it is safe to do so prior to
+                    attempting installation.</emphasis> When ready, restart your servlet container
+                and give the new authentication a try.</para>
+        </section>
+    </section>
+</chapter>
