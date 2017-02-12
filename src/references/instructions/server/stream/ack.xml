@@ -110,6 +110,14 @@
                             </entry>
                         </row>
                         <row>
+                            <entry>518</entry>
+                            <entry><constant>RESOURCE_CLOSED</constant></entry>
+                            <entry>
+                                <para>The requested operation cannot continue because the associated
+                                    resource has been closed.</para>
+                            </entry>
+                        </row>
+                        <row>
                             <entry>519</entry>
                             <entry><constant>UPSTREAM_NOT_FOUND</constant></entry>
                             <entry>
