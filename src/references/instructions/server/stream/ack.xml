@@ -110,6 +110,51 @@
                             </entry>
                         </row>
                         <row>
+                            <entry>519</entry>
+                            <entry><constant>UPSTREAM_NOT_FOUND</constant></entry>
+                            <entry>
+                                <para>The upstream server does not appear to exist, or cannot be
+                                    reached over the network. In most cases, the upstream server is
+                                    the remote desktop server.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>520</entry>
+                            <entry><constant>UPSTREAM_UNAVAILABLE</constant></entry>
+                            <entry>
+                                <para>The upstream server is refusing to service connections. In
+                                    most cases, the upstream server is the remote desktop
+                                    server.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>521</entry>
+                            <entry><constant>SESSION_CONFLICT</constant></entry>
+                            <entry>
+                                <para>The session within the upstream server has ended because it
+                                    conflicts with another session. In most cases, the upstream
+                                    server is the remote desktop server.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>522</entry>
+                            <entry><constant>SESSION_TIMEOUT</constant></entry>
+                            <entry>
+                                <para>The session within the upstream server has ended because it
+                                    appeared to be inactive. In most cases, the upstream server is
+                                    the remote desktop server.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>523</entry>
+                            <entry><constant>SESSION_CLOSED</constant></entry>
+                            <entry>
+                                <para>The session within the upstream server has been forcibly
+                                    closed. In most cases, the upstream server is the remote desktop
+                                    server.</para>
+                            </entry>
+                        </row>
+                        <row>
                             <entry>768</entry>
                             <entry><constant>CLIENT_BAD_REQUEST</constant></entry>
                             <entry>
