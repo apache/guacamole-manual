@@ -164,6 +164,7 @@
         <xi:include href="chapters/header-auth.xml"/>
         <xi:include href="chapters/cas-auth.xml"/>
         <xi:include href="chapters/openid-auth.xml"/>
+        <xi:include href="chapters/radius-auth.xml"/>
         <xi:include href="chapters/using.xml"/>
         <xi:include href="chapters/administration.xml"/>
         <xi:include href="chapters/troubleshooting.xml"/>
