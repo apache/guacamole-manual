@@ -47,47 +47,54 @@
                     below.</para>
             </step>
         </procedure>
-        <section xml:id="guac-radius-config">
-            <title>Configuring Guacamole for RADIUS authentication</title>
-            <indexterm>
-                <primary>configuring RADIUS authentication</primary>
-            </indexterm>
-            <indexterm>
-                <primary>RADIUS authentication</primary>
-                <secondary>configuration</secondary>
-            </indexterm>
-            <para>This extension provides several configuration properties in order 
-                to communicate properly with the RADIUS server to which it needs to authenticate.  It is 
-                important that you know several key pieces of information about the RADIUS server - 
-                at a minimum, the server name or IP, the Authentication port, the authentication 
-                protocol in use by the server, and the shared secret for the RADIUS client.  If you 
-                are responsible for the RADIUS server, you'll need to properly configure these items 
-                to get Guacamole to authenticate properly.  If you're not responsible for the RADIUS 
-                server you will need to work with the administrator to get all of the necessary 
-                configuration items for the server.  These items will need to be configured in the 
-                <link linkend="initial-setup"><filename>guacamole.properties</filename></link> 
-                file.</para>
-            <variablelist>
-                <varlistentry>
-                    <term><property>radius-server</property></term>
-                    <listitem>
-                        <para>The RADIUS server to authenticate against.  If not specified, 
-                            localhost will be used.</para>
-                    </listitem>
-                    <term><property>radius-auth-port</property></term>
-                    <listitem>
-                        <para>The RADIUS authentication port on which the RADIUS service is
-                            is listening.  If not specified, the default of 1812 will be
-                            used.</para>
-                    </listitem>
-                    <term><property>radius-shared-secret</property></term>
-                    <listitem>
-                        <para>The shared secret to use when talking to the RADIUS server.  This
+    </section>
+    <section xml:id="guac-radius-config">
+        <title>Configuring Guacamole for RADIUS authentication</title>
+        <indexterm>
+            <primary>configuring RADIUS authentication</primary>
+        </indexterm>
+        <indexterm>
+            <primary>RADIUS authentication</primary>
+            <secondary>configuration</secondary>
+        </indexterm>
+        <para>This extension provides several configuration properties in order 
+            to communicate properly with the RADIUS server to which it needs to authenticate.  It is 
+            important that you know several key pieces of information about the RADIUS server - 
+            at a minimum, the server name or IP, the Authentication port, the authentication 
+            protocol in use by the server, and the shared secret for the RADIUS client.  If you 
+            are responsible for the RADIUS server, you'll need to properly configure these items 
+            to get Guacamole to authenticate properly.  If you're not responsible for the RADIUS 
+            server you will need to work with the administrator to get all of the necessary 
+            configuration items for the server.  These items will need to be configured in the 
+            <link linkend="initial-setup"><filename>guacamole.properties</filename></link> 
+            file.</para>
+        <variablelist>
+            <varlistentry>
+                <term><property>radius-server</property></term>
+                <listitem>
+                    <para>The RADIUS server to authenticate against.  If not specified, 
+                        localhost will be used.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><property>radius-auth-port</property></term>
+                <listitem>
+                    <para>The RADIUS authentication port on which the RADIUS service is
+                        is listening.  If not specified, the default of 1812 will be
+                        used.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><property>radius-shared-secret</property></term>
+                <listitem>
+                    <para>The shared secret to use when talking to the RADIUS server.  This
                         parameter is required and defaults to null if not specified.</para>
-                    </listitem>
-                    <term><property>radius-auth-protocol</property></term>
-                    <listitem>
-                        <para>The authentication protocol to use when talking to the RADIUS server.
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><property>radius-auth-protocol</property></term>
+                <listitem>
+                    <para>The authentication protocol to use when talking to the RADIUS server.
                         This parameter is required for the extension to operate.  Supported
                         values are: pap, chap, mschapv1, mschapv2, eap-md5, eap-tls, and eap-ttls.
                         Support for PEAP is implemented inside the extension, but, due to a regression
@@ -95,75 +102,94 @@
                         eap-ttls you will also need to specify the
                         <property>radius-eap-ttls-inner-protocol</property> parameter in order to
                         properly configure the protocol used inside the EAP TTLS tunnel.</para>
-                    </listitem>
-                    <term><property>radius-key-file</property></term>
-                    <listitem>
-                        <para>The combination certificate and private key pair to use for TLS-based
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><property>radius-key-file</property></term>
+                <listitem>
+                    <para>The combination certificate and private key pair to use for TLS-based
                         RADIUS protocols that require a client-side certificate.  The file should be
                         present in the GUACAMOLE_HOME directory, and should be readable by the user
                         running Tomcat (or whatever Java servlet container you're running).  If not
                         specified, this defaults to radius.pem.</para>
-                    </listitem>
-                    <term><property>radius-key-type</property></term>
-                    <listitem>
-                        <para>The type of the key file specified by the <property>radius-key-file</property> 
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                 <term><property>radius-key-type</property></term>
+                 <listitem>
+                     <para>The type of the key file specified by the <property>radius-key-file</property> 
                         parameter.  If not specified, this defaults to pkcs12, the default used by 
                         the JRadius library.</para>
-                    </listitem>
-                    <term><property>radius-key-password</property></term>
-                    <listitem>
-                        <para>The password of the private key specified in the 
+                 </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><property>radius-key-password</property></term>
+                <listitem>
+                    <para>The password of the private key specified in the 
                         <property>radius-key-file</property> parameter.  Defaults to null if not specified.</para>
-                    </listitem>
-                    <term><property>ca-key-file</property></term>
-                    <listitem>
-                        <para>The file that stores the certificate authority certificates for the
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><property>ca-key-file</property></term>
+                <listitem>
+                    <para>The file that stores the certificate authority certificates for the
                         connection to the RADIUS server.  Defaults to no file - if specified, the
                         file must be present in the GUACAMOLE_HOME directory.</para>
-                    </listitem>
-                    <term><property>ca-key-type</property></term>
-                    <listitem>
-                        <para>The type of file store used for the certificate authority.  If not
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><property>ca-key-type</property></term>
+                <listitem>
+                    <para>The type of file store used for the certificate authority.  If not
                         specified this defaults to pem.</para>
-                    </listitem>
-                    <term><property>ca-key-password</property></term>
-                    <listitem>
-                        <para>The password used to protect the certificate authority store, if
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><property>ca-key-password</property></term>
+                <listitem>
+                    <para>The password used to protect the certificate authority store, if
                         any.  Default to null.</para>
-                    </listitem>
-                    <term><property>radius-trust-all</property></term>
-                    <listitem>
-                        <para>Trust all server certificates without verifying against a CA file.
-                        </para>
-                    </listitem>
-                    <term><property>radius-retries</property></term>
-                    <listitem>
-                        <para>The number of times the client will retry the connection to the 
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                 <term><property>radius-trust-all</property></term>
+                 <listitem>
+                     <para>Trust all server certificates without verifying against a CA file.
+                     </para>
+                 </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><property>radius-retries</property></term>
+                <listitem>
+                    <para>The number of times the client will retry the connection to the 
                         RADIUS server and not receive a response before giving up.  The default
                         is 5.</para>
-                    </listitem>
-                    <term><property>radius-timeout</property></term>
-                    <listitem>
-                        <para>The timeout for a RADIUS connection in seconds.  The default is
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><property>radius-timeout</property></term>
+                <listitem>
+                    <para>The timeout for a RADIUS connection in seconds.  The default is
                         60 seconds.</para>
-                    </listitem>
-                    <term><property>radius-eap-ttls-inner-protocol</property></term>
-                    <listitem>
-                        <para>When EAP-TTLS is used, this parameter specifies the inner (tunneled)
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><property>radius-eap-ttls-inner-protocol</property></term>
+                <listitem>
+                    <para>When EAP-TTLS is used, this parameter specifies the inner (tunneled)
                         protocol to use talking to the RADIUS server.  It is required when the
                         <property>radius-auth-protocol</property> parameter is set to eap-ttls.</para>
-                    </listitem>
-                </varlistentry>
-            </variablelist>
-        </section>
-        <section xml:id="completing-radius-install">
-            <title>Completing the installation</title>
-            <para>Guacamole will only reread <filename>guacamole.properties</filename> and load
-                newly-installed extensions during startup, so your servlet container will need to be
-                restarted before HTTP header authentication can be used. <emphasis>Doing this will
-                    disconnect all active users, so be sure that it is safe to do so prior to
-                    attempting installation.</emphasis> When ready, restart your servlet container
-                and give the new authentication a try.</para>
-        </section>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+    </section>
+    <section xml:id="completing-radius-install">
+        <title>Completing the installation</title>
+        <para>Guacamole will only reread <filename>guacamole.properties</filename> and load
+            newly-installed extensions during startup, so your servlet container will need to be
+            restarted before HTTP header authentication can be used. <emphasis>Doing this will
+            disconnect all active users, so be sure that it is safe to do so prior to
+            attempting installation.</emphasis> When ready, restart your servlet container
+            and give the new authentication a try.</para>
     </section>
 </chapter>
