@@ -58,7 +58,7 @@
                 <secondary>configuration</secondary>
             </indexterm>
             <para>The CAS authentication extension provides two configuration properties, both
-                of which are required.
+                of which are required.</para>
             <variablelist>
                 <varlistentry>
                     <term><property>cas-authorization-endpoint</property></term>
@@ -66,6 +66,8 @@
                         <para>The URL of the CAS authentication server.  This should be the full
                             path to the base of the CAS installation.</para>
                     </listitem>
+                </varlistentry>
+                <varlistentry>
                     <term><property>cas-redirect-uri</property></term>
                     <listitem>
                         <para>The URI to redirect back to upon successful authentication.  Normally
