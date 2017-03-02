@@ -58,7 +58,7 @@
     &lt;groupId>org.apache.guacamole&lt;/groupId>
     &lt;artifactId>guacamole-auth-tutorial&lt;/artifactId>
     &lt;packaging>jar&lt;/packaging>
-    &lt;version>0.9.11-incubating&lt;/version>
+    &lt;version>0.9.12-incubating&lt;/version>
     &lt;name>guacamole-auth-tutorial&lt;/name>
 
     &lt;properties>
@@ -88,7 +88,7 @@
         &lt;dependency>
             &lt;groupId>org.apache.guacamole&lt;/groupId>
             &lt;artifactId>guacamole-ext&lt;/artifactId>
-            &lt;version>0.9.11-incubating&lt;/version>
+            &lt;version>0.9.12-incubating&lt;/version>
             &lt;scope>provided&lt;/scope>
         &lt;/dependency>
 
@@ -172,7 +172,7 @@ public class TutorialAuthenticationProvider extends SimpleAuthenticationProvider
             <title>The required <filename>guac-manifest.json</filename></title>
             <programlisting>{
 
-    "guacamoleVersion" : "0.9.11-incubating",
+    "guacamoleVersion" : "0.9.12-incubating",
 
     "name"      : "Tutorial Authentication Extension",
     "namespace" : "guac-auth-tutorial",
@@ -196,7 +196,7 @@ public class TutorialAuthenticationProvider extends SimpleAuthenticationProvider
             <screen><prompt>$</prompt> mvn package
 <computeroutput>[INFO] Scanning for projects...
 [INFO] ------------------------------------------------------------------------
-[INFO] Building guacamole-auth-tutorial 0.9.11-incubating
+[INFO] Building guacamole-auth-tutorial 0.9.12-incubating
 [INFO] ------------------------------------------------------------------------
 ...
 [INFO] ------------------------------------------------------------------------
@@ -210,7 +210,7 @@ public class TutorialAuthenticationProvider extends SimpleAuthenticationProvider
         </informalexample>
         <para>Assuming you see the "<computeroutput>BUILD SUCCESS</computeroutput>" message when you
             build the extension, there will be a new file,
-                <filename>target/guacamole-auth-tutorial-0.9.11-incubating.jar</filename>, which can be
+                <filename>target/guacamole-auth-tutorial-0.9.12-incubating.jar</filename>, which can be
             installed within Guacamole and tested. If you changed the name or version of the project
             in the <filename>pom.xml</filename> file, the name of this new <filename>.jar</filename>
             file will be different, but it can still be found within
@@ -472,7 +472,7 @@ public Map&lt;String, GuacamoleConfiguration>
             user running Tomcat.</para>
         <para>To install your extension, ensure that the required properties have been added to your
                 <filename>guacamole.properties</filename>, copy the
-                <filename>target/guacamole-auth-tutorial-0.9.11-incubating.jar</filename> file into
+                <filename>target/guacamole-auth-tutorial-0.9.12-incubating.jar</filename> file into
                 <filename>GUACAMOLE_HOME/extensions</filename> and restart Tomcat. Guacamole will
             automatically load your extension, logging an informative message that it has done
             so:</para>
