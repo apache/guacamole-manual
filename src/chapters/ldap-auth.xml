@@ -388,11 +388,10 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                     <term><property>ldap-dereference-aliases</property></term>
                     <listitem>
                         <para>Controls whether or not the LDAP connection follows (dereferences) aliases
-                            as it searches the tree.  There are four possible values: never (the default),
-                            finding, searching, and always.  Never means aliases will never be followed;
-                            searching means they will be dereferenced during search, but not when finding
-                            the start of the search; finding means only when finding the start of the search,
-                            but not during the search; always means they will always be followed.</para>
+                            as it searches the tree.  Poossible values for this property are "never" (the default)
+                            so that aliases will never be followed, "searching" to dereference during search operations
+                            after the base object is located, "finding" to dereference in order to locate the
+                            search base, but not during the actual search, and "always" to always dereference aliases.
                     </listitem>
                 </varlistentry>
             </variablelist>
