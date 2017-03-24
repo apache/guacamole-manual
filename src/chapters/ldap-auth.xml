@@ -391,7 +391,8 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                             as it searches the tree.  Possible values for this property are "never" (the default)
                             so that aliases will never be followed, "searching" to dereference during search operations
                             after the base object is located, "finding" to dereference in order to locate the
-                            search base, but not during the actual search, and "always" to always dereference aliases.
+                            search base, but not during the actual search, and "always" to always dereference
+                            aliases.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
