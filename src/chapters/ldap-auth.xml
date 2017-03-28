@@ -357,6 +357,15 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                     </listitem>
                 </varlistentry>
                 <varlistentry>
+                    <term><property>ldap-user-search-filter</property></term>
+                    <listitem>
+                        <para>The search filter used to query the LDAP tree for users that
+                            can log into and be granted privileges in Guacamole.  <emphasis>If
+                            this property is omitted the default of "(objectClass=*)" will be used.
+                            </emphasis></para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
                     <term><property>ldap-config-base-dn</property></term>
                     <listitem>
                         <para>The base of the DN for all Guacamole configurations. <emphasis>This
