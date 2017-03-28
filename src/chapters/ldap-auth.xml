@@ -400,7 +400,7 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                     <listitem>
                         <para>The search filter used to query the LDAP tree for users that
                             can log into and be granted privileges in Guacamole.  <emphasis>If
-                            this property is omitted the default of (objectClass=*) will be used.
+                            this property is omitted the default of "(objectClass=*)" will be used.
                             </emphasis></para>
                     </listitem>
                 </varlistentry>
