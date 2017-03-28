@@ -404,15 +404,6 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                             </emphasis></para>
                     </listitem>
                 </varlistentry>
-                <varlistentry>
-                    <term><property>ldap-connection-search-filter</property></term>
-                    <listitem>
-                        <para>The search filter used to query the LDAP tree for connections that
-                            can be accessed from Guacamole.  <emphasis>If this property is omitted
-                            the default of (objectClass=guacConfigGroup) will be used.
-                            </emphasis></para>
-                    </listitem>
-                </varlistentry>
             </variablelist>
             <para>Again, even if the defaults are sufficient for the other properties, <emphasis>you
                     must still specify the <property>ldap-user-base-dn</property>
