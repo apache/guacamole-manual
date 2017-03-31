@@ -249,7 +249,20 @@ guacd-port:     4822</programlisting>
                 <listitem>
                     <para>Debug messages are highly detailed and oriented toward development. Most
                         debug messages will contain stack traces and internal information that is
-                        useful when investigating problems within code.</para>
+                        useful when investigating problems within code. It is expected that debug
+                        messages, though verbose, will not affect performance.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><indexterm>
+                        <primary>logging</primary>
+                        <secondary>trace</secondary>
+                    </indexterm><constant>trace</constant></term>
+                <listitem>
+                    <para>Trace messages are similar to debug messages in intent and verbosity, but
+                        are so low-level that they may affect performance due to their frequency.
+                        Trace-level logging is rarely necessary, and is mainly useful in providing
+                        highly detailed context around issues being investigated.</para>
                 </listitem>
             </varlistentry>
         </variablelist>
@@ -3573,9 +3586,10 @@ parameter3 = "c:\\windows\\path\\to\\file.txt"</programlisting>
                                 </indexterm>The maximum level at which guacd will log messages to
                                 syslog and, if running in the foreground, the console. If omitted,
                                 the default level of <constant>info</constant> will be used.</para>
-                            <para>Legal values are <constant>debug</constant>,
-                                    <constant>info</constant>, <constant>warning</constant>, and
-                                    <constant>error</constant>.</para>
+                            <para>Legal values are <constant>trace</constant>,
+                                    <constant>debug</constant>, <constant>info</constant>,
+                                    <constant>warning</constant>, and
+                                <constant>error</constant>.</para>
                         </entry>
                     </row>
                     <row>
@@ -3668,9 +3682,10 @@ parameter3 = "c:\\windows\\path\\to\\file.txt"</programlisting>
                 <listitem>
                     <para>Sets the maximum level at which guacd will log messages to syslog and, if
                         running in the foreground, the console. Legal values are
-                            <constant>debug</constant>, <constant>info</constant>,
-                            <constant>warning</constant>, and <constant>error</constant>. The
-                        default value is <constant>info</constant>.</para>
+                            <constant>trace</constant>, <constant>debug</constant>,
+                            <constant>info</constant>, <constant>warning</constant>, and
+                            <constant>error</constant>. The default value is
+                            <constant>info</constant>.</para>
                     <para>This corresponds to the <parameter>log_level</parameter> parameter within
                         the <parameter>daemon</parameter> section of
                         <filename>guacd.conf</filename>.</para>
