@@ -2069,6 +2069,147 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                     </tgroup>
                 </informaltable>
             </section>
+            <section xml:id="rdp-gateway">
+                <title>Remote desktop gateway</title>
+                <para><indexterm>
+                        <primary>remote desktop gateway</primary>
+                    </indexterm><indexterm>
+                        <primary>TS gateway</primary>
+                    </indexterm>Microsoft's remote desktop server provides an additional gateway
+                    service which allows external connections to be forwarded to internal RDP
+                    servers which are otherwise not accessible. If you will be using Guacamole to
+                    connect through such a gateway, you will need to provide additional parameters
+                    describing the connection to that gateway, as well as any required
+                    credentials.</para>
+                <para><emphasis>This functionality is only available if Guacamole was built against
+                        FreeRDP 1.1 or later.</emphasis> Older versions of FreeRDP do not have
+                    support for RDP gateways.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>RDP</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>gateway-hostname</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>gateway hostname</primary>
+                                        </indexterm>The hostname of the remote desktop gateway that
+                                        should be used as an intermediary for the remote desktop
+                                        connection. <emphasis>If omitted, a gateway will not be
+                                            used.</emphasis></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>gateway-port</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>gateway port</primary>
+                                        </indexterm>The port of the remote desktop gateway that
+                                        should be used as an intermediary for the remote desktop
+                                        connection. By default, this will be "443".</para>
+                                    <para><emphasis>If using a version of FreeRDP prior to 1.2, this
+                                            setting has no effect.</emphasis> Older versions of
+                                        FreeRDP use a hard-coded value of "443". </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>gateway-username</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>gateway username</primary>
+                                        </indexterm>The username of the user authenticating with the
+                                        remote desktop gateway, if a gateway is being used. This is
+                                        not necessarily the same as the user actually using the
+                                        remote desktop connection.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>gateway-password</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>gateway password</primary>
+                                        </indexterm>The password to provide when authenticating with
+                                        the remote desktop gateway, if a gateway is being
+                                        used.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>gateway-domain</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>gateway domain</primary>
+                                        </indexterm>The domain of the user authenticating with the
+                                        remote desktop gateway, if a gateway is being used. This is
+                                        not necessarily the same domain as the user actually using
+                                        the remote desktop connection.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="rdp-connection-broker">
+                <title>Load balancing and RDP connection brokers</title>
+                <para><indexterm>
+                        <primary>load balancing</primary>
+                    </indexterm><indexterm>
+                        <primary>connection broker</primary>
+                    </indexterm>If your remote desktop servers are behind a load balancer, sometimes
+                    referred to as a "connection broker" or "TS session broker", that balancer may
+                    require additional information during the connection process to determine how
+                    the incoming connection should be routed. RDP does not dictate the format of
+                    this information; it is specific to the balancer in use.</para>
+                <para>If you are using a load balancer and are unsure whether such information is
+                    required, <emphasis>you will need to check the documentation for your
+                        balancer</emphasis>. If your balancer provides <filename>.rdp</filename>
+                    files for convenience, look through the contents of those files for a string
+                    field called "loadbalanceinfo", as that field is where the required
+                    information/cookie would be specified.</para>
+                <para><emphasis>This functionality is only available if Guacamole was built against
+                        FreeRDP 1.1 or later.</emphasis> Older versions of FreeRDP do not have
+                    support for load balancers which require additional information during the
+                    connection process.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>RDP</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>load-balancing-info</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>loadbalanceinfo</primary>
+                                        </indexterm>The load balancing information or cookie which
+                                        should be provided to the connection broker. <emphasis>If no
+                                            connection broker is being used, this should be left
+                                            blank.</emphasis></para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
             <section xml:id="rdp-sftp">
                 <title>RDP + SFTP</title>
                 <para>Guacamole can provide file transfer over SFTP even when the remote desktop is
