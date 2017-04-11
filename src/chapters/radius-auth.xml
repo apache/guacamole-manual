@@ -13,17 +13,10 @@
         connections.</para>
     <section xml:id="radius-downloading">
         <title>Downloading the RADIUS authentication extension</title>
-        <para>The RADIUS authentication extension is available separately from the main
-                <filename>guacamole.war</filename>. The link for this and all other
-            officially-supported and compatible extensions for a particular version of Guacamole are
-            provided on the release notes for that version. You can find the release notes for
-            current versions of Guacamole here: <link
-                xlink:href="http://guacamole.incubator.apache.org/releases/"
-                >http://guacamole.incubator.apache.org/releases/</link>.</para>
-        <para>The RADIUS authentication extension is packaged as a <filename>.tar.gz</filename>
-            file containing only the extension itself,
-                <filename>guacamole-auth-radius-0.9.11-incubating.jar</filename>, which must
-            ultimately be placed in <filename>GUACAMOLE_HOME/extensions</filename>.</para>
+        <para>Due to licensing limitations on dependencies for the RADIUS extension, the extension
+            cannot be distributed in a binary format.  This means that, in order to use this extension
+            you will need to build the Guacamole client code yourself.  You can find build instructions
+            for Guacamole client in <xref linkend="installing-guacamole"/>.</para>
     </section>
     <section xml:id="installing-radius-auth">
         <title>Installing RADIUS authentication</title>
