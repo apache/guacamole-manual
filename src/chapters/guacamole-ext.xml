@@ -556,6 +556,34 @@
                 <classname>Directory</classname> classes that automatically enforce the permissions
             associated with all objects and the associated user.</para>
     </section>
+    <section xml:id="ext-rest-resources">
+        <title>REST resources</title>
+        <para>Arbitrary REST resources may be exposed by extensions at the
+                <classname>AuthenticationProvider</classname> level, if the resource does not
+            require an associated authenticated user, or at the <classname>UserContext</classname>
+            level, if the resource should be available to authenticated users only. In both cases,
+            the REST resource is provided through implementing the
+                <function>getResource()</function> function, returning an object which is annotated
+            with JAX-RS annotations (JSR 311).</para>
+        <para>The resource returned by <function>getResource()</function> functions as the root
+            resource, providing access to other resources beneath itself. The root resource for the
+                <classname>AuthenticationProvider</classname> is exposed at
+                    <uri><replaceable>PATH</replaceable>/api/ext/<replaceable>IDENTIFIER</replaceable></uri>,
+            and the root resource for the <classname>UserContext</classname> is exposed at
+                    <uri><replaceable>PATH</replaceable>/api/session/ext/<replaceable>IDENTIFIER</replaceable></uri>,
+            where <replaceable>PATH</replaceable> is the path to which Guacamole has been deployed
+            (typically <uri>/guacamole/</uri>) and <replaceable>IDENTIFIER</replaceable> is the
+            unique identifier for the <classname>AuthenticationProvider</classname>, as returned by
+                <function>getIdentifier()</function>.</para>
+        <para>The behavior of extension REST resources is generally left entirely to the
+            implementation, with the exception that the "token" request parameter is reserved for
+            use by Guacamole. This parameter contains the user's authentication token when the user
+            is logged in, and must be present on all requests which require authentication. Though
+            not relevant to REST resources exposed at the
+                <classname>AuthenticationProvider</classname> level, resources exposed at the
+                <classname>UserContext</classname> level inherently require the "token" parameter to
+            be present, as it is the sole means of locating the user's session.</para>
+    </section>
     <section xml:id="ext-permissions">
         <title>Permissions</title>
         <para>The permissions system within guacamole-ext is an advisory system. It is the means by
