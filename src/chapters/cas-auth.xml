@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter xml:id="cas-auth" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>CAS Authentication</title>
+    <indexterm>
+        <primary>CAS Authentication</primary>
+    </indexterm>
+    <para>CAS is an open-source Single Sign On (SSO) provider that allows multiple applications
+        and services to authenticate against it and brokers those authentication requests to a
+        back-end authentication provider.  This module allows Guacamole to redirect to CAS for
+        authentication and user services.  This module must be layered on top of other authentication
+        extensions that provide connection information, as it only provides user authentication.
+        </para>
+    <section xml:id="cas-downloading">
+        <title>Downloading the CAS authentication extension</title>
+        <para>The CAS authentication extension is available separately from the main
+                <filename>guacamole.war</filename>. The link for this and all other
+            officially-supported and compatible extensions for a particular version of Guacamole are
+            provided on the release notes for that version. You can find the release notes for
+            current versions of Guacamole here: <link
+                xlink:href="http://guacamole.incubator.apache.org/releases/"
+                >http://guacamole.incubator.apache.org/releases/</link>.</para>
+        <para>The CAS authentication extension is packaged as a <filename>.tar.gz</filename>
+            file containing only the extension itself,
+                <filename>guacamole-auth-cas-0.9.12-incubating.jar</filename>, which must
+            ultimately be placed in <filename>GUACAMOLE_HOME/extensions</filename>.</para>
+    </section>
+    <section xml:id="installing-cas-auth">
+        <title>Installing CAS authentication</title>
+        <para>Guacamole extensions are self-contained <filename>.jar</filename> files which are
+            located within the <filename>GUACAMOLE_HOME/extensions</filename> directory.
+                <emphasis>If you are unsure where <varname>GUACAMOLE_HOME</varname> is located on
+                your system, please consult <xref linkend="configuring-guacamole"/> before
+                proceeding.</emphasis></para>
+        <para>To install the CAS authentication extension, you must:</para>
+        <procedure>
+            <step>
+                <para>Create the <filename>GUACAMOLE_HOME/extensions</filename> directory, if it
+                    does not already exist.</para>
+            </step>
+            <step>
+                <para>Copy <filename>guacamole-auth-cas-0.9.12-incubating.jar</filename> within
+                        <filename>GUACAMOLE_HOME/extensions</filename>.</para>
+            </step>
+            <step>
+                <para>Configure Guacamole to use CAS authentication, as described
+                    below.</para>
+            </step>
+        </procedure>
+        <section xml:id="guac-cas-config">
+            <title>Configuring Guacamole for CAS Authentication</title>
+            <indexterm>
+                <primary>configuring CAS authentication</primary>
+            </indexterm>
+            <indexterm>
+                <primary>CAS authentication</primary>
+                <secondary>configuration</secondary>
+            </indexterm>
+            <para>The CAS authentication extension provides two configuration properties, both
+                of which are required.</para>
+            <variablelist>
+                <varlistentry>
+                    <term><property>cas-authorization-endpoint</property></term>
+                    <listitem>
+                        <para>The URL of the CAS authentication server.  This should be the full
+                            path to the base of the CAS installation.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>cas-redirect-uri</property></term>
+                    <listitem>
+                        <para>The URI to redirect back to upon successful authentication.  Normally
+                            this will be the full URL of your Guacamole installation.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </section>
+        <section xml:id="completing-cas-install">
+            <title>Completing the installation</title>
+            <para>Guacamole will only reread <filename>guacamole.properties</filename> and load
+                newly-installed extensions during startup, so your servlet container will need to be
+                restarted before CAS authentication can be used. <emphasis>Doing this will
+                    disconnect all active users, so be sure that it is safe to do so prior to
+                    attempting installation.</emphasis> When ready, restart your servlet container
+                and give the new authentication a try.</para>
+        </section>
+    </section>
+</chapter>
