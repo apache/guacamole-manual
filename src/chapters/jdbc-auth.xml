@@ -171,9 +171,9 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
                     script located within the <filename>upgrade/</filename> directory:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>ls schema/upgrade/</userinput>
-<computeroutput>upgrade-pre-0.8.2.sql   upgrade-pre-0.9.6.sql  upgrade-pre-0.9.9.sql
-upgrade-pre-0.9.10.sql  upgrade-pre-0.9.7.sql
-upgrade-pre-0.9.11.sql  upgrade-pre-0.9.8.sq</computeroutput>
+<computeroutput>upgrade-pre-0.8.2.sql   upgrade-pre-0.9.13.sql  upgrade-pre-0.9.8.sql
+upgrade-pre-0.9.10.sql  upgrade-pre-0.9.6.sql   upgrade-pre-0.9.9.sql
+upgrade-pre-0.9.11.sql  upgrade-pre-0.9.7.sql</computeroutput>
 <prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.8.2.sql</userinput>
 <prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
 <prompt>$</prompt></screen>
@@ -227,6 +227,14 @@ upgrade-pre-0.9.11.sql  upgrade-pre-0.9.8.sq</computeroutput>
 <prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
 <prompt>$</prompt></screen>
                 </informalexample>
+                <para>If you are upgrading from a version of Guacamole before 0.9.13-incubating,
+                    schema changes which add support for per-connection guacd instances and user
+                    profiles need to be applied:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.9.13.sql</userinput>
+<prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
+<prompt>$</prompt></screen>
+                </informalexample>
             </important>
         </section>
         <section xml:id="jdbc-auth-postgresql">
@@ -272,8 +280,8 @@ Type "help" for help.
                     directory:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>ls schema/upgrade/</userinput>
-<computeroutput>upgrade-pre-0.9.10.sql  upgrade-pre-0.9.7.sql  upgrade-pre-0.9.9.sql
-upgrade-pre-0.9.11.sql  upgrade-pre-0.9.8.sql</computeroutput>
+<computeroutput>upgrade-pre-0.9.10.sql  upgrade-pre-0.9.13.sql  upgrade-pre-0.9.8.sql
+upgrade-pre-0.9.11.sql  upgrade-pre-0.9.7.sql   upgrade-pre-0.9.9.sql</computeroutput>
 <prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable> -f schema/upgrade/upgrade-pre-0.9.7.sql</userinput>
 <computeroutput>ALTER TABLE
 ALTER TABLE</computeroutput>
@@ -346,6 +354,21 @@ CREATE INDEX</computeroutput>
 CREATE TABLE
 CREATE INDEX</computeroutput>
 <prompt>$</prompt></screen>
+                    <para>If you are upgrading from a version of Guacamole before 0.9.13-incubating,
+                        schema changes which add support for per-connection guacd instances and user
+                        profiles need to be applied:</para>
+                    <informalexample>
+                        <screen><prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable> -f schema/upgrade/upgrade-pre-0.9.13.sql</userinput>
+<computeroutput>CREATE TYPE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE</computeroutput>
+<prompt>$</prompt></screen>
+                    </informalexample>
                 </informalexample>
             </important>
         </section>
