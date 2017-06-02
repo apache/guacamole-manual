@@ -275,6 +275,22 @@ ALTER TABLE
 ALTER TABLE</computeroutput>
 <prompt>$</prompt></screen>
                 </informalexample>
+                <para>Because the permissions granted to the Guacamole-specific PostgreSQL user when
+                    the database was first created will not automatically be granted for any new
+                    tables and sequences, you will also need to re-grant those permissions after
+                    applying any upgrade relevant scripts:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable></userinput>
+<computeroutput>psql (9.3.6)
+Type "help" for help.
+</computeroutput>
+<prompt>guacamole=# </prompt><userinput>GRANT SELECT,INSERT,UPDATE,DELETE ON ALL TABLES IN SCHEMA public TO <replaceable>guacamole_user</replaceable>;</userinput>
+<computeroutput>GRANT</computeroutput>
+<prompt>guacamole=# </prompt><userinput>GRANT SELECT,USAGE ON ALL SEQUENCES IN SCHEMA public TO <replaceable>guacamole_user</replaceable>;</userinput>
+<computeroutput>GRANT</computeroutput>
+<prompt>guacamole=# </prompt><userinput>\q</userinput>
+<prompt>$</prompt></screen>
+                </informalexample>
                 <para>If there are no
                         <filename>upgrade-pre-<replaceable>VERSION</replaceable>.sql</filename>
                     scripts present in the <filename>schema/upgrade/</filename> directory which
