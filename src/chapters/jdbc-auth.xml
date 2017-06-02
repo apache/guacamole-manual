@@ -165,76 +165,41 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
             </informalexample>
             <para>If the operation is successful, all tables have been created successfully, and the
                 database is now ready for use.</para>
-            <important>
-                <para>If you are upgrading from an older version of Guacamole that lacked support
-                    for connection groups (older than 0.8.2), you should instead run the upgrade
-                    script located within the <filename>upgrade/</filename> directory:</para>
+            <important xml:id="jdbc-auth-mysql-upgrade">
+                <para>If you are upgrading from an older version of Guacamole and were already using
+                    MySQL, you may need to run one or more database schema upgrade scripts located
+                    within the <filename>schema/upgrade/</filename> directory. Each of these scripts
+                    is named <filename>upgrade-pre-<replaceable>VERSION</replaceable>.sql</filename>
+                    where <replaceable>VERSION</replaceable> is the version of Guacamole where those
+                    changes were introduced. They need to be run when you are upgrading from a
+                    version of Guacamole older than <replaceable>VERSION</replaceable>:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>ls schema/upgrade/</userinput>
 <computeroutput>upgrade-pre-0.8.2.sql   upgrade-pre-0.9.13.sql  upgrade-pre-0.9.8.sql
 upgrade-pre-0.9.10.sql  upgrade-pre-0.9.6.sql   upgrade-pre-0.9.9.sql
 upgrade-pre-0.9.11.sql  upgrade-pre-0.9.7.sql</computeroutput>
-<prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.8.2.sql</userinput>
-<prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
-<prompt>$</prompt></screen>
-                    <para>If you are upgrading from a version of Guacamole before 0.9.6, the default
-                        permissions associated with new users have changed such that users can
-                        change their own passwords. You may, if desired, run the upgrade script to
-                        migrate any existing users to the new permissions:</para>
-                </informalexample>
-                <informalexample>
-                    <screen><prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.9.6.sql</userinput>
-<prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
 <prompt>$</prompt></screen>
                 </informalexample>
-                <para>If you are upgrading from a version of Guacamole before 0.9.7, schema changes
-                    regarding support for disabling users and expiring passwords need to be
-                    applied:</para>
-                <informalexample>
-                    <screen><prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.9.7.sql</userinput>
-<prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
-<prompt>$</prompt></screen>
-                </informalexample>
-                <para>If you are upgrading from a version of Guacamole before 0.9.8, schema changes
-                    regarding support for restricting user access times and concurrent connection
-                    use need to be applied:</para>
-                <informalexample>
-                    <screen><prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.9.8.sql</userinput>
-<prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
-<prompt>$</prompt></screen>
-                </informalexample>
-                <para>If you are upgrading from a version of Guacamole before 0.9.9, schema changes
-                    which add indexes improving the performance of connection history searches need
-                    to be applied:</para>
-                <informalexample>
-                    <screen><prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.9.9.sql</userinput>
-<prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
-<prompt>$</prompt></screen>
-                </informalexample>
-                <para>If you are upgrading from a version of Guacamole before 0.9.10-incubating,
-                    schema changes which add support for screen sharing and session affinity
-                    need to be applied:</para>
-                <informalexample>
-                    <screen><prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.9.10.sql</userinput>
-<prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
-<prompt>$</prompt></screen>
-                </informalexample>
-                <para>If you are upgrading from a version of Guacamole before 0.9.11-incubating,
-                    schema changes which add support for password policies need to be
-                    applied:</para>
+                <para>These scripts are incremental and, when relevant, <emphasis>must be run in
+                        order</emphasis>. For example, if you are upgrading an existing database
+                    from version 0.9.10-incubating, you would need to run the
+                        <filename>upgrade-pre-0.9.11.sql</filename> script (because 0.9.10 is older
+                    than 0.9.11), followed by the <filename>upgrade-pre-0.9.13.sql</filename> script
+                    (because 0.9.10 is also older than 0.9.13):</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.9.11.sql</userinput>
 <prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
-<prompt>$</prompt></screen>
-                </informalexample>
-                <para>If you are upgrading from a version of Guacamole before 0.9.13-incubating,
-                    schema changes which add support for per-connection guacd instances and user
-                    profiles need to be applied:</para>
-                <informalexample>
-                    <screen><prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.9.13.sql</userinput>
+<prompt>$</prompt>
+<prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.9.13.sql</userinput>
 <prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
 <prompt>$</prompt></screen>
                 </informalexample>
+                <para>If there are no
+                        <filename>upgrade-pre-<replaceable>VERSION</replaceable>.sql</filename>
+                    scripts present in the <filename>schema/upgrade/</filename> directory which
+                    apply to your existing Guacamole database, then the schema has not changed
+                    between your version and the version your are installing, and there is no need
+                    to run any database upgrade scripts.</para>
             </important>
         </section>
         <section xml:id="jdbc-auth-postgresql">
@@ -273,92 +238,33 @@ Type "help" for help.
 <prompt>guacamole=# </prompt><userinput>\q</userinput>
 <prompt>$</prompt></screen>
             </informalexample>
-            <important>
-                <para>If you are upgrading from an older version of Guacamole that lacked support
-                    disabling users and expiring passwords (older than 0.9.7), you should instead
-                    run the upgrade script located within the <filename>upgrade/</filename>
-                    directory:</para>
+            <important xml:id="jdbc-auth-postgresql-upgrade">
+                <para>If you are upgrading from an older version of Guacamole and were already using
+                    PostgreSQL, you may need to run one or more database schema upgrade scripts
+                    located within the <filename>schema/upgrade/</filename> directory. Each of these
+                    scripts is named
+                        <filename>upgrade-pre-<replaceable>VERSION</replaceable>.sql</filename>
+                    where <replaceable>VERSION</replaceable> is the version of Guacamole where those
+                    changes were introduced. They need to be run when you are upgrading from a
+                    version of Guacamole older than <replaceable>VERSION</replaceable>:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>ls schema/upgrade/</userinput>
 <computeroutput>upgrade-pre-0.9.10.sql  upgrade-pre-0.9.13.sql  upgrade-pre-0.9.8.sql
 upgrade-pre-0.9.11.sql  upgrade-pre-0.9.7.sql   upgrade-pre-0.9.9.sql</computeroutput>
-<prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable> -f schema/upgrade/upgrade-pre-0.9.7.sql</userinput>
-<computeroutput>ALTER TABLE
-ALTER TABLE</computeroutput>
 <prompt>$</prompt></screen>
                 </informalexample>
-                <para>If you are upgrading from a version of Guacamole before 0.9.8, schema
-                    changes regarding support for restricting user access times and concurrent
-                    connection use need to be applied:</para>
-                <informalexample>
-                    <screen><prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable> -f schema/upgrade/upgrade-pre-0.9.8.sql</userinput>
-<computeroutput>ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE</computeroutput>
-<prompt>$</prompt></screen>
-                </informalexample>
-                <para>If you are upgrading from a version of Guacamole before 0.9.9, schema
-                    changes which add indexes improving the performance of connection history
-                    searches need to be applied:</para>
-                <informalexample>
-                    <screen><prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable> -f schema/upgrade/upgrade-pre-0.9.9.sql</userinput>
-<computeroutput>CREATE INDEX
-CREATE INDEX
-CREATE INDEX</computeroutput>
-<prompt>$</prompt></screen>
-                </informalexample>
-                <para>If you are upgrading from a version of Guacamole before
-                    0.9.10-incubating, schema changes which add support for screen sharing
-                    and session affinity need to be applied:</para>
-                <informalexample>
-                    <screen><prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable> -f schema/upgrade/upgrade-pre-0.9.10.sql</userinput>
-<computeroutput>ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-UPDATE 0
-UPDATE 0
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TYPE
-CREATE TABLE
-CREATE INDEX
-CREATE TABLE
-CREATE INDEX
-CREATE TABLE
-CREATE INDEX
-CREATE INDEX
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-CREATE INDEX</computeroutput>
-<prompt>$</prompt></screen>
-                </informalexample>
-                <para>If you are upgrading from a version of Guacamole before 0.9.11-incubating,
-                    schema changes which add support for password policies need to be
-                    applied:</para>
+                <para>These scripts are incremental and, when relevant, <emphasis>must be run in
+                        order</emphasis>. For example, if you are upgrading an existing database
+                    from version 0.9.10-incubating, you would need to run the
+                        <filename>upgrade-pre-0.9.11.sql</filename> script (because 0.9.10 is older
+                    than 0.9.11), followed by the <filename>upgrade-pre-0.9.13.sql</filename> script
+                    (because 0.9.10 is also older than 0.9.13):</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable> -f schema/upgrade/upgrade-pre-0.9.11.sql</userinput>
 <computeroutput>ALTER TABLE
 CREATE TABLE
 CREATE INDEX</computeroutput>
-<prompt>$</prompt></screen>
-                    <para>If you are upgrading from a version of Guacamole before 0.9.13-incubating,
-                        schema changes which add support for per-connection guacd instances and user
-                        profiles need to be applied:</para>
-                    <informalexample>
-                        <screen><prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable> -f schema/upgrade/upgrade-pre-0.9.13.sql</userinput>
+<prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable> -f schema/upgrade/upgrade-pre-0.9.13.sql</userinput>
 <computeroutput>CREATE TYPE
 ALTER TABLE
 ALTER TABLE
@@ -368,8 +274,13 @@ ALTER TABLE
 ALTER TABLE
 ALTER TABLE</computeroutput>
 <prompt>$</prompt></screen>
-                    </informalexample>
                 </informalexample>
+                <para>If there are no
+                        <filename>upgrade-pre-<replaceable>VERSION</replaceable>.sql</filename>
+                    scripts present in the <filename>schema/upgrade/</filename> directory which
+                    apply to your existing Guacamole database, then the schema has not changed
+                    between your version and the version your are installing, and there is no need
+                    to run any database upgrade scripts.</para>
             </important>
         </section>
     </section>
