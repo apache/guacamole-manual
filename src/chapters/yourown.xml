@@ -112,7 +112,7 @@
     &lt;groupId>org.apache.guacamole&lt;/groupId>
     &lt;artifactId>guacamole-tutorial&lt;/artifactId>
     &lt;packaging>war&lt;/packaging>
-    &lt;version>0.9.12-incubating&lt;/version>
+    &lt;version>0.9.13-incubating&lt;/version>
     &lt;name>guacamole-tutorial&lt;/name>
 
     &lt;properties>
@@ -201,7 +201,7 @@
             </informalexample>
             <para>Assuming you see the "<computeroutput>BUILD SUCCESSFUL</computeroutput>" message
                 when you build the web application, there will be a new file,
-                    <filename>target/guacamole-tutorial-0.9.12-incubating.war</filename>, which
+                    <filename>target/guacamole-tutorial-0.9.13-incubating.war</filename>, which
                 can be deployed to your servlet container and tested. If you changed the name or
                 version of the project in the <filename>pom.xml</filename> file, the name of this new
                     <filename>.war</filename> file will be different, but it can still be found
@@ -304,7 +304,7 @@
         &lt;dependency>
             &lt;groupId>org.apache.guacamole&lt;/groupId>
             &lt;artifactId>guacamole-common&lt;/artifactId>
-            &lt;version>0.9.10-incubating&lt;/version>
+            &lt;version>0.9.13-incubating&lt;/version>
             &lt;scope>compile&lt;/scope>
         &lt;/dependency>
 
@@ -312,7 +312,7 @@
         &lt;dependency>
             &lt;groupId>org.apache.guacamole&lt;/groupId>
             &lt;artifactId>guacamole-common-js&lt;/artifactId>
-            &lt;version>0.9.12-incubating&lt;/version>
+            &lt;version>0.9.13-incubating&lt;/version>
             &lt;type>zip&lt;/type>
             &lt;scope>runtime&lt;/scope>
         &lt;/dependency>
@@ -331,7 +331,7 @@
                 web application should build successfully, and the Guacamole JavaScript API should
                 be accessible in the <filename>guacamole-common-js/</filename> subdirectory of your
                 web application after it is deployed. A quick check that you can access
-                    <uri>/guacamole-tutorial-0.9.12-incubating/guacamole-common-js/all.min.js</uri>
+                    <uri>/guacamole-tutorial-0.9.13-incubating/guacamole-common-js/all.min.js</uri>
                 is probably worth the effort.</para>
         </section>
         <section xml:id="simple-tunnel">
@@ -430,7 +430,7 @@ public class TutorialGuacamoleTunnelServlet
                 to the URL we wish to use when making HTTP requests to the servlet:
                     <uri>/tunnel</uri>. This URL is relative to the context root of the web
                 application. In the case of this web application, the final absolute URL will be
-                    <uri>/guacamole-tutorial-0.9.12-incubating/tunnel</uri>.</para>
+                    <uri>/guacamole-tutorial-0.9.13-incubating/tunnel</uri>.</para>
         </section>
         <section xml:id="simple-client">
             <title>Adding the client</title>
