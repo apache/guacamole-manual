@@ -1021,6 +1021,38 @@ INSERT INTO guacamole_user (username, password_salt, password_hash)
                             and a value of <constant>0</constant> denotes unlimited.</para>
                     </listitem>
                 </varlistentry>
+                <varlistentry>
+                    <term><property>proxy_hostname</property></term>
+                    <listitem>
+                        <para>The hostname or IP address of the Guacamole proxy daemon
+                                (<package>guacd</package>) which should be used for this connection.
+                            If <constant>NULL</constant>, the value defined with the
+                                <property>guacd-hostname</property> property in
+                                <filename>guacamole.properties</filename> will be used.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>proxy_port</property></term>
+                    <listitem>
+                        <para>The TCP port number of the Guacamole proxy daemon
+                                (<package>guacd</package>) which should be used for this connection.
+                            If <constant>NULL</constant>, the value defined with the
+                                <property>guacd-port</property> property in
+                                <filename>guacamole.properties</filename> will be used.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>proxy_encryption_method</property></term>
+                    <listitem>
+                        <para>The encryption method which should be used when communicating with the
+                            Guacamole proxy daemon (<package>guacd</package>) for this connection.
+                            This can be either <constant>NONE</constant>, for no encryption, or
+                                <constant>SSL</constant>, for SSL/TLS. If <constant>NULL</constant>,
+                            the encryption method will be dictated by the
+                                <property>guacd-ssl</property> property in
+                                <filename>guacamole.properties</filename>.</para>
+                    </listitem>
+                </varlistentry>
             </variablelist>
             <para>As there are potentially multiple parameters per connection, where the names of
                 each parameter are completely arbitrary and determined only by the protocol in use,
