@@ -805,6 +805,49 @@ postgresql-user-required: true</programlisting>
                             zones.</para>
                     </listitem>
                 </varlistentry>
+                <varlistentry>
+                    <term><property>full_name</property></term>
+                    <listitem>
+                        <para>The user's full name. Unlike the username, this name need not be
+                            unique; it is optional and is meant for display purposes only. Defining
+                            this value has no bearing on user identity, which is dictated purely by
+                            the username. User accounts with no associated full name should have
+                            this column set to <constant>NULL</constant>.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>email_address</property></term>
+                    <listitem>
+                        <para>The user's email address, if any. This value is optional, need not be
+                            unique relative to other defined users, and is meant for display
+                            purposes only. Defining this value has no bearing on user identity,
+                            which is dictated purely by the username. If the user has no associated
+                            email address, this column should be set to
+                            <constant>NULL</constant>.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>organization</property></term>
+                    <listitem>
+                        <para>The name of the organization, company, etc. that the user is
+                            affiliated with. This value is optional and is meant for display
+                            purposes only. Defining this value has no bearing on user identity,
+                            which is dictated purely by the username. Users with no associated
+                            organization should have this column set to
+                            <constant>NULL</constant>.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>organizational_role</property></term>
+                    <listitem>
+                        <para>The role or title of the user at the organization described by the
+                                <property>organization</property> column. This value is optional and
+                            is used for display purposes only. Defining this value has no bearing on
+                            user identity, which is dictated purely by the username. Users with no
+                            associated organization (or specific role/title at that organization)
+                            should have this column set to <constant>NULL</constant>.</para>
+                    </listitem>
+                </varlistentry>
             </variablelist>
             <important>
                 <para>If you choose to manually set unsalted password hashes, please be sure you
