@@ -1053,6 +1053,18 @@ INSERT INTO guacamole_user (username, password_salt, password_hash)
                                 <filename>guacamole.properties</filename>.</para>
                     </listitem>
                 </varlistentry>
+                <varlistentry>
+                    <term><property>connection_weight</property></term>
+                    <listitem>
+                        <para>The weight for a connection, used for applying weighted load balancing
+                        algorithms when connections are part of a BALANCING group.  This is an
+                        integer value, where values <constant>1</constant> or greater will weight 
+                        the connection relative to other connections in that group, and values 
+                        below <constant>1</constant> cause the connection to be disabled in the 
+                        group.  If <constant>NULL</constant>, the connection will be assigned a 
+                        default weight of <constant>1</constant>.</para>
+                    </listitem>
+                </varlistentry>
             </variablelist>
             <para>As there are potentially multiple parameters per connection, where the names of
                 each parameter are completely arbitrary and determined only by the protocol in use,
