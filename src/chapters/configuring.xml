@@ -830,11 +830,11 @@ guacd-port:     4822</programlisting>
                             <row>
                                 <entry><parameter>sftp-server-alive-interval</parameter></entry>
                                 <entry>
-                                    <para>The interval at which to send keepalive packets to the
-                                    SSH server for the SFTP connection.  This parameter is optional.
-                                    If omitted, the default of 0 will be used, disabling sending
-                                    keepalive packets.  A value of 1 will be rounded up to 2.
-                                    Negative values are changed to 0, disabling sending keepalives.
+                                    <para>The interval in seconds at which to send keepalive
+                                    packets to the SSH server for the SFTP connection.  This
+                                    parameter is optional.  If omitted, the default of 0 will be
+                                    used, disabling sending keepalive packets.  The minimum
+                                    value is 2.
                                     </para>
                                 </entry>
                             </row>
@@ -2325,11 +2325,11 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                             <row>
                                 <entry><parameter>sftp-server-alive-interval</parameter></entry>
                                 <entry>
-                                    <para>The interval at which to send keepalive packets to the
-                                    SSH server for the SFTP connection.  This parameter is optional.
-                                    If omitted, the default of 0 will be used, disabling sending
-                                    keepalive packets.  A value of 1 will be rounded up to 2.
-                                    Negative values are changed to 0, disabling sending keepalives.
+                                    <para>The interval in seconds at which to send keepalive 
+                                    packets to the SSH server for the SFTP connection.  This 
+                                    parameter is optional.  If omitted, the default of 0 will be 
+                                    used, disabling sending keepalive packets.  The minimum 
+                                    value is 2.
                                     </para>
                                 </entry>
                             </row>
@@ -2597,11 +2597,10 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                                         </indexterm>
                                         By default the SSH client does not send keepalive requests
                                         to the server.  This parameter allows you to configure the
-                                        the interval (in seconds) at which the client connection
+                                        the interval in seconds at which the client connection
                                         sends keepalive packets to the server.  The default is 0,
-                                        which disables sending the packets.  A value of 1 is
-                                        automatically increased to 2.  Negative values are set to
-                                        0, disabling sending keepalives.
+                                        which disables sending the packets.  The minimum value
+                                        is 2.
                                     </para>
                                 </entry>
                             </row>
