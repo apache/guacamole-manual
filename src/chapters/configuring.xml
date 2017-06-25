@@ -827,6 +827,17 @@ guacd-port:     4822</programlisting>
                                         will be used.</para>
                                 </entry>
                             </row>
+                            <row>
+                                <entry><parameter>sftp-server-alive-interval</parameter></entry>
+                                <entry>
+                                    <para>The interval in seconds at which to send keepalive
+                                    packets to the SSH server for the SFTP connection.  This
+                                    parameter is optional.  If omitted, the default of 0 will be
+                                    used, disabling sending keepalive packets.  The minimum
+                                    value is 2.
+                                    </para>
+                                </entry>
+                            </row>
                         </tbody>
                     </tgroup>
                 </informaltable>
@@ -2311,6 +2322,17 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                                         will be used.</para>
                                 </entry>
                             </row>
+                            <row>
+                                <entry><parameter>sftp-server-alive-interval</parameter></entry>
+                                <entry>
+                                    <para>The interval in seconds at which to send keepalive 
+                                    packets to the SSH server for the SFTP connection.  This 
+                                    parameter is optional.  If omitted, the default of 0 will be 
+                                    used, disabling sending keepalive packets.  The minimum 
+                                    value is 2.
+                                    </para>
+                                </entry>
+                            </row>
                         </tbody>
                     </tgroup>
                 </informaltable>
@@ -2563,6 +2585,23 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                                         </indexterm>The port the SSH server is listening on, usually
                                         22. This parameter is optional. If this is not specified,
                                         the default of 22 will be used.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>server-alive-interval</parameter></entry>
+                                <entry>
+                                    <para>
+                                        <indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>server-alive-interval</secondary>
+                                        </indexterm>
+                                        By default the SSH client does not send keepalive requests
+                                        to the server.  This parameter allows you to configure the
+                                        the interval in seconds at which the client connection
+                                        sends keepalive packets to the server.  The default is 0,
+                                        which disables sending the packets.  The minimum value
+                                        is 2.
+                                    </para>
                                 </entry>
                             </row>
                         </tbody>
