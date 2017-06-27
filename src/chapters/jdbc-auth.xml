@@ -1053,6 +1053,37 @@ INSERT INTO guacamole_user (username, password_salt, password_hash)
                                 <filename>guacamole.properties</filename>.</para>
                     </listitem>
                 </varlistentry>
+                <varlistentry>
+                    <term><property>connection_weight</property></term>
+                    <listitem>
+                        <para>The weight for a connection, used for applying weighted load balancing
+                        algorithms when connections are part of a BALANCING group.  This is an
+                        integer value, where values <constant>1</constant> or greater will weight 
+                        the connection relative to other connections in that group, and values 
+                        below <constant>1</constant> cause the connection to be disabled in the 
+                        group.  If <constant>NULL</constant>, the connection will be assigned a 
+                        default weight of <constant>1</constant>.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>failover_only</property></term>
+                    <listitem>
+                        <para>Whether this connection should be used for failover situations only,
+                            also known as a "hot spare". If this column is set to
+                                <constant>TRUE</constant> or <constant>1</constant>, this connection
+                            will be used only when another connection within the same
+                                <type>BALANCING</type> connection group has failed due to an error
+                            within the remote desktop. </para>
+                        <para><emphasis>Connection groups will always transparently switch to the
+                                next available connection in the event of remote desktop failure,
+                                regardless of the value of this column.</emphasis> This column
+                            simply dictates whether a particular connection should be
+                                <emphasis>reserved</emphasis> for such situations, and left unused
+                            otherwise.</para>
+                        <para>This column only has an effect on connections within
+                                <type>BALANCING</type> groups.</para>
+                    </listitem>
+                </varlistentry>
             </variablelist>
             <para>As there are potentially multiple parameters per connection, where the names of
                 each parameter are completely arbitrary and determined only by the protocol in use,

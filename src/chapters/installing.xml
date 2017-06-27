@@ -240,8 +240,8 @@
                             non-release version from git</link>).</para>
                 </listitem>
                 <listitem>
-                    <para>SSH support depends on <package>libssh2</package> and
-                            <package>Pango</package> (a font rendering and text layout library, used
+                    <para>SSH support depends on <package>libssh2</package>, <package>OpenSSL</package>
+                        and <package>Pango</package> (a font rendering and text layout library, used
                         by Guacamole's built-in terminal emulator).</para>
                 </listitem>
                 <listitem>
