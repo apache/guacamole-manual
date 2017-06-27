@@ -28,33 +28,13 @@
             <filename>guacamole.properties</filename>, the main configuration file used by Guacamole
         and its extensions.</para>
     <section xml:id="guacamole-home">
-        <title><varname>GUACAMOLE_HOME</varname></title>
+        <title><varname>GUACAMOLE_HOME</varname> (<filename>/etc/guacamole</filename>)</title>
         <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
             <primary><varname>GUACAMOLE_HOME</varname></primary>
         </indexterm>
-        <para>Guacamole reads files from its own configuration directory by default, resorting to
-            the classpath only when this directory cannot be found. When locating this directory,
-            Guacamole will try, in order:</para>
-        <orderedlist>
-            <listitem>
-                <para>The directory specified within the system property
-                        <property>guacamole.home</property>.</para>
-            </listitem>
-            <listitem>
-                <para>The directory specified within the environment variable
-                        <varname>GUACAMOLE_HOME</varname>.</para>
-            </listitem>
-            <listitem>
-                <para>The directory <filename>.guacamole</filename>, located
-                    within the home directory of the user running the servlet
-                    container.</para>
-            </listitem>
-        </orderedlist>
-        <para>This directory will be referred to as
-                <varname>GUACAMOLE_HOME</varname> elsewhere in the
-            documentation.</para>
-        <para>Guacamole uses <varname>GUACAMOLE_HOME</varname> as the primary search location for
-            configuration file like <filename>guacamole.properties</filename>. The structure of
+        <para><varname>GUACAMOLE_HOME</varname> is the name given to Guacamole's configuration
+            directory, which is located at <filename>/etc/guacamole</filename> by default. All
+            configuration files, extensions, etc. reside within this directory. The structure of
                 <varname>GUACAMOLE_HOME</varname> is rigorously defined, and consists of the
             following optional files:</para>
         <variablelist>
@@ -93,6 +73,30 @@
                 </listitem>
             </varlistentry>
         </variablelist>
+        <section xml:id="overriding-guacamole-home">
+            <title>Overriding <varname>GUACAMOLE_HOME</varname></title>
+            <para>If you cannot or do not wish to use <filename>/etc/guacamole</filename> for
+                    <varname>GUACAMOLE_HOME</varname>, the location can be overridden through any of
+                the following methods:</para>
+            <orderedlist>
+                <listitem>
+                    <para>Creating a directory named <filename>.guacamole</filename>, within the
+                        home directory of <emphasis>the user running the servlet
+                            container</emphasis>. This directory will automatically be used for
+                            <varname>GUACAMOLE_HOME</varname> if it exists.</para>
+                </listitem>
+                <listitem>
+                    <para>Specifying the full path to an alternative directory with the environment
+                        variable <varname>GUACAMOLE_HOME</varname>. <emphasis>Be sure to consult the
+                            documentation for your servlet container to determine how to properly
+                            set environment variables.</emphasis></para>
+                </listitem>
+                <listitem>
+                    <para>Specifying the full path to an alternative directory with the system
+                        property <property>guacamole.home</property>.</para>
+                </listitem>
+            </orderedlist>
+        </section>
     </section>
 
     <section xml:id="initial-setup">
