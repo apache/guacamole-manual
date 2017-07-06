@@ -832,6 +832,15 @@ guacd-port:     4822</programlisting>
                                 </entry>
                             </row>
                             <row>
+                                <entry><parameter>sftp-root-directory</parameter></entry>
+                                <entry>
+                                    <para>The directory to expose to connected users via Guacamole's
+                                            <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                                            linkend="file-browser">file browser</link>. If omitted,
+                                        the root directory will be used by default.</para>
+                                </entry>
+                            </row>
+                            <row>
                                 <entry><parameter>sftp-server-alive-interval</parameter></entry>
                                 <entry>
                                     <para>The interval in seconds at which to send keepalive
@@ -2327,6 +2336,15 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                                 </entry>
                             </row>
                             <row>
+                                <entry><parameter>sftp-root-directory</parameter></entry>
+                                <entry>
+                                    <para>The directory to expose to connected users via Guacamole's
+                                            <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                                            linkend="file-browser">file browser</link>. If omitted,
+                                        the root directory will be used by default.</para>
+                                </entry>
+                            </row>
+                            <row>
                                 <entry><parameter>sftp-server-alive-interval</parameter></entry>
                                 <entry>
                                     <para>The interval in seconds at which to send keepalive 
@@ -3048,6 +3066,15 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                                             <command>guacctl</command> utility which controls file
                                         downloads and uploads when run on the SSH server by the user
                                         over the SSH connection.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>sftp-root-directory</parameter></entry>
+                                <entry>
+                                    <para>The directory to expose to connected users via Guacamole's
+                                            <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                                            linkend="file-browser">file browser</link>. If omitted,
+                                        the root directory will be used by default.</para>
                                 </entry>
                             </row>
                         </tbody>
