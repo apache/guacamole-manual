@@ -136,8 +136,12 @@
                                         <colspec colname="c2" colnum="2" colwidth="1.0*"/>
                                         <tbody>
                                             <row>
-                                                <entry>Debian / Ubuntu package</entry>
+                                                <entry>Debian package</entry>
                                                 <entry><package>libjpeg62-turbo-dev</package></entry>
+                                            </row>
+                                            <row>
+                                                <entry>Ubuntu package</entry>
+                                                <entry><package>libjpeg-turbo8-dev</package></entry>
                                             </row>
                                             <row>
                                                 <entry>Fedora / CentOS / RHEL package</entry>
