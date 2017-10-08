@@ -83,6 +83,51 @@ processor called "xsltproc", applying the standard DocBook XSL stylesheets.
 
 
 ------------------------------------------------------------
+ Building and viewing the manual using Docker
+------------------------------------------------------------
+
+The guacamole-manual package includes a Dockerfile that can be used to build 
+an Apache httpd Docker image that contains the Guacamole user manual.
+
+By building and running the resulting container, a developer can work on the 
+user manual without the need to install docbook and related dependencies on 
+his/her workstation. The resulting container can also be used to serve the 
+manual to Guacamole users on a network.
+
+Docker CE version 1.6 or later is required to build the image.
+
+Build the Guacamole manual container image by running the following command in
+the directory that contains this Dockerfile:
+
+    $ docker image build -t guacamole/manual .
+
+Run the resulting container using the following command:
+
+    $ docker container run -p 8080:80 guacamole/manual
+
+You'll see some startup messages from Apache httpd on your terminal when you 
+start up the container. Once the container is running you can then view the 
+HTML version of the manual by accessing http://localhost:8080 using your web 
+browser.
+
+If another process on the host is already using port 8080, you will need to 
+change the corresponding argument in the command used to start the container.
+
+As a developer working on the documentation, it will be necessary to stop the
+container and run the build again each time you wish to see changes you've 
+made to the documentation source.
+
+By default, the container image will contain only the HTML variant of the 
+Guacamole user manual. If you also wish to serve the PDF variant, use the 
+following command to build container image
+
+    $ docker image build --build-arg TARGET=all -t guacamole/manual .
+
+You can view the PDF variant of the manual by accessing 
+http://localhost:8080/gug.pdf using your web browser.
+
+
+------------------------------------------------------------
  Reporting problems
 ------------------------------------------------------------
 
