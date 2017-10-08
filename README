@@ -96,7 +96,7 @@ manual to Guacamole users on a network.
 
 Docker CE version 1.6 or later is required to build the image.
 
-Build the Guacamole manual container image running the following command in
+Build the Guacamole manual container image by running the following command in
 the directory that contains this Dockerfile:
 
     $ docker image build -t guacamole/manual .
