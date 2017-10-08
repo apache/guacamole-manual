@@ -20,9 +20,9 @@
 #
 # Dockerfile for guacamole-manual
 # 
-# See the README for information on how to use this file.
+# See the README for more information on how to use this file.
 
-# Set this build arg to any of the avaiable version labels for the httpd image
+# Set this build arg to any of the available version labels for the httpd image
 ARG HTTPD_VERSION=2.4
 
 # Perform the build itself on a Debian base
@@ -54,6 +54,11 @@ RUN \
 WORKDIR /manual
 
 # Default build target for the make
+#
+# It might be tempting to move this command to the top of the Dockerfile,
+# but by doing so, any time a different target is selected, the build cache 
+# for the layer that installs all build dependencies will be invalidated.
+#
 ARG TARGET=html
 
 # Copy the manual source into the working directory and build it
