@@ -176,6 +176,7 @@
         <xi:include href="chapters/guacamole-ext.xml"/>
         <xi:include href="chapters/adding-protocol.xml"/>
         <xi:include href="chapters/custom-auth.xml"/>
+        <xi:include href="chapters/event-listeners.xml"/>
         <xi:include href="chapters/yourown.xml"/>
     </part>
     <part xml:id="appendices">
