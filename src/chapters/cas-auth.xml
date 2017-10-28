@@ -74,6 +74,14 @@
                             this will be the full URL of your Guacamole installation.</para>
                     </listitem>
                 </varlistentry>
+                <varlistentry>
+                    <term><property>cas-clearpass-key</property></term>
+                    <listitem>
+                        <para>If using CAS ClearPass to pass the SSO password to Guacamole, this
+                            parameter specifies the private key file to use to decrypt the
+                            password.  See the section on ClearPass below.</para>
+                    </listitem>
+                </varlistentry>
             </variablelist>
         </section>
         <section xml:id="completing-cas-install">
@@ -84,6 +92,20 @@
                     disconnect all active users, so be sure that it is safe to do so prior to
                     attempting installation.</emphasis> When ready, restart your servlet container
                 and give the new authentication a try.</para>
+        </section>
+        <section xml:id="cas-clearpass">
+            <title>Using CAS ClearPass</title>
+            <para>CAS has a function called ClearPass that can be used to cache the password
+                used for SSO authentication and make that available to services at a later
+                time.  Configuring the CAS server for ClearPass is beyond the scope of this
+                article - more information can be found on the Apereo CAS wiki at the
+                following URL: <link xlink:href="https://apereo.github.io/cas">
+                https://apereo.github.io/cas</link>.</para>
+            <para>Once you have CAS configured for credential caching, you need to configure
+                the service with a keypair for passing the credential securely.  The public 
+                key gets installed on the CAS server, while the private key gets configured
+                with the <property>cas-clearpass-key</property> property.  The private key
+                file needs to be in RSA PKCS8 format.</para>
         </section>
     </section>
 </chapter>
