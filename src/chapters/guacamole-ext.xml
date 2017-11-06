@@ -21,6 +21,10 @@
                 data.</para>
         </listitem>
         <listitem>
+            <para>Provide event listeners that will be notified as Guacamole performs tasks such
+                as authentication and tunnel connection.</para>
+        </listitem>
+        <listitem>
             <para>Theme or brand Guacamole through additional CSS files and static resources.</para>
         </listitem>
         <listitem>
@@ -99,6 +103,14 @@
                             <entry>
                                 <para>An array of the classnames of all
                                         <classname>AuthenticationProvider</classname> subclasses
+                                    provided by this extension.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><property>listeners</property></entry>
+                            <entry>
+                                <para>An array of the classnames of all
+                                        <classname>Listener</classname> subclasses
                                     provided by this extension.</para>
                             </entry>
                         </row>
