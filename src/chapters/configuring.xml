@@ -2220,7 +2220,7 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                         </thead>
                         <tbody>
                             <row>
-                                <entry><parameter>load-balancing-info</parameter></entry>
+                                <entry><parameter>load-balance-info</parameter></entry>
                                 <entry>
                                     <para><indexterm>
                                             <primary>loadbalanceinfo</primary>

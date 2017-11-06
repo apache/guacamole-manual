@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter xml:id="event-listeners" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Event listeners</title>
+    <indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+        <primary>events</primary>
+        <secondary>listeners</secondary>
+    </indexterm>
+    <para>Guacamole supports the delivery of event notifications to custom extensions.
+        Developers can use listener extensions to integrate custom handling of events such as 
+        successful and failed authentications, and requests to connect and disconnect tunnels to 
+        desktop environments.</para>
+    <para>A listener extension could be used, for example, to record authentication attempts in 
+        an external database for security auditing or alerting. By listening to tunnel lifecycle 
+        events, a listener extension could be used to help coordinate startup and shutdown of 
+        machine resources; particularly useful in cloud environments where minimizing 
+        running-but-idle resources is an important cost savings measure.</para>
+    <para>For certain <emphasis>vetoable</emphasis> events, an event listener can even influence
+        Guacamole's behavior. For example, a listener can veto a successful authentication,
+        effectively causing the authentication to be considered failed. Similarly, a listener 
+        can veto a tunnel connection, effectively preventing the tunnel from being connected to
+        a virtual desktop resource.</para>
+    <para>Custom event listeners are packaged using the same extension mechanism used for
+        custom authentication providers. A single listener extension can include any number of 
+        classes that implement the listener interface. A single extension module can also include
+        any combination of authentication providers and listeners, so developers can easily
+        combine authentication providers with listeners designed to support them.</para>
+    <para>To demonstrate the principles involved in receiving Guacamole event notifications, we 
+        will implement a simple listener extension that logs authentication events. While our 
+        approach simply writes event details to the same log used by the Guacamole web application, 
+        a listener could process these events in arbitrary ways, limited only by the imagination and
+        ingenuity of the developer.</para>
+    <section xml:id="custom-event-listener-skeleton">
+        <title>A Guacamole listener extension skeleton</title>
+        <para>For simplicity's sake, and because this is how things are done upstream in the
+            Guacamole project, we will use Maven to build our extension.</para>
+        <para>The bare minimum required for a Guacamole listener extension is a
+                <filename>pom.xml</filename> file listing guacamole-ext as a dependency, a single
+            <filename>.java</filename> file implementing our stub of a listener, and a
+                <filename>guac-manifest.json</filename> file describing the extension and pointing
+            to our listener class.</para>
+        <example>
+            <title>Barebones <filename>pom.xml</filename> required for a simple listener
+                extension that writes log messages for received events.</title>
+            <programlisting>&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                        http://maven.apache.org/maven-v4_0_0.xsd">
+
+    &lt;modelVersion>4.0.0&lt;/modelVersion>
+    &lt;groupId>org.apache.guacamole&lt;/groupId>
+    &lt;artifactId>guacamole-listener-tutorial&lt;/artifactId>
+    &lt;packaging>jar&lt;/packaging>
+    &lt;version>0.9.14-incubating&lt;/version>
+    &lt;name>guacamole-listener-tutorial&lt;/name>
+
+    &lt;properties>
+        &lt;project.build.sourceEncoding>UTF-8&lt;/project.build.sourceEncoding>
+    &lt;/properties>
+
+    &lt;build>
+        &lt;plugins>
+
+            &lt;!-- Written for 1.6 -->
+            &lt;plugin>
+                &lt;groupId>org.apache.maven.plugins&lt;/groupId>
+                &lt;artifactId>maven-compiler-plugin&lt;/artifactId>
+                &lt;version>3.3&lt;/version>
+                &lt;configuration>
+                    &lt;source>1.6&lt;/source>
+                    &lt;target>1.6&lt;/target>
+                &lt;/configuration>
+            &lt;/plugin>
+
+        &lt;/plugins>
+    &lt;/build>
+
+    &lt;dependencies>
+
+        &lt;!-- Guacamole Extension API -->
+        &lt;dependency>
+            &lt;groupId>org.apache.guacamole&lt;/groupId>
+            &lt;artifactId>guacamole-ext&lt;/artifactId>
+            &lt;version>0.9.14-incubating&lt;/version>
+            &lt;scope>provided&lt;/scope>
+        &lt;/dependency>
+
+        &lt;!-- Slf4j API -->
+        &lt;!-- This is needed only if your listener wants to 
+                write to the Guacamole web application log -->
+        &lt;dependency>
+            &lt;groupId>org.slf4j&lt;/groupId>
+            &lt;artifactId>slf4j-api&lt;/artifactId>
+            &lt;version>1.7.7&lt;/version>
+            &lt;scope>provided&lt;/scope>
+        &lt;/dependency>
+
+    &lt;/dependencies>
+
+&lt;/project></programlisting>
+        </example>
+        <para>Naturally, we need the actual listener extension skeleton code. While you can
+            put this in whatever file and package you want, for the sake of this tutorial, we will
+            assume you are using
+                <classname>org.apache.guacamole.event.TutorialListener</classname>.</para>
+        <para>For now, we won't actually do anything other than log the fact that an event 
+            notification was received. At this point, we're just creating the skeleton for our 
+            listener extension.</para>                
+        <example>
+            <title>A skeleton <classname>TutorialListener</classname></title>
+            <programlisting>package org.apache.guacamole.event;
+
+import org.apache.guacamole.GuacamoleException;
+import org.apache.guacamole.net.event.listener.Listener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * A Listener implementation intended to demonstrate basic use
+ * of Guacamole's listener extension API.
+ */
+public class TutorialListener implements Listener {
+
+    private static final Logger logger = 
+         LoggerFactory.getLogger(TutorialListener.class);
+
+    @Override
+    public void handleEvent(Object event) throws GuacamoleException {
+        logger.info("received Guacamole event notification");
+    }
+
+}</programlisting>
+        </example>
+        <para>To conform with Maven, this skeleton file must be placed within
+                <filename>src/main/java/org/apache/guacamole/event</filename> as
+                <filename>TutorialListener.java</filename>.</para>
+        <para>As you can see, implementing a listener is quite simple. There is a single 
+            <classname>Listener</classname> interface to implement. All Guacamole event
+            notifications will be delivered to your code by invoking the 
+            <methodname>handleEvent</methodname> method. We will see shortly how to use
+            the passed event object to get the details of the event itself.
+        </para>
+        <para>The only remaining piece for the overall skeleton to be complete is a
+                <filename>guac-manifest.json</filename> file. <emphasis>This file is absolutely
+                required for all Guacamole extensions.</emphasis> The
+                <filename>guac-manifest.json</filename> format is described in more detail in <xref
+                xmlns:xlink="http://www.w3.org/1999/xlink" linkend="guacamole-ext"/>. It provides
+            for quite a few properties, but for our listener extension we are mainly
+            interested in the Guacamole version sanity check (to make sure an extension built for
+            the API of Guacamole version X is not accidentally used against version Y) and telling
+            Guacamole where to find our listener class.</para>
+        <para>The Guacamole extension format requires that <filename>guac-manifest.json</filename>
+            be placed in the root directory of the extension <filename>.jar</filename> file. To
+            accomplish this with Maven, we place it within the
+                <filename>src/main/resources</filename> directory. Maven will automatically pick it
+            up during the build and include it within the <filename>.jar</filename>.</para>
+        <example>
+            <title>The required <filename>guac-manifest.json</filename></title>
+            <programlisting>{
+
+    "guacamoleVersion" : "0.9.14-incubating",
+
+    "name"      : "Tutorial Listener Extension",
+    "namespace" : "guac-listener-tutorial",
+
+    "listeners" : [
+        "org.apache.guacamole.event.TutorialListener"
+    ]
+
+}</programlisting>
+        </example>
+    </section>
+    <section xml:id="custom-listener-building">
+        <title>Building the extension</title>
+        <para>Once all three of the above files are in place, the extension should build successfully
+            even though it is just a skeleton at this point.</para>
+        <informalexample>
+            <screen><prompt>$</prompt> mvn package
+<computeroutput>[INFO] Scanning for projects...
+[INFO] ---------------------------------------------------------------
+[INFO] Building guacamole-listener-tutorial 0.9.14-incubating
+[INFO] ---------------------------------------------------------------
+...
+[INFO] ---------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ---------------------------------------------------------------
+[INFO] Total time: 1.297 s
+[INFO] Finished at: 2017-10-08T13:12:39-04:00
+[INFO] Final Memory: 19M/306M
+[INFO] ---------------------------------------------------------------</computeroutput>
+<prompt>$</prompt></screen>
+        </informalexample>
+        <para>Assuming you see the "<computeroutput>BUILD SUCCESS</computeroutput>" message when you
+            build the extension, there will be a new file,
+                <filename>target/guacamole-listener-tutorial-0.9.14-incubating.jar</filename>, which can be
+            installed within Guacamole (see <xref xmlns:xlink="http://www.w3.org/1999/xlink"
+                linkend="custom-listener-installing"/> at the end of this chapter). It should log
+            event notifications that occur during, for example, authentication attempts.
+            If you changed the name or version of the project
+            in the <filename>pom.xml</filename> file, the name of this new <filename>.jar</filename>
+            file will be different, but it can still be found within
+            <filename>target/</filename>.</para>
+    </section>
+    <section xml:id="custom-listener-event-handling">
+        <title>Handling events</title>
+        <para>The Guacamole <classname>Listener</classname> interface represents a low-level event
+            handling API. A listener is notified of every event generated by Guacamole. The listener
+            must examine the event type to determine whether the event is of interest, and if so to 
+            dispatch the event to the appropriate entry point.</para>
+        <para>The event types that can be produced by Guacamole are described in the 
+            <package>org.apache.guacamole.net.event</package> package of the <package>guacamole-ext</package>
+            API. In this package you will find several concrete event types as well as interfaces that 
+            describe common characteristics of certain of event types. You can use any of these types 
+            to distinguish the events received by your listener, and to examine properties of an event 
+            of a given type.</para>
+        <para>Suppose we wish to log authentication success and failure events, while ignoring all other
+            event types. The <classname>AuthenticationSuccessEvent</classname> and 
+            <classname>AuthenticationFailureEvent</classname> types are used to notify a listener
+            of authentication events. We can simply check whether a received event is of one of
+            these types and, if so, log an appropriate message.</para>
+        <example>
+            <title>Using the event type to log an authentication success or failure</title>
+            <programlisting>package org.apache.guacamole.event;
+
+import org.apache.guacamole.GuacamoleException;
+import org.apache.guacamole.net.event.AuthenticationFailureEvent;
+import org.apache.guacamole.net.event.AuthenticationSuccessEvent;
+import org.apache.guacamole.net.event.listener.Listener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * A Listener that logs authentication success and failure events.
+ */
+public class TutorialListener implements Listener {
+
+    private static final Logger logger = 
+        LoggerFactory.getLogger(TutorialListener.class);
+
+    @Override
+    public void handleEvent(Object event) throws GuacamoleException {
+
+        if (event instanceof AuthenticationSuccessEvent) {
+            logger.info("successful authentication for user {}", 
+                ((AuthenticationSuccessEvent) event)
+                    .getCredentials().getUsername());
+        }
+        else if (event instanceof AuthenticationFailureEvent) {
+            logger.info("failed authentication for user {}", 
+                ((AuthenticationFailureEvent) event)
+                    .getCredentials().getUsername());
+        }
+    }
+
+}</programlisting>
+        </example>
+        <para>In our example, we use <code>instanceof</code> to check for the two event types of
+        interest to our listener. Once we have identified an event of interest, we can safely
+        cast the event type to access properties of the event.</para>
+        <para>The extension is now complete and can be built as described earlier in <xref
+                xmlns:xlink="http://www.w3.org/1999/xlink" linkend="custom-listener-building"/>
+            and installed as described below in <xref
+                xmlns:xlink="http://www.w3.org/1999/xlink" linkend="custom-listener-installing"/>.</para>
+    </section>
+    <section xml:id="custom-listener-veto">
+        <title>Influencing Guacamole by event veto</title>
+        <para>An implementation of the <methodname>handleEvent</methodname> method is permitted to
+            throw any <classname>GuacamoleException</classname>. For certain <emphasis>vetoable</emphasis>
+            event types, throwing a <classname>GuacamoleException</classname> serves to effectively 
+            veto the action that resulted in the event notification. See the API documentation for
+            <package>guacamole-ext</package> to learn more about vetoable event types.</para>
+        <para>As an (admittedly contrived) example, suppose we want to prevent a user named 
+            "guacadmin" from accessing Guacamole. For whatever reason, we don't wish to remove or disable 
+            the auth database entry for this user. In this case we can use a listener to "blacklist" this
+            user, preventing access to Guacamole. In the listener, when we get an 
+            <classname>AuthenticationSuccessEvent</classname> we can check to see if the user is 
+            "guacadmin" and, if so, throw an exception to prevent this user from logging in to 
+            Guacamole.</para>
+        <example>
+            <title>Vetoing an event by throwing a <classname>GuacamoleException</classname></title>
+            <programlisting>package org.apache.guacamole.event;
+
+import org.apache.guacamole.GuacamoleException;
+import org.apache.guacamole.GuacamoleSecurityException;
+import org.apache.guacamole.net.event.AuthenticationFailureEvent;
+import org.apache.guacamole.net.event.AuthenticationSuccessEvent;
+import org.apache.guacamole.net.event.listener.Listener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * A Listener that logs authentication success and failure events
+ * and prevents the "guacadmin" user from logging in by throwing
+ * a GuacamoleSecurityException.
+ */
+public class TutorialListener implements Listener {
+
+    private static final Logger logger = 
+        LoggerFactory.getLogger(TutorialListener.class);
+
+    @Override
+    public void handleEvent(Object event) throws GuacamoleException {
+
+        if (event instanceof AuthenticationSuccessEvent) {
+          final String username = ((AuthenticationSuccessEvent) event)
+              .getCredentials().getUsername();
+
+          if ("guacadmin".equals(username)) {
+            logger.warn("user {} is blacklisted", username);
+            throw new GuacamoleSecurityException(
+                "User '" + username + "' is blacklisted");
+          }
+
+          logger.info("successful authentication for user {}", username);
+        }
+        else if (event instanceof AuthenticationFailureEvent) {
+            logger.info("failed authentication for user {}", 
+                ((AuthenticationFailureEvent) event)
+                    .getCredentials().getUsername());
+        }
+    }
+
+}</programlisting>
+        </example>
+        <para>If our Guacamole user database contains a user named "guacadmin", and we build and 
+            install this listener extension, we will find that an attempt to log in as this user
+            now results in a message in the UI indicating that the user is blacklisted. If we
+            examine the Guacamole log, we will see the message indicating that the user is 
+            blacklisted. Because the successful authentication was vetoed, Guacamole sends a
+            subsequent authentication failure notification, which we see logged as well.</para>
+    </section>
+    <section xml:id="custom-listener-installing">
+        <title>Installing the extension</title>
+        <para>Guacamole extensions are self-contained <filename>.jar</filename> files which are
+            installed by being placed within <filename>GUACAMOLE_HOME/extensions</filename>, and
+            this extension is no different. As described in <xref
+                xmlns:xlink="http://www.w3.org/1999/xlink" linkend="configuring-guacamole"/>,
+                <varname>GUACAMOLE_HOME</varname> is a placeholder used to refer to the directory
+            that Guacamole uses to locate its configuration files and extensions. Typically, this
+            will be the <filename>.guacamole</filename> directory within the home directory of the
+            user running Tomcat.</para>
+        <para>To install your extension, copy the
+            <filename>target/guacamole-listener-tutorial-0.9.14-incubating.jar</filename> file into
+            <filename>GUACAMOLE_HOME/extensions</filename> and restart Tomcat. Guacamole will
+            automatically load your extension, logging an informative message that it has done
+            so:</para>
+        <informalexample>
+            <screen>Extension "Tutorial Listener Extension" loaded.</screen>
+        </informalexample>
+    </section>
+</chapter>
