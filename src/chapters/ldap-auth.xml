@@ -407,8 +407,8 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                 <varlistentry>
                     <term><property>ldap-follow-referrals</property></term>
                     <listitem>
-                        <para>This option controls whether or not the LDAP connection follows referrals when
-                            processing search results from a LDAP operation.  Referrals can be pointers to other
+                        <para>This option controls whether or not the LDAP module follow referrals when
+                            processing search results from a LDAP search.  Referrals can be pointers to other
                             parts of an LDAP tree, or to a different server/connection altogether.  This is a boolean
                             parameter, with valid options of "true" or "false."  The default is false.  When disabled,
                             LDAP referrals will be ignored when encounterd by the Guacamole LDAP client and the client
@@ -428,8 +428,7 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                 <varlistentry>
                     <term><property>ldap-operation-timeout</property></term>
                         <para>This option sets the timeout, in seconds, of any single LDAP operation.  The default is 30 seconds.
-                        When this timeout is reached LDAP operations will be aborted.
-                        </para>
+                        When this timeout is reached LDAP operations will be aborted.</para>
                     <listitem>
                     </listitem>
                 </varlistentry>
