@@ -336,7 +336,8 @@ Type "help" for help.
 <prompt>2></prompt> <userinput>GO</userinput>
 <prompt>1></prompt> <userinput>CREATE USER <replaceable>guacamole_user</replaceable>;</userinput>
 <prompt>2></prompt> <userinput>GO</userinput>
-<prompt>1></prompt> <userinput>ALTER ROLE db_owner ADD MEMBER <replaceable>guacamole_user</replaceable>;</userinput>
+<prompt>1></prompt> <userinput>ALTER ROLE db_datawriter ADD MEMBER <replaceable>guacamole_user</replaceable>;</userinput>
+<prompt>1></prompt> <userinput>ALTER ROLE db_datareader ADD MEMBER <replaceable>guacamole_user</replaceable>;</userinput>
 <prompt>2></prompt> <userinput>GO</userinput></screen>
             </informalexample>
             <para>Once the database and user account is created, and the user associated with the database, you can use
