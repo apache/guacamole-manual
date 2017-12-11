@@ -404,6 +404,34 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                             aliases.</para>
                     </listitem>
                 </varlistentry>
+                <varlistentry>
+                    <term><property>ldap-follow-referrals</property></term>
+                    <listitem>
+                        <para>This option controls whether or not the LDAP module follow referrals when
+                            processing search results from a LDAP search.  Referrals can be pointers to other
+                            parts of an LDAP tree, or to a different server/connection altogether.  This is a boolean
+                            parameter, with valid options of "true" or "false."  The default is false.  When disabled,
+                            LDAP referrals will be ignored when encounterd by the Guacamole LDAP client and the client
+                            will move on to the next result.  When enabled, the LDAP client will follow the referral and
+                            process results within the referral, subject to the maximum hops parameter below.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>ldap-max-referral-hops</property></term>
+                    <listitem>
+                        <para>This option controls the maximum number of referrals that will be processed before the
+                        LDAP client refuses to follow any more referrals.  The default is 5.  If the ldap-follow-referrals
+                        property is set to false (the default), this option has no effect.  If the ldap-follow-referrals option
+                        is set to true, this will limit the depth of referrals followed to the number specified.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>ldap-operation-timeout</property></term>
+                        <para>This option sets the timeout, in seconds, of any single LDAP operation.  The default is 30 seconds.
+                        When this timeout is reached LDAP operations will be aborted.</para>
+                    <listitem>
+                    </listitem>
+                </varlistentry>
             </variablelist>
             <para>Again, even if the defaults are sufficient for the other properties, <emphasis>you
                     must still specify the <property>ldap-user-base-dn</property>
