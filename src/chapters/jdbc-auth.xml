@@ -115,6 +115,28 @@
                         directory.  Microsoft's JDBC driver can be downloaded from Microsoft's <link
                         xlink:href="https://docs.microsoft.com/en-us/sql/connect/sql-connection-libraries#anchor-20-drivers-relational-access">
                         SQL Connection Libraries</link> page.</para>
+                    <para>In addition to the various parameters mentioned below, the SQL Server driver has a
+                        unique parameter available to control the driver compatibility of the JDBC module:
+                        <property>sqlserver-driver</property>.  This parameter allows you to choose the compatibility
+                        mode of the module with various TDS-comptabile drivers such that it can be used with different
+                        versions of SQL Server and even non-Microsoft SQL Server databases.  The following options are available
+                        for the <property>sqlserver-driver</property> property:
+                        <variablelist>
+                            <varlistentry>
+                                <constant>microsoft2005</constant>: The current Microsoft driver,
+                                supporting SQL Server 2005 and later.
+                            </varlistentry>
+                            <varlistentry>
+                                <constant>microsoft</constant>: The legacy SQL Server support.
+                            </varlistentry>
+                            <varlistentry>
+                                <constant>jtds</constant>: The open source JTDS driver.
+                            </varlistentry>
+                            <varlistentry>
+                                <constant>datadirect</constant>: The Progress Sybase driver.
+                            </varlistentry>
+                        </variablelist>
+                    </para>
                 </listitem>
             </varlistentry>
         </variablelist>
@@ -515,32 +537,6 @@ sqlserver-driver: microsoft2005
                                 <para>The password Guacamole should provide when authenticating with
                                     the database. This is given as "some_password" in the examples
                                     given in this chapter.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry></entry>
-                            <entry></entry>
-                            <entry><property>sqlserver-driver</property></entry>
-                            <entry>
-                                <para>The SQL Server driver has an additional required parameter to
-                                configure the TDS compatibility of the driver.  This driver supports
-                                four different options for this command:
-                                    <variablelist>
-                                        <varlistentry>
-                                            <constant>microsoft2005</constant> for the current Microsoft driver,
-                                            supporting SQL Server 2005 and later.
-                                       </varlistentry>
-                                        <varlistentry>
-                                            <constant>microsoft</constant> for legacy SQL Server support.
-                                        </varlistentry>
-                                        <varlistentry>
-                                            <constant>jtds</constant> for the open source JTDS driver.
-                                        </varlistentry>
-                                        <varlistentry>
-                                            <constant>datadirect</constant> for the Progress Sybase driver.
-                                        </varlistentry>
-                                    </variablelist>
-                                </para>
                             </entry>
                         </row>
                     </tbody>
