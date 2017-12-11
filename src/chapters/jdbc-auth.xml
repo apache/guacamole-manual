@@ -108,13 +108,13 @@
                         SQL Server JDBC driver must be placed within the <filename>GUACAMOLE_HOME/lib</filename>
                         directory.</para>
                     <para><emphasis>The SQL Server JDBC driver is not included with the extension.</emphasis>  You
-                        must obtain the JDBC driver <filename>.jar</filename> yourselfand place it in the directory.
+                        must obtain the JDBC driver <filename>.jar</filename> yourself and place it in the directory.
                         Furthermore, the SQL Server authentication extension supports a number of TDS-compatible
                         drivers, so you must make sure the one you choose is supported by the extension, that the
                         extension is configured properly, and that the <filename>.jar</filename> is in the correct
-                        directory.  Microsoft's JDBC driver can be downloaded from <link
+                        directory.  Microsoft's JDBC driver can be downloaded from Microsoft's <link
                         xlink:href="https://docs.microsoft.com/en-us/sql/connect/sql-connection-libraries#anchor-20-drivers-relational-access">
-                        this page</link>.</para>
+                        SQL Connection Libraries</link> page.</para>
                 </listitem>
             </varlistentry>
         </variablelist>
@@ -324,21 +324,22 @@ Type "help" for help.
         <section xml:id="jdbc-auth-sqlserver">
             <title>SQL Server</title>
             <para>If using SQL Server, the database and schema must be created first.  The example below assumes
-                that you are running SQL Server on Linux, using the command-line tools to manage it.</para>
+                that you are running SQL Server on Linux, using the command-line tools to manage it, however, this
+                code can be run using any tool capable of running SQL against a SQL Server database.</para>
             <informalexample>
                 <screen><prompt>$</prompt> <userinput>/opt/mssql-tools/bin/sqlcmd -S localhost -U SA</userinput>
 <prompt>Password:</prompt> <userinput><replaceable>password</replaceable></userinput>
 <prompt>1></prompt> <userinput>CREATE DATABASE <replaceable>guacamole_db</replaceable>;</userinput>
 <prompt>2></prompt> <userinput>GO</userinput>
-<prompt>1></prompt> <userinput>CREATE LOGIN <replaceable>guacamole_user</replaceable> WITH PASSWORD = '<replaceable>S0me_Password</replaceable>';</userinput>
+<prompt>1></prompt> <userinput>CREATE LOGIN <replaceable>guacamole_user</replaceable> WITH PASSWORD = '<replaceable>some_password</replaceable>';</userinput>
 <prompt>2></prompt> <userinput>GO</userinput>
 <prompt>1></prompt> <userinput>USE <replaceable>guacamole_db</replaceable>;</userinput>
 <prompt>2></prompt> <userinput>GO</userinput>
 <prompt>1></prompt> <userinput>CREATE USER <replaceable>guacamole_user</replaceable>;</userinput>
 <prompt>2></prompt> <userinput>GO</userinput>
 <prompt>1></prompt> <userinput>ALTER ROLE db_datawriter ADD MEMBER <replaceable>guacamole_user</replaceable>;</userinput>
-<prompt>1></prompt> <userinput>ALTER ROLE db_datareader ADD MEMBER <replaceable>guacamole_user</replaceable>;</userinput>
-<prompt>2></prompt> <userinput>GO</userinput></screen>
+<prompt>2></prompt> <userinput>ALTER ROLE db_datareader ADD MEMBER <replaceable>guacamole_user</replaceable>;</userinput>
+<prompt>3></prompt> <userinput>GO</userinput></screen>
             </informalexample>
             <para>Once the database and user account is created, and the user associated with the database, you can use
                 the supplied scripts to load the schema into the database.  These scripts are included in the
@@ -346,13 +347,13 @@ Type "help" for help.
                 web site.</para>
             <informalexample>
                 <screen><prompt>$</prompt> <userinput>/opt/mssql-tools/bin/sqlcmd -S localhost -U <replaceable>guacamole_user</replaceable> -d <replaceable>guacamole_db</replaceable> -i schema/001-create-schema.sql</userinput>
-<prompt>Password:</prompt> <userinput><replaceable>S0me_Password</replaceable></userinput>
+<prompt>Password:</prompt> <userinput><replaceable>some_password</replaceable></userinput>
 <computeroutput>Rule bound to data type.
 The new rule has been bound to column(s) of the specified user data type.
 Rule bound to data type.
 The new rule has been bound to column(s) of the specified user data type.</computeroutput>
 <prompt>$</prompt> <userinput>/opt/mssql-tools/bin/sqlcmd -S localhost -U <replaceable>guacamole_user</replaceable> -d <replaceable>guacamole_db</replaceable> -i schema/002-create-admin-user.sql</userinput>
-<prompt>Password:</prompt> <userinput><replaceable>S0me_Password</replaceable></userinput>
+<prompt>Password:</prompt> <userinput><replaceable>some_password</replaceable></userinput>
 <computeroutput>
 (1 rows affected)
 
@@ -444,7 +445,7 @@ sqlserver-hostname: localhost
 sqlserver-port: 1433
 sqlserver-database: <replaceable>guacamole_db</replaceable>
 sqlserver-username: <replaceable>guacamole_user</replaceable>
-sqlserver-password: <replaceable>S0me_Password</replaceable>
+sqlserver-password: <replaceable>some_password</replaceable>
 sqlserver-driver: microsoft2005
                 </programlisting>
             </informalexample>
@@ -524,11 +525,21 @@ sqlserver-driver: microsoft2005
                                 <para>The SQL Server driver has an additional required parameter to
                                 configure the TDS compatibility of the driver.  This driver supports
                                 four different options for this command:
-                                - <property>microsoft2005</property> for the current Microsoft driver,
-                                    supporting SQL Server 2005 and later.
-                                - <property>microsoft</property> for legacy SQL Server support.
-                                - <property>jtds</property> for the open source JTDS driver.
-                                - <property>datadirect</property> for the Progress Sybase driver.
+                                    <variablelist>
+                                        <varlistentry>
+                                            <constant>microsoft2005</constant> for the current Microsoft driver,
+                                            supporting SQL Server 2005 and later.
+                                       </varlistentry>
+                                        <varlistentry>
+                                            <constant>microsoft</constant> for legacy SQL Server support.
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <constant>jtds</constant> for the open source JTDS driver.
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <constant>datadirect</constant> for the Progress Sybase driver.
+                                        </varlistentry>
+                                    </variablelist>
                                 </para>
                             </entry>
                         </row>
