@@ -1,6 +1,6 @@
 {
 
-    "guacamoleVersion" : "0.9.12-incubating",
+    "guacamoleVersion" : "0.9.14",
 
     "name"      : "Tutorial Authentication Extension",
     "namespace" : "guac-auth-tutorial",
