@@ -385,18 +385,6 @@ The new rule has been bound to column(s) of the specified user data type.</compu
             </informalexample>
             <para>If the operation is successful, the tables and permissions have been created successfully, and you
                 can now use the database with the Guacamole client web application.</para>
-            <important xml:id="jdbc-auth-sqlserver-upgrade">
-                <para>If you are upgrading from an older version of Guacamole and were already using
-                    SQL Server, you may need to run one or more database schema upgrade scripts
-                    located within the <filename>schema/upgrade/</filename> directory. Each of these
-                    scripts is named
-                        <filename>upgrade-pre-<replaceable>VERSION</replaceable>.sql</filename>
-                    where <replaceable>VERSION</replaceable> is the version of Guacamole where those
-                    changes were introduced. They need to be run when you are upgrading from a
-                    version of Guacamole older than <replaceable>VERSION</replaceable>.</para>
-                <para>SQL Server support was added in version <replaceable>VERSION</replaceable>, so, at the time of this
-                    version of the manual, there are no upgrade scripts available.</para>
-            </important>
         </section>
     </section>
     <section xml:id="jdbc-auth-installation">
