@@ -121,21 +121,21 @@
                         mode of the module with various TDS-comptabile drivers such that it can be used with different
                         versions of SQL Server and even non-Microsoft SQL Server databases.  The following options are available
                         for the <property>sqlserver-driver</property> property:
-                        <variablelist>
-                            <varlistentry>
+                        <itemizedlist>
+                            <listitem>
                                 <constant>microsoft2005</constant>: The current Microsoft driver,
                                 supporting SQL Server 2005 and later.
-                            </varlistentry>
-                            <varlistentry>
+                            </listitem>
+                            <listitem>
                                 <constant>microsoft</constant>: The legacy SQL Server support.
-                            </varlistentry>
-                            <varlistentry>
+                            </listitem>
+                            <listitem>
                                 <constant>jtds</constant>: The open source JTDS driver.
-                            </varlistentry>
-                            <varlistentry>
+                            </listitem>
+                            <listitem>
                                 <constant>datadirect</constant>: The Progress Sybase driver.
-                            </varlistentry>
-                        </variablelist>
+                            </listitem>
+                        </itemizedlist>
                     </para>
                 </listitem>
             </varlistentry>
