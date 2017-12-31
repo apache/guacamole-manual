@@ -308,7 +308,7 @@
                 Guacamole's SSH support can be used with the <command>guacctl</command> utility. The
                     <command>guacctl</command> utility is a simple shell script <link
                     xmlns:xlink="http://www.w3.org/1999/xlink"
-                    xlink:href="https://raw.githubusercontent.com/apache/incubator-guacamole-server/master/bin/guacctl"
+                    xlink:href="https://raw.githubusercontent.com/apache/guacamole-server/master/bin/guacctl"
                     >included with Guacamole</link> which allows you to use and configure file
                 transfer directly from the command line within the SSH session:</para>
             <informalexample>

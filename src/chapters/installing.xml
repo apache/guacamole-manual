@@ -563,8 +563,8 @@
                 rigorously tested as the code in stable releases, you can also clone the Guacamole
                 team's git repository on GitHub:</para>
             <informalexample>
-                <screen><prompt>$</prompt> <userinput>git clone <uri>git://github.com/apache/incubator-guacamole-server.git</uri></userinput>
-<computeroutput>Cloning into 'incubator-guacamole-server'...
+                <screen><prompt>$</prompt> <userinput>git clone <uri>git://github.com/apache/guacamole-server.git</uri></userinput>
+<computeroutput>Cloning into 'guacamole-server'...
 remote: Counting objects: 6769, done.
 remote: Compressing objects: 100% (2244/2244), done.
 remote: Total 6769 (delta 3058), reused 6718 (delta 3008)
@@ -684,12 +684,12 @@ Type "make" to compile guacamole-server.
             <informalexample>
                 <screen><prompt>$</prompt> <userinput>make</userinput>
 <computeroutput>Making all in src/libguac
-make[1]: Entering directory `/home/zhz/guacamole/incubator-guacamole-server/src/libguac'
+make[1]: Entering directory `/home/zhz/guacamole/guacamole-server/src/libguac'
 ...
-make[1]: Leaving directory `/home/zhz/guacamole/incubator-guacamole-server/src/protocols/vnc'
-make[1]: Entering directory `/home/zhz/guacamole/incubator-guacamole-server'
+make[1]: Leaving directory `/home/zhz/guacamole/guacamole-server/src/protocols/vnc'
+make[1]: Entering directory `/home/zhz/guacamole/guacamole-server'
 make[1]: Nothing to be done for `all-am'.
-make[1]: Leaving directory `/home/zhz/guacamole/incubator-guacamole-server'</computeroutput>
+make[1]: Leaving directory `/home/zhz/guacamole/guacamole-server'</computeroutput>
 <prompt>$</prompt></screen>
             </informalexample>
             <para>Quite a bit of output will scroll up the screen as all the components are
@@ -704,8 +704,8 @@ make[1]: Leaving directory `/home/zhz/guacamole/incubator-guacamole-server'</com
             <informalexample>
                 <screen><prompt>#</prompt> <userinput>make install</userinput>
 <computeroutput>Making install in src/libguac
-make[1]: Entering directory `/home/zhz/guacamole/incubator-guacamole-server/src/libguac'
-make[2]: Entering directory `/home/zhz/guacamole/incubator-guacamole-server/src/libguac'
+make[1]: Entering directory `/home/zhz/guacamole/guacamole-server/src/libguac'
+make[2]: Entering directory `/home/zhz/guacamole/guacamole-server/src/libguac'
 ...
 ----------------------------------------------------------------------
 Libraries have been installed in:
@@ -726,14 +726,14 @@ See any operating system documentation about shared libraries for
 more information, such as the ld(1) and ld.so(8) manual pages.
 ----------------------------------------------------------------------
 make[2]: Nothing to be done for `install-data-am'.
-make[2]: Leaving directory `/home/zhz/guacamole/incubator-guacamole-server/src/protocols/vnc'
-make[1]: Leaving directory `/home/zhz/guacamole/incubator-guacamole-server/src/protocols/vnc'
-make[1]: Entering directory `/home/zhz/guacamole/incubator-guacamole-server'
-make[2]: Entering directory `/home/zhz/guacamole/incubator-guacamole-server'
+make[2]: Leaving directory `/home/zhz/guacamole/guacamole-server/src/protocols/vnc'
+make[1]: Leaving directory `/home/zhz/guacamole/guacamole-server/src/protocols/vnc'
+make[1]: Entering directory `/home/zhz/guacamole/guacamole-server'
+make[2]: Entering directory `/home/zhz/guacamole/guacamole-server'
 make[2]: Nothing to be done for `install-exec-am'.
 make[2]: Nothing to be done for `install-data-am'.
-make[2]: Leaving directory `/home/zhz/guacamole/incubator-guacamole-server'
-make[1]: Leaving directory `/home/zhz/guacamole/incubator-guacamole-server'</computeroutput>
+make[2]: Leaving directory `/home/zhz/guacamole/guacamole-server'
+make[1]: Leaving directory `/home/zhz/guacamole/guacamole-server'</computeroutput>
 <prompt>#</prompt> <userinput>ldconfig</userinput>
 <prompt>#</prompt>   </screen>
             </informalexample>
@@ -792,8 +792,8 @@ make[1]: Leaving directory `/home/zhz/guacamole/incubator-guacamole-server'</com
             don't care that the code hasn't been as rigorously tested as the code in stable
             releases, you can also clone the Guacamole team's git repository on GitHub:</para>
         <informalexample>
-            <screen><prompt>$</prompt> <userinput>git clone <uri>git://github.com/apache/incubator-guacamole-client.git</uri></userinput>
-<computeroutput>Cloning into 'incubator-guacamole-client'...
+            <screen><prompt>$</prompt> <userinput>git clone <uri>git://github.com/apache/guacamole-client.git</uri></userinput>
+<computeroutput>Cloning into 'guacamole-client'...
 remote: Counting objects: 12788, done.
 remote: Compressing objects: 100% (4183/4183), done.
 remote: Total 12788 (delta 3942), reused 12667 (delta 3822)
