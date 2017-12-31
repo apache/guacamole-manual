@@ -7,7 +7,7 @@
         <legalnotice>
             <para>Licensed to the Apache Software Foundation (ASF) under one or more contributor
                 license agreements. See the <link xmlns:xlink="http://www.w3.org/1999/xlink"
-                    xlink:href="https://raw.githubusercontent.com/apache/incubator-guacamole-manual/master/NOTICE"
+                    xlink:href="https://raw.githubusercontent.com/apache/guacamole-manual/master/NOTICE"
                         ><filename>NOTICE</filename></link> file distributed with this work for
                 additional information regarding copyright ownership. The ASF licenses this file to
                 you under the Apache License, Version 2.0 (the "License"); you may not use this file
@@ -26,8 +26,8 @@
         <title>Introduction</title>
         <para>This book is the official Apache Guacamole manual, written by the upstream developers
             of the Guacamole project. It is also the official general documentation, and an online
-            version at <link xlink:href="http://guacamole.incubator.apache.org/"
-                >http://guacamole.incubator.apache.org/</link>. It is a work in progress which will
+            version at <link xlink:href="http://guacamole.apache.org/"
+                >http://guacamole.apache.org/</link>. It is a work in progress which will
             be continuously updated as Guacamole changes with each release.</para>
         <para>We decided to maintain the documentation for Guacamole as a book, as there is an awful
             lot that can be done with the Guacamole web application, and even more that can be done

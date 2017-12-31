@@ -14,7 +14,7 @@
     <para>For a list of available functions, see the definition of
             <classname>guac_transfer_function</classname> within the <link
             xmlns:xlink="http://www.w3.org/1999/xlink"
-            xlink:href="https://github.com/apache/incubator-guacamole-server/blob/master/src/libguac/guacamole/protocol-types.h"
+            xlink:href="https://github.com/apache/guacamole-server/blob/master/src/libguac/guacamole/protocol-types.h"
                 ><filename>guacamole/protocol-types.h</filename></link> header included with
         libguac.</para>
     <variablelist>
@@ -59,7 +59,7 @@
                 <para>For a list of available functions, see the definition of
                         <classname>guac_transfer_function</classname> within the <link
                         xmlns:xlink="http://www.w3.org/1999/xlink"
-                        xlink:href="https://github.com/apache/incubator-guacamole-server/blob/master/src/libguac/guacamole/protocol-types.h"
+                        xlink:href="https://github.com/apache/guacamole-server/blob/master/src/libguac/guacamole/protocol-types.h"
                             ><filename>guacamole/protocol-types.h</filename></link> header included
                     with libguac.</para>
             </listitem>

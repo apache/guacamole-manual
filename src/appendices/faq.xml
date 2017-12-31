@@ -227,7 +227,7 @@
                 <para>If you would like help with Apache Guacamole, or wish to help others, we
                     highly recommend sending an email to the one of the project’s <link
                         xmlns:xlink="http://www.w3.org/1999/xlink"
-                        xlink:href="http://guacamole.incubator.apache.org/support/#mailing-lists"
+                        xlink:href="http://guacamole.apache.org/support/#mailing-lists"
                         >mailing lists</link>. <emphasis>You will need to subscribe prior to sending
                         email to any list.</emphasis> All mailing lists are actively filtered for
                     spam, and any email not originating from a subscriber will bounce.</para>
@@ -235,23 +235,23 @@
                 <variablelist>
                     <varlistentry>
                         <term><link xmlns:xlink="http://www.w3.org/1999/xlink"
-                                xlink:href="http://mail-archives.apache.org/mod_mbox/incubator-guacamole-user/"
-                                    ><email>user@guacamole.incubator.apache.org</email></link></term>
+                                xlink:href="http://mail-archives.apache.org/mod_mbox/guacamole-user/"
+                                    ><email>user@guacamole.apache.org</email></link></term>
                         <listitem>
                             <para>The user list is intended for general questions and discussions
                                 which do not necessarily pertain to development. This list replaces
                                 the old <link xmlns:xlink="http://www.w3.org/1999/xlink"
                                     xlink:href="https://sourceforge.net/p/guacamole/discussion/"
                                     >SourceForge forums</link> used by Guacamole prior to its
-                                acceptance into the Apache Incubator.</para>
+                                acceptance into the Apache Software Foundation.</para>
                             <para><emphasis>If you're not sure which mailing list to use, the user
                                     list is probably the correct choice.</emphasis></para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
                         <term><link xmlns:xlink="http://www.w3.org/1999/xlink"
-                                xlink:href="http://mail-archives.apache.org/mod_mbox/incubator-guacamole-dev/"
-                                    ><email>dev@guacamole.incubator.apache.org</email></link></term>
+                                xlink:href="http://mail-archives.apache.org/mod_mbox/guacamole-dev/"
+                                    ><email>dev@guacamole.apache.org</email></link></term>
                         <listitem>
                             <para>The development list is for development-related discussion
                                 involving people who are contributors to the Apache Guacamole
