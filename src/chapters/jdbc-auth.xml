@@ -227,20 +227,13 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
                     is named <filename>upgrade-pre-<replaceable>VERSION</replaceable>.sql</filename>
                     where <replaceable>VERSION</replaceable> is the version of Guacamole where those
                     changes were introduced. They need to be run when you are upgrading from a
-                    version of Guacamole older than <replaceable>VERSION</replaceable>:</para>
-                <informalexample>
-                    <screen><prompt>$</prompt> <userinput>ls schema/upgrade/</userinput>
-<computeroutput>upgrade-pre-0.8.2.sql   upgrade-pre-0.9.13.sql  upgrade-pre-0.9.8.sql
-upgrade-pre-0.9.10.sql  upgrade-pre-0.9.6.sql   upgrade-pre-0.9.9.sql
-upgrade-pre-0.9.11.sql  upgrade-pre-0.9.7.sql</computeroutput>
-<prompt>$</prompt></screen>
-                </informalexample>
+                    version of Guacamole older than <replaceable>VERSION</replaceable>.</para>
                 <para>These scripts are incremental and, when relevant, <emphasis>must be run in
                         order</emphasis>. For example, if you are upgrading an existing database
-                    from version 0.9.10-incubating, you would need to run the
-                        <filename>upgrade-pre-0.9.11.sql</filename> script (because 0.9.10 is older
-                    than 0.9.11), followed by the <filename>upgrade-pre-0.9.13.sql</filename> script
-                    (because 0.9.10 is also older than 0.9.13):</para>
+                    from version 0.9.10-incubating to version 0.9.13-incubating, you would need to
+                    run the <filename>upgrade-pre-0.9.11.sql</filename> script (because 0.9.10 is
+                    older than 0.9.11), followed by the <filename>upgrade-pre-0.9.13.sql</filename>
+                    script (because 0.9.10 is also older than 0.9.13):</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.9.11.sql</userinput>
 <prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
@@ -301,19 +294,13 @@ Type "help" for help.
                         <filename>upgrade-pre-<replaceable>VERSION</replaceable>.sql</filename>
                     where <replaceable>VERSION</replaceable> is the version of Guacamole where those
                     changes were introduced. They need to be run when you are upgrading from a
-                    version of Guacamole older than <replaceable>VERSION</replaceable>:</para>
-                <informalexample>
-                    <screen><prompt>$</prompt> <userinput>ls schema/upgrade/</userinput>
-<computeroutput>upgrade-pre-0.9.10.sql  upgrade-pre-0.9.13.sql  upgrade-pre-0.9.8.sql
-upgrade-pre-0.9.11.sql  upgrade-pre-0.9.7.sql   upgrade-pre-0.9.9.sql</computeroutput>
-<prompt>$</prompt></screen>
-                </informalexample>
+                    version of Guacamole older than <replaceable>VERSION</replaceable>.</para>
                 <para>These scripts are incremental and, when relevant, <emphasis>must be run in
                         order</emphasis>. For example, if you are upgrading an existing database
-                    from version 0.9.10-incubating, you would need to run the
-                        <filename>upgrade-pre-0.9.11.sql</filename> script (because 0.9.10 is older
-                    than 0.9.11), followed by the <filename>upgrade-pre-0.9.13.sql</filename> script
-                    (because 0.9.10 is also older than 0.9.13):</para>
+                    from version 0.9.10-incubating to version 0.9.13-incubating, you would need to
+                    run the <filename>upgrade-pre-0.9.11.sql</filename> script (because 0.9.10 is
+                    older than 0.9.11), followed by the <filename>upgrade-pre-0.9.13.sql</filename>
+                    script (because 0.9.10 is also older than 0.9.13):</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable> -f schema/upgrade/upgrade-pre-0.9.11.sql</userinput>
 <computeroutput>ALTER TABLE
