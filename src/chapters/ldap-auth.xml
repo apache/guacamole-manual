@@ -427,9 +427,10 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                 </varlistentry>
                 <varlistentry>
                     <term><property>ldap-operation-timeout</property></term>
-                        <para>This option sets the timeout, in seconds, of any single LDAP operation.  The default is 30 seconds.
-                        When this timeout is reached LDAP operations will be aborted.</para>
                     <listitem>
+                        <para>This option sets the timeout, in seconds, of any single LDAP
+                            operation. The default is 30 seconds. When this timeout is reached LDAP
+                            operations will be aborted.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
