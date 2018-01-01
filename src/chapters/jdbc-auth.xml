@@ -470,7 +470,7 @@ sqlserver-driver: microsoft2005
                 <tgroup cols="4">
                     <colspec colname="c1" colnum="1" colwidth="1*"/>
                     <colspec colname="c2" colnum="2" colwidth="1*"/>
-                    <colspec colname="c3" column="3" colwidth="1*"/>
+                    <colspec colname="c3" colnum="3" colwidth="1*"/>
                     <colspec colname="c4" colnum="4" colwidth="2*"/>
                     <thead>
                         <row>
