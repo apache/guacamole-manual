@@ -29,7 +29,7 @@
                 >http://guacamole.apache.org/releases/</link>.</para>
         <para>The HTTP header authentication extension is packaged as a <filename>.tar.gz</filename>
             file containing only the extension itself,
-                <filename>guacamole-auth-header-0.9.13-incubating.jar</filename>, which must
+                <filename>guacamole-auth-header-0.9.14.jar</filename>, which must
             ultimately be placed in <filename>GUACAMOLE_HOME/extensions</filename>.</para>
     </section>
     <section xml:id="installing-header-auth">
@@ -46,7 +46,7 @@
                     does not already exist.</para>
             </step>
             <step>
-                <para>Copy <filename>guacamole-auth-header-0.9.13-incubating.jar</filename> within
+                <para>Copy <filename>guacamole-auth-header-0.9.14.jar</filename> within
                         <filename>GUACAMOLE_HOME/extensions</filename>.</para>
             </step>
             <step>
