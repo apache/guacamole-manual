@@ -61,10 +61,10 @@
                 <term><filename>mysql/</filename></term>
                 <listitem>
                     <para>Contains the MySQL/MariaDB authentication extension,
-                            <filename>guacamole-auth-jdbc-mysql-0.9.13-incubating.jar</filename>,
+                            <filename>guacamole-auth-jdbc-mysql-0.9.14.jar</filename>,
                         along with a <filename>schema/</filename> directory containing
                         MySQL-specific SQL scripts required to set up the database. The
-                            <filename>guacamole-auth-jdbc-mysql-0.9.13-incubating.jar</filename>
+                            <filename>guacamole-auth-jdbc-mysql-0.9.14.jar</filename>
                         file will ultimately need to be placed within
                             <filename>GUACAMOLE_HOME/extensions</filename>, while the MySQL JDBC
                         driver must be placed within <filename>GUACAMOLE_HOME/lib</filename>.</para>
@@ -81,10 +81,10 @@
                 <term><filename>postgresql/</filename></term>
                 <listitem>
                     <para>Contains the PostgreSQL authentication extension,
-                            <filename>guacamole-auth-jdbc-postgresql-0.9.13-incubating.jar</filename>,
+                            <filename>guacamole-auth-jdbc-postgresql-0.9.14.jar</filename>,
                         along with a <filename>schema/</filename> directory containing
                         PostgreSQL-specific SQL scripts required to set up the database. The
-                            <filename>guacamole-auth-jdbc-postgresql-0.9.13-incubating.jar</filename>
+                            <filename>guacamole-auth-jdbc-postgresql-0.9.14.jar</filename>
                         file will ultimately need to be placed within
                             <filename>GUACAMOLE_HOME/extensions</filename>, while the PostgreSQL
                         JDBC driver must be placed within
@@ -101,7 +101,7 @@
                 <term><filename>sqlserver/</filename></term>
                 <listitem>
                     <para>Contains the SQL Server authentication extension,
-                        <filename>guacamole-auth-jdbc-sqlserver-0.9.13-incubating.jar</filename>,
+                        <filename>guacamole-auth-jdbc-sqlserver-0.9.14.jar</filename>,
                         along with a <filename>schema/</filename> directory contains SQL Server-specific
                         scripts requires to set up the database.  The JAR extension file will need to be
                         placed within the <filename>GUACAMOLE_HOME/extensions</filename> folder, while the
@@ -227,20 +227,13 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
                     is named <filename>upgrade-pre-<replaceable>VERSION</replaceable>.sql</filename>
                     where <replaceable>VERSION</replaceable> is the version of Guacamole where those
                     changes were introduced. They need to be run when you are upgrading from a
-                    version of Guacamole older than <replaceable>VERSION</replaceable>:</para>
-                <informalexample>
-                    <screen><prompt>$</prompt> <userinput>ls schema/upgrade/</userinput>
-<computeroutput>upgrade-pre-0.8.2.sql   upgrade-pre-0.9.13.sql  upgrade-pre-0.9.8.sql
-upgrade-pre-0.9.10.sql  upgrade-pre-0.9.6.sql   upgrade-pre-0.9.9.sql
-upgrade-pre-0.9.11.sql  upgrade-pre-0.9.7.sql</computeroutput>
-<prompt>$</prompt></screen>
-                </informalexample>
+                    version of Guacamole older than <replaceable>VERSION</replaceable>.</para>
                 <para>These scripts are incremental and, when relevant, <emphasis>must be run in
                         order</emphasis>. For example, if you are upgrading an existing database
-                    from version 0.9.10-incubating, you would need to run the
-                        <filename>upgrade-pre-0.9.11.sql</filename> script (because 0.9.10 is older
-                    than 0.9.11), followed by the <filename>upgrade-pre-0.9.13.sql</filename> script
-                    (because 0.9.10 is also older than 0.9.13):</para>
+                    from version 0.9.10-incubating to version 0.9.13-incubating, you would need to
+                    run the <filename>upgrade-pre-0.9.11.sql</filename> script (because 0.9.10 is
+                    older than 0.9.11), followed by the <filename>upgrade-pre-0.9.13.sql</filename>
+                    script (because 0.9.10 is also older than 0.9.13):</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.9.11.sql</userinput>
 <prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
@@ -301,19 +294,13 @@ Type "help" for help.
                         <filename>upgrade-pre-<replaceable>VERSION</replaceable>.sql</filename>
                     where <replaceable>VERSION</replaceable> is the version of Guacamole where those
                     changes were introduced. They need to be run when you are upgrading from a
-                    version of Guacamole older than <replaceable>VERSION</replaceable>:</para>
-                <informalexample>
-                    <screen><prompt>$</prompt> <userinput>ls schema/upgrade/</userinput>
-<computeroutput>upgrade-pre-0.9.10.sql  upgrade-pre-0.9.13.sql  upgrade-pre-0.9.8.sql
-upgrade-pre-0.9.11.sql  upgrade-pre-0.9.7.sql   upgrade-pre-0.9.9.sql</computeroutput>
-<prompt>$</prompt></screen>
-                </informalexample>
+                    version of Guacamole older than <replaceable>VERSION</replaceable>.</para>
                 <para>These scripts are incremental and, when relevant, <emphasis>must be run in
                         order</emphasis>. For example, if you are upgrading an existing database
-                    from version 0.9.10-incubating, you would need to run the
-                        <filename>upgrade-pre-0.9.11.sql</filename> script (because 0.9.10 is older
-                    than 0.9.11), followed by the <filename>upgrade-pre-0.9.13.sql</filename> script
-                    (because 0.9.10 is also older than 0.9.13):</para>
+                    from version 0.9.10-incubating to version 0.9.13-incubating, you would need to
+                    run the <filename>upgrade-pre-0.9.11.sql</filename> script (because 0.9.10 is
+                    older than 0.9.11), followed by the <filename>upgrade-pre-0.9.13.sql</filename>
+                    script (because 0.9.10 is also older than 0.9.13):</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable> -f schema/upgrade/upgrade-pre-0.9.11.sql</userinput>
 <computeroutput>ALTER TABLE
@@ -409,11 +396,11 @@ The new rule has been bound to column(s) of the specified user data type.</compu
                     does not already exist.</para>
             </step>
             <step>
-                <para>Copy <filename>guacamole-auth-jdbc-mysql-0.9.13-incubating.jar</filename>
+                <para>Copy <filename>guacamole-auth-jdbc-mysql-0.9.14.jar</filename>
                     <emphasis>or</emphasis>
-                    <filename>guacamole-auth-jdbc-postgresql-0.9.13-incubating.jar</filename>
+                    <filename>guacamole-auth-jdbc-postgresql-0.9.14.jar</filename>
                     <emphasis>or</emphasis>
-                    <filename>guacamole-auth-jdbc-sqlserver-0.9.13-incubating.jar</filename> within
+                    <filename>guacamole-auth-jdbc-sqlserver-0.9.14.jar</filename> within
                         <filename>GUACAMOLE_HOME/extensions</filename>, depending on whether you are
                     using MySQL/MariaDB, PostgreSQL, or SQL Server.</para>
             </step>
