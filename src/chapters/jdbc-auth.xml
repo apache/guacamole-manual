@@ -12,12 +12,12 @@
     <indexterm>
         <primary>load balancing</primary>
     </indexterm>
-    <para>Guacamole supports authentication via MySQL or PostgreSQL databases through extensions
-        available from the project website. Using a database for authentication provides additional
-        features, such as the ability to use load balancing groups of connections and a web-based
-        administrative interface. Unlike the default, XML-driven authentication module, all changes
-        to users and connections take effect immediately; users need not logout and back in to see
-        new connections.</para>
+    <para>Guacamole supports authentication via MySQL, PostgreSQL, or SQL Server databases through
+        extensions available from the project website. Using a database for authentication provides
+        additional features, such as the ability to use load balancing groups of connections and a
+        web-based administrative interface. Unlike the default, XML-driven authentication module, all
+        changes to users and connections take effect immediately; users need not logout and back in
+        to see new connections.</para>
     <para>While most authentication extensions function independently, the database authentication
         can act in a subordinate role, allowing users from other authentication extensions to be
         associated with connections within the database. Users are considered identical to users
@@ -29,7 +29,7 @@
     <para>To use the database authentication extension, you will need:</para>
     <orderedlist>
         <listitem>
-            <para>A supported database - currently MariaDB, MySQL, or PostgreSQL.</para>
+            <para>A supported database - currently MariaDB, MySQL, PostgreSQL, or SQL Server.</para>
         </listitem>
         <listitem>
             <para>Sufficient permission to create new databases, to create new users, and to grant
@@ -97,9 +97,62 @@
                         depends on the version of Java you have installed. </para>
                 </listitem>
             </varlistentry>
+            <varlistentry>
+                <term><filename>sqlserver/</filename></term>
+                <listitem>
+                    <para>Contains the SQL Server authentication extension,
+                        <filename>guacamole-auth-jdbc-sqlserver-0.9.13-incubating.jar</filename>,
+                        along with a <filename>schema/</filename> directory contains SQL Server-specific
+                        scripts requires to set up the database.  The JAR extension file will need to be
+                        placed within the <filename>GUACAMOLE_HOME/extensions</filename> folder, while the
+                        SQL Server JDBC driver must be placed within the <filename>GUACAMOLE_HOME/lib</filename>
+                        directory.</para>
+                    <para><emphasis>The SQL Server JDBC driver is not included with the extension.</emphasis>  You
+                        must obtain the JDBC driver <filename>.jar</filename> yourself and place it in the directory.
+                        Furthermore, the SQL Server authentication extension supports a number of TDS-compatible
+                        drivers, so you must make sure the one you choose is supported by the extension, that the
+                        extension is configured properly, and that the <filename>.jar</filename> is in the correct
+                        directory.  Microsoft's JDBC driver can be downloaded from Microsoft's <link
+                        xlink:href="https://docs.microsoft.com/en-us/sql/connect/sql-connection-libraries#anchor-20-drivers-relational-access">
+                        SQL Connection Libraries</link> page.</para>
+                    <para>In addition to the various parameters mentioned below, the SQL Server driver has a
+                        unique parameter available to control the driver compatibility of the JDBC module:
+                        <property>sqlserver-driver</property>.  This parameter allows you to choose the compatibility
+                        mode of the module with various TDS-comptabile drivers such that it can be used with different
+                        versions of SQL Server and even non-Microsoft SQL Server databases.  The following options are available
+                        for the <property>sqlserver-driver</property> property:
+                        <variablelist>
+                            <varlistentry>
+                                <term>microsoft2005</term>
+                                <listitem>
+                                    <para>The current Microsoft driver, supporting SQL Server 2005 and later.</para>
+                                </listitem>
+                            </varlistentry>
+                            <varlistentry>
+                                <term>microsoft</term>
+                                <listitem>
+                                    <para>The legacy SQL Server support.</para>
+                                </listitem>
+                            </varlistentry>
+                            <varlistentry>
+                                <term>jtds</term>
+                                <listitem>
+                                    <para>The open source JTDS driver.</para>
+                                </listitem>
+                            </varlistentry>
+                            <varlistentry>
+                                <term>datadirect</term>
+                                <listitem>
+                                    <para>The Progress Sybase driver.</para>
+                                </listitem>
+                            </varlistentry>
+                        </variablelist>
+                    </para>
+                </listitem>
+            </varlistentry>
         </variablelist>
         <para>Only one of the directories within the archive will be applicable to you, depending on
-            whether you are using MariaDB, MySQL, or PostgreSQL.</para>
+            whether you are using MariaDB, MySQL, PostgreSQL, or SQL Server.</para>
     </section>
     <section xml:id="jdbc-auth-database-creation">
         <title>Creating the Guacamole database</title>
@@ -108,11 +161,13 @@
             database and existing user, but for the sake of simplicity and security, these
             instructions assume you will be creating a new database and new user that will be used
             only by Guacamole and only for this authentication module.</para>
-        <para>You need MariaDB, MySQL, or PostgreSQL installed, and must have sufficient access to
-            create and administer databases. If this is not the case, install your database of
-            choice now. Most distributions will provide a convenient MySQL or PostgreSQL package
+        <para>You need MariaDB, MySQL, PostgreSQL, or SQL Server installed, and must have sufficient
+            access to create and administer databases. If this is not the case, install your database
+            of choice now. Most distributions will provide a convenient MySQL or PostgreSQL package
             which will set up everything for you, including the root database user, if
-            applicable.</para>
+            applicable.  If you're using SQL Server, you need to install the packages on your platform
+            of choice, and also make sure that you obtain the proper licensing for the version
+            and edition of SQL Server you are running.</para>
         <para>For the sake of clarity, these instructions will refer to the database as
             "guacamole_db" and the user as "guacamole_user", but the database and user can be named
             whatever you like. Naturally, you should also choose a real password for your user
@@ -299,6 +354,49 @@ Type "help" for help.
                     to run any database upgrade scripts.</para>
             </important>
         </section>
+        <section xml:id="jdbc-auth-sqlserver">
+            <title>SQL Server</title>
+            <para>If using SQL Server, the database and schema must be created first.  The example below assumes
+                that you are running SQL Server on Linux, using the command-line tools to manage it, however, this
+                code can be run using any tool capable of running SQL against a SQL Server database.</para>
+            <informalexample>
+                <screen><prompt>$</prompt> <userinput>/opt/mssql-tools/bin/sqlcmd -S localhost -U SA</userinput>
+<prompt>Password:</prompt> <userinput><replaceable>password</replaceable></userinput>
+<prompt>1></prompt> <userinput>CREATE DATABASE <replaceable>guacamole_db</replaceable>;</userinput>
+<prompt>2></prompt> <userinput>GO</userinput>
+<prompt>1></prompt> <userinput>CREATE LOGIN <replaceable>guacamole_user</replaceable> WITH PASSWORD = '<replaceable>some_password</replaceable>';</userinput>
+<prompt>2></prompt> <userinput>GO</userinput>
+<prompt>1></prompt> <userinput>USE <replaceable>guacamole_db</replaceable>;</userinput>
+<prompt>2></prompt> <userinput>GO</userinput>
+<prompt>1></prompt> <userinput>CREATE USER <replaceable>guacamole_user</replaceable>;</userinput>
+<prompt>2></prompt> <userinput>GO</userinput>
+<prompt>1></prompt> <userinput>ALTER ROLE db_datawriter ADD MEMBER <replaceable>guacamole_user</replaceable>;</userinput>
+<prompt>2></prompt> <userinput>ALTER ROLE db_datareader ADD MEMBER <replaceable>guacamole_user</replaceable>;</userinput>
+<prompt>3></prompt> <userinput>GO</userinput></screen>
+            </informalexample>
+            <para>Once the database and user account is created, and the user associated with the database, you can use
+                the supplied scripts to load the schema into the database.  These scripts are included in the
+                <filename>sqlserver/schema/</filename> directory of the archive you downloaded from the Guacamole
+                web site.</para>
+            <informalexample>
+                <screen><prompt>$</prompt> <userinput>/opt/mssql-tools/bin/sqlcmd -S localhost -U <replaceable>guacamole_user</replaceable> -d <replaceable>guacamole_db</replaceable> -i schema/001-create-schema.sql</userinput>
+<prompt>Password:</prompt> <userinput><replaceable>some_password</replaceable></userinput>
+<computeroutput>Rule bound to data type.
+The new rule has been bound to column(s) of the specified user data type.
+Rule bound to data type.
+The new rule has been bound to column(s) of the specified user data type.</computeroutput>
+<prompt>$</prompt> <userinput>/opt/mssql-tools/bin/sqlcmd -S localhost -U <replaceable>guacamole_user</replaceable> -d <replaceable>guacamole_db</replaceable> -i schema/002-create-admin-user.sql</userinput>
+<prompt>Password:</prompt> <userinput><replaceable>some_password</replaceable></userinput>
+<computeroutput>
+(1 rows affected)
+
+(3 rows affected)
+                        
+(5 rows affected)</computeroutput></screen>
+            </informalexample>
+            <para>If the operation is successful, the tables and permissions have been created successfully, and you
+                can now use the database with the Guacamole client web application.</para>
+        </section>
     </section>
     <section xml:id="jdbc-auth-installation">
         <title>Installing database authentication</title>
@@ -313,9 +411,11 @@ Type "help" for help.
             <step>
                 <para>Copy <filename>guacamole-auth-jdbc-mysql-0.9.13-incubating.jar</filename>
                     <emphasis>or</emphasis>
-                    <filename>guacamole-auth-jdbc-postgresql-0.9.13-incubating.jar</filename> within
+                    <filename>guacamole-auth-jdbc-postgresql-0.9.13-incubating.jar</filename>
+                    <emphasis>or</emphasis>
+                    <filename>guacamole-auth-jdbc-sqlserver-0.9.13-incubating.jar</filename> within
                         <filename>GUACAMOLE_HOME/extensions</filename>, depending on whether you are
-                    using MySQL/MariaDB or PostgreSQL.</para>
+                    using MySQL/MariaDB, PostgreSQL, or SQL Server.</para>
             </step>
             <step>
                 <para>Copy the JDBC driver for your database to
@@ -346,31 +446,45 @@ mysql-hostname: localhost
 mysql-port: 3306
 mysql-database: <replaceable>guacamole_db</replaceable>
 mysql-username: <replaceable>guacamole_user</replaceable>
-mysql-password: <replaceable>some_password</replaceable></programlisting>
-                <para>For PostgreSQL, the properties are similar, but with different
-                    prefixes:</para>
-                <informalexample>
-                    <programlisting># PostgreSQL properties
+mysql-password: <replaceable>some_password</replaceable>
+                </programlisting>
+            </informalexample>
+            <para>For PostgreSQL, the properties are similar, but with different prefixes:</para>
+            <informalexample>
+                <programlisting># PostgreSQL properties
 postgresql-hostname: localhost
 postgresql-port: 5432
 postgresql-database: <replaceable>guacamole_db</replaceable>
 postgresql-username: <replaceable>guacamole_user</replaceable>
-postgresql-password: <replaceable>some_password</replaceable></programlisting>
-                </informalexample>
+postgresql-password: <replaceable>some_password</replaceable>
+                </programlisting>
+            </informalexample>
+            <para>The SQL Server properties follow the same format:</para>
+            <informalexample>
+                <programlisting># SQL Server properties
+sqlserver-hostname: localhost
+sqlserver-port: 1433
+sqlserver-database: <replaceable>guacamole_db</replaceable>
+sqlserver-username: <replaceable>guacamole_user</replaceable>
+sqlserver-password: <replaceable>some_password</replaceable>
+sqlserver-driver: microsoft2005
+                </programlisting>
             </informalexample>
             <para>The properties absolutely required by the database authentication extension are
                 relatively few and self-explanatory, describing only how the connection to the
                 database is to be established, and how Guacamole will authenticate when querying the
                 database:</para>
             <informaltable frame="all">
-                <tgroup cols="3">
+                <tgroup cols="4">
                     <colspec colname="c1" colnum="1" colwidth="1*"/>
                     <colspec colname="c2" colnum="2" colwidth="1*"/>
-                    <colspec colname="c3" colnum="3" colwidth="2*"/>
+                    <colspec colname="c3" colnum="3" colwidth="1*"/>
+                    <colspec colname="c4" colnum="4" colwidth="2*"/>
                     <thead>
                         <row>
                             <entry>MySQL/MariaDB Property</entry>
                             <entry>PostgreSQL Property</entry>
+                            <entry>SQL Server Property</entry>
                             <entry>Description</entry>
                         </row>
                     </thead>
@@ -378,6 +492,7 @@ postgresql-password: <replaceable>some_password</replaceable></programlisting>
                         <row>
                             <entry><property>mysql-hostname</property></entry>
                             <entry><property>postgresql-hostname</property></entry>
+                            <entry><property>sqlserver-hostname</property></entry>
                             <entry>
                                 <para>The hostname or IP address of the server hosting your
                                     database.</para>
@@ -386,6 +501,7 @@ postgresql-password: <replaceable>some_password</replaceable></programlisting>
                         <row>
                             <entry><property>mysql-port</property></entry>
                             <entry><property>postgresql-port</property></entry>
+                            <entry><property>sqlserver-port</property></entry>
                             <entry>
                                 <para>The port number of the database to connect to. For MySQL and
                                     MariaDB, this will likely be 3306. For PostgreSQL, this will
@@ -395,6 +511,7 @@ postgresql-password: <replaceable>some_password</replaceable></programlisting>
                         <row>
                             <entry><property>mysql-database</property></entry>
                             <entry><property>postgresql-database</property></entry>
+                            <entry><property>sqlserver-database</property></entry>
                             <entry>
                                 <para>The name of the database that you created for Guacamole. This
                                     is given as "guacamole_db" in the examples given in this
@@ -404,6 +521,7 @@ postgresql-password: <replaceable>some_password</replaceable></programlisting>
                         <row>
                             <entry><property>mysql-username</property></entry>
                             <entry><property>postgresql-username</property></entry>
+                            <entry><property>sqlserver-username</property></entry>
                             <entry>
                                 <para>The username of the user that Guacamole should use to connect
                                     to the database. This is given as "guacamole_user" in the
@@ -413,6 +531,7 @@ postgresql-password: <replaceable>some_password</replaceable></programlisting>
                         <row>
                             <entry><property>mysql-password</property></entry>
                             <entry><property>postgresql-password</property></entry>
+                            <entry><property>sqlserver-password</property></entry>
                             <entry>
                                 <para>The password Guacamole should provide when authenticating with
                                     the database. This is given as "some_password" in the examples
@@ -461,7 +580,14 @@ postgresql-user-password-min-length: <replaceable>8</replaceable>
 postgresql-user-password-require-multiple-case: true
 postgresql-user-password-require-symbol: true
 postgresql-user-password-require-digit: true
-postgresql-user-password-prohibit-username: true</programlisting>
+postgresql-user-password-prohibit-username: true
+
+# SQL Server
+sqlserver-user-password-min-length: <replaceable>8</replaceable>
+sqlserver-user-password-require-multiple-case: true
+sqlserver-user-password-require-symbol: true
+sqlserver-user-password-require-digit: true
+sqlserver-user-password-prohibit-username: true</programlisting>
                     </informalexample>
                 </section>
                 <section>
@@ -496,7 +622,11 @@ mysql-user-password-max-age: <replaceable>90</replaceable>
 
 # PostgreSQL
 postgresql-user-password-min-age: <replaceable>7</replaceable>
-postgresql-user-password-max-age: <replaceable>90</replaceable></programlisting>
+postgresql-user-password-max-age: <replaceable>90</replaceable>
+
+# SQL Server
+sqlserver-user-password-min-age: <replaceable>7</replaceable>
+sqlserver-user-password-max-age: <replaceable>90</replaceable></programlisting>
                     </informalexample>
                 </section>
                 <section>
@@ -515,7 +645,10 @@ postgresql-user-password-max-age: <replaceable>90</replaceable></programlisting>
 mysql-user-password-history-size: <replaceable>6</replaceable>
 
 # PostgreSQL
-postgresql-user-password-history-size: <replaceable>6</replaceable></programlisting>
+postgresql-user-password-history-size: <replaceable>6</replaceable>
+
+# SQL Server
+sqlserver-user-password-history-size: <replaceable>6</replaceable></programlisting>
                     </informalexample>
                 </section>
             </section>
@@ -534,7 +667,11 @@ mysql-default-max-group-connections: 1
 
 # PostgreSQL
 postgresql-default-max-connections: 1
-postgresql-default-max-group-connections: 1</programlisting>
+postgresql-default-max-group-connections: 1
+
+# SQL Server
+sqlserver-default-max-connections: 1
+sqlserver-default-max-group-connections: 1</programlisting>
                 </informalexample>
                 <para>These properties are not required, but with the above properties in place,
                     users attempting to use a connection or group that is already in use will be
@@ -552,7 +689,11 @@ mysql-default-max-group-connections-per-user: 0
 
 # PostgreSQL
 postgresql-default-max-connections-per-user: 0
-postgresql-default-max-group-connections-per-user: 0</programlisting>
+postgresql-default-max-group-connections-per-user: 0
+
+# SQL Server
+sqlserver-default-max-connections-per-user: 0
+sqlserver-default-max-group-connections-per-user: 0</programlisting>
                 </informalexample>
                 <para>The above properties replace the "simultaneous" and "duplicate" properties used
                     by prior Guacamole releases. The older properties will still work, but are now
@@ -569,6 +710,7 @@ result of setting "postgresql-disallow-simultaneous-connections" to
 "false", set "postgresql-default-max-connections" to "0" and
 "postgresql-default-max-group-connections" to "0".</computeroutput></screen>
                 </informalexample>
+                <para>These deprecated properties are not supported in the SQL Server module.</para>
                 <para>If you wish to impose an absolute limit on the number of connections that can
                     be established through Guacamole, ignoring which users or connections are
                     involved, this can be done as well. By default, Guacamole will impose no such
@@ -578,7 +720,10 @@ result of setting "postgresql-disallow-simultaneous-connections" to
 mysql-absolute-max-connections: 0
 
 # PostgreSQL
-postgresql-absolute-max-connections: 0</programlisting>
+postgresql-absolute-max-connections: 0
+
+# SQL Server
+sqlserver-absolute-max-connections: 0</programlisting>
                 </informalexample>
             </section>
         </section>
@@ -601,7 +746,10 @@ postgresql-absolute-max-connections: 0</programlisting>
 mysql-user-required: true
 
 # PostgreSQL
-postgresql-user-required: true</programlisting>
+postgresql-user-required: true
+
+# SQL Server
+sqlserver-user-required: true</programlisting>
             </informalexample>
             <para>With the above properties set, successful authentication attempts for users which
                 are not associated with the database will be vetoed by the database authentication.
