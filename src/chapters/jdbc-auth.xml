@@ -124,19 +124,27 @@
                         <variablelist>
                             <varlistentry>
                                 <term>microsoft2005</term>
-                                <listitem>The current Microsoft driver, supporting SQL Server 2005 and later.</listitem>
+                                <listitem>
+                                    <para>The current Microsoft driver, supporting SQL Server 2005 and later.</para>
+                                </listitem>
                             </varlistentry>
                             <varlistentry>
                                 <term>microsoft</term>
-                                <listitem>The legacy SQL Server support.</listitem>
+                                <listitem>
+                                    <para>The legacy SQL Server support.</para>
+                                </listitem>
                             </varlistentry>
                             <varlistentry>
                                 <term>jtds</term>
-                                <listitem>The open source JTDS driver.</listitem>
+                                <listitem>
+                                    <para>The open source JTDS driver.</para>
+                                </listitem>
                             </varlistentry>
                             <varlistentry>
                                 <term>datadirect</term>
-                                <listitem>The Progress Sybase driver.</listitem>
+                                <listitem>
+                                    <para>The Progress Sybase driver.</para>
+                                </listitem>
                             </varlistentry>
                         </variablelist>
                     </para>
