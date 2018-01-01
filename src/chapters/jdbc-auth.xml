@@ -121,21 +121,24 @@
                         mode of the module with various TDS-comptabile drivers such that it can be used with different
                         versions of SQL Server and even non-Microsoft SQL Server databases.  The following options are available
                         for the <property>sqlserver-driver</property> property:
-                        <itemizedlist>
-                            <listitem>
-                                <constant>microsoft2005</constant>: The current Microsoft driver,
-                                supporting SQL Server 2005 and later.
-                            </listitem>
-                            <listitem>
-                                <constant>microsoft</constant>: The legacy SQL Server support.
-                            </listitem>
-                            <listitem>
-                                <constant>jtds</constant>: The open source JTDS driver.
-                            </listitem>
-                            <listitem>
-                                <constant>datadirect</constant>: The Progress Sybase driver.
-                            </listitem>
-                        </itemizedlist>
+                        <variablelist>
+                            <varlistentry>
+                                <term>microsoft2005</term>
+                                <listitem>The current Microsoft driver, supporting SQL Server 2005 and later.</listitem>
+                            </varlistentry>
+                            <varlistentry>
+                                <term>microsoft</term>
+                                <listitem>The legacy SQL Server support.</listitem>
+                            </varlistentry>
+                            <varlistentry>
+                                <term>jtds</term>
+                                <listitem>The open source JTDS driver.</listitem>
+                            </varlistentry>
+                            <varlistentry>
+                                <term>datadirect</term>
+                                <listitem>The Progress Sybase driver.</listitem>
+                            </varlistentry>
+                        </variablelist>
                     </para>
                 </listitem>
             </varlistentry>
