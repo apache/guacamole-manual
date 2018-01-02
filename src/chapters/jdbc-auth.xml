@@ -1081,6 +1081,73 @@ INSERT INTO guacamole_user (username, password_salt, password_hash)
                     </varlistentry>
                 </variablelist>
             </section>
+            <section xml:id="jdbc-auth-schema-login-history">
+                <title>Login history</title>
+                <indexterm>
+                    <primary><classname>guacamole_user_history</classname></primary>
+                </indexterm>
+                <para>When a user logs in or out, a corresponding entry in the
+                        <classname>guacamole_user_history</classname> table is created or updated
+                    respectively. Each entry is associated with the user that logged in and the time
+                    their session began. If the user has logged out, the time their session ended is
+                    also stored.</para>
+                <para>It is very unlikely that a user will need to update this table, but knowing
+                    the structure is potentially useful if you wish to generate a report of
+                    Guacamole usage. The <classname>guacamole_user_history</classname> table has the
+                    following columns:</para>
+                <variablelist>
+                    <varlistentry>
+                        <term><property>history_id</property></term>
+                        <listitem>
+                            <para>The unique integer associated with each history record. This value
+                                is generated automatically when a new entry is inserted into the
+                                    <classname>guacamole_user_history</classname> table.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>user_id</property></term>
+                        <listitem>
+                            <para>The value of the <property>user_id</property> from the entry in
+                                    <classname>guacamole_user</classname> associated with the user
+                                that logged in. If the user no longer exists, this will be
+                                    <constant>NULL</constant>.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>username</property></term>
+                        <listitem>
+                            <para>The username associated with the user at the time that they logged
+                                in. This username value is not guaranteed to uniquely identify a
+                                user, as the original user may be subsequently renamed or
+                                deleted.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>remote_host</property></term>
+                        <listitem>
+                            <para>The hostname or IP address of the machine that the user logged in
+                                from, if known. If unknown, this will be
+                                <constant>NULL</constant>.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>start_date</property></term>
+                        <listitem>
+                            <para>The time at which the user logged in. Despite its name, this
+                                column also stores time information in addition to the date.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>end_date</property></term>
+                        <listitem>
+                            <para>The time at which the user logged out. If the user is still
+                                active, the value in this column will be <constant>NULL</constant>.
+                                Despite its name, this column also stores time information in
+                                addition to the date.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+            </section>
         </section>
         <section xml:id="jdbc-auth-schema-connections">
             <title>Connections and parameters</title>
