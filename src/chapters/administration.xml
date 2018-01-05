@@ -137,9 +137,10 @@
             <primary>user management</primary>
         </indexterm>
         <para>Clicking "Users" within the list of settings sections will take you to the user
-            management screen. Here you can add new users or edit the properties and privileges of
-            existing users. If you have a large number of users, you can also enter search terms
-            within the "Filter" field to filter the list of users by username.</para>
+            management screen. Here you can add new users, edit the properties and privileges of
+            existing users, and view the times that each user last logged in. If you have a large
+            number of users, you can also enter search terms within the "Filter" field to filter the
+            list of users by username.</para>
         <para>To add a new user, click the "New User" button. This will take you to a screen where
             you will be allowed to enter the details of the new user, such as the password and
             username. Note that, unless you specify otherwise, the new user will have no access to
