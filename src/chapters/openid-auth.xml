@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter xml:id="openid-auth" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>OpenID Connect Authentication</title>
+    <indexterm>
+        <primary>OpenID Connect Authentication</primary>
+    </indexterm>
+    <para><link xlink:href="http://openid.net/connect/">OpenID Connect</link> is a widely-adopted
+        open standard for implementing single sign-on (SSO). <link
+            xlink:href="https://oauth.net/articles/authentication/">Not to be confused with
+            OAuth</link>, which is <emphasis>not</emphasis> an authentication protocol, OpenID
+        Connect defines an authentication protocol in the form of a simple identity layer on top of
+        OAuth 2.0.</para>
+    <para>Guacamole's OpenID Connect support implements the "<link
+            xlink:href="https://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth"
+            >implicit flow</link>" of the OpenID Connect standard, and allows authentication of
+        Guacamole users to be delegated to an identity provider which implements OpenID Connect,
+        removing the need for users to log into Guacamole directly. This module must be layered on
+        top of other authentication extensions that provide connection information, such as the
+            <link linkend="jdbc-auth">database authentication extension</link>, as it only provides
+        user authentication.</para>
+    <section xml:id="openid-downloading">
+        <title>Downloading the OpenID Connect authentication extension</title>
+        <para>The OpenID Connect authentication extension is available separately from the main
+                <filename>guacamole.war</filename>. The link for this and all other
+            officially-supported and compatible extensions for a particular version of Guacamole are
+            provided on the release notes for that version. You can find the release notes for
+            current versions of Guacamole here: <link
+                xlink:href="http://guacamole.apache.org/releases/"
+                >http://guacamole.apache.org/releases/</link>.</para>
+        <para>The OpenID Connect authentication extension is packaged as a
+                <filename>.tar.gz</filename> file containing only the extension itself,
+                <filename>guacamole-auth-openid-0.9.14.jar</filename>, which must ultimately be
+            placed in <filename>GUACAMOLE_HOME/extensions</filename>.</para>
+    </section>
+    <section xml:id="installing-openid-auth">
+        <title>Installing support for OpenID Connect</title>
+        <para>Guacamole extensions are self-contained <filename>.jar</filename> files which are
+            located within the <filename>GUACAMOLE_HOME/extensions</filename> directory.
+                <emphasis>If you are unsure where <varname>GUACAMOLE_HOME</varname> is located on
+                your system, please consult <xref linkend="configuring-guacamole"/> before
+                proceeding.</emphasis></para>
+        <para>To install the OpenID Connect authentication extension, you must:</para>
+        <procedure>
+            <step>
+                <para>Create the <filename>GUACAMOLE_HOME/extensions</filename> directory, if it
+                    does not already exist.</para>
+            </step>
+            <step>
+                <para>Copy <filename>guacamole-auth-openid-0.9.14.jar</filename> within
+                        <filename>GUACAMOLE_HOME/extensions</filename>.</para>
+            </step>
+            <step>
+                <para>Configure Guacamole to use OpenID Connect authentication, as described
+                    below.</para>
+            </step>
+        </procedure>
+        <section xml:id="guac-openid-config">
+            <title>Configuring Guacamole for single sign-on with OpenID Connect</title>
+            <indexterm>
+                <primary>configuring OpenID Connect authentication</primary>
+            </indexterm>
+            <indexterm>
+                <primary>OpenID Connect authentication</primary>
+                <secondary>configuration</secondary>
+            </indexterm>
+            <para>Guacamole's OpenID connect support requires several properties which describe both
+                the identity provider and the Guacamole deployment. These properties are
+                    <emphasis>absolutely required in all cases</emphasis>, as they dictate how
+                Guacamole should connect to the identity provider, how it should verify the identity
+                provider's response, and how the identity provider should redirect users back to
+                Guacamole once their identity has been confirmed:</para>
+            <variablelist>
+                <varlistentry>
+                    <term><property>openid-authorization-endpoint</property></term>
+                    <listitem>
+                        <para>The authorization endpoint (URI) of the OpenID service.</para>
+                        <para>This value should be provided to you by the identity provider. For
+                            identity providers that implement <link
+                                xlink:href="https://openid.net/specs/openid-connect-discovery-1_0.html"
+                                >OpenID Connect Discovery</link>, this value can be retrieved from
+                            the "<property>authorization_endpoint</property>" property of the JSON
+                            file hosted at
+                                <uri><replaceable>https://identity-provider</replaceable>/.well-known/openid-configuration</uri>,
+                            where <uri><replaceable>https://identity-provider</replaceable></uri> is
+                            the base URL of the identity provider.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>openid-jwks-endpoint</property></term>
+                    <listitem>
+                        <para>The endpoint (URI) of the JWKS service which defines how received ID
+                            tokens (<link xlink:href="https://jwt.io/">JSON Web Tokens</link> or
+                            JWTs) shall be validated.</para>
+                        <para>This value should be provided to you by the identity provider. For
+                            identity providers that implement <link
+                                xlink:href="https://openid.net/specs/openid-connect-discovery-1_0.html"
+                                >OpenID Connect Discovery</link>, this value can be retrieved from
+                            the "<property>jwks_uri</property>" property of the JSON file hosted at
+                                    <uri><replaceable>https://identity-provider</replaceable>/.well-known/openid-configuration</uri>,
+                            where <uri><replaceable>https://identity-provider</replaceable></uri> is
+                            the base URL of the identity provider.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>openid-issuer</property></term>
+                    <listitem>
+                        <para>The issuer to expect for all received ID tokens.</para>
+                        <para>This value should be provided to you by the identity provider. For
+                            identity providers that implement <link
+                                xlink:href="https://openid.net/specs/openid-connect-discovery-1_0.html"
+                                >OpenID Connect Discovery</link>, this value can be retrieved from
+                            the "<property>issuer</property>" property of the JSON file hosted at
+                                    <uri><replaceable>https://identity-provider</replaceable>/.well-known/openid-configuration</uri>,
+                            where <uri><replaceable>https://identity-provider</replaceable></uri> is
+                            the base URL of the identity provider.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>openid-client-id</property></term>
+                    <listitem>
+                        <para>The OpenID client ID which should be submitted to the OpenID service
+                            when necessary. This value is typically provided to you by the OpenID
+                            service when OpenID credentials are generated for your
+                            application.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>openid-redirect-uri</property></term>
+                    <listitem>
+                        <para>The URI that should be submitted to the OpenID service such that they
+                            can redirect the authenticated user back to Guacamole after the
+                            authentication process is complete. This must be the full URL that a
+                            user would enter into their browser to access Guacamole.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <para>Additional optional properties are available to control how claims within received
+                ID tokens are used to derive the user's Guacamole username, the OpenID scopes
+                requested when user identities are confirmed, and to control the maximum amount of
+                time allowed for various aspects of the conversation with the identity
+                provider:</para>
+            <variablelist>
+                <varlistentry>
+                    <term><property>openid-username-claim-type</property></term>
+                    <listitem>
+                        <para>The claim type which contains the authenticated user's username within
+                            any valid JWT. By default, the "<constant>email</constant>" is
+                            used.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>openid-scope</property></term>
+                    <listitem>
+                        <para>The space-separated list of OpenID scopes to request.  OpenID scopes
+                            determine the information returned within the OpenID token, and thus
+                            affect what values can be used as an authenticated user's username. To
+                            be compliant with OpenID, at least "<constant>openid profile</constant>"
+                            must be requested. By default, "<constant>openid email
+                                profile</constant>" is used.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>openid-allowed-clock-skew</property></term>
+                    <listitem>
+                        <para>The amount of clock skew tolerated for timestamp comparisons between
+                            the Guacamole server and OpenID service clocks, in seconds. By default,
+                            clock skew of up to 30 seconds is tolerated.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>openid-max-token-validity</property></term>
+                    <listitem>
+                        <para>The maximum amount of time that an OpenID token should remain valid,
+                            in minutes. By default, each OpenID token remains valid for 300 minutes
+                            (5 hours).</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>openid-max-nonce-validity</property></term>
+                    <listitem>
+                        <para>The maximum amount of time that a nonce generated by the Guacamole
+                            server should remain valid, in minutes. As each OpenID request has a
+                            unique nonce value, this imposes an upper limit on the amount of time
+                            any particular OpenID request can result in successful authentication
+                            within Guacamole. By default, each generated nonce expires after 10
+                            minutes.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </section>
+        <section xml:id="completing-openid-install">
+            <title>Completing the installation</title>
+            <para>Guacamole will only reread <filename>guacamole.properties</filename> and load
+                newly-installed extensions during startup, so your servlet container will need to be
+                restarted before OpenID Connect authentication can be used. <emphasis>Doing this
+                    will disconnect all active users, so be sure that it is safe to do so prior to
+                    attempting installation.</emphasis> When ready, restart your servlet container
+                and give the new authentication a try.</para>
+        </section>
+    </section>
+</chapter>
