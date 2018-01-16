@@ -106,6 +106,18 @@
                     <uri>http://<replaceable>HOSTNAME</replaceable>:8080/guacamole/</uri>, where
                 <replaceable>HOSTNAME</replaceable> is the hostname or address of the machine
             hosting Docker.</para>
+        <section xml:id="guacamole-docker-config-via-env">
+            <title>Configuring Guacamole when using Docker</title>
+            <para>When running Guacamole using Docker, the traditional approach to configuring 
+                    Guacamole by editing <filename>guacamole.properties</filename> is less 
+                    convenient. When using Docker, you may wish to make use of the
+                    <parameter>enable-environment-properties</parameter> configuration 
+                    property, which allows you to specify values for arbitrary Guacamole 
+                    configuration properties using environment variables. This is covered in 
+                    <xref xmlns:xlink="http://www.w3.org/1999/xlink" 
+                        linkend="configuring-guacamole"/>.
+            </para>
+        </section>
         <section xml:id="guacamole-docker-guacd">
             <title>Connecting Guacamole to <package>guacd</package></title>
             <para>The Guacamole Docker image needs to be able to connect to <package>guacd</package>

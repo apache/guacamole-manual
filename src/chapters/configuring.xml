@@ -161,6 +161,28 @@
             </varlistentry>
             <varlistentry>
                 <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+                        <primary>enable-environment-properties</primary>
+                    </indexterm><parameter>enable-environment-properties</parameter></term>
+                <listitem>
+                    <para>If set to "true", Guacamole will first evaluate its environment to obtain
+                        the value for any given configuration property, before using a value specified
+                        in <filename>guacamole.properties</filename> or falling back to a default
+                        value. By enabling this option, you can easily override any other configuration
+                        property using an environment variable.</para>
+                    <informalexample>
+                        <programlisting>enable-environment-properties: true</programlisting>
+                    </informalexample>
+                    <para>When searching for a configuration property in the environment, the name of
+                        the property is first transformed by converting all lower case characters to
+                        their upper case equivalents, and by replacing all hyphen characters (<code>-</code>) with
+                        underscore characters (<code>_</code>). For example, the 
+                        <parameter>guacd-hostname</parameter> property would be transformed to 
+                        <parameter>GUACD_HOSTNAME</parameter> when searching the environment.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
                         <primary>guacd-hostname</primary>
                     </indexterm><parameter>guacd-hostname</parameter></term>
                 <listitem>
