@@ -1555,6 +1555,12 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                                             </listitem>
                                         </varlistentry>
                                         <varlistentry>
+                                            <term><constant>en-gb-qwerty</constant></term>
+                                            <listitem>
+                                                <para>English (UK) keyboard</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
                                             <term><constant>de-de-qwertz</constant></term>
                                             <listitem>
                                                 <para>German keyboard (qwertz)</para>
