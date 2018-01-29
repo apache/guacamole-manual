@@ -1591,6 +1591,12 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                                             </listitem>
                                         </varlistentry>
                                         <varlistentry>
+                                            <term><constant>tr-tr-qwerty</constant></term>
+                                            <listitem>
+                                                <para>Turkish-Q keyboard</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
                                             <term><constant>failsafe</constant></term>
                                             <listitem>
                                                 <para>Unknown keyboard - this option sends only
