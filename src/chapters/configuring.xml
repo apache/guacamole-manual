@@ -1597,6 +1597,12 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                                             </listitem>
                                         </varlistentry>
                                         <varlistentry>
+                                            <term><constant>es-es-qwerty</constant></term>
+                                            <listitem>
+                                                <para>Spanish keyboard</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
                                             <term><constant>sv-se-qwerty</constant></term>
                                             <listitem>
                                                 <para>Swedish keyboard</para>
