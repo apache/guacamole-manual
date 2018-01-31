@@ -20,11 +20,63 @@
     </section>
     <section xml:id="installing-radius-auth">
         <title>Installing RADIUS authentication</title>
-        <para>Guacamole extensions are self-contained <filename>.jar</filename> files which are
-            located within the <filename>GUACAMOLE_HOME/extensions</filename> directory.
-                <emphasis>If you are unsure where <varname>GUACAMOLE_HOME</varname> is located on
-                your system, please consult <xref linkend="configuring-guacamole"/> before
-                proceeding.</emphasis></para>
+        <para>The RADIUS extension must be explicitly enabled during build time in order to generate
+            the binaries and resulting JAR file.  This is done by adding the flag <>-Plgpl-extensions</>
+            to the MAVEN command line during the build, and should result in the output below:</para>
+        <informalexample>
+            <screen><prompt>$</prompt> <userinput>mvn clean package -Plgpl-extensions</userinput>
+<computeroutput>[INFO] --- maven-assembly-plugin:2.5.3:single (make-source-archive) @ guacamole-client ---
+[INFO] Reading assembly descriptor: project-assembly.xml
+[INFO] Building tar: /home/guac/guacamole-client/target/guacamole-client-0.9.14.tar.gz
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary:
+[INFO] 
+[INFO] guacamole-common .................................. SUCCESS [6.037s]
+[INFO] guacamole-ext ..................................... SUCCESS [5.382s]
+[INFO] guacamole-common-js ............................... SUCCESS [0.751s]
+[INFO] guacamole ......................................... SUCCESS [9.767s]
+[INFO] guacamole-auth-cas ................................ SUCCESS [2.811s]
+[INFO] guacamole-auth-duo ................................ SUCCESS [2.441s]
+[INFO] guacamole-auth-header ............................. SUCCESS [1.875s]
+[INFO] guacamole-auth-jdbc ............................... SUCCESS [0.277s]
+[INFO] guacamole-auth-jdbc-base .......................... SUCCESS [2.144s]
+[INFO] guacamole-auth-jdbc-mysql ......................... SUCCESS [5.637s]
+[INFO] guacamole-auth-jdbc-postgresql .................... SUCCESS [5.465s]
+[INFO] guacamole-auth-jdbc-sqlserver ..................... SUCCESS [5.398s]
+[INFO] guacamole-auth-jdbc-dist .......................... SUCCESS [0.824s]
+[INFO] guacamole-auth-ldap ............................... SUCCESS [2.743s]
+[INFO] guacamole-auth-noauth ............................. SUCCESS [0.964s]
+[INFO] guacamole-auth-openid ............................. SUCCESS [2.533s]
+[INFO] guacamole-example ................................. SUCCESS [0.888s]
+[INFO] guacamole-playback-example ........................ SUCCESS [0.628s]
+[INFO] guacamole-auth-radius ............................. SUCCESS [17.729s]
+[INFO] guacamole-client .................................. SUCCESS [5.645s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 1:20.134s
+[INFO] Finished at: Wed Jan 31 09:45:41 EST 2018
+[INFO] Final Memory: 47M/749M
+[INFO] ------------------------------------------------------------------------</computeroutput>
+            <prompt>$</prompt></screen>
+        </informalexample>
+
+        <para>After the build completes successfully, the extension will be in the
+            <filename>extensions/guacamole-auth-radius/target/</filename> directory, and will be
+            called guacamole-auth-radius-0.9.14.jar.  This extension file can be copied to
+            the <filename>GUACAMOLE_HOME/extensions</filename> directory.
+            <emphasis>If you are unsure where <varname>GUACAMOLE_HOME</varname> is located on
+            your system, please consult <xref linkend="configuring-guacamole"/> before
+            proceeding.</emphasis></para>
+
+        <para>Extensions are loaded in alphabetical order, and authentication is performed
+            in the order in which the extensions were loaded.  If you are stacking the
+            RADIUS extension with another extension, like the JDBC extension, in order to
+            store connection information, you may need to change the name of the RADIUS
+            extension such that it is evaluated prior to the JDBC extension - otherwise
+            an authentication failure in one of the previous modules may block the RADIUS
+            module from ever being evaluated.</para>
+
         <para>To install the RADIUS authentication extension, you must:</para>
         <procedure>
             <step>
