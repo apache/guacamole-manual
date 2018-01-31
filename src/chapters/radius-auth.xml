@@ -21,7 +21,7 @@
     <section xml:id="installing-radius-auth">
         <title>Installing RADIUS authentication</title>
         <para>The RADIUS extension must be explicitly enabled during build time in order to generate
-            the binaries and resulting JAR file.  This is done by adding the flag <>-Plgpl-extensions</>
+            the binaries and resulting JAR file.  This is done by adding the flag <option>-Plgpl-extensions</option>
             to the MAVEN command line during the build, and should result in the output below:</para>
         <informalexample>
             <screen><prompt>$</prompt> <userinput>mvn clean package -Plgpl-extensions</userinput>
@@ -58,7 +58,7 @@
 [INFO] Finished at: Wed Jan 31 09:45:41 EST 2018
 [INFO] Final Memory: 47M/749M
 [INFO] ------------------------------------------------------------------------</computeroutput>
-            <prompt>$</prompt></screen>
+<prompt>$</prompt></screen>
         </informalexample>
 
         <para>After the build completes successfully, the extension will be in the
