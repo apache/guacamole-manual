@@ -32,7 +32,7 @@
                     does not already exist.</para>
             </step>
             <step>
-                <para>Copy <filename>guacamole-auth-radius-0.9.11-incubating.jar</filename> into
+                <para>Copy <filename>guacamole-auth-radius-0.9.14.jar</filename> into
                         <filename>GUACAMOLE_HOME/extensions</filename>.</para>
             </step>
             <step>
@@ -63,7 +63,7 @@
             file.</para>
         <variablelist>
             <varlistentry>
-                <term><property>radius-server</property></term>
+                <term><property>radius-hostname</property></term>
                 <listitem>
                     <para>The RADIUS server to authenticate against.  If not specified, 
                         localhost will be used.</para>
