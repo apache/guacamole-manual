@@ -13,10 +13,12 @@
         connections.</para>
     <section xml:id="radius-downloading">
         <title>Downloading the RADIUS authentication extension</title>
-        <para>Due to licensing limitations on dependencies for the RADIUS extension, the extension
-            cannot be distributed in a binary format.  This means that, in order to use this extension
-            you will need to build the Guacamole client code yourself.  You can find build instructions
-            for Guacamole client in <xref linkend="installing-guacamole"/>.</para>
+        <para>The RADIUS extension depends on software that is covered by a LGPL license, which is
+            incompatible with the Apache 2.0 license under which Guacamole is licensed.  Due to this
+            dependency, the Guacamole project cannot distribute binary versions of the RADIUS extension.
+            If you want to use this extension you will need to build the code - or at least the RADIUS
+            extension yourself.  Build instructions can be found in the section
+            <xref linkend="installing-guacamole"/>.</para>
     </section>
     <section xml:id="installing-radius-auth">
         <title>Installing RADIUS authentication</title>
