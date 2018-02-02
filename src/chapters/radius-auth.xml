@@ -175,7 +175,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><property>ca-key-file</property></term>
+                <term><property>radius-ca-file</property></term>
                 <listitem>
                     <para>The file that stores the certificate authority certificates for the
                         connection to the RADIUS server.  Defaults to no file - if specified, the
@@ -183,14 +183,14 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><property>ca-key-type</property></term>
+                <term><property>radius-ca-type</property></term>
                 <listitem>
                     <para>The type of file store used for the certificate authority.  If not
                         specified this defaults to pem.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><property>ca-key-password</property></term>
+                <term><property>radius-ca-password</property></term>
                 <listitem>
                     <para>The password used to protect the certificate authority store, if
                         any.  Default to null.</para>
