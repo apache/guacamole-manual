@@ -24,7 +24,7 @@
         <title>Installing RADIUS authentication</title>
         <para>The RADIUS extension must be explicitly enabled during build time in order to generate
             the binaries and resulting JAR file.  This is done by adding the flag <option>-Plgpl-extensions</option>
-            to the MAVEN command line during the build, and should result in the output below:</para>
+            to the Maven command line during the build, and should result in the output below:</para>
         <informalexample>
             <screen><prompt>$</prompt> <userinput>mvn clean package -Plgpl-extensions</userinput>
 <computeroutput>[INFO] --- maven-assembly-plugin:2.5.3:single (make-source-archive) @ guacamole-client ---
@@ -107,7 +107,7 @@
         <para>This extension provides several configuration properties in order 
             to communicate properly with the RADIUS server to which it needs to authenticate.  It is 
             important that you know several key pieces of information about the RADIUS server - 
-            at a minimum, the server name or IP, the Authentication port, the authentication 
+            at a minimum, the server name or IP, the authentication port, the authentication 
             protocol in use by the server, and the shared secret for the RADIUS client.  If you 
             are responsible for the RADIUS server, you'll need to properly configure these items 
             to get Guacamole to authenticate properly.  If you're not responsible for the RADIUS 
@@ -166,8 +166,9 @@
             <varlistentry>
                  <term><property>radius-key-type</property></term>
                  <listitem>
-                     <para>The type of the key file specified by the <property>radius-key-file</property> 
-                        parameter.  If not specified, this defaults to pkcs12, the default used by 
+                     <para>The file type of the keystore specified by the <property>radius-key-file</property> 
+                        parameter.  Valid keystore types are pem, jceks, jks, and pkcs12.
+                        If not specified, this defaults to pkcs12, the default used by 
                         the JRadius library.</para>
                  </listitem>
             </varlistentry>
@@ -191,8 +192,8 @@
             <varlistentry>
                 <term><property>radius-ca-type</property></term>
                 <listitem>
-                    <para>The type of file store used for the certificate authority.  If not
-                        specified this defaults to pem.</para>
+                    <para>The file type of keystore used for the certificate authority.  Valid formats are
+                        pem, jceks, jks, and pkcs12.  If not specified this defaults to pem.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -200,31 +201,32 @@
                 <listitem>
                     <para>The password used to protect the certificate authority store, if
                         any.  If unspecified the extension will attempt to read the CA
-                        store without any password..</para>
+                        store without any password.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term><property>radius-trust-all</property></term>
                 <listitem>
-                    <para>A boolean value indicating whether or not the RADIUS extension
+                    <para>This parameter controls whether or not the RADIUS extension
                     should trust all certificates or verify them against known good
-                    certificate authorities.  By default this is false, and certificates
-                    will validated.</para>
+                    certificate authorities.  Set to true to allow the RADIUS server
+                    to connect without validating certificates.  The default is false,
+                    which causes certificates to be validated.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term><property>radius-retries</property></term>
                 <listitem>
                     <para>The number of times the client will retry the connection to the 
-                        RADIUS server and not receive a response before giving up.  The default
-                        is 5.</para>
+                        RADIUS server and not receive a response before giving up.  By default
+                        the client will try the connection at most 5 times.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term><property>radius-timeout</property></term>
                 <listitem>
-                    <para>The timeout for a RADIUS connection in seconds.  The default is
-                        60 seconds.</para>
+                    <para>The timeout for a RADIUS connection in seconds.  By default the client
+                        will wait for a response from the server for at most 60 seconds.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -234,7 +236,9 @@
                         protocol to use talking to the RADIUS server.  It is required when the
                         <property>radius-auth-protocol</property> parameter is set to eap-ttls.
                         If the <property>radius-auth-protocol</property> value is set to something
-                        other than eap-ttls, this parameter has no effect and will be ignored.</para>
+                        other than eap-ttls, this parameter has no effect and will be ignored. Valid
+                        options for this are any of the values for
+                        <property>radius-auth-protocol</property>, except for eap-ttls.</para>
                 </listitem>
             </varlistentry>
         </variablelist>
