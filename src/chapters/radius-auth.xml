@@ -157,10 +157,10 @@
                 <term><property>radius-key-file</property></term>
                 <listitem>
                     <para>The combination certificate and private key pair to use for TLS-based
-                        RADIUS protocols that require a client-side certificate.  The file should be
-                        present in the GUACAMOLE_HOME directory, and should be readable by the user
-                        running Tomcat (or whatever Java servlet container you're running).  If not
-                        specified, this defaults to radius.pem.</para>
+                        RADIUS protocols that require a client-side certificate.  This parameter
+                        should specify the absolute path to the file.  By default the extension
+                        will look for a file called radius.pem in the GUACAMOLE_HOME directory.
+                        </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -182,9 +182,10 @@
             <varlistentry>
                 <term><property>radius-ca-file</property></term>
                 <listitem>
-                    <para>The file that stores the certificate authority certificates for the
-                        connection to the RADIUS server.  Defaults to no file - if specified, the
-                        file must be present in the GUACAMOLE_HOME directory.</para>
+                    <para>The absolute path to the file that stores the certificate authority
+                        certificates for encrypted connections to the RADIUS server.  By default
+                        a file with the name ca.crt in the GUACAMOLE_HOME directory will be used.
+                        </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
