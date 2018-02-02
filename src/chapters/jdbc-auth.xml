@@ -682,22 +682,6 @@ postgresql-default-max-group-connections-per-user: 0
 sqlserver-default-max-connections-per-user: 0
 sqlserver-default-max-group-connections-per-user: 0</programlisting>
                 </informalexample>
-                <para>The above properties replace the "simultaneous" and "duplicate" properties used
-                    by prior Guacamole releases. The older properties will still work, but are now
-                    deprecated. If you continue to use those properties, you will receive warnings
-                    in the logs advising you of their deprecated status and including examples for
-                    providing the same behavior with the new properties described above:</para>
-                <informalexample>
-                    <screen><computeroutput>WARN  o.g.g.a.p.PostgreSQLAuthenticationProvider - The
-"postgresql-disallow-simultaneous-connections" property is deprecated.
-Use "postgresql-default-max-connections" and
-"postgresql-default-max-group-connections" instead.
-INFO  o.g.g.a.p.PostgreSQLAuthenticationProvider - To achieve the same
-result of setting "postgresql-disallow-simultaneous-connections" to
-"false", set "postgresql-default-max-connections" to "0" and
-"postgresql-default-max-group-connections" to "0".</computeroutput></screen>
-                </informalexample>
-                <para>These deprecated properties are not supported in the SQL Server module.</para>
                 <para>If you wish to impose an absolute limit on the number of connections that can
                     be established through Guacamole, ignoring which users or connections are
                     involved, this can be done as well. By default, Guacamole will impose no such

@@ -324,16 +324,9 @@ guacd-port:     4822</programlisting>
                 <primary>user-mapping.xml</primary>
             </indexterm>
             <para>The default authentication provider used by Guacamole reads all username,
-                password, and configuration information from a file called the "user mapping". By
-                default, Guacamole will look for this file at
-                    <filename>GUACAMOLE_HOME/user-mapping.xml</filename>, but this can be overridden
-                by specifying the location with the <property>user-mapping</property> property
-                within <filename>guacamole.properties</filename>:</para>
-            <informalexample>
-                <programlisting>user-mapping: <replaceable>/path/to/user-mapping.xml</replaceable></programlisting>
-            </informalexample>
-            <para>An example of a user mapping file is included with Guacamole, and looks something
-                like this:</para>
+                password, and configuration information from a file called the "user mapping"
+                located at <filename>GUACAMOLE_HOME/user-mapping.xml</filename>. An example of a
+                user mapping file is included with Guacamole, and looks something like this:</para>
             <programlisting>&lt;user-mapping>
 	
     &lt;!-- Per-user authentication and config information -->
