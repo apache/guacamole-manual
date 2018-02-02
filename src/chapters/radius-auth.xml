@@ -159,7 +159,7 @@
                     <para>The combination certificate and private key pair to use for TLS-based
                         RADIUS protocols that require a client-side certificate.  This parameter
                         should specify the absolute path to the file.  By default the extension
-                        will look for a file called radius.pem in the GUACAMOLE_HOME directory.
+                        will look for a file called radius.key in the GUACAMOLE_HOME directory.
                         </para>
                 </listitem>
             </varlistentry>
