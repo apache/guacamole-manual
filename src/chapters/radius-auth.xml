@@ -135,7 +135,9 @@
                 <term><property>radius-shared-secret</property></term>
                 <listitem>
                     <para>The shared secret to use when talking to the RADIUS server.  This
-                        parameter is required and defaults to null if not specified.</para>
+                        parameter is required and the extension will not load if this is not
+                        specified.
+                        </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -173,7 +175,8 @@
                 <term><property>radius-key-password</property></term>
                 <listitem>
                     <para>The password of the private key specified in the 
-                        <property>radius-key-file</property> parameter.  Defaults to null if not specified.</para>
+                        <property>radius-key-file</property> parameter.  By default the extension   
+                        will not use any password when trying to open the key file.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -195,15 +198,18 @@
                 <term><property>radius-ca-password</property></term>
                 <listitem>
                     <para>The password used to protect the certificate authority store, if
-                        any.  Default to null.</para>
+                        any.  If unspecified the extension will attempt to read the CA
+                        store without any password..</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
-                 <term><property>radius-trust-all</property></term>
-                 <listitem>
-                     <para>Trust all server certificates without verifying against a CA file.
-                     </para>
-                 </listitem>
+                <term><property>radius-trust-all</property></term>
+                <listitem>
+                    <para>A boolean value indicating whether or not the RADIUS extension
+                    should trust all certificates or verify them against known good
+                    certificate authorities.  By default this is false, and certificates
+                    will validated.</para>
+                </listitem>
             </varlistentry>
             <varlistentry>
                 <term><property>radius-retries</property></term>
@@ -225,7 +231,9 @@
                 <listitem>
                     <para>When EAP-TTLS is used, this parameter specifies the inner (tunneled)
                         protocol to use talking to the RADIUS server.  It is required when the
-                        <property>radius-auth-protocol</property> parameter is set to eap-ttls.</para>
+                        <property>radius-auth-protocol</property> parameter is set to eap-ttls.
+                        If the <property>radius-auth-protocol</property> value is set to something
+                        other than eap-ttls, this parameter has no effect and will be ignored.</para>
                 </listitem>
             </varlistentry>
         </variablelist>
