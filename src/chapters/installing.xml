@@ -637,6 +637,7 @@ guacamole-server version 0.9.14
 
       guacd ...... yes
       guacenc .... yes
+      guaclog .... yes
 
    Init scripts: /etc/init.d
 
