@@ -723,6 +723,51 @@ guacd-port:     4822</programlisting>
                                         and this parameter will be ignored.</para>
                                 </entry>
                             </row>
+                            <row>
+                                <entry><parameter>recording-exclude-output</parameter></entry>
+                                <entry>
+                                    <para>If set to "true", graphical output and other data normally
+                                        streamed from server to client will be excluded from the
+                                        recording, producing a recording which contains only user
+                                        input events. <emphasis>This parameter is
+                                            optional.</emphasis> If omitted, graphical output will
+                                        be included in the recording.</para>
+                                    <para>This parameter only has an effect if graphical recording
+                                        is enabled. If the <parameter>recording-path</parameter> is
+                                        not specified, graphical session recording will be disabled,
+                                        and this parameter will be ignored.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>recording-exclude-mouse</parameter></entry>
+                                <entry>
+                                    <para>If set to "true", user mouse events will be excluded from
+                                        the recording, producing a recording which lacks a visible
+                                        mouse cursor. <emphasis>This parameter is
+                                            optional.</emphasis> If omitted, mouse events will be
+                                        included in the recording.</para>
+                                    <para>This parameter only has an effect if graphical recording
+                                        is enabled. If the <parameter>recording-path</parameter> is
+                                        not specified, graphical session recording will be disabled,
+                                        and this parameter will be ignored.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>recording-include-keys</parameter></entry>
+                                <entry>
+                                    <para>If set to "true", user key events will be included in the
+                                        recording. The recording can subsequently be passed through
+                                        the <command>guaclog</command> utility to produce a
+                                        human-readable interpretation of the keys pressed during the
+                                        session. <emphasis>This parameter is optional.</emphasis> If
+                                        omitted, key events will be not included in the
+                                        recording.</para>
+                                    <para>This parameter only has an effect if graphical recording
+                                        is enabled. If the <parameter>recording-path</parameter> is
+                                        not specified, graphical session recording will be disabled,
+                                        and this parameter will be ignored.</para>
+                                </entry>
+                            </row>
                         </tbody>
                     </tgroup>
                 </informaltable>
