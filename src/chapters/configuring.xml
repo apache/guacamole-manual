@@ -2060,6 +2060,18 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                                 </entry>
                             </row>
                             <row>
+                                <entry><parameter>drive-name</parameter></entry>
+                                <entry>
+                                    <para>The name of the filesystem used when passed through to
+                                        the RDP session.  This is the name that users will see in their
+                                        Computer/My Computer area along with client name (for example,
+                                        "Guacamole on Guacamole RDP"), and is also the name of the share
+                                        when accessing the special \\tsclient network location.</para>
+                                    <para>If file transfer is not enabled, this parameter is
+                                        ignored.</para>
+                                </entry>
+                            </row>
+                            <row>
                                 <entry><parameter>drive-path</parameter></entry>
                                 <entry>
                                     <para>The directory on the Guacamole server in which transferred
