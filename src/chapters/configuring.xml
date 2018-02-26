@@ -2974,6 +2974,46 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                     </tgroup>
                 </informaltable>
             </section>
+            <section xml:id="ssh-terminal-behavior">
+                <title>Controlling terminal behavior</title>
+                <para>In most cases, the default behavior for a terminal works without modification.
+                    However, when connecting to certain systems, particularly operating systems other
+                    than Linux, the terminal behavior may need to be tweaked to allow it to operate
+                    properly.  The settings in this section control that behavior.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>SSH</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>backspace</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>backspace</secondary>
+                                        </indexterm>This parameter controls the ASCII code that
+                                        the backspace key sends to the remote system.  Under most
+                                        circumstances this should not need to be adjusted; however,
+                                        if, when pressing the backspace key, you see control characters
+                                        (often either ^? or ^H) instead of seeing the text erased,
+                                        you may need to adjust this parameter.  By default the terminal
+                                        sends ASCII code 127 (Delete) if this option is not set.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
             <section xml:id="ssh-typescripts">
                 <title>Text session recording (typescripts)</title>
                 <para>The full, raw text content of SSH sessions, including timing information, can
@@ -3559,6 +3599,46 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                     </tgroup>
                 </informaltable>
             </section>
+            <section xml:id="telnet-terminal-behavior">
+                <title>Controlling terminal behavior</title>
+                <para>In most cases, the default behavior for a terminal works without modification.
+                    However, when connecting to certain systems, particularly operating systems other
+                    than Linux, the terminal behavior may need to be tweaked to allow it to operate
+                    properly.  The settings in this section control that behavior.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>telnet</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>backspace</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>telnet</primary>
+                                            <secondary>backspace</secondary>
+                                        </indexterm>This parameter controls the ASCII code that
+                                        the backspace key sends to the remote system.  Under most
+                                        circumstances this should not need to be adjusted; however,
+                                        if, when pressing the backspace key, you see control characters
+                                        (often either ^? or ^H) instead of seeing the text erased,
+                                        you may need to adjust this parameter.  By default the terminal
+                                        sends ASCII code 127 (Delete) if this option is not set.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
             <section xml:id="telnet-typescripts">
                 <title>Text session recording (typescripts)</title>
                 <para>The full, raw text content of telnet sessions, including timing information,
@@ -3586,7 +3666,7 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
-                        <secondary>SSH</secondary>
+                        <secondary>telnet</secondary>
                     </indexterm>
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1" colwidth="1*"/>
