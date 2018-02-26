@@ -2594,6 +2594,46 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                                         default.</para>
                                 </entry>
                             </row>
+                            <row>
+                                <entry><parameter>disable-bitmap-caching</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>bitmap caching</secondary>
+                                        </indexterm>In certain situations, particularly with RDP server
+                                        implementations with known bugs, it is necessary to disable
+                                        RDP's built-in bitmap caching functionality.  This parameter
+                                        allows that to be controlled in a Guacamole session.  If set to
+                                        "true" the RDP bitmap cache will not be used.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>disable-offscreen-caching</parameter></entry>
+                                <entry>
+                                    <para><indexterm>          
+                                            <primary>RDP</primary>
+                                            <secondary>offscreen bitmap caching</secondary>
+                                        </indexterm>RDP normally maintains caches of regions of the screen
+                                        that are current not visible in the client in order to accelerate
+                                        retrieval of those regions when they come into view.  This parameter,
+                                        when set to "true," will disable caching of those regions.  This is
+                                        usually only useful when dealing with known bugs in RDP server
+                                        implementations and should remain enabled in most circumstances.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>disable-glyph-caching</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>glyph caching</secondary>
+                                        </indexterm>In addition to screen regions, RDP maintains caches of
+                                        frequently used symbols or fonts, collectively known as "glyphs."  As
+                                        with bitmap and offscreen caching, certain known bugs in RDP implementations
+                                        can cause performance issues with this enabled, and setting this parameter
+                                        to "true" will disable that glyph caching in the RDP session.</para>
+                                </entry>
+                            </row>
                         </tbody>
                     </tgroup>
                 </informaltable>
