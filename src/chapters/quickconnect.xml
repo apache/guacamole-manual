@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter xml:id="quickconnect" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+    xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Quickconnect extension</title>
+    <indexterm>
+        <primary>quickconnect</primary>
+    </indexterm>
+    <para>The quickconnect extension provides a connection bar on the Guacamole Client home page
+        that allows users to type in the URI of a server to which they want to connect and the client
+        will parse the URI and immediately establish the connection.  The purpose of the extension is
+        to allow situations where administrators want to allow users the flexibility of establishing
+        their own connections without having to grant them access to edit connections or even to have
+        to create the connections at all, aside from typing the URI.</para>
+    <important>
+        <para>Connections established with the quickconnect extension are create in-memory and only
+            persist until the user logs out or the browser it closed.  As soon as the user's session
+            is cleaned up, the connections are lost.  Furthermore, connections created/established
+            with this module will not be visibile to other users - if connections need to be usable
+            by multiple Guacamole users, please use one of the other modules (JDBC or LDAP).</para>
+        <para>Also, while this extension is technically an authentication extension, it provides
+            no facility for actually authenticating users - it will not allow anonymous logins,
+            and relies on users being successfully authenticated and able to access the Guacamole
+            Home page before it can be used.  This extension must be "stacked" with other modules
+            that provide facilities for authenticating users.</para>
+    </important>
+    <section xml:id="quickconnect-downloading">
+        <title>Downloading the quickconnect extension</title>
+        <para>The quickconnect extension is available separately from the main
+                <filename>guacamole.war</filename>. The link for this and all other
+            officially-supported and compatible extensions for a particular version of Guacamole are
+            provided in the release notes for that version. You can find the release notes for
+            current versions of Guacamole here: <link
+                xlink:href="http://guacamole.apache.org/releases/"
+                >http://guacamole.apache.org/releases/</link>.</para>
+        <para>The quickconnect extension is packaged as a <filename>.tar.gz</filename> file containing
+            only the extension itself, <filename>guacamole-auth-quickconnect-0.9.14.jar</filename>, which must
+            ultimately be placed in <filename>GUACAMOLE_HOME/extensions</filename>.</para>
+    </section>
+    <section xml:id="installing-quickconnect">
+        <title>Installing the quickconnect extension</title>
+        <para>Guacamole extensions are self-contained <filename>.jar</filename> files which are
+            located within the <filename>GUACAMOLE_HOME/extensions</filename> directory.
+                <emphasis>If you are unsure where <varname>GUACAMOLE_HOME</varname> is located on
+                your system, please consult <xref linkend="configuring-guacamole"/> before
+                proceeding.</emphasis></para>
+        <para>To install the extension, you must:</para>
+        <procedure>
+            <step>
+                <para>Create the <filename>GUACAMOLE_HOME/extensions</filename> directory, if it
+                    does not already exist.</para>
+            </step>
+            <step>
+                <para>Place the <filename>guacamole-auth-quickconnect-0.9.14.jar</filename> file in
+                    the <filename>GUACAMOLE_HOME/extensions</filename> directory.</para>
+            </step>
+        </procedure>
+        <section xml:id="guac-quickconnect-config">
+            <title>Configuring Guacamole for the quickconnect extension</title>
+            <indexterm>
+                <primary>configuring quickconnect</primary>
+            </indexterm>
+            <para>This module has no configuration options.</para>
+        </section>
+        <section xml:id="completing-quickconnect-install">
+            <title>Completing the installation</title>
+            <para>Guacamole will only load newly-installed extensions during startup, so your
+                servlet container will need to be restarted before the quickconnect extension
+                can be used. <emphasis>Doing this will disconnect all active users, so be sure
+                    that it is safe to do so prior to attempting installation.</emphasis>
+                When ready, restart your servlet container and give the extension a try.</para>
+        </section>
+    </section>
+    <section xml:id="using-quickconnect">
+        <title>Using the quickconnect extension</title>
+        <para>The quickconnect extension provides a field on the home page that allows you to enter
+             a Uniform Resource Identifier (URI) to create a connection.  A URI is in the form:</para>
+            <informalexample><replaceable>protocol</replaceable>://<replaceable>username</replaceable>
+            :<replaceable>password</replaceable>@<replaceable>host</replaceable>:
+            <replaceable>port</replaceable>/?<replaceable>options</replaceable></informalexample>
+            <para>The <replaceable>protocol</replaceable> field can have any of the protocols supported by
+            Guacamole, as documented in <xref linkend="configuring-guacamole"/>.  Many of the
+            protocols define a default <replaceable>port</replaceable> value, with the exception of VNC.
+            The <replaceable>options</replaceable> field can specify any of the protocol-specific
+            options as documented on the configuration page.</para>
+        <para>To establish a connection, simply type in a valid URI and either press "Enter" or click
+            the connect button.  This extension will parse the URI and create a new connection, and
+            immediately start that connection in the current browser.</para>
+    </section>
+</chapter>
