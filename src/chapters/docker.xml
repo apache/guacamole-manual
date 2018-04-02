@@ -64,6 +64,12 @@
                 port 4822, but this port will only be available to Docker containers that have been
                 explicitly linked to
                 <varname><replaceable>some-guacd</replaceable></varname>.</para>
+            <para>The log level of guacd can be controlled with the <varname>GUACD_LOG_LEVEL</varname> environment variable.  The
+                default value is <varname><replaceable>info</replaceable></varname>, and can be set to any of the
+                valid settings for the guacd log flag (-L).</para>
+            <informalexample>
+                <screen><prompt>$</prompt> <command>docker</command> run -e GUACD_LOG_LEVEL=<replaceable>debug</replaceable> -d guacamole/guacd</screen>
+            </informalexample>
         </section>
         <section xml:id="guacd-docker-external">
             <title>Running <package>guacd</package> for use by services outside Docker</title>
