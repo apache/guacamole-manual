@@ -26,7 +26,7 @@
                     not allow anonymous logins, and requires that users are successfully authenticated
                     by another authentication module before it can be used.</para></listitem>
             <listitem><para>The extension provides users the ability not only to establish connections, but
-                    also to set any of the options for a connection.  There are security implications for
+                    also to set any of the parameters for a connection.  There are security implications for
                     this - for example, RDP file sharing can be used to pass through any directory available
                     on the server running guacd to the remote desktop.  This should be taken into consideration
                     when enabling this extension and making sure that guacd is configured in a way that
@@ -86,12 +86,12 @@
              a Uniform Resource Identifier (URI) to create a connection.  A URI is in the form:</para>
             <informalexample><uri><replaceable>protocol</replaceable>://<replaceable>username</replaceable>
             :<replaceable>password</replaceable>@<replaceable>host</replaceable>:
-            <replaceable>port</replaceable>/?<replaceable>options</replaceable></uri></informalexample>
+            <replaceable>port</replaceable>/?<replaceable>parameters</replaceable></uri></informalexample>
             <para>The <replaceable>protocol</replaceable> field can have any of the protocols supported by
             Guacamole, as documented in <xref linkend="configuring-guacamole"/>.  Many of the
             protocols define a default <replaceable>port</replaceable> value, with the exception of VNC.
-            The <replaceable>options</replaceable> field can specify any of the protocol-specific
-            options as documented on the configuration page.</para>
+            The <replaceable>parameters</replaceable> field can specify any of the protocol-specific
+            parameters as documented on the configuration page.</para>
         <para>To establish a connection, simply type in a valid URI and either press "Enter" or click
             the connect button.  This extension will parse the URI and create a new connection, and
             immediately start that connection in the current browser.</para>
