@@ -2,9 +2,10 @@
 
 <chapter xml:id="quickconnect" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>Quickconnect extension</title>
+    <title>Ad-hoc Connections</title>
     <indexterm>
         <primary>quickconnect</primary>
+        <secondary>adhoc</secondary>
     </indexterm>
     <para>The quickconnect extension provides a connection bar on the Guacamole Client home page
         that allows users to type in the URI of a server to which they want to connect and the client
@@ -13,16 +14,23 @@
         their own connections without having to grant them access to edit connections or even to have
         to create the connections at all, aside from typing the URI.</para>
     <important>
-        <para>Connections established with the quickconnect extension are create in-memory and only
-            persist until the user logs out or the browser it closed.  As soon as the user's session
-            is cleaned up, the connections are lost.  Furthermore, connections created/established
-            with this module will not be visibile to other users - if connections need to be usable
-            by multiple Guacamole users, please use one of the other modules (JDBC or LDAP).</para>
-        <para>Also, while this extension is technically an authentication extension, it provides
-            no facility for actually authenticating users - it will not allow anonymous logins,
-            and relies on users being successfully authenticated and able to access the Guacamole
-            Home page before it can be used.  This extension must be "stacked" with other modules
-            that provide facilities for authenticating users.</para>
+        <para>There are several implications of using this extension that should be well-understood
+            by administrators prior to implementing it:</para>
+        <itemizedlist>
+            <listitem><para>Connections established with this extension are created in-memory
+                    and only persist until the user logs out or the browser is closed.</para></listitem>
+            <listitem><para>Connections created with this extension are not accessible to other users, and
+                    cannot be shared with other users.</para></listitem>
+            <listitem><para>This extension provides no functionality for authenticating users - it does
+                    not allow anonymous logins, and requires that users are successfully authenticated
+                    by another authentication module before it can be used.</para></listitem>
+            <listitem><para>The extension provides users the ability not only to establish connections, but
+                    also to set any of the options for a connection.  There are security implications for
+                    this - for example, RDP file sharing can be used to pass through any directory available
+                    on the server running guacd to the remote desktop.  This should be taken into consideration
+                    when enabling this extension and making sure that guacd is configured in a way that
+                    does not compromise sensitive system files by allowing access to them.</para></listitem>
+        </itemizedlist>
     </important>
     <section xml:id="quickconnect-downloading">
         <title>Downloading the quickconnect extension</title>
