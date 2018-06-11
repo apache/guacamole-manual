@@ -84,9 +84,9 @@
         <title>Using the quickconnect extension</title>
         <para>The quickconnect extension provides a field on the home page that allows you to enter
              a Uniform Resource Identifier (URI) to create a connection.  A URI is in the form:</para>
-            <informalexample><uri><replaceable>protocol</replaceable>://<replaceable>username</replaceable>
-            :<replaceable>password</replaceable>@<replaceable>host</replaceable>:
-            <replaceable>port</replaceable>/?<replaceable>parameters</replaceable></uri></informalexample>
+            <informalexample><uri>
+<replaceable>protocol</replaceable>://<replaceable>username</replaceable>:<replaceable>password</replaceable>@<replaceable>host</replaceable>:<replaceable>port</replaceable>/?<replaceable>parameters</replaceable>
+</uri></informalexample>
             <para>The <replaceable>protocol</replaceable> field can have any of the protocols supported by
             Guacamole, as documented in <xref linkend="configuring-guacamole"/>.  Many of the
             protocols define a default <replaceable>port</replaceable> value, with the exception of VNC.
