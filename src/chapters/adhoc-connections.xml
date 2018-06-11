@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<chapter xml:id="quickconnect" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
+<chapter xml:id="adhoc-connections" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en"
     xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>Ad-hoc Connections</title>
     <indexterm>
-        <primary>quickconnect</primary>
+        <primary>adhoc-connections</primary>
         <secondary>adhoc</secondary>
+        <secondary>quickconnect</secondary>
     </indexterm>
     <para>The quickconnect extension provides a connection bar on the Guacamole Client home page
         that allows users to type in the URI of a server to which they want to connect and the client
@@ -83,9 +84,9 @@
         <title>Using the quickconnect extension</title>
         <para>The quickconnect extension provides a field on the home page that allows you to enter
              a Uniform Resource Identifier (URI) to create a connection.  A URI is in the form:</para>
-            <informalexample><replaceable>protocol</replaceable>://<replaceable>username</replaceable>
+            <informalexample><uri><replaceable>protocol</replaceable>://<replaceable>username</replaceable>
             :<replaceable>password</replaceable>@<replaceable>host</replaceable>:
-            <replaceable>port</replaceable>/?<replaceable>options</replaceable></informalexample>
+            <replaceable>port</replaceable>/?<replaceable>options</replaceable></uri></informalexample>
             <para>The <replaceable>protocol</replaceable> field can have any of the protocols supported by
             Guacamole, as documented in <xref linkend="configuring-guacamole"/>.  Many of the
             protocols define a default <replaceable>port</replaceable> value, with the exception of VNC.
