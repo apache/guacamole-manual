@@ -95,5 +95,24 @@
         <para>To establish a connection, simply type in a valid URI and either press "Enter" or click
             the connect button.  This extension will parse the URI and create a new connection, and
             immediately start that connection in the current browser.</para>
+        <para>Here are a few examples of URIs:</para>
+        <itemizedlist>
+            <listitem><informalexample><uri>ssh://linux1.example.com/</uri></informalexample>
+                <para>Connect to the server linux1.example.com using the SSH protocol on the default SSH port (22).
+                    This will result in prompting for both username and password.</para></listitem>
+            <listitem><informalexample><uri>vnc://linux1.example.com:5900/</uri></informalexample>
+                <para>Connect to the server linux1.example.com using the VNC protocol and specifying the
+                    port as 5900.</para></listitem>
+            <listitem><informalexample><uri>
+rdp://localuser@windows1.example.com/?security=rdp&amp;ignore-cert=true&amp;disable-audio=true&amp;enable-drive=true&amp;drive-path=/mnt/usb
+                    </uri>
+                </informalexample>
+                <para>Connect to the server windows1.example.com using the RDP protocol and the user
+                    "localuser".  This URI also specifies several RDP-specific parameters on the
+                    connection, including forcing security mode to RDP (security=rdp), 
+                    ignoring any certificate errors (ignore-cert=true), disabling audio pass-through
+                    (disable-audio=true), and enabling filesystem redirection (enable-drive=true)
+                    to the /mnt/usb folder on the system running guacd (drive-path=/mnt/usb).</para></listitem>
+        </itemizedlist>
     </section>
 </chapter>
