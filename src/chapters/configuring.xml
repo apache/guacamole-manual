@@ -1530,7 +1530,7 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                     translated, and you will need to explicitly choose a different layout in your
                     connection settings. If your keyboard layout is not supported, please notify the
                     Guacamole team by <link xmlns:xlink="http://www.w3.org/1999/xlink"
-                        xlink:href="https://glyptodon.org/jira/">opening an issue in
+                        xlink:href="https://issues.apache.org/jira/browse/GUACAMOLE">opening an issue in
                     JIRA</link>.</para>
                 <informaltable frame="all">
                     <indexterm>
