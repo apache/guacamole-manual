@@ -2726,9 +2726,9 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
             <para>SSH support for Guacamole is provided by the <package>libguac-client-ssh</package>
                 library, which will be installed as part of guacamole-server if the required
                 dependencies are present during the build.</para>
-            <section xml:id="ssh-host-verification">
-                <title>SSH Host Verification</title>
-                <important>
+            <important>
+                <section xml:id="ssh-host-verification">
+                    <title>SSH Host Verification</title>
                     <para>By default, Guacamole does not do any verification of host identity before
                         establishing SSH connections.  While this may be safe for private and trusted
                         networks it is not ideal for large networks with unknown/untrusted systems,
@@ -2750,8 +2750,8 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                         is performed.  If the parameter is present then the identity of the remote
                         host is verified against the identity provided in the parameter before a
                         connection is established.</para> 
-                </important>
-            </section>
+                </section>
+            </important>
             <section xml:id="ssh-network-parameters">
                 <title>Network parameters</title>
                 <para>SSH connections require a hostname or IP address defining the destination
