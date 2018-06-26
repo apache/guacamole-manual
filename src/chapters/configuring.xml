@@ -2730,22 +2730,23 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                 <title>SSH Host Verification</title>
                 <para>By default, Guacamole does not do any verification of host identity before
                     establishing SSH connections.  While this may be safe for private and trusted
-                    networks it is not ideal for large networks with unknown/untrusted systems,
+                    networks, it is not ideal for large networks with unknown/untrusted systems,
                     or for SSH connections that traverse the Internet.  The potential exists for
-                    Man-in-the-Middle (MitM) attacks on these types of networks.</para>
+                    Man-in-the-Middle (MitM) attacks when connecting to these hosts.</para>
                 <para>Guacamole includes two methods for verifying SSH (and SFTP) server identity
-                    for connections that can be used to make sure that the host you are
-                    connecting to is a host that you know and trust.  The first method is by
-                    reading a file in GUACAMOLE_HOME call ssh_known_hosts.  This file should be
-                    in the format of a standard OpenSSH known_hosts file.  If the file is not
-                    present, no verification is done.  If the file is present, it is read in
-                    at connection time and remote host identities are verified against the
-                    keys present in the file.</para>
+                    that can be used to make sure that the host you are connecting to is a host
+                    that you know and trust.  The first method is by reading a file in
+                    GUACAMOLE_HOME call ssh_known_hosts.  This file should be in the format of
+                    a standard OpenSSH known_hosts file.  If the file is not present, no
+                    verification is done.  If the file is present, it is read in at connection
+                    time and remote host identities are verified against the keys present in
+                    the file.</para>
                 <para>The second method for verifying host identity is by passing a connection
                     parameter that contains an OpenSSH known hosts entry for that specific host.
-                    The host-key parameter is used for SSH connections, and for SFTP connections
-                    for other protocols the sftp-host-key parameter is used.  If these parameters
-                    are not present on their respective connections no host identity verification
+                    The <parameter>host-key</parameter> parameter is used for SSH connections, 
+                    while the SFTP connections associated with RDP and VNC use the
+                    <parameter>sftp-host-key</parameter> parameter.  If these parameters are
+                    not present on their respective connections no host identity verification
                     is performed.  If the parameter is present then the identity of the remote
                     host is verified against the identity provided in the parameter before a
                     connection is established.</para> 
