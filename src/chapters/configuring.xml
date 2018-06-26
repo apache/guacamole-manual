@@ -2727,6 +2727,7 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                 library, which will be installed as part of guacamole-server if the required
                 dependencies are present during the build.</para>
             <section xml:id="ssh-host-verification">
+                <title>SSH Host Verification</title>
                 <important>
                     <para>By default, Guacamole does not do any verification of host identity before
                         establishing SSH connections.  While this may be safe for private and trusted
