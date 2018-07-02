@@ -357,6 +357,17 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                     </listitem>
                 </varlistentry>
                 <varlistentry>
+                    <term><property>ldap-user-attributes</property></term>
+                    <listitem>
+                        <para>The attribute or attributes to retrieve from the LDAP directory.
+                            These attributes are stored as tokens with the prefix "GUAC_ATTR_"
+                            and the name of the attribute appended in uppercase letters.
+                            The value of the token is the value of the attribute in the LDAP directory.
+                            If the attribute has no value in the directory then the token is not saved.
+                            Multiple attributes can be specified here, separated by commas.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
                     <term><property>ldap-user-search-filter</property></term>
                     <listitem>
                         <para>The search filter used to query the LDAP tree for users that
@@ -539,7 +550,7 @@ member: cn=user2,ou=people,dc=example,dc=net</programlisting>
                 utility:</para>
             <informalexample>
                 <screen><prompt>$</prompt> <userinput>ldapadd -x -D <replaceable>cn=admin,dc=example,dc=net</replaceable> -W -f <replaceable>example-connection.ldif</replaceable></userinput>
-<computeroutput>Enter LDAP Password: 
+<computeroutput>Enter LDAP Password:
 adding new entry "cn=Example Connection,ou=groups,dc=example,dc=net"
 </computeroutput>
 <prompt>$</prompt></screen>
