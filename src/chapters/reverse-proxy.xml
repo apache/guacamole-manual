@@ -177,7 +177,7 @@
                 port that servlet container is configured to use. You will need to replace these
                 values with the correct values for your server.</para>
             <para>Related to the RemoteIpValve configuration for tomcat, documented in
-                <xref linked="tomcat-remote-ip"/>, the
+                <xref linkend="tomcat-remote-ip"/>, the
                 <code>proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</code> line is
                 important if you want the <code>X-Forwarded-For</code> header to be passed through
                 to the web application server and available to applications running inside it.</para>
