@@ -359,12 +359,14 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                 <varlistentry>
                     <term><property>ldap-user-attributes</property></term>
                     <listitem>
-                        <para>The attribute or attributes to retrieve from the LDAP directory.
-                            These attributes are stored as tokens with the prefix "GUAC_ATTR_"
-                            and the name of the attribute appended in uppercase letters.
-                            The value of the token is the value of the attribute in the LDAP directory.
-                            If the attribute has no value in the directory then the token is not saved.
-                            Multiple attributes can be specified here, separated by commas.</para>
+                        <para>The attribute or attributes to retrieve from the LDAP directory
+                            for the currently logged-in user. These attributes are stored as
+                            tokens with the prefix "GUAC_ATTR_" and the name of the attribute appended
+                            in uppercase letters. The value of the token is the value of the attribute
+                            in the LDAP directory for the currently logged-in user. If the attribute
+                            has no value in the LDAP directory then the token is not saved.
+                            If the LDAP attribute has multiple values then the token saves all of the
+                            values together. Multiple attributes can be specified here, separated by commas.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
