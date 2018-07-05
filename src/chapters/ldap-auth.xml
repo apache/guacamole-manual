@@ -366,8 +366,8 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                             in the LDAP directory for the currently logged-in user. If the attribute
                             has no value in the LDAP directory then the token is not saved.
                             If the attribute has multiple values in the LDAP directory then the token
-                            saves all of the values together. Multiple attributes can be specified here,
-                            separated by commas.</para>
+                            saves the first value of the attribute. Multiple attributes can be
+                            specified here, separated by commas.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
