@@ -4037,12 +4037,11 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                     <term><varname>${GUAC_ATTR_<replaceable>CUSTOM_ATTRIBUTE_NAME</replaceable>}</varname></term>
                     <listitem>
                         <para>An attribute value specified on the current Guacamole user.
-                            <replaceable>CUSTOM_ATTRIBUTE_NAME</replaceable> is a custom attrbiute
-                            name specified in guacamole.properties. The values for these attributes
-                            are queried from the LDAP directory when the user is authenticated.
-                            There is a token for each attribute specified in guacamole.properties,
-                            so the number of these tokens is arbitrary. If no attributes
-                            are specified then these tokens do not exist.</para>
+                            <replaceable>CUSTOM_ATTRIBUTE_NAME</replaceable> is a custom
+                            user attribute that may be obtained from any of the authentication
+                            modules that implement the feature. There are an arbitrary
+                            number of these tokens. If no attributes are specified
+                            then this token does not exist.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
