@@ -2040,6 +2040,17 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                                 </entry>
                             </row>
                             <row>
+                                <entry><parameter>printer-name</parameter></entry>
+                                <entry>
+                                    <para>The name of the redirected printer device that is passed
+                                        through to the RDP session.  This is the name that the user
+                                        will see in, for example, the Devices and Printers control
+                                        panel.</para>
+                                    <para>If printer redirection is not enabled, this option has no
+                                        effect.</para>
+                                </entry>
+                            </row>
+                            <row>
                                 <entry><parameter>enable-drive</parameter></entry>
                                 <entry>
                                     <para><indexterm>
