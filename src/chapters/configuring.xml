@@ -2040,6 +2040,17 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                                 </entry>
                             </row>
                             <row>
+                                <entry><parameter>printer-name</parameter></entry>
+                                <entry>
+                                    <para>The name of the redirected printer device that is passed
+                                        through to the RDP session.  This is the name that the user
+                                        will see in, for example, the Devices and Printers control
+                                        panel.</para>
+                                    <para>If printer redirection is not enabled, this option has no
+                                        effect.</para>
+                                </entry>
+                            </row>
+                            <row>
                                 <entry><parameter>enable-drive</parameter></entry>
                                 <entry>
                                     <para><indexterm>
@@ -2057,6 +2068,19 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                                     <para>Files will be stored in the directory specified by the
                                             "<parameter>drive-path</parameter>" parameter, which is
                                         required if file transfer is enabled.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>drive-name</parameter></entry>
+                                <entry>
+                                    <para>The name of the filesystem used when passed through to
+                                        the RDP session.  This is the name that users will see in their
+                                        Computer/My Computer area along with client name (for example,
+                                        "Guacamole on Guacamole RDP"), and is also the name of the share
+                                        when accessing the special <filename>\\tsclient</filename>
+                                        network location.</para>
+                                    <para>If file transfer is not enabled, this parameter is
+                                        ignored.</para>
                                 </entry>
                             </row>
                             <row>
