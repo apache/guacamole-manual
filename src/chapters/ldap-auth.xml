@@ -368,6 +368,18 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                             If the attribute has multiple values in the LDAP directory then the token
                             saves the first value of the attribute. Multiple attributes can be
                             specified here, separated by commas.</para>
+                        <para>For example, if <property>ldap-user-attributes</property> is
+                        "<systemitem>mail, workstation</systemitem>", then a GUAC_ATTR_MAIL
+                        token would be set to the value of the mail attribute in the LDAP directory
+                        for the currently logged-in user and a GUAC_ATTR_WORKSTATION token
+                        would be set to the value of the workstation attribute similarly,
+                        contingent on the fact that the attributes have a value in the LDAP directory.
+                        So, the tokens could be used like this:
+                        <varname>${GUAC_ATTR_MAIL}</varname> or <varname>${GUAC_ATTR_WORKSTATION}/<varname>.
+                        If the value of mail in the LDAP directory is "example@email.com" then
+                        ${GUAC_ATTR_MAIL} would have the value "example@email.com".
+                        Tokens usage is discussed more in <xref linkend="configuring-guacamole"/> in
+                        <xref linkend="parameter-tokens"/>.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
