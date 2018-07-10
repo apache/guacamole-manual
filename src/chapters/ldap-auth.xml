@@ -377,7 +377,7 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                         So, the tokens could be used like this:
                         <varname>${GUAC_ATTR_MAIL}</varname> or <varname>${GUAC_ATTR_WORKSTATION}/<varname>.
                         If the value of mail in the LDAP directory is "example@email.com" then
-                        ${GUAC_ATTR_MAIL} would have the value "example@email.com".
+                        <varname>${GUAC_ATTR_MAIL}</varname> would have the value "example@email.com".
                         Tokens usage is discussed more in <xref linkend="configuring-guacamole"/> in
                         <xref linkend="parameter-tokens"/>.</para>
                     </listitem>

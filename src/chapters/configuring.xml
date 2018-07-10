@@ -4043,7 +4043,7 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                             number of these tokens. If no attributes are specified
                             then this token does not exist.</para>
                         <para>For example, if an attribute name is specified as "mail" then a token would
-                            be set as ${GUAC_ATTR_MAIL} with the value of "mail" in the authentication
+                            be set as <varname>${GUAC_ATTR_MAIL}</varname> with the value of "mail" in the authentication
                             module that "mail" is specified in. For a practical example, see
                             <property>ldap-user-attributes</property> in <xref linkend="ldap-auth"/>.</para>
                     </listitem>
