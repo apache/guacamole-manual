@@ -19,7 +19,7 @@
             by administrators prior to implementing it:</para>
         <itemizedlist>
             <listitem><para>Connections established with this extension are created in-memory
-                    and only persist until the user logs out or the browser is closed.</para></listitem>
+                    and only persist until the Guacamole session ends.</para></listitem>
             <listitem><para>Connections created with this extension are not accessible to other users, and
                     cannot be shared with other users.</para></listitem>
             <listitem><para>This extension provides no functionality for authenticating users - it does
