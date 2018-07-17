@@ -849,6 +849,9 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                                         of SFTP host identity will be done.  If the parameter is
                                         provided the identity of the server will be checked
                                         against the data.</para>
+                                    <para>The format of this parameter should be that of a single
+                                        entry from an OpenSSH <filename>known_hosts</filename>
+                                        file.</para>
                                     <para>For more information, please see <xref linkend="ssh-host-verification"/>.</para>
                                 </entry>
                             </row>
@@ -2446,6 +2449,8 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                                         of SFTP host identity will be done.  If the parameter is
                                         provided the identity of the server will be checked
                                         against the data.</para>
+                                    <para>The format of this parameter is that of a single entry
+                                        from an OpenSSH <filename>known_hosts</filename> file.</para>
                                     <para>For more information, please see <xref linkend="ssh-host-verification"/>.</para>
                                 </entry>
                             </row>
@@ -2736,11 +2741,11 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                 <para>Guacamole includes two methods for verifying SSH (and SFTP) server identity
                     that can be used to make sure that the host you are connecting to is a host
                     that you know and trust.  The first method is by reading a file in
-                    GUACAMOLE_HOME call ssh_known_hosts.  This file should be in the format of
-                    a standard OpenSSH known_hosts file.  If the file is not present, no
-                    verification is done.  If the file is present, it is read in at connection
-                    time and remote host identities are verified against the keys present in
-                    the file.</para>
+                    <varname>GUACAMOLE_HOME</varname> called <filename>ssh_known_hosts</filename>.
+                    This file should be in the format of a standard OpenSSH known_hosts file.
+                    If the file is not present, no verification is done.  If the file is present,
+                    it is read in at connection time and remote host identities are verified
+                    against the keys present in the file.</para>
                 <para>The second method for verifying host identity is by passing a connection
                     parameter that contains an OpenSSH known hosts entry for that specific host.
                     The <parameter>host-key</parameter> parameter is used for SSH connections, 
@@ -2804,6 +2809,8 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                                             of host identity will be done.  If the parameter is
                                             provided the identity of the server will be checked
                                             against the data.</para>
+                                    <para>The format of this parameter is that of a single entry from
+                                            an OpenSSH <filename>known_hosts</filename> file.
                                     <para>For more information, please see <xref linkend="ssh-host-verification"/>.</para>
                                 </entry>
                             </row>
