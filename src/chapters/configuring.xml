@@ -2810,7 +2810,7 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                                             provided the identity of the server will be checked
                                             against the data.</para>
                                     <para>The format of this parameter is that of a single entry from
-                                            an OpenSSH <filename>known_hosts</filename> file.
+                                        an OpenSSH <filename>known_hosts</filename> file.</para>
                                     <para>For more information, please see <xref linkend="ssh-host-verification"/>.</para>
                                 </entry>
                             </row>
