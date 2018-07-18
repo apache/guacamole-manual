@@ -67,7 +67,7 @@
             <para>Configuring Tomcat to pass through the remote IP address provided by the reverse
                 proxy in the <code>X-Forwarded-For</code> header requires the configuration of what
                 Tomcat calls a Valve.  In this case, it is the <link
-                    xlink:href="https://tomcat.apache.org/tomcat-8.5-doc/config/valve.html#Remote_IP_Valve">
+                    xl:href="https://tomcat.apache.org/tomcat-8.5-doc/config/valve.html#Remote_IP_Valve">
                     <code>RemoteIpValve</code></link> and is configured in the
                 <filename>conf/server.xml</filename> file, in the <code>&lt;Host></code> section:
             </para>
