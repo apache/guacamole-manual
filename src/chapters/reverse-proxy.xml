@@ -49,7 +49,7 @@
             <title>Setting up the Remote IP Valve</title>
             <para>By default, when Tomcat is behind a reverse proxy, the remote IP address of the
                 client that it sees is that of the proxy rather than the original client.  In order
-                to allow applications hosted within Tomcat, like Guacmaole, to see the actual IP
+                to allow applications hosted within Tomcat, like Guacamole, to see the actual IP
                 address of the client, you have to configure both the reverse proxy and Tomcat.</para>
             <para>Because the remote IP address in Guacamole is used for auditing of user logins and
                 connections and could potentially be used for authentication, it is important that you
@@ -66,9 +66,11 @@
                 configuring the system and looking at the data provided.</para>
             <para>Configuring Tomcat to pass through the remote IP address provided by the reverse
                 proxy in the <code>X-Forwarded-For</code> header requires the configuration of what
-                Tomcat calls a Valve.  In this case, it is the <code>RemoteIpValve</code> and is
-                configured in the <filename>conf/server.xml</filename> file, in the
-                <code>&lt;Host/></code>section:</para>
+                Tomcat calls a Valve.  In this case, it is the <link
+                    xlink:href="https://tomcat.apache.org/tomcat-8.5-doc/config/valve.html#Remote_IP_Valve">
+                    <code>RemoteIpValve</code></link> and is configured in the
+                <filename>conf/server.xml</filename> file, in the <code>&lt;Host></code> section:
+            </para>
             <informalexample>
                 <programlisting>&lt;Valve className="org.apache.catalina.valves.RemoteIpValve"
                internalProxies="127.0.0.1"
@@ -118,7 +120,7 @@
                                     any header that fits your environment.  This value will only
                                     be allowed by the valve if the proxy used is listed in the
                                     <parameter>trustedProxies</parameter> parameter.  Otherwise
-                                    this value will be null.</para>
+                                    this header will not be available.</para>
                             </entry>
                         </row>
                         <row>
