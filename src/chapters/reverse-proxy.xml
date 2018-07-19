@@ -45,6 +45,101 @@
             you will be creating connections that have Cyrillic, Chinese, Japanese, or other
             non-Latin characters in their names or parameter values, this attribute is
             required.</para>
+        <section xml:id="tomcat-remote-ip">
+            <title>Setting up the Remote IP Valve</title>
+            <para>By default, when Tomcat is behind a reverse proxy, the remote IP address of the
+                client that it sees is that of the proxy rather than the original client.  In order
+                to allow applications hosted within Tomcat, like Guacamole, to see the actual IP
+                address of the client, you have to configure both the reverse proxy and Tomcat.</para>
+            <para>Because the remote IP address in Guacamole is used for auditing of user logins and
+                connections and could potentially be used for authentication, it is important that you
+                are either in direct control of the proxy server or you explicitly trust it.  Passing
+                the remote IP address is done using the <code>X-Forwarded-For</code> header, and,
+                as with most HTTP headers, attackers can attempt to spoof this header in order to
+                manipulate the behavior of the web server, gain unauthorized access to the system,
+                or attempt to disguise the host or IP address they are coming from.</para>
+            <para>One final caveat: This may not work as expected if there are other upstream proxy
+                servers between your reverse proxy and the clients access Guacamole.  Other proxies
+                or firewalls can mask the IP address of the client, and if the configuration of
+                those is not within your control you may end up with multiple clients appearing to
+                come from the same IP address or host.  Make sure you take this into account when
+                configuring the system and looking at the data provided.</para>
+            <para>Configuring Tomcat to pass through the remote IP address provided by the reverse
+                proxy in the <code>X-Forwarded-For</code> header requires the configuration of what
+                Tomcat calls a Valve.  In this case, it is the <link
+                    xl:href="https://tomcat.apache.org/tomcat-8.5-doc/config/valve.html#Remote_IP_Valve">
+                    <code>RemoteIpValve</code></link> and is configured in the
+                <filename>conf/server.xml</filename> file, in the <code>&lt;Host></code> section:
+            </para>
+            <informalexample>
+                <programlisting>&lt;Valve className="org.apache.catalina.valves.RemoteIpValve"
+               internalProxies="127.0.0.1"
+               remoteIpHeader="x-forwarded-for"
+               remoteIpProxiesHeader="x-forwarded-by"
+               protocolHeader="x-forwarded-proto" /></programlisting>
+            </informalexample>
+            <para>The <parameter>internalProxies</parameter> value should be set to the IP address
+                or addresses of any and all reverse proxy servers that will be accessing this Tomcat
+                instance directly.  Often it is run on the same system that runs Tomcat, but in other
+                cases (for example, when running Docker), it may be on a different system/container and
+                may need to be set to the actual IP address of the reverse proxy system.  Only proxy
+                servers listed in the <parameter>internalProxies</parameter> or
+                <parameter>trustedProxies</parameter> parameters will be allowed to manipulate the
+                remote IP address information.  The other parameters in this configuration line allow
+                you to control which headers coming from the proxy server(s) are used for various
+                remote host information.  They are as follows:
+            </para>
+            <informaltable frame="all">
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1" colwidth="1*"/>
+                    <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                    <thead>
+                        <row>
+                            <entry>Parameter name</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry><parameter>remoteIpHeader</parameter></entry>
+                            <entry>
+                                <para>The header that is queried to learn the client IP address
+                                    of the client that originated the request.  The standard
+                                    value is <code>X-Forwarded-For</code>, but can
+                                    be configured to any header you like.  The IP address in this
+                                    header will be available to Java applications in the
+                                    <code>request.getRemoteAddr()</code> method.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><parameter>remoteIpProxiesHeader</parameter></entry>
+                            <entry>
+                                <para>The header that is queried to learn the IP address of the
+                                    proxy server that forwarded the request.  The default value
+                                    is <code>X-Forwarded-By</code>, but can be configured to
+                                    any header that fits your environment.  This value will only
+                                    be allowed by the valve if the proxy used is listed in the
+                                    <parameter>trustedProxies</parameter> parameter.  Otherwise
+                                    this header will not be available.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><parameter>protocolHeader</parameter></entry>
+                            <entry>
+                                <para>The header that is queried to determine the protocol
+                                    that the client used to connect to the service.  The default
+                                    value is <code>X-Forwarded-Proto</code>, but can be
+                                    configured to fit your environment.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <para>In addition to configuring Tomcat to properly handle these headers, you also may
+                need to configure your reverse proxy appropriately to send the headers.  You can
+                find instructions for this in <xref linkend="nginx"/> - the Apache web server
+                passes it through by default.</para>
+        </section>
     </section>
     <section xml:id="nginx">
         <title>Nginx</title>
@@ -83,6 +178,11 @@
                 machine hosting your servlet container, and <replaceable>8080</replaceable> is the
                 port that servlet container is configured to use. You will need to replace these
                 values with the correct values for your server.</para>
+            <para>Related to the RemoteIpValve configuration for tomcat, documented in
+                <xref linkend="tomcat-remote-ip"/>, the
+                <code>proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</code> line is
+                important if you want the <code>X-Forwarded-For</code> header to be passed through
+                to the web application server and available to applications running inside it.</para>
             <important>
                 <para><emphasis>Do not forget to specify "<code>proxy_buffering
                         off</code>".</emphasis></para>

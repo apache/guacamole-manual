@@ -842,6 +842,20 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                                 </entry>
                             </row>
                             <row>
+                                <entry><parameter>sftp-host-key</parameter></entry>
+                                <entry>
+                                    <para>The known hosts entry for the SFTP server.  This
+                                        parameter is optional, and, if not provided, no verification
+                                        of SFTP host identity will be done.  If the parameter is
+                                        provided the identity of the server will be checked
+                                        against the data.</para>
+                                    <para>The format of this parameter should be that of a single
+                                        entry from an OpenSSH <filename>known_hosts</filename>
+                                        file.</para>
+                                    <para>For more information, please see <xref linkend="ssh-host-verification"/>.</para>
+                                </entry>
+                            </row>
+                            <row>
                                 <entry><parameter>sftp-username</parameter></entry>
                                 <entry>
                                     <para>The username to authenticate as when connecting to the
@@ -2452,6 +2466,19 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                                 </entry>
                             </row>
                             <row>
+                                <entry><parameter>sftp-host-key</parameter></entry>
+                                <entry>
+                                    <para>The known hosts entry for the SFTP server.  This
+                                        parameter is optional, and, if not provided, no verification
+                                        of SFTP host identity will be done.  If the parameter is
+                                        provided the identity of the server will be checked
+                                        against the data.</para>
+                                    <para>The format of this parameter is that of a single entry
+                                        from an OpenSSH <filename>known_hosts</filename> file.</para>
+                                    <para>For more information, please see <xref linkend="ssh-host-verification"/>.</para>
+                                </entry>
+                            </row>
+                            <row>
                                 <entry><parameter>sftp-username</parameter></entry>
                                 <entry>
                                     <para>The username to authenticate as when connecting to the
@@ -2768,6 +2795,31 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
             <para>SSH support for Guacamole is provided by the <package>libguac-client-ssh</package>
                 library, which will be installed as part of guacamole-server if the required
                 dependencies are present during the build.</para>
+            <section xml:id="ssh-host-verification">
+                <title>SSH Host Verification</title>
+                <para>By default, Guacamole does not do any verification of host identity before
+                    establishing SSH connections.  While this may be safe for private and trusted
+                    networks, it is not ideal for large networks with unknown/untrusted systems,
+                    or for SSH connections that traverse the Internet.  The potential exists for
+                    Man-in-the-Middle (MitM) attacks when connecting to these hosts.</para>
+                <para>Guacamole includes two methods for verifying SSH (and SFTP) server identity
+                    that can be used to make sure that the host you are connecting to is a host
+                    that you know and trust.  The first method is by reading a file in
+                    <varname>GUACAMOLE_HOME</varname> called <filename>ssh_known_hosts</filename>.
+                    This file should be in the format of a standard OpenSSH known_hosts file.
+                    If the file is not present, no verification is done.  If the file is present,
+                    it is read in at connection time and remote host identities are verified
+                    against the keys present in the file.</para>
+                <para>The second method for verifying host identity is by passing a connection
+                    parameter that contains an OpenSSH known hosts entry for that specific host.
+                    The <parameter>host-key</parameter> parameter is used for SSH connections, 
+                    while the SFTP connections associated with RDP and VNC use the
+                    <parameter>sftp-host-key</parameter> parameter.  If these parameters are
+                    not present on their respective connections no host identity verification
+                    is performed.  If the parameter is present then the identity of the remote
+                    host is verified against the identity provided in the parameter before a
+                    connection is established.</para> 
+            </section>
             <section xml:id="ssh-network-parameters">
                 <title>Network parameters</title>
                 <para>SSH connections require a hostname or IP address defining the destination
@@ -2808,6 +2860,22 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                                         </indexterm>The port the SSH server is listening on, usually
                                         22. This parameter is optional. If this is not specified,
                                         the default of 22 will be used.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>host-key</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>host-key</secondary>
+                                        </indexterm>The known hosts entry for the SSH server.  This
+                                            parameter is optional, and, if not provided, no verification
+                                            of host identity will be done.  If the parameter is
+                                            provided the identity of the server will be checked
+                                            against the data.</para>
+                                    <para>The format of this parameter is that of a single entry from
+                                        an OpenSSH <filename>known_hosts</filename> file.</para>
+                                    <para>For more information, please see <xref linkend="ssh-host-verification"/>.</para>
                                 </entry>
                             </row>
                             <row>
