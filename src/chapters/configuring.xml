@@ -3142,6 +3142,18 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                                         sends ASCII code 127 (Delete) if this option is not set.</para>
                                 </entry>
                             </row>
+                            <row>
+                                <entry><parameter>terminal-type</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>terminal type</secondary>
+                                        </indexterm>This parameter sets the terminal emulator type
+                                        string that is passed to the SSH server. This parameter is
+                                        optional. If not specified, &quot;<code>linux</code>&quot;
+                                        is used as the terminal emulator type by default.</para>
+                                </entry>
+                            </row>
                         </tbody>
                     </tgroup>
                 </informaltable>
@@ -3765,6 +3777,19 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                                         (often either ^? or ^H) instead of seeing the text erased,
                                         you may need to adjust this parameter.  By default the terminal
                                         sends ASCII code 127 (Delete) if this option is not set.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>terminal-type</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>telnet</primary>
+                                            <secondary>terminal type</secondary>
+                                        </indexterm>This parameter sets the terminal emulator type
+                                        string that is passed to the telnet server. This parameter
+                                        is optional. If not specified,
+                                        &quot;<code>linux</code>&quot; is used as the terminal
+                                        emulator type by default.</para>
                                 </entry>
                             </row>
                         </tbody>
