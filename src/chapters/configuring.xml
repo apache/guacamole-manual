@@ -3009,13 +3009,81 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                                             <primary>SSH</primary>
                                             <secondary>color scheme</secondary>
                                         </indexterm>The color scheme to use for the terminal
-                                        emulator used by SSH connections. Each color scheme dictates
-                                        the default foreground and background color for the
-                                        terminal. Programs which specify colors when printing text
-                                        will override these defaults.</para>
-                                    <para>This parameter is optional. By default, Guacamole will
-                                        render text as gray over a black background.</para>
-                                    <para>Possible values are:</para>
+                                        emulator used by SSH connections. It consists of a
+                                        semicolon-separated series of name-value pairs. Each
+                                        name-value pair is separated by a colon and assigns a
+                                        value to a color in the terminal emulator palette. For
+                                        example, to use blue text on white background by default,
+                                        and change the red color to a purple shade, you would
+                                        specify:</para>
+                                    <informalexample>
+                                        <programlisting>foreground: rgb:00/00/ff;
+background: rgb:ff/ff/ff;
+color9: rgb:80/00/80</programlisting>
+                                    </informalexample>
+                                    <para>This format is similar to the color configuration format
+                                        used by Xterm, so Xterm color configurations can be easily
+                                        adapted for Guacamole. This parameter is optional. If not
+                                        specified, Guacamole will render text as gray over a black
+                                        background.</para>
+                                    <para>Possible color names are:</para>
+                                    <variablelist>
+                                        <varlistentry>
+                                            <term><constant>foreground</constant></term>
+                                            <listitem>
+                                                <para>Set the default foreground color.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>background</constant></term>
+                                            <listitem>
+                                                <para>Set the default background color.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>color&lt;n&gt;</constant></term>
+                                            <listitem>
+                                                <para>Set the color at index <code>&lt;n&gt;</code>
+                                                    on the Xterm 256-color palette. For example,
+                                                    <code>color9</code> refers to the red color.
+                                                    </para>
+                                            </listitem>
+                                        </varlistentry>
+                                    </variablelist>
+                                    <para>Possible color values are:</para>
+                                    <variablelist>
+                                        <varlistentry>
+                                            <term><constant>rgb:RR/GG/BB</constant></term>
+                                            <listitem>
+                                                <para>Use the specified color in RGB format, with
+                                                    each component in hexadecimal. For example,
+                                                    <code>rgb:ff/00/00</code> specifies the color
+                                                    red. Note that each hexadecimal component can be
+                                                    one to four digits, but the effective values are
+                                                    always zero-extended or truncated to two digits;
+                                                    for example, <code>rgb:f/8/0</code>,
+                                                    <code>rgb:f0/80/00</code>, and
+                                                    <code>rgb:f0f/808/00f</code> all refer to the
+                                                    same effective color.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>color&lt;n&gt;</constant></term>
+                                            <listitem>
+                                                <para>Use the color currently assigned to index
+                                                    <code>&lt;n&gt;</code> on the Xterm 256-color
+                                                    palette. For example, <code>color9</code>
+                                                    specifies the current red color. Note that the
+                                                    color value is used rather than the color
+                                                    reference, so if <code>color9</code> is changed
+                                                    later in the color scheme configuration, that
+                                                    new color will not be reflected in this
+                                                    assignment.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                    </variablelist>
+                                    <para>For backward compatibility, Guacamole will also accept
+                                        four special values as the color scheme parameter:</para>
                                     <variablelist>
                                         <varlistentry>
                                             <term><constant>black-white</constant></term>
@@ -3684,13 +3752,81 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                                             <primary>telnet</primary>
                                             <secondary>color scheme</secondary>
                                         </indexterm>The color scheme to use for the terminal
-                                        emulator used by telnet connections. Each color scheme
-                                        dictates the default foreground and background color for the
-                                        terminal. Programs which specify colors when printing text
-                                        will override these defaults.</para>
-                                    <para>This parameter is optional. By default, Guacamole will
-                                        render text as gray over a black background.</para>
-                                    <para>Possible values are:</para>
+                                        emulator used by telnet connections. It consists of a
+                                        semicolon-separated series of name-value pairs. Each
+                                        name-value pair is separated by a colon and assigns a
+                                        value to a color in the terminal emulator palette. For
+                                        example, to use blue text on white background by default,
+                                        and change the red color to a purple shade, you would
+                                        specify:</para>
+                                    <informalexample>
+                                        <programlisting>foreground: rgb:00/00/ff;
+background: rgb:ff/ff/ff;
+color9: rgb:80/00/80</programlisting>
+                                    </informalexample>
+                                    <para>This format is similar to the color configuration format
+                                        used by Xterm, so Xterm color configurations can be easily
+                                        adapted for Guacamole. This parameter is optional. If not
+                                        specified, Guacamole will render text as gray over a black
+                                        background.</para>
+                                    <para>Possible color names are:</para>
+                                    <variablelist>
+                                        <varlistentry>
+                                            <term><constant>foreground</constant></term>
+                                            <listitem>
+                                                <para>Set the default foreground color.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>background</constant></term>
+                                            <listitem>
+                                                <para>Set the default background color.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>color&lt;n&gt;</constant></term>
+                                            <listitem>
+                                                <para>Set the color at index <code>&lt;n&gt;</code>
+                                                    on the Xterm 256-color palette. For example,
+                                                    <code>color9</code> refers to the red color.
+                                                    </para>
+                                            </listitem>
+                                        </varlistentry>
+                                    </variablelist>
+                                    <para>Possible color values are:</para>
+                                    <variablelist>
+                                        <varlistentry>
+                                            <term><constant>rgb:RR/GG/BB</constant></term>
+                                            <listitem>
+                                                <para>Use the specified color in RGB format, with
+                                                    each component in hexadecimal. For example,
+                                                    <code>rgb:ff/00/00</code> specifies the color
+                                                    red. Note that each hexadecimal component can be
+                                                    one to four digits, but the effective values are
+                                                    always zero-extended or truncated to two digits;
+                                                    for example, <code>rgb:f/8/0</code>,
+                                                    <code>rgb:f0/80/00</code>, and
+                                                    <code>rgb:f0f/808/00f</code> all refer to the
+                                                    same effective color.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>color&lt;n&gt;</constant></term>
+                                            <listitem>
+                                                <para>Use the color currently assigned to index
+                                                    <code>&lt;n&gt;</code> on the Xterm 256-color
+                                                    palette. For example, <code>color9</code>
+                                                    specifies the current red color. Note that the
+                                                    color value is used rather than the color
+                                                    reference, so if <code>color9</code> is changed
+                                                    later in the color scheme configuration, that
+                                                    new color will not be reflected in this
+                                                    assignment.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                    </variablelist>
+                                    <para>For backward compatibility, Guacamole will also accept
+                                        four special values as the color scheme parameter:</para>
                                     <variablelist>
                                         <varlistentry>
                                             <term><constant>black-white</constant></term>
