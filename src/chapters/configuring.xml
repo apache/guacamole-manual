@@ -4308,21 +4308,6 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                             time that the connection began.</para>
                     </listitem>
                 </varlistentry>
-                <varlistentry>
-                    <term><varname>${GUAC_ATTR_<replaceable>CUSTOM_ATTRIBUTE_NAME</replaceable>}</varname></term>
-                    <listitem>
-                        <para>An attribute value specified on the current Guacamole user.
-                            <replaceable>CUSTOM_ATTRIBUTE_NAME</replaceable> is a custom
-                            user attribute that may be obtained from any of the authentication
-                            modules that implement the feature. There are an arbitrary
-                            number of these tokens. If no attributes are specified
-                            then this token does not exist.</para>
-                        <para>For example, if an attribute name is specified as "mail" then a token would
-                            be set as <varname>${GUAC_ATTR_MAIL}</varname> with the value of "mail" in the authentication
-                            module that "mail" is specified in. For a practical example, see
-                            <property>ldap-user-attributes</property> in <xref linkend="ldap-auth"/>.</para>
-                    </listitem>
-                </varlistentry>
             </variablelist>
             <para>Note that these tokens are replaced dynamically each time a connection is used. If
                 two different users access the same connection at the same time, both users will be
