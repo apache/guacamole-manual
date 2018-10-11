@@ -161,6 +161,7 @@
         <xi:include href="chapters/jdbc-auth.xml"/>
         <xi:include href="chapters/ldap-auth.xml"/>
         <xi:include href="chapters/duo-auth.xml"/>
+        <xi:include href="chapters/totp-auth.xml"/>
         <xi:include href="chapters/header-auth.xml"/>
         <xi:include href="chapters/cas-auth.xml"/>
         <xi:include href="chapters/openid-auth.xml"/>
