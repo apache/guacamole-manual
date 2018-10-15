@@ -61,11 +61,11 @@
                 <term><filename>mysql/</filename></term>
                 <listitem>
                     <para>Contains the MySQL/MariaDB authentication extension,
-                            <filename>guacamole-auth-jdbc-mysql-0.9.14.jar</filename>,
-                        along with a <filename>schema/</filename> directory containing
-                        MySQL-specific SQL scripts required to set up the database. The
-                            <filename>guacamole-auth-jdbc-mysql-0.9.14.jar</filename>
-                        file will ultimately need to be placed within
+                            <filename>guacamole-auth-jdbc-mysql-1.0.0.jar</filename>, along with a
+                            <filename>schema/</filename> directory containing MySQL-specific SQL
+                        scripts required to set up the database. The
+                            <filename>guacamole-auth-jdbc-mysql-1.0.0.jar</filename> file will
+                        ultimately need to be placed within
                             <filename>GUACAMOLE_HOME/extensions</filename>, while the MySQL JDBC
                         driver must be placed within <filename>GUACAMOLE_HOME/lib</filename>.</para>
                     <para><emphasis>The MySQL JDBC driver is not included with the
@@ -81,11 +81,11 @@
                 <term><filename>postgresql/</filename></term>
                 <listitem>
                     <para>Contains the PostgreSQL authentication extension,
-                            <filename>guacamole-auth-jdbc-postgresql-0.9.14.jar</filename>,
-                        along with a <filename>schema/</filename> directory containing
-                        PostgreSQL-specific SQL scripts required to set up the database. The
-                            <filename>guacamole-auth-jdbc-postgresql-0.9.14.jar</filename>
-                        file will ultimately need to be placed within
+                            <filename>guacamole-auth-jdbc-postgresql-1.0.0.jar</filename>, along
+                        with a <filename>schema/</filename> directory containing PostgreSQL-specific
+                        SQL scripts required to set up the database. The
+                            <filename>guacamole-auth-jdbc-postgresql-1.0.0.jar</filename> file will
+                        ultimately need to be placed within
                             <filename>GUACAMOLE_HOME/extensions</filename>, while the PostgreSQL
                         JDBC driver must be placed within
                         <filename>GUACAMOLE_HOME/lib</filename>.</para>
@@ -101,12 +101,12 @@
                 <term><filename>sqlserver/</filename></term>
                 <listitem>
                     <para>Contains the SQL Server authentication extension,
-                        <filename>guacamole-auth-jdbc-sqlserver-0.9.14.jar</filename>,
-                        along with a <filename>schema/</filename> directory contains SQL Server-specific
-                        scripts requires to set up the database.  The JAR extension file will need to be
-                        placed within the <filename>GUACAMOLE_HOME/extensions</filename> folder, while the
-                        SQL Server JDBC driver must be placed within the <filename>GUACAMOLE_HOME/lib</filename>
-                        directory.</para>
+                            <filename>guacamole-auth-jdbc-sqlserver-1.0.0.jar</filename>, along with
+                        a <filename>schema/</filename> directory contains SQL Server-specific
+                        scripts requires to set up the database. The JAR extension file will need to
+                        be placed within the <filename>GUACAMOLE_HOME/extensions</filename> folder,
+                        while the SQL Server JDBC driver must be placed within the
+                            <filename>GUACAMOLE_HOME/lib</filename> directory.</para>
                     <para><emphasis>The SQL Server JDBC driver is not included with the extension.</emphasis>  You
                         must obtain the JDBC driver <filename>.jar</filename> yourself and place it in the directory.
                         Furthermore, the SQL Server authentication extension supports a number of TDS-compatible
@@ -396,11 +396,11 @@ The new rule has been bound to column(s) of the specified user data type.</compu
                     does not already exist.</para>
             </step>
             <step>
-                <para>Copy <filename>guacamole-auth-jdbc-mysql-0.9.14.jar</filename>
+                <para>Copy <filename>guacamole-auth-jdbc-mysql-1.0.0.jar</filename>
                     <emphasis>or</emphasis>
-                    <filename>guacamole-auth-jdbc-postgresql-0.9.14.jar</filename>
+                    <filename>guacamole-auth-jdbc-postgresql-1.0.0.jar</filename>
                     <emphasis>or</emphasis>
-                    <filename>guacamole-auth-jdbc-sqlserver-0.9.14.jar</filename> within
+                    <filename>guacamole-auth-jdbc-sqlserver-1.0.0.jar</filename> within
                         <filename>GUACAMOLE_HOME/extensions</filename>, depending on whether you are
                     using MySQL/MariaDB, PostgreSQL, or SQL Server.</para>
             </step>

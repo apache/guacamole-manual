@@ -685,7 +685,7 @@ guacd-port:     4822</programlisting>
                     events:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>guaclog <replaceable>/path/to/recording/NAME</replaceable></userinput><computeroutput>
-guaclog: INFO: Guacamole input log interpreter (guaclog) version 0.9.14
+guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.0.0
 guaclog: INFO: 1 input file(s) provided.
 guaclog: INFO: Writing input events from "<replaceable>/path/to/recording/NAME</replaceable>" to "<replaceable annotations="">/path/to/recording/NAME</replaceable>.txt" ...
 guaclog: INFO: All files interpreted successfully.</computeroutput>
@@ -1865,7 +1865,7 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                     events:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>guaclog <replaceable>/path/to/recording/NAME</replaceable></userinput><computeroutput>
-guaclog: INFO: Guacamole input log interpreter (guaclog) version 0.9.14
+guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.0.0
 guaclog: INFO: 1 input file(s) provided.
 guaclog: INFO: Writing input events from "<replaceable>/path/to/recording/NAME</replaceable>" to "<replaceable annotations="">/path/to/recording/NAME</replaceable>.txt" ...
 guaclog: INFO: All files interpreted successfully.</computeroutput>
@@ -3378,7 +3378,7 @@ color9: rgb:80/00/80</programlisting>
                     events:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>guaclog <replaceable>/path/to/recording/NAME</replaceable></userinput><computeroutput>
-guaclog: INFO: Guacamole input log interpreter (guaclog) version 0.9.14
+guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.0.0
 guaclog: INFO: 1 input file(s) provided.
 guaclog: INFO: Writing input events from "<replaceable>/path/to/recording/NAME</replaceable>" to "<replaceable annotations="">/path/to/recording/NAME</replaceable>.txt" ...
 guaclog: INFO: All files interpreted successfully.</computeroutput>
@@ -4084,7 +4084,7 @@ color9: rgb:80/00/80</programlisting>
                     events:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>guaclog <replaceable>/path/to/recording/NAME</replaceable></userinput><computeroutput>
-guaclog: INFO: Guacamole input log interpreter (guaclog) version 0.9.14
+guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.0.0
 guaclog: INFO: 1 input file(s) provided.
 guaclog: INFO: Writing input events from "<replaceable>/path/to/recording/NAME</replaceable>" to "<replaceable annotations="">/path/to/recording/NAME</replaceable>.txt" ...
 guaclog: INFO: All files interpreted successfully.</computeroutput>
