@@ -4,9 +4,14 @@
     xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>Ad-hoc Connections</title>
     <indexterm>
-        <primary>adhoc-connections</primary>
+        <primary>connections</primary>
         <secondary>adhoc</secondary>
-        <secondary>quickconnect</secondary>
+    </indexterm>
+    <indexterm>
+        <primary>adhoc</primary>
+    </indexterm>
+    <indexterm>
+        <primary>quickconnect</primary>
     </indexterm>
     <para>The quickconnect extension provides a connection bar on the Guacamole Client home page
         that allows users to type in the URI of a server to which they want to connect and the client
@@ -83,36 +88,48 @@
     <section xml:id="using-quickconnect">
         <title>Using the quickconnect extension</title>
         <para>The quickconnect extension provides a field on the home page that allows you to enter
-             a Uniform Resource Identifier (URI) to create a connection.  A URI is in the form:</para>
-            <informalexample><uri>
-<replaceable>protocol</replaceable>://<replaceable>username</replaceable>:<replaceable>password</replaceable>@<replaceable>host</replaceable>:<replaceable>port</replaceable>/?<replaceable>parameters</replaceable>
-</uri></informalexample>
-            <para>The <replaceable>protocol</replaceable> field can have any of the protocols supported by
-            Guacamole, as documented in <xref linkend="configuring-guacamole"/>.  Many of the
-            protocols define a default <replaceable>port</replaceable> value, with the exception of VNC.
-            The <replaceable>parameters</replaceable> field can specify any of the protocol-specific
-            parameters as documented on the configuration page.</para>
-        <para>To establish a connection, simply type in a valid URI and either press "Enter" or click
-            the connect button.  This extension will parse the URI and create a new connection, and
-            immediately start that connection in the current browser.</para>
+            a Uniform Resource Identifier (URI) to create a connection. A URI is in the form:</para>
+        <informalexample>
+            <para><uri><replaceable>protocol</replaceable>://<replaceable>username</replaceable>:<replaceable>password</replaceable>@<replaceable>host</replaceable>:<replaceable>port</replaceable>/?<replaceable>parameters</replaceable></uri></para>
+        </informalexample>
+        <para>The <replaceable>protocol</replaceable> field can have any of the protocols supported
+            by Guacamole, as documented in <xref linkend="configuring-guacamole"/>. Many of the
+            protocols define a default <replaceable>port</replaceable> value, with the exception of
+            VNC. The <replaceable>parameters</replaceable> field can specify any of the
+            protocol-specific parameters as documented on the configuration page.</para>
+        <para>To establish a connection, simply type in a valid URI and either press "Enter" or
+            click the connect button. This extension will parse the URI and create a new connection,
+            and immediately start that connection in the current browser.</para>
         <para>Here are a few examples of URIs:</para>
         <itemizedlist>
-            <listitem><informalexample><uri>ssh://linux1.example.com/</uri></informalexample>
-                <para>Connect to the server linux1.example.com using the SSH protocol on the default SSH port (22).
-                    This will result in prompting for both username and password.</para></listitem>
-            <listitem><informalexample><uri>vnc://linux1.example.com:5900/</uri></informalexample>
-                <para>Connect to the server linux1.example.com using the VNC protocol and specifying the
-                    port as 5900.</para></listitem>
-            <listitem><informalexample><uri>
-rdp://localuser@windows1.example.com/?security=rdp&amp;ignore-cert=true&amp;disable-audio=true&amp;enable-drive=true&amp;drive-path=/mnt/usb
-                    </uri>
+            <listitem>
+                <informalexample>
+                    <para><uri>ssh://linux1.example.com/</uri></para>
+                </informalexample>
+                <para>Connect to the server linux1.example.com using the SSH protocol on the default
+                    SSH port (22). This will result in prompting for both username and
+                    password.</para>
+            </listitem>
+            <listitem>
+                <informalexample>
+                    <para><uri>vnc://linux1.example.com:5900/</uri></para>
+                </informalexample>
+                <para>Connect to the server linux1.example.com using the VNC protocol and specifying
+                    the port as 5900.</para>
+            </listitem>
+            <listitem>
+                <informalexample>
+                    <para><uri>
+                            rdp://localuser@windows1.example.com/?security=rdp&amp;ignore-cert=true&amp;disable-audio=true&amp;enable-drive=true&amp;drive-path=/mnt/usb
+                        </uri></para>
                 </informalexample>
                 <para>Connect to the server windows1.example.com using the RDP protocol and the user
-                    "localuser".  This URI also specifies several RDP-specific parameters on the
-                    connection, including forcing security mode to RDP (security=rdp), 
-                    ignoring any certificate errors (ignore-cert=true), disabling audio pass-through
-                    (disable-audio=true), and enabling filesystem redirection (enable-drive=true)
-                    to the /mnt/usb folder on the system running guacd (drive-path=/mnt/usb).</para></listitem>
+                    "localuser". This URI also specifies several RDP-specific parameters on the
+                    connection, including forcing security mode to RDP (security=rdp), ignoring any
+                    certificate errors (ignore-cert=true), disabling audio pass-through
+                    (disable-audio=true), and enabling filesystem redirection (enable-drive=true) to
+                    the /mnt/usb folder on the system running guacd (drive-path=/mnt/usb).</para>
+            </listitem>
         </itemizedlist>
     </section>
 </chapter>
