@@ -169,12 +169,112 @@
             of choice, and also make sure that you obtain the proper licensing for the version
             and edition of SQL Server you are running.</para>
         <para>For the sake of clarity, these instructions will refer to the database as
-            "guacamole_db" and the user as "guacamole_user", but the database and user can be named
-            whatever you like. Naturally, you should also choose a real password for your user
-            rather than the string "some_password" used as a placeholder below.</para>
+            "guacamole_db", but the database can be named whatever you like.</para>
         <section xml:id="jdbc-auth-mysql">
             <title>MySQL</title>
-            <para>If using MySQL, you must create your database and user first:</para>
+            <informalexample>
+                <screen><prompt>$</prompt> <userinput>ls schema/</userinput>
+<computeroutput>001-create-schema.sql  002-create-admin-user.sql  upgrade</computeroutput>
+<prompt>$</prompt> <userinput>cat schema/*.sql | mysql -u root -p <replaceable>guacamole_db</replaceable></userinput>
+<prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
+<prompt>$</prompt></screen>
+            </informalexample>
+        </section>
+        <section xml:id="jdbc-auth-postgresql">
+            <title>PostgreSQL</title>
+            <informalexample>
+                <screen><prompt>$</prompt> <userinput>createdb <replaceable>guacamole_db</replaceable></userinput>
+<prompt>$</prompt> <userinput>ls schema/</userinput>
+<computeroutput>001-create-schema.sql  002-create-admin-user.sql</computeroutput>
+<prompt>$</prompt> <userinput>cat schema/*.sql | psql -d <replaceable>guacamole_db</replaceable> -f -</userinput>
+<computeroutput>CREATE TYPE
+CREATE TYPE
+CREATE TYPE
+CREATE TABLE
+CREATE INDEX</computeroutput>
+...
+<computeroutput>INSERT 0 1
+INSERT 0 4
+INSERT 0 3</computeroutput>
+<prompt>$</prompt></screen>
+            </informalexample>
+        </section>
+        <section xml:id="jdbc-auth-sqlserver">
+            <title>SQL Server</title>
+            <informalexample>
+                <screen><prompt>$</prompt> <userinput>/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -d <replaceable>guacamole_db</replaceable> -i schema/001-create-schema.sql</userinput>
+<prompt>Password:</prompt> <userinput><replaceable>password</replaceable></userinput>
+<computeroutput>Rule bound to data type.
+The new rule has been bound to column(s) of the specified user data type.
+Rule bound to data type.
+The new rule has been bound to column(s) of the specified user data type.</computeroutput>
+<prompt>$</prompt> <userinput>/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -d <replaceable>guacamole_db</replaceable> -i schema/002-create-admin-user.sql</userinput>
+<prompt>Password:</prompt> <userinput><replaceable>password</replaceable></userinput>
+<computeroutput>
+(1 rows affected)
+
+(3 rows affected)
+                        
+(5 rows affected)</computeroutput>
+</screen>
+            </informalexample>
+        </section>
+    </section>
+    <section>
+        <title>Upgrading an existing Guacamole database</title>
+        <para>If you are upgrading from an older version of Guacamole, you may need to run one or
+            more database schema upgrade scripts located within the
+                <filename>schema/upgrade/</filename> directory. Each of these scripts is named
+                    <filename>upgrade-pre-<replaceable>VERSION</replaceable>.sql</filename> where
+                <replaceable>VERSION</replaceable> is the version of Guacamole where those changes
+            were introduced. They need to be run when you are upgrading from a version of Guacamole
+            older than <replaceable>VERSION</replaceable>.</para>
+        <para>If there are no
+                <filename>upgrade-pre-<replaceable>VERSION</replaceable>.sql</filename> scripts
+            present in the <filename>schema/upgrade/</filename> directory which apply to your
+            existing Guacamole database, then the schema has not changed between your version and
+            the version your are installing, and there is no need to run any database upgrade
+            scripts.</para>
+        <para>These scripts are incremental and, when relevant, <emphasis>must be run in
+                order</emphasis>. For example, if you are upgrading an existing database from
+            version 0.9.13-incubating to version 1.0.0, you would need to run the
+                <filename>upgrade-pre-0.9.14.sql</filename> script (because 0.9.13-incubating is
+            older than 0.9.14), followed by the <filename>upgrade-pre-1.0.0.sql</filename> script
+            (because 0.9.13-incubating is also older than 1.0.0).</para>
+        <important xml:id="jdbc-auth-postgresql-upgrade">
+            <para>Because the permissions granted to the Guacamole-specific PostgreSQL user when the
+                database was first created will not automatically be granted for any new tables and
+                sequences, you will also need to re-grant those permissions after applying any
+                upgrade relevant scripts:</para>
+            <informalexample>
+                <screen><prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable></userinput>
+<computeroutput>psql (9.3.6)
+Type "help" for help.
+</computeroutput>
+<prompt>guacamole=# </prompt><userinput>GRANT SELECT,INSERT,UPDATE,DELETE ON ALL TABLES IN SCHEMA public TO <replaceable>guacamole_user</replaceable>;</userinput>
+<computeroutput>GRANT</computeroutput>
+<prompt>guacamole=# </prompt><userinput>GRANT SELECT,USAGE ON ALL SEQUENCES IN SCHEMA public TO <replaceable>guacamole_user</replaceable>;</userinput>
+<computeroutput>GRANT</computeroutput>
+<prompt>guacamole=# </prompt><userinput>\q</userinput>
+<prompt>$</prompt></screen>
+            </informalexample>
+        </important>
+    </section>
+    <section>
+        <title>Granting Guacamole access to the database</title>
+        <para>For Guacamole to be able to execute queries against the database, you must create a
+            new user for the database and grant that user sufficient privileges to manage the
+            contents of all tables in the database. The user created for Guacamole needs only
+                <code>SELECT</code>, <code>UPDATE</code>, <code>INSERT</code>, and
+                <code>DELETE</code> permissions on all Guacamole tables. Additionally, if using
+            PostgreSQL, the user will need <code>SELECT</code> and <code>USAGE</code> permission on
+            all sequences within all Guacamole tables. <emphasis>No other permissions should be
+                granted.</emphasis></para>
+        <para>These instructions will refer to the user as "guacamole_user" but the user can be
+            named whatever you like. Naturally, you should also choose a real password for your user
+            rather than the string "some_password" used as a placeholder below.</para>
+        <section>
+            <title>MySQL</title>
             <informalexample>
                 <screen><prompt>$</prompt> mysql -u root -p
 <prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
@@ -206,72 +306,9 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 <computeroutput>Bye</computeroutput>
 <prompt>$</prompt></screen>
             </informalexample>
-            <para>Once the database and user are created, the database schema must be applied by
-                running the supplied SQL scripts. These SQL scripts are included in the
-                    <filename>mysql/schema/</filename> directory of the archive you downloaded from
-                the Guacamole website. They are named such that they can be run in order with one
-                command:</para>
-            <informalexample>
-                <screen><prompt>$</prompt> <userinput>ls schema/</userinput>
-<computeroutput>001-create-schema.sql  002-create-admin-user.sql  upgrade</computeroutput>
-<prompt>$</prompt> <userinput>cat schema/*.sql | mysql -u root -p <replaceable>guacamole_db</replaceable></userinput>
-<prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
-<prompt>$</prompt></screen>
-            </informalexample>
-            <para>If the operation is successful, all tables have been created successfully, and the
-                database is now ready for use.</para>
-            <important xml:id="jdbc-auth-mysql-upgrade">
-                <para>If you are upgrading from an older version of Guacamole and were already using
-                    MySQL, you may need to run one or more database schema upgrade scripts located
-                    within the <filename>schema/upgrade/</filename> directory. Each of these scripts
-                    is named <filename>upgrade-pre-<replaceable>VERSION</replaceable>.sql</filename>
-                    where <replaceable>VERSION</replaceable> is the version of Guacamole where those
-                    changes were introduced. They need to be run when you are upgrading from a
-                    version of Guacamole older than <replaceable>VERSION</replaceable>.</para>
-                <para>These scripts are incremental and, when relevant, <emphasis>must be run in
-                        order</emphasis>. For example, if you are upgrading an existing database
-                    from version 0.9.10-incubating to version 0.9.13-incubating, you would need to
-                    run the <filename>upgrade-pre-0.9.11.sql</filename> script (because 0.9.10 is
-                    older than 0.9.11), followed by the <filename>upgrade-pre-0.9.13.sql</filename>
-                    script (because 0.9.10 is also older than 0.9.13):</para>
-                <informalexample>
-                    <screen><prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.9.11.sql</userinput>
-<prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
-<prompt>$</prompt>
-<prompt>$</prompt> <userinput>mysql -u root -p <replaceable>guacamole_db</replaceable> &lt; schema/upgrade/upgrade-pre-0.9.13.sql</userinput>
-<prompt>Enter password:</prompt> <userinput><replaceable>password</replaceable></userinput>
-<prompt>$</prompt></screen>
-                </informalexample>
-                <para>If there are no
-                        <filename>upgrade-pre-<replaceable>VERSION</replaceable>.sql</filename>
-                    scripts present in the <filename>schema/upgrade/</filename> directory which
-                    apply to your existing Guacamole database, then the schema has not changed
-                    between your version and the version your are installing, and there is no need
-                    to run any database upgrade scripts.</para>
-            </important>
         </section>
-        <section xml:id="jdbc-auth-postgresql">
+        <section>
             <title>PostgreSQL</title>
-            <para>If using PostgreSQL, the database and schema must be created first:</para>
-            <informalexample>
-                <screen><prompt>$</prompt> <userinput>createdb <replaceable>guacamole_db</replaceable></userinput>
-<prompt>$</prompt> <userinput>ls schema/</userinput>
-<computeroutput>001-create-schema.sql  002-create-admin-user.sql</computeroutput>
-<prompt>$</prompt> <userinput>cat schema/*.sql | psql -d <replaceable>guacamole_db</replaceable> -f -</userinput>
-<computeroutput>CREATE TYPE
-CREATE TYPE
-CREATE TYPE
-CREATE TABLE
-CREATE INDEX</computeroutput>
-...
-<computeroutput>INSERT 0 1
-INSERT 0 4
-INSERT 0 3</computeroutput>
-<prompt>$</prompt></screen>
-            </informalexample>
-            <para>Once the database exists, you can safely create a new user for the database, and
-                grant that user sufficient privileges to manage the contents of all tables in the
-                database:</para>
             <informalexample>
                 <screen><prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable></userinput>
 <computeroutput>psql (9.3.6)
@@ -286,66 +323,9 @@ Type "help" for help.
 <prompt>guacamole=# </prompt><userinput>\q</userinput>
 <prompt>$</prompt></screen>
             </informalexample>
-            <important xml:id="jdbc-auth-postgresql-upgrade">
-                <para>If you are upgrading from an older version of Guacamole and were already using
-                    PostgreSQL, you may need to run one or more database schema upgrade scripts
-                    located within the <filename>schema/upgrade/</filename> directory. Each of these
-                    scripts is named
-                        <filename>upgrade-pre-<replaceable>VERSION</replaceable>.sql</filename>
-                    where <replaceable>VERSION</replaceable> is the version of Guacamole where those
-                    changes were introduced. They need to be run when you are upgrading from a
-                    version of Guacamole older than <replaceable>VERSION</replaceable>.</para>
-                <para>These scripts are incremental and, when relevant, <emphasis>must be run in
-                        order</emphasis>. For example, if you are upgrading an existing database
-                    from version 0.9.10-incubating to version 0.9.13-incubating, you would need to
-                    run the <filename>upgrade-pre-0.9.11.sql</filename> script (because 0.9.10 is
-                    older than 0.9.11), followed by the <filename>upgrade-pre-0.9.13.sql</filename>
-                    script (because 0.9.10 is also older than 0.9.13):</para>
-                <informalexample>
-                    <screen><prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable> -f schema/upgrade/upgrade-pre-0.9.11.sql</userinput>
-<computeroutput>ALTER TABLE
-CREATE TABLE
-CREATE INDEX</computeroutput>
-<prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable> -f schema/upgrade/upgrade-pre-0.9.13.sql</userinput>
-<computeroutput>CREATE TYPE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE
-ALTER TABLE</computeroutput>
-<prompt>$</prompt></screen>
-                </informalexample>
-                <para>Because the permissions granted to the Guacamole-specific PostgreSQL user when
-                    the database was first created will not automatically be granted for any new
-                    tables and sequences, you will also need to re-grant those permissions after
-                    applying any upgrade relevant scripts:</para>
-                <informalexample>
-                    <screen><prompt>$</prompt> <userinput>psql -d <replaceable>guacamole_db</replaceable></userinput>
-<computeroutput>psql (9.3.6)
-Type "help" for help.
-</computeroutput>
-<prompt>guacamole=# </prompt><userinput>GRANT SELECT,INSERT,UPDATE,DELETE ON ALL TABLES IN SCHEMA public TO <replaceable>guacamole_user</replaceable>;</userinput>
-<computeroutput>GRANT</computeroutput>
-<prompt>guacamole=# </prompt><userinput>GRANT SELECT,USAGE ON ALL SEQUENCES IN SCHEMA public TO <replaceable>guacamole_user</replaceable>;</userinput>
-<computeroutput>GRANT</computeroutput>
-<prompt>guacamole=# </prompt><userinput>\q</userinput>
-<prompt>$</prompt></screen>
-                </informalexample>
-                <para>If there are no
-                        <filename>upgrade-pre-<replaceable>VERSION</replaceable>.sql</filename>
-                    scripts present in the <filename>schema/upgrade/</filename> directory which
-                    apply to your existing Guacamole database, then the schema has not changed
-                    between your version and the version your are installing, and there is no need
-                    to run any database upgrade scripts.</para>
-            </important>
         </section>
-        <section xml:id="jdbc-auth-sqlserver">
+        <section>
             <title>SQL Server</title>
-            <para>If using SQL Server, the database and schema must be created first.  The example below assumes
-                that you are running SQL Server on Linux, using the command-line tools to manage it, however, this
-                code can be run using any tool capable of running SQL against a SQL Server database.</para>
             <informalexample>
                 <screen><prompt>$</prompt> <userinput>/opt/mssql-tools/bin/sqlcmd -S localhost -U SA</userinput>
 <prompt>Password:</prompt> <userinput><replaceable>password</replaceable></userinput>
@@ -361,28 +341,6 @@ Type "help" for help.
 <prompt>2></prompt> <userinput>ALTER ROLE db_datareader ADD MEMBER <replaceable>guacamole_user</replaceable>;</userinput>
 <prompt>3></prompt> <userinput>GO</userinput></screen>
             </informalexample>
-            <para>Once the database and user account is created, and the user associated with the database, you can use
-                the supplied scripts to load the schema into the database.  These scripts are included in the
-                <filename>sqlserver/schema/</filename> directory of the archive you downloaded from the Guacamole
-                web site.</para>
-            <informalexample>
-                <screen><prompt>$</prompt> <userinput>/opt/mssql-tools/bin/sqlcmd -S localhost -U <replaceable>guacamole_user</replaceable> -d <replaceable>guacamole_db</replaceable> -i schema/001-create-schema.sql</userinput>
-<prompt>Password:</prompt> <userinput><replaceable>some_password</replaceable></userinput>
-<computeroutput>Rule bound to data type.
-The new rule has been bound to column(s) of the specified user data type.
-Rule bound to data type.
-The new rule has been bound to column(s) of the specified user data type.</computeroutput>
-<prompt>$</prompt> <userinput>/opt/mssql-tools/bin/sqlcmd -S localhost -U <replaceable>guacamole_user</replaceable> -d <replaceable>guacamole_db</replaceable> -i schema/002-create-admin-user.sql</userinput>
-<prompt>Password:</prompt> <userinput><replaceable>some_password</replaceable></userinput>
-<computeroutput>
-(1 rows affected)
-
-(3 rows affected)
-                        
-(5 rows affected)</computeroutput></screen>
-            </informalexample>
-            <para>If the operation is successful, the tables and permissions have been created successfully, and you
-                can now use the database with the Guacamole client web application.</para>
         </section>
     </section>
     <section xml:id="jdbc-auth-installation">
