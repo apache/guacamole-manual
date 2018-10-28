@@ -737,15 +737,72 @@ sqlserver-user-required: true</programlisting>
         <para>This section assumes knowledge of SQL and your chosen database, and that whatever you
             need to do can be accomplished if only you had high-level information about Guacamole's
             SQL schema.</para>
+        <section xml:id="jdbc-auth-schema-entities">
+            <title>Entities</title>
+            <indexterm>
+                <primary><classname>guacamole_entity</classname></primary>
+            </indexterm>
+            <para>Every user and user group has a corresponding entry in the
+                    <classname>guacamole_entity</classname> table which serves as the basis for
+                assignment of a unique name, permissions, as well as relations which are common to
+                both users and groups like group membership. Each entity has a corresponding name
+                which is unique across all other entities of the same type.</para>
+            <para>If deleting a user or user group, the corresponding entity should also be deleted.
+                As any user or group which points to the entity will be deleted automatically when
+                the entity is deleted through cascading deletion, <emphasis>it is advisable to use
+                    the entity as the basis for any delete operation</emphasis>.</para>
+            <para>The <classname>guacamole_entity</classname> table contains the following
+                columns:</para>
+            <variablelist>
+                <varlistentry>
+                    <term><property>entity_id</property></term>
+                    <listitem>
+                        <para>The unique integer associated with each entity (user or user group).
+                            This value is generated automatically when a new entry is inserted into
+                            the <classname>guacamole_entity</classname> table and is distinct from
+                            the unique integer associated with the user entry in <link
+                                linkend="jdbc-auth-schema-users"
+                                    ><classname>guacamole_user</classname></link> or the user group
+                            entry in <link linkend="jdbc-auth-schema-groups"
+                                    ><classname>guacamole_user_group</classname></link>.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>name</property></term>
+                    <listitem>
+                        <para>The unique name associated with each user or group. This value must be
+                            specified manually, and must be different from any existing user or
+                            group in the table. The name need only be unique relative to the names
+                            of other entities having the same type (a user may have the same name as
+                            a group).</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>type</property></term>
+                    <listitem>
+                        <para>The type of this entity. This can be either <type>USER</type> or
+                                <type>USER_GROUP</type>.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </section>
         <section xml:id="jdbc-auth-schema-users">
             <title>Users</title>
             <indexterm>
                 <primary><classname>guacamole_user</classname></primary>
             </indexterm>
             <para>Every user has a corresponding entry in the <classname>guacamole_user</classname>
-                table. Each user has a corresponding unique username and salted password. The salted
-                password is split into two columns: one containing the salt, and the other
-                containing the password hashed with SHA-256.</para>
+                and <link linkend="jdbc-auth-schema-entities"
+                        ><classname>guacamole_entity</classname></link> tables. Each user has a
+                corresponding unique username, specified via
+                <classname>guacamole_entity</classname>, and salted password. The salted password is
+                split into two columns: one containing the salt, and the other containing the
+                password hashed with SHA-256.</para>
+            <para>If deleting a user, the <link linkend="jdbc-auth-schema-entities">corresponding
+                    entity</link> should also be deleted. As any user which points to the entity
+                will be deleted automatically when the entity is deleted through cascading deletion,
+                    <emphasis>it is advisable to use the entity as the basis for any delete
+                    operation</emphasis>.</para>
             <para>The <classname>guacamole_user</classname> table contains the following
                 columns:</para>
             <variablelist>
@@ -758,13 +815,11 @@ sqlserver-user-required: true</programlisting>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
-                    <term><property>username</property></term>
+                    <term><property>entity_id</property></term>
                     <listitem>
-                        <para>The unique name associated with each user. This value must be
-                            specified manually, and must be different from any existing username in
-                            the table. References to users in other tables use the value from
-                                <property>user_id</property>, not
-                            <property>username</property>.</para>
+                        <para>The value of the <property>entity_id</property> column of the
+                                <classname>guacamole_entity</classname> entry representing this
+                            user.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -876,9 +931,8 @@ sqlserver-user-required: true</programlisting>
                                 <property>valid_until</property> values. This value may be any Java
                                 <classname>TimeZone</classname> ID, as defined by <link
                                 xlink:href="http://docs.oracle.com/javase/7/docs/api/java/util/TimeZone.html#getAvailableIDs()"
-                                    ><methodname
-                                    >getAvailableIDs()</methodname></link>, though the Guacamole
-                            management interface will only present a subset of these time
+                                    ><methodname>getAvailableIDs()</methodname></link>, though the
+                            Guacamole management interface will only present a subset of these time
                             zones.</para>
                     </listitem>
                 </varlistentry>
@@ -942,9 +996,26 @@ sqlserver-user-required: true</programlisting>
                 <programlisting>-- Generate salt
 SET @salt = UNHEX(SHA2(UUID(), 256));
 
+-- Create base entity entry for user
+INSERT INTO guacamole_entity (name, type)
+VALUES ('<replaceable>myuser</replaceable>', 'USER');
+
 -- Create user and hash password with salt
-INSERT INTO guacamole_user (username, password_salt, password_hash)
-     VALUES ('myuser', @salt, UNHEX(SHA2(CONCAT('mypassword', HEX(@salt)), 256)));</programlisting>
+INSERT INTO guacamole_user (
+    entity_id,
+    password_salt,
+    password_hash,
+    password_date
+)
+SELECT
+    entity_id,
+    @salt,
+    UNHEX(SHA2(CONCAT('<replaceable>mypassword</replaceable>', HEX(@salt)), 256)),
+    CURRENT_TIMESTAMP
+FROM guacamole_entity
+WHERE
+    name = '<replaceable>myuser</replaceable>'
+    AND type = 'USER';</programlisting>
             </informalexample>
             <para>This sort of statement is useful for both creating new users or for changing
                 passwords, especially if all administrators have forgotten theirs.</para>
@@ -1090,6 +1161,81 @@ INSERT INTO guacamole_user (username, password_salt, password_hash)
                     </varlistentry>
                 </variablelist>
             </section>
+        </section>
+        <section xml:id="jdbc-auth-schema-groups">
+            <title>User groups</title>
+            <indexterm>
+                <primary><classname>guacamole_user_group</classname></primary>
+            </indexterm>
+            <para>Similar to <link linkend="jdbc-auth-schema-users">users</link>, every user group
+                has a corresponding entry in the <classname>guacamole_user_group</classname> and
+                    <link linkend="jdbc-auth-schema-entities"
+                        ><classname>guacamole_entity</classname></link> tables. Each user group has
+                a corresponding unique name specified via
+                <classname>guacamole_entity</classname>.</para>
+            <para>If deleting a user group, the <link linkend="jdbc-auth-schema-entities"
+                    >corresponding entity</link> should also be deleted. As any user group which
+                points to the entity will be deleted automatically when the entity is deleted
+                through cascading deletion, <emphasis>it is advisable to use the entity as the basis
+                    for any delete operation</emphasis>.</para>
+            <para>The <classname>guacamole_user_group</classname> table contains the following
+                columns:</para>
+            <variablelist>
+                <varlistentry>
+                    <term><property>user_group_id</property></term>
+                    <listitem>
+                        <para>The unique integer associated with each user group. This value is
+                            generated automatically when a new entry is inserted into the
+                                <classname>guacamole_user_group</classname> table.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>entity_id</property></term>
+                    <listitem>
+                        <para>The value of the <property>entity_id</property> column of the
+                                <classname>guacamole_entity</classname> entry representing this user
+                            group.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>disabled</property></term>
+                    <listitem>
+                        <para>Whether membership within this group should be taken into account when
+                            determining the permissions granted to a particular user. If this column
+                            is set to <constant>TRUE</constant> or <constant>1</constant>,
+                            membership in this group will have no effect on user permissions,
+                            whether those permissions are granted to this group directly or
+                            indirectly through the groups that this group is a member of. By
+                            default, user groups are not disabled, and permissions granted to a user
+                            through the group will be taken into account.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+            <indexterm>
+                <primary><classname>guacamole_user_group_member</classname></primary>
+            </indexterm>
+            <para>Membership within a user group is dictated through entries in the
+                    <classname>guacamole_user_group_member</classname> table. As both users and user
+                groups may be members of groups, each entry associates the containing group with the
+                entity of the member.</para>
+            <para>The <classname>guacamole_user_group_member</classname> table contains the
+                following columns:</para>
+            <variablelist>
+                <varlistentry>
+                    <term><property>user_group_id</property></term>
+                    <listitem>
+                        <para>The <property>user_group_id</property> value of the user group having
+                            the specified member.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>member_entity_id</property></term>
+                    <listitem>
+                        <para>The <property>entity_id</property> value of the user or user group
+                            that is a member of the specified group.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
         </section>
         <section xml:id="jdbc-auth-schema-connections">
             <title>Connections and parameters</title>
@@ -1548,41 +1694,46 @@ INSERT INTO guacamole_connection_group (connection_group_name, type)
         </section>
         <section xml:id="jdbc-auth-schema-permissions">
             <title>Permissions</title>
-            <para>There are three permissions tables in the schema which correspond to the three
-                types of permissions in Guacamole's authentication model: system permissions, which
-                control operations that affect the system as a whole, and user and connection
-                permissions, which control operations that affect specific, existing users or
-                connections respectively.</para>
+            <para>There are several permissions tables in the schema which correspond to the types
+                of permissions in Guacamole's authentication model: system permissions, which
+                control operations that affect the system as a whole, and permissions which control
+                operations that affect specific objects within the system, such as users,
+                connections, or groups.</para>
             <section xml:id="jdbc-auth-schema-system-permissions">
-                <title>System permissions</title>
+                <title>lSystem permissions</title>
                 <indexterm>
                     <primary><classname>guacamole_system_permission</classname></primary>
                 </indexterm>
                 <para>System permissions are defined by entries in the
                         <classname>guacamole_system_permission</classname> table. Each entry grants
-                    permission for a specific user to perform a specific system operation.</para>
+                    permission for a specific user or user group to perform a specific system
+                    operation.</para>
                 <para>The <classname>guacamole_system_permission</classname> table contains the
                     following columns:</para>
                 <variablelist>
                     <varlistentry>
-                        <term><property>user_id</property></term>
+                        <term><property>entity_id</property></term>
                         <listitem>
-                            <para>The value of the <property>user_id</property> column of the entry
-                                associated with the user owning this permission.</para>
+                            <para>The value of the <property>entity_id</property> column of the
+                                entry associated with the user or user group owning this
+                                permission.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
                         <term><property>permission</property></term>
                         <listitem>
-                            <para>The permission being granted. This column can have one of three
+                            <para>The permission being granted. This column can have one of six
                                 possible values: <constant>ADMINISTER</constant>, which grants the
                                 ability to administer the entire system (essentially a wildcard
                                 permission), <constant>CREATE_CONNECTION</constant>, which grants
                                 the ability to create connections,
                                     <constant>CREATE_CONNECTION_GROUP</constant>, which grants the
-                                ability to create connections groups, or
-                                    <constant>CREATE_USER</constant>, which grants the ability to
-                                create users.</para>
+                                ability to create connections groups,
+                                    <constant>CREATE_SHARING_PROFILE</constant>, which grants the
+                                ability to create sharing profiles,
+                                <constant>CREATE_USER</constant>, which grants the ability to create
+                                users, or <constant>CREATE_USER_GROUP</constant>, which grants the
+                                ability to create user groups.</para>
                         </listitem>
                     </varlistentry>
                 </variablelist>
@@ -1594,16 +1745,17 @@ INSERT INTO guacamole_connection_group (connection_group_name, type)
                 </indexterm>
                 <para>User permissions are defined by entries in the
                         <classname>guacamole_user_permission</classname> table. Each entry grants
-                    permission for a specific user to perform a specific operation on another
-                    existing user.</para>
+                    permission for a specific user or user group to perform a specific operation on
+                    an existing user.</para>
                 <para>The <classname>guacamole_user_permission</classname> table contains the
                     following columns:</para>
                 <variablelist>
                     <varlistentry>
-                        <term><property>user_id</property></term>
+                        <term><property>entity_id</property></term>
                         <listitem>
-                            <para>The value of the <property>user_id</property> column of the entry
-                                associated with the user owning this permission.</para>
+                            <para>The value of the <property>entity_id</property> column of the
+                                entry associated with the user or user group owning this
+                                permission.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
@@ -1630,6 +1782,50 @@ INSERT INTO guacamole_connection_group (connection_group_name, type)
                     </varlistentry>
                 </variablelist>
             </section>
+            <section xml:id="jdbc-auth-schema-group-permissions">
+                <title>User group permissions</title>
+                <indexterm>
+                    <primary><classname>guacamole_user_group_permission</classname></primary>
+                </indexterm>
+                <para>User group permissions are defined by entries in the
+                        <classname>guacamole_user_group_permission</classname> table. Each entry
+                    grants permission for a specific user or user group to perform a specific
+                    operation on an existing user group.</para>
+                <para>The <classname>guacamole_user_group_permission</classname> table contains the
+                    following columns:</para>
+                <variablelist>
+                    <varlistentry>
+                        <term><property>entity_id</property></term>
+                        <listitem>
+                            <para>The value of the <property>entity_id</property> column of the
+                                entry associated with the user or user group owning this
+                                permission.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>affected_user_group_id</property></term>
+                        <listitem>
+                            <para>The value of the <property>user_group_id</property> column of the
+                                entry associated with the user group <emphasis>affected</emphasis>
+                                by this permission. This is the user group that would be the object
+                                of the operation represented by this permission.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><property>permission</property></term>
+                        <listitem>
+                            <para>The permission being granted. This column can have one of four
+                                possible values: <constant>ADMINISTER</constant>, which grants the
+                                ability to add or remove permissions which affect the user group,
+                                    <constant>READ</constant>, which grants the ability to read data
+                                associated with the user group, <constant>UPDATE</constant>, which
+                                grants the ability to update data associated with the user group, or
+                                    <constant>DELETE</constant>, which grants the ability to delete
+                                the user group.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+            </section>
             <section xml:id="jdbc-auth-schema-connection-permissions">
                 <title>Connection permissions</title>
                 <indexterm>
@@ -1637,16 +1833,17 @@ INSERT INTO guacamole_connection_group (connection_group_name, type)
                 </indexterm>
                 <para>Connection permissions are defined by entries in the
                         <classname>guacamole_connection_permission</classname> table. Each entry
-                    grants permission for a specific user to perform a specific operation on an
-                    existing connection.</para>
+                    grants permission for a specific user or user group to perform a specific
+                    operation on an existing connection.</para>
                 <para>The <classname>guacamole_connection_permission</classname> table contains the
                     following columns:</para>
                 <variablelist>
                     <varlistentry>
-                        <term><property>user_id</property></term>
+                        <term><property>entity_id</property></term>
                         <listitem>
-                            <para>The value of the <property>user_id</property> column of the entry
-                                associated with the user owning this permission.</para>
+                            <para>The value of the <property>entity_id</property> column of the
+                                entry associated with the user or user group owning this
+                                permission.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
@@ -1680,16 +1877,17 @@ INSERT INTO guacamole_connection_group (connection_group_name, type)
                 </indexterm>
                 <para>Sharing profile permissions are defined by entries in the
                         <classname>guacamole_sharing_profile_permission</classname> table. Each
-                    entry grants permission for a specific user to perform a specific operation on
-                    an existing sharing profile.</para>
+                    entry grants permission for a specific user or user group to perform a specific
+                    operation on an existing sharing profile.</para>
                 <para>The <classname>guacamole_sharing_profile_permission</classname> table contains
                     the following columns:</para>
                 <variablelist>
                     <varlistentry>
-                        <term><property>user_id</property></term>
+                        <term><property>entity_id</property></term>
                         <listitem>
-                            <para>The value of the <property>user_id</property> column of the entry
-                                associated with the user owning this permission.</para>
+                            <para>The value of the <property>entity_id</property> column of the
+                                entry associated with the user or user group owning this
+                                permission.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
@@ -1725,16 +1923,17 @@ INSERT INTO guacamole_connection_group (connection_group_name, type)
                 </indexterm>
                 <para>Connection group permissions are defined by entries in the
                         <classname>guacamole_connection_group_permission</classname> table. Each
-                    entry grants permission for a specific user to perform a specific operation on
-                    an existing connection group.</para>
+                    entry grants permission for a specific user or user group to perform a specific
+                    operation on an existing connection group.</para>
                 <para>The <classname>guacamole_connection_group_permission</classname> table
                     contains the following columns:</para>
                 <variablelist>
                     <varlistentry>
-                        <term><property>user_id</property></term>
+                        <term><property>entity_id</property></term>
                         <listitem>
-                            <para>The value of the <property>user_id</property> column of the entry
-                                associated with the user owning this permission.</para>
+                            <para>The value of the <property>entity_id</property> column of the
+                                entry associated with the user or user group owning this
+                                permission.</para>
                         </listitem>
                     </varlistentry>
                     <varlistentry>
