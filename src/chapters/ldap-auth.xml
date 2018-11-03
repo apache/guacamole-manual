@@ -385,12 +385,23 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                 <varlistentry>
                     <term><property>ldap-group-base-dn</property></term>
                     <listitem>
-                        <para>The base of the DN for all groups that may be referenced within
-                            Guacamole configurations using the standard <property>seeAlso</property>
+                        <para>The base of the DN for all user groups that may be used by other
+                            extensions to define permissions or that may referenced within Guacamole
+                            configurations using the standard <property>seeAlso</property>
                             attribute. All groups which will be used to control access to Guacamole
                             configurations must be descendents of this base DN. <emphasis>If this
                                 property is omitted, the <property>seeAlso</property> attribute will
                                 have no effect on Guacamole configurations.</emphasis></para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>ldap-group-name-attribute</property></term>
+                    <listitem>
+                        <para>The attribute or attributes which define the unique name of user
+                            groups in the LDAP directory. Usually, and by default, this will simply
+                            be "<property>cn</property>". If your LDAP directory contains groups
+                            whose names are dictated by different attributes, multiple attributes
+                            can be specified here, separated by commas.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
