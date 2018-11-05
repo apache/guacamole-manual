@@ -182,23 +182,26 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
     </section>
     <section xml:id="ldap-and-database">
         <title>Associating LDAP with a database</title>
-        <para>If you install both the LDAP authentication as well as support for MySQL or PostgreSQL
+        <para>If you install both the LDAP authentication as well as support for a database
             (following the instructions in <xref linkend="jdbc-auth"/>), Guacamole will
             automatically attempt to authenticate against both systems whenever a user attempts to
-            log in. That user will have access to any data associated with them via the database, as
-            well as any visible objects within the LDAP directory. The LDAP account will be
-            considered equivalent to the database user if the username is identical.</para>
-        <para>Data can be manually associated with LDAP users by creating corresponding user
-            accounts within the database which each have the same usernames as valid LDAP users. As
-            long as the username is identical, a successful login attempt against LDAP will be
-            trusted by the database authentication, and that user's associated data will be
-            visible.</para>
+            log in. In addition to any visible objects within the LDAP directory, that user will
+            have access to any data associated with their account in the database, as well as any
+            data associated with user groups that they belong to. LDAP user accounts and groups will
+            be considered equivalent to database users and groups if their unique names are
+            identical, as determined by the attributes given for <link linkend="guac-ldap-config"
+                >the <property>ldap-username-attribute</property> and
+                    <property>ldap-group-name-attribute</property> properties</link>.</para>
+        <para>Data can be manually associated with LDAP user accounts or groups by creating
+            corresponding users or groups within the database which each have the same names. As
+            long as the names are identical, a successful login attempt against LDAP will be trusted
+            by the database authentication, and that user's associated data will be visible.</para>
         <para>If an administrator account (such as the default <systemitem>guacadmin</systemitem>
             user provided with the database authentication) has a corresponding user in the LDAP
-            directory with permission to list and read other LDAP users, the Guacamole
-            administrative interface will include LDAP users in the overall user list presented to
-            the administrator, and allow connections from the database to be associated with those
-            users directly.</para>
+            directory with permission to read other LDAP users and groups, the Guacamole
+            administrative interface will include them in the lists presented to the administrator,
+            and will allow connections from the database to be associated with those users or groups
+            directly.</para>
     </section>
     <section xml:id="installing-ldap-auth">
         <title>Installing LDAP authentication</title>
@@ -225,7 +228,7 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                 configure the LDAP authentication properly, Guacamole will not start up again until
                 the configuration is fixed.</para>
         </important>
-        <section>
+        <section xml:id="guac-ldap-config">
             <title>Configuring Guacamole for LDAP</title>
             <indexterm>
                 <primary>configuring LDAP</primary>
@@ -339,7 +342,7 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                     <listitem>
                         <para>The attribute or attributes which contain the username within all
                             Guacamole user objects in the LDAP directory. Usually, and by default,
-                            this will simply be "<property>uid</property>".  If your LDAP directory
+                            this will simply be "<property>uid</property>". If your LDAP directory
                             contains users whose usernames are dictated by different attributes,
                             multiple attributes can be specified here, separated by commas, but
                             beware: <emphasis>doing so requires that a search DN be provided with
@@ -359,9 +362,9 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                 <varlistentry>
                     <term><property>ldap-user-search-filter</property></term>
                     <listitem>
-                        <para>The search filter used to query the LDAP tree for users that
-                            can log into and be granted privileges in Guacamole.  <emphasis>If
-                            this property is omitted the default of "(objectClass=*)" will be used.
+                        <para>The search filter used to query the LDAP tree for users that can log
+                            into and be granted privileges in Guacamole. <emphasis>If this property
+                                is omitted the default of "(objectClass=*)" will be used.
                             </emphasis></para>
                     </listitem>
                 </varlistentry>
@@ -407,33 +410,38 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                 <varlistentry>
                     <term><property>ldap-dereference-aliases</property></term>
                     <listitem>
-                        <para>Controls whether or not the LDAP connection follows (dereferences) aliases
-                            as it searches the tree.  Possible values for this property are "never" (the default)
-                            so that aliases will never be followed, "searching" to dereference during search operations
-                            after the base object is located, "finding" to dereference in order to locate the
-                            search base, but not during the actual search, and "always" to always dereference
-                            aliases.</para>
+                        <para>Controls whether or not the LDAP connection follows (dereferences)
+                            aliases as it searches the tree. Possible values for this property are
+                            "never" (the default) so that aliases will never be followed,
+                            "searching" to dereference during search operations after the base
+                            object is located, "finding" to dereference in order to locate the
+                            search base, but not during the actual search, and "always" to always
+                            dereference aliases.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><property>ldap-follow-referrals</property></term>
                     <listitem>
-                        <para>This option controls whether or not the LDAP module follow referrals when
-                            processing search results from a LDAP search.  Referrals can be pointers to other
-                            parts of an LDAP tree, or to a different server/connection altogether.  This is a boolean
-                            parameter, with valid options of "true" or "false."  The default is false.  When disabled,
-                            LDAP referrals will be ignored when encounterd by the Guacamole LDAP client and the client
-                            will move on to the next result.  When enabled, the LDAP client will follow the referral and
-                            process results within the referral, subject to the maximum hops parameter below.</para>
+                        <para>This option controls whether or not the LDAP module follow referrals
+                            when processing search results from a LDAP search. Referrals can be
+                            pointers to other parts of an LDAP tree, or to a different
+                            server/connection altogether. This is a boolean parameter, with valid
+                            options of "true" or "false." The default is false. When disabled, LDAP
+                            referrals will be ignored when encounterd by the Guacamole LDAP client
+                            and the client will move on to the next result. When enabled, the LDAP
+                            client will follow the referral and process results within the referral,
+                            subject to the maximum hops parameter below.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><property>ldap-max-referral-hops</property></term>
                     <listitem>
-                        <para>This option controls the maximum number of referrals that will be processed before the
-                        LDAP client refuses to follow any more referrals.  The default is 5.  If the ldap-follow-referrals
-                        property is set to false (the default), this option has no effect.  If the ldap-follow-referrals option
-                        is set to true, this will limit the depth of referrals followed to the number specified.</para>
+                        <para>This option controls the maximum number of referrals that will be
+                            processed before the LDAP client refuses to follow any more referrals.
+                            The default is 5. If the ldap-follow-referrals property is set to false
+                            (the default), this option has no effect. If the ldap-follow-referrals
+                            option is set to true, this will limit the depth of referrals followed
+                            to the number specified.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
