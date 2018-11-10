@@ -501,13 +501,13 @@ sqlserver-driver: microsoft2005
                         complexity, such as having both uppercase and lowercase letters ("multiple
                         case"), at least one digit, or at least one symbol, and can prohibit
                         passwords from containing the user's own username.</para>
-                    <para>For the sake of password content, the database authentication defines a
-                        "digit" as any numeric character. This takes non-English languages into
-                        account, and is not be simply "0" thorough "9". There are quite a few <link
-                            xlink:href="https://en.wikipedia.org/wiki/Numerals_in_Unicode">numeric
-                            characters defined by Unicode</link>. A "symbol" is defined as any
-                        non-alphanumeric character - any character which Unicode does not define as
-                        alphabetic or numeric.</para>
+                    <para>With respect to password content, the database authentication defines a
+                        "digit" as any numeric character and a "symbol" is any non-alphanumeric
+                        character. This takes non-English languages into account, thus a digit is
+                        not simply "0" through "9" but rather <link
+                            xlink:href="https://en.wikipedia.org/wiki/Numerals_in_Unicode">any
+                            character defined in Unicode as numeric</link>, and a symbol is any
+                        character which Unicode does not define as alphabetic or numeric.</para>
                     <para>The check for whether a password contains the user's own username is
                         performed in a case-insensitive manner. For example, if the user's username
                         is "phil", the passwords "ch!0roPhil" and "PHIL-o-dendr0n" would still be
