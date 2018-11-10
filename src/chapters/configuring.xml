@@ -3763,6 +3763,30 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                                             <command>egrep</command>).</para>
                                 </entry>
                             </row>
+                            <row>
+                                <entry><parameter>login-success-regex</parameter></entry>
+                                <entry>
+                                    <para>The regular expression to use when detecting that the
+                                        login attempt has succeeded. This parameter is optional. If
+                                        specified, the terminal display will not be shown to the
+                                        user until text matching this regular expression has been
+                                        received from the telnet server. The regular expression must
+                                        be written in the POSIX ERE dialect (the dialect typically
+                                        used by <command>egrep</command>).</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>login-failure-regex</parameter></entry>
+                                <entry>
+                                    <para>The regular expression to use when detecting that the
+                                        login attempt has failed. This parameter is optional. If
+                                        specified, the connection will be closed with an explicit
+                                        login failure error if text matching this regular expression
+                                        has been received from the telnet server. The regular
+                                        expression must be written in the POSIX ERE dialect (the
+                                        dialect typically used by <command>egrep</command>).</para>
+                                </entry>
+                            </row>
                         </tbody>
                     </tgroup>
                 </informaltable>
