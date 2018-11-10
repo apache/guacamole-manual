@@ -216,6 +216,29 @@
                         need an SSL certificate and private key.</para>
                 </listitem>
             </varlistentry>
+            <varlistentry>
+                <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+                        <primary>skip-if-unavailable</primary>
+                    </indexterm><parameter>skip-if-unavailable</parameter></term>
+                <listitem>
+                    <para>A comma-separated list of the identifiers of authentication providers that
+                        should be allowed to fail internally without aborting the authentication
+                        process. For example, to request that Guacamole ignore failures due to the
+                        LDAP directory or MySQL server being unexpectedly down, allowing other
+                        authentication providers to continue functioning:</para>
+                    <informalexample>
+                        <programlisting>skip-if-unavailable: mysql, ldap</programlisting>
+                    </informalexample>
+                    <para>By default, Guacamole takes a conservative approach to internal failures,
+                        aborting the authentication process if an internal error occurs within any
+                        authentication provider. Depending on the nature of the error, this may mean
+                        that no users can log in until the cause of the failure is dealt with. The
+                            <parameter>skip-if-unavailable</parameter> property may be used to
+                        explicitly inform Guacamole that one or more underlying systems are expected
+                        to occasionally experience failures, and that other functioning systems
+                        should be relied upon if they do fail.</para>
+                </listitem>
+            </varlistentry>
         </variablelist>
         <example>
             <title>Example <filename>guacamole.properties</filename></title>
