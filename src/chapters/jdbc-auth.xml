@@ -549,17 +549,17 @@ sqlserver-user-password-prohibit-username: true</programlisting>
                                 (minimum password age).</para>
                         </listitem>
                     </orderedlist>
-                    <para>In both cases, these values are specified in units of days, and are both
-                        disabled by default.</para>
                     <para>While it may seem strange to prevent users from changing their password
                         too frequently, it does make sense if you are concerned that rapid password
                         changes may defeat password expiration (users could immediately change the
                         password back) or tracking of password history (users could cycle through
-                        passwords until the history is exhausted and their old password is
-                        back).</para>
-                    <para>So that administrators can always intervene in the case that a password
-                        needs to be reset despite restrictions, the minimum age restriction does not
-                        apply to any user with permission to administer the system.</para>
+                        passwords until the history is exhausted and their old password is usable
+                        again).</para>
+                    <para>By default, the database authentication does not apply any limits to
+                        password age, and users with permission to change their passwords may do so
+                        as frequently or infrequently as they wish. Password age limits can be
+                        enabled using a pair of properties, each accepting values given in units of
+                        days:</para>
                     <informalexample>
                         <programlisting># MySQL
 mysql-user-password-min-age: <replaceable>7</replaceable>
@@ -573,6 +573,12 @@ postgresql-user-password-max-age: <replaceable>90</replaceable>
 sqlserver-user-password-min-age: <replaceable>7</replaceable>
 sqlserver-user-password-max-age: <replaceable>90</replaceable></programlisting>
                     </informalexample>
+                    <important>
+                        <para>So that administrators can always intervene in the case that a
+                            password needs to be reset despite restrictions, the minimum age
+                            restriction does not apply to any user with permission to administer the
+                            system.</para>
+                    </important>
                 </section>
                 <section>
                     <title>Preventing password reuse</title>
