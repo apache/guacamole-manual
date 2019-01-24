@@ -360,6 +360,16 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                     </listitem>
                 </varlistentry>
                 <varlistentry>
+                    <term><property>ldap-member-attribute</property></term>
+                    <listitem>
+                      <para>The attribute which contains the members within all group objects in the
+                          LDAP directory. Usually, and by default, this will simply be
+                          "<property>member</property>". If your LDAP directory contains groups
+                          whose members are dictated by a different attribute, it can be specified
+                          here.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
                     <term><property>ldap-user-attributes</property></term>
                     <listitem>
                         <para>The attribute or attributes to retrieve from the LDAP directory for
