@@ -110,7 +110,7 @@
                 >http://guacamole.apache.org/releases/</link>.</para>
         <para>The TOTP authentication extension is packaged as a <filename>.tar.gz</filename> file
             containing only the extension itself,
-            <filename>guacamole-auth-totp-1.0.0.jar</filename>, which must ultimately be placed in
+            <filename>guacamole-auth-totp-1.1.0.jar</filename>, which must ultimately be placed in
                 <filename>GUACAMOLE_HOME/extensions</filename>.</para>
     </section>
     <section xml:id="installing-totp-auth">
@@ -124,7 +124,7 @@
                     does not already exist.</para>
             </step>
             <step>
-                <para>Copy <filename>guacamole-auth-totp-1.0.0.jar</filename> within
+                <para>Copy <filename>guacamole-auth-totp-1.1.0.jar</filename> within
                         <filename>GUACAMOLE_HOME/extensions</filename>.</para>
             </step>
             <step>
