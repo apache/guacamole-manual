@@ -29,7 +29,7 @@
             <screen><prompt>$</prompt> <userinput>mvn clean package -Plgpl-extensions</userinput>
 <computeroutput>[INFO] --- maven-assembly-plugin:2.5.3:single (make-source-archive) @ guacamole-client ---
 [INFO] Reading assembly descriptor: project-assembly.xml
-[INFO] Building tar: /home/guac/guacamole-client/target/guacamole-client-1.0.0.tar.gz
+[INFO] Building tar: /home/guac/guacamole-client/target/guacamole-client-1.1.0.tar.gz
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Summary:
 [INFO] 
@@ -65,7 +65,7 @@
 
         <para>After the build completes successfully, the extension will be in the
             <filename>extensions/guacamole-auth-radius/target/</filename> directory, and will be
-            called guacamole-auth-radius-1.0.0.jar.  This extension file can be copied to
+            called guacamole-auth-radius-1.1.0.jar.  This extension file can be copied to
             the <filename>GUACAMOLE_HOME/extensions</filename> directory.
             <emphasis>If you are unsure where <varname>GUACAMOLE_HOME</varname> is located on
             your system, please consult <xref linkend="configuring-guacamole"/> before
@@ -86,7 +86,7 @@
                     does not already exist.</para>
             </step>
             <step>
-                <para>Copy <filename>guacamole-auth-radius-1.0.0.jar</filename> into
+                <para>Copy <filename>guacamole-auth-radius-1.1.0.jar</filename> into
                         <filename>GUACAMOLE_HOME/extensions</filename>.</para>
             </step>
             <step>
