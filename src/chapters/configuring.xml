@@ -1259,6 +1259,62 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                     </tgroup>
                 </informaltable>
             </section>
+            <section xml:id="vnc-disable-clipboard">
+                <title>Disabling clipboard access</title>
+                <para>Guacamole provides bidirectional access to the clipboard by default for VNC
+                    connections. This behavior can be overridden on a per-connection basis with the
+                        <parameter>disable-copy</parameter> and <parameter>disable-paste</parameter>
+                    parameters.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>VNC</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>disable-copy</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>disable clipboard</primary>
+                                        </indexterm><indexterm>
+                                            <primary>VNC</primary>
+                                            <secondary>disable clipboard</secondary>
+                                        </indexterm>If set to "true", text copied within the VNC
+                                        session will not be accessible by the user at the browser
+                                        side of the Guacamole session, and will be usable only
+                                        within the remote desktop. This parameter is optional. By
+                                        default, the user will be given access to the copied
+                                        text.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>disable-paste</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>disable clipboard</primary>
+                                        </indexterm><indexterm>
+                                            <primary>VNC</primary>
+                                            <secondary>disable clipboard</secondary>
+                                        </indexterm>If set to "true", text copied at the browser
+                                        side of the Guacamole session will not be accessible within
+                                        the VNC session. This parameter is optional. By default, the
+                                        user will be able to paste data from outside the browser
+                                        within the VNC session.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
             <section xml:id="adding-vnc">
                 <title>Adding a VNC connection</title>
                 <indexterm>
@@ -2592,6 +2648,62 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                     </tgroup>
                 </informaltable>
             </section>
+            <section xml:id="rdp-disable-clipboard">
+                <title>Disabling clipboard access</title>
+                <para>Guacamole provides bidirectional access to the clipboard by default for RDP
+                    connections. This behavior can be overridden on a per-connection basis with the
+                        <parameter>disable-copy</parameter> and <parameter>disable-paste</parameter>
+                    parameters.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>RDP</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>disable-copy</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>disable clipboard</primary>
+                                        </indexterm><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>disable clipboard</secondary>
+                                        </indexterm>If set to "true", text copied within the RDP
+                                        session will not be accessible by the user at the browser
+                                        side of the Guacamole session, and will be usable only
+                                        within the remote desktop. This parameter is optional. By
+                                        default, the user will be given access to the copied
+                                        text.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>disable-paste</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>disable clipboard</primary>
+                                        </indexterm><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>disable clipboard</secondary>
+                                        </indexterm>If set to "true", text copied at the browser
+                                        side of the Guacamole session will not be accessible within
+                                        the RDP session. This parameter is optional. By default, the
+                                        user will be able to paste data from outside the browser
+                                        within the RDP session.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
             <section xml:id="rdp-perf-flags">
                 <title>Performance flags</title>
                 <para>RDP provides several flags which control the availability of features that
@@ -3575,6 +3687,61 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                     </tgroup>
                 </informaltable>
             </section>
+            <section xml:id="ssh-disable-clipboard">
+                <title>Disabling clipboard access</title>
+                <para>Guacamole provides bidirectional access to the terminal clipboard by default
+                    for SSH connections. This behavior can be overridden on a per-connection basis
+                    with the <parameter>disable-copy</parameter> and
+                        <parameter>disable-paste</parameter> parameters.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>SSH</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>disable-copy</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>disable clipboard</primary>
+                                        </indexterm><indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>disable clipboard</secondary>
+                                        </indexterm>If set to "true", text copied within the SSH
+                                        session will not be accessible by the user at the browser
+                                        side of the Guacamole session, and will be usable only
+                                        within the terminal. This parameter is optional. By default,
+                                        the user will be given access to the copied text.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>disable-paste</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>disable clipboard</primary>
+                                        </indexterm><indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>disable clipboard</secondary>
+                                        </indexterm>If set to "true", text copied at the browser
+                                        side of the Guacamole session will not be accessible within
+                                        the SSH session. This parameter is optional. By default, the
+                                        user will be able to paste data from outside the browser
+                                        within the terminal.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
             <section xml:id="adding-ssh">
                 <title>Adding an SSH connection</title>
                 <indexterm>
@@ -4249,6 +4416,61 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                                         is enabled. If the <parameter>recording-path</parameter> is
                                         not specified, graphical session recording will be disabled,
                                         and this parameter will be ignored.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="telnet-disable-clipboard">
+                <title>Disabling clipboard access</title>
+                <para>Guacamole provides bidirectional access to the terminal clipboard by default
+                    for telnet connections. This behavior can be overridden on a per-connection
+                    basis with the <parameter>disable-copy</parameter> and
+                        <parameter>disable-paste</parameter> parameters.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>telnet</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>disable-copy</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>disable clipboard</primary>
+                                        </indexterm><indexterm>
+                                            <primary>telnet</primary>
+                                            <secondary>disable clipboard</secondary>
+                                        </indexterm>If set to "true", text copied within the telnet
+                                        session will not be accessible by the user at the browser
+                                        side of the Guacamole session, and will be usable only
+                                        within the terminal. This parameter is optional. By default,
+                                        the user will be given access to the copied text.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>disable-paste</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>disable clipboard</primary>
+                                        </indexterm><indexterm>
+                                            <primary>telnet</primary>
+                                            <secondary>disable clipboard</secondary>
+                                        </indexterm>If set to "true", text copied at the browser
+                                        side of the Guacamole session will not be accessible within
+                                        the telnet session. This parameter is optional. By default,
+                                        the user will be able to paste data from outside the browser
+                                        within the terminal.</para>
                                 </entry>
                             </row>
                         </tbody>
