@@ -1747,6 +1747,48 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                                     </variablelist>
                                 </entry>
                             </row>
+                            <row>
+                                <entry><parameter>timezone</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>timezone</secondary>
+                                        </indexterm>The timezone that the client
+                                    should send to the server for configuring the
+                                    local time display of that server.  The
+                                    format of the timezone is in the standard
+                                    IANA key zone format, which is the format
+                                    used in UNIX/Linux.  This will be converted
+                                    by RDP into the correct format for Windows.
+                                    </para>
+                                    <para>Beginning with version 1.1.0 of
+                                    Guacamole, the timezone is detected and,
+                                    assuming that guacd is at version 1.1.0 or
+                                    greater, this will be passed to the server
+                                    and used by protocols, like RDP, that
+                                    support it.  This parameter can be used to
+                                    override the value detected and passed
+                                    during the handshake, or can be used in
+                                    situations where guacd does not support
+                                    passing the timezone parameter during the
+                                    handshake phase (guacd versions prior to
+                                    1.1.0).</para>
+                                    <para>Support for forwarding the client
+                                    timezone varies by RDP server implementation.
+                                    For example, with Windows, support for
+                                    forwarding timezones is only present in
+                                    Windows Server with Remote Desktop Services
+                                    (RDS, formerly known as Terminal Services)
+                                    installed.  Windows Server installations in
+                                    admin mode, along with Windows workstation
+                                    versions, do not allow the timezone to be
+                                    forwarded.  Other server implementations,
+                                    for example, xRDP, may not implement this
+                                    feature at all.  Consult the documentation
+                                    for the RDP server to determine whether or
+                                    not this feature is supported.</para>
+                                </entry>
+                            </row>
                         </tbody>
                     </tgroup>
                 </informaltable>
@@ -2929,23 +2971,6 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                                     <para>For more information, please see <xref linkend="ssh-host-verification"/>.</para>
                                 </entry>
                             </row>
-                            <row>
-                                <entry><parameter>server-alive-interval</parameter></entry>
-                                <entry>
-                                    <para>
-                                        <indexterm>
-                                            <primary>SSH</primary>
-                                            <secondary>server-alive-interval</secondary>
-                                        </indexterm>
-                                        By default the SSH client does not send keepalive requests
-                                        to the server.  This parameter allows you to configure the
-                                        the interval in seconds at which the client connection
-                                        sends keepalive packets to the server.  The default is 0,
-                                        which disables sending the packets.  The minimum value
-                                        is 2.
-                                    </para>
-                                </entry>
-                            </row>
                         </tbody>
                     </tgroup>
                 </informaltable>
@@ -3201,13 +3226,9 @@ color9: rgb:80/00/80</programlisting>
                 </informaltable>
             </section>
             <section xml:id="ssh-command">
-                <title>Running a command (instead of a shell)</title>
-                <para>By default, SSH sessions will start an interactive shell. The shell which will
-                    be used is determined by the SSH server, normally by reading the user's default
-                    shell previously set with <command>chsh</command> or within
-                        <filename>/etc/passwd</filename>. If you wish to override this and instead
-                    run a specific command, you can do so by specifying that command in the
-                    configuration of the Guacamole SSH connection.</para>
+                <title>Session parameters</title>
+                <para>The parameters in this section control various aspects
+                of the SSH session.</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
@@ -3229,9 +3250,71 @@ color9: rgb:80/00/80</programlisting>
                                     <para><indexterm>
                                             <primary>SSH</primary>
                                             <secondary>command</secondary>
-                                        </indexterm>The command to execute over the SSH session, if
-                                        any. This parameter is optional. If not specified, the SSH
+                                        </indexterm>By default, SSH sessions will
+                                        start an interactive shell.  The shell
+                                        that is used will be determined by the
+                                        SSH server, normally by reading the user's
+                                        default login shell specified in
+                                        <filename>/etc/passwd</filename>.  If you
+                                        wish to override this and run a specific
+                                        command, you can do so by filling in a
+                                        value for this parameter.  Assuming the
+                                        server allows arbitrary commands to be
+                                        run, the session will attempt to start
+                                        the specified command in place of the
+                                        shell.  This parameter is optional. If not specified, the SSH
                                         session will use the user's default shell.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>timezone</parameter></entry>
+                                <entry>
+                                    <para>
+                                        <indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>timezone</secondary>
+                                        </indexterm>This parameter allows you
+                                        to control the timezone that is sent
+                                        to the server over the SSH connection,
+                                        which will change the way local time is
+                                        displayed on the server.</para>
+                                    <para>
+                                        The mechanism used to do this over SSH
+                                        connections is by setting the
+                                        <envvar>TZ</envvar> variable on the SSH
+                                        connection to the timezone specified by
+                                        this parameter.  This means that the SSH
+                                        server must allow the <envvar>TZ</envvar>
+                                        variable to be set/overriden - many SSH
+                                        server implementations have this disabled
+                                        by default.  To get this to work, you may
+                                        need to modify the configuration of the
+                                        SSH server and explicitly allow for
+                                        <envvar>TZ</envvar> to be set/overriden.
+                                    </para>
+                                    <para>
+                                        The available values of this parameter are
+                                        standard IANA key zone format timezones,
+                                        and the value will be sent directly to
+                                        the server in this format.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>server-alive-interval</parameter></entry>
+                                <entry>
+                                    <para>
+                                        <indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>server-alive-interval</secondary>
+                                        </indexterm>
+                                        By default the SSH client does not send keepalive requests
+                                        to the server.  This parameter allows you to configure the
+                                        the interval in seconds at which the client connection
+                                        sends keepalive packets to the server.  The default is 0,
+                                        which disables sending the packets.  The minimum value
+                                        is 2.
+                                    </para>
                                 </entry>
                             </row>
                         </tbody>

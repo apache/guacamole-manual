@@ -80,6 +80,22 @@
             it supports Ogg Vorbis audio, but no video, and can accept both PNG and JPEG images. It
             wants to connect to localhost at port 5900, and is leaving the three other parameters
             blank.</para>
+        <para>Version 1.1.0 of Guacamole adds a couple of other features to the handshake phase.  First,
+            the handshake can now be done with most of the handshake instructions sent in arbitrary order.
+            Beginning with this version, guacd will detect and parse out each of the options regardless
+            of the order they are sent in, looking for the connect instruction as the indication
+            that the client has finished sending options.  In addition to ordering, this means
+            that certain instructions can be omitted without preventing the connection from
+            continuing.
+        </para>
+        <para>Also introduced in version 1.1.0 is the ability to pass the client timezone to
+            guacd, which can be used by protocols that support it to alter how the server
+            displays local time for the logged in user.  More information on this is available
+            in <xref linkend="configuring"/>, under the documentation related to
+            the timezone parameter.  If either the client or server do not support the
+            timezone instruction in the handshake the information will not be pased and the
+            connection will continue.
+        </para>
         <para>Once these instructions have been sent by the client, the server will attempt to
             initialize the connection with the parameters received and, if successful, respond with
             a "ready" instruction. This instruction contains the ID of the new client connection and
