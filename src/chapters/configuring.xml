@@ -1673,6 +1673,12 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                                             </listitem>
                                         </varlistentry>
                                         <varlistentry>
+                                            <term><constant>de-ch-qwertz</constant></term>
+                                            <listitem>
+                                                <para>German (Swiss) keyboard (qwertz)</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
                                             <term><constant>de-de-qwertz</constant></term>
                                             <listitem>
                                                 <para>German keyboard (qwertz)</para>
@@ -1687,7 +1693,7 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                                         <varlistentry>
                                             <term><constant>fr-ch-qwertz</constant></term>
                                             <listitem>
-                                                <para>Swiss French keyboard (qwertz)</para>
+                                                <para>French (Swiss) keyboard (qwertz)</para>
                                             </listitem>
                                         </varlistentry>
                                         <varlistentry>
