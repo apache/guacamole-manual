@@ -3059,7 +3059,11 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
             <section xml:id="ssh-authentication">
                 <title>Authentication</title>
                 <para>SSH provides authentication through passwords and public key
-                    authentication.</para>
+                    authentication, and also supports the NONE method.</para>
+                <para>SSH NONE authentication is seen occasionally in appliances
+                    and items like network or SAN fabric switches.  Generally
+                    for this authentication method you need only provide a
+                    username.</para>
                 <para>For Guacamole to use public key authentication, it must have access to your
                     private key and, if applicable, its passphrase. If the private key requires a
                     passphrase, but no passphrase is provided, you will be prompted for the
