@@ -1783,7 +1783,7 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                                     admin mode, along with Windows workstation
                                     versions, do not allow the timezone to be
                                     forwarded.  Other server implementations,
-                                    for example, xRDP, may not implement this
+                                    for example, xrdp, may not implement this
                                     feature at all.  Consult the documentation
                                     for the RDP server to determine whether or
                                     not this feature is supported.</para>
