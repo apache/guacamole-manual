@@ -7,8 +7,7 @@
     <indexterm>
         <primary>size</primary>
     </indexterm>
-    <para>Specifies the client's optimal screen size and resolution. This is the second instruction
-        sent during the handshake phase.</para>
+    <para>Specifies the client's optimal screen size and resolution.</para>
     <variablelist>
         <varlistentry>
             <term><parameter>width</parameter></term>
