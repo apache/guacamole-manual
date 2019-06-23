@@ -3279,16 +3279,16 @@ color9: rgb:80/00/80</programlisting>
                                     <para>
                                         The mechanism used to do this over SSH
                                         connections is by setting the
-                                        <envvar>TZ</envvar> variable on the SSH
+                                        <envar>TZ</envar> variable on the SSH
                                         connection to the timezone specified by
                                         this parameter.  This means that the SSH
-                                        server must allow the <envvar>TZ</envvar>
+                                        server must allow the <envar>TZ</envar>
                                         variable to be set/overriden - many SSH
                                         server implementations have this disabled
                                         by default.  To get this to work, you may
                                         need to modify the configuration of the
                                         SSH server and explicitly allow for
-                                        <envvar>TZ</envvar> to be set/overriden.
+                                        <envar>TZ</envar> to be set/overriden.
                                     </para>
                                     <para>
                                         The available values of this parameter are
