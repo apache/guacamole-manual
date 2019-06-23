@@ -1761,18 +1761,16 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                                     used in UNIX/Linux.  This will be converted
                                     by RDP into the correct format for Windows.
                                     </para>
-                                    <para>Beginning with version 1.1.0 of
-                                    Guacamole, the timezone is detected and,
-                                    assuming that guacd is at version 1.1.0 or
-                                    greater, this will be passed to the server
-                                    and used by protocols, like RDP, that
-                                    support it.  This parameter can be used to
-                                    override the value detected and passed
-                                    during the handshake, or can be used in
-                                    situations where guacd does not support
-                                    passing the timezone parameter during the
-                                    handshake phase (guacd versions prior to
-                                    1.1.0).</para>
+                                    <para>The timezone is detected and will be
+                                    passed to the server during the handshake
+                                    phase of the connection, and may used by
+                                    protocols, like RDP, that support it.  This
+                                    parameter can be used to override the value
+                                    detected and passed during the handshake, or
+                                    can be used in situations where guacd does
+                                    not support passing the timezone parameter
+                                    during the handshake phase (guacd versions
+                                    prior to 1.1.0).</para>
                                     <para>Support for forwarding the client
                                     timezone varies by RDP server implementation.
                                     For example, with Windows, support for
