@@ -124,9 +124,11 @@
                     <row>
                         <entry><parameter>timezone</parameter></entry>
                         <entry><para>The timezone of the client, in IANA zone key format.  More
-                            information on this instruction is available in <xref linkend="configuring"/>,
-                            under documentation related to the <constant>timezone</constant>
-                            connection parameters for the protocols that support it.</para></entry>
+                            information on this instruction is available in
+                            <xref linkend="configuring-guacamole"/>, under documentation related
+                            to the <constant>timezone</constant> connection parameters for the
+                            protocols that support it.</para>
+                        </entry>
                     </row>
                     <row>
                         <entry><parameter>video</parameter></entry>
