@@ -3187,6 +3187,15 @@ color9: rgb:80/00/80</programlisting>
                                         instead.</para>
                                 </entry>
                             </row>
+                            <row>
+                                <entry><parameter>scrollback</parameter></entry>
+                                <entry>
+                                    <para>The maximum number of rows to allow within the terminal
+                                        scrollback buffer. This parameter is optional. If not
+                                        specified, the scrollback buffer will be limited to a
+                                        maximum of 1000 rows.</para>
+                                </entry>
+                            </row>
                         </tbody>
                     </tgroup>
                 </informaltable>
@@ -3952,6 +3961,15 @@ color9: rgb:80/00/80</programlisting>
                                     <para>The size of the font to use, in points. This parameter is
                                         optional. If not specified, the default of 12 will be used
                                         instead.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>scrollback</parameter></entry>
+                                <entry>
+                                    <para>The maximum number of rows to allow within the terminal
+                                        scrollback buffer. This parameter is optional. If not
+                                        specified, the scrollback buffer will be limited to a
+                                        maximum of 1000 rows.</para>
                                 </entry>
                             </row>
                         </tbody>
