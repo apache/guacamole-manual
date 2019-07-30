@@ -3238,6 +3238,48 @@ color9: rgb:80/00/80</programlisting>
                     </tgroup>
                 </informaltable>
             </section>
+            <section>
+                <title>Internationalization/Locale settings</title>
+                <para>The language of the session is normally set by the SSH server. If the SSH
+                    server allows the relevant environment variable to be set, the language can be
+                    overridden on a per-connection basis.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>SSH</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>locale</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>locale</secondary>
+                                        </indexterm>The specific locale to request for the SSH
+                                        session. This parameter is optional and may be any value
+                                        accepted by the <envar>LANG</envar> environment variable of
+                                        the SSH server. If not specified, the SSH server's default
+                                        locale will be used.</para>
+                                    <para>As this parameter is sent to the SSH server using the
+                                            <envar>LANG</envar> environment variable, the parameter
+                                        will only have an effect if the SSH server allows the
+                                            <envar>LANG</envar> environment variable to be set by
+                                        SSH clients.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
             <section xml:id="ssh-terminal-behavior">
                 <title>Controlling terminal behavior</title>
                 <para>In most cases, the default behavior for a terminal works without modification.
