@@ -54,6 +54,7 @@
     <section xml:id="streaming-instructions">
         <title>Streaming instructions</title>
         <xi:include href="instructions/server/stream/ack.xml"/>
+        <xi:include href="instructions/server/stream/argv.xml"/>
         <xi:include href="instructions/server/stream/audio.xml"/>
         <xi:include href="instructions/server/stream/blob.xml"/>
         <xi:include href="instructions/server/stream/clipboard.xml"/>
