@@ -13,8 +13,8 @@
         supported by the server.  This is used to negotiate protocol
         compatibility between the client and the server, with the highest
         supported protocol by both sides being chosen.  Versions of Guacamole
-        prior to 1.1.0 do not support this instruction and cannot
-        negotiate this compatibility.</para>
+        prior to 1.1.0 do not support protocol version negotiation, and will
+        silently ignore this instruction.</para>
     <para>The remaining parameters of the args instruction are the names of all
         connection parameters accepted by the server for the protocol selected
         by the client, in order. The client's responding connect instruction

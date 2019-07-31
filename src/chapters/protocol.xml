@@ -67,7 +67,42 @@
             supported version and enable or disable features associated with that version.
             Older versions of the Guacamole Client that do not support this instruction
             will silently ignore it as an empty connection parameter.  Valid protocol versions
-            are <constant>VERSION_1_0_0</constant> (1.0.0 and earlier) and 
+            are as follows:<informaltable frame="all">
+                <tgroup cols="3">
+                    <colspec colname="c1" colnum="1" colwidth="1.25*"/>
+                    <colspec colname="c2" colnum="2" colwidth="3.25*"/>
+                    <colspec colname="c3" colnum="3" colwidth="9*"/>
+                    <thead>
+                        <row>
+                            <entry>Version</entry>
+                            <entry>Value</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>1.0.0</entry>
+                            <entry><constant>VERSION_1_0_0</constant></entry>
+                            <entry>This is the defualt version and applies to any
+                            versions prior to 1.1.0.  Version 1.0.0 of the protocol
+                            does not support protocol negotiation, and requires that
+                            the handshake instructions are delivered in a certain
+                            order, and that they are present (even if empty).</entry>
+                        </row>
+                        <row>
+                            <entry>1.1.0</entry>
+                            <entry><constant>VERSION_1_1_0</constant></entry>
+                            <entry>Protocol version 1.1.0 introduces support for
+                            protocol version negotiation, arbitrary order of the
+                            handshake instructions, and support for passing the
+                            timezone instruction during the handshake.</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </para>
+        
+                <constant>VERSION_1_0_0</constant> (1.0.0 and earlier) and 
             <constant>VERSION_1_1_0</constant> (1.1.0).</para>
         <para>After receiving the list of arguments, the client is required to respond with the list
             of supported audio, video, and image mimetypes, the optimal display size and resolution,
