@@ -3331,6 +3331,40 @@ color9: rgb:80/00/80</programlisting>
                         </tbody>
                     </tgroup>
                 </informaltable>
+                <section xml:id="ssh-stdin-pipe">
+                    <title>Providing input directly from JavaScript</title>
+                    <para>If Guacamole is being used in part to automate an SSH session, it can be
+                        useful to provide input directly from JavaScript as a raw stream of data,
+                        rather than attempting to translate data into keystrokes. This can be done
+                        through opening a pipe stream named "STDIN" within the SSH connection using
+                        the <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                            xlink:href="../guacamole-common-js/Guacamole.Client.html#createPipeStream"
+                                ><function>createPipeStream()</function></link> function of <link
+                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                            xlink:href="../guacamole-common-js/Guacamole.Client.html"
+                                ><classname>Guacamole.Client</classname></link>:</para>
+                    <informalexample>
+                        <programlisting>var outputStream = client.createPipeStream('text/plain', 'STDIN');</programlisting>
+                    </informalexample>
+                    <para>The resulting <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                            xlink:href="../guacamole-common-js/Guacamole.OutputStream.html"
+                                ><classname>Guacamole.OutputStream</classname></link> can then be
+                        used to stream data directly to the input of the SSH session, as if typed by
+                        the user:</para>
+                    <informalexample>
+                        <programlisting>// Wrap output stream in writer
+var writer = new Guacamole.StringWriter(outputStream);
+
+// Send text
+writer.sendText("hello");
+
+// Send more text
+writer.sendText("world");
+
+// Close writer and stream
+writer.sendEnd();</programlisting>
+                    </informalexample>
+                </section>
             </section>
             <section xml:id="ssh-typescripts">
                 <title>Text session recording (typescripts)</title>
@@ -4070,6 +4104,40 @@ color9: rgb:80/00/80</programlisting>
                         </tbody>
                     </tgroup>
                 </informaltable>
+                <section xml:id="telnet-stdin-pipe">
+                    <title>Providing input directly from JavaScript</title>
+                    <para>If Guacamole is being used in part to automate a telnet session, it can be
+                        useful to provide input directly from JavaScript as a raw stream of data,
+                        rather than attempting to translate data into keystrokes. This can be done
+                        through opening a pipe stream named "STDIN" within the telnet connection
+                        using the <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                            xlink:href="../guacamole-common-js/Guacamole.Client.html#createPipeStream"
+                                ><function>createPipeStream()</function></link> function of <link
+                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                            xlink:href="../guacamole-common-js/Guacamole.Client.html"
+                                ><classname>Guacamole.Client</classname></link>:</para>
+                    <informalexample>
+                        <programlisting>var outputStream = client.createPipeStream('text/plain', 'STDIN');</programlisting>
+                    </informalexample>
+                    <para>The resulting <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                            xlink:href="../guacamole-common-js/Guacamole.OutputStream.html"
+                                ><classname>Guacamole.OutputStream</classname></link> can then be
+                        used to stream data directly to the input of the telnet session, as if typed
+                        by the user:</para>
+                    <informalexample>
+                        <programlisting>// Wrap output stream in writer
+var writer = new Guacamole.StringWriter(outputStream);
+
+// Send text
+writer.sendText("hello");
+
+// Send more text
+writer.sendText("world");
+
+// Close writer and stream
+writer.sendEnd();</programlisting>
+                    </informalexample>
+                </section>
             </section>
             <section xml:id="telnet-typescripts">
                 <title>Text session recording (typescripts)</title>
