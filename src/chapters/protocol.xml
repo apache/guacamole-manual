@@ -83,7 +83,7 @@
                         <row>
                             <entry>1.0.0</entry>
                             <entry><constant>VERSION_1_0_0</constant></entry>
-                            <entry>This is the defualt version and applies to any
+                            <entry>This is the default version and applies to any
                             versions prior to 1.1.0.  Version 1.0.0 of the protocol
                             does not support protocol negotiation, and requires that
                             the handshake instructions are delivered in a certain
@@ -101,9 +101,6 @@
                 </tgroup>
             </informaltable>
         </para>
-        
-                <constant>VERSION_1_0_0</constant> (1.0.0 and earlier) and 
-            <constant>VERSION_1_1_0</constant> (1.1.0).</para>
         <para>After receiving the list of arguments, the client is required to respond with the list
             of supported audio, video, and image mimetypes, the optimal display size and resolution,
             and the values for all arguments available, even if blank.</para>
