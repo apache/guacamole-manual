@@ -2969,6 +2969,23 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                                     <para>For more information, please see <xref linkend="ssh-host-verification"/>.</para>
                                 </entry>
                             </row>
+                            <row>
+                                <entry><parameter>server-alive-interval</parameter></entry>
+                                <entry>
+                                    <para>
+                                        <indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>server-alive-interval</secondary>
+                                        </indexterm>
+                                        By default the SSH client does not send keepalive requests
+                                        to the server.  This parameter allows you to configure the
+                                        the interval in seconds at which the client connection
+                                        sends keepalive packets to the server.  The default is 0,
+                                        which disables sending the packets.  The minimum value
+                                        is 2.
+                                    </para>
+                                </entry>
+                            </row>
                         </tbody>
                     </tgroup>
                 </informaltable>
@@ -3224,9 +3241,13 @@ color9: rgb:80/00/80</programlisting>
                 </informaltable>
             </section>
             <section xml:id="ssh-command">
-                <title>Session parameters</title>
-                <para>The parameters in this section control various aspects
-                of the SSH session.</para>
+                <title>Running a command (instead of a shell)</title>
+                <para>By default, SSH sessions will start an interactive shell. The shell which will
+                    be used is determined by the SSH server, normally by reading the user's default
+                    shell previously set with <command>chsh</command> or within
+                        <filename>/etc/passwd</filename>. If you wish to override this and instead
+                    run a specific command, you can do so by specifying that command in the
+                    configuration of the Guacamole SSH connection.</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
@@ -3248,71 +3269,9 @@ color9: rgb:80/00/80</programlisting>
                                     <para><indexterm>
                                             <primary>SSH</primary>
                                             <secondary>command</secondary>
-                                        </indexterm>By default, SSH sessions will
-                                        start an interactive shell.  The shell
-                                        that is used will be determined by the
-                                        SSH server, normally by reading the user's
-                                        default login shell specified in
-                                        <filename>/etc/passwd</filename>.  If you
-                                        wish to override this and run a specific
-                                        command, you can do so by filling in a
-                                        value for this parameter.  Assuming the
-                                        server allows arbitrary commands to be
-                                        run, the session will attempt to start
-                                        the specified command in place of the
-                                        shell.  This parameter is optional. If not specified, the SSH
+                                        </indexterm>The command to execute over the SSH session, if
+                                        any. This parameter is optional. If not specified, the SSH
                                         session will use the user's default shell.</para>
-                                </entry>
-                            </row>
-                            <row>
-                                <entry><parameter>timezone</parameter></entry>
-                                <entry>
-                                    <para>
-                                        <indexterm>
-                                            <primary>SSH</primary>
-                                            <secondary>timezone</secondary>
-                                        </indexterm>This parameter allows you
-                                        to control the timezone that is sent
-                                        to the server over the SSH connection,
-                                        which will change the way local time is
-                                        displayed on the server.</para>
-                                    <para>
-                                        The mechanism used to do this over SSH
-                                        connections is by setting the
-                                        <envar>TZ</envar> variable on the SSH
-                                        connection to the timezone specified by
-                                        this parameter.  This means that the SSH
-                                        server must allow the <envar>TZ</envar>
-                                        variable to be set/overriden - many SSH
-                                        server implementations have this disabled
-                                        by default.  To get this to work, you may
-                                        need to modify the configuration of the
-                                        SSH server and explicitly allow for
-                                        <envar>TZ</envar> to be set/overriden.
-                                    </para>
-                                    <para>
-                                        The available values of this parameter are
-                                        standard IANA key zone format timezones,
-                                        and the value will be sent directly to
-                                        the server in this format.
-                                    </para>
-                                </entry>
-                            </row>
-                            <row>
-                                <entry><parameter>server-alive-interval</parameter></entry>
-                                <entry>
-                                    <para>
-                                        <indexterm>
-                                            <primary>SSH</primary>
-                                            <secondary>server-alive-interval</secondary>
-                                        </indexterm>
-                                        By default the SSH client does not send keepalive requests
-                                        to the server.  This parameter allows you to configure the
-                                        the interval in seconds at which the client connection
-                                        sends keepalive packets to the server.  The default is 0,
-                                        which disables sending the packets.  The minimum value
-                                        is 2.
-                                    </para>
                                 </entry>
                             </row>
                         </tbody>
@@ -3355,6 +3314,40 @@ color9: rgb:80/00/80</programlisting>
                                         will only have an effect if the SSH server allows the
                                             <envar>LANG</envar> environment variable to be set by
                                         SSH clients.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>timezone</parameter></entry>
+                                <entry>
+                                    <para>
+                                        <indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>timezone</secondary>
+                                        </indexterm>This parameter allows you
+                                        to control the timezone that is sent
+                                        to the server over the SSH connection,
+                                        which will change the way local time is
+                                        displayed on the server.</para>
+                                    <para>
+                                        The mechanism used to do this over SSH
+                                        connections is by setting the
+                                        <envar>TZ</envar> variable on the SSH
+                                        connection to the timezone specified by
+                                        this parameter.  This means that the SSH
+                                        server must allow the <envar>TZ</envar>
+                                        variable to be set/overriden - many SSH
+                                        server implementations have this disabled
+                                        by default.  To get this to work, you may
+                                        need to modify the configuration of the
+                                        SSH server and explicitly allow for
+                                        <envar>TZ</envar> to be set/overriden.
+                                    </para>
+                                    <para>
+                                        The available values of this parameter are
+                                        standard IANA key zone format timezones,
+                                        and the value will be sent directly to
+                                        the server in this format.
+                                    </para>
                                 </entry>
                             </row>
                         </tbody>
