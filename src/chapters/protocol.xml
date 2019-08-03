@@ -57,29 +57,123 @@
             <programlisting>6.select,3.vnc;</programlisting>
         </informalexample>
         <para>After receiving the "select" instruction, the server will load the associated client
-            support and respond with a list of accepted parameter names using an "args"
-            instruction:</para>
+            support and respond with its protocol version and a list of accepted parameter names
+            using an "args" instruction:</para>
         <informalexample>
-            <programlisting>4.args,8.hostname,4.port,8.password,13.swap-red-blue,9.read-only;</programlisting>
+            <programlisting>4.args,13.VERSION_1_1_0,8.hostname,4.port,8.password,13.swap-red-blue,9.read-only;</programlisting>
         </informalexample>
+        <para>The protocol version is used to negotiate compatibility between differing
+            versions of client and server, allowing the two sides to negotiate the highest
+            supported version and enable or disable features associated with that version.
+            Older versions of the Guacamole Client that do not support this instruction
+            will silently ignore it as an empty connection parameter.  Valid protocol versions
+            are as follows:<informaltable frame="all">
+                <tgroup cols="3">
+                    <colspec colname="c1" colnum="1" colwidth="1.25*"/>
+                    <colspec colname="c2" colnum="2" colwidth="3.25*"/>
+                    <colspec colname="c3" colnum="3" colwidth="9*"/>
+                    <thead>
+                        <row>
+                            <entry>Version</entry>
+                            <entry>Value</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>1.0.0</entry>
+                            <entry><constant>VERSION_1_0_0</constant></entry>
+                            <entry>This is the default version and applies to any
+                            versions prior to 1.1.0.  Version 1.0.0 of the protocol
+                            does not support protocol negotiation, and requires that
+                            the handshake instructions are delivered in a certain
+                            order, and that they are present (even if empty).</entry>
+                        </row>
+                        <row>
+                            <entry>1.1.0</entry>
+                            <entry><constant>VERSION_1_1_0</constant></entry>
+                            <entry>Protocol version 1.1.0 introduces support for
+                            protocol version negotiation, arbitrary order of the
+                            handshake instructions, and support for passing the
+                            timezone instruction during the handshake.</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </para>
         <para>After receiving the list of arguments, the client is required to respond with the list
             of supported audio, video, and image mimetypes, the optimal display size and resolution,
-            and the values for all arguments available, even if blank. If any of these requirements
-            are left out, the connection will close:</para>
+            and the values for all arguments available, even if blank.</para>
         <informalexample>
-            <programlisting>4.size,4.1024,3.768,2.96;
+            <programlisting>
+4.size,4.1024,3.768,2.96;
 5.audio,9.audio/ogg;
 5.video;
 5.image,9.image/png,10.image/jpeg;
-7.connect,9.localhost,4.5900,0.,0.,0.;</programlisting>
+8.timezone,16.America/New_York;
+7.connect,13.VERSION_1_1_0,9.localhost,4.5900,0.,0.,0.;</programlisting>
         </informalexample>
         <para>For clarity, we've put each instruction on its own line, but in the real protocol, no
             newlines exist between instructions. In fact, if there is anything after an instruction
             other than the start of a new instruction, the connection is closed.</para>
-        <para>Here, the client is specifying that the optimal display size is 1024x768 at 96 DPI and
-            it supports Ogg Vorbis audio, but no video, and can accept both PNG and JPEG images. It
-            wants to connect to localhost at port 5900, and is leaving the three other parameters
-            blank.</para>
+        <para>The following are valid instructions during the handshake:</para>
+        <informaltable frame="all">
+            <indexterm>
+                <primary>handshake</primary>
+                <secondary>instructions</secondary>
+            </indexterm>
+            <tgroup cols="2">
+                <colspec colname="c1" colnum="1" colwidth="1*"/>
+                <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                <thead>
+                    <row>
+                        <entry>Instruction name</entry>
+                        <entry>Description</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry><parameter>audio</parameter></entry>
+                        <entry><para>The audio codec(s) supported by the client.  In the example
+                            above the client is specifying audio/ogg as the supported codec.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry><parameter>connect</parameter></entry>
+                        <entry><para>This is the final instruction of the handshake, terminating
+                            the handshake and indicating that the connection should continue.
+                            This instruction has as its parameters values for the connection
+                            parameters sent by the server in the <constant>args</constant>
+                            instruction.  In the example above, this is connection to localhost
+                            on port 5900, with no values for the last three connection parameters.
+                        </para></entry>
+                    </row>
+                    <row>
+                        <entry><parameter>image</parameter></entry>
+                        <entry><para>The image formats that the client supports, in order of
+                            preference.  The client in the example above is supporting both PNG
+                            and JPEG.</para></entry>
+                    </row>
+                    <row>
+                        <entry><parameter>timezone</parameter></entry>
+                        <entry><para>The timezone of the client, in IANA zone key format.  More
+                            information on this instruction is available in
+                            <xref linkend="configuring-guacamole"/>, under documentation related
+                            to the <constant>timezone</constant> connection parameters for the
+                            protocols that support it.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry><parameter>video</parameter></entry>
+                        <entry><para>The video codec(s) supported by the client.  The above example
+                            is a client that does not support any video codecs.</para></entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </informaltable>
+        <para>The order of the instructions sent by the client in the handshake is arbitrary, with
+            the exception that the final instruction, connect, will end the handshake and attempt
+            to start the connection.</para>
         <para>Once these instructions have been sent by the client, the server will attempt to
             initialize the connection with the parameters received and, if successful, respond with
             a "ready" instruction. This instruction contains the ID of the new client connection and
