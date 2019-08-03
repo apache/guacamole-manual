@@ -4423,6 +4423,688 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                     trusted.</para>
             </section>
         </section>
+        <section xml:id="kubernetes">
+            <title>Kubernetes</title>
+            <indexterm>
+                <primary>Kubernetes</primary>
+            </indexterm>
+            <para>Kubernetes provides an API for attaching to the console of a container over the
+                network. As with SSH and telnet, Guacamole's Kubernetes support emulates a terminal
+                on the server side which renders to the Guacamole client's display.</para>
+            <para>Kubernetes support for Guacamole is provided by the
+                    <package>libguac-client-kubernetes</package> library, which will be installed as
+                part of guacamole-server if the required dependencies are present during the
+                build.</para>
+            <section xml:id="kubernetes-network-parameters">
+                <title>Network/Container parameters</title>
+                <para>Attaching to a Kubernetes container requires the hostname or IP address of the
+                    Kubernetes server and the name of the pod containing the container in question.
+                    By default, Guacamole will attach to the first container in the pod. If there
+                    are multiple containers in the pod, you may wish to also specify the container
+                    name.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>Kubernetes</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>hostname</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>Kubernetes</primary>
+                                            <secondary>hostname</secondary>
+                                        </indexterm>The hostname or IP address of the Kubernetes
+                                        server that Guacamole should connect to.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>port</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>Kubernetes</primary>
+                                            <secondary>port</secondary>
+                                        </indexterm>The port the Kubernetes server is listening on
+                                        for API connections. <emphasis>This parameter is
+                                            optional.</emphasis> If omitted, port 8080 will be used
+                                        by default.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>namespace</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>Kubernetes</primary>
+                                            <secondary>namespace</secondary>
+                                        </indexterm>The name of the Kubernetes namespace of the pod
+                                        containing the container being attached to. <emphasis>This
+                                            parameter is optional.</emphasis> If omitted, the
+                                        namespace "default" will be used.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>pod</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>Kubernetes</primary>
+                                            <secondary>pod</secondary>
+                                        </indexterm>The name of the Kubernetes pod containing with
+                                        the container being attached to.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>container</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>Kubernetes</primary>
+                                            <secondary>container</secondary>
+                                        </indexterm>The name of the container to attach to.
+                                            <emphasis>This parameter is optional.</emphasis> If
+                                        omitted, the first container in the pod will be used.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="kubernetes-authentication">
+                <title>Authentication and SSL/TLS</title>
+                <para>If enabled, Kubernetes uses SSL/TLS for both encryption and authentication.
+                    Standard SSL/TLS client authentication requires both a client certificate and
+                    client key, which Guacamole will use to identify itself to the Kubernetes
+                    server. If the certificate used by Kubernetes is self-signed or signed by a
+                    non-standard certificate authority, the certificate for the certificate
+                    authority will also be needed.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>Kubernetes</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>use-ssl</parameter></entry>
+                                <entry>
+                                    <para>If set to "true", SSL/TLS will be used to connect to the
+                                        Kubernetes server. <emphasis>This parameter is
+                                            optional.</emphasis> By default, SSL/TLS will not be
+                                        used.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>client-cert</parameter></entry>
+                                <entry>
+                                    <para>The certificate to use if performing SSL/TLS client
+                                        authentication to authenticate with the Kubernetes server,
+                                        in PEM format. <emphasis>This parameter is
+                                            optional.</emphasis> If omitted, SSL client
+                                        authentication will not be performed.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>client-key</parameter></entry>
+                                <entry>
+                                    <para>The key to use if performing SSL/TLS client authentication
+                                        to authenticate with the Kubernetes server, in PEM format.
+                                            <emphasis>This parameter is optional.</emphasis> If
+                                        omitted, SSL client authentication will not be
+                                        performed</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>ca-cert</parameter></entry>
+                                <entry>
+                                    <para>The certificate of the certificate authority that signed
+                                        the certificate of the Kubernetes server, in PEM format.
+                                            <emphasis>This parameter is optional.</emphasis> If
+                                        omitted, verification of the Kubernetes server certificate
+                                        will use only system-wide certificate authorities. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>ignore-cert</parameter></entry>
+                                <entry>
+                                    <para>If set to "true", the validity of the SSL/TLS certificate
+                                        used by the Kubernetes server will be ignored if it cannot
+                                        be validated. <emphasis>This parameter is
+                                            optional.</emphasis> By default, SSL/TLS certificates
+                                        are validated.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="kubernetes-display-settings">
+                <title>Display settings</title>
+                <para>Guacamole's Kubernetes support provides a display, but not in the same sense
+                    as a remote desktop protocol like VNC or RDP. The display is a terminal
+                    emulator, and thus provides options for configuring the font used and its size.
+                    In this case, <emphasis>the chosen font must be installed on the
+                        server</emphasis>, as it is the server that will handle rendering of
+                    characters to the terminal display, not the client.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>Kubernetes</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>color-scheme</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>Kubernetes</primary>
+                                            <secondary>color scheme</secondary>
+                                        </indexterm>The color scheme to use for the terminal
+                                        emulator used by Kubernetes connections. It consists of a
+                                        semicolon-separated series of name-value pairs. Each
+                                        name-value pair is separated by a colon and assigns a value
+                                        to a color in the terminal emulator palette. For example, to
+                                        use blue text on white background by default, and change the
+                                        red color to a purple shade, you would specify:</para>
+                                    <informalexample>
+                                        <programlisting>foreground: rgb:00/00/ff;
+background: rgb:ff/ff/ff;
+color9: rgb:80/00/80</programlisting>
+                                    </informalexample>
+                                    <para>This format is similar to the color configuration format
+                                        used by Xterm, so Xterm color configurations can be easily
+                                        adapted for Guacamole. This parameter is optional. If not
+                                        specified, Guacamole will render text as gray over a black
+                                        background.</para>
+                                    <para>Possible color names are:</para>
+                                    <variablelist>
+                                        <varlistentry>
+                                            <term><constant>foreground</constant></term>
+                                            <listitem>
+                                                <para>Set the default foreground color.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>background</constant></term>
+                                            <listitem>
+                                                <para>Set the default background color.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>color&lt;n&gt;</constant></term>
+                                            <listitem>
+                                                <para>Set the color at index <code>&lt;n&gt;</code>
+                                                  on the Xterm 256-color palette. For example,
+                                                  <code>color9</code> refers to the red color.
+                                                </para>
+                                            </listitem>
+                                        </varlistentry>
+                                    </variablelist>
+                                    <para>Possible color values are:</para>
+                                    <variablelist>
+                                        <varlistentry>
+                                            <term><constant>rgb:RR/GG/BB</constant></term>
+                                            <listitem>
+                                                <para>Use the specified color in RGB format, with
+                                                  each component in hexadecimal. For example,
+                                                  <code>rgb:ff/00/00</code> specifies the color red.
+                                                  Note that each hexadecimal component can be one to
+                                                  four digits, but the effective values are always
+                                                  zero-extended or truncated to two digits; for
+                                                  example, <code>rgb:f/8/0</code>,
+                                                  <code>rgb:f0/80/00</code>, and
+                                                  <code>rgb:f0f/808/00f</code> all refer to the same
+                                                  effective color.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>color&lt;n&gt;</constant></term>
+                                            <listitem>
+                                                <para>Use the color currently assigned to index
+                                                  <code>&lt;n&gt;</code> on the Xterm 256-color
+                                                  palette. For example, <code>color9</code>
+                                                  specifies the current red color. Note that the
+                                                  color value is used rather than the color
+                                                  reference, so if <code>color9</code> is changed
+                                                  later in the color scheme configuration, that new
+                                                  color will not be reflected in this
+                                                  assignment.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                    </variablelist>
+                                    <para>For backward compatibility, Guacamole will also accept
+                                        four special values as the color scheme parameter:</para>
+                                    <variablelist>
+                                        <varlistentry>
+                                            <term><constant>black-white</constant></term>
+                                            <listitem>
+                                                <para>Black text over a white background.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>gray-black</constant></term>
+                                            <listitem>
+                                                <para>Gray text over a black background. This is the
+                                                  default color scheme.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>green-black</constant></term>
+                                            <listitem>
+                                                <para>Green text over a black background.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>white-black</constant></term>
+                                            <listitem>
+                                                <para>White text over a black background.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                    </variablelist>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>font-name</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>Kubernetes</primary>
+                                            <secondary>font</secondary>
+                                        </indexterm>The name of the font to use. This parameter is
+                                        optional. If not specified, the default of "monospace" will
+                                        be used instead.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>font-size</parameter></entry>
+                                <entry>
+                                    <para>The size of the font to use, in points. This parameter is
+                                        optional. If not specified, the default of 12 will be used
+                                        instead.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>read-only</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>Kubernetes</primary>
+                                            <secondary>read-only</secondary>
+                                        </indexterm>Whether this connection should be read-only. If
+                                        set to "true", no input will be accepted on the connection
+                                        at all. Users will only see the console of the Kubernetes
+                                        container. <emphasis>This parameter is optional.</emphasis>
+                                        If omitted, the connection will not be read-only.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>scrollback</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>Kubernetes</primary>
+                                            <secondary>scrollback</secondary>
+                                        </indexterm>The maximum number of rows to allow within the
+                                        terminal scrollback buffer. This parameter is optional. If
+                                        not specified, the scrollback buffer will be limited to a
+                                        maximum of 1000 rows.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="kubernetes-terminal-behavior">
+                <title>Controlling terminal behavior</title>
+                <para>In most cases, the default behavior for a terminal works without modification.
+                    However, when connecting to certain systems, particularly operating systems
+                    other than Linux, the terminal behavior may need to be tweaked to allow it to
+                    operate properly. The settings in this section control that behavior.</para>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>Kubernetes</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>backspace</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>Kubernetes</primary>
+                                            <secondary>backspace</secondary>
+                                        </indexterm>This parameter controls the ASCII code that the
+                                        backspace key sends to the remote system. Under most
+                                        circumstances this should not need to be adjusted; however,
+                                        if, when pressing the backspace key, you see control
+                                        characters (often either ^? or ^H) instead of seeing the
+                                        text erased, you may need to adjust this parameter. By
+                                        default the terminal sends ASCII code 127 (Delete) if this
+                                        option is not set.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>terminal-type</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>Kubernetes</primary>
+                                            <secondary>terminal type</secondary>
+                                        </indexterm>This parameter sets the terminal emulator type
+                                        string that is passed to the Kubernetes server. This
+                                        parameter is optional. If not specified,
+                                            &quot;<code>linux</code>&quot; is used as the terminal
+                                        emulator type by default.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="kubernetes-typescripts">
+                <title>Text session recording (typescripts)</title>
+                <para>The full, raw text content of Kubernetes sessions, including timing
+                    information, can be recorded automatically to a specified directory. This
+                    recording, also known as a "typescript", will be written to two files within the
+                    directory specified by <parameter>typescript-path</parameter>:
+                            <filename><replaceable>NAME</replaceable></filename>, which contains the
+                    raw text data, and <filename><replaceable>NAME</replaceable>.timing</filename>,
+                    which contains timing information, where <replaceable>NAME</replaceable> is the
+                    value provided for the <parameter>typescript-name</parameter> parameter.</para>
+                <para>This format is compatible with the format used by the standard UNIX
+                        <command>script</command> command, and can be replayed using
+                        <command>scriptreplay</command> (if installed). For example, to replay a
+                    typescript called "<replaceable>NAME</replaceable>", you would run:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <userinput>scriptreplay <replaceable>NAME</replaceable>.timing <replaceable>NAME</replaceable></userinput></screen>
+                </informalexample>
+                <important>
+                    <para>Guacamole will never overwrite an existing recording. If necessary, a
+                        numeric suffix like ".1", ".2", ".3", etc. will be appended to
+                            <replaceable>NAME</replaceable> to avoid overwriting an existing
+                        recording. If even appending a numeric suffix does not help, the session
+                        will simply not be recorded.</para>
+                </important>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>Kubernetes</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>typescript-path</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>Kubernetes</primary>
+                                            <secondary>typescripts</secondary>
+                                        </indexterm><indexterm>
+                                            <primary>Kubernetes</primary>
+                                            <secondary>text recording</secondary>
+                                        </indexterm>The directory in which typescript files should
+                                        be created. <emphasis>If a typescript needs to be recorded,
+                                            this parameter is required.</emphasis> Specifying this
+                                        parameter enables typescript recording. If this parameter is
+                                        omitted, no typescript will be recorded.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>create-typescript-path</parameter></entry>
+                                <entry>
+                                    <para>If set to "true", the directory specified by the
+                                            <parameter>typescript-path</parameter> parameter will
+                                        automatically be created if it does not yet exist. Only the
+                                        final directory in the path will be created - if other
+                                        directories earlier in the path do not exist, automatic
+                                        creation will fail, and an error will be logged.</para>
+                                    <para><emphasis>This parameter is optional.</emphasis> By
+                                        default, the directory specified by the
+                                            <parameter>typescript-path</parameter> parameter will
+                                        not automatically be created, and attempts to record
+                                        typescripts in a non-existent directory will be logged as
+                                        errors.</para>
+                                    <para>This parameter only has an effect if typescript recording
+                                        is enabled. If the <parameter>typescript-path</parameter> is
+                                        not specified, recording of typescripts will be disabled,
+                                        and this parameter will be ignored.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>typescript-name</parameter></entry>
+                                <entry>
+                                    <para>The base filename to use when determining the names for
+                                        the data and timing files of the typescript. <emphasis>This
+                                            parameter is optional.</emphasis> If omitted, the value
+                                        "typescript" will be used instead.</para>
+                                    <para>Each typescript consists of two files which are created
+                                        within the directory specified by
+                                            <parameter>typescript-path</parameter>:
+                                                <filename><replaceable>NAME</replaceable></filename>,
+                                        which contains the raw text data, and
+                                                <filename><replaceable>NAME</replaceable>.timing</filename>,
+                                        which contains timing information, where
+                                            <replaceable>NAME</replaceable> is the value provided
+                                        for the <parameter>typescript-name</parameter>
+                                        parameter.</para>
+                                    <para>This parameter only has an effect if typescript recording
+                                        is enabled. If the <parameter>typescript-path</parameter> is
+                                        not specified, recording of typescripts will be disabled,
+                                        and this parameter will be ignored.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="kubernetes-recording">
+                <title>Graphical session recording</title>
+                <para>In addition to text-based recordings, Kubernetes sessions can be recorded
+                    graphically. These recordings take the form of Guacamole protocol dumps and are
+                    recorded automatically to a specified directory. Recordings can be subsequently
+                    translated to a normal video stream using the <command>guacenc</command> utility
+                    provided with guacamole-server.</para>
+                <para>For example, to produce a video called "<replaceable>NAME</replaceable>.m4v"
+                    from the recording "<replaceable>NAME</replaceable>", you would run:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <userinput>guacenc <replaceable>/path/to/recording/NAME</replaceable></userinput></screen>
+                </informalexample>
+                <para>The <command>guacenc</command> utility has additional options for overriding
+                    default behavior, including tweaking the output format, which are documented in
+                    detail within the manpage:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <userinput>man guacenc</userinput></screen>
+                </informalexample>
+                <para>If recording of key events is explicitly enabled using the
+                        <parameter>recording-include-keys</parameter> parameter, recordings can also
+                    be translated into human-readable interpretations of the keys pressed during the
+                    session using the <command>guaclog</command> utility. The usage of
+                        <command>guaclog</command> is analogous to <command>guacenc</command>, and
+                    results in the creation of a new text file containing the interpreted
+                    events:</para>
+                <informalexample>
+                    <screen><prompt>$</prompt> <userinput>guaclog <replaceable>/path/to/recording/NAME</replaceable></userinput><computeroutput>
+guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.1.0
+guaclog: INFO: 1 input file(s) provided.
+guaclog: INFO: Writing input events from "<replaceable>/path/to/recording/NAME</replaceable>" to "<replaceable annotations="">/path/to/recording/NAME</replaceable>.txt" ...
+guaclog: INFO: All files interpreted successfully.</computeroutput>
+<prompt>$</prompt> </screen>
+                </informalexample>
+                <important>
+                    <para>Guacamole will never overwrite an existing recording. If necessary, a
+                        numeric suffix like ".1", ".2", ".3", etc. will be appended to
+                            <replaceable>NAME</replaceable> to avoid overwriting an existing
+                        recording. If even appending a numeric suffix does not help, the session
+                        will simply not be recorded.</para>
+                </important>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>Kubernetes</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>recording-path</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>Kubernetes</primary>
+                                            <secondary>graphical recording</secondary>
+                                        </indexterm>The directory in which screen recording files
+                                        should be created. <emphasis>If a graphical recording needs
+                                            to be created, then this parameter is
+                                            required.</emphasis> Specifying this parameter enables
+                                        graphical screen recording. If this parameter is omitted, no
+                                        graphical recording will be created.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>create-recording-path</parameter></entry>
+                                <entry>
+                                    <para>If set to "true", the directory specified by the
+                                            <parameter>recording-path</parameter> parameter will
+                                        automatically be created if it does not yet exist. Only the
+                                        final directory in the path will be created - if other
+                                        directories earlier in the path do not exist, automatic
+                                        creation will fail, and an error will be logged.</para>
+                                    <para><emphasis>This parameter is optional.</emphasis> By
+                                        default, the directory specified by the
+                                            <parameter>recording-path</parameter> parameter will not
+                                        automatically be created, and attempts to create recordings
+                                        within a non-existent directory will be logged as
+                                        errors.</para>
+                                    <para>This parameter only has an effect if graphical recording
+                                        is enabled. If the <parameter>recording-path</parameter> is
+                                        not specified, graphical session recording will be disabled,
+                                        and this parameter will be ignored.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>recording-name</parameter></entry>
+                                <entry>
+                                    <para>The filename to use for any created recordings.
+                                            <emphasis>This parameter is optional.</emphasis> If
+                                        omitted, the value "recording" will be used instead.</para>
+                                    <para>This parameter only has an effect if graphical recording
+                                        is enabled. If the <parameter>recording-path</parameter> is
+                                        not specified, graphical session recording will be disabled,
+                                        and this parameter will be ignored.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>recording-exclude-output</parameter></entry>
+                                <entry>
+                                    <para>If set to "true", graphical output and other data normally
+                                        streamed from server to client will be excluded from the
+                                        recording, producing a recording which contains only user
+                                        input events. <emphasis>This parameter is
+                                            optional.</emphasis> If omitted, graphical output will
+                                        be included in the recording.</para>
+                                    <para>This parameter only has an effect if graphical recording
+                                        is enabled. If the <parameter>recording-path</parameter> is
+                                        not specified, graphical session recording will be disabled,
+                                        and this parameter will be ignored.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>recording-exclude-mouse</parameter></entry>
+                                <entry>
+                                    <para>If set to "true", user mouse events will be excluded from
+                                        the recording, producing a recording which lacks a visible
+                                        mouse cursor. <emphasis>This parameter is
+                                            optional.</emphasis> If omitted, mouse events will be
+                                        included in the recording.</para>
+                                    <para>This parameter only has an effect if graphical recording
+                                        is enabled. If the <parameter>recording-path</parameter> is
+                                        not specified, graphical session recording will be disabled,
+                                        and this parameter will be ignored.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>recording-include-keys</parameter></entry>
+                                <entry>
+                                    <para>If set to "true", user key events will be included in the
+                                        recording. The recording can subsequently be passed through
+                                        the <command>guaclog</command> utility to produce a
+                                        human-readable interpretation of the keys pressed during the
+                                        session. <emphasis>This parameter is optional.</emphasis> If
+                                        omitted, key events will be not included in the
+                                        recording.</para>
+                                    <para>This parameter only has an effect if graphical recording
+                                        is enabled. If the <parameter>recording-path</parameter> is
+                                        not specified, graphical session recording will be disabled,
+                                        and this parameter will be ignored.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="adding-kubernetes">
+                <title>Adding a Kubernetes connection</title>
+                <indexterm>
+                    <primary>Kubernetes</primary>
+                    <secondary>adding</secondary>
+                </indexterm>
+                <para>If you are using the default authentication built into Guacamole, and you wish
+                    to grant access to a Kubernetes connection to a particular user, you need to
+                    locate the <code>&lt;authorize></code> section for that user within your
+                        <filename>user-mapping.xml</filename>, and add a section like the following
+                    within it:</para>
+                <programlisting>&lt;connection name="<replaceable>Unique Name</replaceable>">
+    &lt;protocol>kubernetes&lt;/protocol>
+    &lt;param name="hostname"><replaceable>localhost</replaceable>&lt;/param>
+    &lt;param name="pod"><replaceable>mypod</replaceable>&lt;/param>
+&lt;/connection></programlisting>
+                <para>If added exactly as above, a new connection named "<replaceable>Unique
+                        Name</replaceable>" will be available to the user associated with the
+                        <code>&lt;authorize></code> section containing it. The connection will
+                    connect to the Kubernetes server running on <replaceable>localhost</replaceable>
+                    and attach to the first container of the pod
+                    <replaceable>mypod</replaceable>.</para>
+            </section>
+        </section>
         <section xml:id="parameter-tokens">
             <title>Parameter tokens</title>
             <para>The values of connection parameters can contain "tokens" which will be replaced by
