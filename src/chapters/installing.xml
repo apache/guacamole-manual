@@ -62,6 +62,10 @@
             <secondary>compiling</secondary>
         </indexterm>
         <indexterm>
+            <primary><package>libguac-client-kubernetes</package></primary>
+            <secondary>compiling</secondary>
+        </indexterm>
+        <indexterm>
             <primary><package>guacamole-server</package></primary>
             <secondary>compiling</secondary>
         </indexterm>
@@ -276,6 +280,10 @@
                     <para>Telnet depends on <package>libtelnet</package> and
                             <package>Pango</package>.</para>
                 </listitem>
+                <listitem>
+                    <para>Kubernetes support depends on <package>libwebsockets</package>,
+                            <package>OpenSSL</package>, and <package>Pango</package>.</para>
+                </listitem>
             </itemizedlist>
             <para>The <command>guacenc</command> utility, provided by
                     <package>guacamole-server</package> to translate screen recordings into video,
@@ -359,9 +367,10 @@
                         <row>
                             <entry><link xl:href="http://www.pango.org/">Pango</link></entry>
                             <entry>
-                                <para>Pango is a text layout library which Guacamole's SSH and
-                                    telnet support uses to render text. If you do not wish to build
-                                    SSH or telnet support, this library is not needed.</para>
+                                <para>Pango is a text layout library which Guacamole uses to render
+                                    text for protocols that require a terminal (Kubernetes, SSH, and
+                                    telnet). If you do not wish to build any terminal-based protocol
+                                    support, this library is not needed.</para>
                                 <informaltable frame="none" rowheader="firstcol">
                                     <tgroup cols="2">
                                         <colspec colname="c1" colnum="1" colwidth="1.0*"/>
@@ -453,6 +462,30 @@
                             </entry>
                         </row>
                         <row>
+                            <entry><link xl:href="https://libwebsockets.org/">libwebsockets</link></entry>
+                            <entry>
+                                <para>libwebsockets is required for Kubernetes support. If you do
+                                    not wish to build Kubernetes support, this library is not
+                                    needed.</para>
+                                <informaltable frame="none" rowheader="firstcol">
+                                    <tgroup cols="2">
+                                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                                        <tbody>
+                                            <row>
+                                                <entry>Debian / Ubuntu package</entry>
+                                                <entry><package>libwebsockets-dev</package></entry>
+                                            </row>
+                                            <row>
+                                                <entry>Fedora / CentOS / RHEL package</entry>
+                                                <entry><package>libwebsockets-devel</package></entry>
+                                            </row>
+                                        </tbody>
+                                    </tgroup>
+                                </informaltable>
+                            </entry>
+                        </row>
+                        <row>
                             <entry><link
                                     xl:href="http://www.freedesktop.org/wiki/Software/PulseAudio/"
                                     >PulseAudio</link></entry>
@@ -488,10 +521,12 @@
                                 <para>If you have libssl installed, guacd will be built with SSL
                                     support, allowing communication between the web application and
                                     guacd to be encrypted. This library is also required for SSH
-                                    support for the sake of manipulating public/private keys.</para>
+                                    support, for manipulating public/private keys, and for
+                                    Kubernetes support, for SSL/TLS connections to the Kubernetes
+                                    server.</para>
                                 <para>Without SSL support, there will be no option to encrypt
-                                    communication to guacd, and support for SSH cannot be
-                                    built.</para>
+                                    communication to guacd, and support for SSH and Kubernetes
+                                    cannot be built.</para>
                                 <informaltable frame="none" rowheader="firstcol">
                                     <tgroup cols="2">
                                         <colspec colname="c1" colnum="1" colwidth="1.0*"/>
@@ -648,15 +683,17 @@ guacamole-server version 1.1.0
      libVNCServer ........ yes
      libvorbis ........... yes
      libpulse ............ yes
+     libwebsockets ....... yes
      libwebp ............. yes
      wsock32 ............. no
 
    Protocol support:
 
-      RDP ....... yes
-      SSH ....... yes
-      Telnet .... yes
-      VNC ....... yes
+      Kubernetes .... yes
+      RDP ........... yes
+      SSH ........... yes
+      Telnet ........ yes
+      VNC ........... yes
 
    Services / tools:
 
@@ -695,15 +732,16 @@ Type "make" to compile guacamole-server.
                 something you wanted is missing, simply install the corresponding dependencies and
                 run <filename>configure</filename> again.</para>
             <important>
-                <para>SSH and telnet support both require that fonts are installed in order to
-                    function - output from the terminal cannot be rendered otherwise. Support for
-                    SSH and telnet will build just fine if fonts are not installed, but it will fail
-                    to connect when used:</para>
+                <para>All protocols that require a terminal (Kubernetes, SSH, and telnet) require
+                    that fonts are installed on the Guacamole server in order to function, as output
+                    from the terminal cannot be rendered otherwise. Support for these protocols will
+                    build just fine if fonts are not installed, but it will fail to connect when
+                    used:</para>
                 <informalexample>
                     <screen>Aug 23 14:09:45 my-server guacd[5606]: Unable to get font "monospace"</screen>
                 </informalexample>
-                <para>If SSH or telnet connections are not working and you see such a message in
-                    syslog, install fonts and try again.</para>
+                <para>If terminal-based connections are not working and you see such a message in
+                    syslog, you should make sure fonts are installed and try again.</para>
             </important>
             <para>Once <filename>configure</filename> is finished, just type
                     "<userinput>make</userinput>", and it will <package>guacamole-server</package>

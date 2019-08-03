@@ -17,7 +17,7 @@
             <listitem>
                 <para>Provides the <package>guacd</package> daemon, built from the released
                         <package>guacamole-server</package> source with support for VNC, RDP, SSH,
-                    and telnet.</para>
+                    telnet, and Kubernetes.</para>
             </listitem>
         </varlistentry>
         <varlistentry>
@@ -47,10 +47,10 @@
     <section xml:id="guacd-docker-image">
         <title>Running the <package>guacd</package> Docker image</title>
         <para>The <package>guacd</package> Docker image is built from the released
-                <package>guacamole-server</package> source with support for VNC, RDP, SSH, and
-            telnet. Common pitfalls like installing the required dependencies, installing fonts for
-            SSH or telnet, and ensuring the FreeRDP plugins are installed to the correct location
-            are all taken care of. It will simply just work.</para>
+                <package>guacamole-server</package> source with support for VNC, RDP, SSH, telnet,
+            and Kubernetes. Common pitfalls like installing the required dependencies, installing
+            fonts for SSH, telnet, or Kubernetes, and ensuring the FreeRDP plugins are installed to
+            the correct location are all taken care of. It will simply just work.</para>
         <section xml:id="guacd-docker-guacamole">
             <title>Running <package>guacd</package> for use by the Guacamole Docker image</title>
             <para>When running the <package>guacd</package> image with the intent of linking to a
