@@ -80,6 +80,7 @@
         <xi:include href="instructions/client/handshake/image.xml"/>
         <xi:include href="instructions/client/handshake/select.xml"/>
         <xi:include href="instructions/client/handshake/size.xml"/>
+        <xi:include href="instructions/client/handshake/timezone.xml"/>
         <xi:include href="instructions/client/handshake/video.xml"/>
     </section>
     <section xml:id="server-handshake-instructions">

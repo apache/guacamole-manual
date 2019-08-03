@@ -1809,6 +1809,46 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                                     </variablelist>
                                 </entry>
                             </row>
+                            <row>
+                                <entry><parameter>timezone</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>timezone</secondary>
+                                        </indexterm>The timezone that the client
+                                    should send to the server for configuring the
+                                    local time display of that server.  The
+                                    format of the timezone is in the standard
+                                    IANA key zone format, which is the format
+                                    used in UNIX/Linux.  This will be converted
+                                    by RDP into the correct format for Windows.
+                                    </para>
+                                    <para>The timezone is detected and will be
+                                    passed to the server during the handshake
+                                    phase of the connection, and may used by
+                                    protocols, like RDP, that support it.  This
+                                    parameter can be used to override the value
+                                    detected and passed during the handshake, or
+                                    can be used in situations where guacd does
+                                    not support passing the timezone parameter
+                                    during the handshake phase (guacd versions
+                                    prior to 1.1.0).</para>
+                                    <para>Support for forwarding the client
+                                    timezone varies by RDP server implementation.
+                                    For example, with Windows, support for
+                                    forwarding timezones is only present in
+                                    Windows Server with Remote Desktop Services
+                                    (RDS, formerly known as Terminal Services)
+                                    installed.  Windows Server installations in
+                                    admin mode, along with Windows workstation
+                                    versions, do not allow the timezone to be
+                                    forwarded.  Other server implementations,
+                                    for example, xrdp, may not implement this
+                                    feature at all.  Consult the documentation
+                                    for the RDP server to determine whether or
+                                    not this feature is supported.</para>
+                                </entry>
+                            </row>
                         </tbody>
                     </tgroup>
                 </informaltable>
@@ -3392,6 +3432,40 @@ color9: rgb:80/00/80</programlisting>
                                         will only have an effect if the SSH server allows the
                                             <envar>LANG</envar> environment variable to be set by
                                         SSH clients.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>timezone</parameter></entry>
+                                <entry>
+                                    <para>
+                                        <indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>timezone</secondary>
+                                        </indexterm>This parameter allows you
+                                        to control the timezone that is sent
+                                        to the server over the SSH connection,
+                                        which will change the way local time is
+                                        displayed on the server.</para>
+                                    <para>
+                                        The mechanism used to do this over SSH
+                                        connections is by setting the
+                                        <envar>TZ</envar> variable on the SSH
+                                        connection to the timezone specified by
+                                        this parameter.  This means that the SSH
+                                        server must allow the <envar>TZ</envar>
+                                        variable to be set/overriden - many SSH
+                                        server implementations have this disabled
+                                        by default.  To get this to work, you may
+                                        need to modify the configuration of the
+                                        SSH server and explicitly allow for
+                                        <envar>TZ</envar> to be set/overriden.
+                                    </para>
+                                    <para>
+                                        The available values of this parameter are
+                                        standard IANA key zone format timezones,
+                                        and the value will be sent directly to
+                                        the server in this format.
+                                    </para>
                                 </entry>
                             </row>
                         </tbody>
