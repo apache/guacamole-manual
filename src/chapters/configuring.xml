@@ -5284,28 +5284,28 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                         attributes <varname>firstname</varname>, <varname>lastname</varname>,
                         <varname>email</varname>, and <varname>mobile</varname> would produce the
                         following tokens:</para>
-                    <variablelist>
-                        <varlistentry>
-                            <term>
+                    <itemizedlist>
+                        <listitem>
+                            <para>
                                 <varname>${CAS_FIRSTNAME}</varname>
-                            </term>
-                        </varlistentry>
-                        <varlistentry>
-                            <term>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
                                 <varname>${CAS_LASTNAME}</varname>
-                            </term>
-                        </varlistentry>
-                        <varlistentry>
-                            <term>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
                                 <varname>${CAS_EMAIL}</varname>
-                            </term>
-                        </varlistentry>
-                        <varlistentry>
-                            <term>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
                                 <varname>${CAS_MOBILE}</varname>
-                            </term>
-                        </varlistentry>
-                    </variablelist>
+                            </para>
+                        </listitem>
+                    </itemizedlist>
                 </section>
             </section>
         </section>
