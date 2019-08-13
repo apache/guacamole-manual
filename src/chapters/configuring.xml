@@ -5181,6 +5181,9 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
         </section>
         <section xml:id="parameter-tokens">
             <title>Parameter tokens</title>
+            <indexterm>
+                <primary>tokens</primary>
+            </indexterm>
             <para>The values of connection parameters can contain "tokens" which will be replaced by
                 Guacamole when used. These tokens allow the values of connection parameters to vary
                 dynamically by the user using the connection, and provide a simple means of
@@ -5254,6 +5257,57 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                 two different users access the same connection at the same time, both users will be
                 connected independently of each other using different sets of connection
                 parameters.</para>
+            <section xml:id="extension-tokens">
+                <title>Extension-specific tokens</title>
+                <indexterm>
+                    <primary>tokens</primary>
+                    <secondary>extension-specific</secondary>
+                </indexterm>
+                <para>Each extension can also implement its own arbitrary tokens that can dynamically
+                    fill in values provided by the extension.  Within these extensions, attribute
+                    names are canonicalized into a standard format that consists of all capital
+                    letters separated by underscores.</para>
+                <section xml:id="cas-tokens">
+                    <title>CAS Extension Tokens</title>
+                    <indexterm>
+                        <primary>tokens</primary>
+                        <secondary>cas</secondary>
+                    </indexterm>
+                    <para>The CAS extension will read attributes provided by the CAS server when
+                        a user is authenticated and will make those attributes available as
+                        tokens.  The CAS server must be specifically configured to release certain
+                        attributes to the client (Guacamole), and configuration of that is outside
+                        the scope of this document.  Any attribute that the CAS server is
+                        configured to release should be available to Guacamole as a token for
+                        use within a connection.  The token name will be prepended with the
+                        <constant>CAS_</constant> prefix.  A CAS server configured to release
+                        attributes <varname>firstname</varname>, <varname>lastname</varname>,
+                        <varname>email</varname>, and <varname>mobile</varname> would produce the
+                        following tokens:</para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>
+                                <varname>${CAS_FIRSTNAME}</varname>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <varname>${CAS_LASTNAME}</varname>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <varname>${CAS_EMAIL}</varname>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <varname>${CAS_MOBILE}</varname>
+                            </para>
+                        </listitem>
+                    </itemizedlist>
+                </section>
+            </section>
         </section>
     </section>
     <section xml:id="guacd.conf">
