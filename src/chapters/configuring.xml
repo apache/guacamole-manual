@@ -5546,6 +5546,52 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                         </listitem>
                     </itemizedlist>
                 </section>
+                <section xml:id="ldap-tokens">
+                    <title>LDAP Extension Tokens</title>
+                    <indexterm>
+                        <primary>tokens</primary>
+                        <secondary>ldap</secondary>
+                    </indexterm>
+                    <para>The LDAP extension will read user attributes provided by the LDAP
+                        server and specified in the <filename>guacamole.properties</filename>
+                        file.  The attributes retrieved for a user are configured using the
+                        <parameter>ldap-user-attributes</parameter> parameter.  The user must
+                        be able to read the attribute values from their own LDAP object.
+                        The token name will be prepended with the <constant>LDAP_</constant>
+                        prefix.  As an example, configuring the following line in
+                        <filename>guacamole.properties</filename>:</para>
+                    <informalexample><programlisting>ldap-user-attributes: cn, givenName, sn, mobile, mail
+                        </programlisting></informalexample>
+                    <para>will produce the below tokens that can be used in connection
+                            parameters:</para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>
+                                <varname>${LDAP_CN}</varname>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <varname>${LDAP_GIVENNAME}</varname>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <varname>${LDAP_SN}</varname>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <varname>${LDAP_MOBILE}</varname>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <varname>${LDAP_MAIL}</varname>
+                            </para>
+                        </listitem>
+                    </itemizedlist>
+                </section>
             </section>
         </section>
     </section>
