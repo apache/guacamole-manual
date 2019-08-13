@@ -549,7 +549,8 @@ guacd-port:     4822</programlisting>
                 <title>Authentication</title>
                 <para>The VNC standard defines only password based authentication. Other
                     authentication mechanisms exist, but are non-standard or proprietary. Guacamole
-                    supports only the password method.</para>
+                    currently supports both standard password-only based authentication, as well
+                    as username and password authentication.</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
@@ -565,6 +566,16 @@ guacd-port:     4822</programlisting>
                             </row>
                         </thead>
                         <tbody>
+                            <row>
+                                <entry><parameter>username</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>VNC</primary>
+                                            <secondary>username</secondary>
+                                        </indexterm>The username to use when attempting
+                                        authentication, if any. This parameter is optional.</para>
+                                </entry>
+                            </row>
                             <row>
                                 <entry><parameter>password</parameter></entry>
                                 <entry>
