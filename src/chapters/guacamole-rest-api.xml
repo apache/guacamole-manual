@@ -1,0 +1,836 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xml:id="guacamole-rest-api" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en" xmlns:xl="http://www.w3.org/1999/xlink"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Guacamole REST API</title>
+    <indexterm>
+        <primary>API</primary>
+        <secondary>JavaScript</secondary>
+    </indexterm>
+    <indexterm>
+        <primary>guacamole-rest-api</primary>
+    </indexterm>
+    <para>
+        There are many ways to communicate with the Guacamole protocol, but it is
+        also beneficial to understand how the API works. This allows you to have the
+        flexibility of incorporate Guacamole within your application
+        without having to worry about which language to use or what packages
+        to download.
+    </para>
+
+
+    <section xml:id="base_url">
+        <title>Base URL</title>
+        <para>There are four things you will need to set the base url before
+        you can start talking to the endpoints. </para>
+
+        <itemizedlist>
+            <listitem>
+                <para>Method</para>
+                <emphasis>
+                Protocol your Guacamole instance is using e.g. http, https
+                </emphasis>
+            </listitem>
+            <listitem>
+                <para>Hostname</para>
+                <emphasis>
+                Where your Guacamole is hosted e.g. guacamole.example.com
+                </emphasis>
+            </listitem>
+            <listitem>
+                <para>URL Path</para>
+                <emphasis>
+                The pathway to your Guacamole (where you can see the login page) e.g /guacamole
+                </emphasis>
+            </listitem>
+            <listitem>
+                <para>Data Source</para>
+                <emphasis>
+                Database your Guacamole is running on e.g. mysql, postgresql
+                </emphasis>
+            </listitem>
+        </itemizedlist>
+
+        <para>When you have the data listed above you can set your base url which will look
+            like the url below and you can start talking to the API. </para>
+
+        <informalexample>
+        <programlisting><replaceable>http://</replaceable> <replaceable>guacamole.example.com</replaceable> <replaceable>/guacamole</replaceable> /api/data/ <replaceable>mysql</replaceable></programlisting>
+        </informalexample>
+
+    </section>
+
+    <section xml:id="authentication">
+        <title>Authentication</title>
+        <para>You will need to request an authentication token before being able to
+        call any endpoint.</para>
+
+        <para>You can request your tokens from the endpoint below:
+        <informalexample><programlisting>/api/tokens</programlisting></informalexample>
+        </para>
+
+        <para>Include your username and password in the form/body of the request.</para>
+        <informalexample>
+<programlisting>{
+    "username": <replaceable>"adminuser"</replaceable>,
+    "password": <replaceable>"adminpassword"</replaceable>
+}</programlisting>
+        </informalexample>
+
+        <para>You will recieve the following authentication object: </para>
+
+        <informalexample>
+<programlisting>{
+    authToken: <replaceable>{token}</replaceable>,
+    username: <replaceable>'adminuser'</replaceable>,
+    dataSource: <replaceable>'mysql'</replaceable>,
+    availableDataSources: <replaceable>[ 'mysql', 'mysql-shared' ]</replaceable>
+}</programlisting>
+        </informalexample>
+
+        <para>You can now use this token token query any endpoint by appending it to the url:</para>
+
+        <informalexample>
+<programlisting>
+api/session/data/<replaceable>mysql</replaceable>/activeConnections?token=<replaceable>{token}</replaceable>
+</programlisting>
+        </informalexample>
+
+        <important>
+            <para>Make sure you keep your authentication details safe and unexposed.</para>
+        </important>
+
+    </section>
+
+    <section xml:id="connections">
+        <title>Connections</title>
+        <para>The following endpoints can be used to retrieved data regarding connections
+        in your Guacamole instance.</para>
+
+        <section xml:id="active_connections">
+            <para>Return all active connections.</para>
+
+            <title> Returning Active Connections </title>
+            <informalexample>
+            <programlisting>GET : api/session/data/<replaceable>{data_source}</replaceable>/activeConnections
+            </programlisting>
+            </informalexample>
+
+            <para>Returns</para>
+            <informalexample>
+            <programlisting>
+{
+    "644227fd-6d7f-2b5d-8b37-224323d1ea58": {
+        "identifier": "644227fd-6d7f-2b5d-8b37-224323d1ea58",
+        "connectionIdentifier": "14",
+        "startDate": 1560240188568,
+        "remoteHost": "10.126.251.39",
+        "username": "adminuser"
+    }
+}
+            </programlisting>
+            </informalexample>
+
+        </section>
+        <section xml:id="all_connection_groups">
+            <para>Return all child connections and connection groups.</para>
+
+            <title>All Connections and Connection Groups</title>
+            <informalexample>
+            <programlisting>GET : api/session/data/<replaceable>{data_source}</replaceable>/connectionGroups/ROOT/tree
+            </programlisting>
+            </informalexample>
+
+            <para>Returns</para>
+            <informalexample>
+            <programlisting>
+{
+    "name": "ROOT",
+    "identifier": "ROOT",
+    "type": "ORGANIZATIONAL",
+    "activeConnections": 0,
+    "childConnectionGroups": [
+        {
+            "name": "example_group_name",
+            "identifier": "1",
+            "parentIdentifier": "ROOT",
+            "type": "ORGANIZATIONAL",
+            "activeConnections": 0,
+            "attributes": {
+                "max-connections": null,
+                "max-connections-per-user": null,
+                "enable-session-affinity": ""
+           },
+           ...
+    ],
+    "childConnections": [
+        ...
+    ],
+    "attributes": {}
+}
+            </programlisting>
+            </informalexample>
+
+        </section>
+        <section xml:id="connection_groups">
+            <para>Returns connection groups.</para>
+
+            <title>Returning All Connection Groups</title>
+            <informalexample>
+            <programlisting>POST : api/session/data/<replaceable>{data_source}</replaceable>/connectionGroups
+            </programlisting>
+            </informalexample>
+
+            <para>Returns</para>
+            <informalexample>
+            <programlisting>
+{
+    "1": {
+        "name": <replaceable>{name}</replaceable>,
+        "identifier": "1",
+        "parentIdentifier": "ROOT",
+        "type": "ORGANIZATIONAL",
+        "activeConnections": 0,
+        "attributes": {
+            "max-connections": null,
+            "max-connections-per-user": null,
+            "enable-session-affinity": ""
+        }
+    },
+    ...
+}
+            </programlisting>
+            </informalexample>
+
+        </section>
+        <section xml:id="delect_connection_group">
+            <para>Delete a connection group.</para>
+
+            <title>Deleting a Connection Group</title>
+            <informalexample>
+            <programlisting>DELETE : api/session/data/<replaceable>{data_source}</replaceable>/connectionGroups/<replaceable>{identifier}</replaceable>
+            </programlisting>
+            </informalexample>
+
+            <para>Returns</para>
+            <informalexample>
+            <programlisting>None</programlisting>
+            </informalexample>
+
+        </section>
+        <section xml:id="edit_connection_group">
+            <para>Editing a connection group.</para>
+
+            <title>Editing a Connection Group</title>
+
+            <informalexample>
+                <programlisting>PUT : api/session/data/<replaceable>{data_source}</replaceable>/connectionGroups/<replaceable>{identifier}</replaceable></programlisting>
+                <emphasis><replaceable>{identifier}</replaceable> is the identifier property retrieved from one of the above API calls.</emphasis>
+            </informalexample>
+
+
+            <para>Example Payload</para>
+            <informalexample>
+<programlisting>
+{
+    "parentIdentifier":"ROOT",
+    "name":"New Connection Name",
+    "type":"ORGANIZATIONAL",
+    "attributes": {
+        "max-connections":"",
+        "max-connections-per-user":""
+    }
+}
+</programlisting>
+            </informalexample>
+
+            <para>Returns</para>
+            <informalexample>
+<programlisting>
+{
+    "name": "New Connection Name",
+    "identifier": "3",
+    "parentIdentifier": "ROOT",
+    "type": "ORGANIZATIONAL",
+    "activeConnections": 0,
+    "attributes": {
+        "max-connections": null,
+        "max-connections-per-user": null,
+        "enable-session-affinity": ""
+    }
+}
+</programlisting>
+            </informalexample>
+
+        </section>
+        <section xml:id="get_connections">
+            <para>Return all connections.</para>
+
+            <title>Returning All Connections</title>
+
+            <informalexample>
+                <programlisting>GET : api/session/data/<replaceable>{data_source}</replaceable>/connections</programlisting>
+            </informalexample>
+
+            <para>Returns</para>
+            <informalexample>
+<programlisting>
+{
+    "1": {
+        "name": "Connection Name",
+        "identifier": "1",
+        "parentIdentifier": "ROOT",
+        "protocol": "ssh",
+        "attributes": {
+            "guacd-encryption": null,
+            "failover-only": null,
+            "weight": null,
+            "max-connections": null,
+            "guacd-hostname": null,
+            "guacd-port": null,
+            "max-connections-per-user": null
+        },
+        "activeConnections": 0,
+        "lastActive": 1559870652000
+    },
+    ...
+}
+</programlisting>
+            </informalexample>
+
+        </section>
+        <section xml:id="add_connections">
+            <para>Add a connection.</para>
+
+            <title>Adding a Connection</title>
+
+            <informalexample>
+                <programlisting>POST : api/session/data/<replaceable>{data_source}</replaceable>/connections</programlisting>
+            </informalexample>
+
+            <para>Example Payload (protocol dependent)</para>
+            <informalexample>
+<programlisting>
+// RDP Connection Payload
+{
+    "name":"",
+    "identifier":"",
+    "parentIdentifier":"ROOT",
+    "protocol":"rdp",
+    "attributes": {
+        "max-connections":"","max-connections-per-user":""
+    },
+    "activeConnections":0,
+    "parameters": {
+        "disable-audio":"",
+        "server-layout":"",
+        "domain":"",
+        "hostname":"",
+        "enable-font-smoothing":"",
+        "security":"rdp",
+        "port":"3389",
+        "disable-auth":"",
+        "ignore-cert":"",
+        "console":"",
+        "width":"",
+        "height":"",
+        "dpi":"",
+        "color-depth":"",
+        "console-audio":"",
+        "enable-printing":"",
+        "enable-drive":"",
+        "create-drive-path":"",
+        "enable-wallpaper":"",
+        "enable-theming":"",
+        "enable-full-window-drag":"",
+        "enable-desktop-composition":"",
+        "enable-menu-animations":"",
+        "preconnection-id":"",
+        "enable-sftp":"",
+        "sftp-port":""
+    }
+}
+
+// VNC Connection Payload
+{
+    "parentIdentifier": "ROOT",
+    "name": "",
+    "protocol": "vnc",
+    "parameters": {
+        "port": "5900",
+        "read-only": "",
+        "swap-red-blue": "",
+        "cursor": "",
+        "color-depth": "",
+        "clipboard-encoding": "",
+        "dest-port": "",
+        "create-recording-path": "",
+        "enable-sftp": "",
+        "sftp-port": "",
+        "sftp-server-alive-interval": "",
+        "enable-audio": "",
+        "hostname": "",
+        "password": ""
+    },
+    "attributes": {
+        "max-connections": "",
+        "max-connections-per-user": "",
+        "weight": "",
+        "failover-only": "",
+        "guacd-port": "",
+        "guacd-encryption": "",
+        "guacd-hostname": ""
+    }
+}
+
+// SSH Connection Payload
+{
+    'activeConnections': 0,
+    'attributes': {
+        'max-connections': '',
+        'max-connections-per-user': ''
+    },
+    'identifier': '',
+    'name': '',
+    'parameters': {
+        'hostname': '',
+        'password': '',
+        'port': '22',
+        'username': ''
+    },
+    'parentIdentifier': 'ROOT',
+    'protocol': 'ssh'
+}
+</programlisting>
+            </informalexample>
+
+            <para>Returns</para>
+            <informalexample>
+<programlisting>
+{
+    "name": "New Connection Name",
+    "identifier": "22",
+    "parentIdentifier": "ROOT",
+    "protocol": "ssh",
+    "attributes": {
+        "guacd-encryption": null,
+        "failover-only": null,
+        "weight": null,
+        "max-connections": "1",
+        "guacd-hostname": null,
+        "guacd-port": null,
+        "max-connections-per-user": "1"
+    },
+    "activeConnections": 0,
+    "lastActive": 1559895631000
+}
+</programlisting>
+            </informalexample>
+
+        </section>
+        <section xml:id="delete_connections">
+            <para>Delete a connection.</para>
+
+            <title>Deleting a Connection</title>
+
+            <informalexample>
+                <programlisting>DELETE : api/session/data/<replaceable>{data_source}</replaceable>/connections/<replaceable>{identifier}</replaceable></programlisting>
+                <emphasis><replaceable>{identifier}</replaceable> is the identifier property retrieved from one of the above API calls.</emphasis>
+            </informalexample>
+
+            <para>Returns</para>
+            <informalexample>
+<programlisting>
+{
+    "name": "Example Name",
+    "identifier": "3",
+    "parentIdentifier": "ROOT",
+    "protocol": "ssh",
+    "attributes": {
+        "guacd-encryption": null,
+        "failover-only": null,
+        "weight": null,
+        "max-connections": "1",
+        "guacd-hostname": null,
+        "guacd-port": null,
+        "max-connections-per-user": "1"
+    },
+    "activeConnections": 0,
+    "lastActive": 1559895631000
+}
+</programlisting>
+            </informalexample>
+
+        </section>
+        <section xml:id="get_connection">
+            <para>Return a connection.</para>
+
+            <title>Returning a Connection</title>
+
+            <informalexample>
+                <programlisting>GET : api/session/data/<replaceable>{data_source}</replaceable>/connections/<replaceable>{identifier}</replaceable></programlisting>
+                <emphasis><replaceable>{identifier}</replaceable> is the identifier property retrieved from one of the above API calls.</emphasis>
+            </informalexample>
+
+            <para>Returns</para>
+            <informalexample>
+<programlisting>
+{
+    "name": "Example Name",
+    "identifier": "2",
+    "parentIdentifier": "ROOT",
+    "protocol": "ssh",
+    "attributes": {
+        "guacd-encryption": null,
+        "failover-only": null,
+        "weight": null,
+        "max-connections": "1",
+        "guacd-hostname": null,
+        "guacd-port": null,
+        "max-connections-per-user": "1"
+    },
+    "activeConnections": 0,
+    "lastActive": 1559895631000
+}
+</programlisting>
+            </informalexample>
+
+        </section>
+        <section xml:id="edit_connection">
+            <para>Edit a connection.</para>
+
+            <title>Editing a Connection</title>
+
+            <informalexample>
+                <programlisting>PUT : api/session/data/<replaceable>{data_source}</replaceable>/connections/<replaceable>{identifier}</replaceable></programlisting>
+                <emphasis><replaceable>{identifier}</replaceable> is the identifier property retrieved from one of the above API calls.</emphasis>
+            </informalexample>
+
+            <para>Example Payload</para>
+            <informalexample>
+<programlisting>
+{
+    "name":"New Connection Name",
+    "parentIdentifier":"ROOT",
+    "protocol":"rdp",
+    "attributes":{"max-connections":"","max-connections-per-user":""},
+    "activeConnections":0,
+    "parameters": {
+        "disable-audio":"true",
+        "server-layout":"fr-fr-azerty",
+        "domain":"dt",
+        "hostname":"127.0.0.1",
+        "enable-font-smoothing":"true",
+        "security":"rdp",
+        "port":"3389",
+        "disable-auth":"",
+        "ignore-cert":"",
+        "console":"",
+        "width":"",
+        "height":"",
+        "dpi":"",
+        "color-depth":"",
+        "console-audio":"",
+        "enable-printing":"",
+        "enable-drive":"",
+        "create-drive-path":"",
+        "enable-wallpaper":"",
+        "enable-theming":"",
+        "enable-full-window-drag":"",
+        "enable-desktop-composition":"",
+        "enable-menu-animations":"",
+        "preconnection-id":"",
+        "enable-sftp":"",
+        "sftp-port":""
+    }
+}
+</programlisting>
+            </informalexample>
+
+            <para>Returns</para>
+            <informalexample>
+<programlisting>
+{
+    "name": "New Connection Name",
+    "identifier": "2",
+    "parentIdentifier": "ROOT",
+    "protocol": "ssh",
+    "attributes": {
+        "guacd-encryption": null,
+        "failover-only": null,
+        "weight": null,
+        "max-connections": "1",
+        "guacd-hostname": null,
+        "guacd-port": null,
+        "max-connections-per-user": "1"
+    },
+    "activeConnections": 0,
+    "lastActive": 1559895631000
+}
+</programlisting>
+            </informalexample>
+
+        </section>
+        <section xml:id="get_connection_parameters">
+            <para>Get connection parameters.</para>
+
+            <title>Returning Connection Parameters</title>
+
+            <informalexample>
+                <programlisting>GET : api/session/data/<replaceable>{data_source}</replaceable>/connections/<replaceable>{identifier}</replaceable>/parameters</programlisting>
+                <emphasis><replaceable>{identifier}</replaceable> is the identifier property retrieved from one of the above API calls.</emphasis>
+            </informalexample>
+
+            <para>Returns</para>
+            <informalexample>
+<programlisting>
+{
+    "port": "22",
+    "hostname": "10.26.195.93"
+}
+</programlisting>
+            </informalexample>
+
+        </section>
+    </section>
+    <section xml:id="users">
+        <title>Users</title>
+
+        <section xml:id="get_users">
+            <para>Return all users.</para>
+
+            <title>Returning All Users</title>
+
+            <informalexample>
+                <programlisting>GET : api/session/data/<replaceable>{data_source}</replaceable>/users</programlisting>
+            </informalexample>
+
+            <para>Returns</para>
+            <informalexample>
+<programlisting>
+{
+    "admin": {
+        "username": "admin",
+        "attributes": {
+            "guac-email-address": "john.smith@example.com",
+            "guac-organizational-role": "Developer",
+            "guac-full-name": "Guacamole Admin",
+            "expired": null,
+            "timezone": null,
+            "access-window-start": null,
+            "guac-organization": "GG",
+            "access-window-end": null,
+            "disabled": null,
+            "valid-until": null,
+            "valid-from": null
+        },
+        "lastActive": 1560481951000
+    },
+    ...
+}
+</programlisting>
+            </informalexample>
+
+        </section>
+        <section xml:id="add_users">
+            <para>Add a user.</para>
+
+            <title>Adding a User</title>
+
+            <informalexample>
+                <programlisting>POST : api/session/data/<replaceable>{data_source}</replaceable>/users</programlisting>
+            </informalexample>
+
+            <para>Example Payload</para>
+            <informalexample>
+<programlisting>
+{
+    'username': '',
+     'password': '',
+     'attributes':  {
+        'disabled': '',
+        'expired': '',
+        'access-window-start': '',
+        'access-window-end': '',
+        'valid-from': '',
+        'valid-until': '',
+        'timezone': ''
+    }
+}
+</programlisting>
+            </informalexample>
+
+            <para>Returns</para>
+            <informalexample>
+<programlisting>
+{
+    "username": "admin",
+    "attributes": {
+        "guac-email-address": "admin.roger@example.com",
+        "guac-organizational-role": "Developer",
+        "guac-full-name": "Guacamole Admin",
+        "expired": null,
+        "timezone": null,
+        "access-window-start": null,
+        "guac-organization": "GG",
+        "access-window-end": null,
+        "disabled": null,
+        "valid-until": null,
+        "valid-from": null
+    },
+    "lastActive": 1560481951000
+}
+</programlisting>
+            </informalexample>
+
+        </section>
+        <section xml:id="delete_users">
+            <para>Delete a user.</para>
+
+            <title>Deleting a User</title>
+
+            <informalexample>
+                <programlisting>DELETE : api/session/data/<replaceable>{data_source}</replaceable>/users/<replaceable>{username}</replaceable></programlisting>
+                <emphasis><replaceable>{username}</replaceable> is the username property retrieved from one of the above API calls.</emphasis>
+            </informalexample>
+
+            <para>Returns</para>
+            <informalexample>
+<programlisting>
+{
+    "username": "admin",
+    "attributes": {
+        "guac-email-address": "admin.roger@example.com",
+        "guac-organizational-role": "Developer",
+        "guac-full-name": "Guacamole Admin",
+        "expired": null,
+        "timezone": null,
+        "access-window-start": null,
+        "guac-organization": "GG",
+        "access-window-end": null,
+        "disabled": null,
+        "valid-until": null,
+        "valid-from": null
+    },
+    "lastActive": 1560481951000
+}
+</programlisting>
+            </informalexample>
+
+        </section>
+        <section xml:id="get_user_permissions">
+            <para>Return a user's permissions.</para>
+
+            <title>Returning a User's Permissions</title>
+
+            <informalexample>
+                <programlisting>GET : api/session/data/<replaceable>{data_source}</replaceable>/users/<replaceable>{username}</replaceable>/permissions</programlisting>
+                <emphasis><replaceable>{username}</replaceable> is the username property retrieved from one of the above API calls.</emphasis>
+            </informalexample>
+
+            <para>Returns</para>
+            <informalexample>
+<programlisting>
+{
+    "connectionPermissions": {
+        "1": [
+            "READ"
+        ],
+        "3": [
+            "READ"
+        ],
+        "4": [
+            "READ"
+        ]
+    },
+    "connectionGroupPermissions": {},
+    "sharingProfilePermissions": {},
+    "activeConnectionPermissions": {},
+    "userPermissions": {
+        "admin": [
+            "READ"
+        ]
+    },
+    "userGroupPermissions": {},
+    "systemPermissions": []
+}
+</programlisting>
+            </informalexample>
+
+        </section>
+        <section xml:id="patch_user_permissions">
+            <para>Edit a user's permissions.</para>
+
+            <title>Editing a User's Permissions</title>
+
+            <informalexample>
+                <programlisting>PATCH : api/session/data/<replaceable>{data_source}</replaceable>/users/<replaceable>{username}</replaceable>/permissions</programlisting>
+                <emphasis><replaceable>{username}</replaceable> is the username property retrieved from one of the above API calls.</emphasis>
+            </informalexample>
+
+            <para>Example Payload</para>
+            <informalexample>
+<programlisting>
+{
+    "connectionPermissions": {
+        "1": [
+            "READ"
+        ],
+        "3": [
+            "READ"
+        ],
+        "4": [
+            "READ"
+        ]
+    },
+    "connectionGroupPermissions": {},
+    "sharingProfilePermissions": {},
+    "activeConnectionPermissions": {},
+    "userPermissions": {
+        "admin": [
+            "READ"
+        ]
+    },
+    "userGroupPermissions": {},
+    "systemPermissions": [
+        "CREATE_USER"
+    ]
+}
+</programlisting>
+            </informalexample>
+
+            <para>Returns</para>
+            <informalexample>
+<programlisting>
+{
+    "connectionPermissions": {
+        "1": [
+            "READ"
+        ],
+        "3": [
+            "READ"
+        ],
+        "4": [
+            "READ"
+        ]
+    },
+    "connectionGroupPermissions": {},
+    "sharingProfilePermissions": {},
+    "activeConnectionPermissions": {},
+    "userPermissions": {
+        "admin": [
+            "READ"
+        ]
+    },
+    "userGroupPermissions": {},
+    "systemPermissions": [
+        "CREATE_USER"
+    ]
+}
+</programlisting>
+            </informalexample>
+
+        </section>
+    </section>
+
+</chapter>
