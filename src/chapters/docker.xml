@@ -652,7 +652,7 @@
             <title>LDAP authentication</title>
             <para>To use Guacamole with the LDAP authentication backend, you will need network
                 access to an LDAP directory. Unlike MySQL and PostgreSQL, the Guacamole Docker image
-                does support Docker links for LDAP; the connection information
+                does not support Docker links for LDAP; the connection information
                     <emphasis>must</emphasis> be specified using environment variables:</para>
             <informaltable frame="all">
                 <tgroup cols="2">
