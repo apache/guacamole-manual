@@ -2371,9 +2371,6 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                     connect through such a gateway, you will need to provide additional parameters
                     describing the connection to that gateway, as well as any required
                     credentials.</para>
-                <para><emphasis>This functionality is only available if Guacamole was built against
-                        FreeRDP 1.1 or later.</emphasis> Older versions of FreeRDP do not have
-                    support for RDP gateways.</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
@@ -2408,9 +2405,6 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                                         </indexterm>The port of the remote desktop gateway that
                                         should be used as an intermediary for the remote desktop
                                         connection. By default, this will be "443".</para>
-                                    <para><emphasis>If using a version of FreeRDP prior to 1.2, this
-                                            setting has no effect.</emphasis> Older versions of
-                                        FreeRDP use a hard-coded value of "443". </para>
                                 </entry>
                             </row>
                             <row>
@@ -2466,10 +2460,6 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                     files for convenience, look through the contents of those files for a string
                     field called "loadbalanceinfo", as that field is where the required
                     information/cookie would be specified.</para>
-                <para><emphasis>This functionality is only available if Guacamole was built against
-                        FreeRDP 1.1 or later.</emphasis> Older versions of FreeRDP do not have
-                    support for load balancers which require additional information during the
-                    connection process.</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>

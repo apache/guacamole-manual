@@ -353,7 +353,7 @@
                                         <tbody>
                                             <row>
                                                 <entry>Debian / Ubuntu package</entry>
-                                                <entry><package>libfreerdp-dev</package></entry>
+                                                <entry><package>freerdp2-dev</package></entry>
                                             </row>
                                             <row>
                                                 <entry>Fedora / CentOS / RHEL package</entry>
@@ -672,7 +672,7 @@ guacamole-server version 1.1.0
 
    Library status:
 
-     freerdp ............. yes
+     freerdp2 ............ yes
      pango ............... yes
      libavcodec .......... yes
      libavutil ........... yes
