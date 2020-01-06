@@ -344,8 +344,9 @@
                         <row>
                             <entry><link xl:href="http://www.freerdp.com/">FreeRDP</link></entry>
                             <entry>
-                                <para>FreeRDP is required for RDP support. If you do not wish to
-                                    build RDP support, this library is not needed.</para>
+                                <para>FreeRDP 2.0.0 or later is required for RDP support. If you do
+                                    not wish to build RDP support, this library is not
+                                    needed.</para>
                                 <informaltable frame="none" rowheader="firstcol">
                                     <tgroup cols="2">
                                         <colspec colname="c1" colnum="1" colwidth="1.0*"/>
