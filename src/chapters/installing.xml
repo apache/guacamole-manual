@@ -344,8 +344,9 @@
                         <row>
                             <entry><link xl:href="http://www.freerdp.com/">FreeRDP</link></entry>
                             <entry>
-                                <para>FreeRDP is required for RDP support. If you do not wish to
-                                    build RDP support, this library is not needed.</para>
+                                <para>FreeRDP 2.0.0 or later is required for RDP support. If you do
+                                    not wish to build RDP support, this library is not
+                                    needed.</para>
                                 <informaltable frame="none" rowheader="firstcol">
                                     <tgroup cols="2">
                                         <colspec colname="c1" colnum="1" colwidth="1.0*"/>
@@ -353,7 +354,7 @@
                                         <tbody>
                                             <row>
                                                 <entry>Debian / Ubuntu package</entry>
-                                                <entry><package>libfreerdp-dev</package></entry>
+                                                <entry><package>freerdp2-dev</package></entry>
                                             </row>
                                             <row>
                                                 <entry>Fedora / CentOS / RHEL package</entry>
@@ -672,7 +673,7 @@ guacamole-server version 1.1.0
 
    Library status:
 
-     freerdp ............. yes
+     freerdp2 ............ yes
      pango ............... yes
      libavcodec .......... yes
      libavutil ........... yes
