@@ -427,22 +427,30 @@ guacd[19666]: Listening on host 127.0.0.1, port 4823</screen>
                     connection in use and try again.</para>
             </section>
             <section>
-                <title>Failed to load cliprdr plugin</title>
-                <para>FreeRDP provides a plugin called "cliprdr" which provides
-                    clipboard support for RDP. libguac-client-rdp loads this
-                    plugin in order to support clipboard, as well. If this
-                    plugin could not be loaded, then clipboard support will not
-                    be available, and the reason will be logged.</para>
+                <title>Support for the CLIPRDR channel (clipboard redirection) could not be
+                    loaded</title>
+                <para>FreeRDP provides a plugin which provides clipboard support for RDP. This
+                    plugin is typically built into FreeRDP, but some distributions may bundle this
+                    separately. libguac-client-rdp loads this plugin in order to support clipboard,
+                    as well. If this plugin could not be loaded, then clipboard support will not be
+                    available, and the reason will be logged.</para>
             </section>
             <section>
-                <title>Failed to load guac_rdpsnd plugin</title>
-                <para>In order to support sound, libguac-client-rdp builds a
-                    plugin for FreeRDP called "guac_rdpsnd" which must be loaded
-                    for sound to be available. If libguac-client-rdp cannot load
-                    this plugin, sound will not work, and the reason will be
-                    logged. A likely explanation is that libguac-client-rdp was
-                    built from source, and the directory specified for FreeRDP's
-                    installation location was incorrect.</para>
+                <title>Cannot create static channel "<replaceable>name</replaceable>": failed to
+                    load "guac-common-svc" plugin for FreeRDP</title>
+                <para>RDP provides support for much of its feature set through static virtual
+                    channels. Sound support, for example is provided through the "RDPSND" channel.
+                    Device redirection for printers and drives is provided through "RDPDR". To
+                    support these and other static virtual channels, libguac-client-rdp builds a
+                    plugin for FreeRDP called "guac-common-svc" which allows Guacamole to hook into
+                    the parts of FreeRDP that support virtual channels.</para>
+                <para>If libguac-client-rdp cannot load this plugin, support for any features which
+                    leverage static virtual channels will not work, and the reason will be logged. A
+                    likely explanation is that libguac-client-rdp was built from source, and the
+                    directory specified for FreeRDP's installation location was incorrect. For
+                    FreeRDP to be able to find plugins, those plugins must be placed in the
+                        <filename>freerdp2/</filename> subdirectory of whichever directory contains
+                    the <filename>libfreerdp2.so</filename> library.</para>
             </section>
             <section>
                 <title>Server requested unsupported clipboard data type</title>

@@ -1497,15 +1497,20 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
             <section xml:id="rdp-authentication">
                 <title>Authentication and security</title>
                 <para>RDP provides authentication through the use of a username, password, and
-                    optional domain.</para>
+                    optional domain. All RDP connections are encrypted.</para>
                 <para>Most RDP servers will provide a graphical login if the username, password, and
                     domain parameters are omitted. One notable exception to this is Network Level
                     Authentication, or NLA, which performs all authentication outside of a desktop
-                    session, and thus in the absence of a graphical interface. If your server
-                    requires NLA, you will need to manually choose this as your security mode, and
-                    you <emphasis>must</emphasis> provide a username and password.</para>
-                <para>All RDP connections are encrypted. Higher-grade encryption is available in the
-                    form of TLS, another possible security mode.</para>
+                    session, and thus in the absence of a graphical interface.</para>
+                <important>
+                    <para>If your server requires NLA, you <emphasis>must</emphasis> provide a
+                        username and password. Leveraging Guacamole's <link
+                            xmlns:xlink="http://www.w3.org/1999/xlink" linkend="parameter-tokens"
+                            >parameter tokens</link> and <link
+                            xmlns:xlink="http://www.w3.org/1999/xlink" linkend="ldap-auth">LDAP
+                            support</link> to integrate with Active Directory and automatically pass
+                        through credentials is a common configuration.</para>
+                </important>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
@@ -1565,42 +1570,68 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                                             <secondary>TLS</secondary>
                                         </indexterm>The security mode to use for the RDP connection.
                                         This mode dictates how data will be encrypted and what type
-                                        of authentication will be performed, if any. By default,
-                                        standard RDP encryption is requested, as it is the most
-                                        widely supported.</para>
+                                        of authentication will be performed, if any. By default, a
+                                        security mode is selected based on a negotiation process
+                                        which determines what both the client and the server
+                                        support.</para>
                                     <para>Possible values are:</para>
                                     <variablelist>
                                         <varlistentry>
-                                            <term><constant>rdp</constant></term>
+                                            <term><constant>any</constant></term>
                                             <listitem>
-                                                <para>Standard RDP encryption. <emphasis>This is the
-                                                  default</emphasis> and should be supported by all
-                                                  RDP servers.</para>
+                                                <para>Automatically select the security mode based
+                                                  on the security protocols supported by both the
+                                                  client and the server. <emphasis>This is the
+                                                  default</emphasis>.</para>
                                             </listitem>
                                         </varlistentry>
                                         <varlistentry>
                                             <term><constant>nla</constant></term>
                                             <listitem>
-                                                <para>Network Level Authentication. This mode
-                                                  requires the username and password, and performs
-                                                  an authentication step before the remote desktop
-                                                  session actually starts. If the username and
-                                                  password are not given, the connection cannot be
-                                                  made.</para>
+                                                <para>Network Level Authentication, sometimes also
+                                                  referred to as "hybrid" or CredSSP (the protocol
+                                                  that drives NLA). This mode uses TLS encryption
+                                                  and requires the username and password to be given
+                                                  in advance. Unlike RDP mode, the authentication
+                                                  step is performed before the remote desktop
+                                                  session actually starts, avoiding the need for the
+                                                  Windows server to allocate significant resources
+                                                  for users that may not be authorized.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>nla-ext</constant></term>
+                                            <listitem>
+                                                <para>Extended Network Level Authentication. This
+                                                  mode is identical to NLA except that an additional
+                                                  "<link xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                  xlink:href="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-rdpbcgr/d0e560a3-25cb-4563-8bdc-6c4cc625bbfc"
+                                                  >Early User Authorization Result</link>" is
+                                                  required to be sent from the server to the client
+                                                  immediately after the NLA handshake is
+                                                  completed.</para>
                                             </listitem>
                                         </varlistentry>
                                         <varlistentry>
                                             <term><constant>tls</constant></term>
                                             <listitem>
-                                                <para>TLS encryption. TLS (Transport Layer Security)
-                                                  is the successor to SSL.</para>
+                                                <para>RDP authentication and encryption implemented
+                                                  via TLS (Transport Layer Security). Also referred
+                                                  to as RDSTLS, the TLS security mode is primarily
+                                                  used in load balanced configurations where the
+                                                  initial RDP server may redirect the connection to
+                                                  a different RDP server.</para>
                                             </listitem>
                                         </varlistentry>
                                         <varlistentry>
-                                            <term><constant>any</constant></term>
+                                            <term><constant>rdp</constant></term>
                                             <listitem>
-                                                <para>Allow the server to choose the type of
-                                                  security.</para>
+                                                <para>Standard RDP encryption. This mode is
+                                                  generally only used for older Windows servers or
+                                                  in cases where a standard Windows login screen is
+                                                  desired. Newer versions of Windows have this mode
+                                                  disabled by default and will only accept NLA
+                                                  unless explicitly configured otherwise.</para>
                                             </listitem>
                                         </varlistentry>
                                     </variablelist>
@@ -2444,9 +2475,6 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                     connect through such a gateway, you will need to provide additional parameters
                     describing the connection to that gateway, as well as any required
                     credentials.</para>
-                <para><emphasis>This functionality is only available if Guacamole was built against
-                        FreeRDP 1.1 or later.</emphasis> Older versions of FreeRDP do not have
-                    support for RDP gateways.</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
@@ -2481,9 +2509,6 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                                         </indexterm>The port of the remote desktop gateway that
                                         should be used as an intermediary for the remote desktop
                                         connection. By default, this will be "443".</para>
-                                    <para><emphasis>If using a version of FreeRDP prior to 1.2, this
-                                            setting has no effect.</emphasis> Older versions of
-                                        FreeRDP use a hard-coded value of "443". </para>
                                 </entry>
                             </row>
                             <row>
@@ -2539,10 +2564,6 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                     files for convenience, look through the contents of those files for a string
                     field called "loadbalanceinfo", as that field is where the required
                     information/cookie would be specified.</para>
-                <para><emphasis>This functionality is only available if Guacamole was built against
-                        FreeRDP 1.1 or later.</emphasis> Older versions of FreeRDP do not have
-                    support for load balancers which require additional information during the
-                    connection process.</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
