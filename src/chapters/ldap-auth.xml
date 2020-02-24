@@ -370,6 +370,15 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                     </listitem>
                 </varlistentry>
                 <varlistentry>
+                    <term><property>ldap-member-attribute-type</property></term>
+                    <listitem>
+                          <para>Specify whether the attribute defined in 
+                              "<property>ldap-member-attribute</property>" identifies a group 
+                              member by DN or usercode. Possible values: "dn" (the default, if 
+                              not specified) or "uid".</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
                     <term><property>ldap-user-attributes</property></term>
                     <listitem>
                         <para>The attribute or attributes to retrieve from the LDAP directory for
