@@ -1485,9 +1485,11 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                                     <para><indexterm>
                                             <primary>RDP</primary>
                                             <secondary>port</secondary>
-                                        </indexterm>The port the RDP server is listening on, usually
-                                        3389. This parameter is optional. If this is not specified,
-                                        the default of 3389 will be used.</para>
+                                        </indexterm>The port the RDP server is listening on. This
+                                        parameter is optional. If this is not specified, the
+                                        standard port for RDP (3389) or Hyper-V's default port for
+                                        VMConnect (2179) will be used, depending on the security
+                                        mode selected.</para>
                                 </entry>
                             </row>
                         </tbody>
@@ -1621,6 +1623,18 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                                                   used in load balanced configurations where the
                                                   initial RDP server may redirect the connection to
                                                   a different RDP server.</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>vmconnect</constant></term>
+                                            <listitem>
+                                                <para>Automatically select the security mode based
+                                                  on the security protocols supported by both the
+                                                  client and the server, limiting that negotiation
+                                                  to only the protocols known to be supported by
+                                                  <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                  linkend="rdp-preconnection-pdu">Hyper-V /
+                                                  VMConnect</link>.</para>
                                             </listitem>
                                         </varlistentry>
                                         <varlistentry>
@@ -2356,11 +2370,13 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                 </informaltable>
             </section>
             <section xml:id="rdp-preconnection-pdu">
-                <title>Preconnection PDU (Hyper-V)</title>
+                <title>Preconnection PDU (Hyper-V / VMConnect)</title>
                 <para><indexterm>
                         <primary>preconnection PDU</primary>
                     </indexterm><indexterm>
                         <primary>Hyper-V</primary>
+                    </indexterm><indexterm>
+                        <primary>VMConnect</primary>
                     </indexterm>Some RDP servers host multiple logical RDP connections behind a
                     single server listening on a single TCP port. To select between these logical
                     connections, an RDP client must send the "preconnection PDU" - a message which
@@ -2387,25 +2403,20 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                     means for selecting virtual machines behind Hyper-V, other RDP servers may use
                     it as well. It is up to the RDP server itself to determine whether the
                     preconnection ID, BLOB, or both will be used, and what their values mean.</para>
-                <para>If you do intend to use Hyper-V, beware that its built-in RDP server uses
-                    slightly different parameters for both authentication and the port number, and
-                    Guacamole's defaults will not work. In most cases, you will need to do the
-                    following when connecting to Hyper-V:</para>
+                <para><emphasis>If you do intend to use Hyper-V, beware that its built-in RDP server
+                        requires different parameters for authentication and Guacamole's defaults
+                        will not work.</emphasis> In most cases, you will need to do the following
+                    when connecting to Hyper-V:</para>
                 <orderedlist>
-                    <listitem>
-                        <para>Set "<parameter>port</parameter>" to "<constant>2179</constant>", as
-                            this is the default port used by Hyper-V. The standard RDP port is 3389,
-                            and Guacamole will use port 3389 unless a different value is
-                            specified.</para>
-                    </listitem>
                     <listitem>
                         <para>Specify both "<parameter>username</parameter>" and
                                 "<parameter>password</parameter>" appropriately, and set
-                                "<parameter>security</parameter>" to "<constant>nla</constant>" or
-                                "<constant>any</constant>". Hyper-V requires Network Level
-                            Authentication from connecting clients. Guacamole's default is to use
-                            standard RDP encryption without Network Level Authentication, which
-                            Hyper-V does not support.</para>
+                                "<parameter>security</parameter>" to
+                            "<constant>vmconnect</constant>". Selecting the
+                                "<constant>vmconnect</constant>" security mode will configure
+                            Guacamole to automatically negotiate security modes known to be
+                            supported by Hyper-V, and will automatically select Hyper-V's default
+                            RDP port (2179).</para>
                     </listitem>
                     <listitem>
                         <para>If necessary, set "<parameter>ignore-cert</parameter>" to
