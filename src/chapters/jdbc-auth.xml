@@ -70,12 +70,34 @@
                             <filename>GUACAMOLE_HOME/extensions</filename>, while the MySQL JDBC
                         driver must be placed within <filename>GUACAMOLE_HOME/lib</filename>.</para>
                     <para><emphasis>The MySQL JDBC driver is not included with the
-                            extension.</emphasis> You must obtain the JDBC driver
-                            <filename>.jar</filename> yourself from <link
-                            xlink:href="http://dev.mysql.com/downloads/connector/j/">MySQL's
-                            website</link>. The driver is known as "Connector/J", and the required
+                            extension.</emphasis> You must obtain a supported JDBC driver
+                            <filename>.jar</filename> yourself.  The MySQL driver can be downloaded
+                            from <link xlink:href="http://dev.mysql.com/downloads/connector/j/">MySQL's
+                            website</link>, and is known as "Connector/J". The required
                             <filename>.jar</filename> will be within a <filename>.tar.gz</filename>
                         archive.</para>
+                    <para>In addition to the parameters below that are common to all database
+                            extensions, the MySQL extension supports the <property>mysql-driver</property>
+                            property, which controls which JDBC driver the extension attempts to load
+                            and its compatibility with various target database implementations.
+                            The extension currently supports the following values for the
+                            <property>mysql-driver</property> property:
+                        <variablelist>
+                            <varlistentry>
+                                <term>mysql</term>
+                                <listitem>
+                                    <para>The MySQL JDBC driver, known as Connector/J.
+                                            This is the default.</para>
+                                </listitem>
+                            </varlistentry>
+                            <varlistentry>
+                                <term>mariadb</term>
+                                <listitem>
+                                    <para>The MariaDB JDBC driver.</para>
+                                </listitem>
+                            </varlistentry>
+                        </variablelist>
+                    </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
