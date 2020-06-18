@@ -1797,6 +1797,12 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                                             </listitem>
                                         </varlistentry>
                                         <varlistentry>
+                                            <term><constant>fr-be-azerty</constant></term>
+                                            <listitem>
+                                                <para>Belgian French keyboard (azerty)</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
                                             <term><constant>fr-fr-azerty</constant></term>
                                             <listitem>
                                                 <para>French keyboard (azerty)</para>
@@ -1836,6 +1842,12 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                                             <term><constant>es-es-qwerty</constant></term>
                                             <listitem>
                                                 <para>Spanish keyboard</para>
+                                            </listitem>
+                                        </varlistentry>
+                                        <varlistentry>
+                                            <term><constant>es-latam-qwerty</constant></term>
+                                            <listitem>
+                                                <para>Latin American keyboard</para>
                                             </listitem>
                                         </varlistentry>
                                         <varlistentry>
