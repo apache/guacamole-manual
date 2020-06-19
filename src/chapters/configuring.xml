@@ -1326,6 +1326,117 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                     </tgroup>
                 </informaltable>
             </section>
+            <section xml:id="vnc-wake-on-lan">
+                <title>Wake-on-LAN Configuration</title>
+                <para>Guacamole implements the support to send a "magic wake-on-lan
+                    packet" to a remote host prior to attempting to establish a
+                    connection with the host.  The below parameters control the
+                    behavior of this functionality, which is disabled by default.
+                    </para>
+                <important>
+                    <para>There are several factors that can impact the ability
+                        of Wake-on-LAN (WoL) to function correctly, many of which
+                        are outside the scope of Guacamole configuration.  If you
+                        are configuring WoL within Guacamole you should also be
+                        familiar with the other components that need to be
+                        configured in order for it to function correctly.</para>
+                </important>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>VNC</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>wol-send-packet</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>wol-send-packet</primary>
+                                        </indexterm><indexterm>
+                                            <primary>VNC</primary>
+                                            <secondary>wol-send-packet</secondary>
+                                        </indexterm>If set to "true", Guacamole will
+                                        attempt to send the Wake-On-LAN packet prior
+                                        to establishing a connection.  This parameter
+                                        is optional.  By default, Guacamole will
+                                        not send the WoL packet.  Enabling this
+                                        option requires that the
+                                            <parameter>wol-mac-addr</parameter>
+                                        parameter also be configured, otherwise
+                                        the WoL packet will not be sent.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>wol-mac-addr</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>wol-mac-addr</primary>
+                                        </indexterm><indexterm>
+                                            <primary>VNC</primary>
+                                            <secondary>wol-mac-addr</secondary>
+                                        </indexterm>This parameter configures the
+                                        MAC address that Guacamole will use in
+                                        the magic WoL packet to attempt to wake
+                                        the remote system.  If
+                                            <parameter>wol-send-packet</parameter>
+                                        is enabled, this parameter is required
+                                        or else the WoL packet will not be sent.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>wol-broadcast-addr</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>wol-broadcast-addr</primary>
+                                        </indexterm><indexterm>
+                                            <primary>VNC</primary>
+                                            <secondary>wol-broadcast-addr</secondary>
+                                        </indexterm>This parameter configures the
+                                        IPv4 broadcast address or IPv6 multicast
+                                        address that Guacamole will send the
+                                        WoL packet to in order to wake the host.
+                                        This parameter is optional.  If no value
+                                        is provided, the default local IPv4 broadcast
+                                        address (255.255.255.255) will be used.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>wol-wait-time</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>wol-wait-time</primary>
+                                        </indexterm><indexterm>
+                                            <primary>VNC</primary>
+                                            <secondary>wol-wait-time</secondary>
+                                        </indexterm>By default after the WoL packet
+                                        is sent Guacamole will attempt immediately
+                                        to connect to the remote host.  It may be
+                                        desirable in certain scenarios to have
+                                        Guacamole wait before the initial connection
+                                        in order to give the remote system time to
+                                        boot.  Setting this parameter to a positive
+                                        value will cause Guacamole to wait the specified
+                                        number of seconds before attempting the initial
+                                        connection.  This parameter is optional.
+                                    </para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
             <section xml:id="adding-vnc">
                 <title>Adding a VNC connection</title>
                 <indexterm>
@@ -3013,6 +3124,117 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                     </tgroup>
                 </informaltable>
             </section>
+            <section xml:id="rdp-wake-on-lan">
+                <title>Wake-on-LAN Configuration</title>
+                <para>Guacamole implements the support to send a "magic wake-on-lan
+                    packet" to a remote host prior to attempting to establish a
+                    connection with the host.  The below parameters control the
+                    behavior of this functionality, which is disabled by default.
+                    </para>
+                <important>
+                    <para>There are several factors that can impact the ability
+                        of Wake-on-LAN (WoL) to function correctly, many of which
+                        are outside the scope of Guacamole configuration.  If you
+                        are configuring WoL within Guacamole you should also be
+                        familiar with the other components that need to be
+                        configured in order for it to function correctly.</para>
+                </important>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>RDP</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>wol-send-packet</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>wol-send-packet</primary>
+                                        </indexterm><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>wol-send-packet</secondary>
+                                        </indexterm>If set to "true", Guacamole will
+                                        attempt to send the Wake-On-LAN packet prior
+                                        to establishing a connection.  This parameter
+                                        is optional.  By default, Guacamole will
+                                        not send the WoL packet.  Enabling this
+                                        option requires that the
+                                            <parameter>wol-mac-addr</parameter>
+                                        parameter also be configured, otherwise
+                                        the WoL packet will not be sent.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>wol-mac-addr</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>wol-mac-addr</primary>
+                                        </indexterm><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>wol-mac-addr</secondary>
+                                        </indexterm>This parameter configures the
+                                        MAC address that Guacamole will use in
+                                        the magic WoL packet to attempt to wake
+                                        the remote system.  If
+                                            <parameter>wol-send-packet</parameter>
+                                        is enabled, this parameter is required
+                                        or else the WoL packet will not be sent.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>wol-broadcast-addr</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>wol-broadcast-addr</primary>
+                                        </indexterm><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>wol-broadcast-addr</secondary>
+                                        </indexterm>This parameter configures the
+                                        IPv4 broadcast address or IPv6 multicast
+                                        address that Guacamole will send the
+                                        WoL packet to in order to wake the host.
+                                        This parameter is optional.  If no value
+                                        is provided, the default local IPv4 broadcast
+                                        address (255.255.255.255) will be used.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>wol-wait-time</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>wol-wait-time</primary>
+                                        </indexterm><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>wol-wait-time</secondary>
+                                        </indexterm>By default after the WoL packet
+                                        is sent Guacamole will attempt immediately
+                                        to connect to the remote host.  It may be
+                                        desirable in certain scenarios to have
+                                        Guacamole wait before the initial connection
+                                        in order to give the remote system time to
+                                        boot.  Setting this parameter to a positive
+                                        value will cause Guacamole to wait the specified
+                                        number of seconds before attempting the initial
+                                        connection.  This parameter is optional.
+                                    </para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
             <section xml:id="adding-rdp">
                 <title>Adding an RDP connection</title>
                 <indexterm>
@@ -3972,6 +4194,117 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                     </tgroup>
                 </informaltable>
             </section>
+            <section xml:id="ssh-wake-on-lan">
+                <title>Wake-on-LAN Configuration</title>
+                <para>Guacamole implements the support to send a "magic wake-on-lan
+                    packet" to a remote host prior to attempting to establish a
+                    connection with the host.  The below parameters control the
+                    behavior of this functionality, which is disabled by default.
+                    </para>
+                <important>
+                    <para>There are several factors that can impact the ability
+                        of Wake-on-LAN (WoL) to function correctly, many of which
+                        are outside the scope of Guacamole configuration.  If you
+                        are configuring WoL within Guacamole you should also be
+                        familiar with the other components that need to be
+                        configured in order for it to function correctly.</para>
+                </important>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>SSH</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>wol-send-packet</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>wol-send-packet</primary>
+                                        </indexterm><indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>wol-send-packet</secondary>
+                                        </indexterm>If set to "true", Guacamole will
+                                        attempt to send the Wake-On-LAN packet prior
+                                        to establishing a connection.  This parameter
+                                        is optional.  By default, Guacamole will
+                                        not send the WoL packet.  Enabling this
+                                        option requires that the
+                                            <parameter>wol-mac-addr</parameter>
+                                        parameter also be configured, otherwise
+                                        the WoL packet will not be sent.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>wol-mac-addr</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>wol-mac-addr</primary>
+                                        </indexterm><indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>wol-mac-addr</secondary>
+                                        </indexterm>This parameter configures the
+                                        MAC address that Guacamole will use in
+                                        the magic WoL packet to attempt to wake
+                                        the remote system.  If
+                                            <parameter>wol-send-packet</parameter>
+                                        is enabled, this parameter is required
+                                        or else the WoL packet will not be sent.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>wol-broadcast-addr</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>wol-broadcast-addr</primary>
+                                        </indexterm><indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>wol-broadcast-addr</secondary>
+                                        </indexterm>This parameter configures the
+                                        IPv4 broadcast address or IPv6 multicast
+                                        address that Guacamole will send the
+                                        WoL packet to in order to wake the host.
+                                        This parameter is optional.  If no value
+                                        is provided, the default local IPv4 broadcast
+                                        address (255.255.255.255) will be used.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>wol-wait-time</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>wol-wait-time</primary>
+                                        </indexterm><indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>wol-wait-time</secondary>
+                                        </indexterm>By default after the WoL packet
+                                        is sent Guacamole will attempt immediately
+                                        to connect to the remote host.  It may be
+                                        desirable in certain scenarios to have
+                                        Guacamole wait before the initial connection
+                                        in order to give the remote system time to
+                                        boot.  Setting this parameter to a positive
+                                        value will cause Guacamole to wait the specified
+                                        number of seconds before attempting the initial
+                                        connection.  This parameter is optional.
+                                    </para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
             <section xml:id="adding-ssh">
                 <title>Adding an SSH connection</title>
                 <indexterm>
@@ -4744,6 +5077,117 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                                         the telnet session. This parameter is optional. By default,
                                         the user will be able to paste data from outside the browser
                                         within the terminal.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="telnet-wake-on-lan">
+                <title>Wake-on-LAN Configuration</title>
+                <para>Guacamole implements the support to send a "magic wake-on-lan
+                    packet" to a remote host prior to attempting to establish a
+                    connection with the host.  The below parameters control the
+                    behavior of this functionality, which is disabled by default.
+                    </para>
+                <important>
+                    <para>There are several factors that can impact the ability
+                        of Wake-on-LAN (WoL) to function correctly, many of which
+                        are outside the scope of Guacamole configuration.  If you
+                        are configuring WoL within Guacamole you should also be
+                        familiar with the other components that need to be
+                        configured in order for it to function correctly.</para>
+                </important>
+                <informaltable frame="all">
+                    <indexterm>
+                        <primary>parameters</primary>
+                        <secondary>telnet</secondary>
+                    </indexterm>
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                        <thead>
+                            <row>
+                                <entry>Parameter name</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><parameter>wol-send-packet</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>wol-send-packet</primary>
+                                        </indexterm><indexterm>
+                                            <primary>telnet</primary>
+                                            <secondary>wol-send-packet</secondary>
+                                        </indexterm>If set to "true", Guacamole will
+                                        attempt to send the Wake-On-LAN packet prior
+                                        to establishing a connection.  This parameter
+                                        is optional.  By default, Guacamole will
+                                        not send the WoL packet.  Enabling this
+                                        option requires that the
+                                            <parameter>wol-mac-addr</parameter>
+                                        parameter also be configured, otherwise
+                                        the WoL packet will not be sent.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>wol-mac-addr</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>wol-mac-addr</primary>
+                                        </indexterm><indexterm>
+                                            <primary>telnet</primary>
+                                            <secondary>wol-mac-addr</secondary>
+                                        </indexterm>This parameter configures the
+                                        MAC address that Guacamole will use in
+                                        the magic WoL packet to attempt to wake
+                                        the remote system.  If
+                                            <parameter>wol-send-packet</parameter>
+                                        is enabled, this parameter is required
+                                        or else the WoL packet will not be sent.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>wol-broadcast-addr</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>wol-broadcast-addr</primary>
+                                        </indexterm><indexterm>
+                                            <primary>telnet</primary>
+                                            <secondary>wol-broadcast-addr</secondary>
+                                        </indexterm>This parameter configures the
+                                        IPv4 broadcast address or IPv6 multicast
+                                        address that Guacamole will send the
+                                        WoL packet to in order to wake the host.
+                                        This parameter is optional.  If no value
+                                        is provided, the default local IPv4 broadcast
+                                        address (255.255.255.255) will be used.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>wol-wait-time</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>wol-wait-time</primary>
+                                        </indexterm><indexterm>
+                                            <primary>telnet</primary>
+                                            <secondary>wol-wait-time</secondary>
+                                        </indexterm>By default after the WoL packet
+                                        is sent Guacamole will attempt immediately
+                                        to connect to the remote host.  It may be
+                                        desirable in certain scenarios to have
+                                        Guacamole wait before the initial connection
+                                        in order to give the remote system time to
+                                        boot.  Setting this parameter to a positive
+                                        value will cause Guacamole to wait the specified
+                                        number of seconds before attempting the initial
+                                        connection.  This parameter is optional.
+                                    </para>
                                 </entry>
                             </row>
                         </tbody>
