@@ -21,28 +21,11 @@
     <section xml:id="totp-prerequisites">
         <title>Prerequisites</title>
         <para>The enrollment process used by Guacamole's TOTP support needs to be able to store an
-            automatically-generated key within the user's account, and will be operating with the
-            privileges of that user when it does so. With this in mind, there are requirements which
-            must be satisfied for TOTP to work as expected:</para>
-        <itemizedlist>
-            <listitem>
-                <para>Another extension must be installed which supports storage of arbitrary data
-                    from other extensions. <emphasis>Currently the only extensions provided with
-                        Guacamole which support this kind of storage are the <link
-                            linkend="jdbc-auth">database authentication
-                        extensions</link>.</emphasis></para>
-            </listitem>
-            <listitem>
-                <para>Within whichever extension provides the storage described above, users
-                    requiring TOTP must be granted permission to update their own accounts (to
-                    update their passwords, etc.). This privilege is managed within the <link
-                        linkend="user-management">administrative web interface</link> with a
-                    checkbox labeled "change own password". <emphasis>If a user lacks this
-                        permission, the TOTP extension will not be able to generate and store the
-                        user's TOTP key during enrollment, and TOTP will be disabled for that
-                        user.</emphasis></para>
-            </listitem>
-        </itemizedlist>
+            automatically-generated key within the user's account. Another extension must be
+            installed which supports storage of arbitrary data from other extensions.
+                <emphasis>Currently the only extensions provided with Guacamole which support this
+                kind of storage are the <link linkend="jdbc-auth">database authentication
+                    extensions</link>.</emphasis></para>
         <para>It is thus recommended that authentication against a database be fully configured
             prior to setting up TOTP. Instructions walking through the setup of database
             authentication for Guacamole are provided in <xref linkend="jdbc-auth"/>.</para>
