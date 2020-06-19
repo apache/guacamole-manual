@@ -116,12 +116,18 @@
                         directory.  Microsoft's JDBC driver can be downloaded from Microsoft's <link
                         xlink:href="https://docs.microsoft.com/en-us/sql/connect/sql-connection-libraries#anchor-20-drivers-relational-access">
                         SQL Connection Libraries</link> page.</para>
-                    <para>In addition to the various parameters mentioned below, the SQL Server driver has a
-                        unique parameter available to control the driver compatibility of the JDBC module:
-                        <property>sqlserver-driver</property>.  This parameter allows you to choose the compatibility
-                        mode of the module with various TDS-comptabile drivers such that it can be used with different
-                        versions of SQL Server and even non-Microsoft SQL Server databases.  The following options are available
-                        for the <property>sqlserver-driver</property> property:
+                    <para>In addition to the various parameters mentioned below, the SQL Server driver implements
+                        two parameters to control SQL Server-specific configuration items:
+                            <property>sqlserver-driver</property> and <property>sqlserver-instance</property>.</para>
+                    <para>The <property>sqlserver-instance</property> property controls the instance name that the
+                        SQL Server driver should attempt to connect to, if it is something other than the default
+                        SQL Server instance.  This instance name is configured during the SQL Server installation.
+                        This property is optional, and most installations should work without the need to specify
+                        an instance name.</para>
+                    <para>The <property>sqlserver-driver</property> allows you to choose the compatibility mode of
+                        of the module with various TDS-compatible drivers such that it can be used with different
+                        versions of SQL Server and even non-Microsoft SQL Server TDS-compatible databases.  The
+                        following options are available for the <property>sqlserver-driver</property> property:
                         <variablelist>
                             <varlistentry>
                                 <term>microsoft2005</term>
