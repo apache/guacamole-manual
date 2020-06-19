@@ -70,12 +70,34 @@
                             <filename>GUACAMOLE_HOME/extensions</filename>, while the MySQL JDBC
                         driver must be placed within <filename>GUACAMOLE_HOME/lib</filename>.</para>
                     <para><emphasis>The MySQL JDBC driver is not included with the
-                            extension.</emphasis> You must obtain the JDBC driver
-                            <filename>.jar</filename> yourself from <link
-                            xlink:href="http://dev.mysql.com/downloads/connector/j/">MySQL's
-                            website</link>. The driver is known as "Connector/J", and the required
+                            extension.</emphasis> You must obtain a supported JDBC driver
+                            <filename>.jar</filename> yourself.  The MySQL driver can be downloaded
+                            from <link xlink:href="http://dev.mysql.com/downloads/connector/j/">MySQL's
+                            website</link>, and is known as "Connector/J". The required
                             <filename>.jar</filename> will be within a <filename>.tar.gz</filename>
                         archive.</para>
+                    <para>In addition to the parameters below that are common to all database
+                            extensions, the MySQL extension supports the <property>mysql-driver</property>
+                            property, which controls which JDBC driver the extension attempts to load
+                            and its compatibility with various target database implementations.
+                            The extension currently supports the following values for the
+                            <property>mysql-driver</property> property:
+                        <variablelist>
+                            <varlistentry>
+                                <term>mysql</term>
+                                <listitem>
+                                    <para>The MySQL JDBC driver, known as Connector/J.
+                                            This is the default.</para>
+                                </listitem>
+                            </varlistentry>
+                            <varlistentry>
+                                <term>mariadb</term>
+                                <listitem>
+                                    <para>The MariaDB JDBC driver.</para>
+                                </listitem>
+                            </varlistentry>
+                        </variablelist>
+                    </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -116,12 +138,18 @@
                         directory.  Microsoft's JDBC driver can be downloaded from Microsoft's <link
                         xlink:href="https://docs.microsoft.com/en-us/sql/connect/sql-connection-libraries#anchor-20-drivers-relational-access">
                         SQL Connection Libraries</link> page.</para>
-                    <para>In addition to the various parameters mentioned below, the SQL Server driver has a
-                        unique parameter available to control the driver compatibility of the JDBC module:
-                        <property>sqlserver-driver</property>.  This parameter allows you to choose the compatibility
-                        mode of the module with various TDS-comptabile drivers such that it can be used with different
-                        versions of SQL Server and even non-Microsoft SQL Server databases.  The following options are available
-                        for the <property>sqlserver-driver</property> property:
+                    <para>In addition to the various parameters mentioned below, the SQL Server driver implements
+                        two parameters to control SQL Server-specific configuration items:
+                            <property>sqlserver-driver</property> and <property>sqlserver-instance</property>.</para>
+                    <para>The <property>sqlserver-instance</property> property controls the instance name that the
+                        SQL Server driver should attempt to connect to, if it is something other than the default
+                        SQL Server instance.  This instance name is configured during the SQL Server installation.
+                        This property is optional, and most installations should work without the need to specify
+                        an instance name.</para>
+                    <para>The <property>sqlserver-driver</property> allows you to choose the compatibility mode of
+                        of the module with various TDS-compatible drivers such that it can be used with different
+                        versions of SQL Server and even non-Microsoft SQL Server TDS-compatible databases.  The
+                        following options are available for the <property>sqlserver-driver</property> property:
                         <variablelist>
                             <varlistentry>
                                 <term>microsoft2005</term>
