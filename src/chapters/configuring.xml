@@ -974,6 +974,26 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                                     </para>
                                 </entry>
                             </row>
+                            <row>
+                                <entry><parameter>sftp-disable-download</parameter></entry>
+                                <entry>
+                                    <para>If set to true downloads from the remote system to
+                                        the client (browser) will be disabled. The default is
+                                        false, which means that downloads will be enabled.</para>
+                                    <para>If sftp is not enabled, this parameter will be
+                                        ignored.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>sftp-disable-upload</parameter></entry>
+                                <entry>
+                                    <para>If set to true uploads from the client (browser) to
+                                        the remote system will be disabled. The default is
+                                        false, which means that uploads will be enabled.</para>
+                                    <para>If sftp is not enabled, this parameter will be
+                                        ignored.</para>
+                                </entry>
+                            </row>
                         </tbody>
                     </tgroup>
                 </informaltable>
@@ -2417,6 +2437,30 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                                 </entry>
                             </row>
                             <row>
+                                <entry><parameter>disable-download</parameter></entry>
+                                <entry>
+                                    <para>If set to true downloads from the remote server to
+                                        client (browser) will be disabled.  This includes both
+                                        downloads down via the hidden Guacamole menu, as well
+                                        as using the special "Download" folder presented to
+                                        the remote server.  The default is false, which means
+                                        that downloads will be allowed.</para>
+                                    <para>If file transfer is not enabled, this parameter is
+                                        ignored.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>disable-upload</parameter></entry>
+                                <entry>
+                                    <para>If set to true, uploads from the client (browser)
+                                        to the remote server location will be disabled. The
+                                        default is false, which means uploads will be allowed
+                                        if file transfer is enabled.</para>
+                                    <para>If file transfer is not enabled, this parameter is
+                                        ignored.</para>
+                                </entry>
+                            </row>
+                            <row>
                                 <entry><parameter>drive-name</parameter></entry>
                                 <entry>
                                     <para>The name of the filesystem used when passed through to
@@ -2860,6 +2904,26 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                                     used, disabling sending keepalive packets.  The minimum
                                     value is 2.
                                     </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>sftp-disable-download</parameter></entry>
+                                <entry>
+                                    <para>If set to true downloads from the remote system to
+                                        the client (browser) will be disabled. The default is
+                                        false, which means that downloads will be enabled.</para>
+                                    <para>If sftp is not enabled, this parameter will be
+                                        ignored.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>sftp-disable-upload</parameter></entry>
+                                <entry>
+                                    <para>If set to true uploads from the client (browser) to
+                                        the remote system will be disabled. The default is
+                                        false, which means that uploads will be enabled.</para>
+                                    <para>If sftp is not enabled, this parameter will be
+                                        ignored.</para>
                                 </entry>
                             </row>
                         </tbody>
@@ -4133,6 +4197,26 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                                             <link xmlns:xlink="http://www.w3.org/1999/xlink"
                                             linkend="file-browser">file browser</link>. If omitted,
                                         the root directory will be used by default.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>sftp-disable-download</parameter></entry>
+                                <entry>
+                                    <para>If set to true downloads from the remote system to
+                                        the client (browser) will be disabled. The default is
+                                        false, which means that downloads will be enabled.</para>
+                                    <para>If sftp is not enabled, this parameter will be
+                                        ignored.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>sftp-disable-upload</parameter></entry>
+                                <entry>
+                                    <para>If set to true uploads from the client (browser) to
+                                        the remote system will be disabled. The default is
+                                        false, which means that uploads will be enabled.</para>
+                                    <para>If sftp is not enabled, this parameter will be
+                                        ignored.</para>
                                 </entry>
                             </row>
                         </tbody>
