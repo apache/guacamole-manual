@@ -720,6 +720,32 @@ sqlserver-user-required: true</programlisting>
                 Guacamole will report that the login is invalid, as if the user does not exist at
                 all.</para>
         </section>
+        <section xml:id="jdbc-auth-auto-create">
+            <title>Auto-creating database users</title>
+            <para>Guacamole supports the ability to layer authentication modules on top of one another
+                such that users successfully authenticated from one extension (e.g. LDAP) can be assigned
+                permissions to connections in another extension (e.g. JDBC).  Other extensions, like the
+                TOTP extension, rely on the database extension to be able to store information for
+                various user accounts.  In these situations it can be difficult to have to manually
+                create user accounts within the database extension.</para>
+            <para>The database extension provides a mechanism for enabling auto-creation of user
+                accounts that successfully authenticate from other extensions.  This functionality
+                is disabled by default, but can be enabled in each of the supported database
+                extensions by enabling the appropriate option in guacamole.properties.  The
+                resulting accounts will only have READ access to themselves until additional
+                permissions are granted, either explicitly by the administrator or by
+                permissions assigned to groups of which the user is a member.</para>
+            <informalexample>
+                <programlisting># MySQL
+mysql-auto-create-accounts: true
+
+# PostgreSQL
+postgresql-auto-create-accounts: true
+
+# SQL Server
+sqlserver-auto-create-accounts: true</programlisting>
+            </informalexample>
+        </section>
         <section>
             <title>Completing the installation</title>
             <para>Guacamole will only reread <filename>guacamole.properties</filename> and load
