@@ -331,20 +331,30 @@
                                 <row>
                                     <entry><property>postgresql-ssl-root-cert-file</property></entry>
                                     <entry>
-                                        <para>The file containing the root certificates
-                                            against which the server certificate verification
-                                            will be performed when making an SSL-encrypted
-                                            connection to the Postgres server. This file
-                                            be in PEM format. This property is optional and
-                                            is only used if the SSL mode is set to 
-                                            verify-ca or verify-full.</para>
+                                        <para>The file containing the root and intermedidate
+                                            certificates against which the server certificate
+                                            will be verified when making an SSL-encrypted
+                                            connection to the Postgres server. This file should
+                                            contain one or more PEM-formatted authority
+                                            certificates. This property is optional, and will
+                                            only be used if SSL mode is set to verify-ca or
+                                            verify-full.</para>
+                                        <para>If SSL is set to one of the verification modes
+                                            and this property is not specified, the JDBC driver
+                                            will attempt to use the
+                                            <filename>.postgresql/root.crt</filename> file
+                                            from the home directory of the user running the
+                                            web application server (e.g. Tomcat). If this
+                                            property is not specified and the default file
+                                            does not exist, the Postgres JDBC driver will
+                                            fail to connect to the server.</para>
                                     </entry>
                                 </row>
                                 <row>
                                     <entry><property>postgresql-ssl-key-password</property></entry>
                                     <entry>
                                         <para>The password that will be used to access the
-                                            client private key file, if the cient private
+                                            client private key file, if the client private
                                             key is encrypted. This property is optional,
                                             and is only used if the
                                             <property>postgresql-ssl-key-file</property>
