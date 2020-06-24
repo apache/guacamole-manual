@@ -370,6 +370,44 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
                     </listitem>
                 </varlistentry>
                 <varlistentry>
+                    <term><property>ldap-member-attribute-type</property></term>
+                    <listitem>
+                        <para>Specify whether the attribute defined in
+                            "<property>ldap-member-attribute</property>"  (Usually
+                            "<property>member</property>") identifies a group member by DN or by
+                            usercode. Possible values: "<property>dn</property>" (the default, if
+                            not specified) or "<property>uid</property>".</para>
+                        <para>Example: an LDAP server may present groups using the
+                            <classname>groupOfNames</classname> scheme
+                            <informalexample>
+                                <programlisting>dn: cn=group1,ou=Groups,dc=example,dc=net
+objectClass: groupOfNames
+cn: group1
+gidNumber: 12345
+member: user1,ou=People,dc=example,dc=net
+member: user2,ou=People,dc=example,dc=net</programlisting>
+                            </informalexample>
+                            <property>ldap-member-attribute</property> is
+                            <systemitem>member</systemitem> and
+                            <property>ldap-member-attribute-type</property> is
+                            <systemitem>dn</systemitem></para>
+                        <para>Example: an LDAP server may present groups using the
+                            <classname>posixGroup</classname> scheme
+                            <informalexample>
+                                <programlisting>dn: cn=group1,ou=Groups,dc=example,dc=net
+objectClass: posixGroup
+cn: group1
+gidNumber: 12345
+memberUid: user1
+memberUid: user2</programlisting>
+                            </informalexample>
+                            <property>ldap-member-attribute</property> is
+                            <systemitem>memberUid</systemitem> and
+                            <property>ldap-member-attribute-type</property> is
+                            <systemitem>uid</systemitem></para>
+                     </listitem>
+                </varlistentry>
+                <varlistentry>
                     <term><property>ldap-user-attributes</property></term>
                     <listitem>
                         <para>The attribute or attributes to retrieve from the LDAP directory for

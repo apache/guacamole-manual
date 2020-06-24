@@ -98,6 +98,118 @@
                             </varlistentry>
                         </variablelist>
                     </para>
+                    <para>The MySQL Driver implements several parameters specific to configuring
+                        SSL for secure connections to MySQL servers that support or require
+                        encrypted communications.  The parameters are as follows:</para>
+                    <informaltable frame="all">
+                        <tgroup cols="2">
+                            <colspec colname="c1" colnum="1" colwidth="1*"/>
+                            <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                            <thead>
+                                <row>
+                                    <entry>Property</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry><property>mysql-ssl-mode</property></entry>
+                                    <entry>
+                                        <para>This property sets the SSL mode that the JDBC
+                                            driver will attempt to use when communicating
+                                            with the remote MySQL server.  The values for
+                                            this property match the standard values supported
+                                            by the MySQL and MariaDB JDBC drivers:</para>
+                                        <variablelist>
+                                            <varlistentry>
+                                                <term>disabled</term>
+                                                <listitem>
+                                                    <para>Do not use SSL, and fail if the
+                                                        server requires it. For Guacamole
+                                                        this is the default.</para>
+                                                </listitem>
+                                            </varlistentry>
+                                            <varlistentry>
+                                                <term>preferred</term>
+                                                <listitem>
+                                                    <para>Prefer SSL, but fall back to
+                                                        plain-text if an SSL connection
+                                                        cannot be negotiated.</para>
+                                                </listitem>
+                                            </varlistentry>
+                                            <varlistentry>
+                                                <term>required</term>
+                                                <listitem>
+                                                    <para>Require SSL connections, and fail
+                                                        if SSL cannot be negotiated. This mode
+                                                        does not perform any validition checks
+                                                        on the certificate in use by the server,
+                                                        the issuer, etc.</para>
+                                                </listitem>
+                                            </varlistentry>
+                                            <varlistentry>
+                                                <term>verify-ca</term>
+                                                <listitem>
+                                                    <para>Require SSL connections, and check
+                                                        to make sure that the certificate issuer
+                                                        is known to be valid.</para>
+                                                </listitem>
+                                            </varlistentry>
+                                            <varlistentry>
+                                                <term>verify-identity</term>
+                                                <listitem>
+                                                    <para>Require SSL connections, and check
+                                                        to make sure that the server certificate
+                                                        is issued by a known authority, and that
+                                                        the identity of the server matches the
+                                                        identity on the certificate.</para>
+                                                </listitem>
+                                            </varlistentry>
+                                        </variablelist>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry><property>mysql-ssl-trust-store</property></entry>
+                                    <entry>
+                                        <para>The file that will store trusted SSL certificates
+                                            for the JDBC driver to use when validating CA and
+                                            server certificates. This should be a JKS-formatted
+                                            certificate store. This property is optional and
+                                            defaults to Java's normal trusted certificate
+                                            locations, which vary based on the version of
+                                            Java in use.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry><property>mysql-ssl-trust-password</property></entry>
+                                    <entry>
+                                        <para>The password to use to access the SSL trusted
+                                            certificate store, if one is required. By default
+                                            no password will be used.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry><property>mysql-ssl-client-store</property></entry>
+                                    <entry>
+                                        <para>The file that contains the client certificate to
+                                            use when making SSL connections to the MySQL server.
+                                            This should be a JKS-formatted certificate store that
+                                            contains a private key and certificate pair. This
+                                            property is optional, and by default no client
+                                            certificate will be used for the SSL connection.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry><property>mysql-ssl-client-password</property></entry>
+                                    <entry>
+                                        <para>The password to use to access the client
+                                            certificate store, if one is required. By default
+                                            no password will be used.</para>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -118,6 +230,140 @@
                             xlink:href="https://jdbc.postgresql.org/download.html#current"
                             >PostgreSQL's website</link>. The proper <filename>.jar</filename> file
                         depends on the version of Java you have installed. </para>
+                    <para>The PostgreSQL extension implements several parameters specific to
+                        conifiguring SSL for secure connections to Postgres servers that support
+                        or require encrypted communications.  The parameters are as follows:</para>
+                    <informaltable frame="all">
+                        <tgroup cols="2">
+                            <colspec colname="c1" colnum="1" colwidth="1*"/>
+                            <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                            <thead>
+                                <row>
+                                    <entry>Property</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry><property>postgresql-ssl-mode</property></entry>
+                                    <entry>
+                                        <para>This property sets the SSL mode that the JDBC
+                                            extension will attempt to use when communicating
+                                            with the remote Postgres server. The values for
+                                            this property match the standard values supported
+                                            by the Postgres JDBC driver:</para>
+                                        <variablelist>
+                                            <varlistentry>
+                                                <term>disable</term>
+                                                <listitem>
+                                                    <para>Do not use SSL, and fail if the
+                                                        server requires it. For Guacamole
+                                                        this is the default.</para>
+                                                </listitem>
+                                            </varlistentry>
+                                            <varlistentry>
+                                                <term>allow</term>
+                                                <listitem>
+                                                    <para>If the server requires encryption
+                                                        use it, otherwise prefer unencrypted
+                                                        connections.</para>
+                                                </listitem>
+                                            </varlistentry>
+                                            <varlistentry>
+                                                <term>prefer</term>
+                                                <listitem>
+                                                    <para>Try SSL connections, first, but
+                                                        allow unencrypted connections if
+                                                        the server does not support SSL or
+                                                        if SSL negotiations fail.</para>
+                                                </listitem>
+                                            </varlistentry>
+                                            <varlistentry>
+                                                <term>require</term>
+                                                <listitem>
+                                                    <para>Require SSL connections, but
+                                                        implicitly trust all server
+                                                        certificates and authoritiers.</para>
+                                                </listitem>
+                                            </varlistentry>
+                                            <varlistentry>
+                                                <term>verify-ca</term>
+                                                <listitem>
+                                                    <para>Require SSL connections, and
+                                                        verify that the server certificate
+                                                        is issued by a known certificate
+                                                        authority.</para>
+                                                </listitem>
+                                            </varlistentry>
+                                            <varlistentry>
+                                                <term>verify-full</term>
+                                                <listitem>
+                                                    <para>Require SSL connections, 
+                                                        verifying that the server certificate
+                                                        is issued by a known authority, and
+                                                        that the name on the certificate
+                                                        matches the name of the server.</para>
+                                                </listitem>
+                                            </varlistentry>
+                                        </variablelist>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry><property>postgresql-ssl-cert-file</property></entry>
+                                    <entry>
+                                        <para>The file containing the client certificate
+                                            to be used when making an SSL-encrtyped connection
+                                            to the Postgres server, in PEM format. This
+                                            property is optional, and will be ignored if the
+                                            SSL mode is set to disable.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry><property>postgresql-ssl-key-file</property></entry>
+                                    <entry>
+                                        <para>The file containing the client private key
+                                            to be used when making an SSL-encrypted connection
+                                            to the Postgres server, in PEM format. This
+                                            property is optional, and will be ignore if the
+                                            SSL mode is set to disable.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry><property>postgresql-ssl-root-cert-file</property></entry>
+                                    <entry>
+                                        <para>The file containing the root and intermedidate
+                                            certificates against which the server certificate
+                                            will be verified when making an SSL-encrypted
+                                            connection to the Postgres server. This file should
+                                            contain one or more PEM-formatted authority
+                                            certificates. This property is optional, and will
+                                            only be used if SSL mode is set to verify-ca or
+                                            verify-full.</para>
+                                        <para>If SSL is set to one of the verification modes
+                                            and this property is not specified, the JDBC driver
+                                            will attempt to use the
+                                            <filename>.postgresql/root.crt</filename> file
+                                            from the home directory of the user running the
+                                            web application server (e.g. Tomcat). If this
+                                            property is not specified and the default file
+                                            does not exist, the Postgres JDBC driver will
+                                            fail to connect to the server.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry><property>postgresql-ssl-key-password</property></entry>
+                                    <entry>
+                                        <para>The password that will be used to access the
+                                            client private key file, if the client private
+                                            key is encrypted. This property is optional,
+                                            and is only used if the
+                                            <property>postgresql-ssl-key-file</property>
+                                            property is set and SSL is enabled.</para>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
                 </listitem>
             </varlistentry>
             <varlistentry>
