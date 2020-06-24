@@ -288,8 +288,9 @@
             <para>The <command>guacenc</command> utility, provided by
                     <package>guacamole-server</package> to translate screen recordings into video,
                 depends on FFmpeg, and will only be built if at least the
-                    <package>libavcodec</package>, <package>libavutil</package>, and
-                    <package>libswscale</package> libraries provided by FFmpeg are installed.</para>
+                    <package>libavcodec</package>, <package>libavformat</package>,
+                    <package>libavutil</package>, and <package>libswscale</package> libraries
+                provided by FFmpeg are installed.</para>
             <important>
                 <para>If you lack these dependencies, <emphasis>then the features or protocols which
                         depend on them will not be enabled</emphasis>. Please read this section
@@ -310,12 +311,13 @@
                             <entry><link xl:href="https://ffmpeg.org/">FFmpeg</link></entry>
                             <entry>
                                 <para>The <package>libavcodec</package>,
-                                        <package>libavutil</package>, and
-                                        <package>libswscale</package> libraries provided by FFmpeg
-                                    are used by <command>guacenc</command> to encode video streams
-                                    when translating recordings of Guacamole sessions. Without
-                                    FFmpeg, the <command>guacenc</command> utility will simply not
-                                    be built.</para>
+                                        <package>libavformat</package>,
+                                    <package>libavutil</package>, and <package>libswscale</package>
+                                    libraries provided by FFmpeg are used by
+                                        <command>guacenc</command> to encode video streams when
+                                    translating recordings of Guacamole sessions. Without FFmpeg,
+                                    the <command>guacenc</command> utility will simply not be
+                                    built.</para>
                                 <para>If you do not wish to make graphical recordings of Guacamole
                                     sessions, or do not wish to translate such recordings into
                                     video, then FFmpeg is not needed.</para>
@@ -328,6 +330,7 @@
                                                 <entry>Debian / Ubuntu package</entry>
                                                 <entry>
                                                   <para><package>libavcodec-dev</package>,
+                                                  <package>libavformat-dev</package>,
                                                   <package>libavutil-dev</package>,
                                                   <package>libswscale-dev</package></para>
                                                 </entry>
@@ -676,6 +679,7 @@ guacamole-server version 1.2.0
      freerdp2 ............ yes
      pango ............... yes
      libavcodec .......... yes
+     libavformat ......... yes
      libavutil ........... yes
      libssh2 ............. yes
      libssl .............. yes
