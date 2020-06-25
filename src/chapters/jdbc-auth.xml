@@ -125,8 +125,7 @@
                                                 <term>disabled</term>
                                                 <listitem>
                                                     <para>Do not use SSL, and fail if the
-                                                        server requires it. For Guacamole
-                                                        this is the default.</para>
+                                                        server requires it.</para>
                                                 </listitem>
                                             </varlistentry>
                                             <varlistentry>
@@ -134,7 +133,8 @@
                                                 <listitem>
                                                     <para>Prefer SSL, but fall back to
                                                         plain-text if an SSL connection
-                                                        cannot be negotiated.</para>
+                                                        cannot be negotiated. This
+                                                        is the default.</para>
                                                 </listitem>
                                             </varlistentry>
                                             <varlistentry>
@@ -257,8 +257,7 @@
                                                 <term>disable</term>
                                                 <listitem>
                                                     <para>Do not use SSL, and fail if the
-                                                        server requires it. For Guacamole
-                                                        this is the default.</para>
+                                                        server requires it.</para>
                                                 </listitem>
                                             </varlistentry>
                                             <varlistentry>
@@ -275,7 +274,8 @@
                                                     <para>Try SSL connections, first, but
                                                         allow unencrypted connections if
                                                         the server does not support SSL or
-                                                        if SSL negotiations fail.</para>
+                                                        if SSL negotiations fail. This is
+                                                        the default.</para>
                                                 </listitem>
                                             </varlistentry>
                                             <varlistentry>
