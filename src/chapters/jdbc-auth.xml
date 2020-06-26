@@ -100,7 +100,12 @@
                     </para>
                     <para>The MySQL Driver implements several parameters specific to configuring
                         SSL for secure connections to MySQL servers that support or require
-                        encrypted communications.  The parameters are as follows:</para>
+                        encrypted communications. <emphasis>Older versions of MySQL Connector/J
+                            have known issues with SSL verification - if you experience problems
+                            connecting to SSL-secured MySQL databases it is recommended that
+                            you update to a current version of the driver.</emphasis></para>
+                    <para>Configuration parameters for MySQL-compatible SSL support are as
+                        follows:</para>
                     <informaltable frame="all">
                         <tgroup cols="2">
                             <colspec colname="c1" colnum="1" colwidth="1*"/>
@@ -125,8 +130,11 @@
                                                 <term>disabled</term>
                                                 <listitem>
                                                     <para>Do not use SSL, and fail if the
-                                                        server requires it. For Guacamole
-                                                        this is the default.</para>
+                                                        server requires it. For compatibility
+                                                        this will also set the legacy JDBC
+                                                        driver property
+                                                        <property>useSSL</property> to false.
+                                                    </para>
                                                 </listitem>
                                             </varlistentry>
                                             <varlistentry>
@@ -134,7 +142,8 @@
                                                 <listitem>
                                                     <para>Prefer SSL, but fall back to
                                                         plain-text if an SSL connection
-                                                        cannot be negotiated.</para>
+                                                        cannot be negotiated. This
+                                                        is the default.</para>
                                                 </listitem>
                                             </varlistentry>
                                             <varlistentry>
@@ -257,8 +266,7 @@
                                                 <term>disable</term>
                                                 <listitem>
                                                     <para>Do not use SSL, and fail if the
-                                                        server requires it. For Guacamole
-                                                        this is the default.</para>
+                                                        server requires it.</para>
                                                 </listitem>
                                             </varlistentry>
                                             <varlistentry>
@@ -275,7 +283,8 @@
                                                     <para>Try SSL connections, first, but
                                                         allow unencrypted connections if
                                                         the server does not support SSL or
-                                                        if SSL negotiations fail.</para>
+                                                        if SSL negotiations fail. This is
+                                                        the default.</para>
                                                 </listitem>
                                             </varlistentry>
                                             <varlistentry>
