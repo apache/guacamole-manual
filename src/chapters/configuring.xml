@@ -141,14 +141,14 @@
             </varlistentry>
             <varlistentry>
                 <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
-                        <primary>available-languages</primary>
-                    </indexterm><parameter>available-languages</parameter></term>
+                        <primary>allowed-languages</primary>
+                    </indexterm><parameter>allowed-languages</parameter></term>
                 <listitem>
                     <para>A comma-separated whitelist of language keys to allow as display language
                         choices within the Guacamole interface. For example, to restrict Guacamole
                         to only English and German, you would specify:</para>
                     <informalexample>
-                        <programlisting>available-languages: en, de</programlisting>
+                        <programlisting>allowed-languages: en, de</programlisting>
                     </informalexample>
                     <para>As English is the fallback language, used whenever a translation key is
                         missing from the chosen language, English should only be omitted from this
