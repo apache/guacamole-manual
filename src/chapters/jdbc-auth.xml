@@ -373,6 +373,40 @@
                             </tbody>
                         </tgroup>
                     </informaltable>
+                    <para>The PostgreSQL extension also implements some parameters to
+                        configure timeouts at the database and network level. The parameters are as follows:</para>
+                    <informaltable frame="all">
+                        <tgroup cols="2">
+                            <colspec colname="c1" colnum="1" colwidth="1*"/>
+                            <colspec colname="c2" colnum="2" colwidth="3.55*"/>
+                            <thead>
+                                <row>
+                                    <entry>Property</entry>
+                                    <entry>Description</entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry><property>postgresql-default-statement-timeout</property></entry>
+                                    <entry>
+                                        <para>The default number of seconds the driver will wait for a response from
+                                            the database. The value of 0 (the default) means the timeout is disabled.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry><property>postgresql-socket-timeout</property></entry>
+                                    <entry>
+                                        <para>The default timeout (in seconds) used for socket read operations.
+                                        If reading from the server takes longer than this value, the
+                                        connection is closed. This can be used to handle network problems
+                                        such as a dropped connection to the database. Similar to 
+                                        <property>postgresql-default-statement-timeout</property>, it will also abort queries 
+                                        that take too long. The value 0 (the default) means the timeout is disabled.</para>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
                 </listitem>
             </varlistentry>
             <varlistentry>
