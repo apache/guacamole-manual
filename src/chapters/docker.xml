@@ -662,19 +662,22 @@
                             <row>
                                 <entry><envar>POSTGRES_DEFAULT_STATEMENT_TIMEOUT</envar></entry>
                                 <entry>
-                                    <para>The default number of seconds the driver will wait for a response from
-                                        the database. The value of 0 (the default) means the timeout is disabled.</para>
+                                    <para>The number of seconds the driver will wait for a
+                                        response from the database, before aborting the query.
+                                        A value of 0 (the default) means the timeout is disabled.</para>
                                 </entry>
                             </row>
                             <row>
                                 <entry><envar>POSTGRES_SOCKET_TIMEOUT</envar></entry>
                                 <entry>
-                                    <para>The default timeout (in seconds) used for socket read operations.
-                                        If reading from the server takes longer than this value, the
-                                        connection is closed. This can be used to handle network problems
-                                        such as a dropped connection to the database. Similar to 
-                                        <envar>POSTGRES_DEFAULT_STATEMENT_TIMEOUT</envar>, it will also abort queries 
-                                        that take too long. The value 0 (the default) means the timeout is disabled.</para>
+                                    <para>The number of seconds to wait for socket read
+                                        operations. If reading from the server takes longer than
+                                        this value, the connection will be closed. This can be used
+                                        to handle network problems such as a dropped connection to
+                                        the database. Similar to 
+                                        <envar>POSTGRES_DEFAULT_STATEMENT_TIMEOUT</envar>,
+                                        it will also abort queries that take too long. A value of 0
+                                        (the default) means the timeout is disabled.</para>
                                 </entry>
                             </row>
                         </tbody>
