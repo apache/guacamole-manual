@@ -646,6 +646,44 @@
                         </tbody>
                     </tgroup>
                 </informaltable>
+                <para>Optional environment variables may also be used to override Guacamole's
+                    default behavior with respect to timeouts at the database and network level:</para>
+                <informaltable frame="all">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="1.15*"/>
+                        <thead>
+                            <row>
+                                <entry>Variable</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><envar>POSTGRES_DEFAULT_STATEMENT_TIMEOUT</envar></entry>
+                                <entry>
+                                    <para>The number of seconds the driver will wait for a
+                                        response from the database, before aborting the query.
+                                        A value of 0 (the default) means the timeout is disabled.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>POSTGRES_SOCKET_TIMEOUT</envar></entry>
+                                <entry>
+                                    <para>The number of seconds to wait for socket read
+                                        operations. If reading from the server takes longer than
+                                        this value, the connection will be closed. This can be used
+                                        to handle network problems such as a dropped connection to
+                                        the database. Similar to 
+                                        <envar>POSTGRES_DEFAULT_STATEMENT_TIMEOUT</envar>,
+                                        it will also abort queries that take too long. A value of 0
+                                        (the default) means the timeout is disabled.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+
             </section>
         </section>
         <section xml:id="guacamole-docker-ldap">
