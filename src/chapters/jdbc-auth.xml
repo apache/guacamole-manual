@@ -77,11 +77,12 @@
                             <filename>.jar</filename> will be within a <filename>.tar.gz</filename>
                         archive.</para>
                     <para>In addition to the parameters below that are common to all database
-                            extensions, the MySQL extension supports the <property>mysql-driver</property>
-                            property, which controls which JDBC driver the extension attempts to load
-                            and its compatibility with various target database implementations.
-                            The extension currently supports the following values for the
-                            <property>mysql-driver</property> property:
+                            extensions, the MySQL extension supports properties that configure behavior
+                            specific to MySQL-compatible servers.</para>
+                    <para>The <property>mysql-driver</property> property, which controls which JDBC
+                            driver the extension attempts to load and its compatibility with various
+                            target database implementations. The extension currently supports the
+                            following values for the <property>mysql-driver</property> property:
                         <variablelist>
                             <varlistentry>
                                 <term>mysql</term>
@@ -94,6 +95,54 @@
                                 <term>mariadb</term>
                                 <listitem>
                                     <para>The MariaDB JDBC driver.</para>
+                                </listitem>
+                            </varlistentry>
+                        </variablelist>
+                    </para>
+                    <para>The <property>mysql-server-timezone</property> property allows you to
+                        to specify the timezone the MySQL server is configured to run in. While
+                        the MySQL driver attempts to auto-detect the timezone in use by the server,
+                        there are many cases where the timezone provided by the operating system
+                        is either unknown by Java, or matches multiple timezones. In these cases
+                        MySQL may either complain or refuse the connection unless the timezone
+                        is specified as part of the connection. This property allows the timezone
+                        of the server to be specified so that the connection can continue and
+                        the JDBC driver can properly translate timestamps. The property accepts
+                        timezones in the following formats:
+                        <variablelist>
+                            <varlistentry>
+                                <term>Region/Locale</term>
+                                <listitem>
+                                    <para>Well-known TimeZone Identifiers, in the Region/Locale
+                                        format.  Examples are:
+                                        <informalexample>
+                                            <programlisting>mysql-server-timezone: America/Los_Angeles
+mysql-server-timezone: Africa/Johannesburg
+mysql-server-timezone: China/Shanghai</programlisting>
+                                        </informalexample>
+                                    </para>
+                                </listitem>
+                            </varlistentry>
+                            <varlistentry>
+                                <term>GMT+/-HH:MM</term>
+                                <listitem>
+                                    <para>GMT or custom timezones specified by GMT offset. Examples
+                                        of valid GMT specifications are:
+                                        <informalexample>
+                                            <programlisting>mysql-server-timezone: GMT
+mysql-server-timezone: GMT-00:00
+mysql-server-timezone: GMT+0000
+mysql-server-timezone: GMT-0</programlisting>
+                                        </informalexample>
+                                    </para>
+                                    <para>Examples of custom timezones specified by GMT offsets are:
+                                        <informalexample>
+                                            <programlisting>mysql-server-timezone: GMT+0130
+mysql-server-timezone: GMT-0430
+mysql-server-timezone: GMT+06:00
+mysql-server-timezone: GMT-9</programlisting>
+                                        </informalexample>
+                                    </para>
                                 </listitem>
                             </varlistentry>
                         </variablelist>
