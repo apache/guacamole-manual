@@ -867,6 +867,47 @@
                     configured to use each when the Docker image starts.</para>
             </section>
         </section>
+        <section xml:id="guacamole-docker-header-auth">
+            <title>Header Authentication</title>
+            <para>The header authentication extension can be used to authenticate Guacamole
+                through a trusted third-party server, where the authenticated user's username
+                is passed back to Guacamole via a specific HTTP header. The following
+                are valid Docker variables for enabling and configuring header
+                authentication:</para>
+            <informaltable frame="all">
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1" colwidth="1*"/>
+                    <colspec colname="c2" colnum="2" colwidth="2.25*"/>
+                    <thead>
+                        <row>
+                            <entry>Variable</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry><envar>HEADER_ENABLED</envar></entry>
+                            <entry>
+                                <para>Enables authentication via the header extension,
+                                    which causes the extension to be loaded when
+                                    Guacamole starts. By default this is false and the
+                                    header extension will not be loaded.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><envar>HTTP_AUTH_HEADER</envar></entry>
+                            <entry>
+                                <para>Optional environment variable that, if set,
+                                    configures the name of the HTTP header that will
+                                    be used used to authenticate the user to
+                                    Guacamole. If this is not specified the default
+                                    value of REMOTE_USER will be used.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
         <section xml:id="guacamole-docker-guacamole-home">
             <title>Custom extensions and <envar>GUACAMOLE_HOME</envar></title>
             <para>If you have your own or third-party extensions for Guacamole which are not
