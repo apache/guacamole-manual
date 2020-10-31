@@ -6001,13 +6001,14 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                 forwarding authentication information without storing that information in the
                 connection configuration itself, so long as the remote desktop connection uses the
                 same credentials as Guacamole.</para>
-            <para>Each token is of the form
-                    <varname>${<replaceable>TOKEN_NAME</replaceable>}</varname>, where
-                    <replaceable>TOKEN_NAME</replaceable> is some descriptive name for the value the
-                token represents. Tokens with no corresponding value will never be replaced, but
-                should you need such text within your connection parameters, and wish to guarantee
-                that this text will not be replaced with a token value, you can escape the token by
-                adding an additional leading "$", as in "$${TOKEN_NAME}".</para>
+            <para>Each token is of the form <varname>${<replaceable>TOKEN_NAME</replaceable>}</varname> or 
+                    <varname>${<replaceable>TOKEN_NAME</replaceable>:<replaceable>MODIFIER</replaceable>}</varname>,
+                where <replaceable>TOKEN_NAME</replaceable> is some descriptive name for the value the
+                token represents, and the optional <replaceable>MODIFIER</replaceable> is one of the
+                modifiers documented below to dynamically modify the token. Tokens with no corresponding
+                value will never be replaced, but should you need such text within your connection
+                parameters, and wish to guarantee that this text will not be replaced with a token value,
+                you can escape the token by adding an additional leading "$", as in "$${TOKEN_NAME}".</para>
             <variablelist>
                 <varlistentry>
                     <term><varname>${GUAC_USERNAME}</varname></term>
@@ -6068,6 +6069,34 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                 two different users access the same connection at the same time, both users will be
                 connected independently of each other using different sets of connection
                 parameters.</para>
+            <section xml:id="token-modifiers">
+                <title>Token modifiers</title>
+                <indexterm>
+                    <primary>tokens</primary>
+                    <secondary>modifiers</secondary>
+                </indexterm>
+                <para>At times it can be useful to use the value provided by a token, but with slight
+                    modifications.  These modifers are optionally specified at the end of the token,
+                    separated from the token name by a colon (:), in the format
+                    <varname>${TOKEN_NAME:<replaceable>MODIFIER</replaceable>}</varname>.The following
+                    modifiers are currently supported:</para>
+                <variablelist>
+                    <varlistentry>
+                        <term><varname>LOWER</varname></term>
+                        <listitem>
+                            <para>Convert the entire value of the token to lower-case.  This can be
+                            useful in situations where users log in to Guacamole with a mixed-case
+                            username, but a remote system requires the username be lower-case.</para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><varname>UPPER</varname></term>
+                        <listitem>
+                            <para>Convert the entire value of the token to upper-case.</para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+            </section>
             <section xml:id="extension-tokens">
                 <title>Extension-specific tokens</title>
                 <indexterm>
