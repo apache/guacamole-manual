@@ -48,7 +48,7 @@
                 xlink:href="http://guacamole.apache.org/releases/"
                 >http://guacamole.apache.org/releases/</link>.</para>
         <para>The quickconnect extension is packaged as a <filename>.tar.gz</filename> file containing
-            only the extension itself, <filename>guacamole-auth-quickconnect-1.2.0.jar</filename>, which must
+            only the extension itself, <filename>guacamole-auth-quickconnect-1.3.0.jar</filename>, which must
             ultimately be placed in <filename>GUACAMOLE_HOME/extensions</filename>.</para>
     </section>
     <section xml:id="installing-quickconnect">
@@ -65,7 +65,7 @@
                     does not already exist.</para>
             </step>
             <step>
-                <para>Place the <filename>guacamole-auth-quickconnect-1.2.0.jar</filename> file in
+                <para>Place the <filename>guacamole-auth-quickconnect-1.3.0.jar</filename> file in
                     the <filename>GUACAMOLE_HOME/extensions</filename> directory.</para>
             </step>
         </procedure>

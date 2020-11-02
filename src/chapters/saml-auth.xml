@@ -24,7 +24,7 @@
                 >http://guacamole.apache.org/releases/</link>.</para>
         <para>The SAML authentication extension is packaged as a <filename>.tar.gz</filename>
             file containing only the extension itself,
-                <filename>guacamole-auth-saml-1.2.0.jar</filename>, which must
+                <filename>guacamole-auth-saml-1.3.0.jar</filename>, which must
             ultimately be placed in <filename>GUACAMOLE_HOME/extensions</filename>.</para>
     </section>
     <section xml:id="installing-saml-auth">
@@ -41,7 +41,7 @@
                     does not already exist.</para>
             </step>
             <step>
-                <para>Copy <filename>guacamole-auth-saml-1.2.0.jar</filename> within
+                <para>Copy <filename>guacamole-auth-saml-1.3.0.jar</filename> within
                         <filename>GUACAMOLE_HOME/extensions</filename>.</para>
             </step>
             <step>

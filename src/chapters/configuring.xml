@@ -719,7 +719,7 @@ guacd-port:     4822</programlisting>
                     events:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>guaclog <replaceable>/path/to/recording/NAME</replaceable></userinput><computeroutput>
-guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.2.0
+guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.3.0
 guaclog: INFO: 1 input file(s) provided.
 guaclog: INFO: Writing input events from "<replaceable>/path/to/recording/NAME</replaceable>" to "<replaceable annotations="">/path/to/recording/NAME</replaceable>.txt" ...
 guaclog: INFO: All files interpreted successfully.</computeroutput>
@@ -2031,7 +2031,7 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                                     can be used in situations where guacd does
                                     not support passing the timezone parameter
                                     during the handshake phase (guacd versions
-                                    prior to 1.2.0).</para>
+                                    prior to 1.3.0).</para>
                                     <para>Support for forwarding the client
                                     timezone varies by RDP server implementation.
                                     For example, with Windows, support for
@@ -2195,7 +2195,7 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                     events:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>guaclog <replaceable>/path/to/recording/NAME</replaceable></userinput><computeroutput>
-guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.2.0
+guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.3.0
 guaclog: INFO: 1 input file(s) provided.
 guaclog: INFO: Writing input events from "<replaceable>/path/to/recording/NAME</replaceable>" to "<replaceable annotations="">/path/to/recording/NAME</replaceable>.txt" ...
 guaclog: INFO: All files interpreted successfully.</computeroutput>
@@ -4029,7 +4029,7 @@ writer.sendEnd();</programlisting>
                     events:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>guaclog <replaceable>/path/to/recording/NAME</replaceable></userinput><computeroutput>
-guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.2.0
+guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.3.0
 guaclog: INFO: 1 input file(s) provided.
 guaclog: INFO: Writing input events from "<replaceable>/path/to/recording/NAME</replaceable>" to "<replaceable annotations="">/path/to/recording/NAME</replaceable>.txt" ...
 guaclog: INFO: All files interpreted successfully.</computeroutput>
@@ -4988,7 +4988,7 @@ writer.sendEnd();</programlisting>
                     events:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>guaclog <replaceable>/path/to/recording/NAME</replaceable></userinput><computeroutput>
-guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.2.0
+guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.3.0
 guaclog: INFO: 1 input file(s) provided.
 guaclog: INFO: Writing input events from "<replaceable>/path/to/recording/NAME</replaceable>" to "<replaceable annotations="">/path/to/recording/NAME</replaceable>.txt" ...
 guaclog: INFO: All files interpreted successfully.</computeroutput>
@@ -5842,7 +5842,7 @@ color9: rgb:80/00/80</programlisting>
                     events:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>guaclog <replaceable>/path/to/recording/NAME</replaceable></userinput><computeroutput>
-guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.2.0
+guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.3.0
 guaclog: INFO: 1 input file(s) provided.
 guaclog: INFO: Writing input events from "<replaceable>/path/to/recording/NAME</replaceable>" to "<replaceable annotations="">/path/to/recording/NAME</replaceable>.txt" ...
 guaclog: INFO: All files interpreted successfully.</computeroutput>
