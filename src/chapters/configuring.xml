@@ -719,7 +719,7 @@ guacd-port:     4822</programlisting>
                     events:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>guaclog <replaceable>/path/to/recording/NAME</replaceable></userinput><computeroutput>
-guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.2.0
+guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.3.0
 guaclog: INFO: 1 input file(s) provided.
 guaclog: INFO: Writing input events from "<replaceable>/path/to/recording/NAME</replaceable>" to "<replaceable annotations="">/path/to/recording/NAME</replaceable>.txt" ...
 guaclog: INFO: All files interpreted successfully.</computeroutput>
@@ -1635,15 +1635,18 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                     domain parameters are omitted. One notable exception to this is Network Level
                     Authentication, or NLA, which performs all authentication outside of a desktop
                     session, and thus in the absence of a graphical interface.</para>
-                <important>
-                    <para>If your server requires NLA, you <emphasis>must</emphasis> provide a
-                        username and password. Leveraging Guacamole's <link
-                            xmlns:xlink="http://www.w3.org/1999/xlink" linkend="parameter-tokens"
-                            >parameter tokens</link> and <link
-                            xmlns:xlink="http://www.w3.org/1999/xlink" linkend="ldap-auth">LDAP
-                            support</link> to integrate with Active Directory and automatically pass
-                        through credentials is a common configuration.</para>
-                </important>
+                <para>Servers that require NLA can be handled by Guacamole in one of two ways. The
+                    first is to provide the username and password within the connection
+                    configuration, either via static values or by passing through the Guacamole
+                    credentials with <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                        linkend="parameter-tokens">parameter tokens</link> and
+                        <link xmlns:xlink="http://www.w3.org/1999/xlink" linkend="ldap-auth">
+                            LDAP support</link>. Alternatively, if credentials are not configured
+                    within the connection configuration, Guacamole will attempt to prompt the user
+                    for the credentials interactively, if the versions of both guacd and
+                    Guacamole Client in use support it. If either component does not support
+                    prompting and the credentials are not configured, NLA-based connections will
+                    fail.</para>
                 <informaltable frame="all">
                     <indexterm>
                         <primary>parameters</primary>
@@ -1730,6 +1733,13 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                                                   session actually starts, avoiding the need for the
                                                   Windows server to allocate significant resources
                                                   for users that may not be authorized.</para>
+                                                <para>If the versions of guacd and Guacamole Client
+                                                  in use support prompting and the username, password,
+                                                  and domain are not specified, the user will be
+                                                  interactively prompted to enter credentials to
+                                                  complete NLA and continue the connection. Otherwise,
+                                                  when prompting is not supported and credentials are
+                                                  not provided, NLA connections will fail.</para>
                                             </listitem>
                                         </varlistentry>
                                         <varlistentry>
@@ -2031,7 +2041,7 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                                     can be used in situations where guacd does
                                     not support passing the timezone parameter
                                     during the handshake phase (guacd versions
-                                    prior to 1.2.0).</para>
+                                    prior to 1.3.0).</para>
                                     <para>Support for forwarding the client
                                     timezone varies by RDP server implementation.
                                     For example, with Windows, support for
@@ -2195,7 +2205,7 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                     events:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>guaclog <replaceable>/path/to/recording/NAME</replaceable></userinput><computeroutput>
-guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.2.0
+guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.3.0
 guaclog: INFO: 1 input file(s) provided.
 guaclog: INFO: Writing input events from "<replaceable>/path/to/recording/NAME</replaceable>" to "<replaceable annotations="">/path/to/recording/NAME</replaceable>.txt" ...
 guaclog: INFO: All files interpreted successfully.</computeroutput>
@@ -4029,7 +4039,7 @@ writer.sendEnd();</programlisting>
                     events:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>guaclog <replaceable>/path/to/recording/NAME</replaceable></userinput><computeroutput>
-guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.2.0
+guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.3.0
 guaclog: INFO: 1 input file(s) provided.
 guaclog: INFO: Writing input events from "<replaceable>/path/to/recording/NAME</replaceable>" to "<replaceable annotations="">/path/to/recording/NAME</replaceable>.txt" ...
 guaclog: INFO: All files interpreted successfully.</computeroutput>
@@ -4988,7 +4998,7 @@ writer.sendEnd();</programlisting>
                     events:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>guaclog <replaceable>/path/to/recording/NAME</replaceable></userinput><computeroutput>
-guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.2.0
+guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.3.0
 guaclog: INFO: 1 input file(s) provided.
 guaclog: INFO: Writing input events from "<replaceable>/path/to/recording/NAME</replaceable>" to "<replaceable annotations="">/path/to/recording/NAME</replaceable>.txt" ...
 guaclog: INFO: All files interpreted successfully.</computeroutput>
@@ -5842,7 +5852,7 @@ color9: rgb:80/00/80</programlisting>
                     events:</para>
                 <informalexample>
                     <screen><prompt>$</prompt> <userinput>guaclog <replaceable>/path/to/recording/NAME</replaceable></userinput><computeroutput>
-guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.2.0
+guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.3.0
 guaclog: INFO: 1 input file(s) provided.
 guaclog: INFO: Writing input events from "<replaceable>/path/to/recording/NAME</replaceable>" to "<replaceable annotations="">/path/to/recording/NAME</replaceable>.txt" ...
 guaclog: INFO: All files interpreted successfully.</computeroutput>
@@ -6194,6 +6204,38 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                     </itemizedlist>
                 </section>
             </section>
+        </section>
+        <section xml:id="parameter-prompting">
+            <title>Parameter prompting</title>
+            <para><indexterm>
+                <primary>parameters</primary>
+                <secondary>prompt</secondary>
+            </indexterm>In certain situations Guacamole may determine that additional
+                information is required in order to successfully open or continue a
+                connection. In these scenarios guacd will send an instruction back to
+                the client to retrieve that information, which will result in the user
+                being prompted for those additional parameters.</para>
+            <para>Currently the only parameters that will trigger this prompt to the
+                user are authentication requests for the RDP and VNC protocols where
+                authenticators were not provided as part of the connection configuration.
+            </para>
+            <important>
+                <para>It is important to note that requests for parameters will only be
+                    generated in the case where that information has not already been
+                    provided as part of the connection. The user will never be asked for
+                    parameters that replace or override connection parameters where
+                    values have been configured as part of the connection, including
+                    authentication information. For example, if the configuration of
+                    a connection to a RDP server specifies a username and password,
+                    and that username or password is incorrect and results in an
+                    authentication failure, Guacamole will not prompt the user for
+                    additional credentials. For RDP servers where NLA is enforced,
+                    this will result in a connection failure. Other RDP servers may
+                    behave differently and give the user the ability to try other
+                    credentials, but this is outside the control of Guacamole -
+                    Guacamole will not override pre-configured values with input
+                    from the user.</para>
+            </important>
         </section>
     </section>
     <section xml:id="guacd.conf">
