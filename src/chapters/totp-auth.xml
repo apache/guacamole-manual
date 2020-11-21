@@ -169,6 +169,12 @@
                             used.</para>
                     </listitem>
                 </varlistentry>
+                <varlistentry>
+                    <term><property>totp-disabled-group</property></term>
+                    <listitem>
+                        <para>All members of the named group will have totp authentication disabled.</para>
+                    </listitem>
+                </varlistentry>
             </variablelist>
         </section>
         <section xml:id="completing-totp-install">
