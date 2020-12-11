@@ -145,9 +145,9 @@
                 <varlistentry>
                     <term><property>openid-username-claim-type</property></term>
                     <listitem>
-                        <para>The claim type which contains the authenticated user's username within
-                            any valid JWT. By default, the "<constant>email</constant>" is
-                            used.</para>
+                        <para>The claim type within any valid JWT that contains the authenticated
+                            user's username. By default, the "<constant>email</constant>" claim type
+                            is used.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
