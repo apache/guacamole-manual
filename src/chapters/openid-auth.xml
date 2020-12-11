@@ -137,17 +137,25 @@
                 </varlistentry>
             </variablelist>
             <para>Additional optional properties are available to control how claims within received
-                ID tokens are used to derive the user's Guacamole username, the OpenID scopes
-                requested when user identities are confirmed, and to control the maximum amount of
-                time allowed for various aspects of the conversation with the identity
-                provider:</para>
+                ID tokens are used to derive the user's Guacamole username, any associated groups,
+                the OpenID scopes requested when user identities are confirmed, and to control the
+                maximum amount of time allowed for various aspects of the conversation with the
+                identity provider:</para>
             <variablelist>
                 <varlistentry>
                     <term><property>openid-username-claim-type</property></term>
                     <listitem>
-                        <para>The claim type which contains the authenticated user's username within
-                            any valid JWT. By default, the "<constant>email</constant>" is
-                            used.</para>
+                        <para>The claim type within any valid JWT that contains the authenticated
+                            user's username. By default, the "<constant>email</constant>" claim type
+                            is used.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><property>openid-groups-claim-type</property></term>
+                    <listitem>
+                        <para>The claim type within any valid JWT that contains the list of groups
+                            of which the authenticated user is a member. By default, the
+                                "<constant>groups</constant>" claim type is used.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
