@@ -416,6 +416,19 @@
                                         exhausted by one user alone.</para>
                                 </entry>
                             </row>
+                            <row>
+                                <entry><envar>MYSQL_AUTO_CREATE_ACCOUNTS</envar></entry>
+                                <entry>
+                                    <para>Whether or not accounts that do not exist in the
+                                        MySQL database will be automatically created when successfully
+                                        authenticated through other modules. If set to "true" accounts
+                                        will be automatically created. Otherwise, and by default,
+                                        accounts will not be automatically created and will need to
+                                        be manually created in order for permissions within the
+                                        MySQL database extension to be assigned to users
+                                        authenticated with other modules.</para>
+                                </entry>
+                            </row>
                         </tbody>
                     </tgroup>
                 </informaltable>
@@ -641,6 +654,19 @@
                                             connection groups is limited to one ("1")</emphasis>, to
                                         prevent a balancing connection group from being completely
                                         exhausted by one user alone.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>POSTGRES_AUTO_CREATE_ACCOUNTS</envar></entry>
+                                <entry>
+                                    <para>Whether or not accounts that do not exist in the
+                                        PostgreSQL database will be automatically created when
+                                        successfully authenticated through other modules. If set
+                                        to "true", accounts will be automatically created. Otherwise,
+                                        and by default, accounts will not be automatically created
+                                        and will need to be manually created in order for permissions
+                                        within the PostgreSQL database extension to be assigned to
+                                        users authenticated with other modules.</para>
                                 </entry>
                             </row>
                         </tbody>
