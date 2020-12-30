@@ -1433,6 +1433,28 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                                 </entry>
                             </row>
                             <row>
+                                <entry><parameter>wol-udp-port</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>wol-udp-port</primary>
+                                        </indexterm><indexterm>
+                                            <primary>VNC</primary>
+                                            <secondary>wol-udp-port</secondary>
+                                        </indexterm>This parameter configures the
+                                        UDP port that will be set in the WoL packet.
+                                        In most cases the UDP port isn't processed
+                                        by the system that will be woken up; however,
+                                        there are certain cases where it is useful
+                                        for the port to be set, as in situations
+                                        where a router is listening for the packet
+                                        and can make routing decisions depending
+                                        upon the port that is used. If not
+                                        configured the default UDP port 9 will be
+                                        used.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
                                 <entry><parameter>wol-wait-time</parameter></entry>
                                 <entry>
                                     <para><indexterm>
@@ -3285,6 +3307,28 @@ ed272546-87bd-4db9-acba-e36e1a9ca20a
                                 </entry>
                             </row>
                             <row>
+                                <entry><parameter>wol-udp-port</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>wol-udp-port</primary>
+                                        </indexterm><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>wol-udp-port</secondary>
+                                        </indexterm>This parameter configures the
+                                        UDP port that will be set in the WoL packet.
+                                        In most cases the UDP port isn't processed
+                                        by the system that will be woken up; however,
+                                        there are certain cases where it is useful
+                                        for the port to be set, as in situations
+                                        where a router is listening for the packet
+                                        and can make routing decisions depending
+                                        upon the port that is used. If not
+                                        configured the default UDP port 9 will be
+                                        used.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
                                 <entry><parameter>wol-wait-time</parameter></entry>
                                 <entry>
                                     <para><indexterm>
@@ -4375,6 +4419,28 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                                 </entry>
                             </row>
                             <row>
+                                <entry><parameter>wol-udp-port</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>wol-udp-port</primary>
+                                        </indexterm><indexterm>
+                                            <primary>SSH</primary>
+                                            <secondary>wol-udp-port</secondary>
+                                        </indexterm>This parameter configures the
+                                        UDP port that will be set in the WoL packet.
+                                        In most cases the UDP port isn't processed
+                                        by the system that will be woken up; however,
+                                        there are certain cases where it is useful
+                                        for the port to be set, as in situations
+                                        where a router is listening for the packet
+                                        and can make routing decisions depending
+                                        upon the port that is used. If not
+                                        configured the default UDP port 9 will be
+                                        used.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
                                 <entry><parameter>wol-wait-time</parameter></entry>
                                 <entry>
                                     <para><indexterm>
@@ -5260,6 +5326,28 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                                         This parameter is optional.  If no value
                                         is provided, the default local IPv4 broadcast
                                         address (255.255.255.255) will be used.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>wol-udp-port</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>wol-udp-port</primary>
+                                        </indexterm><indexterm>
+                                            <primary>telnet</primary>
+                                            <secondary>wol-udp-port</secondary>
+                                        </indexterm>This parameter configures the
+                                        UDP port that will be set in the WoL packet.
+                                        In most cases the UDP port isn't processed
+                                        by the system that will be woken up; however,
+                                        there are certain cases where it is useful
+                                        for the port to be set, as in situations
+                                        where a router is listening for the packet
+                                        and can make routing decisions depending
+                                        upon the port that is used. If not
+                                        configured the default UDP port 9 will be
+                                        used.
                                     </para>
                                 </entry>
                             </row>
