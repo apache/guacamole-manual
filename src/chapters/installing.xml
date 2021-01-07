@@ -226,12 +226,32 @@
                             </entry>
                         </row>
                         <row>
-                            <entry><link xl:href="http://www.ossp.org/pkg/lib/uuid/">OSSP
-                                    UUID</link></entry>
+                            <entry>libuuid (part of <link xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    xlink:href="https://www.kernel.org/pub/linux/utils/util-linux/"
+                                    >util-linux</link>)</entry>
                             <entry>
-                                <para>OSSP UUID is used by libguac to assign unique IDs to each
-                                    Guacamole connection. These unique IDs are the basis for
-                                    connection sharing support.</para>
+                                <para>libuuid is used by libguac to assign unique, internal IDs to
+                                    each Guacamole user and connection. These unique IDs are the
+                                    basis for connection sharing support.</para>
+                                <informaltable frame="none" rowheader="firstcol">
+                                    <tgroup cols="2">
+                                        <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                                        <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                                        <tbody>
+                                            <row>
+                                                <entry>Debian / Ubuntu package</entry>
+                                                <entry><package>uuid-dev</package></entry>
+                                            </row>
+                                            <row>
+                                                <entry>Fedora / CentOS / RHEL package</entry>
+                                                <entry><package>libuuid-devel</package></entry>
+                                            </row>
+                                        </tbody>
+                                    </tgroup>
+                                </informaltable>
+                                <para>If libuuid is unavailable, the <link
+                                        xl:href="http://www.ossp.org/pkg/lib/uuid/">OSSP UUID</link>
+                                    library may also be used:</para>
                                 <informaltable frame="none" rowheader="firstcol">
                                     <tgroup cols="2">
                                         <colspec colname="c1" colnum="1" colwidth="1.0*"/>
