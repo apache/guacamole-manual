@@ -5495,6 +5495,24 @@ guaclog: INFO: All files interpreted successfully.</computeroutput>
                                         omitted, the first container in the pod will be used.</para>
                                 </entry>
                             </row>
+                            <row>
+                                <entry><parameter>exec-command</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>Kubernetes</primary>
+                                            <secondary>command</secondary>
+                                        </indexterm>The command to run within the container, with
+                                        input and output attached to this command's process.
+                                            <emphasis>This parameter is optional.</emphasis> If
+                                        omitted, no command will be run, and input/output will
+                                        instead be attached to the main process of the
+                                        container.</para>
+                                    <para>When this parameter is specified, the behavior of the
+                                        connection is analogous to running <command>kubectl
+                                            exec</command>. When omitted, the behavior is analogous
+                                        to running <command>kubectl attach</command>.</para>
+                                </entry>
+                            </row>
                         </tbody>
                     </tgroup>
                 </informaltable>
