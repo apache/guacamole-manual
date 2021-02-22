@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter xml:id="guacamole-ext" xmlns="http://docbook.org/ns/docbook"
-    version="5.0" xml:lang="en" xmlns:xl="http://www.w3.org/1999/xlink"
+    version="5.0" xml:lang="en" xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns:xi="http://www.w3.org/2001/XInclude">
     <title>guacamole-ext</title>
     <indexterm>
@@ -308,6 +308,11 @@
                 its contents will automatically be inserted directly below the login dialog (the
                 only element that would match <code>.login-ui .login-dialog</code>) as if they were
                 part of Guacamole's HTML in the first place.</para>
+            <para>An example of an extension that modifies style and HTML components for the purpose
+                of providing custom "branding" of the Guacamole interface can be found in the
+                <filename>doc/guacamole-branding-example</filename> directory of the guacamole-client
+                source code, which can be found here: <link
+                    xlink:href="https://github.com/apache/guacamole-client/tree/master/doc/guacamole-branding-example"                                     >https://github.com/apache/guacamole-client/tree/master/doc/guacamole-branding-example</link>.</para>
         </section>
     </section>
     <section xml:id="ext-environment">
