@@ -141,6 +141,23 @@
             </varlistentry>
             <varlistentry>
                 <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+                        <primary>api-max-request-size</primary>
+                    </indexterm><parameter>api-max-request-size</parameter></term>
+                <listitem>
+                    <para>The maximum number of bytes to accept within the entity body of any
+                        particular HTTP request, where 0 indicates that no limit should be applied.
+                        If omitted, requests will be limited to 2097152 bytes (2 MB) by default.
+                        This limit does not apply to file uploads.</para>
+                    <para>If using a reverse proxy for SSL termination, <emphasis>keep in mind that
+                            reverse proxies may enforce their own limits independently of
+                            this</emphasis>. For example, <link
+                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                            linkend="nginx-file-upload-size">Nginx will enforce a 1 MB request size
+                            limit by default</link>.</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
                         <primary>allowed-languages</primary>
                     </indexterm><parameter>allowed-languages</parameter></term>
                 <listitem>
