@@ -705,6 +705,20 @@ guacd-port:     4822</programlisting>
                                         optional.</para>
                                 </entry>
                             </row>
+                            <row>
+                                <entry><parameter>force-lossless</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>VNC</primary>
+                                            <secondary>lossless compression</secondary>
+                                        </indexterm>Whether this connection should only use lossless
+                                        compression for graphical updates. If set to "true", lossy
+                                        compression will not be used. This parameter is optional. By
+                                        default, lossy compression will be used when heuristics
+                                        determine that it would likely outperform lossless
+                                        compression.</para>
+                                </entry>
+                            </row>
                         </tbody>
                     </tgroup>
                 </informaltable>
@@ -2211,6 +2225,20 @@ tcp6       0      0 :::4713                 :::*                    LISTEN</comp
                                             </listitem>
                                         </varlistentry>
                                     </variablelist>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><parameter>force-lossless</parameter></entry>
+                                <entry>
+                                    <para><indexterm>
+                                            <primary>RDP</primary>
+                                            <secondary>lossless compression</secondary>
+                                        </indexterm>Whether this connection should only use lossless
+                                        compression for graphical updates. If set to "true", lossy
+                                        compression will not be used. This parameter is optional. By
+                                        default, lossy compression will be used when heuristics
+                                        determine that it would likely outperform lossless
+                                        compression.</para>
                                 </entry>
                             </row>
                         </tbody>
