@@ -74,7 +74,43 @@
             <indexterm>
                 <primary>configuring quickconnect</primary>
             </indexterm>
-            <para>This module has no configuration options.</para>
+            <para>The quickconnect extension has two configuration properties that
+                allow for controlling what connection parameters can be used
+                in the URIs that are opened with the quickconnect extension:</para>
+            <variablelist>
+                <varlistentry>
+                    <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+                            <primary>quickconnect-allowed-parameters</primary>
+                        </indexterm><parameter>quickconnect-allowed-parameters</parameter></term>
+                    <listitem>
+                        <para>An optional list of parameters that are allowed to be
+                            used by connections that are created and accessed via
+                            the quickconnect extension. If this property is present,
+                            only parameters in this list will be allowed. If this
+                            property is absent, any/all parameters will be allowed
+                            unless explicitly denied using the
+                                <parameter>quickconnect-denied-parameters</parameter>
+                            property.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><indexterm xmlns:xl="http://www.w3.org/1999/xlink">
+                            <primary>quickconnect-denied-parameters</primary>
+                        </indexterm><parameter>quickconnect-denied-parameters</parameter></term>
+                    <listitem>
+                        <para>An optional list of parameters that are explicitly
+                            denied from being used by connections created and
+                            accessed via the quickconnect extension. If this
+                            property is present, any parameters in this list will
+                            be removed from the connection configuration when it is
+                            created, <emphasis>even if those parameter are listed
+                                above in the <parameter>quickconnect-allowed-parameters</parameter>
+                                property.</emphasis>
+                            If this property is not present, no connection parameters
+                            will be explicitly denied.</para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
         </section>
         <section xml:id="completing-quickconnect-install">
             <title>Completing the installation</title>
