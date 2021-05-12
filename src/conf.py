@@ -31,6 +31,7 @@ author = u'The Apache Software Foundation'
 #
 
 extensions = [
+    'myst_parser',
     'sphinx.ext.ifconfig',
     'sphinx.ext.extlinks'
 ]
@@ -42,6 +43,18 @@ extlinks = {
 
 # Do not highlight source unless a Pygments lexer name is explicitly provided
 highlight_language = 'none'
+
+myst_enable_extensions = [
+    "colon_fence",
+    "deflist",
+    "replacements",
+    "smartquotes",
+    "substitution"
+]
+
+myst_substitutions = {
+    "version" : version
+}
 
 #
 # HTML output options

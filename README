@@ -18,8 +18,19 @@ snapshot copies of each release are included in the release archives:
 ------------------------------------------------------------
 
 The guacamole-manual package is the base documentation for the entire Guacamole
-stack. It is written in reStructuredText, a plaintext markup syntax commonly
-used for authoring manuals and technical documentation.
+stack. It is written in "MyST", a flavor of Markdown:
+
+    https://myst-parser.readthedocs.io/en/latest/index.html
+
+The MyST format was chosen because:
+
+ * As a variant of Markdown, it will be widely approachable and familiar.
+ * It is supported by Sphinx.
+ * It provides additional syntax for the features of reStructuredText that are
+   absent from standard Markdown (like admonitions).
+ * It provides the features of Markdown that are absent from reStructuredText
+   (like nested inline formatting, including formatting within links or links
+   within formatted text).
 
 The build process involves running the Guacamole manual source through the
 tooling provided by the Sphinx project, in particular "sphinx-build".
@@ -29,10 +40,11 @@ tooling provided by the Sphinx project, in particular "sphinx-build".
  Building the manual
 ------------------------------------------------------------
 
-1) Ensure Sphinx and the default ReadTheDocs theme are installed. These can be
-   installed using "pip" via the "sphinx" and "sphinx_rtd_theme" packages
-   respectively.
+1) Ensure Sphinx, the default ReadTheDocs theme, and the MyST parser are
+   installed. These can be installed using "pip" via the "sphinx",
+   "myst-parser", and "sphinx-rtd-theme" packages respectively.
 
+   https://pypi.org/project/myst-parser/
    https://pypi.org/project/Sphinx/
    https://pypi.org/project/sphinx-rtd-theme/
 

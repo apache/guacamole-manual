@@ -33,6 +33,7 @@ clean:
 	$(RM) -R build/
 
 # All files which the build depends on
+MD_FILES=$(shell find -path "./src/*" -name "*.md")
 RST_FILES=$(shell find -path "./src/*" -name "*.rst")
 PNG_FILES=$(shell find -path "./src/*" -name "*.png")
 
@@ -42,6 +43,6 @@ PNG_FILES=$(shell find -path "./src/*" -name "*.png")
 
 html: build/html/index.html
 	
-build/html/index.html: $(PNG_FILES) $(RST_FILES)
+build/html/index.html: $(PNG_FILES) $(RST_FILES) $(MD_FILES)
 	sphinx-build -b html -d build/doctrees src/ build/html
 

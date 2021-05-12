@@ -1,38 +1,34 @@
-.. _preface:
-
 Introduction
 ============
 
-This book is the official Apache Guacamole manual, written by the
-upstream developers of the Guacamole project. It is also the official
-general documentation, and an online version at
-http://guacamole.apache.org/. It is a work in progress which will be
+This book is the official Apache Guacamole manual, written by the upstream
+developers of the Guacamole project. It is also the official general
+documentation, with an online version available at
+<http://guacamole.apache.org/>. It is a work in progress which will be
 continuously updated as Guacamole changes with each release.
 
-We decided to maintain the documentation for Guacamole as a book, as
-there is an awful lot that can be done with the Guacamole web
-application, and even more that can be done with the API. This book is
-intended to explore the possibilities of Guacamole as an application,
-and to provide documentation necessary to install, maintain, and use
-Guacamole.
+We decided to maintain the documentation for Guacamole as a book, as there is
+an awful lot that can be done with the Guacamole web application, and even more
+that can be done with the API. This book is intended to explore the
+possibilities of Guacamole as an application, and to provide documentation
+necessary to install, maintain, and use Guacamole.
 
 For the sake of users and administrators, we have provided a high-level
-overview of Guacamole's architecture and technical design, as well as
-basic usage instructions and installation instructions for common
-platforms.
+overview of Guacamole's architecture and technical design, as well as basic
+usage instructions and installation instructions for common platforms.
 
-For the sake of developers, we have provided a protocol reference and
-tutorials for common tasks (implementing protocol support, integrating
-Guacamole into your own application, etc.) to give a good starting point
-beyond simply looking at the Guacamole codebase.
+For the sake of developers, we have provided a protocol reference and tutorials
+for common tasks (implementing protocol support, integrating Guacamole into
+your own application, etc.) to give a good starting point beyond simply looking
+at the Guacamole codebase.
 
 This particular edition of the Guacamole Manual covers Guacamole version
-|version|. New releases which create new features or break compatibility
+{{ version }}. New releases which create new features or break compatibility
 will result in new editions of the user's guide, as will any necessary
-corrections. As the official documentation for the project, this book
-will always be freely available in its entirety online.
+corrections.  As the official documentation for the project, this book will
+always be freely available in its entirety online.
 
-.. _what-is-guac:
+(what-is-guac)=
 
 What is Guacamole?
 ------------------
@@ -71,7 +67,7 @@ desktop support over HTML5 can leverage the years of research and
 development that went into Guacamole by incorporating the API into their
 application or service.
 
-.. _access-from-anywhere:
+(access-from-anywhere)=
 
 Why use Guacamole?
 ------------------
@@ -92,7 +88,7 @@ violating the policy of your workplace, and without requiring the
 installation of special clients. The presence of a proxy or corporate
 firewall does not prevent Guacamole use.
 
-.. _access-from-anything:
+(access-from-anything)=
 
 Access your computers from any device
 -------------------------------------
@@ -115,7 +111,7 @@ screen size.
 Barring bugs, you should be able to use Guacamole on just about any
 modern device with a web browser.
 
-.. _non-physical-computer:
+(non-physical-computer)=
 
 Keep a computer in the "cloud"
 ------------------------------
@@ -133,7 +129,7 @@ In fact, all Guacamole development is done on computers like this. This
 is partly because we like the mobility, and partly because we want to
 ensure Guacamole is always performant enough for daily use.
 
-.. _group-access:
+(group-access)=
 
 Provide easy access to a group
 ------------------------------
@@ -148,7 +144,7 @@ or you are part of a group where each person has a set of machines that
 they need remote access to, Guacamole is a good way to provide that
 access while also ensuring that access is available from anywhere.
 
-.. _adding-remote-access:
+(adding-remote-access)=
 
 Adding HTML5 remote access to your existing infrastructure
 ----------------------------------------------------------
