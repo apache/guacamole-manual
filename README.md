@@ -1,28 +1,22 @@
-
-------------------------------------------------------------
- About this README
-------------------------------------------------------------
+About this README
+=================
 
 This README is intended to document the build process of the Apache Guacamole
 manual for technical users who wish to contribute or who simply wish to build
 the manual themselves.
 
-The latest version of the manual is provided on the Guacamole web site, and
-snapshot copies of each release are included in the release archives:
+The [latest version of the manual](http://guacamole.apache.org/doc/gug/) is
+provided on the [Guacamole web site](http://guacamole.apache.org/), and
+snapshot copies of each release are included in the [release
+archives](http://guacamole.apache.org/releases/).
 
-    http://guacamole.apache.org/
 
-
-------------------------------------------------------------
- What is guacamole-manual?
-------------------------------------------------------------
+What is guacamole-manual?
+=========================
 
 The guacamole-manual package is the base documentation for the entire Guacamole
-stack. It is written in "MyST", a flavor of Markdown:
-
-    https://myst-parser.readthedocs.io/en/latest/index.html
-
-The MyST format was chosen because:
+stack. It is written in [the "MyST" flavor of Markdown](https://myst-parser.readthedocs.io/en/latest/index.html).
+MyST was chosen because:
 
  * As a variant of Markdown, it will be widely approachable and familiar.
  * It is supported by Sphinx.
@@ -36,32 +30,32 @@ The build process involves running the Guacamole manual source through the
 tooling provided by the Sphinx project, in particular "sphinx-build".
 
 
-------------------------------------------------------------
- Building the manual
-------------------------------------------------------------
+Building the manual
+===================
 
-1) Ensure Sphinx, the default ReadTheDocs theme, and the MyST parser are
-   installed. These can be installed using "pip" via the "sphinx",
-   "myst-parser", and "sphinx-rtd-theme" packages respectively.
+1. Ensure [Sphinx](https://pypi.org/project/Sphinx/), the [Sphinx ReadTheDocs
+   theme](https://pypi.org/project/sphinx-rtd-theme/), and the [MyST
+   parser](https://pypi.org/project/myst-parser/) are installed. These can be
+   installed using "pip":
 
-   https://pypi.org/project/myst-parser/
-   https://pypi.org/project/Sphinx/
-   https://pypi.org/project/sphinx-rtd-theme/
+   ```console
+   $ pip install sphinx sphinx-rtd-theme myst-parser
+   ```
 
-2) Run make
+2. Run make:
 
-    $ make
+   ```console
+   $ make
+   ```
 
-    The manual will now be built using Sphinx. Once complete, the entire
-    HTML version of the manual will be available within the "build/html"
-    directory in the root directory of the source tree.
+   The manual will now be built using Sphinx. Once complete, the entire
+   HTML version of the manual will be available within the `build/html/`
+   directory in the root directory of the source tree.
 
+Building and viewing the manual using Docker
+============================================
 
-------------------------------------------------------------
- Building and viewing the manual using Docker
-------------------------------------------------------------
-
-The guacamole-manual package includes a Dockerfile that can be used to build 
+The guacamole-manual package includes a `Dockerfile` that can be used to build
 an Apache httpd Docker image that contains the Guacamole user manual.
 
 By building and running the resulting container, a developer can work on the 
@@ -69,16 +63,20 @@ user manual without the need to install Sphinx on their workstation. The
 resulting container can also be used to serve the  manual to Guacamole users on
 a network.
 
-Docker CE version 1.6 or later is required to build the image.
+**Docker CE version 1.6 or later is required to build the image.**
 
 Build the Guacamole manual container image by running the following command in
 the directory that contains this Dockerfile:
 
-    $ docker image build -t guacamole/manual .
+```console
+$ docker image build -t guacamole/manual .
+```
 
 Run the resulting container using the following command:
 
-    $ docker container run -p 8080:80 guacamole/manual
+```console
+$ docker container run -p 8080:80 guacamole/manual
+```
 
 You'll see some startup messages from Apache httpd on your terminal when you 
 start up the container. Once the container is running you can then view the 
@@ -93,12 +91,11 @@ container and run the build again each time you wish to see changes you've
 made to the documentation source.
 
 
-------------------------------------------------------------
- Reporting problems
-------------------------------------------------------------
+Reporting problems
+==================
 
 Please report any bugs encountered by opening a new issue in the JIRA system
 hosted at:
 
-    https://issues.apache.org/jira/browse/GUACAMOLE
+<https://issues.apache.org/jira/browse/GUACAMOLE>
 
