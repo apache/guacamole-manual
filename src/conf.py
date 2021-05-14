@@ -16,6 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from datetime import date
+
 #
 # Project, version, and author information
 #
@@ -23,8 +25,9 @@
 project = u'Apache Guacamole'
 version = u'1.3.0'
 
-copyright = u'2021, The Apache Software Foundation'
+year = date.today().year
 author = u'The Apache Software Foundation'
+copyright = u'%s %s' % (year, author)
 
 #
 # Global options
@@ -41,6 +44,8 @@ extensions = [
 extlinks = {
     'jira': ( 'https://issues.apache.org/jira/browse/%s', '')
 }
+
+templates_path = [ '_templates' ]
 
 # Do not highlight source unless a Pygments lexer name is explicitly provided
 highlight_language = 'none'
@@ -66,4 +71,8 @@ html_title = u'Apache Guacamole Manual v%s' % version
 
 html_static_path = [ '_static' ]
 html_css_files = [ 'gug.css' ]
+
+html_context = {
+    'copyright_year' : year
+}
 
