@@ -231,17 +231,17 @@
                 <informalexample>
                   <programlisting>FROM guacamole/guacamole as guacamole-stage
                   
-                  RUN /opt/guacamole/bin/initdb.sh --mysql > /opt/guacamole/initdb.sql
+RUN /opt/guacamole/bin/initdb.sh --mysql > /opt/guacamole/initdb.sql
                   
-                  FROM mariadb:latest
+FROM mariadb:latest
                   
-                  # When a container is started for the first time, 
-                  # it will execute files with extensions .sh, .sql, .sql.gz, 
-                  # and .sql.xz that are found in /docker-entrypoint-initdb.d.
+# When a container is started for the first time, 
+# it will execute files with extensions .sh, .sql, .sql.gz, 
+# and .sql.xz that are found in /docker-entrypoint-initdb.d.
                   
-                  COPY --from=guacamole-stage /opt/guacamole/initdb.sql /docker-entrypoint-initdb.d</programlisting>
+COPY --from=guacamole-stage /opt/guacamole/initdb.sql /docker-entrypoint-initdb.d</programlisting>
                 </informalexample>
-                <para>An image buit in this way will ensure that database container spawned from it will have the proper initialization.</para>
+                <para>An image buit in this way will ensure your database container gets the proper initialization on its first run.</para>
                 <para>The process for doing this via the <command>mysql</command> utility included
                     with MySQL is documented in <xref linkend="jdbc-auth"/>.</para>
             </section>
@@ -486,17 +486,17 @@
                 <informalexample>
                   <programlisting>FROM guacamole/guacamole as guacamole-stage
                   
-                  RUN /opt/guacamole/bin/initdb.sh --postgres > /opt/guacamole/initdb.sql
+RUN /opt/guacamole/bin/initdb.sh --postgres > /opt/guacamole/initdb.sql
                   
-                  FROM postgres:latest
+FROM postgres:latest
                   
-                  # When a container is started for the first time, 
-                  # it will execute files with extensions .sh, .sql, .sql.gz, 
-                  # and .sql.xz that are found in /docker-entrypoint-initdb.d.
+# When a container is started for the first time, 
+# it will execute files with extensions .sh, .sql, .sql.gz, 
+# and .sql.xz that are found in /docker-entrypoint-initdb.d.
                   
-                  COPY --from=guacamole-stage /opt/guacamole/initdb.sql /docker-entrypoint-initdb.d</programlisting>
+COPY --from=guacamole-stage /opt/guacamole/initdb.sql /docker-entrypoint-initdb.d</programlisting>
                 </informalexample>
-                <para>An image buit in this way will ensure that database container spawned from it will have the proper initialization.</para>
+                <para>An image buit in this way will ensure your database container gets the proper initialization on its first run.</para>
                 <para>The process for doing this via the <command>psql</command> and
                         <command>createdb</command> utilities included with PostgreSQL is documented
                     in <xref linkend="jdbc-auth"/>.</para>
