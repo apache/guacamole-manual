@@ -33,7 +33,8 @@ author = u'The Apache Software Foundation'
 extensions = [
     'myst_parser',
     'sphinx.ext.ifconfig',
-    'sphinx.ext.extlinks'
+    'sphinx.ext.extlinks',
+    'sphinx_inline_tabs'
 ]
 
 # Allow shorthand notation for JIRA issue links

@@ -34,12 +34,13 @@ Building the manual
 ===================
 
 1. Ensure [Sphinx](https://pypi.org/project/Sphinx/), the [Sphinx ReadTheDocs
-   theme](https://pypi.org/project/sphinx-rtd-theme/), and the [MyST
-   parser](https://pypi.org/project/myst-parser/) are installed. These can be
-   installed using "pip":
+   theme](https://pypi.org/project/sphinx-rtd-theme/),
+   [sphinx-inline-tabs](https://pypi.org/project/sphinx-inline-tabs/), and the
+   [MyST parser](https://pypi.org/project/myst-parser/) are installed. These can
+   be installed using "pip":
 
    ```console
-   $ pip install sphinx sphinx-rtd-theme myst-parser
+   $ pip install sphinx sphinx-rtd-theme sphinx-inline-tabs myst-parser
    ```
 
 2. Run make:
