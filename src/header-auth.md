@@ -1,5 +1,3 @@
-(header-auth)=
-
 HTTP header authentication
 ==========================
 

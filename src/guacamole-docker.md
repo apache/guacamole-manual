@@ -1,5 +1,3 @@
-(guacamole-docker)=
-
 Installing Guacamole with Docker
 ================================
 

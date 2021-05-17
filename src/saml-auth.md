@@ -1,5 +1,3 @@
-(saml-auth)=
-
 SAML Authentication
 ===================
 

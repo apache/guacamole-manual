@@ -1,5 +1,3 @@
-(openid-auth)=
-
 OpenID Connect Authentication
 =============================
 

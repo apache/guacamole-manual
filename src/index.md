@@ -32,11 +32,11 @@ introduction
 :name: users-guide
 :maxdepth: 1
 
-architecture
-installing
-docker
+guacamole-architecture
+installing-guacamole
+guacamole-docker
 reverse-proxy
-configuring
+configuring-guacamole
 jdbc-auth
 ldap-auth
 duo-auth
@@ -47,7 +47,7 @@ openid-auth
 saml-auth
 radius-auth
 adhoc-connections
-using
+using-guacamole
 administration
 troubleshooting
 :::
@@ -57,15 +57,15 @@ troubleshooting
 :name: developers-guide
 :maxdepth: 1
 
-protocol
+guacamole-protocol
 libguac
 guacamole-common
 guacamole-common-js
 guacamole-ext
-adding-protocol
+custom-protocols
 custom-auth
 event-listeners
-yourown
+writing-you-own-guacamole-app
 :::
 
 :::{toctree}

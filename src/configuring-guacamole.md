@@ -1,5 +1,3 @@
-(configuring-guacamole)=
-
 Configuring Guacamole
 =====================
 

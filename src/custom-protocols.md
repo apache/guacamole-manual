@@ -1,5 +1,3 @@
-(custom-protocols)=
-
 Adding new protocols
 ====================
 

@@ -1,5 +1,3 @@
-(duo-auth)=
-
 Duo two-factor authentication
 =============================
 

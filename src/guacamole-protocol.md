@@ -1,5 +1,3 @@
-(guacamole-protocol)=
-
 The Guacamole protocol
 ======================
 

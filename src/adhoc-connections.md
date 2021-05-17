@@ -1,5 +1,3 @@
-(adhoc-connections)=
-
 Ad-hoc Connections
 ==================
 

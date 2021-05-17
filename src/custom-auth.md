@@ -1,5 +1,3 @@
-(custom-auth)=
-
 Custom authentication
 =====================
 

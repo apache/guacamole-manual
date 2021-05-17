@@ -1,5 +1,3 @@
-(radius-auth)=
-
 RADIUS Authentication
 =====================
 

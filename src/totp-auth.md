@@ -1,5 +1,3 @@
-(totp-auth)=
-
 TOTP two-factor authentication
 ==============================
 

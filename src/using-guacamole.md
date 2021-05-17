@@ -1,5 +1,3 @@
-(using-guacamole)=
-
 Using Guacamole
 ===============
 

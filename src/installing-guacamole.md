@@ -1,5 +1,3 @@
-(installing-guacamole)=
-
 Installing Guacamole natively
 =============================
 

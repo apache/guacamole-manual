@@ -1,5 +1,3 @@
-(cas-auth)=
-
 CAS Authentication
 ==================
 

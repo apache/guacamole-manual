@@ -1,5 +1,3 @@
-(writing-you-own-guacamole-app)=
-
 Writing your own Guacamole application
 ======================================
 

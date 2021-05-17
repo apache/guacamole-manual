@@ -1,5 +1,3 @@
-(guacamole-architecture)=
-
 Implementation and architecture
 ===============================
 
