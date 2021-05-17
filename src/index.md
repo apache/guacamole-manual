@@ -73,7 +73,6 @@ writing-you-own-guacamole-app
 :name: appendices
 :maxdepth: 1
 
-faq
 protocol-reference
 :::
 
