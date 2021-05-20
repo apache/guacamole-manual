@@ -251,7 +251,7 @@ background with gray. Though the size of the display *can* be chosen based on
 the size of the user's browser window (which is provided by the user during the
 [Guacamole protocol handshake](guacamole-protocol-handshake), or even updated
 when the window size changes (provided by the user via ["size"
-instructions](size-event-instruction)), we won't be doing that here for
+instructions](client-size-instruction)), we won't be doing that here for
 simplicity's sake:
 
 ```c
@@ -324,8 +324,8 @@ to initialize the user with respect to display state. In this case, we:
 2. Draw a 1024x768 gray rectangle over the display using the
    ["rect"](rect-instruction) and ["cfill"](cfill-instruction) instructions.
 
-3. Send a ["sync" instruction](server-sync-instruction), informing the remote
-   display that a frame has been completed.
+3. Send a ["sync" instruction](sync-instruction), informing the remote display
+   that a frame has been completed.
 
 4. Flush the socket, ensuring that all data written to the socket thus far is
    immediately sent to the user.

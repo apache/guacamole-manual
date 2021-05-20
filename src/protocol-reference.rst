@@ -4,1340 +4,1202 @@ Guacamole protocol reference
 Drawing instructions
 --------------------
 
-.. _arc-instruction:
+.. guac:instruction:: arc
+    :sent-by: server
+    :phase: interactive
 
-arc
-~~~
+    The arc instruction adds the specified arc subpath to the existing path,
+    creating a new path if no path exists. The path created can be modified further
+    by other path-type instructions, and finally stroked, filled, and/or closed.
 
-The arc instruction adds the specified arc subpath to the existing path,
-creating a new path if no path exists. The path created can be modified
-further by other path-type instructions, and finally stroked, filled,
-and/or closed.
+    :arg integer layer:
+        The layer which should have the specified arc subpath added.
 
-``layer``
-   The layer which should have the specified arc subpath added.
+    :arg integer x:
+        The X coordinate of the center of the circle containing the arc to be
+        drawn.
 
-``x``
-   The X coordinate of the center of the circle containing the arc to be
-   drawn.
+    :arg integer y:
+        The Y coordinate of the center of the circle containing the arc to be
+        drawn.
 
-``y``
-   The Y coordinate of the center of the circle containing the arc to be
-   drawn.
+    :arg float radius:
+        The radius of the circle containing the arc to be drawn, in pixels.
 
-``radius``
-   The radius of the circle containing the arc to be drawn, in pixels.
+    :arg float start:
+        The starting angle of the arc to be drawn, in radians.
 
-``start``
-   The starting angle of the arc to be drawn, in radians.
+    :arg float end:
+        The ending angle of the arc to be drawn, in radians.
 
-``end``
-   The ending angle of the arc to be drawn, in radians.
+    :arg integer negative:
+        Non-zero if the arc should be drawn from START to END in order of
+        decreasing angle, zero otherwise.
 
-``negative``
-   Non-zero if the arc should be drawn from START to END in order of
-   decreasing angle, zero otherwise.
+.. guac:instruction:: cfill
+    :sent-by: server
+    :phase: interactive
 
-.. _cfill-instruction:
+    Fills the current path with the specified color. This instruction completes
+    the current path. Future path instructions will begin a new path.
 
-cfill
-~~~~~
+    :arg integer mask:
+        The channel mask to apply when filling the current path in the
+        specified layer.
 
-Fills the current path with the specified color. This instruction
-completes the current path. Future path instructions will begin a new
-path.
+    :arg integer layer:
+        The layer whose path should be filled.
 
-``mask``
-   The channel mask to apply when filling the current path in the
-   specified layer.
+    :arg integer r:
+        The red component of the color to use to fill the current path in the
+        specified layer.
 
-``layer``
-   The layer whose path should be filled.
+    :arg integer g:
+        The green component of the color to use to fill the current path in the
+        specified layer.
 
-``r``
-   The red component of the color to use to fill the current path in the
-   specified layer.
+    :arg integer b:
+        The blue component of the color to use to fill the current path in the
+        specified layer.
 
-``g``
-   The green component of the color to use to fill the current path in
-   the specified layer.
+    :arg integer a:
+        The alpha component of the color to use to fill the current path in the
+        specified layer.
 
-``b``
-   The blue component of the color to use to fill the current path in
-   the specified layer.
+.. guac:instruction:: clip
+    :sent-by: server
+    :phase: interactive
 
-``a``
-   The alpha component of the color to use to fill the current path in
-   the specified layer.
+    Applies the current path as the clipping path. Future operations will only
+    draw within the current path. Note that future clip instructions will also
+    be limited by this path. To set a completely new clipping path, you must
+    first reset the layer with a reset instruction. If you wish to only reset
+    the clipping path, but preserve the current transform matrix, push the
+    layer state before setting the clipping path, and pop the layer state to
+    reset.
 
-.. _clip-instruction:
+    :arg integer layer:
+        The layer whose clipping path should be set.
 
-clip
-~~~~
+.. guac:instruction:: close
+    :sent-by: server
+    :phase: interactive
 
-Applies the current path as the clipping path. Future operations will
-only draw within the current path. Note that future clip instructions
-will also be limited by this path. To set a completely new clipping
-path, you must first reset the layer with a reset instruction. If you
-wish to only reset the clipping path, but preserve the current transform
-matrix, push the layer state before setting the clipping path, and pop
-the layer state to reset.
+    Closes the current path by connecting the start and end points with a
+    straight line.
 
-``layer``
-   The layer whose clipping path should be set.
+    :arg integer layer:
+        The layer whose path should be closed.
 
-.. _close-instruction:
+.. guac:instruction:: copy
+    :sent-by: server
+    :phase: interactive
 
-close
-~~~~~
+    Copies image data from the specified rectangle of the specified layer or
+    buffer to a different location of another specified layer or buffer.
 
-Closes the current path by connecting the start and end points with a
-straight line.
+    :arg integer srclayer:
+        The index of the layer to copy image data from.
 
-``layer``
-   The layer whose path should be closed.
+    :arg integer srcx:
+        The X coordinate of the upper-left corner of the source rectangle
+        within the source layer.
 
-.. _copy-instruction:
+    :arg integer srcy:
+        The Y coordinate of the upper-left corner of the source rectangle
+        within the source layer.
 
-copy
-~~~~
+    :arg integer srcwidth:
+        The width of the source rectangle within the source layer.
 
-Copies image data from the specified rectangle of the specified layer or
-buffer to a different location of another specified layer or buffer.
+    :arg integer srcheight:
+        The height of the source rectangle within the source layer.
 
-``srclayer``
-   The index of the layer to copy image data from.
+    :arg integer mask:
+        The channel mask to apply when drawing the image data on the
+        destination layer.
 
-``srcx``
-   The X coordinate of the upper-left corner of the source rectangle
-   within the source layer.
+    :arg integer dstlayer:
+        The index of the layer to draw the image data to.
 
-``srcy``
-   The Y coordinate of the upper-left corner of the source rectangle
-   within the source layer.
+    :arg integer dstx:
+        The X coordinate of the upper-left corner of the destination within
+        the destination layer.
 
-``srcwidth``
-   The width of the source rectangle within the source layer.
+    :arg integer dsty:
+        The Y coordinate of the upper-left corner of the destination within
+        the destination layer.
 
-``srcheight``
-   The height of the source rectangle within the source layer.
+.. guac:instruction:: cstroke
+    :sent-by: server
+    :phase: interactive
 
-``mask``
-   The channel mask to apply when drawing the image data on the
-   destination layer.
+    Strokes the current path with the specified color. This instruction
+    completes the current path. Future path instructions will begin a new path.
 
-``dstlayer``
-   The index of the layer to draw the image data to.
+    :arg integer mask:
+        The channel mask to apply when stroking the current path in the
+        specified layer.
 
-``dstx``
-   The X coordinate of the upper-left corner of the destination within
-   the destination layer.
+    :arg integer layer:
+        The layer whose path should be stroked.
 
-``dsty``
-   The Y coordinate of the upper-left corner of the destination within
-   the destination layer.
+    :arg integer cap:
+        The index of the line cap style to use. This can be either butt (0),
+        round (1), or square (2).
 
-.. _cstroke-instruction:
+    :arg integer join:
+        The index of the line join style to use. This can be either bevel
+        (0), miter (1), or round (2).
 
-cstroke
-~~~~~~~
+    :arg integer thickness:
+        The thickness of the stroke to draw, in pixels.
 
-Strokes the current path with the specified color. This instruction
-completes the current path. Future path instructions will begin a new
-path.
+    :arg integer r:
+        The red component of the color to use to stroke the current path in
+        the specified layer.
 
-``mask``
-   The channel mask to apply when stroking the current path in the
-   specified layer.
+    :arg integer g:
+        The green component of the color to use to stroke the current path in
+        the specified layer.
 
-``layer``
-   The layer whose path should be stroked.
+    :arg integer b:
+        The blue component of the color to use to stroke the current path in
+        the specified layer.
 
-``cap``
-   The index of the line cap style to use. This can be either butt (0),
-   round (1), or square (2).
+    :arg integer a:
+        The alpha component of the color to use to stroke the current path in
+        the specified layer.
 
-``join``
-   The index of the line join style to use. This can be either bevel
-   (0), miter (1), or round (2).
+.. guac:instruction:: cursor
+    :sent-by: server
+    :phase: interactive
 
-``thickness``
-   The thickness of the stroke to draw, in pixels.
+    Sets the client's cursor to the image data from the specified rectangle of
+    a layer, with the specified hotspot.
 
-``r``
-   The red component of the color to use to stroke the current path in
-   the specified layer.
+    :arg integer x:
+        The X coordinate of the cursor's hotspot.
 
-``g``
-   The green component of the color to use to stroke the current path in
-   the specified layer.
+    :arg integer y:
+        The Y coordinate of the cursor's hotspot.
 
-``b``
-   The blue component of the color to use to stroke the current path in
-   the specified layer.
+    :arg integer srclayer:
+        The index of the layer to copy image data from.
 
-``a``
-   The alpha component of the color to use to stroke the current path in
-   the specified layer.
+    :arg integer srcx:
+        The X coordinate of the upper-left corner of the source rectangle
+        within the source layer.
 
-.. _cursor-instruction:
+    :arg integer srcy:
+        The Y coordinate of the upper-left corner of the source rectangle
+        within the source layer.
 
-cursor
-~~~~~~
+    :arg integer srcwidth:
+        The width of the source rectangle within the source layer.
 
-Sets the client's cursor to the image data from the specified rectangle
-of a layer, with the specified hotspot.
+    :arg integer srcheight:
+        The height of the source rectangle within the source layer.
 
-``x``
-   The X coordinate of the cursor's hotspot.
+.. guac:instruction:: curve
+    :sent-by: server
+    :phase: interactive
 
-``y``
-   The Y coordinate of the cursor's hotspot.
+    Adds the specified cubic bezier curve subpath.
 
-``srclayer``
-   The index of the layer to copy image data from.
+    :arg integer layer:
+        The layer which should have the specified curve subpath added.
 
-``srcx``
-   The X coordinate of the upper-left corner of the source rectangle
-   within the source layer.
+    :arg integer cp1x:
+        The X coordinate of the first control point of the curve.
 
-``srcy``
-   The Y coordinate of the upper-left corner of the source rectangle
-   within the source layer.
+    :arg integer cp1y:
+        The Y coordinate of the first control point of the curve.
 
-``srcwidth``
-   The width of the source rectangle within the source layer.
+    :arg integer cp2x:
+        The X coordinate of the second control point of the curve.
 
-``srcheight``
-   The height of the source rectangle within the source layer.
+    :arg integer cp2y:
+        The Y coordinate of the second control point of the curve.
 
-.. _curve-instruction:
+    :arg integer x:
+        The X coordinate of the endpoint of the curve.
 
-curve
-~~~~~
+    :arg integer y:
+        The Y coordinate of the endpoint of the curve.
 
-Adds the specified cubic bezier curve subpath.
+.. guac:instruction:: dispose
+    :sent-by: server
+    :phase: interactive
 
-``layer``
-   The layer which should have the specified curve subpath added.
+    Removes the specified layer. The specified layer will be recreated as a new
+    layer if it is referenced again.
 
-``cp1x``
-   The X coordinate of the first control point of the curve.
+    :arg integer layer:
+        The layer to remove.
 
-``cp1y``
-   The Y coordinate of the first control point of the curve.
+.. guac:instruction:: distort
+    :sent-by: server
+    :phase: interactive
 
-``cp2x``
-   The X coordinate of the second control point of the curve.
+    Sets the given affine transformation matrix to the layer. Unlike transform,
+    this operation is independent of any previously sent transformation matrix.
+    This operation can be undone by setting the layer's transformation matrix
+    to the identity matrix using distort
 
-``cp2y``
-   The Y coordinate of the second control point of the curve.
+    :arg integer layer:
+        The layer to distort.
 
-``x``
-   The X coordinate of the endpoint of the curve.
+    :arg float a:
+        The matrix value in row 1, column 1.
 
-``y``
-   The Y coordinate of the endpoint of the curve.
+    :arg float b:
+        The matrix value in row 2, column 1.
 
-.. _dispose-instruction:
+    :arg float c:
+        The matrix value in row 1, column 2.
 
-dispose
-~~~~~~~
+    :arg float d:
+        The matrix value in row 2, column 2.
 
-Removes the specified layer. The specified layer will be recreated as a
-new layer if it is referenced again.
+    :arg float e:
+        The matrix value in row 1, column 3.
 
-``layer``
-   The layer to remove.
+    :arg float f:
+        The matrix value in row 2, column 3.
 
-.. _distort-instruction:
+.. guac:instruction:: identity
+    :sent-by: server
+    :phase: interactive
 
-distort
-~~~~~~~
+    Resets the transform matrix of the specified layer to the identity matrix.
 
-Sets the given affine transformation matrix to the layer. Unlike
-transform, this operation is independent of any previously sent
-transformation matrix. This operation can be undone by setting the
-layer's transformation matrix to the identity matrix using distort
+    :arg integer layer:
+        The layer whose transform matrix should be reset.
 
-``layer``
-   The layer to distort.
+.. guac:instruction:: img
+    :sent-by: server
+    :phase: interactive
 
-``a``
-   The matrix value in row 1, column 1.
+    Allocates a new stream, associating it with the metadata of an image
+    update, including the image type, the destination layer, and destination
+    coordinates. The contents of the image will later be sent along the stream
+    with blob instructions. The full size of the image need not be known ahead
+    of time.
 
-``b``
-   The matrix value in row 2, column 1.
+    :arg integer stream:
+        The index of the stream to allocate.
 
-``c``
-   The matrix value in row 1, column 2.
+    :arg string mimetype:
+        The mimetype of the image being sent.
 
-``d``
-   The matrix value in row 2, column 2.
+    :arg integer mask:
+        The channel mask to apply when drawing the image data.
 
-``e``
-   The matrix value in row 1, column 3.
+    :arg integer layer:
+        The destination layer.
 
-``f``
-   The matrix value in row 2, column 3.
+    :arg integer x:
+        The X coordinate of the upper-left corner of the destination within
+        the destination layer.
 
-.. _identity-instruction:
+    :arg integer y:
+        The Y coordinate of the upper-left corner of the destination within
+        the destination layer.
 
-identity
-~~~~~~~~
+.. guac:instruction:: lfill
+    :sent-by: server
+    :phase: interactive
 
-Resets the transform matrix of the specified layer to the identity
-matrix.
+    Fills the current path with a tiled pattern of the image data from the
+    specified layer. This instruction completes the current path. Future path
+    instructions will begin a new path.
 
-``layer``
-   The layer whose transform matrix should be reset.
+    :arg integer mask:
+        The channel mask to apply when filling the current path in the
+        specified layer.
 
-.. _lfill-instruction:
+    :arg integer layer:
+        The layer whose path should be filled.
 
-lfill
-~~~~~
+    :arg integer srclayer:
+        The layer to use as the pattern.
 
-Fills the current path with a tiled pattern of the image data from the
-specified layer. This instruction completes the current path. Future
-path instructions will begin a new path.
+.. guac:instruction:: line
+    :sent-by: server
+    :phase: interactive
 
-``mask``
-   The channel mask to apply when filling the current path in the
-   specified layer.
+    Adds the specified line subpath.
 
-``layer``
-   The layer whose path should be filled.
+    :arg integer layer:
+        The layer which should have the specified line subpath added.
 
-``srclayer``
-   The layer to use as the pattern.
+    :arg integer x:
+        The X coordinate of the endpoint of the line.
 
-.. _line-instruction:
+    :arg integer y:
+        The Y coordinate of the endpoint of the line.
 
-line
-~~~~
+.. guac:instruction:: lstroke
+    :sent-by: server
+    :phase: interactive
 
-Adds the specified line subpath.
+    Strokes the current path with a tiled pattern of the image data from the
+    specified layer. This instruction completes the current path. Future path
+    instructions will begin a new path.
 
-``layer``
-   The layer which should have the specified line subpath added.
+    :arg integer mask:
+        The channel mask to apply when filling the current path in the
+        specified layer.
 
-``x``
-   The X coordinate of the endpoint of the line.
+    :arg integer layer:
+        The layer whose path should be filled.
 
-``y``
-   The Y coordinate of the endpoint of the line.
+    :arg integer cap:
+        The index of the line cap style to use. This can be either butt (0),
+        round (1), or square (2).
 
-.. _lstroke-instruction:
+    :arg integer join:
+        The index of the line join style to use. This can be either bevel
+        (0), miter (1), or round (2).
 
-lstroke
-~~~~~~~
+    :arg integer thickness:
+        The thickness of the stroke to draw, in pixels.
 
-Strokes the current path with a tiled pattern of the image data from the
-specified layer. This instruction completes the current path. Future
-path instructions will begin a new path.
+    :arg integer srclayer:
+        The layer to use as the pattern.
 
-``mask``
-   The channel mask to apply when filling the current path in the
-   specified layer.
+.. guac:instruction:: move
+    :sent-by: server
+    :phase: interactive
 
-``layer``
-   The layer whose path should be filled.
+    Moves the given layer to the given location within the specified parent
+    layer. This operation is applicable only to layers, and cannot be applied
+    to buffers (layers with negative indices). Applying this operation to the
+    default layer (layer 0) also has no effect.
 
-``cap``
-   The index of the line cap style to use. This can be either butt (0),
-   round (1), or square (2).
+    :arg integer layer:
+        The layer to move.
 
-``join``
-   The index of the line join style to use. This can be either bevel
-   (0), miter (1), or round (2).
+    :arg integer parent:
+        The layer that should be the parent of the given layer.
 
-``thickness``
-   The thickness of the stroke to draw, in pixels.
+    :arg integer x:
+        The X coordinate to move the layer to.
 
-``srclayer``
-   The layer to use as the pattern.
+    :arg integer y:
+        The Y coordinate to move the layer to.
 
-.. _move-instruction:
+    :arg integer z:
+        The relative Z-ordering of this layer. Layers with larger values will
+        appear above layers with smaller values.
 
-move
-~~~~
+.. guac:instruction:: pop
+    :sent-by: server
+    :phase: interactive
 
-Moves the given layer to the given location within the specified parent
-layer. This operation is applicable only to layers, and cannot be
-applied to buffers (layers with negative indices). Applying this
-operation to the default layer (layer 0) also has no effect.
+    Restores the previous state of the specified layer from the stack. The
+    state restored includes the transformation matrix and clipping path.
 
-``layer``
-   The layer to move.
+    :arg integer layer:
+        The layer whose state should be restored.
 
-``parent``
-   The layer that should be the parent of the given layer.
+.. guac:instruction:: push
+    :sent-by: server
+    :phase: interactive
 
-``x``
-   The X coordinate to move the layer to.
+    Saves the current state of the specified layer to the stack. The state
+    saved includes the current transformation matrix and clipping path.
 
-``y``
-   The Y coordinate to move the layer to.
+    :arg integer layer:
+        The layer whose state should be saved.
 
-``z``
-   The relative Z-ordering of this layer. Layers with larger values will
-   appear above layers with smaller values.
+.. guac:instruction:: rect
+    :sent-by: server
+    :phase: interactive
 
-.. _pop-instruction:
+    Adds a rectangular path to the specified layer.
 
-pop
-~~~
+    :arg integer mask:
+        The channel mask to apply when drawing the image data.
 
-Restores the previous state of the specified layer from the stack. The
-state restored includes the transformation matrix and clipping path.
+    :arg integer layer:
+        The destination layer.
 
-``layer``
-   The layer whose state should be restored.
+    :arg integer x:
+        The X coordinate of the upper-left corner of the rectangle to draw.
 
-.. _push-instruction:
+    :arg integer y:
+        The Y coordinate of the upper-left corner of the rectangle to draw.
 
-push
-~~~~
+    :arg integer width:
+        The width of the rectangle to draw.
 
-Saves the current state of the specified layer to the stack. The state
-saved includes the current transformation matrix and clipping path.
+    :arg integer height:
+        The width of the rectangle to draw.
 
-``layer``
-   The layer whose state should be saved.
+.. guac:instruction:: reset
+    :sent-by: server
+    :phase: interactive
 
-.. _rect-instruction:
+    Resets the transformation and clip state of the layer.
 
-rect
-~~~~
+    :arg integer layer:
+        The layer whose state should be reset.
 
-Adds a rectangular path to the specified layer.
+.. guac:instruction:: set
+    :sent-by: server
+    :phase: interactive
 
-``mask``
-   The channel mask to apply when drawing the image data.
+    Sets the given client-side property to the specified value. Currently there
+    is only one property: miter-limit, the maximum distance between the inner
+    and outer points of a miter joint, proportional to stroke width (if
+    miter-limit is set to 10.0, the default, then the maximum distance between
+    the points of the joint is 10 times the stroke width).
 
-``layer``
-   The destination layer.
+    :arg integer layer:
+        The layer whose property should be set.
 
-``x``
-   The X coordinate of the upper-left corner of the rectangle to draw.
+    :arg string property:
+        The name of the property to set.
 
-``y``
-   The Y coordinate of the upper-left corner of the rectangle to draw.
+    :arg string value:
+        The value to set the given property to.
 
-``width``
-   The width of the rectangle to draw.
+.. guac:instruction:: shade
+    :sent-by: server
+    :phase: interactive
 
-``height``
-   The width of the rectangle to draw.
+    Sets the opacity of the given layer.
 
-.. _reset-instruction:
+    :arg integer layer:
+        The layer whose opacity should be set.
 
-reset
-~~~~~
+    :arg integer opacity:
+        The opacity of the layer, where 0 is completely transparent, and 255
+        is completely opaque.
 
-Resets the transformation and clip state of the layer.
+.. guac:instruction:: size
+    :sent-by: server
+    :phase: interactive
 
-``layer``
-   The layer whose state should be reset.
+    Sets the size of the specified layer.
 
-.. _set-instruction:
+    :arg integer layer:
+        The layer to resize.
 
-set
-~~~
+    :arg integer width:
+        The new width of the layer
 
-Sets the given client-side property to the specified value. Currently
-there is only one property: miter-limit, the maximum distance between
-the inner and outer points of a miter joint, proportional to stroke
-width (if miter-limit is set to 10.0, the default, then the maximum
-distance between the points of the joint is 10 times the stroke width).
+    :arg integer height:
+        The new height of the layer
 
-``layer``
-   The layer whose property should be set.
+.. guac:instruction:: start
+    :sent-by: server
+    :phase: interactive
 
-``property``
-   The name of the property to set.
+    Starts a new subpath at the specified point.
 
-``value``
-   The value to set the given property to.
+    :arg integer layer:
+        The layer which should start a new subpath.
 
-.. _shade-instruction:
+    :arg integer x:
+        The X coordinate of the first point of the new subpath.
 
-shade
-~~~~~
+    :arg integer y:
+        The Y coordinate of the first point of the new subpath.
 
-Sets the opacity of the given layer.
+.. guac:instruction:: transfer
+    :sent-by: server
+    :phase: interactive
 
-``layer``
-   The layer whose opacity should be set.
+    Transfers image data from the specified rectangle of the specified layer or
+    buffer to a different location of another specified layer or buffer, using
+    the specified transfer function.
 
-``opacity``
-   The opacity of the layer, where 0 is completely transparent, and 255
-   is completely opaque.
+    For a list of available functions, see the definition of
+    ``guac_transfer_function`` within the `guacamole/protocol-types.h
+    <https://github.com/apache/guacamole-server/blob/master/src/libguac/guacamole/protocol-types.h>`__
+    header included with libguac.
 
-.. _size-instruction:
+    :arg integer srclayer:
+        The index of the layer to transfer image data from.
 
-size
-~~~~
+    :arg integer srcx:
+        The X coordinate of the upper-left corner of the source rectangle
+        within the source layer.
 
-Sets the size of the specified layer.
+    :arg integer srcy:
+        The Y coordinate of the upper-left corner of the source rectangle
+        within the source layer.
 
-``layer``
-   The layer to resize.
+    :arg integer srcwidth:
+        The width of the source rectangle within the source layer.
 
-``width``
-   The new width of the layer
+    :arg integer srcheight:
+        The height of the source rectangle within the source layer.
 
-``height``
-   The new height of the layer
+    :arg integer function:
+        The index of the transfer function to use.
 
-.. _start-instruction:
+        For a list of available functions, see the definition of
+        ``guac_transfer_function`` within the `guacamole/protocol-types.h
+        <https://github.com/apache/guacamole-server/blob/master/src/libguac/guacamole/protocol-types.h>`__
+        header included with libguac.
 
-start
-~~~~~
+    :arg integer dstlayer:
+        The index of the layer to draw the image data to.
 
-Starts a new subpath at the specified point.
+    :arg integer dstx:
+        The X coordinate of the upper-left corner of the destination within
+        the destination layer.
 
-``layer``
-   The layer which should start a new subpath.
+    :arg integer dsty:
+        The Y coordinate of the upper-left corner of the destination within
+        the destination layer.
 
-``x``
-   The X coordinate of the first point of the new subpath.
+.. guac:instruction:: transform
+    :sent-by: server
+    :phase: interactive
 
-``y``
-   The Y coordinate of the first point of the new subpath.
+    Applies the specified transformation matrix to future operations. Unlike
+    distort, this operation is dependent on any previously sent transformation
+    matrices, and only affects future operations. This operation can be undone
+    by setting the layer's transformation matrix to the identity matrix using
+    identity, but image data already drawn will not be affected.
 
-.. _transfer-instruction:
+    :arg integer layer:
+        The layer to apply the given transformation matrix to.
 
-transfer
-~~~~~~~~
+    :arg float a:
+        The matrix value in row 1, column 1.
 
-Transfers image data from the specified rectangle of the specified layer
-or buffer to a different location of another specified layer or buffer,
-using the specified transfer function.
+    :arg float b:
+        The matrix value in row 2, column 1.
 
-For a list of available functions, see the definition of
-``guac_transfer_function`` within the
-```guacamole/protocol-types.h`` <https://github.com/apache/guacamole-server/blob/master/src/libguac/guacamole/protocol-types.h>`__
-header included with libguac.
+    :arg float c:
+        The matrix value in row 1, column 2.
 
-``srclayer``
-   The index of the layer to transfer image data from.
+    :arg float d:
+        The matrix value in row 2, column 2.
 
-``srcx``
-   The X coordinate of the upper-left corner of the source rectangle
-   within the source layer.
+    :arg float e:
+        The matrix value in row 1, column 3.
 
-``srcy``
-   The Y coordinate of the upper-left corner of the source rectangle
-   within the source layer.
-
-``srcwidth``
-   The width of the source rectangle within the source layer.
-
-``srcheight``
-   The height of the source rectangle within the source layer.
-
-``function``
-   The index of the transfer function to use.
-
-   For a list of available functions, see the definition of
-   ``guac_transfer_function`` within the
-   ```guacamole/protocol-types.h`` <https://github.com/apache/guacamole-server/blob/master/src/libguac/guacamole/protocol-types.h>`__
-   header included with libguac.
-
-``dstlayer``
-   The index of the layer to draw the image data to.
-
-``dstx``
-   The X coordinate of the upper-left corner of the destination within
-   the destination layer.
-
-``dsty``
-   The Y coordinate of the upper-left corner of the destination within
-   the destination layer.
-
-.. _transform-instruction:
-
-transform
-~~~~~~~~~
-
-Applies the specified transformation matrix to future operations. Unlike
-distort, this operation is dependent on any previously sent
-transformation matrices, and only affects future operations. This
-operation can be undone by setting the layer's transformation matrix to
-the identity matrix using identity, but image data already drawn will
-not be affected.
-
-``layer``
-   The layer to apply the given transformation matrix to.
-
-``a``
-   The matrix value in row 1, column 1.
-
-``b``
-   The matrix value in row 2, column 1.
-
-``c``
-   The matrix value in row 1, column 2.
-
-``d``
-   The matrix value in row 2, column 2.
-
-``e``
-   The matrix value in row 1, column 3.
-
-``f``
-   The matrix value in row 2, column 3.
+    :arg float f:
+        The matrix value in row 2, column 3.
 
 Streaming instructions
 ----------------------
 
-.. _ack-instruction:
-
-ack
-~~~
-
-The ack instruction acknowledges a received data blob, providing a
-status code and message indicating whether the operation associated with
-the blob succeeded or failed. A status code other than ``SUCCESS``
-implicitly ends the stream.
-
-``stream``
-   The index of the stream the corresponding blob was received on.
-
-``message``
-   A human-readable error message. This typically is not exposed within
-   any user interface, and mainly helps with debugging.
-
-``status``
-   The Guacamole status code denoting success or failure.
-
-Status codes
-^^^^^^^^^^^^
-
-Several Guacamole instructions, and various other internals of the
-Guacamole core, use a common set of numeric status codes. These codes
-denote success or failure of operations, and can be rendered by user
-interfaces in a human-readable way.
-
-+-----+----------------+-----------------------------------------------+
-| C   | Name           | Description                                   |
-| ode |                |                                               |
-+=====+================+===============================================+
-| 0   | ``SUCCESS``    | The operation succeeded. No error.            |
-+-----+----------------+-----------------------------------------------+
-| 256 | `              | The requested operation is unsupported.       |
-|     | `UNSUPPORTED`` |                                               |
-+-----+----------------+-----------------------------------------------+
-| 512 | ``             | An internal error occurred, and the operation |
-|     | SERVER_ERROR`` | could not be performed.                       |
-+-----+----------------+-----------------------------------------------+
-| 513 | `              | The operation could not be performed because  |
-|     | `SERVER_BUSY`` | the server is busy.                           |
-+-----+----------------+-----------------------------------------------+
-| 514 | ``UPST         | The upstream server is not responding. In     |
-|     | REAM_TIMEOUT`` | most cases, the upstream server is the remote |
-|     |                | desktop server.                               |
-+-----+----------------+-----------------------------------------------+
-| 515 | ``UP           | The upstream server encountered an error. In  |
-|     | STREAM_ERROR`` | most cases, the upstream server is the remote |
-|     |                | desktop server.                               |
-+-----+----------------+-----------------------------------------------+
-| 516 | ``RESOUR       | An associated resource, such as a file or     |
-|     | CE_NOT_FOUND`` | stream, could not be found, and thus the      |
-|     |                | operation failed.                             |
-+-----+----------------+-----------------------------------------------+
-| 517 | ``RESOU        | A resource is already in use or locked,       |
-|     | RCE_CONFLICT`` | preventing the requested operation.           |
-+-----+----------------+-----------------------------------------------+
-| 518 | ``RES          | The requested operation cannot continue       |
-|     | OURCE_CLOSED`` | because the associated resource has been      |
-|     |                | closed.                                       |
-+-----+----------------+-----------------------------------------------+
-| 519 | ``UPSTRE       | The upstream server does not appear to exist, |
-|     | AM_NOT_FOUND`` | or cannot be reached over the network. In     |
-|     |                | most cases, the upstream server is the remote |
-|     |                | desktop server.                               |
-+-----+----------------+-----------------------------------------------+
-| 520 | ``UPSTREAM     | The upstream server is refusing to service    |
-|     | _UNAVAILABLE`` | connections. In most cases, the upstream      |
-|     |                | server is the remote desktop server.          |
-+-----+----------------+-----------------------------------------------+
-| 521 | ``SESS         | The session within the upstream server has    |
-|     | ION_CONFLICT`` | ended because it conflicts with another       |
-|     |                | session. In most cases, the upstream server   |
-|     |                | is the remote desktop server.                 |
-+-----+----------------+-----------------------------------------------+
-| 522 | ``SES          | The session within the upstream server has    |
-|     | SION_TIMEOUT`` | ended because it appeared to be inactive. In  |
-|     |                | most cases, the upstream server is the remote |
-|     |                | desktop server.                               |
-+-----+----------------+-----------------------------------------------+
-| 523 | ``SE           | The session within the upstream server has    |
-|     | SSION_CLOSED`` | been forcibly closed. In most cases, the      |
-|     |                | upstream server is the remote desktop server. |
-+-----+----------------+-----------------------------------------------+
-| 768 | ``CLIENT       | The parameters of the request are illegal or  |
-|     | _BAD_REQUEST`` | otherwise invalid.                            |
-+-----+----------------+-----------------------------------------------+
-| 769 | ``CLIENT_      | Permission was denied, because the user is    |
-|     | UNAUTHORIZED`` | not logged in. Note that the user may be      |
-|     |                | logged into Guacamole, but still not logged   |
-|     |                | in with respect to the remote desktop server. |
-+-----+----------------+-----------------------------------------------+
-| 771 | ``CLIE         | Permission was denied, and logging in will    |
-|     | NT_FORBIDDEN`` | not solve the problem.                        |
-+-----+----------------+-----------------------------------------------+
-| 776 | ``CL           | The client (usually the user of Guacamole or  |
-|     | IENT_TIMEOUT`` | their browser) is taking too long to respond. |
-+-----+----------------+-----------------------------------------------+
-| 781 | ``CL           | The client has sent more data than the        |
-|     | IENT_OVERRUN`` | protocol allows.                              |
-+-----+----------------+-----------------------------------------------+
-| 783 | ``CLI          | The client has sent data of an unexpected or  |
-|     | ENT_BAD_TYPE`` | illegal type.                                 |
-+-----+----------------+-----------------------------------------------+
-| 797 | ``CLI          | The client is already using too many          |
-|     | ENT_TOO_MANY`` | resources. Existing resources must be freed   |
-|     |                | before further requests are allowed.          |
-+-----+----------------+-----------------------------------------------+
-
-.. _argv-instruction:
-
-argv
-~~~~
-
-Allocates a new stream, associating it with the given argument
-(connection parameter) metadata. The relevant connection parameter data
-will later be sent along the stream with blob instructions. If sent by
-the client, this data will be the desired new value of the connection
-parameter being changed, and will be applied if the server supports
-changing that connection parameter while the connection is active. If
-sent by the server, this data will be the current value of a connection
-parameter being exposed to the client.
-
-``stream``
-   The index of the stream to allocate.
-
-``mimetype``
-   The mimetype of the connection parameter being sent. In most cases,
-   this will be "text/plain".
-
-``name``
-   The name of the connection parameter whose value is being sent.
-
-.. _audio-stream-instruction:
-
-audio
-~~~~~
-
-Allocates a new stream, associating it with the given audio metadata.
-Audio data will later be sent along the stream with blob instructions.
-The mimetype given must be a mimetype previously specified by the client
-during the handshake procedure. Playback will begin immediately and will
-continue as long as blobs are received along the stream.
-
-``stream``
-   The index of the stream to allocate.
-
-``mimetype``
-   The mimetype of the audio data being sent.
-
-.. _blob-instruction:
-
-blob
-~~~~
-
-Sends a blob of data along the given stream. This blob of data is
-arbitrary, base64-encoded data, and only has meaning to the Guacamole
-client or server through the metadata assigned to the stream when the
-stream was allocated.
-
-``stream``
-   The index of the stream along which the given data should be sent.
-
-``data``
-   The base64-encoded data to send.
-
-.. _clipboard-instruction:
-
-clipboard
-~~~~~~~~~
-
-Allocates a new stream, associating it with the given clipboard
-metadata. The clipboard data will later be sent along the stream with
-blob instructions. If sent by the client, this data will be the contents
-of the client-side clipboard. If sent by the server, this data will be
-the contents of the clipboard within the remote desktop.
-
-``stream``
-   The index of the stream to allocate.
-
-``mimetype``
-   The mimetype of the clipboard data being sent. In most cases, this
-   will be "text/plain".
-
-.. _end-instruction:
-
-end
-~~~
-
-The end instruction terminates an open stream, freeing any client-side
-or server-side resources. Data sent to a terminated stream will be
-ignored. Terminating a stream with the end instruction only denotes the
-end of the stream and does not imply an error.
-
-``stream``
-   The index of the stream the corresponding blob was received on.
-
-.. _file-stream-instruction:
-
-file
-~~~~
-
-Allocates a new stream, associating it with the given arbitrary file
-metadata. The contents of the file will later be sent along the stream
-with blob instructions. The full size of the file need not be known
-ahead of time.
-
-``stream``
-   The index of the stream to allocate.
-
-``mimetype``
-   The mimetype of the file being sent.
-
-``filename``
-   The name of the file, as it would be saved on a filesystem.
-
-.. _img-instruction:
-
-img
-~~~
-
-Allocates a new stream, associating it with the metadata of an image
-update, including the image type, the destination layer, and destination
-coordinates. The contents of the image will later be sent along the
-stream with blob instructions. The full size of the image need not be
-known ahead of time.
-
-``stream``
-   The index of the stream to allocate.
-
-``mimetype``
-   The mimetype of the image being sent.
-
-``mask``
-   The channel mask to apply when drawing the image data.
-
-``layer``
-   The destination layer.
-
-``x``
-   The X coordinate of the upper-left corner of the destination within
-   the destination layer.
-
-``y``
-   The Y coordinate of the upper-left corner of the destination within
-   the destination layer.
-
-.. _nest-stream-instruction:
-
-nest
-~~~~
-
-.. important::
-
-   *The ``nest`` instruction has been deprecated.*
-
-   The ``nest`` instruction is no longer necessary, having been replaced
-   by other streaming instructions (such as
-   ```blob`` <#blob-instruction>`__, ```ack`` <#ack-instruction>`__, and
-   ```end`` <#end-instruction>`__). Code using the ``nest`` instruction
-   should instead write instructions directly without wrapping those
-   instructions within ``nest``.
-
-Encodes part of one or more instructions within a single instruction,
-associating that packet of data with a stream index. Future nest
-instructions with the same stream index will append their data to the
-same logical stream on the client side. Once nested data is received on
-the client side, the client immediately executes any completed
-instructions within the associated stream, in order.
-
-``index``
-   The index of the stream this data should be appended to. This index
-   is completely arbitrary, and denotes only how nested data should be
-   reassembled.
-
-``data``
-   The protocol data, containing part of one or more instructions.
-
-.. _pipe-instruction:
-
-pipe
-~~~~
-
-Allocates a new stream, associating it with the given arbitrary named
-pipe metadata. The contents of the pipe will later be sent along the
-stream with blob instructions. Pipes in the Guacamole protocol are
-unidirectional, named pipes, very similar to a UNIX FIFO or pipe. It is
-up to client-side code to handle pipe data appropriately, likely based
-upon the name of the pipe, which is arbitrary. Pipes may be opened by
-either the client or the server.
-
-``stream``
-   The index of the stream to allocate.
-
-``mimetype``
-   The mimetype of the data being sent along the pipe.
-
-``name``
-   The arbitrary name of the pipe, which may have special meaning to
-   client-side code.
-
-.. _video-stream-instruction:
-
-video
-~~~~~
-
-Allocates a new stream, associating it with the given video metadata.
-Video data will later be sent along the stream with blob instructions.
-The mimetype given must be a mimetype previously specified by the client
-during the handshake procedure. Playback will begin immediately and will
-continue as long as blobs are received along the stream.
-
-``stream``
-   The index of the stream to allocate.
-
-``layer``
-   The index of the layer to stream the video data into. The effect of
-   other drawing operations on this layer during playback is undefined,
-   as the client codec implementation may leverage any rendering
-   mechanism it sees fit, including hardware decoding.
-
-``mimetype``
-   The mimetype of the video data being sent.
+.. guac:instruction:: ack
+    :sent-by: client,server
+    :phase: interactive
+
+    The ack instruction acknowledges a received data blob, providing a status
+    code and message indicating whether the operation associated with the blob
+    succeeded or failed. A status code other than 0 (``SUCCESS``) implicitly
+    ends the stream.
+
+    :arg integer stream:
+        The index of the stream the corresponding blob was received on.
+
+    :arg string message:
+        A human-readable error message. This typically is not exposed within
+        any user interface, and mainly helps with debugging.
+
+    :arg integer status:
+        The Guacamole status code denoting success or failure. For a list of status
+        codes, see the table in `Status codes <#status-codes>`__.
+
+.. guac:instruction:: argv
+    :sent-by: client,server
+    :phase: interactive
+
+    Allocates a new stream, associating it with the given argument (connection
+    parameter) metadata. The relevant connection parameter data will later be
+    sent along the stream with blob instructions. If sent by the client, this
+    data will be the desired new value of the connection parameter being
+    changed, and will be applied if the server supports changing that
+    connection parameter while the connection is active. If sent by the server,
+    this data will be the current value of a connection parameter being exposed
+    to the client.
+
+    :arg integer stream:
+        The index of the stream to allocate.
+
+    :arg string mimetype:
+        The mimetype of the connection parameter being sent. In most cases,
+        this will be "text/plain".
+
+    :arg string name:
+        The name of the connection parameter whose value is being sent.
+
+.. guac:instruction:: audio
+    :sent-by: client,server
+    :phase: interactive
+
+    Allocates a new stream, associating it with the given audio metadata.
+    Audio data will later be sent along the stream with blob instructions.  The
+    mimetype given must be a mimetype previously specified by the client during
+    the handshake procedure. Playback will begin immediately and will continue
+    as long as blobs are received along the stream.
+
+    :arg integer stream:
+        The index of the stream to allocate.
+
+    :arg string mimetype:
+        The mimetype of the audio data being sent.
+
+.. guac:instruction:: blob
+    :sent-by: client,server
+    :phase: interactive
+
+    Sends a blob of data along the given stream. This blob of data is
+    arbitrary, base64-encoded data, and only has meaning to the Guacamole
+    client or server through the metadata assigned to the stream when the
+    stream was allocated.
+
+    :arg integer stream:
+        The index of the stream along which the given data should be sent.
+
+    :arg string data:
+        The base64-encoded data to send.
+
+.. guac:instruction:: clipboard
+    :sent-by: client,server
+    :phase: interactive
+
+    Allocates a new stream, associating it with the given clipboard metadata.
+    The clipboard data will later be sent along the stream with blob
+    instructions. If sent by the client, this data will be the contents of the
+    client-side clipboard. If sent by the server, this data will be the
+    contents of the clipboard within the remote desktop.
+
+    :arg integer stream:
+        The index of the stream to allocate.
+
+    :arg string mimetype:
+        The mimetype of the clipboard data being sent. In most cases, this
+        will be "text/plain".
+
+.. guac:instruction:: end
+    :sent-by: client,server
+    :phase: interactive
+
+    The end instruction terminates an open stream, freeing any client-side or
+    server-side resources. Data sent to a terminated stream will be ignored.
+    Terminating a stream with the end instruction only denotes the end of the
+    stream and does not imply an error.
+
+    :arg integer stream:
+        The index of the stream the corresponding blob was received on.
+
+.. guac:instruction:: file
+    :sent-by: client,server
+    :phase: interactive
+
+    Allocates a new stream, associating it with the given arbitrary file
+    metadata. The contents of the file will later be sent along the stream with
+    blob instructions. The full size of the file need not be known ahead of
+    time.
+
+    :arg integer stream:
+        The index of the stream to allocate.
+
+    :arg string mimetype:
+        The mimetype of the file being sent.
+
+    :arg string filename:
+        The name of the file, as it would be saved on a filesystem.
+
+.. guac:instruction:: pipe
+    :sent-by: client,server
+    :phase: interactive
+
+    Allocates a new stream, associating it with the given arbitrary named pipe
+    metadata. The contents of the pipe will later be sent along the stream with
+    blob instructions. Pipes in the Guacamole protocol are unidirectional,
+    named pipes, very similar to a UNIX FIFO or pipe. It is up to client-side
+    code to handle pipe data appropriately, likely based upon the name of the
+    pipe, which is arbitrary. Pipes may be opened by either the client or the
+    server.
+
+    :arg integer stream:
+        The index of the stream to allocate.
+
+    :arg string mimetype:
+        The mimetype of the data being sent along the pipe.
+
+    :arg string name:
+        The arbitrary name of the pipe, which may have special meaning to
+        client-side code.
+
+.. guac:instruction:: video
+    :sent-by: client,server
+    :phase: interactive
+
+    Allocates a new stream, associating it with the given video metadata.
+    Video data will later be sent along the stream with blob instructions.  The
+    mimetype given must be a mimetype previously specified by the client during
+    the handshake procedure. Playback will begin immediately and will continue
+    as long as blobs are received along the stream.
+
+    :arg integer stream:
+        The index of the stream to allocate.
+
+    :arg integer layer:
+        The index of the layer to stream the video data into. The effect of
+        other drawing operations on this layer during playback is undefined,
+        as the client codec implementation may leverage any rendering
+        mechanism it sees fit, including hardware decoding.
+
+    :arg string mimetype:
+        The mimetype of the video data being sent.
 
 Object instructions
 -------------------
 
-.. _body-object-instruction:
+.. guac:instruction:: body
+    :sent-by: client,server
+    :phase: interactive
 
-body
-~~~~
+    Allocates a new stream, associating it with the name of a stream previously
+    requested by a get instruction. The contents of the stream will be sent
+    later with blob instructions. The full size of the stream need not be known
+    ahead of time.
 
-Allocates a new stream, associating it with the name of a stream
-previously requested by a get instruction. The contents of the stream
-will be sent later with blob instructions. The full size of the stream
-need not be known ahead of time.
+    :arg integer object:
+        The index of the object associated with this stream.
 
-``object``
-   The index of the object associated with this stream.
+    :arg integer stream:
+        The index of the stream to allocate.
 
-``stream``
-   The index of the stream to allocate.
+    :arg string mimetype:
+        The mimetype of the data being sent.
 
-``mimetype``
-   The mimetype of the data being sent.
+    :arg string name:
+        The name of the stream associated with the object.
 
-``name``
-   The name of the stream associated with the object.
+.. guac:instruction:: filesystem
+    :sent-by: server
+    :phase: interactive
 
-.. _filesystem-object-instruction:
+    Allocates a new object, associating it with the given arbitrary filesystem
+    metadata. The contents of files and directories within the filesystem will
+    later be sent along streams requested with get instructions or created with
+    put instructions.
 
-filesystem
-~~~~~~~~~~
+    :arg integer object:
+        The index of the object to allocate.
 
-Allocates a new object, associating it with the given arbitrary
-filesystem metadata. The contents of files and directories within the
-filesystem will later be sent along streams requested with get
-instructions or created with put instructions.
+    :arg string name:
+        The name of the filesystem.
 
-``object``
-   The index of the object to allocate.
+.. guac:instruction:: get
+    :sent-by: client,server
+    :phase: interactive
 
-``name``
-   The name of the filesystem.
+    Requests that a new stream be created, providing read access to the object
+    stream having the given name. The requested stream will be created, in
+    response, with a body instruction.
 
-.. _get-object-instruction:
+    Stream names are arbitrary and dictated by the object from which they are
+    requested, with the exception of the root stream of the object itself,
+    which has the reserved name "``/``". The root stream of the object has the
+    mimetype "``application/vnd.glyptodon.guacamole.stream-index+json``", and
+    provides a simple JSON map of available stream names to their corresponding
+    mimetypes. If the object contains a hierarchy of streams, some of these
+    streams may also be
+    "``application/vnd.glyptodon.guacamole.stream-index+json``".
 
-get
-~~~
+    For example, the ultimate content of the body stream provided in response
+    to a get request for the root stream of an object containing two text
+    streams, "A" and "B", would be the following:
 
-Requests that a new stream be created, providing read access to the
-object stream having the given name. The requested stream will be
-created, in response, with a body instruction.
+    .. code-block:: json
 
-Stream names are arbitrary and dictated by the object from which they
-are requested, with the exception of the root stream of the object
-itself, which has the reserved name "``/``". The root stream of the
-object has the mimetype
-"``application/vnd.glyptodon.guacamole.stream-index+json``", and
-provides a simple JSON map of available stream names to their
-corresponding mimetypes. If the object contains a hierarchy of streams,
-some of these streams may also be
-"``application/vnd.glyptodon.guacamole.stream-index+json``".
-
-For example, the ultimate content of the body stream provided in
-response to a get request for the root stream of an object containing
-two text streams, "A" and "B", would be the following:
-
-.. container:: informalexample
-
-   ::
-
-      {
+        {
           "A" : "text/plain",
           "B" : "text/plain"
-      }
+        }
 
-``object``
-   The index of the object to request a stream from.
+    :arg integer object:
+        The index of the object to request a stream from.
 
-``name``
-   The name of the stream being requested from the given object.
+    :arg string name:
+        The name of the stream being requested from the given object.
 
-.. _put-object-instruction:
+.. guac:instruction:: put
+    :sent-by: client,server
+    :phase: interactive
 
-put
-~~~
+    Allocates a new stream, associating it with the given arbitrary object and
+    stream name. The contents of the stream will later be sent with blob
+    instructions.
 
-Allocates a new stream, associating it with the given arbitrary object
-and stream name. The contents of the stream will later be sent with blob
-instructions.
+    :arg integer object:
+        The index of the object associated with this stream.
 
-``object``
-   The index of the object associated with this stream.
+    :arg integer stream:
+        The index of the stream to allocate.
 
-``stream``
-   The index of the stream to allocate.
+    :arg string mimetype:
+        The mimetype of the data being sent.
 
-``mimetype``
-   The mimetype of the data being sent.
+    :arg string name:
+        The name of the stream within the given object to which data is being
+        sent.
 
-``name``
-   The name of the stream within the given object to which data is being
-   sent.
+.. guac:instruction:: undefine
+    :sent-by: client,server
+    :phase: interactive
 
-.. _undefine-object-instruction:
+    Undefines an existing object, allowing its index to be reused by another
+    future object. The resource associated with the original object may or may
+    not continue to exist - it simply no longer has an associated object.
 
-undefine
-~~~~~~~~
-
-Undefines an existing object, allowing its index to be reused by another
-future object. The resource associated with the original object may or
-may not continue to exist - it simply no longer has an associated
-object.
-
-``object``
-   The index of the object to undefine.
+    :arg integer object:
+        The index of the object to undefine.
 
 Client handshake instructions
 -----------------------------
 
-.. _audio-handshake-instruction:
+.. guac:instruction:: audio
+    :sent-by: client
+    :phase: handshake 
 
-audio
-~~~~~
+    Specifies which audio mimetypes are supported by the client. Each parameter
+    must be a single mimetype, listed in order of client preference, with the
+    optimal mimetype being the first parameter.
 
-Specifies which audio mimetypes are supported by the client. Each
-parameter must be a single mimetype, listed in order of client
-preference, with the optimal mimetype being the first parameter.
+.. guac:instruction:: connect
+    :sent-by: client
+    :phase: handshake 
 
-.. _connect-instruction:
+    Begins the connection using the previously specified protocol with the
+    given arguments. This is the last instruction sent during the handshake
+    phase.
 
-connect
-~~~~~~~
+    The parameters of this instruction correspond exactly to the parameters of
+    the received args instruction. If the received args instruction has, for
+    example, three parameters, the responding connect instruction must also
+    have three parameters.
 
-Begins the connection using the previously specified protocol with the
-given arguments. This is the last instruction sent during the handshake
-phase.
+.. guac:instruction:: image
+    :sent-by: client
+    :phase: handshake 
 
-The parameters of this instruction correspond exactly to the parameters
-of the received args instruction. If the received args instruction has,
-for example, three parameters, the responding connect instruction must
-also have three parameters.
+    Specifies which image mimetypes are supported by the client. Each parameter
+    must be a single mimetype, listed in order of client preference, with the
+    optimal mimetype being the first parameter.
 
-.. _image-handshake-instruction:
+    It is expected that the supported mimetypes will include at least
+    "image/png" and "image/jpeg", and the server *may* safely assume that these
+    mimetypes are supported, even if they are absent from the handshake.
 
-image
-~~~~~
+.. guac:instruction:: select
+    :sent-by: client
+    :phase: handshake 
 
-Specifies which image mimetypes are supported by the client. Each
-parameter must be a single mimetype, listed in order of client
-preference, with the optimal mimetype being the first parameter.
+    Requests that the connection be made using the specified protocol, or to
+    the specified existing connection. Whether a new connection is established
+    or an existing connection is joined depends on whether the ID of an active
+    connection is provided. The Guacamole protocol dictates that the IDs
+    generated for active connections (provided during the handshake of those
+    connections via the `ready instruction <#ready-instruction>`__) must not
+    collide with any supported protocols.
 
-It is expected that the supported mimetypes will include at least
-"image/png" and "image/jpeg", and the server *may* safely assume that
-these mimetypes are supported, even if they are absent from the
-handshake.
+    This is the first instruction sent during the handshake phase.
 
-.. _select-instruction:
+    :arg string identifier:
+        The name of the protocol to use, such as "vnc" or "rdp", or the ID of
+        the active connection to be joined, as returned via the `ready
+        instruction <#ready-instruction>`__.
 
-select
-~~~~~~
+.. guac:instruction:: size
+    :sent-by: client
+    :phase: handshake 
 
-Requests that the connection be made using the specified protocol, or to
-the specified existing connection. Whether a new connection is
-established or an existing connection is joined depends on whether the
-ID of an active connection is provided. The Guacamole protocol dictates
-that the IDs generated for active connections (provided during the
-handshake of those connections via the `ready
-instruction <#ready-instruction>`__) must not collide with any supported
-protocols.
+    Specifies the client's optimal screen size and resolution.
 
-This is the first instruction sent during the handshake phase.
+    :arg integer width:
+        The optimal screen width.
 
-``ID``
-   The name of the protocol to use, such as "vnc" or "rdp", or the ID of
-   the active connection to be joined, as returned via the `ready
-   instruction <#ready-instruction>`__.
+    :arg integer height:
+        The optimal screen height.
 
-.. _size-handshake-instruction:
+    :arg integer dpi:
+        The optimal screen resolution, in approximate DPI.
 
-size
-~~~~
+.. guac:instruction:: timezone
+    :sent-by: client
+    :phase: handshake 
 
-Specifies the client's optimal screen size and resolution.
+    Specifies the timezone of the client system, in IANA zone key format.  This
+    is a single-value parameter, and may be used by protocols to set the
+    timezone on the remote computer, if the remote system allows the timezone
+    to be configured. This instruction is optional.
 
-``width``
-   The optimal screen width.
+    :arg string timezone:
 
-``height``
-   The optimal screen height.
+.. guac:instruction:: video
+    :sent-by: client
+    :phase: handshake 
 
-``dpi``
-   The optimal screen resolution, in approximate DPI.
-
-.. _timezone-handshake-instruction:
-
-timezone
-~~~~~~~~
-
-Specifies the timezone of the client system, in IANA zone key format.
-This is a single-value parameter, and may be used by protocols to set
-the timezone on the remote computer, if the remote system allows the
-timezone to be configured. This instruction is optional.
-
-``timezone``
-
-.. _video-handshake-instruction:
-
-video
-~~~~~
-
-Specifies which video mimetypes are supported by the client. Each
-parameter must be a single mimetype, listed in order of client
-preference, with the optimal mimetype being the first parameter.
+    Specifies which video mimetypes are supported by the client. Each parameter
+    must be a single mimetype, listed in order of client preference, with the
+    optimal mimetype being the first parameter.
 
 Server handshake instructions
 -----------------------------
 
-.. _args-instruction:
+.. guac:instruction:: args
+    :sent-by: server
+    :phase: handshake 
 
-args
-~~~~
+    Reports the expected format of the argument list for the protocol requested
+    by the client. This message can be sent by the server during the handshake
+    phase only.
 
-Reports the expected format of the argument list for the protocol
-requested by the client. This message can be sent by the server during
-the handshake phase only.
+    The first parameter of this instruction will be the protocol version
+    supported by the server. This is used to negotiate protocol compatibility
+    between the client and the server, with the highest supported protocol by
+    both sides being chosen. Versions of Guacamole prior to 1.1.0 do not
+    support protocol version negotiation, and will silently ignore this
+    instruction.
 
-The first parameter of this instruction will be the protocol version
-supported by the server. This is used to negotiate protocol
-compatibility between the client and the server, with the highest
-supported protocol by both sides being chosen. Versions of Guacamole
-prior to 1.1.0 do not support protocol version negotiation, and will
-silently ignore this instruction.
+    The remaining parameters of the args instruction are the names of all
+    connection parameters accepted by the server for the protocol selected by
+    the client, in order. The client's responding connect instruction must
+    contain the values of each of these parameters in the same order.
 
-The remaining parameters of the args instruction are the names of all
-connection parameters accepted by the server for the protocol selected
-by the client, in order. The client's responding connect instruction
-must contain the values of each of these parameters in the same order.
+Control instructions
+--------------------
 
-Client control instructions
----------------------------
+.. guac:instruction:: disconnect
+    :sent-by: client,server
+    :phase: handshake,interactive
 
-.. _client-disconnect-instruction:
+    Notifies the client or server that the connection is about to be closed.
+    This message can be sent during any phase, and takes no parameters.
 
-disconnect
-~~~~~~~~~~
+.. guac:instruction:: nop
+    :sent-by: client,server
+    :phase: interactive
 
-Notifies the server that the connection is about to be closed by the
-client. This message can be sent by the client during any phase, and
-takes no parameters.
+    The "nop" instruction does absolutely nothing, has no parameters, and is
+    universally ignored by both Guacamole clients and servers. Its main use is
+    as a keep-alive signal, and may be sent by guacd, client plugins, or web
+    applications when there is no activity to ensure the socket is not closed
+    due to timeout.
 
-.. _client-nop-instruction:
+.. guac:instruction:: sync
+    :sent-by: client,server
+    :phase: interactive
 
-nop
-~~~
+    Reports that all operations as of the given server-relative timestamp have
+    been completed. Both client and server are expected to occasionally send
+    sync to report on current operation execution state, with the server using
+    sync to denote the end of a logical frame.
+    
+    If a sync is received from the server, the client must respond with a
+    corresponding sync once all previous operations have been completed, or the
+    server may stop sending updates until the client catches up. For the
+    client, sending a sync with a timestamp newer than any timestamp received
+    from the server is an error.
 
-The client "nop" instruction does absolutely nothing, has no parameters,
-and is universally ignored by the Guacamole server. Its main use is as a
-keep-alive signal, and may be sent by Guacamole clients when there is no
-activity to ensure the socket is not closed due to timeout.
-
-.. _client-sync-instruction:
-
-sync
-~~~~
-
-Reports that all operations as of the given server-relative timestamp
-have been completed. If a sync is received from the server, the client
-must respond with a corresponding sync once all previous operations have
-been completed, or the server may stop sending updates until the client
-catches up. For the client, sending a sync with a timestamp newer than
-any timestamp received from the server is an error.
-
-Both client and server are expected to occasionally send sync to report
-on current operation execution state.
-
-``timestamp``
-   A valid server-relative timestamp.
+    :arg integer timestamp:
+        A valid server-relative timestamp.
 
 Server control instructions
 ---------------------------
 
-.. _server-disconnect-instruction:
+.. guac:instruction:: error
+    :sent-by: server
+    :phase: handshake,interactive
 
-disconnect
-~~~~~~~~~~
+    Notifies the client that the connection is about to be closed due to the
+    specified error. This message can be sent by the server during any phase.
 
-Notifies the client that the connection is about to be closed by the
-server. This message can be sent by the server during any phase, and
-takes no parameters.
+    :arg string message:
+        An arbitrary message describing the error
 
-.. _error-instruction:
+    :arg integer status:
+        The Guacamole status code describing the error. For a list of status
+        codes, see the table in `Status codes <#status-codes>`__.
 
-error
-~~~~~
+.. guac:instruction:: log
+    :sent-by: server
+    :phase: interactive
 
-Notifies the client that the connection is about to be closed due to the
-specified error. This message can be sent by the server during any
-phase.
+    The log instruction sends an arbitrary string for debugging purposes.  This
+    instruction will be ignored by Guacamole clients, but can be seen in
+    protocol dumps if such dumps become necessary. Sending a log instruction
+    can help add context when searching for the cause of a fault in protocol
+    support.
 
-``text``
-   An arbitrary message describing the error
+    :arg string message:
+        An arbitrary, human-readable message.
 
-``status``
-   The Guacamole status code describing the error. For a list of status
-   codes, see the table in `Status codes <#status-codes>`__.
+.. guac:instruction:: mouse
+    :sent-by: server
+    :phase: interactive
 
-.. _log-instruction:
+    Reports that a user on the current connection has moved the mouse to the
+    given coordinates.
 
-log
-~~~
+    :arg integer x:
+        The current X coordinate of the mouse pointer.
 
-The log instruction sends an arbitrary string for debugging purposes.
-This instruction will be ignored by Guacamole clients, but can be seen
-in protocol dumps if such dumps become necessary. Sending a log
-instruction can help add context when searching for the cause of a fault
-in protocol support.
+    :arg integer y:
+        The current Y coordinate of the mouse pointer.
 
-``message``
-   An arbitrary, human-readable message.
+.. guac:instruction:: ready
+    :sent-by: server
+    :phase: handshake
 
-.. _server-mouse-instruction:
+    The ready instruction sends the ID of a new connection and marks the
+    beginning of the interactive phase of a new, successful connection. The ID
+    sent is a completely arbitrary string, and has no standard format. It must
+    be unique from all existing and future connections and may not match the
+    name of any installed protocol support.
 
-mouse
-~~~~~
+    :arg string identifier:
+        An arbitrary, unique identifier for the current connection. This
+        identifier must be unique from all existing and future connections,
+        and may not match the name of any installed protocol support (such as
+        "vnc" or "rdp").
 
-Reports that a user on the current connection has moved the mouse to the
-given coordinates.
+Input/Event instructions
+------------------------
 
-``x``
-   The current X coordinate of the mouse pointer.
+.. guac:instruction:: key
+    :sent-by: client
+    :phase: interactive
 
-``y``
-   The current Y coordinate of the mouse pointer.
+    Sends the specified key press or release event.
 
-.. _server-nop-instruction:
+    :arg integer keysym:
+        The `X11 keysym <http://www.x.org/wiki/KeySyms>`__ of the key being
+        pressed or released.
 
-nop
-~~~
+    :arg integer pressed:
+        0 if the key is not pressed, 1 if the key is pressed.
 
-The server "nop" instruction does absolutely nothing, has no parameters,
-and is universally ignored by Guacamole clients. Its main use is as a
-keep-alive signal, and may be sent by guacd or client plugins when there
-is no activity to ensure the socket is not closed due to timeout.
+.. guac:instruction:: mouse
+    :sent-by: client
+    :phase: interactive
 
-.. _ready-instruction:
+    Sends the specified mouse movement or button press or release event (or
+    combination thereof).
 
-ready
-~~~~~
+    :arg integer x:
+        The current X coordinate of the mouse pointer.
 
-The ready instruction sends the ID of a new connection and marks the
-beginning of the interactive phase of a new, successful connection. The
-ID sent is a completely arbitrary string, and has no standard format. It
-must be unique from all existing and future connections and may not
-match the name of any installed protocol support.
+    :arg integer y:
+        The current Y coordinate of the mouse pointer.
 
-``ID``
-   An arbitrary, unique identifier for the current connection. This
-   identifier must be unique from all existing and future connections,
-   and may not match the name of any installed protocol support (such as
-   "vnc" or "rdp").
+    :arg integer mask:
+        The button mask, representing the pressed or released status of each
+        mouse button.
 
-.. _server-sync-instruction:
+.. guac:instruction:: size
+    :sent-by: client
+    :phase: interactive
 
-sync
-~~~~
+    Specifies that the client's optimal screen size has changed from what was
+    specified during the handshake, or from previously-sent "size"
+    instructions.
 
-Indicates that the given timestamp is the current timestamp as of all
-previous operations. The client must respond to every sync instruction
-received.
+    :arg integer width:
+        The new, optimal screen width.
 
-Both client and server are expected to occasionally send sync to report
-on current operation execution state.
+    :arg integer height:
+        The new, optimal screen height.
 
-``timestamp``
-   A valid server-relative timestamp.
+Status codes
+------------
 
-Client events
--------------
+Several Guacamole instructions, and various other internals of the Guacamole
+core, use a common set of numeric status codes. These codes denote success or
+failure of operations, and can be rendered by user interfaces in a
+human-readable way.
 
-.. _key-instruction:
+0 (``SUCCESS``)
+    The operation succeeded. No error.
 
-key
-~~~
+256 (``UNSUPPORTED``)
+    The requested operation is unsupported.
 
-Sends the specified key press or release event.
+512 (``SERVER_ERROR``)
+    An internal error occurred, and the operation could not be performed.
 
-``keysym``
-   The `X11 keysym <http://www.x.org/wiki/KeySyms>`__ of the key being
-   pressed or released.
+513 (``SERVER_BUSY``)
+    The operation could not be performed because the server is busy.
 
-``pressed``
-   0 if the key is not pressed, 1 if the key is pressed.
+514 (``UPSTREAM_TIMEOUT``)
+    The upstream server is not responding. In most cases, the upstream server
+    is the remote desktop server.
 
-.. _client-mouse-instruction:
+515 (``UPSTREAM_ERROR``)
+    The upstream server encountered an error. In most cases, the upstream
+    server is the remote desktop server.
 
-mouse
-~~~~~
+516 (``RESOURCE_NOT_FOUND``)
+    An associated resource, such as a file or stream, could not be found, and
+    thus the operation failed.
 
-Sends the specified mouse movement or button press or release event (or
-combination thereof).
+517 (``RESOURCE_CONFLICT``)
+    A resource is already in use or locked, preventing the requested operation.
 
-``x``
-   The current X coordinate of the mouse pointer.
+518 (``RESOURCE_CLOSED``)
+    The requested operation cannot continue because the associated resource has
+    been closed.
 
-``y``
-   The current Y coordinate of the mouse pointer.
+519 (``UPSTREAM_NOT_FOUND``)
+    The upstream server does not appear to exist, or cannot be reached over the
+    network. In most cases, the upstream server is the remote desktop server.
 
-``mask``
-   The button mask, representing the pressed or released status of each
-   mouse button.
+520 (``UPSTREAM_UNAVAILABLE``)
+    The upstream server is refusing to service connections. In most cases, the
+    upstream server is the remote desktop server.
 
-.. _size-event-instruction:
+521 (``SESSION_CONFLICT``)
+    The session within the upstream server has ended because it conflicts with
+    another session. In most cases, the upstream server is the remote desktop
+    server.
 
-size
-~~~~
+522 (``SESSION_TIMEOUT``)
+    The session within the upstream server has ended because it appeared to be
+    inactive. In most cases, the upstream server is the remote desktop server.
 
-Specifies that the client's optimal screen size has changed from what
-was specified during the handshake, or from previously-sent "size"
-instructions.
+523 (``SESSION_CLOSED``)
+    The session within the upstream server has been forcibly closed. In most
+    cases, the upstream server is the remote desktop server.
 
-``width``
-   The new, optimal screen width.
+768 (``CLIENT_BAD_REQUEST``)
+    The parameters of the request are illegal or otherwise invalid.
 
-``height``
-   The new, optimal screen height.
+769 (``CLIENT_UNAUTHORIZED``)
+    Permission was denied, because the user is not logged in. Note that the
+    user may be logged into Guacamole, but still not logged in with respect to
+    the remote desktop server.
+
+771 (``CLIENT_FORBIDDEN``)
+    Permission was denied, and logging in will not solve the problem.
+
+776 (``CLIENT_TIMEOUT``)
+    The client (usually the user of Guacamole or their browser) is taking too
+    long to respond.
+
+781 (``CLIENT_OVERRUN``)
+    The client has sent more data than the protocol allows.
+
+783 (``CLIENT_BAD_TYPE``)
+    The client has sent data of an unexpected or illegal type.
+
+797 (``CLIENT_TOO_MANY``)
+    The client is already using too many resources. Existing resources must be
+    freed before further requests are allowed.
 

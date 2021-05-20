@@ -226,14 +226,14 @@ is undefined.
 
 Streams are the means by which data is transmitted for clipboard (via the
 ["clipboard" instruction](clipboard-instruction)), audio (via the ["audio"
-instruction](audio-stream-instruction)), and even the images which make up
-typical drawing operations (via the ["img" instruction](img-instruction)). They
-will either be allocated for you, when an inbound stream is received from a
-user, or allocated manually, when an outbound stream needs to be sent to a
-user. As with `guac_client` and `guac_user`, each `guac_stream` has a set of
-handlers which correspond to instructions received related to streams.  These
-instructions are documented in more detail in [](guacamole-protocol-streaming)
-and [](protocol-reference).
+instruction](audio-instruction)), and even the images which make up typical
+drawing operations (via the ["img" instruction](img-instruction)). They will
+either be allocated for you, when an inbound stream is received from a user, or
+allocated manually, when an outbound stream needs to be sent to a user. As with
+`guac_client` and `guac_user`, each `guac_stream` has a set of handlers which
+correspond to instructions received related to streams.  These instructions are
+documented in more detail in [](guacamole-protocol-streaming) and
+[](protocol-reference).
 
 (libguac-sending-instructions)=
 

@@ -17,6 +17,7 @@
 # limitations under the License.
 
 from datetime import date
+import os, sys
 
 #
 # Project, version, and author information
@@ -29,11 +30,15 @@ year = date.today().year
 author = u'The Apache Software Foundation'
 copyright = u'%s %s' % (year, author)
 
+# Include "ext" directory in search path for custom Sphinx extensions
+sys.path.insert(0, os.path.abspath('ext'))
+
 #
 # Global options
 #
 
 extensions = [
+    'guac',
     'myst_parser',
     'sphinx.ext.ifconfig',
     'sphinx.ext.extlinks',

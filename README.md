@@ -15,8 +15,11 @@ What is guacamole-manual?
 =========================
 
 The guacamole-manual package is the base documentation for the entire Guacamole
-stack. It is written in [the "MyST" flavor of Markdown](https://myst-parser.readthedocs.io/en/latest/index.html).
-MyST was chosen because:
+stack. It is largely written in [the "MyST" flavor of Markdown](https://myst-parser.readthedocs.io/en/latest/index.html),
+with portions of the documentation written in reStructuredText where necessary
+(the Guacamole protocol reference).
+
+MyST was chosen as the primary format because:
 
  * As a variant of Markdown, it will be widely approachable and familiar.
  * It is supported by Sphinx.
@@ -25,6 +28,14 @@ MyST was chosen because:
  * It provides the features of Markdown that are absent from reStructuredText
    (like nested inline formatting, including formatting within links or links
    within formatted text).
+
+reStructuredText is occasionally necessary because:
+
+ * [MyST does not support docstring field lists](https://github.com/executablebooks/MyST-Parser/issues/163#issuecomment-640008632),
+   a feature of reStructuredText required for documenting APIs. We use this
+   feature for documenting the Guacamole protocol.
+ * The MyST solution to supporting docstrings is [embedding blocks of
+   reStructuredText](https://myst-parser.readthedocs.io/en/latest/using/howto.html#use-sphinx-ext-autodoc-in-markdown-files).
 
 The build process involves running the Guacamole manual source through the
 tooling provided by the Sphinx project, in particular "sphinx-build".
