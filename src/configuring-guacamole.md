@@ -2155,10 +2155,10 @@ help, the session will simply not be recorded.
 
 `recording-include-keys`
 : If set to "true", user key events will be included in the recording. The
-  recording can subsequently be passed through the {program}`guaclog``
-  utility to produce a human-readable interpretation of the keys pressed
-  during the session. *This parameter is optional.* If omitted, key events
-  will be not included in the recording.
+  recording can subsequently be passed through the {program}`guaclog` utility
+  to produce a human-readable interpretation of the keys pressed during the
+  session. *This parameter is optional.* If omitted, key events will be not
+  included in the recording.
 
   This parameter only has an effect if graphical recording is enabled. If
   the `recording-path` is not specified, graphical session recording will be

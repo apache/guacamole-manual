@@ -25,8 +25,8 @@ libraries for each supported protocol, and guacd, the heart of Guacamole.
 
 guacd is the proxy daemon that runs on your Guacamole server, accepts users'
 connections that are tunneled through the Guacamole web application, and then
-connects to remote desktops on their behalf.  Building guacd creates an
-executable called `guacd` which can be run manually or, if you wish,
+connects to remote desktops on their behalf. Building guacd creates an
+executable called {program}`guacd` which can be run manually or, if you wish,
 automatically when your computer starts up.
 
 To build guacamole-server, you will need a C compiler (such as gcc) and the
@@ -597,7 +597,7 @@ you won't need to run anything before building. There are no scripts that need
 to be generated before building - all Maven needs is the `pom.xml` file
 provided with the source.
 
-To build guacamole-client, just run "``mvn package``". This will invoke Maven
+To build guacamole-client, just run "`mvn package`". This will invoke Maven
 to automatically build and package all components, producing a single `.war`
 file, which contains the entire web application:
 

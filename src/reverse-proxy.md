@@ -178,7 +178,7 @@ X-Forwarded-For $proxy_add_x_forwarded_for;` line is important if you want the
 available to applications running inside it.
 
 :::{important}
-*Do not forget to specify "``proxy_buffering off``".*
+*Do not forget to specify "`proxy_buffering off`".*
 
 Most proxies, including Nginx, will buffer all data sent over the connection,
 waiting until the connection is closed before sending that data to the client.
