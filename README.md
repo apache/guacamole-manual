@@ -41,28 +41,46 @@ The build process involves running the Guacamole manual source through the
 tooling provided by the Sphinx project, in particular "sphinx-build".
 
 
+Build requirements
+==================
+
+Building the Guacamole manual from source requires:
+
+ * **Python 3.8 or later**
+ * An implementation of "make", such as [GNU
+   Make](https://www.gnu.org/software/make/)
+ * [Sphinx](https://pypi.org/project/Sphinx/)
+ * [sphinx-rtd-theme](https://pypi.org/project/sphinx-rtd-theme/) (the
+   ReadTheDocs theme for Sphinx),
+ * [sphinx-inline-tabs](https://pypi.org/project/sphinx-inline-tabs/)
+ * [myst-parser](https://pypi.org/project/myst-parser/)
+
+The required Python packages can be installed using the "pip" package manager:
+
+```console
+$ pip install sphinx sphinx-rtd-theme sphinx-inline-tabs myst-parser
+```
+
+On some systems, the Python 3 version of "pip" may instead be named "pip3", to
+maintain compatability with users and scripts that expect Python 2:
+
+```console
+$ pip3 install sphinx sphinx-rtd-theme sphinx-inline-tabs myst-parser
+```
+
 Building the manual
 ===================
 
-1. Ensure [Sphinx](https://pypi.org/project/Sphinx/), the [Sphinx ReadTheDocs
-   theme](https://pypi.org/project/sphinx-rtd-theme/),
-   [sphinx-inline-tabs](https://pypi.org/project/sphinx-inline-tabs/), and the
-   [MyST parser](https://pypi.org/project/myst-parser/) are installed. These can
-   be installed using "pip":
+If all build requirements have beein installed, the manual can be build by
+simply running "make":
 
-   ```console
-   $ pip install sphinx sphinx-rtd-theme sphinx-inline-tabs myst-parser
-   ```
+```console
+$ make
+```
 
-2. Run make:
-
-   ```console
-   $ make
-   ```
-
-   The manual will now be built using Sphinx. Once complete, the entire
-   HTML version of the manual will be available within the `build/html/`
-   directory in the root directory of the source tree.
+The manual will then be built using Sphinx. Once complete, the entire HTML
+version of the manual will be available within the `build/html/` directory in
+the root directory of the source tree.
 
 Building and viewing the manual using Docker
 ============================================
