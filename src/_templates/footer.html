@@ -1,0 +1,10 @@
+{% extends '!footer.html' %}
+
+{% block contentinfo %}
+    {%- if show_copyright %}
+    <p>Copyright &copy; {{ copyright_year }} <a href="http://www.apache.org/">The Apache Software Foundation</a>,
+    Licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>.
+    Apache Guacamole, Guacamole, Apache, the Apache feather logo, and the Apache Guacamole project logo are
+    trademarks of The Apache Software Foundation.</p>
+    {%- endif %}
+{% endblock %}

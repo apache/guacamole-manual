@@ -1,4 +1,3 @@
-/html
-/book
-/docbook-xsl
+/build
 *~
+__pycache__
