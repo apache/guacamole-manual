@@ -183,6 +183,13 @@ These items will need to be configured in the
   parameter has no effect and will be ignored. Valid options for this are any of
   the values for `radius-auth-protocol`, except for eap-ttls.
 
+`radius-nas-ip`
+: This property allows the server administrator to manually set an IP address
+  that will be sent to the RADIUS server to identify this RADIUS client, known
+  as the "Network Access Server" (NAS) IP address. When this property is not
+  specified, the RADIUS extension attempts to automatically determine the IP
+  address of the system on which Guacamole is running and uses that value.
+
 (completing-radius-install)=
 
 Completing the installation
