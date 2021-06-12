@@ -658,7 +658,7 @@ To run Guacamole behind a reverse proxy, the Tomcat's [`RemoteIpValve`](https://
 
 The following environment variables have to be set in order to configure the [`RemoteIpValve`](https://tomcat.apache.org/tomcat-8.5-doc/config/valve.html#Remote_IP_Valve):
 
-`GUACAMOLE_PROXY_ALLOWED_IPS_REGEX`
+`PROXY_ALLOWED_IPS_REGEX`
 : The regex indicating the hosts allowed to set the remote IP via headers.
   Specify `.*` to allow any address.
   This maps with Tomcat's `internalProxies` directive.
@@ -669,15 +669,15 @@ The following environment variables have to be set in order to configure the [`R
 
 These environment variables can be set to customize the proxy valve configuration:
 
-`GUACAMOLE_PROXY_IP_HEADER`
+`PROXY_IP_HEADER`
 : The header indicating the remote host real IP.
   Defaults to `X-Forwarded-For`.
 
-`GUACAMOLE_PROXY_PROTOCOL_HEADER`
+`PROXY_PROTOCOL_HEADER`
 : The header indicating the protocol being forwarded.
   Defaults to `X-Forwarded-Proto`.
 
-`GUACAMOLE_PROXY_BY_HEADER`
+`PROXY_BY_HEADER`
 : The header indicating the proxy's identity.
   Defaults to `X-Forwarded-By`.
 
