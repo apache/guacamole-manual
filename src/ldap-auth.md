@@ -416,6 +416,11 @@ is required:
   your LDAP directory contains groups whose names are dictated by different
   attributes, multiple attributes can be specified here, separated by commas.
 
+`ldap-group-search-filter`
+: The search filter used to query the LDAP tree for groups that may be used by
+  other extensions to define permissions. *If this property is omitted the
+  default of `(objectClass=*)` will be used.*
+
 `ldap-dereference-aliases`
 : Controls whether or not the LDAP connection follows (dereferences) aliases as
   it searches the tree. Possible values for this property are "never" (the
