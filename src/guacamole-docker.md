@@ -592,6 +592,11 @@ accounts:
   this base DN. *If this variable is omitted, the seeAlso attribute will have
   no effect on Guacamole configurations.*
 
+`LDAP_GROUP_SEARCH_FILTER`
+: The search filter used to query the LDAP tree for groups that may be used by
+  other extensions to define permissions. *If this property is omitted the
+  default of `(objectClass=*)` will be used.*
+
 `LDAP_SEARCH_BIND_DN`
 : The DN (Distinguished Name) of the user to bind as when authenticating users
   that are attempting to log in. If specified, Guacamole will query the LDAP
