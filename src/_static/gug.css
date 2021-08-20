@@ -49,3 +49,18 @@
     color: inherit;
 }
 
+/* Allow text within tables to wrap across multiple lines, rather than
+ * potentially require horizontal scrolling */
+.wy-table-responsive table td {
+    white-space: normal;
+}
+
+/* Align table content with top of cell, rather than middle, so that it's
+ * easier to see the text of adjacent table cells when one or more cells are
+ * taller than the rest (due to word wrapping) */
+.rst-content table.docutils td,
+.rst-content table.field-list td,
+.wy-table td {
+    vertical-align:top
+}
+
