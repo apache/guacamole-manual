@@ -42,6 +42,7 @@ ldap-auth
 duo-auth
 totp-auth
 header-auth
+json-auth
 cas-auth
 openid-auth
 saml-auth
