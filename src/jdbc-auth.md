@@ -475,15 +475,14 @@ to the database server:
   specified, the standard MySQL / MariaDB port 3306 will be used.
 
 `mysql-driver`
-: Controls which JDBC driver the extension attempts to load and its
-  compatibility with various target database implementations. The extension
-  currently supports the following values for the `mysql-driver` property:
+: Controls which JDBC driver the extension attempts to load. By default, the
+  installed JDBC driver will be automatically detected. Possible values are:
 
   mysql
-  : The MySQL JDBC driver, known as Connector/J. This is the default.
+  : [The **MySQL** Connector/J JDBC driver](https://dev.mysql.com/downloads/connector/j/).
 
   mariadb
-  : The MariaDB JDBC driver.
+  : [The **MariaDB** Connector/J JDBC driver](https://mariadb.com/kb/en/about-mariadb-connector-j/).
 
 `mysql-server-timezone`
 : Specifies the timezone the MySQL server is configured to run in. While the
