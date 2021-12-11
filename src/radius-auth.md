@@ -33,7 +33,7 @@ result in the output below:
 $ mvn clean package -Plgpl-extensions
 [INFO] --- maven-assembly-plugin:2.5.3:single (make-source-archive) @ guacamole-client ---
 [INFO] Reading assembly descriptor: project-assembly.xml
-[INFO] Building tar: /home/guac/guacamole-client/target/guacamole-client-1.3.0.tar.gz
+[INFO] Building tar: /home/guac/guacamole-client/target/guacamole-client-1.4.0.tar.gz
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Summary:
 [INFO] 
@@ -69,7 +69,7 @@ $
 
 After the build completes successfully, the extension will be in the
 `extensions/guacamole-auth-radius/target/` directory, and will be called
-guacamole-auth-radius-1.3.0.jar. This extension file can be copied to the
+guacamole-auth-radius-1.4.0.jar. This extension file can be copied to the
 `GUACAMOLE_HOME/extensions` directory. *If you are unsure where
 `GUACAMOLE_HOME` is located on your system, please consult
 [](configuring-guacamole) before proceeding.*
@@ -87,7 +87,7 @@ To install the RADIUS authentication extension, you must:
 1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
    exist.
 
-2. Copy `guacamole-auth-radius-1.3.0.jar` into `GUACAMOLE_HOME/extensions`.
+2. Copy `guacamole-auth-radius-1.4.0.jar` into `GUACAMOLE_HOME/extensions`.
 
 3. Configure Guacamole to use RADIUS authentication, as described below.
 

@@ -20,7 +20,7 @@ release notes for that version. You can find the release notes for current
 versions of Guacamole here: <http://guacamole.apache.org/releases/>.
 
 The CAS authentication extension is packaged as a `.tar.gz` file containing
-only the extension itself, `guacamole-auth-cas-1.3.0.jar`, which must
+only the extension itself, `guacamole-auth-cas-1.4.0.jar`, which must
 ultimately be placed in `GUACAMOLE_HOME/extensions`.
 
 (installing-cas-auth)=
@@ -38,7 +38,7 @@ To install the CAS authentication extension, you must:
 1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
    exist.
 
-2. Copy `guacamole-auth-cas-1.3.0.jar` within `GUACAMOLE_HOME/extensions`.
+2. Copy `guacamole-auth-cas-1.4.0.jar` within `GUACAMOLE_HOME/extensions`.
 
 3. Configure Guacamole to use CAS authentication, as described below.
 
