@@ -967,6 +967,7 @@ JIRA](https://issues.apache.org/jira/browse/GUACAMOLE).
   | Hungarian                      | `hu-hu-qwertz`         |
   | Italian                        | `it-it-qwerty`         |
   | Japanese                       | `ja-jp-qwerty`         |
+  | Norwegian                      | `no-no-qwerty`         |
   | Spanish                        | `es-es-qwerty`         |
   | Spanish (Latin American)       | `es-latam-qwerty`      |
   | Swedish                        | `sv-se-qwerty`         |
@@ -2090,7 +2091,7 @@ the interpreted events:
 
 ```console
 $ guaclog /path/to/recording/NAME
-guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.3.0
+guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.4.0
 guaclog: INFO: 1 input file(s) provided.
 guaclog: INFO: Writing input events from "/path/to/recording/NAME" to "/path/to/recording/NAME.txt" ...
 guaclog: INFO: All files interpreted successfully.

@@ -331,8 +331,8 @@ a `.tar.gz` archive which you can extract
 from the command line:
 
 ```console
-$ tar -xzf guacamole-server-1.3.0.tar.gz
-$ cd guacamole-server-1.3.0/
+$ tar -xzf guacamole-server-1.4.0.tar.gz
+$ cd guacamole-server-1.4.0/
 $
 ```
 
@@ -391,7 +391,7 @@ checking whether build environment is sane... yes
 ...
 
 ------------------------------------------------
-guacamole-server version 1.3.0
+guacamole-server version 1.4.0
 ------------------------------------------------
 
    Library status:
@@ -572,8 +572,8 @@ consumption. Source downloaded from the project web site will take the form of
 a `.tar.gz` archive which you can extract from the command line:
 
 ```console
-$ tar -xzf guacamole-client-1.3.0.tar.gz
-$ cd guacamole-client-1.3.0/
+$ tar -xzf guacamole-client-1.4.0.tar.gz
+$ cd guacamole-client-1.4.0/
 $
 ```
 
@@ -691,7 +691,7 @@ from the name of the `.war` file, you will likely want to rename this to simply
 `guacamole.war` while copying:
 
 ```console
-# cp guacamole/target/guacamole-1.3.0.war /var/lib/tomcat/webapps/guacamole.war
+# cp guacamole/target/guacamole-1.4.0.war /var/lib/tomcat/webapps/guacamole.war
 #
 ```
 
@@ -712,7 +712,7 @@ Stopping Tomcat... OK
 Starting Tomcat... OK
 # /etc/init.d/guacd start
 Starting guacd: SUCCESS
-guacd[6229]: INFO:  Guacamole proxy daemon (guacd) version 1.3.0 started
+guacd[6229]: INFO:  Guacamole proxy daemon (guacd) version 1.4.0 started
 #
 ```
 
