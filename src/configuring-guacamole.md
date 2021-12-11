@@ -967,6 +967,7 @@ JIRA](https://issues.apache.org/jira/browse/GUACAMOLE).
   | Hungarian                      | `hu-hu-qwertz`         |
   | Italian                        | `it-it-qwerty`         |
   | Japanese                       | `ja-jp-qwerty`         |
+  | Norwegian                      | `no-no-qwerty`         |
   | Spanish                        | `es-es-qwerty`         |
   | Spanish (Latin American)       | `es-latam-qwerty`      |
   | Swedish                        | `sv-se-qwerty`         |
