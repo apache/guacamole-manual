@@ -2090,7 +2090,7 @@ the interpreted events:
 
 ```console
 $ guaclog /path/to/recording/NAME
-guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.3.0
+guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.4.0
 guaclog: INFO: 1 input file(s) provided.
 guaclog: INFO: Writing input events from "/path/to/recording/NAME" to "/path/to/recording/NAME.txt" ...
 guaclog: INFO: All files interpreted successfully.
