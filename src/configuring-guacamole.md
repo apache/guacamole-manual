@@ -1098,6 +1098,19 @@ connection, users will be able to upload and download files as described in
   leveraging the standard "`AUDIO_INPUT`" channel of RDP. By default, audio
   input support within RDP is disabled.
 
+`enable-touch`
+: If set to "true", support for multi-touch events will be enabled, leveraging
+  the standard "`RDPEI`" channel of RDP. By default, direct RDP support for
+  multi-touch events is disabled.
+
+  Enabling support for multi-touch allows touch interaction with applications
+  inside the RDP session, however the touch gestures available will depend on
+  the level of touch support of those applications and the OS.
+
+  If multi-touch support is not enabled, pointer-type interaction with
+  applications inside the RDP session will be limited to mouse or emulated
+  mouse events.
+
 `enable-printing`
 : Printing is disabled by default, but with printing enabled, RDP users can
   print to a virtual printer that sends a PDF containing the document
