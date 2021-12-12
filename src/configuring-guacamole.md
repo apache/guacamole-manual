@@ -149,6 +149,40 @@ that are always available for use:
   `guacd-hostname` property would be transformed to `GUACD_HOSTNAME` when
   searching the environment.
 
+`extension-priority`
+: A comma-separated list of the namespaces of all extensions that should be
+  loaded in a specific order. The special value `*` can be used in lieu of a
+  namespace to represent all extensions that are not listed. All extensions
+  explicitly listed will be sorted in the order given, while all extensions
+  not explicitly listed will be sorted by their filenames.
+
+  For example, to ensure support for SAML is loaded _first_:
+
+  ```
+  extension-priority: saml
+  ```
+
+  Or to ensure support for SAML is loaded _last_:
+
+  ```
+  extension-priority: *, saml
+  ```
+
+  If unsure which namespaces apply or the order that your extensions are
+  loaded, check the Guacamole logs. The namespaces and load order of all
+  installed extensions are logged by Guacamole during startup:
+
+  ```
+  ...
+  23:32:06.467 [main] INFO  o.a.g.extension.ExtensionModule - Multiple extensions are installed and will be loaded in order of decreasing priority:
+  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [postgresql] "PostgreSQL Authentication" (/etc/guacamole/extensions/guacamole-auth-jdbc-postgresql-1.4.0.jar)
+  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [ldap] "LDAP Authentication" (/etc/guacamole/extensions/guacamole-auth-ldap-1.4.0.jar)
+  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [openid] "OpenID Authentication Extension" (/etc/guacamole/extensions/guacamole-auth-sso-openid-1.4.0.jar)
+  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [saml] "SAML Authentication Extension" (/etc/guacamole/extensions/guacamole-auth-sso-saml-1.4.0.jar)
+  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule - To change this order, set the "extension-priority" property or rename the extension files. The default priority of extensions is dictated by the sort order of their filenames.
+  ...
+  ```
+
 `guacd-hostname`
 : The host the Guacamole proxy daemon (guacd) is listening on. If omitted,
   Guacamole will assume guacd is listening on localhost.
@@ -1097,6 +1131,19 @@ connection, users will be able to upload and download files as described in
 : If set to "true", audio input support (microphone) will be enabled,
   leveraging the standard "`AUDIO_INPUT`" channel of RDP. By default, audio
   input support within RDP is disabled.
+
+`enable-touch`
+: If set to "true", support for multi-touch events will be enabled, leveraging
+  the standard "`RDPEI`" channel of RDP. By default, direct RDP support for
+  multi-touch events is disabled.
+
+  Enabling support for multi-touch allows touch interaction with applications
+  inside the RDP session, however the touch gestures available will depend on
+  the level of touch support of those applications and the OS.
+
+  If multi-touch support is not enabled, pointer-type interaction with
+  applications inside the RDP session will be limited to mouse or emulated
+  mouse events.
 
 `enable-printing`
 : Printing is disabled by default, but with printing enabled, RDP users can
