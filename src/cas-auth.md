@@ -98,6 +98,33 @@ how user group memberships should be derived:
 
   This property has no effect if cas-group-format is not `ldap`.
 
+(cas-login)=
+
+### Controlling login behavior
+
+```{include} include/sso-login-behavior.md
+```
+
+#### Automatically redirecting all unauthenticated users
+
+To ensure users are redirected to the CAS identity provider immediately
+(without a Guacamole login screen), ensure the CAS extension has priority over
+all others:
+
+```
+extension-priority: cas
+```
+
+#### Presenting unauthenticated users with a login screen
+
+To ensure users are given a normal Guacamole login screen and have the option
+to log in with traditional credentials _or_ with CAS, ensure the CAS extension
+does not have priority:
+
+```
+extension-priority: *, cas
+```
+
 (completing-cas-install)=
 
 ### Completing the installation

@@ -144,6 +144,33 @@ aspects of the conversation with the identity provider:
   OpenID request can result in successful authentication within Guacamole. By
   default, each generated nonce expires after 10 minutes.
 
+(openid-login)=
+
+### Controlling login behavior
+
+```{include} include/sso-login-behavior.md
+```
+
+#### Automatically redirecting all unauthenticated users
+
+To ensure users are redirected to the OpenID identity provider immediately
+(without a Guacamole login screen), ensure the OpenID extension has priority
+over all others:
+
+```
+extension-priority: openid
+```
+
+#### Presenting unauthenticated users with a login screen
+
+To ensure users are given a normal Guacamole login screen and have the option
+to log in with traditional credentials _or_ with OpenID, ensure the OpenID
+extension does not have priority:
+
+```
+extension-priority: *, openid
+```
+
 (completing-openid-install)=
 
 ### Completing the installation

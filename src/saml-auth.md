@@ -106,6 +106,31 @@ the scope of this document, and will vary widely based on the IdP in use.
   management within Guacamole Client, particularly when layered with other
   authentication modules. This property is optional, and defaults to "groups".
 
+### Controlling login behavior
+
+```{include} include/sso-login-behavior.md
+```
+
+#### Automatically redirecting all unauthenticated users
+
+To ensure users are redirected to the SAML identity provider immediately
+(without a Guacamole login screen), ensure the SAML extension has priority over
+all others:
+
+```
+extension-priority: saml
+```
+
+#### Presenting unauthenticated users with a login screen
+
+To ensure users are given a normal Guacamole login screen and have the option
+to log in with traditional credentials _or_ with SAML, ensure the SAML
+extension does not have priority:
+
+```
+extension-priority: *, saml
+```
+
 (completing-saml-install)=
 
 ### Completing the installation
