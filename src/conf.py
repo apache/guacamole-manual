@@ -52,6 +52,10 @@ extlinks = {
 
 templates_path = [ '_templates' ]
 
+# Do not parse files within include/ unless they are explicitly included with
+# the "include" directive
+exclude_patterns = [ 'include/**' ]
+
 # Do not highlight source unless a Pygments lexer name is explicitly provided
 highlight_language = 'none'
 

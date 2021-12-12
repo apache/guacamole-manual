@@ -13,14 +13,11 @@ connection information, as it only provides user authentication.
 Downloading the CAS authentication extension
 --------------------------------------------
 
-The CAS authentication extension is available separately from the main
-`guacamole.war`. The link for this and all other officially-supported and
-compatible extensions for a particular version of Guacamole are provided on the
-release notes for that version. You can find the release notes for current
-versions of Guacamole here: <http://guacamole.apache.org/releases/>.
+```{include} include/sso-download.md
+```
 
-The CAS authentication extension is packaged as a `.tar.gz` file containing
-only the extension itself, `guacamole-auth-cas-1.4.0.jar`, which must
+The extension for the desired SSO method, in this case
+`guacamole-auth-sso-cas-1.4.0.jar` from within the `cas/` subdirectory, must
 ultimately be placed in `GUACAMOLE_HOME/extensions`.
 
 (installing-cas-auth)=
@@ -38,7 +35,7 @@ To install the CAS authentication extension, you must:
 1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
    exist.
 
-2. Copy `guacamole-auth-cas-1.4.0.jar` within `GUACAMOLE_HOME/extensions`.
+2. Copy `guacamole-auth-sso-cas-1.4.0.jar` within `GUACAMOLE_HOME/extensions`.
 
 3. Configure Guacamole to use CAS authentication, as described below.
 
