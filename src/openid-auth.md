@@ -21,16 +21,12 @@ user authentication.
 Downloading the OpenID Connect authentication extension
 -------------------------------------------------------
 
-The OpenID Connect authentication extension is available separately from the
-main `guacamole.war`. The link for this and all other officially-supported and
-compatible extensions for a particular version of Guacamole are provided on the
-release notes for that version. You can find the release notes for current
-versions of Guacamole here: <http://guacamole.apache.org/releases/>.
+```{include} include/sso-download.md
+```
 
-The OpenID Connect authentication extension is packaged as a `.tar.gz` file
-containing only the extension itself, `guacamole-auth-openid-1.4.0.jar`, which
-must ultimately be placed in
-`GUACAMOLE_HOME/extensions`.
+The extension for the desired SSO method, in this case
+`guacamole-auth-sso-openid-1.4.0.jar` from within the `openid/` subdirectory,
+must ultimately be placed in `GUACAMOLE_HOME/extensions`.
 
 (installing-openid-auth)=
 
@@ -47,7 +43,8 @@ To install the OpenID Connect authentication extension, you must:
 1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
    exist.
 
-2. Copy `guacamole-auth-openid-1.4.0.jar` within `GUACAMOLE_HOME/extensions`.
+2. Copy `guacamole-auth-sso-openid-1.4.0.jar` within
+   `GUACAMOLE_HOME/extensions`.
 
 3. Configure Guacamole to use OpenID Connect authentication, as described
    below.
@@ -146,6 +143,33 @@ aspects of the conversation with the identity provider:
   nonce value, this imposes an upper limit on the amount of time any particular
   OpenID request can result in successful authentication within Guacamole. By
   default, each generated nonce expires after 10 minutes.
+
+(openid-login)=
+
+### Controlling login behavior
+
+```{include} include/sso-login-behavior.md
+```
+
+#### Automatically redirecting all unauthenticated users
+
+To ensure users are redirected to the OpenID identity provider immediately
+(without a Guacamole login screen), ensure the OpenID extension has priority
+over all others:
+
+```
+extension-priority: openid
+```
+
+#### Presenting unauthenticated users with a login screen
+
+To ensure users are given a normal Guacamole login screen and have the option
+to log in with traditional credentials _or_ with OpenID, ensure the OpenID
+extension does not have priority:
+
+```
+extension-priority: *, openid
+```
 
 (completing-openid-install)=
 
