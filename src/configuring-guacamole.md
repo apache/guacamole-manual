@@ -933,6 +933,38 @@ are not configured, NLA-based connections will fail.
 
   If you are using NLA, authentication must be enabled by definition.
 
+(rdp-clipboard-normalization)=
+
+#### Clipboard normalization
+
+Windows uses a different sequence of characters at the end of each line
+compared to other operating systems. As RDP preserves the format of line
+endings within the clipboard, this can cause trouble when using a non-Windows
+machine to access Windows or vice versa.
+
+If clipboard normalization is used, Guacamole will automatically translate the
+line endings within clipboard data to compensate for the expectations of the
+remote system.
+
+`normalize-clipboard`
+: The type of line ending normalization to apply to text within the clipboard,
+  if any. By default, line ending normalization is not applied.
+
+  Possible values are:
+
+  preserve
+  : Preserve all line endings within the clipboard exactly as they are,
+    performing no normalization whatsoever. This is the default.
+
+  unix
+  : Automatically transform all line endings within the clipboard to Unix-style
+    line endings (LF). This format of line ending is the format used by both
+    Linux and Mac.
+
+  windows
+  : Automatically transform all line endings within the clipboard to
+    Windows-style line endings (CRLF).
+
 (rdp-session-settings)=
 
 #### Session settings
