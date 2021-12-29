@@ -82,20 +82,22 @@ again or swipe left across the screen.
 
 The Guacamole menu provides options for:
 
-* Navigating back to the home screen
+* [Navigating back to the home screen](client-user-menu)
 
-* Sharing the current connection
+* [Sharing the current connection](client-share-menu)
 
-* Reading from (and writing to) the clipboard of the remote desktop
 
-* Uploading and downloading files
+* [Reading from (and writing to) the clipboard of the remote
+  desktop](using-the-clipboard)
 
-* Selecting alternative methods of typing or controlling the mouse,
-  particularly for use on mobile or touchscreen devices
+* [Uploading and downloading files](file-transfer)
 
-* Zooming in and out of the remote display
+* [Selecting alternative methods of typing or controlling the mouse,
+  particularly for use on mobile or touchscreen devices](touch-devices)
 
-* Disconnecting from the current connection entirely
+* [Zooming in and out of the remote display](scaling-display)
+
+* [Disconnecting from the current connection entirely](client-user-menu)
 
 (using-the-clipboard)=
 
