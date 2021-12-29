@@ -86,6 +86,8 @@ The Guacamole menu provides options for:
 
 * [Sharing the current connection](client-share-menu)
 
+* [Switching between active connections and displaying multiple connections at
+  once](client-connection-menu)
 
 * [Reading from (and writing to) the clipboard of the remote
   desktop](using-the-clipboard)
@@ -116,6 +118,67 @@ area, causing that text to be sent to the clipboard of the remote desktop.
 Similarly, if you copy or cut text within the remote desktop, you will see that
 text within the text area, and can manually copy it into the local clipboard if
 desired.
+
+(client-connection-menu)=
+
+Switching and tiling connections
+--------------------------------
+
+If you have access to more than one connection, clicking the current connection
+name at the top of the Guacamole menu will open a drop-down menu containing a
+list of your other available connections:
+
+![Connection menu with one connection selected](images/client-connection-menu.png)
+
+Clicking on the name of another connection in this drop-down menu will
+immediately switch to that connection. The previous connection will remain
+running as a thumbnail within a panel attached to the lower-right corner of the
+screen. This panel updates in real-time and remains visible as long as you have
+multiple active connections, even if you navigate away to another part of the
+Guacamole application:
+
+![Active connection panel](images/client-panel.png)
+
+Clicking on any connection within the panel will navigate back to that
+connection, while clicking the "X" icon in the upper-right corner of the
+connection thumbnail will immediately close the connection. 
+
+(client-tiling)=
+
+### Adding a connection to the current view
+
+Multiple connections may also be opened simultaneously within the same view by
+clicking the checkboxes next to the names of those connections in the
+connection menu:
+
+![Connection menu with two connections selected](images/client-connection-menu-multiple.png)
+
+All connections opened in this way are automatically arranged in equally-sized
+tiles to fill the available area:
+
+![Multiple client displays in a tiled arrangement](images/client-tiled.png)
+
+With multiple connections displayed as tiles, keyboard interaction and the
+Guacamole menu will only affect the currently focused connection, as indicated
+by the blue title and border. Clicking or tapping within another connection
+will change the focus and allow keyboard interaction with _that_ connection.
+
+(client-broadcast-keyboard)=
+
+### Typing with multiple connections
+
+By holding down {kbd}`Ctrl` (to select an individual connection) or
+{kbd}`Shift` (to select a rectangle of connections), multiple connection may be
+focused at the same time. While multiple connections are focused, each key
+pressed will be broadcast across each focused connection:
+
+![Multiple focused client displays in a tiled arrangement](images/client-tiled-multi-focus.png)
+
+This is particularly useful for running the same series of commands on multiple
+computers. Further, since Guacamole automatically translates between the user's
+local keyboard layout and the keyboard layout of the remote server, _this will
+work as expected even if the keyboard layouts of focused connections do not
+match_.
 
 (client-user-menu)=
 
