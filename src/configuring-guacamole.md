@@ -435,6 +435,10 @@ VNC support for Guacamole is provided by the libguac-client-vnc library, which
 will be installed as part of guacamole-server if the required dependencies are
 present during the build.
 
+VNC by itself does not provide file transfer, so you must use sftp (as
+described in [](common-sftp)) if you want to provide file upload or
+download in Guacamole.
+
 :::{note}
 In addition to the VNC-specific parameters below, Guacamole's VNC support also
 accepts the parameters of several features that Guacamole provides for multiple
