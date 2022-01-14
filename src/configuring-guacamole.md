@@ -754,6 +754,12 @@ only be accessed via VNC, one of these is likely your best choice. Both
 optimize window movement and (depending on the application) scrolling, giving a
 very responsive user experience.
 
+On Ubuntu Linux version 18.04, the package
+`tigervnc-standalone-server` does not support clipboard (copy/paste)
+functionality.  The `tigervncserver` packages provided by the TigerVNC
+project (https://sourceforge.net/projects/tigervnc/files/stable/) do
+support clipboard operations.
+
 ##### TightVNC
 
 TightVNC is widely-available and performs generally as well as RealVNC or
