@@ -27,11 +27,17 @@ Extensions to Guacamole can:
 Guacamole extension format
 --------------------------
 
-Guacamole extensions are standard Java `.jar` files which contain all classes
-and resources required by the extension, as well as the Guacamole extension
-manifest. There is no set structure to an extension except that the manifest
-must be in the root of the archive. Java classes and packages, if any, will be
-read from the `.jar` relative to the root, as well.
+Guacamole extensions are standard Java `.jar` files which contain all classes,
+library `.jar` files, and resources required by the extension, as well as the
+Guacamole extension manifest. There is no set structure to an extension except
+that:
+
+1. The `guac-manifest.json` manifest must be in the root of the archive.
+2. Any required library `.jar` files that will not be placed within
+   [`GUACAMOLE_HOME/lib/`](guacamole-home) must be in the root of the archive.
+3. Java classes and packages for the extension itself (or for unpacked
+   dependencies of the extension) will be read relative to the archive root,
+   as well.
 
 Beyond this, the semantics and locations associated with all other resources
 within the extension are determined by the extension manifest alone.
