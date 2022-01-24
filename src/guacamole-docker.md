@@ -597,6 +597,24 @@ accounts:
   other extensions to define permissions. *If this property is omitted the
   default of `(objectClass=*)` will be used.*
 
+`LDAP_GROUP_NAME_ATTRIBUTE`
+: The attribute or attributes which define the unique name of user groups in
+  the LDAP directory. Usually, and by default, this will simplify be "cn". If
+  your LDAP directory contains groups whose names are dictated by different
+  attributes, multiple attributes can be specified here, separated by
+  commas.
+
+`LDAP_MEMBER_ATTRIBUTE`
+: The attribute which contains the members within all group objects in the
+  LDAP directory. Usually, and by default, this will simply be "member". If
+  your LDAP directory contains groups whose members are dictated by a
+  different attribute it can be specified, here.
+
+`LDAP_MEMBER_ATTRIBUTE_TYPE`
+: Specify whether the attribute defined in `LDAP_MEMBER_ATTRIBUTE` identifies
+  a group member by DN or usercode (user id). Valid values are "dn" (the
+  default, if not specified) or "uid".
+
 `LDAP_SEARCH_BIND_DN`
 : The DN (Distinguished Name) of the user to bind as when authenticating users
   that are attempting to log in. If specified, Guacamole will query the LDAP
@@ -619,11 +637,49 @@ accounts:
   by commas, but beware: *doing so requires that a search DN be provided with
   `LDAP_SEARCH_BIND_DN`*.
 
+`LDAP_USER_ATTRIBUTES`
+: The attribute or attributes to retrieve from the LDAP directory for users
+  when they log in, with multiple attributes separated by commas. If specified,
+  the attributes listed are retrieved from each authenticated users and
+  dynamically applied to the parameters of that user's connections as
+  parameter tokens with the prefix `LDAP_`.
+
 `LDAP_CONFIG_BASE_DN`
 : The base of the DN for all Guacamole configurations. If omitted, the
   configurations of Guacamole connections will simply not be queried from the
   LDAP directory, and you will need to store them elsewhere, such as within a
   MySQL or PostgreSQL database.
+
+`LDAP_DEREFERENCE_ALIASES`
+: Controls whether or not the LDAP connection follows (dereferences) aliases
+  as it searches the tree. Possible values for this property are "never"
+  (the default), so that aliases will never be followed, "searching", to
+  dereference during the search operations after the base object is located,
+  "finding", to dereference in order to locate the search base but not during
+  the actual search, and "always", to always dereference aliases.
+
+`LDAP_FOLLOW_REFERRALS`
+: This option controls whether or not the LDAP module follows referrals when
+  processing search results. Referrals can be pointers to another part of the
+  current LDAP tree, or to a completely different tree altogether, hosted on
+  a different server and/or port. Valid options are "false" (the default),
+  which means that referrals will be ignored, or "true", where the client
+  will attempt to follow the referrals in order to continue the search. The
+  referral will be followed with the same credentials used to search the
+  initial tree.
+
+`LDAP_MAX_REFERRAL_HOPS`
+: When LDAP referrals are enabled, this option controls how many hops the
+  LDAP client will follow before refusing to continue. The default is 5.
+
+`LDAP_MAX_SEARCH_RESULTS`
+: The maximum number of search results that can be returned by a single LDAP
+  query. LDAP queries which exceed this number of results may fail. By default
+  the maximum number of results for a single LDAP query is 1000.
+
+`LDAP_OPERATION_TIMEOUT`
+: The timeout, in seconds, of any single LDAP operation, after which the
+  operation will be aborted. The default is 30 seconds.
 
 As documented in [](ldap-auth), Guacamole does support combining LDAP with a
 MySQL or PostgreSQL database, and this can be configured with the Guacamole
