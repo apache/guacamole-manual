@@ -91,7 +91,7 @@ are strictly required *in all cases* - Guacamole cannot be built without them.
   :::{list-table}
   :stub-columns: 1
   * - Debian / Ubuntu package
-    - `libpng12-dev`
+    - `libpng-dev`
   * - Fedora / CentOS / RHEL package
     - `libpng-devel`
   :::
