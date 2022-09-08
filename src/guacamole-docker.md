@@ -106,7 +106,12 @@ provided to do this.
 
 Once the Guacamole image is running, Guacamole will be accessible at
 {samp}`http://{HOSTNAME}:8080/guacamole/`, where `HOSTNAME` is the hostname or
-address of the machine hosting Docker.
+address of the machine hosting Docker. To set the path Guacamole is accessible from,
+use the `WEBAPP_CONTEXT` environment variable:
+
+`WEBAPP_CONTEXT`
+: The path Guacamole should be accessible from. If set to `ROOT` Guacamole
+will accessible from {samp}`http://{HOSTNAME}:8080`.
 
 (guacamole-docker-config-via-env)=
 
@@ -749,13 +754,13 @@ $ docker run --name some-guacamole    \
 ### Verifying the Guacamole install
 
 Once the Guacamole image is running, Guacamole should be accessible at
-{samp}`http://{HOSTNAME}:8080/guacamole/`, where `HOSTNAME` is the hostname or
-address of the machine hosting Docker, and you *should* see a login screen. If
-using MySQL or PostgreSQL, the database initialization scripts will have
-created a default administrative user called "`guacadmin`" with the password
-"`guacadmin`". *You should log in and change your password immediately.* If
-using LDAP, you should be able to log in as any valid user within your LDAP
-directory.
+{samp}`http://{HOSTNAME}:8080/guacamole/` (or the path you set with
+`WEBAPP_CONTEXT`), where `HOSTNAME` is the hostname or address of the machine
+hosting Docker, and you *should* see a login screen. If using MySQL or
+PostgreSQL, the database initialization scripts will have created a default
+administrative user called "`guacadmin`" with the password "`guacadmin`".
+*You should log in and change your password immediately.* If using LDAP, you
+should be able to log in as any valid user within your LDAP directory.
 
 If you cannot access Guacamole, or you do not see a login screen, check
 Docker's logs using the `docker logs` command to determine if something is
