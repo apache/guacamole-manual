@@ -749,6 +749,51 @@ $ docker run --name some-guacamole    \
     -d -p 8080:8080 guacamole/guacamole
 ```
 
+(extension-priority)=
+
+### Extension priority and load order
+
+Guacamole extensions are loaded and evaluated in a specific, deterministic
+order. This order can be important when multiple authentication extensions are
+installed, as it dictates which extensions will be given the first chance to
+accept or reject a user's credentials. By default, this order is dictated by
+the sort order of their corresponding filenames. If necessary, extension
+priority can be overridden with the `EXTENSION_PRIORITY` environment variable.
+
+`EXTENSION_PRIORITY`
+: A comma-separated list of the namespaces of all extensions that should be
+  loaded in a specific order. The special value `*` can be used in lieu of a
+  namespace to represent all extensions that are not listed. All extensions
+  explicitly listed will be sorted in the order given, while all extensions
+  not explicitly listed will be sorted by their filenames.
+
+  For example, to ensure support for SAML is loaded _first_:
+
+  ```
+  -e EXTENSION_PRIORITY="saml"
+  ```
+
+  Or to ensure support for SAML is loaded _last_:
+
+  ```
+  -e EXTENSION_PRIORITY="*, saml"
+  ```
+
+  If unsure which namespaces apply or the order that your extensions are
+  loaded, check the Guacamole logs. The namespaces and load order of all
+  installed extensions are logged by Guacamole during startup:
+
+  ```
+  ...
+  23:32:06.467 [main] INFO  o.a.g.extension.ExtensionModule - Multiple extensions are installed and will be loaded in order of decreasing priority:
+  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [postgresql] "PostgreSQL Authentication" (/etc/guacamole/extensions/guacamole-auth-jdbc-postgresql-1.4.0.jar)
+  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [ldap] "LDAP Authentication" (/etc/guacamole/extensions/guacamole-auth-ldap-1.4.0.jar)
+  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [openid] "OpenID Authentication Extension" (/etc/guacamole/extensions/guacamole-auth-sso-openid-1.4.0.jar)
+  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [saml] "SAML Authentication Extension" (/etc/guacamole/extensions/guacamole-auth-sso-saml-1.4.0.jar)
+  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule - To change this order, set the "extension-priority" property or rename the extension files. The default priority of extensions is dictated by the sort order of their filenames.
+  ...
+  ```
+
 (verifying-guacamole-docker)=
 
 ### Verifying the Guacamole install
