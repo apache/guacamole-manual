@@ -103,6 +103,7 @@ are strictly required *in all cases* - Guacamole cannot be built without them.
   :stub-columns: 1
   * - Debian / Ubuntu package
     - `libpng12-dev`
+  :::
 
 [libtool](https://www.gnu.org/software/libtool/manual/libtool.html)
 : libtool is used during the build process. libtool creates compiled libraries
