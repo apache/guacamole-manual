@@ -91,9 +91,18 @@ are strictly required *in all cases* - Guacamole cannot be built without them.
   :::{list-table}
   :stub-columns: 1
   * - Debian / Ubuntu package
-    - `libpng12-dev`
+    - `libpng-dev`
   * - Fedora / CentOS / RHEL package
     - `libpng-devel`
+  :::
+
+  In some previous versions of Debian such as Debian 8 / Ubuntu 16.04, you need
+  the `libpng12-dev` package.
+
+  :::{list-table}
+  :stub-columns: 1
+  * - Debian / Ubuntu package
+    - `libpng12-dev`
   :::
 
 [libtool](https://www.gnu.org/software/libtool/manual/libtool.html)
@@ -174,7 +183,7 @@ carefully before deciding not to install an optional dependency.
   :::{list-table}
   :stub-columns: 1
   * - Debian / Ubuntu package
-    - `libavcodec-dev`, `libavformat-dev`, `libavutil-dev`, `libswsccale-dev`
+    - `libavcodec-dev`, `libavformat-dev`, `libavutil-dev`, `libswscale-dev`
   * - Fedora / CentOS / RHEL package
     - `ffmpeg-devel`
   :::
