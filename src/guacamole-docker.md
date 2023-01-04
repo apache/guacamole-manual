@@ -648,38 +648,60 @@ valid Docker variables for enabling and configuring header authentication:
 
 (guacamole-docker-tomcat-remote-ip-valve)=
 
-### Execution behind a proxy
+### Running Guacamole behind a proxy
 
-To run Guacamole behind a reverse proxy, the Tomcat's [`RemoteIpValve`](https://tomcat.apache.org/tomcat-8.5-doc/config/valve.html#Remote_IP_Valve) as in [](tomcat-remote-ip).
+To run Guacamole behind a reverse proxy, Tomcat's
+[`RemoteIpValve`](https://tomcat.apache.org/tomcat-8.5-doc/config/valve.html#Remote_IP_Valve)
+must be configured as described in [](tomcat-remote-ip) to ensure that the
+user's IP address can be correctly determined and logged. The Guacamole Docker
+image provides environment variables for configuring this.
 
 (guacamole-docker-tomcat-remote-ip-valve-required-vars)=
 
 #### Required environment variables
 
-The following environment variables have to be set in order to configure the [`RemoteIpValve`](https://tomcat.apache.org/tomcat-8.5-doc/config/valve.html#Remote_IP_Valve):
+The following environment variable must be set in order to configure Tomcat's
+[`RemoteIpValve`](https://tomcat.apache.org/tomcat-8.5-doc/config/valve.html#Remote_IP_Valve):
 
-`PROXY_ALLOWED_IPS_REGEX`
-: The regex indicating the hosts allowed to set the remote IP via headers.
-  Specify `.*` to allow any address.
-  This maps with Tomcat's `internalProxies` directive.
+`REMOTE_IP_VALVE_ENABLED`
+: Set to `true` to enable Tomcat's [`RemoteIpValve`](https://tomcat.apache.org/tomcat-8.5-doc/config/valve.html#Remote_IP_Valve).
+  **If this is not set, all other variables related to `RemoteIpValve` will be
+  ignored.**
 
 (guacamole-docker-tomcat-remote-ip-valve-optional-vars)=
 
 #### Optional environment variables
 
-These environment variables can be set to customize the proxy valve configuration:
+Additional environment variables are available to fine tune the configuration
+of `RemoteIpValve`. **It is not typically necessary to set these variables.**
+The default values are correct for most deployments.
 
-`PROXY_IP_HEADER`
-: The header indicating the remote host real IP.
-  Defaults to `X-Forwarded-For`.
+`PROXY_ALLOWED_IPS_REGEX`
+: A regular expression matching only the IP addresses that should be trusted to
+  send proxy headers, corresponding to the `internalProxies` attribute of
+  `RemoteIpValve`. Proxy headers from other addresses will be ignored. The
+  regular expression must conform to the format accepted by [Java's `Pattern`
+  class](https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html),
+  which is largely compatible with Perl.
 
-`PROXY_PROTOCOL_HEADER`
-: The header indicating the protocol being forwarded.
-  Defaults to `X-Forwarded-Proto`.
+  If omitted, Tomcat's default which matches private IPv4 and IPv6 addresses
+  will be used.
 
 `PROXY_BY_HEADER`
-: The header indicating the proxy's identity.
-  Defaults to `X-Forwarded-By`.
+: The HTTP header sent by the proxy that contains the list of proxies that have
+  processed the request. This corresponds to the `proxiesHeader` attribute of
+  `RemoteIpValve`. By default, this will be `X-Forwarded-By`.
+
+`PROXY_IP_HEADER`
+: The HTTP header sent by the proxy that contains the user's browser's IP
+  address. This corresponds to the `remoteIpHeader` attribute of
+  `RemoteIpValve`. By default, this will be `X-Forwarded-For`.
+
+`PROXY_PROTOCOL_HEADER`
+: The HTTP header sent by the proxy that contains the protocol used by the
+  user's browser to connect to the proxy. This corresponds to the
+  `protocolHeader` attribute of `RemoteIpValve`. By default, this will be
+  `X-Forwarded-Proto`.
 
 (guacamole-docker-guacamole-home)=
 
