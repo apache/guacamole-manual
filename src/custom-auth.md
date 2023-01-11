@@ -362,7 +362,7 @@ public Map<String, GuacamoleConfiguration>
     throws GuacamoleException {
 
     // Get the Guacamole server environment
-    Environment environment = new LocalEnvironment();
+    Environment environment = LocalEnvironment.getInstance();
 
     // Get username from guacamole.properties
     String username = environment.getRequiredProperty(
@@ -411,7 +411,7 @@ public Map<String, GuacamoleConfiguration>
     throws GuacamoleException {
 
     // Get the Guacamole server environment
-    Environment environment = new LocalEnvironment();
+    Environment environment = LocalEnvironment.getInstance();
 
     // Get username from guacamole.properties
     String username = environment.getRequiredProperty(
