@@ -121,7 +121,7 @@ i
     <groupId>org.apache.guacamole</groupId>
     <artifactId>guacamole-tutorial</artifactId>
     <packaging>war</packaging>
-    <version>1.4.0</version>
+    <version>1.5.0</version>
     <name>guacamole-tutorial</name>
 
     <properties>
@@ -212,7 +212,7 @@ $
 ```
 
 Assuming you see the "`BUILD SUCCESSFUL`" message when you build the web
-application, there will be a new file, `target/guacamole-tutorial-1.4.0.war`,
+application, there will be a new file, `target/guacamole-tutorial-1.5.0.war`,
 which can be deployed to your servlet container and tested. If you changed the
 name or version of the project in the `pom.xml` file, the name of this new
 `.war` file will be different, but it can still be found within `target/`.
@@ -327,7 +327,7 @@ JavaScript APIs:
         <dependency>
             <groupId>org.apache.guacamole</groupId>
             <artifactId>guacamole-common</artifactId>
-            <version>1.4.0</version>
+            <version>1.5.0</version>
             <scope>compile</scope>
         </dependency>
 
@@ -335,7 +335,7 @@ JavaScript APIs:
         <dependency>
             <groupId>org.apache.guacamole</groupId>
             <artifactId>guacamole-common-js</artifactId>
-            <version>1.4.0</version>
+            <version>1.5.0</version>
             <type>zip</type>
             <scope>runtime</scope>
         </dependency>
@@ -357,7 +357,7 @@ If the `pom.xml` was updated properly as described above, the web application
 should build successfully, and the Guacamole JavaScript API should be
 accessible in the `guacamole-common-js/` subdirectory of your web application
 after it is deployed. A quick check that you can access
-`/guacamole-tutorial-1.4.0/guacamole-common-js/all.min.js` is probably worth
+`/guacamole-tutorial-1.5.0/guacamole-common-js/all.min.js` is probably worth
 the effort.
 
 (simple-tunnel)=
@@ -462,7 +462,7 @@ defined. The second section maps the servlet class by it's servlet name
 ("Tunnel") to the URL we wish to use when making HTTP requests to the servlet:
 `/tunnel`. This URL is relative to the context root of the web application. In
 the case of this web application, the final absolute URL will be
-`/guacamole-tutorial-1.4.0/tunnel`.
+`/guacamole-tutorial-1.5.0/tunnel`.
 
 (simple-client)=
 

@@ -331,8 +331,8 @@ a `.tar.gz` archive which you can extract
 from the command line:
 
 ```console
-$ tar -xzf guacamole-server-1.4.0.tar.gz
-$ cd guacamole-server-1.4.0/
+$ tar -xzf guacamole-server-1.5.0.tar.gz
+$ cd guacamole-server-1.5.0/
 $
 ```
 
@@ -391,7 +391,7 @@ checking whether build environment is sane... yes
 ...
 
 ------------------------------------------------
-guacamole-server version 1.4.0
+guacamole-server version 1.5.0
 ------------------------------------------------
 
    Library status:
@@ -572,8 +572,8 @@ consumption. Source downloaded from the project web site will take the form of
 a `.tar.gz` archive which you can extract from the command line:
 
 ```console
-$ tar -xzf guacamole-client-1.4.0.tar.gz
-$ cd guacamole-client-1.4.0/
+$ tar -xzf guacamole-client-1.5.0.tar.gz
+$ cd guacamole-client-1.5.0/
 $
 ```
 
@@ -606,57 +606,78 @@ $ mvn package
 [INFO] Scanning for projects...
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Build Order:
-[INFO] 
-[INFO] guacamole-common
-[INFO] guacamole-ext
-[INFO] guacamole-common-js
-[INFO] guacamole
-[INFO] guacamole-auth-cas
-[INFO] guacamole-auth-duo
-[INFO] guacamole-auth-header
-[INFO] guacamole-auth-jdbc
-[INFO] guacamole-auth-jdbc-base
-[INFO] guacamole-auth-jdbc-mysql
-[INFO] guacamole-auth-jdbc-postgresql
-[INFO] guacamole-auth-jdbc-sqlserver
-[INFO] guacamole-auth-jdbc-dist
-[INFO] guacamole-auth-ldap
-[INFO] guacamole-auth-openid
-[INFO] guacamole-auth-quickconnect
-[INFO] guacamole-auth-totp
-[INFO] guacamole-example
-[INFO] guacamole-playback-example
-[INFO] guacamole-client
+[INFO]
+[INFO] guacamole-client                                                   [pom]
+[INFO] guacamole-common                                                   [jar]
+[INFO] guacamole-ext                                                      [jar]
+[INFO] guacamole-common-js                                                [pom]
+[INFO] guacamole                                                          [war]
+[INFO] extensions                                                         [pom]
+[INFO] guacamole-auth-duo                                                 [jar]
+[INFO] guacamole-auth-header                                              [jar]
+[INFO] guacamole-auth-jdbc                                                [pom]
+[INFO] guacamole-auth-jdbc-base                                           [jar]
+[INFO] guacamole-auth-jdbc-mysql                                          [jar]
+[INFO] guacamole-auth-jdbc-postgresql                                     [jar]
+[INFO] guacamole-auth-jdbc-sqlserver                                      [jar]
+[INFO] guacamole-auth-jdbc-dist                                           [pom]
+[INFO] guacamole-auth-json                                                [jar]
+[INFO] guacamole-auth-ldap                                                [jar]
+[INFO] guacamole-auth-quickconnect                                        [jar]
+[INFO] guacamole-auth-sso                                                 [pom]
+[INFO] guacamole-auth-sso-base                                            [jar]
+[INFO] guacamole-auth-sso-cas                                             [jar]
+[INFO] guacamole-auth-sso-openid                                          [jar]
+[INFO] guacamole-auth-sso-saml                                            [jar]
+[INFO] guacamole-auth-sso-dist                                            [pom]
+[INFO] guacamole-auth-totp                                                [jar]
+[INFO] guacamole-history-recording-storage                                [jar]
+[INFO] guacamole-vault                                                    [pom]
+[INFO] guacamole-vault-base                                               [jar]
+[INFO] guacamole-vault-ksm                                                [jar]
+[INFO] guacamole-vault-dist                                               [pom]
+[INFO] guacamole-example                                                  [war]
+[INFO] guacamole-playback-example                                         [war]
 ...
 [INFO] ------------------------------------------------------------------------
-[INFO] Reactor Summary:
+[INFO] Reactor Summary for guacamole-client 1.5.0:
 [INFO] 
-[INFO] guacamole-common ................................... SUCCESS [ 21.852 s]
-[INFO] guacamole-ext ...................................... SUCCESS [  9.055 s]
-[INFO] guacamole-common-js ................................ SUCCESS [  1.988 s]
-[INFO] guacamole .......................................... SUCCESS [ 18.040 s]
-[INFO] guacamole-auth-cas ................................. SUCCESS [  4.203 s]
-[INFO] guacamole-auth-duo ................................. SUCCESS [  2.251 s]
-[INFO] guacamole-auth-header .............................. SUCCESS [  1.399 s]
-[INFO] guacamole-auth-jdbc ................................ SUCCESS [  1.396 s]
-[INFO] guacamole-auth-jdbc-base ........................... SUCCESS [  3.266 s]
-[INFO] guacamole-auth-jdbc-mysql .......................... SUCCESS [  4.665 s]
-[INFO] guacamole-auth-jdbc-postgresql ..................... SUCCESS [  3.764 s]
-[INFO] guacamole-auth-jdbc-sqlserver ...................... SUCCESS [  3.738 s]
-[INFO] guacamole-auth-jdbc-dist ........................... SUCCESS [  1.214 s]
-[INFO] guacamole-auth-ldap ................................ SUCCESS [  1.991 s]
-[INFO] guacamole-auth-openid .............................. SUCCESS [  2.204 s]
-[INFO] guacamole-auth-quickconnect ........................ SUCCESS [  2.983 s]
-[INFO] guacamole-auth-totp ................................ SUCCESS [  8.154 s]
-[INFO] guacamole-example .................................. SUCCESS [  0.895 s]
-[INFO] guacamole-playback-example ......................... SUCCESS [  0.795 s]
-[INFO] guacamole-client ................................... SUCCESS [  7.478 s]
+[INFO] guacamole-client ................................... SUCCESS [ 11.879 s]
+[INFO] guacamole-common ................................... SUCCESS [ 15.140 s]
+[INFO] guacamole-ext ...................................... SUCCESS [ 14.764 s]
+[INFO] guacamole-common-js ................................ SUCCESS [ 23.530 s]
+[INFO] guacamole .......................................... SUCCESS [01:09 min]
+[INFO] extensions ......................................... SUCCESS [  0.601 s]
+[INFO] guacamole-auth-duo ................................. SUCCESS [  6.680 s]
+[INFO] guacamole-auth-header .............................. SUCCESS [  3.379 s]
+[INFO] guacamole-auth-jdbc ................................ SUCCESS [  0.239 s]
+[INFO] guacamole-auth-jdbc-base ........................... SUCCESS [  6.755 s]
+[INFO] guacamole-auth-jdbc-mysql .......................... SUCCESS [  6.523 s]
+[INFO] guacamole-auth-jdbc-postgresql ..................... SUCCESS [  4.756 s]
+[INFO] guacamole-auth-jdbc-sqlserver ...................... SUCCESS [  4.600 s]
+[INFO] guacamole-auth-jdbc-dist ........................... SUCCESS [  3.381 s]
+[INFO] guacamole-auth-json ................................ SUCCESS [  6.449 s]
+[INFO] guacamole-auth-ldap ................................ SUCCESS [ 10.611 s]
+[INFO] guacamole-auth-quickconnect ........................ SUCCESS [  6.908 s]
+[INFO] guacamole-auth-sso ................................. SUCCESS [  0.216 s]
+[INFO] guacamole-auth-sso-base ............................ SUCCESS [  4.174 s]
+[INFO] guacamole-auth-sso-cas ............................. SUCCESS [ 12.180 s]
+[INFO] guacamole-auth-sso-openid .......................... SUCCESS [  5.119 s]
+[INFO] guacamole-auth-sso-saml ............................ SUCCESS [  5.263 s]
+[INFO] guacamole-auth-sso-dist ............................ SUCCESS [  6.400 s]
+[INFO] guacamole-auth-totp ................................ SUCCESS [  9.445 s]
+[INFO] guacamole-history-recording-storage ................ SUCCESS [  2.370 s]
+[INFO] guacamole-vault .................................... SUCCESS [  0.177 s]
+[INFO] guacamole-vault-base ............................... SUCCESS [  3.899 s]
+[INFO] guacamole-vault-ksm ................................ SUCCESS [  8.084 s]
+[INFO] guacamole-vault-dist ............................... SUCCESS [  3.555 s]
+[INFO] guacamole-example .................................. SUCCESS [  2.363 s]
+[INFO] guacamole-playback-example ......................... SUCCESS [  1.040 s]
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time: 01:41 min
-[INFO] Finished at: 2018-10-15T17:08:29-07:00
-[INFO] Final Memory: 42M/379M
+[INFO] Total time:  04:20 min
+[INFO] Finished at: 2023-01-10T17:20:33-08:00
 [INFO] ------------------------------------------------------------------------
 $
 ```
@@ -691,7 +712,7 @@ from the name of the `.war` file, you will likely want to rename this to simply
 `guacamole.war` while copying:
 
 ```console
-# cp guacamole/target/guacamole-1.4.0.war /var/lib/tomcat/webapps/guacamole.war
+# cp guacamole/target/guacamole-1.5.0.war /var/lib/tomcat/webapps/guacamole.war
 #
 ```
 
@@ -712,7 +733,7 @@ Stopping Tomcat... OK
 Starting Tomcat... OK
 # /etc/init.d/guacd start
 Starting guacd: SUCCESS
-guacd[6229]: INFO:  Guacamole proxy daemon (guacd) version 1.4.0 started
+guacd[6229]: INFO:  Guacamole proxy daemon (guacd) version 1.5.0 started
 #
 ```
 

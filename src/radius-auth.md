@@ -29,47 +29,93 @@ generate the binaries and resulting JAR file. This is done by adding the flag
 `-Plgpl-extensions` to the Maven command line during the build, and should
 result in the output below:
 
-```console
-$ mvn clean package -Plgpl-extensions
-[INFO] --- maven-assembly-plugin:2.5.3:single (make-source-archive) @ guacamole-client ---
-[INFO] Reading assembly descriptor: project-assembly.xml
-[INFO] Building tar: /home/guac/guacamole-client/target/guacamole-client-1.4.0.tar.gz
-[INFO] ------------------------------------------------------------------------
-[INFO] Reactor Summary:
-[INFO] 
-[INFO] guacamole-common .................................. SUCCESS [6.037s]
-[INFO] guacamole-ext ..................................... SUCCESS [5.382s]
-[INFO] guacamole-common-js ............................... SUCCESS [0.751s]
-[INFO] guacamole ......................................... SUCCESS [9.767s]
-[INFO] guacamole-auth-cas ................................ SUCCESS [2.811s]
-[INFO] guacamole-auth-duo ................................ SUCCESS [2.441s]
-[INFO] guacamole-auth-header ............................. SUCCESS [1.875s]
-[INFO] guacamole-auth-jdbc ............................... SUCCESS [0.277s]
-[INFO] guacamole-auth-jdbc-base .......................... SUCCESS [2.144s]
-[INFO] guacamole-auth-jdbc-mysql ......................... SUCCESS [5.637s]
-[INFO] guacamole-auth-jdbc-postgresql .................... SUCCESS [5.465s]
-[INFO] guacamole-auth-jdbc-sqlserver ..................... SUCCESS [5.398s]
-[INFO] guacamole-auth-jdbc-dist .......................... SUCCESS [0.824s]
-[INFO] guacamole-auth-ldap ............................... SUCCESS [2.743s]
-[INFO] guacamole-auth-noauth ............................. SUCCESS [0.964s]
-[INFO] guacamole-auth-openid ............................. SUCCESS [2.533s]
-[INFO] guacamole-example ................................. SUCCESS [0.888s]
-[INFO] guacamole-playback-example ........................ SUCCESS [0.628s]
-[INFO] guacamole-auth-radius ............................. SUCCESS [17.729s]
-[INFO] guacamole-client .................................. SUCCESS [5.645s]
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: 1:20.134s
-[INFO] Finished at: Wed Jan 31 09:45:41 EST 2018
-[INFO] Final Memory: 47M/749M
-[INFO] ------------------------------------------------------------------------
-$
-```
+   :::{code-block} console
+   :emphasize-lines: 35,71
+   $ mvn clean package -Plgpl-extensions
+   [INFO] Scanning for projects...
+   [INFO] ------------------------------------------------------------------------
+   [INFO] Reactor Build Order:
+   [INFO] 
+   [INFO] guacamole-client                                                   [pom]
+   [INFO] guacamole-common                                                   [jar]
+   [INFO] guacamole-ext                                                      [jar]
+   [INFO] guacamole-common-js                                                [pom]
+   [INFO] guacamole                                                          [war]
+   [INFO] extensions                                                         [pom]
+   [INFO] guacamole-auth-duo                                                 [jar]
+   [INFO] guacamole-auth-header                                              [jar]
+   [INFO] guacamole-auth-jdbc                                                [pom]
+   [INFO] guacamole-auth-jdbc-base                                           [jar]
+   [INFO] guacamole-auth-jdbc-mysql                                          [jar]
+   [INFO] guacamole-auth-jdbc-postgresql                                     [jar]
+   [INFO] guacamole-auth-jdbc-sqlserver                                      [jar]
+   [INFO] guacamole-auth-jdbc-dist                                           [pom]
+   [INFO] guacamole-auth-json                                                [jar]
+   [INFO] guacamole-auth-ldap                                                [jar]
+   [INFO] guacamole-auth-quickconnect                                        [jar]
+   [INFO] guacamole-auth-sso                                                 [pom]
+   [INFO] guacamole-auth-sso-base                                            [jar]
+   [INFO] guacamole-auth-sso-cas                                             [jar]
+   [INFO] guacamole-auth-sso-openid                                          [jar]
+   [INFO] guacamole-auth-sso-saml                                            [jar]
+   [INFO] guacamole-auth-sso-dist                                            [pom]
+   [INFO] guacamole-auth-totp                                                [jar]
+   [INFO] guacamole-history-recording-storage                                [jar]
+   [INFO] guacamole-vault                                                    [pom]
+   [INFO] guacamole-vault-base                                               [jar]
+   [INFO] guacamole-vault-ksm                                                [jar]
+   [INFO] guacamole-vault-dist                                               [pom]
+   [INFO] guacamole-auth-radius                                              [jar]
+   [INFO] guacamole-example                                                  [war]
+   [INFO] guacamole-playback-example                                         [war]
+   ...
+   [INFO] ------------------------------------------------------------------------
+   [INFO] Reactor Summary for guacamole-client 1.5.0:
+   [INFO] 
+   [INFO] guacamole-client ................................... SUCCESS [ 12.839 s]
+   [INFO] guacamole-common ................................... SUCCESS [ 15.446 s]
+   [INFO] guacamole-ext ...................................... SUCCESS [ 19.988 s]
+   [INFO] guacamole-common-js ................................ SUCCESS [ 22.000 s]
+   [INFO] guacamole .......................................... SUCCESS [01:08 min]
+   [INFO] extensions ......................................... SUCCESS [  0.451 s]
+   [INFO] guacamole-auth-duo ................................. SUCCESS [  7.043 s]
+   [INFO] guacamole-auth-header .............................. SUCCESS [  4.836 s]
+   [INFO] guacamole-auth-jdbc ................................ SUCCESS [  0.244 s]
+   [INFO] guacamole-auth-jdbc-base ........................... SUCCESS [  8.011 s]
+   [INFO] guacamole-auth-jdbc-mysql .......................... SUCCESS [  4.717 s]
+   [INFO] guacamole-auth-jdbc-postgresql ..................... SUCCESS [  5.098 s]
+   [INFO] guacamole-auth-jdbc-sqlserver ...................... SUCCESS [  5.620 s]
+   [INFO] guacamole-auth-jdbc-dist ........................... SUCCESS [  4.031 s]
+   [INFO] guacamole-auth-json ................................ SUCCESS [  6.319 s]
+   [INFO] guacamole-auth-ldap ................................ SUCCESS [  8.948 s]
+   [INFO] guacamole-auth-quickconnect ........................ SUCCESS [  9.128 s]
+   [INFO] guacamole-auth-sso ................................. SUCCESS [  0.270 s]
+   [INFO] guacamole-auth-sso-base ............................ SUCCESS [  3.665 s]
+   [INFO] guacamole-auth-sso-cas ............................. SUCCESS [ 12.263 s]
+   [INFO] guacamole-auth-sso-openid .......................... SUCCESS [  5.667 s]
+   [INFO] guacamole-auth-sso-saml ............................ SUCCESS [  5.068 s]
+   [INFO] guacamole-auth-sso-dist ............................ SUCCESS [  4.884 s]
+   [INFO] guacamole-auth-totp ................................ SUCCESS [  9.310 s]
+   [INFO] guacamole-history-recording-storage ................ SUCCESS [  3.131 s]
+   [INFO] guacamole-vault .................................... SUCCESS [  0.231 s]
+   [INFO] guacamole-vault-base ............................... SUCCESS [  4.671 s]
+   [INFO] guacamole-vault-ksm ................................ SUCCESS [  6.411 s]
+   [INFO] guacamole-vault-dist ............................... SUCCESS [  3.421 s]
+   [INFO] guacamole-auth-radius .............................. SUCCESS [ 10.806 s]
+   [INFO] guacamole-example .................................. SUCCESS [  2.052 s]
+   [INFO] guacamole-playback-example ......................... SUCCESS [  0.938 s]
+   [INFO] ------------------------------------------------------------------------
+   [INFO] BUILD SUCCESS
+   [INFO] ------------------------------------------------------------------------
+   [INFO] Total time:  04:36 min
+   [INFO] Finished at: 2023-01-10T17:27:11-08:00
+   [INFO] ------------------------------------------------------------------------
+   $
+   :::
 
 After the build completes successfully, the extension will be in the
 `extensions/guacamole-auth-radius/target/` directory, and will be called
-guacamole-auth-radius-1.4.0.jar. This extension file can be copied to the
+guacamole-auth-radius-1.5.0.jar. This extension file can be copied to the
 `GUACAMOLE_HOME/extensions` directory. *If you are unsure where
 `GUACAMOLE_HOME` is located on your system, please consult
 [](configuring-guacamole) before proceeding.*
@@ -87,7 +133,7 @@ To install the RADIUS authentication extension, you must:
 1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
    exist.
 
-2. Copy `guacamole-auth-radius-1.4.0.jar` into `GUACAMOLE_HOME/extensions`.
+2. Copy `guacamole-auth-radius-1.5.0.jar` into `GUACAMOLE_HOME/extensions`.
 
 3. Configure Guacamole to use RADIUS authentication, as described below.
 
