@@ -709,6 +709,79 @@ valid Docker variables for enabling and configuring header authentication:
 
 (guacamole-docker-tomcat-remote-ip-valve)=
 
+### SAML Authentication
+
+SAML authentication can be configured to allow the Guacamole Client instance
+running in a Docker container to authentication with a SAML Identity Provider
+(IdP). The IdP verifies the user authentication and then provides a response
+back to Guacamole with the name of the user and any other configured
+attributes contained in the SAML assertion. More details on SAML
+authentication with Guacamole can be found on the [](saml-auth) page.
+
+#### Required environment variables
+
+Configuration of SAML authentication requires that either a metadata file
+or a few other basic configuration parameters be provided to the container:
+
+`SAML_IDP_METADATA_URL`
+: The URI of a file that provides information about the SAML IdP that will
+  be used to authenticate users. This can either be a local file on the
+  filesystem, or it can be the URL of a file on a remote server. Note that
+  if the file is located on a local filesystem it will have to be made
+  available to the Docker container by either copying the file in or using
+  a file located on a volume that is shared with the container. Metadata
+  files for SAML authentication are generally obtained from the IdP.
+
+`SAML_IDP_URL`
+: If a metadata file is not provided, or does not contain the URL of the
+  Identity Provider, then this variable must be present in order to
+  tell Guacamole the location of the IdP, which is where users will be
+  redirected for authentication.
+
+`SAML_ENTITY_ID`
+: The SAML Entity Identifier of the Guacamole Client instance that will
+  be provided to the SAML IdP. This is generally the URL of the
+  Guacamole server. If the metadata URL is not provided, or the
+  metadata file does not contain an entity ID, this variable must
+  be provided.
+
+`SAML_CALLBACK_URL`
+: The URL of the Guacamole instance that will be given to the SAML IdP,
+  which will be used by the IdP to redirect the user back to the Guacamole
+  instance after the user has been validated. If the metadata file is not
+  provided, or does not contain a callback URL for the Guacamole instance,
+  this variable must be provided.
+
+#### Optional environment variables
+
+Other environment variables can be provided to adjust the behavior of the
+SAML authentication extension.
+
+`SAML_STRICT`
+: A boolean value that configures whether or not the Guacamole SAML client
+  will perform strict security checks on servers and certificates. This is
+  normally enabled and should never be disabled in a production environment.
+
+`SAML_COMPRESS_REQUEST`
+: A boolean value that configures whether or not the Guacamole SAML client
+  will enable compression on requests sent to the IdP. This defaults to
+  enabled (true).
+
+`SAML_COMPRESS_RESPONSE`
+: A boolean value that configures whether or not the Guacamole SAML client
+  will request that responses from the IdP be compressed. This defaults to
+  enabled (true).
+
+`SAML_GROUP_ATTRIBUTE`
+: The name of the attribute within the SAML assertion that contains the
+  group membership of the user who is being authenticated, if any. This
+  property is optional and defaults to "groups".
+
+`SAML_DEBUG`
+: Whether or not the Guacamole SAML client should provide verbose logging
+  that may be helpful in debugging problems with SAML authentication. This
+  is optional and defaults to false - debugging will not be enabled.
+
 ### Running Guacamole behind a proxy
 
 To run Guacamole behind a reverse proxy, Tomcat's
