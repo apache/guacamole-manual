@@ -1230,3 +1230,24 @@ human-readable way.
     The client is already using too many resources. Existing resources must be
     freed before further requests are allowed.
 
+Message Codes
+-------------
+
+The `msg` instruction must have at least one numeric argument that the client
+then uses to interpret the message and determine what action, if any, it
+should take based on the message. The following numeric codes are currently
+implemented for this instruction.
+
+1 (``USER_JOINED``)
+    Notifies the owner of a connection that another user has joined the
+    connection. This message is expected to include two additional
+    arguments: the guacd-generated UUID of the user who is joining the
+    connection, and the arbitrary name of the user provided by the
+    client during the handshake.
+
+2 (``USER_LEFT``)
+    Notifies the owner of a connection that another user has left the
+    connection. This message is expected to include two additional
+    arguments: the guacd-generated UUID of the user who is leaving the
+    connection, and the arbitrary name of the user provided by the
+    client during the handshake.
