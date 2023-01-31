@@ -87,6 +87,12 @@ parameter.
 
 Valid protocol versions are as follows:
 
+`VERSION_1_5_0`
+: Protocol version 1.5.0 introduced two new instructions - the `msg`
+  instruction, which is used to send arbitrary messages to the client, and
+  the `name` handshake instruction, which allows the client to set the
+  human-readable name of the user joining a connection.
+
 `VERSION_1_3_0`
 : Protocol version 1.3.0 introduced the `require` instruction, used by the
   server to indicate that the client must provide additional arguments (such
@@ -138,6 +144,9 @@ The following are valid instructions during the handshake:
 `image`
 : The image formats that the client supports, in order of preference. The
   client in the example above is supporting both PNG and JPEG.
+
+`name`
+: The human-readable name of the user joining the connection.
 
 `timezone`
 : The timezone of the client, in IANA zone key format. More information on
