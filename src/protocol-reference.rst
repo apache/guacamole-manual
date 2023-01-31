@@ -713,6 +713,23 @@ Streaming instructions
     :arg string filename:
         The name of the file, as it would be saved on a filesystem.
 
+.. guac:instruction:: msg
+    :sent-by: server
+    :phase: interactive
+
+    Sends a message from the server (guacd) to the client. The nature of these
+    messages is intentionally broad and flexible - the message must include
+    a numeric code that the client understands and can act on, and may also
+    any number of arguments that can be used by the client in association
+    with the message.
+
+    :arg integer msg:
+        A numeric value indicating the message that is being passed to the client.
+
+    :arg string args:
+        Any number of arguments associated with the message that is being sent
+        to the client.
+
 .. guac:instruction:: pipe
     :sent-by: client,server
     :phase: interactive
@@ -897,6 +914,16 @@ Client handshake instructions
     It is expected that the supported mimetypes will include at least
     "image/png" and "image/jpeg", and the server *may* safely assume that these
     mimetypes are supported, even if they are absent from the handshake.
+
+.. guac:instruction:: name
+    :sent-by: client
+    :phase: handshake
+
+    Specifies the human-readable name of the user joining a connection. A
+    single, string value is expected for this, and guacd does not expect
+    or require that this value be unique among other users connected to
+    the server or connection. The type of name provided is completely up
+    to the client implementation.
 
 .. guac:instruction:: select
     :sent-by: client
@@ -1203,3 +1230,24 @@ human-readable way.
     The client is already using too many resources. Existing resources must be
     freed before further requests are allowed.
 
+Message Codes
+-------------
+
+The `msg` instruction must have at least one numeric argument that the client
+then uses to interpret the message and determine what action, if any, it
+should take based on the message. The following numeric codes are currently
+implemented for this instruction.
+
+1 (``USER_JOINED``)
+    Notifies the owner of a connection that another user has joined the
+    connection. This message is expected to include two additional
+    arguments: the guacd-generated UUID of the user who is joining the
+    connection, and the arbitrary name of the user provided by the
+    client during the handshake.
+
+2 (``USER_LEFT``)
+    Notifies the owner of a connection that another user has left the
+    connection. This message is expected to include two additional
+    arguments: the guacd-generated UUID of the user who is leaving the
+    connection, and the arbitrary name of the user provided by the
+    client during the handshake.
