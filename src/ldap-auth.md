@@ -462,6 +462,111 @@ configuration for LDAP authentication will look like the following:
 ldap-user-base-dn: ou=people,dc=example,dc=net
 ```
 
+(guac-multi-ldap-config)=
+
+### Using multiple LDAP servers
+
+If you have several LDAP servers that Guacamole should authenticate against, it
+is possible to provide the configuration details for multiple servers by
+creating or editing a YAML file within `GUACAMOLE_HOME` called
+`ldap-servers.yml`. This file consists of a single list of servers (a YAML
+array of objects) and any number of corresponding configuration options (the
+key/value pairs within each YAML object). The available options correspond
+_exactly_ to the properties described above except that they lack an `ldap-`
+prefix.
+
+For example, the following `guacamole.properties`:
+
+```
+ldap-hostname: dc1.example.net
+ldap-user-base-dn: ou=Users,dc=example,dc=net
+ldap-username-attribute: sAMAccountName
+ldap-search-bind-dn: cn=Guacamole,ou=Service Users,dc=example,dc=net
+ldap-search-bind-password: SomePassword!
+```
+
+is exactly equivalent to the following `ldap-servers.yml` 
+
+```
+- hostname: dc1.example.net
+  user-base-dn: ou=Users,dc=example,dc=net
+  username-attribute: sAMAccountName
+  search-bind-dn: cn=Guacamole,ou=Service Users,dc=example,dc=net
+  search-bind-password: SomePassword!
+```
+
+The benefit of using `ldap-servers.yml` is that the format allows multiple
+servers to be defined, relying on the properties within `guacamole.properties`
+as defaults. For example, the following `ldap-servers.yml` defines two LDAP
+servers:
+
+```
+- hostname: dc1.example.net
+  user-base-dn: ou=Users,dc=example,dc=net
+  username-attribute: sAMAccountName
+  search-bind-dn: cn=Guacamole,ou=Service Users,dc=example,dc=net
+  search-bind-password: SomePassword!
+
+- hostname: dc2.example.net
+  user-base-dn: ou=Users,dc=example,dc=net
+  username-attribute: sAMAccountName
+  search-bind-dn: cn=Guacamole,ou=Service Users,dc=example,dc=net
+  search-bind-password: SomePassword!
+```
+
+Leveraging the fact that values within `guacamole.properties` are used as the
+default values for all LDAP servers in `ldap-servers.yml`, the above can be
+abbreviated by moving the common options into `guacamole.properties`:
+
+```
+ldap-user-base-dn: ou=Users,dc=example,dc=net
+ldap-username-attribute: sAMAccountName
+ldap-search-bind-dn: cn=Guacamole,ou=Service Users,dc=example,dc=net
+ldap-search-bind-password: SomePassword!
+```
+
+Leaving `ldap-servers.yml` containing, simply:
+
+```
+- hostname: dc1.example.net
+- hostname: dc2.example.net
+```
+
+If multiple LDAP servers are listed within `ldap-servers.yml`, and a user
+attempts to log into Guacamole, each defined LDAP server is tried, in order,
+until one server successfully authenticates the user or until all servers fail.
+
+If not all LDAP servers are relevant to all users, and it is reasonable to
+determine which user is relevant to which LDAP server by the format of their
+username, patterns can be specified on a per-server basis to narrow which
+servers apply to which login attempts. For example:
+
+```
+- hostname: dc1.example.net
+  match-usernames: COMPANYA\\(.*)
+
+- hostname: dc2.example.net
+  match-usernames: COMPANYB\\(.*)
+```
+
+The value for `match-usernames` can be any regular expression accepted by Java,
+where the capturing group dictates the portion that should be considered the
+user's username with respect to Guacamole. If multiple patterns should apply to
+a particular LDAP server, this can be specified with a list of patterns for
+`match-usernames`:
+
+```
+- hostname: dc1.example.net
+  match-usernames:
+    - COMPANYA\\(.*)
+    - (.*)@a\.example\.net
+
+- hostname: dc2.example.net
+  match-usernames:
+    - COMPANYB\\(.*)
+    - (.*)@b\.example\.net
+```
+
 ### Completing the installation
 
 Guacamole will only reread `guacamole.properties` and load newly-installed
