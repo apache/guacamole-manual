@@ -49,6 +49,7 @@ saml-auth
 radius-auth
 adhoc-connections
 using-guacamole
+recording-playback
 administration
 troubleshooting
 :::
