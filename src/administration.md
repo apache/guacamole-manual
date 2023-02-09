@@ -70,10 +70,17 @@ Connection history
 
 Clicking "History" navigates to the connection history screen. The connection
 history screen displays a table of the most recent connections, including the
-user that used that connection, the time the connection began, and how long the
-connection was used.
+user that used that connection, the time the connection began, how long the
+connection was used, and whether a corresponding recording is available for
+viewing:
 
-![Connection history interface](images/manage-history.png)
+![Connection history interface with recordings](images/history-table-with-recordings.png)
+
+Recordings are only made for a connection if an administrator explicitly
+configures the connection to produce recordings, and those recordings are only
+available from this screen if the administrator explicitly configures the
+connection to [store those recordings in a location dedicated for future
+in-browser playback](recording-playback).
 
 (filtering-history)=
 

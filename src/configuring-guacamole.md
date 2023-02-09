@@ -2143,7 +2143,8 @@ transfer features.
 Sessions of all supported protocols can be recorded graphically. These
 recordings take the form of Guacamole protocol dumps and are recorded
 automatically to a specified directory. Recordings can be subsequently
-translated to a normal video stream using the {program}`guacenc` utility
+[played back directly in the browser from the connection history screen](recording-playback)
+or translated to a normal video stream using the {program}`guacenc` utility
 provided with guacamole-server.
 
 For example, to produce a video called {samp}`{NAME}.m4v` from the recording
