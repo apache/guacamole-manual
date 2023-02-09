@@ -39,6 +39,7 @@ reverse-proxy
 configuring-guacamole
 jdbc-auth
 ldap-auth
+vault
 duo-auth
 totp-auth
 header-auth
