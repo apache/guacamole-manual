@@ -579,6 +579,11 @@ to the database server:
 `mysql-ssl-client-password`
 : The password to use to access the client certificate store, if one is
   required. By default no password will be used.
+
+`mysql-track-external-connection-history`
+: Whether connection history records should be created for connections not
+  defined in the database. By default, external connection history will be
+  tracked unless this is explicitly disabled by setting this to "false".
 :::
 
 :::{tab} PostgreSQL
@@ -656,6 +661,11 @@ to the database server:
   database. Similar to `postgresql-default-statement-timeout`, it will also
   abort queries that take too long. A value of 0 (the default) means the
   timeout is disabled.
+
+`postgresql-track-external-connection-history`
+: Whether connection history records should be created for connections not
+  defined in the database. By default, external connection history will be
+  tracked unless this is explicitly disabled by setting this to "false".
 :::
 
 :::{tab} SQL Server
@@ -687,6 +697,11 @@ to the database server:
   not the default SQL Server instance. This instance name is configured during
   the SQL Server installation. This property is optional, and most installations
   should work without the need to specify an instance name.
+
+`sqlserver-track-external-connection-history`
+: Whether connection history records should be created for connections not
+  defined in the database. By default, external connection history will be
+  tracked unless this is explicitly disabled by setting this to "false".
 :::
 
 #### Enforcing password policies
