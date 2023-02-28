@@ -584,6 +584,14 @@ to the database server:
 : Whether connection history records should be created for connections not
   defined in the database. By default, external connection history will be
   tracked unless this is explicitly disabled by setting this to "false".
+
+`mysql-enforce-access-windows-for-active-sessions`
+: Whether time-based access windows should be enforced for active user sessions.
+  By default, users will be logged out when an access window closes, even if
+  they are currently logged in. To allow logged-in users to continue to use the
+  application after an access window closes, set this to "false". Users will
+  always be prevented from logging in outside of access windows regardless of
+  this setting.
 :::
 
 :::{tab} PostgreSQL
@@ -666,6 +674,14 @@ to the database server:
 : Whether connection history records should be created for connections not
   defined in the database. By default, external connection history will be
   tracked unless this is explicitly disabled by setting this to "false".
+
+`postgresql-enforce-access-windows-for-active-sessions`
+: Whether time-based access windows should be enforced for active user sessions.
+  By default, users will be logged out when an access window closes, even if
+  they are currently logged in. To allow logged-in users to continue to use the
+  application after an access window closes, set this to "false". Users will
+  always be prevented from logging in outside of access windows regardless of
+  this setting.
 :::
 
 :::{tab} SQL Server
@@ -702,6 +718,14 @@ to the database server:
 : Whether connection history records should be created for connections not
   defined in the database. By default, external connection history will be
   tracked unless this is explicitly disabled by setting this to "false".
+
+`sqlserver-enforce-access-windows-for-active-sessions`
+: Whether time-based access windows should be enforced for active user sessions.
+  By default, users will be logged out when an access window closes, even if
+  they are currently logged in. To allow logged-in users to continue to use the
+  application after an access window closes, set this to "false". Users will
+  always be prevented from logging in outside of access windows regardless of
+  this setting.
 :::
 
 #### Enforcing password policies
