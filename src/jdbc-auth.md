@@ -83,7 +83,7 @@ If using the JDBC driver from MySQL, the required `.jar` will be within a
 * - SQL schema scripts
   - `postgresql/schema/`
 * - JDBC driver
-  - [PostgreSQL JDBC Driver](https://jdbc.postgresql.org/download.html#current)
+  - [PostgreSQL JDBC Driver](https://jdbc.postgresql.org/download/#latest-versions)
 :::
 ::::
 
