@@ -90,7 +90,25 @@ resetting the secret, you can un-check the box marked "TOTP key confirmed" and
 save the user configuration, and the user will be presented with the QR code
 at next login and asked to confirm it.
 
+(totp-disable-user-group)=
+
+### Disabling TOTP for users or groups
+
+In versions of Guacamole prior to 1.6.0, installing and configuring the TOTP
+module meant that all Guacamole users would be required to enroll in and
+successfully authenticate via the TOTP factor. Starting with 1.6.0 the TOTP
+requirement can be disabled on a per-user or per-group basis, allowing
+administrators more flexibility in configuring the TOTP requirement.
+
+By default all users will still be required to authenticate with TOTP,
+however the requirement can be disabled by checking the "Disable TOTP"
+checkbox. This can be done for an individual user account, but it can
+also be disabled for a group resulting the TOTP requirement being
+disabled for any members of the group.
+
 ![](images/totp-user-config.png)
+
+![](images/totp-group-config.png)
 
 (totp-downloading)=
 
