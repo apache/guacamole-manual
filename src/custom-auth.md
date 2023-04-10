@@ -67,7 +67,7 @@ server logs.
     <groupId>org.apache.guacamole</groupId>
     <artifactId>guacamole-auth-tutorial</artifactId>
     <packaging>jar</packaging>
-    <version>1.5.0</version>
+    <version>1.5.1</version>
     <name>guacamole-auth-tutorial</name>
 
     <properties>
@@ -97,7 +97,7 @@ server logs.
         <dependency>
             <groupId>org.apache.guacamole</groupId>
             <artifactId>guacamole-ext</artifactId>
-            <version>1.5.0</version>
+            <version>1.5.1</version>
             <scope>provided</scope>
         </dependency>
 
@@ -185,7 +185,7 @@ pick it up during the build and include it within the `.jar`.
 ```json
 {
 
-    "guacamoleVersion" : "1.5.0",
+    "guacamoleVersion" : "1.5.1",
 
     "name"      : "Tutorial Authentication Extension",
     "namespace" : "guac-auth-tutorial",
@@ -213,7 +213,7 @@ all steps have been followed correctly so far:
 $ mvn package
 [INFO] Scanning for projects...
 [INFO] ------------------------------------------------------------------------
-[INFO] Building guacamole-auth-tutorial 1.5.0
+[INFO] Building guacamole-auth-tutorial 1.5.1
 [INFO] ------------------------------------------------------------------------
 ...
 [INFO] ------------------------------------------------------------------------
@@ -227,7 +227,7 @@ $
 ```
 
 Assuming you see the "`BUILD SUCCESS`" message when you build the extension,
-there will be a new file, `target/guacamole-auth-tutorial-1.5.0.jar`, which can
+there will be a new file, `target/guacamole-auth-tutorial-1.5.1.jar`, which can
 be installed within Guacamole and tested. If you changed the name or version of
 the project in the `pom.xml` file, the name of this new `.jar` file will be
 different, but it can still be found within `target/`.
@@ -485,7 +485,7 @@ directory within the home directory of the user running Tomcat.
 
 To install your extension, ensure that the required properties have been added
 to your `guacamole.properties`, copy the
-`target/guacamole-auth-tutorial-1.5.0.jar` file into
+`target/guacamole-auth-tutorial-1.5.1.jar` file into
 `GUACAMOLE_HOME/extensions` and restart Tomcat. Guacamole will automatically
 load your extension, logging an informative message that it has done so:
 
