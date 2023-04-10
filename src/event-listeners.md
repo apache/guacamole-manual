@@ -56,7 +56,7 @@ extension and pointing to our listener class.
     <groupId>org.apache.guacamole</groupId>
     <artifactId>guacamole-listener-tutorial</artifactId>
     <packaging>jar</packaging>
-    <version>1.5.0</version>
+    <version>1.5.1</version>
     <name>guacamole-listener-tutorial</name>
 
     <properties>
@@ -86,7 +86,7 @@ extension and pointing to our listener class.
         <dependency>
             <groupId>org.apache.guacamole</groupId>
             <artifactId>guacamole-ext</artifactId>
-            <version>1.5.0</version>
+            <version>1.5.1</version>
             <scope>provided</scope>
         </dependency>
 
@@ -163,7 +163,7 @@ pick it up during the build and include it within the `.jar`.
 ```json
 {
 
-    "guacamoleVersion" : "1.5.0",
+    "guacamoleVersion" : "1.5.1",
 
     "name"      : "Tutorial Listener Extension",
     "namespace" : "guac-listener-tutorial",
@@ -187,7 +187,7 @@ successfully even though it is just a skeleton at this point.
 $ mvn package
 [INFO] Scanning for projects...
 [INFO] ---------------------------------------------------------------
-[INFO] Building guacamole-listener-tutorial 1.5.0
+[INFO] Building guacamole-listener-tutorial 1.5.1
 [INFO] ---------------------------------------------------------------
 ...
 [INFO] ---------------------------------------------------------------
@@ -201,7 +201,7 @@ $
 ```
 
 Assuming you see the "`BUILD SUCCESS`" message when you build the extension,
-there will be a new file, `target/guacamole-listener-tutorial-1.5.0.jar`, which
+there will be a new file, `target/guacamole-listener-tutorial-1.5.1.jar`, which
 can be installed within Guacamole (see [](custom-listener-installing) at the
 end of this chapter).  It should log event notifications that occur during, for
 example, authentication attempts. If you changed the name or version of the
@@ -361,7 +361,7 @@ configuration files and extensions. Typically, this will be the `.guacamole`
 directory within the home directory of the user running Tomcat.
 
 To install your extension, copy the
-`target/guacamole-listener-tutorial-1.5.0.jar` file into
+`target/guacamole-listener-tutorial-1.5.1.jar` file into
 `GUACAMOLE_HOME/extensions` and restart Tomcat. Guacamole will automatically
 load your extension, logging an informative message that it has done so:
 
