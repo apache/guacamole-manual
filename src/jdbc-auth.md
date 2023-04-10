@@ -378,17 +378,14 @@ querying the database:
 : The hostname or IP address of the server hosting your database.
 
 `mysql-database`
-: The name of the database that you created for Guacamole. This is given as
-  "guacamole_db" in the examples given in this chapter.
+: The name of the database you created for Guacamole (e.g., "guacamole_db").
 
 `mysql-username`
-: The username of the user that Guacamole should use to connect to the
-  database.  This is given as "guacamole_user" in the examples given in this
-  chapter.
+: The username for Guacamole to connect to the database (e.g., "guacamole_user").
 
 `mysql-password`
-: The password Guacamole should provide when authenticating with the database.
-  This is given as "some_password" in the examples given in this chapter.
+: The password Guacamole should provide when authenticating with the database
+  (e.g., "some_password").
 :::
 
 :::{tab} PostgreSQL
@@ -396,17 +393,14 @@ querying the database:
 : The hostname or IP address of the server hosting your database.
 
 `postgresql-database`
-: The name of the database that you created for Guacamole. This is given as
-  "guacamole_db" in the examples given in this chapter.
+: The name of the database you created for Guacamole (e.g., "guacamole_db").
 
 `postgresql-username`
-: The username of the user that Guacamole should use to connect to the
-  database.  This is given as "guacamole_user" in the examples given in this
-  chapter.
+: The username for Guacamole to connect to the database (e.g., "guacamole_user").
 
 `postgresql-password`
-: The password Guacamole should provide when authenticating with the database.
-  This is given as "some_password" in the examples given in this chapter.
+: The password Guacamole should provide when authenticating with the database
+  (e.g., "some_password").
 :::
 
 :::{tab} SQL Server
@@ -414,17 +408,14 @@ querying the database:
 : The hostname or IP address of the server hosting your database.
 
 `sqlserver-database`
-: The name of the database that you created for Guacamole. This is given as
-  "guacamole_db" in the examples given in this chapter.
+: The name of the database you created for Guacamole (e.g., "guacamole_db").
 
 `sqlserver-username`
-: The username of the user that Guacamole should use to connect to the
-  database.  This is given as "guacamole_user" in the examples given in this
-  chapter.
+: The username for Guacamole to connect to the database (e.g., "guacamole_user").
 
 `sqlserver-password`
-: The password Guacamole should provide when authenticating with the database.
-  This is given as "some_password" in the examples given in this chapter.
+: The password Guacamole should provide when authenticating with the database
+  (e.g., "some_password").
 :::
 
 A minimal `guacamole.properties` configured to connect to a locally-hosted
@@ -994,13 +985,12 @@ does not exist at all.
 
 ### Auto-creating database users
 
-Guacamole supports the ability to layer authentication modules on top of one
-another such that users successfully authenticated from one extension (e.g.
-LDAP) can be assigned permissions to connections in another extension (e.g.
-JDBC). Other extensions, like the TOTP extension, rely on the database
-extension to be able to store information for various user accounts. In these
-situations it can be difficult to have to manually create user accounts within
-the database extension.
+Guacamole supports layering authentication modules on top of one another,
+allowing users authenticated from one extension (e.g., LDAP) to be assigned
+permissions to connections in another extension (e.g., JDBC). Other extensions,
+like the TOTP extension, rely on the database extension to store information
+for various user accounts. In these situations, manually creating user accounts
+within the database extension can be cumbersome.
 
 The database extension provides a mechanism for enabling auto-creation of user
 accounts that successfully authenticate from other extensions.  This
@@ -1031,13 +1021,12 @@ sqlserver-auto-create-accounts: true
 
 ### Completing the installation
 
-Guacamole will only reread `guacamole.properties` and load newly-installed
-extensions during startup, so your servlet container will need to be restarted
-before the database authentication will take effect. Restart your servlet
-container and give the new authentication a try.
+To ensure that Guacamole reads the updated `guacamole.properties` and loads 
+newly-installed extensions, restart your servlet container. This step is 
+necessary for the database authentication to take effect.
 
 :::{important}
-You only need to restart your servlet container. *You do not need to restart
+You only need to restart your servlet container. *You do not need to restart 
 guacd*.
 
 guacd is completely independent of the web application and does not deal with
@@ -1062,7 +1051,7 @@ that the database authentication is working, *you should change your password
 immediately*.
 
 More detailed instructions for managing users and connections is given in
-[](administration).
+-[](administration).
 
 (jdbc-auth-schema)=
 
@@ -1277,9 +1266,6 @@ WHERE
     AND type = 'USER';
 ```
 
-This sort of statement is useful for both creating new users or for changing
-passwords, especially if all administrators have forgotten theirs.
-
 If you are not using MySQL, or you are using a version of MySQL that lacks the
 SHA2 function, you will need to calculate the SHA-256 value manually (by using
 the `sha256sum` command, for example).
@@ -1288,42 +1274,36 @@ the `sha256sum` command, for example).
 
 #### Password history
 
-When a user's password is changed, a copy of the previous password's
-hash and salt is made within the `guacamole_user_password_history`.
-Each entry in this table is associated with the user whose password
-changed, along with the date that password first applied.
+The `guacamole_user_password_history` table stores a history of users' previous
+password hashes and salts when passwords are changed. Each entry corresponds to
+a user and the date the previous password first applied.
 
-Old entries within this table are automatically deleted on a per-user
-basis depending on the requirements of the password policy. For example,
-if the password policy has been configured to require that users not
-reuse any of their previous six passwords, then there will be no more
-than six entries in this table for each user.
+Old entries are automatically removed based on the password policy requirements.
+For example, if users cannot reuse their last six passwords, the table will hold
+no more than six entries per user.
+
+The `guacamole_user_password_history` table includes the following columns:
 
 `password_history_id`
-: The unique integer associated with each password history record. This 
-  value is generated automatically when a new entry is inserted into the 
-  `guacamole_user_password_history` table.
+: A unique integer for each password history record, generated automatically
+  when a new entry is inserted into the `guacamole_user_password_history`
+  table.
 
 `user_id`
-: The value of the `user_id` column from the entry in `guacamole_user`  
-  associated with the user who previously had this password.
+: The `user_id` value from the `guacamole_user` entry associated with the
+  logged-in user. If the user no longer exists, this value will be `NULL`.
 
 `password_hash`
-: The hashed password specified within the `password_hash` column of  
-  `guacamole_user` prior to the password being changed.
-
-  In most cases, this will be a salted hash, though it is possible to force 
-  the use of unsalted hashes when making changes to the database manually or
-  through an external system.
+: The previous password's hash from the `password_hash` column in
+  `guacamole_user` before the password change. Typically, this is a salted hash;
+  however, unsalted hashes may be used if the database is manually modified or
+  accessed through an external system.
 
 `password_salt`
-: The salt value specified within the `password_salt` column of 
-  `guacamole_user` prior to the password being changed.
-
-  This will always be set for users whose passwords are set through 
-  Guacamole, but it is possible to use unsalted password hashes when 
-  inserted manually or through an external system, in which case this may be
-  `NULL`.
+: The previous password's salt from the `password_salt` column in
+  `guacamole_user` before the change. Salt values are always present for users
+  managed through Guacamole, but unsalted password hashes may be used if
+  manually inserted or accessed externally, in which case this could be `NULL`.
 
 `password_date`
 : The date (and time) that the password was set. The time that the password 
@@ -1335,44 +1315,39 @@ than six entries in this table for each user.
 
 #### Login history
 
-When a user logs in or out, a corresponding entry in the
-`guacamole_user_history` table is created or updated respectively.
-Each entry is associated with the user that logged in and the time their
-session began. If the user has logged out, the time their session ended
-is also stored.
+The `guacamole_user_history` table manages user login and logout events. It
+stores entries for users who have logged in or out, their session start and end
+times, and their associated user information.
 
-It is very unlikely that a user will need to update this table, but
-knowing the structure is potentially useful if you wish to generate a
-report of Guacamole usage. The `guacamole_user_history` table has the
-following columns:
+While directly modifying this table is generally not necessary, understanding
+its structure may be useful for generating usage reports. The
+`guacamole_user_history` table contains the following columns:
 
 `history_id`
-: The unique integer associated with each history record. This value is 
-  generated automatically when a new entry is inserted into the 
-  `guacamole_user_history` table.
+: A unique integer for each history record, generated automatically upon the
+  creation of a new entry in the `guacamole_user_history` table.
 
 `user_id`
-: The value of the `user_id` from the entry in `guacamole_user` associated 
-  with the user that logged in. If the user no longer exists, this will be 
-  `NULL`.
+: The `user_id` value from the `guacamole_user` entry associated with the
+  logged-in user. If the user no longer exists, this value will be `NULL`.
 
 `username`
-: The username associated with the user at the time that they logged in. 
-  This username value is not guaranteed to uniquely identify a user, as the 
-  original user may be subsequently renamed or deleted.
+: The username associated with the user when they logged in. Note that this
+  username value may not uniquely identify a user, as the original user can be
+  renamed or deleted later.
 
 `remote_host`
 : The hostname or IP address of the machine that the user logged in from, if
   known. If unknown, this will be `NULL`.
 
 `start_date`
-: The time at which the user logged in. Despite its name, this column also 
-  stores time information in addition to the date.
+: The timestamp at which the user logged in. Although named "date," this column
+  includes both date and time information.
 
 `end_date`
-: The time at which the user logged out. If the user is still active, the 
-  value in this column will be `NULL`. Despite its name, this column also 
-  stores time information in addition to the date.
+: The time at which the user logged out. If the user is still active, this
+  value will be `NULL`. Similar to `start_date`, this column stores both date
+  and time information.
 
 (jdbc-auth-schema-groups)=
 
@@ -1383,35 +1358,31 @@ corresponding entry in the `guacamole_user_group` and
 [`guacamole_entity`](jdbc-auth-schema-entities) tables. Each user group has a
 corresponding unique name specified via `guacamole_entity`.
 
-If deleting a user group, the [corresponding entity](jdbc-auth-schema-entities)
-should also be deleted. As any user group which points to the entity will be
-deleted automatically when the entity is deleted through cascading deletion,
-*it is advisable to use the entity as the basis for any delete operation*.
+When deleting a user group, it is important to also delete the 
+[corresponding entity](jdbc-auth-schema-entities). Due to cascading deletion,
+the related user group records will be automatically deleted when the entity
+is removed. *it is advisable to use the entity as the basis for any delete
+operation*.
 
 The `guacamole_user_group` table contains the following columns:
 
 `user_group_id`
-: The unique integer associated with each user group. This value is 
-  generated automatically when a new entry is inserted into the 
-  `guacamole_user_group` table.
+: A unique integer for each user group, generated automatically upon the 
+  creation of a new entry in the `guacamole_user_group` table.
 
 `entity_id`
-: The value of the `entity_id` column of the `guacamole_entity` entry  
-  representing this user group.
+: The corresponding `entity_id` value from the `guacamole_entity` entry for
+  this user group.
 
 `disabled`
-: Whether membership within this group should be taken into account when 
-  determining the permissions granted to a particular user. If this column 
-  is set to `TRUE` or `1`, membership in this group will have no effect on 
-  user permissions, whether those permissions are granted to this group 
-  directly or indirectly through the groups that this group is a member of. 
-  By default, user groups are not disabled, and permissions granted to a 
-  user through the group will be taken into account.
+: Determines if membership in the group should affect user permissions. If 
+  set to `TRUE` or `1`, the group's membership will not impact user 
+  permissions, whether granted directly or indirectly through other groups.
+  By default, user groups are enabled, and the permissions will be considered.
 
-Membership within a user group is dictated through entries in the
-`guacamole_user_group_member` table. As both users and user groups may be
-members of groups, each entry associates the containing group with the entity
-of the member.
+User group membership is defined through the `guacamole_user_group_member`
+table. Since both users and user groups can be members, each entry links the
+parent group with the member entity.
 
 The `guacamole_user_group_member` table contains the following columns:
 
@@ -1435,59 +1406,52 @@ descriptive name with the protocol to be used for the connection. It contains
 the following columns:
 
 `connection_id`
-: The unique integer associated with each connection. This value is 
-  generated automatically when a new entry is inserted into the 
-  `guacamole_connection` table.
+: A unique integer for each connection, generated automatically upon creating a
+  new entry in the `guacamole_connection` table.
 
 `connection_name`
-: The unique name associated with each connection. This value must be 
-  specified manually, and must be different from any existing connection 
-  name in the same connection group. References to connections in other 
-  tables use the value from `connection_id`, not `connection_name`.
+: A unique name for each connection. This value must be manually specified and
+  unique within the same connection group. Other tables reference connections
+  using `connection_id`, not `connection_name`.
 
 `protocol`
-: The protocol to use with this connection. This is the name of the protocol
-  that should be sent to guacd when connecting, for example "`vnc`" or 
-  "`rdp`".
+: The protocol for the connection (e.g., "`vnc`" or "`rdp`").
 
 `parent_id`
 : The unique integer associated with the connection group containing this 
   connection, or `NULL` if this connection is within the root group.
 
 `max_connections`
-: The maximum number of concurrent connections to allow to this connection 
-  at any one time *regardless of user*. `NULL` will use the default value 
-  specified in `guacamole.properties` and a value of `0` denotes unlimited.
+: The maximum concurrent connections allowed to this connection. `NULL` uses the
+  default value from `guacamole.properties`, and `0` denotes unlimited.
 
 `max_connections_per_user`
-: The maximum number of concurrent connections to allow to this connection  
-  at any one time *from a single user*. `NULL` will use the default value  
-  specified in `guacamole.properties` and a value of `0` denotes unlimited.
+: The maximum concurrent connections to this connection allowed per user. 
+ `NULL` uses the default defined in `guacamole.properties`, and `0` denotes
+  unlimited.
 
 `proxy_hostname`
-: The hostname or IP address of the Guacamole proxy daemon (guacd) which 
-  should be used for this connection. If `NULL`, the value defined with the 
-  `guacd-hostname` property in `guacamole.properties` will be used.
+: The hostname or IP address of the Guacamole proxy daemon (guacd) for this
+  connection. If `NULL`, the value defined with the `guacd-hostname` property
+  in `guacamole.properties` will be used.
 
 `proxy_port`
-: The TCP port number of the Guacamole proxy daemon (guacd) which should be 
-  used for this connection. If `NULL`, the value defined with the 
-  `guacd-port` property in `guacamole.properties` will be used.
+: The TCP port number of the Guacamole proxy daemon (guacd) for this connection.
+  If `NULL`, the value defined with the `guacd-port` property in 
+  `guacamole.properties` will be used.
 
 `proxy_encryption_method`
-: The encryption method which should be used when communicating with the 
-  Guacamole proxy daemon (guacd) for this connection. This can be either 
-  `NONE`, for no encryption, or `SSL`, for SSL/TLS. If `NULL`, the 
-  encryption method will be dictated by the `guacd-ssl` property in 
-  `guacamole.properties`.
+: The encryption method for communicating with the Guacamole proxy daemon
+  (guacd): `NONE` for no encryption or `SSL` for SSL/TLS. If `NULL`, the
+  value defined with the `guacd-ssl` property in `guacamole.properties` will be
+  used.
 
 `connection_weight`
-: The weight for a connection, used for applying weighted load balancing 
-  algorithms when connections are part of a `BALANCING` group. This is an 
-  integer value, where values `1` or greater will weight the connection 
-  relative to other connections in that group, and values below `1` cause 
-  the connection to be disabled in the group. If `NULL`, the connection will
-  be assigned a default weight of `1`.
+: The weight for a connection within a `BALANCING` group, used for weighted load
+  balancing algorithms. An integer value of `1` or greater will weight the
+  connection relative to other connections in that group, and values below `1`
+  cause the connection to be disabled in the group. If `NULL`, the connection
+  will have a default weight of  `1`.
 
 `failover_only`
 : Whether this connection should be used for failover situations only, also 
@@ -1510,20 +1474,19 @@ use, every parameter for a given connection has an entry in table
 `guacamole_connection_parameter` table associated with its corresponding
 connection. This table contains the following columns:
 
+The `guacamole_connection_parameter` table has the following columns:
+
 `connection_id`
-: The `connection_id` value from the connection this parameter is for.
+: The `connection_id` value for the associated connection.
 
 `parameter_name`
-: The name of the parameter to set. This is the name listed in the 
-  documentation for the protocol specified in the associated connection.
+: The parameter's name, as listed in the protocol documentation.
 
 `parameter_value`
-: The value to assign to the parameter named. While this value is an 
-  arbitrary string, it must conform to the requirements of the protocol as 
-  documented for the connection to be successful.
+: The value assigned to the parameter. This should conform to the requirements of
+  the protocol for the connection to be successful.
 
-Adding a connection and corresponding parameters is relatively easy compared to
-adding a user as there is no salt to generate nor password to hash:
+To add a connection and its corresponding parameters, follow these steps:
 
 ```mysql
 -- Create connection
@@ -1542,15 +1505,15 @@ INSERT INTO guacamole_connection_parameter VALUES (1, 'port', '5901');
 #### Usage history
 
 When a connection is initiated or terminated, a corresponding entry in the
-`guacamole_connection_history` table is created or updated respectively. Each
+`guacamole_connection_history` table is created or updated, respectively. Each
 entry is associated with the user using the connection, the connection itself,
 the [sharing profile](jdbc-auth-schema-sharing-profiles) in use (if the
 connection is being shared), and the time the connection started. If the
 connection has ended, the end time is also stored.
 
-It is very unlikely that a user will need to update this table, but knowing the
-structure is potentially useful if you wish to generate a report of Guacamole
-usage. The `guacamole_connection_history` table has the following columns:
+Understanding the structure of this table can be useful for generating reports
+of Guacamole usage. The `guacamole_connection_history` table has the
+following columns:
 
 `history_id`
 : The unique integer associated with each history record. This value is 
@@ -1569,7 +1532,7 @@ usage. The `guacamole_connection_history` table has the following columns:
 
 `connection_id`
 : The value of the `connection_id` from the entry in `guacamole_connection` 
-  associated the connection being used. If the connection associated with 
+  associated with the connection being used. If the connection associated with 
   the history record no longer exists, this will be `NULL`.
 
 `connection_name`
@@ -1577,7 +1540,7 @@ usage. The `guacamole_connection_history` table has the following columns:
 
 `sharing_profile_id`
 : The value of the `sharing_profile_id` from the entry in 
-  `guacamole_sharing_profile` associated the sharing profile being used to 
+  `guacamole_sharing_profile` associated with the sharing profile being used to 
   access the connection. If the connection is not being shared (no sharing 
   profile is being used), or if the sharing profile associated with the 
   history record no longer exists, this will be `NULL`.
@@ -1891,4 +1854,3 @@ columns:
   grants the ability to update data associated with the connection group, or
   `DELETE`, which grants the ability to delete the connection group (and 
   implicitly its contents).
-
