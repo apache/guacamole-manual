@@ -359,7 +359,7 @@ To generate a SQL script which can be used to initialize a fresh PostgreSQL
 database as documented in [](jdbc-auth):
 
 ```console
-$ docker run --rm guacamole/guacamole /opt/guacamole/bin/initdb.sh --postgres > initdb.sql
+$ docker run --rm guacamole/guacamole /opt/guacamole/bin/initdb.sh --postgresql > initdb.sql
 ```
 
 Alternatively, you can use the SQL scripts included with the database
@@ -398,23 +398,23 @@ If you are not using Docker to provide your PostgreSQL database, you will need
 to provide the network connection information yourself using additional
 environment variables:
 
-`POSTGRES_HOSTNAME`
+`POSTGRESQL_HOSTNAME`
 : The hostname of the database to use for Guacamole authentication. *This is
   required if you are not using Docker to provide your PostgreSQL database.*
 
-`POSTGRES_PORT`
+`POSTGRESQL_PORT`
 : The port that Guacamole should use when connecting to PostgreSQL. This
   environment variable is optional. If not provided, the standard PostgreSQL
   port of 5432 will be used.
 
-The `POSTGRES_HOSTNAME` and, if necessary, `POSTGRES_PORT` environment
+The `POSTGRESQL_HOSTNAME` and, if necessary, `POSTGRESQL_PORT` environment
 variables can thus be used in place of a Docker link if using a Docker link is
 impossible or undesirable:
 
 ```console
-$ docker run --name some-guacamole   \
-    --link some-guacd:guacd          \
-    -e POSTGRES_HOSTNAME=172.17.42.1 \
+$ docker run --name some-guacamole     \
+    --link some-guacd:guacd            \
+    -e POSTGRESQL_HOSTNAME=172.17.42.1 \
     ...
     -d -p 8080:8080 guacamole/guacamole
 ```
@@ -432,15 +432,15 @@ Using PostgreSQL for authentication requires additional configuration
 parameters specified via environment variables. These variables collectively
 describe how Guacamole will connect to PostgreSQL:
 
-`POSTGRES_DATABASE`
+`POSTGRESQL_DATABASE`
 : The name of the database to use for Guacamole authentication.
 
-`POSTGRES_USER`
+`POSTGRESQL_USER`
 : The user that Guacamole will use to connect to PostgreSQL.
 
-`POSTGRES_PASSWORD`
+`POSTGRESQL_PASSWORD`
 : The password that Guacamole will provide when connecting to PostgreSQL as
-  `POSTGRES_USER`.
+  `POSTGRESQL_USER`.
 
 If any required environment variables are omitted, you will receive an
 error message in the logs, and the image will stop. You will then need
@@ -455,7 +455,7 @@ default behavior with respect to concurrent connection use by one or more
 users. Concurrent use of connections and connection groups can be limited to an
 overall maximum and/or a per-user maximum:
 
-`POSTGRES_ABSOLUTE_MAX_CONNECTIONS`
+`POSTGRESQL_ABSOLUTE_MAX_CONNECTIONS`
 : The absolute maximum number of concurrent connections to allow at any time,
   regardless of the Guacamole connection or user involved. If set to "0", this
   will be unlimited. Because this limit applies across all Guacamole
@@ -464,21 +464,21 @@ overall maximum and/or a per-user maximum:
   *By default, the absolute total number of concurrent connections is unlimited
   ("0").*
 
-`POSTGRES_DEFAULT_MAX_CONNECTIONS`
+`POSTGRESQL_DEFAULT_MAX_CONNECTIONS`
 : The maximum number of concurrent connections to allow to any one Guacamole
   connection. If set to "0", this will be unlimited. This can be overridden on
   a per-connection basis when editing a connection.
 
   *By default, overall concurrent use of connections is unlimited ("0").*
 
-`POSTGRES_DEFAULT_MAX_GROUP_CONNECTIONS`
+`POSTGRESQL_DEFAULT_MAX_GROUP_CONNECTIONS`
 : The maximum number of concurrent connections to allow to any one Guacamole
   connection group. If set to "0", this will be unlimited.  This can be
   overridden on a per-group basis when editing a connection group.
 
   *By default, overall concurrent use of connection groups is unlimited ("0").*
 
-`POSTGRES_DEFAULT_MAX_CONNECTIONS_PER_USER`
+`POSTGRESQL_DEFAULT_MAX_CONNECTIONS_PER_USER`
 : The maximum number of concurrent connections to allow a single user to
   maintain to any one Guacamole connection. If set to "0", this will be
   unlimited. This can be overridden on a per-connection basis when editing a
@@ -486,7 +486,7 @@ overall maximum and/or a per-user maximum:
 
   *By default, per-user concurrent use of connections is unlimited ("0").*
 
-`POSTGRES_DEFAULT_MAX_GROUP_CONNECTIONS_PER_USER`
+`POSTGRESQL_DEFAULT_MAX_GROUP_CONNECTIONS_PER_USER`
 : The maximum number of concurrent connections to allow a single user to
   maintain to any one Guacamole connection group. If set to "0", this will be
   unlimited. This can be overridden on a per-group basis when editing a
@@ -496,7 +496,7 @@ overall maximum and/or a per-user maximum:
   ("1")*, to prevent a balancing connection group from being completely
   exhausted by one user alone.
 
-`POSTGRES_AUTO_CREATE_ACCOUNTS`
+`POSTGRESQL_AUTO_CREATE_ACCOUNTS`
 : Whether or not accounts that do not exist in the PostgreSQL database will be
   automatically created when successfully authenticated through other modules.
   If set to "true", accounts will be automatically created. Otherwise, and by
@@ -507,16 +507,16 @@ overall maximum and/or a per-user maximum:
 Optional environment variables may also be used to override Guacamole's default
 behavior with respect to timeouts at the database and network level:
 
-`POSTGRES_DEFAULT_STATEMENT_TIMEOUT`
+`POSTGRESQL_DEFAULT_STATEMENT_TIMEOUT`
 : The number of seconds the driver will wait for a response from the database,
   before aborting the query. A value of 0 (the default) means the timeout is
   disabled.
 
-`POSTGRES_SOCKET_TIMEOUT`
+`POSTGRESQL_SOCKET_TIMEOUT`
 : The number of seconds to wait for socket read operations. If reading from the
   server takes longer than this value, the connection will be closed. This can
   be used to handle network problems such as a dropped connection to the
-  database. Similar to `POSTGRES_DEFAULT_STATEMENT_TIMEOUT`, it will also abort
+  database. Similar to `POSTGRESQL_DEFAULT_STATEMENT_TIMEOUT`, it will also abort
   queries that take too long. A value of 0 (the default) means the timeout is
   disabled.
 
