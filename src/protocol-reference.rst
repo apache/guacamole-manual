@@ -1108,7 +1108,7 @@ Input/Event instructions
     Sends the specified key press or release event.
 
     :arg integer keysym:
-        The `X11 keysym <http://www.x.org/wiki/KeySyms>`__ of the key being
+        The `X11 keysym <https://www.x.org/releases/X11R7.6/doc/xproto/x11protocol.html#keysym_encoding>`__ of the key being
         pressed or released.
 
     :arg integer pressed:
