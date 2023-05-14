@@ -579,6 +579,14 @@ to the database server:
 `mysql-ssl-client-password`
 : The password to use to access the client certificate store, if one is
   required. By default no password will be used.
+
+`mysql-batch-size`
+: Controls how many objects may be retrieved from the database in a single
+  query. If more objects than this number are requested, retrieval of those
+  objects will be automatically and transparently split across multiple
+  queries.
+
+  By default, MySQL/MariaDB queries will retrieve no more than 1000 objects.
 :::
 
 :::{tab} PostgreSQL
@@ -656,6 +664,14 @@ to the database server:
   database. Similar to `postgresql-default-statement-timeout`, it will also
   abort queries that take too long. A value of 0 (the default) means the
   timeout is disabled.
+
+`postgresql-batch-size`
+: Controls how many objects may be retrieved from the database in a single
+  query. If more objects than this number are requested, retrieval of those
+  objects will be automatically and transparently split across multiple
+  queries.
+
+  By default, PostgreSQL queries will retrieve no more than 5000 objects.
 :::
 
 :::{tab} SQL Server
@@ -687,6 +703,14 @@ to the database server:
   not the default SQL Server instance. This instance name is configured during
   the SQL Server installation. This property is optional, and most installations
   should work without the need to specify an instance name.
+
+`sqlserver-batch-size`
+: Controls how many objects may be retrieved from the database in a single
+  query. If more objects than this number are requested, retrieval of those
+  objects will be automatically and transparently split across multiple
+  queries.
+
+  By default, SQL Server queries will retrieve no more than 1000 objects.
 :::
 
 #### Enforcing password policies
