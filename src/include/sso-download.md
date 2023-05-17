@@ -9,7 +9,7 @@ extension for each supported SSO method:
 
 | SSO Method                    | Extension                                    |
 | ----------------------------- | -------------------------------------------- |
-| [CAS](cas-auth)               | `cas/guacamole-auth-sso-cas-1.5.1.jar`       |
-| [OpenID Connect](openid-auth) | `openid/guacamole-auth-sso-openid-1.5.1.jar` |
-| [SAML](saml-auth)             | `saml/guacamole-auth-sso-saml-1.5.1.jar`     |
+| [CAS](cas-auth)               | `cas/guacamole-auth-sso-cas-1.5.2.jar`       |
+| [OpenID Connect](openid-auth) | `openid/guacamole-auth-sso-openid-1.5.2.jar` |
+| [SAML](saml-auth)             | `saml/guacamole-auth-sso-saml-1.5.2.jar`     |
 

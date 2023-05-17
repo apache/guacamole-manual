@@ -25,7 +25,7 @@ Downloading the OpenID Connect authentication extension
 ```
 
 The extension for the desired SSO method, in this case
-`guacamole-auth-sso-openid-1.5.1.jar` from within the `openid/` subdirectory,
+`guacamole-auth-sso-openid-1.5.2.jar` from within the `openid/` subdirectory,
 must ultimately be placed in `GUACAMOLE_HOME/extensions`.
 
 (installing-openid-auth)=
@@ -43,7 +43,7 @@ To install the OpenID Connect authentication extension, you must:
 1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
    exist.
 
-2. Copy `guacamole-auth-sso-openid-1.5.1.jar` within
+2. Copy `guacamole-auth-sso-openid-1.5.2.jar` within
    `GUACAMOLE_HOME/extensions`.
 
 3. Configure Guacamole to use OpenID Connect authentication, as described

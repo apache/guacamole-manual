@@ -134,7 +134,7 @@ checks. The most minimal `guac-manifest.json` will look something like this:
 
 ```json
 {
-    "guacamoleVersion" : "1.5.1",
+    "guacamoleVersion" : "1.5.2",
     "name" : "My Extension",
     "namespace" : "my-extension"
 }
@@ -148,7 +148,7 @@ extension providing theming or branding would be more involved:
 ```json
 {
 
-    "guacamoleVersion" : "1.5.1",
+    "guacamoleVersion" : "1.5.2",
 
     "name"      : "My Extension",
     "namespace" : "my-extension",
