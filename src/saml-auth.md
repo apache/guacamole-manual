@@ -19,7 +19,7 @@ Downloading the SAML authentication extension
 ```
 
 The extension for the desired SSO method, in this case
-`guacamole-auth-sso-saml-1.5.1.jar` from within the `saml/` subdirectory,
+`guacamole-auth-sso-saml-1.5.2.jar` from within the `saml/` subdirectory,
 must ultimately be placed in `GUACAMOLE_HOME/extensions`.
 
 (installing-saml-auth)=
@@ -37,7 +37,7 @@ To install the SAML authentication extension, you must:
 1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
    exist.
 
-2. Copy `guacamole-auth-sso-saml-1.5.1.jar` within `GUACAMOLE_HOME/extensions`.
+2. Copy `guacamole-auth-sso-saml-1.5.2.jar` within `GUACAMOLE_HOME/extensions`.
 
 3. Configure Guacamole to use SAML authentication, as described below.
 
