@@ -44,7 +44,7 @@ release notes for that version. You can find the release notes for current
 versions of Guacamole here: <http://guacamole.apache.org/releases/>.
 
 The quickconnect extension is packaged as a `.tar.gz` file containing only the
-extension itself, `guacamole-auth-quickconnect-1.5.2.jar`, which must
+extension itself, `guacamole-auth-quickconnect-1.5.3.jar`, which must
 ultimately be placed in `GUACAMOLE_HOME/extensions`.
 
 (installing-quickconnect)=
@@ -62,7 +62,7 @@ To install the extension, you must:
 1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
    exist.
 
-2. Place the `guacamole-auth-quickconnect-1.5.2.jar` file in the
+2. Place the `guacamole-auth-quickconnect-1.5.3.jar` file in the
    `GUACAMOLE_HOME/extensions` directory.
 
 (guac-quickconnect-config)=
