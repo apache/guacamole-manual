@@ -707,7 +707,7 @@ valid Docker variables for enabling and configuring header authentication:
   header that will be used used to authenticate the user to Guacamole. If this
   is not specified the default value of REMOTE_USER will be used.
 
-(guacamole-docker-tomcat-remote-ip-valve)=
+(guacamole-docker-saml-auth)=
 
 ### SAML Authentication
 
@@ -717,6 +717,8 @@ running in a Docker container to authentication with a SAML Identity Provider
 back to Guacamole with the name of the user and any other configured
 attributes contained in the SAML assertion. More details on SAML
 authentication with Guacamole can be found on the [](saml-auth) page.
+
+(guacamole-docker-saml-auth-required-vars)=
 
 #### Required environment variables
 
@@ -752,6 +754,8 @@ or a few other basic configuration parameters be provided to the container:
   provided, or does not contain a callback URL for the Guacamole instance,
   this variable must be provided.
 
+(guacamole-docker-saml-auth-optional-vars)=
+
 #### Optional environment variables
 
 Other environment variables can be provided to adjust the behavior of the
@@ -781,6 +785,42 @@ SAML authentication extension.
 : Whether or not the Guacamole SAML client should provide verbose logging
   that may be helpful in debugging problems with SAML authentication. This
   is optional and defaults to false - debugging will not be enabled.
+
+(guacamole-docker-history-recording-storage)=
+
+### History Recording Storage Extension
+
+The extension that enables viewing historical recordings from within the
+Guacamole Client interface can be enabled by settings the search path
+variable, as noted below, to a location where the extension will look
+to find available recordings.
+
+When setting this up in a container environment, you'll likely need
+to use volumes to make the same directory available to both the
+guacd container and the guacamole (client) container. In addition
+to setting up the volume to share data between the two, you'll also
+need to configure permissions on the volume such that the users
+running each of the containers have access. The guacamole/guacd
+container, which will need write access to this shared location,
+runs with an effective UID and GID of 1000. The guacamole/guacamole
+(client) container, which will require read access to this location,
+runs with an effective UID and GID of 1001.
+
+For more information on this extension, please see the [](recording-playback)
+page in the manual.
+
+(guacamole-docker-history-recording-storage-required-vars)=
+
+#### Required environment variables
+
+In order to enable this extension you must set the following
+environment variable in your guacamole container configuration:
+
+`RECORDING_SEARCH_PATH`
+: Set to the absolute path of the folder **within the guacamole container**
+  where the extension should look for past recordings.
+
+(guacamole-docker-tomcat-remote-ip-valve)=
 
 ### Running Guacamole behind a proxy
 
