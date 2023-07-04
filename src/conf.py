@@ -24,7 +24,7 @@ import os, sys
 #
 
 project = u'Apache Guacamole'
-version = u'1.5.2'
+version = u'1.5.3'
 
 year = date.today().year
 author = u'The Apache Software Foundation'
