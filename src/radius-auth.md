@@ -70,7 +70,7 @@ result in the output below:
    [INFO] guacamole-playback-example                                         [war]
    ...
    [INFO] ------------------------------------------------------------------------
-   [INFO] Reactor Summary for guacamole-client 1.5.2:
+   [INFO] Reactor Summary for guacamole-client 1.5.3:
    [INFO] 
    [INFO] guacamole-client ................................... SUCCESS [ 12.839 s]
    [INFO] guacamole-common ................................... SUCCESS [ 15.446 s]
@@ -115,7 +115,7 @@ result in the output below:
 
 After the build completes successfully, the extension will be in the
 `extensions/guacamole-auth-radius/target/` directory, and will be called
-guacamole-auth-radius-1.5.2.jar. This extension file can be copied to the
+guacamole-auth-radius-1.5.3.jar. This extension file can be copied to the
 `GUACAMOLE_HOME/extensions` directory. *If you are unsure where
 `GUACAMOLE_HOME` is located on your system, please consult
 [](configuring-guacamole) before proceeding.*
@@ -133,7 +133,7 @@ To install the RADIUS authentication extension, you must:
 1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
    exist.
 
-2. Copy `guacamole-auth-radius-1.5.2.jar` into `GUACAMOLE_HOME/extensions`.
+2. Copy `guacamole-auth-radius-1.5.3.jar` into `GUACAMOLE_HOME/extensions`.
 
 3. Configure Guacamole to use RADIUS authentication, as described below.
 
