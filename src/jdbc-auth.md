@@ -752,9 +752,7 @@ to the database server:
   objects will be automatically and transparently split across multiple
   queries.
 
-  By default, SQL Server queries will retrieve no more than 1000 objects.
->>>>>>> staging/1.5.2
-:::
+  By default, SQL Server queries will retrieve no more than 500 objects.
 
 #### Enforcing password policies
 
