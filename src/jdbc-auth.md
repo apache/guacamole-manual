@@ -678,7 +678,6 @@ to the database server:
   abort queries that take too long. A value of 0 (the default) means the
   timeout is disabled.
 
-<<<<<<< HEAD
 `postgresql-track-external-connection-history`
 : Whether connection history records should be created for connections not
   defined in the database. By default, external connection history will be
@@ -691,7 +690,7 @@ to the database server:
   application after an access window closes, set this to "false". Users will
   always be prevented from logging in outside of access windows regardless of
   this setting.
-=======
+
 `postgresql-batch-size`
 : Controls how many objects may be retrieved from the database in a single
   query. If more objects than this number are requested, retrieval of those
@@ -699,7 +698,6 @@ to the database server:
   queries.
 
   By default, PostgreSQL queries will retrieve no more than 5000 objects.
->>>>>>> staging/1.5.2
 :::
 
 :::{tab} SQL Server
@@ -732,7 +730,6 @@ to the database server:
   the SQL Server installation. This property is optional, and most installations
   should work without the need to specify an instance name.
 
-<<<<<<< HEAD
 `sqlserver-track-external-connection-history`
 : Whether connection history records should be created for connections not
   defined in the database. By default, external connection history will be
@@ -745,7 +742,7 @@ to the database server:
   application after an access window closes, set this to "false". Users will
   always be prevented from logging in outside of access windows regardless of
   this setting.
-=======
+
 `sqlserver-batch-size`
 : Controls how many objects may be retrieved from the database in a single
   query. If more objects than this number are requested, retrieval of those
