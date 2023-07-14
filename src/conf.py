@@ -47,7 +47,7 @@ extensions = [
 
 # Allow shorthand notation for JIRA issue links
 extlinks = {
-    'jira': ( 'https://issues.apache.org/jira/browse/%s', '')
+    'jira': ( 'https://issues.apache.org/jira/browse/%s', '%s')
 }
 
 templates_path = [ '_templates' ]
