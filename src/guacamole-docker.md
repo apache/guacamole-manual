@@ -786,6 +786,55 @@ SAML authentication extension.
   that may be helpful in debugging problems with SAML authentication. This
   is optional and defaults to false - debugging will not be enabled.
 
+(guacamole-docker-totp-auth)=
+
+### TOTP Authentication
+
+TOTP authentication can be configured to allow the Guacamole Client instance
+running in a Docker container to use a second layer of authentication using a
+two factor authenticator application and short one-time codes. More details 
+on TOTP authentication with Guacamole can be found on the [](totp-auth) page.
+
+(guacamole-totp-auth-required-vars)=
+
+#### Required environment variables
+
+Configuration of TOTP authentication requires that the following enviroment 
+variable be provided to the container:
+
+`TOTP_ENABLED`
+: If the environment variable is provided with the value of "true" then the 
+  extension is enabled inside the docker container.
+
+(guacamole-docker-totp-auth-optional-vars)=
+
+#### Optional environment variables
+
+Other environment variables can be provided to adjust the behavior of the
+TOTP authentication extension.
+
+`TOTP_ISSUER`
+: The human-readable name of the entity issuing user accounts. If not specified, 
+  "Apache Guacamole" will be used by default.
+
+`TOTP_DIGITS`
+: The number of digits which should be included in each generated TOTP code. 
+  Legal values are 6, 7, or 8. By default, 6-digit codes are generated.
+
+`TOTP_PERIOD`
+: The duration that each generated code should remain valid, in seconds. 
+  By default, each code remains valid for 30 seconds.
+
+`TOTP_MODE`
+: The hash algorithm that should be used to generate TOTP codes. Legal values are
+  "sha1", "sha256", and "sha512". By default, "sha1" is used.
+
+:::{important}
+The duration and/or hash algorithm are not settable in some widely used autenticator
+apps. Setting these value to something other than the defaults might make the codes
+unusable if your authenticator app does not support setting these parameters.
+:::
+
 (guacamole-docker-history-recording-storage)=
 
 ### History Recording Storage Extension
