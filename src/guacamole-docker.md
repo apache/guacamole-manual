@@ -840,13 +840,6 @@ apps. Setting these value to something other than the defaults might make the co
 unusable if your authenticator app does not support setting these parameters.
 :::
 
-Depending on your server's timezone, because the extension relies on working with
-short lived codes, in order to make the extension work reliable one may have to
-provide the correct timezone to the docker containers. Writing correct codes on the
-authentication page but getting authentication error might indicate a timezone issus.
-The correct timezone can be passed with the variable `TZ` as in `TZ="Europe/Bucharest"`,
-for example.
-
 (guacamole-docker-history-recording-storage)=
 
 ### History Recording Storage Extension
