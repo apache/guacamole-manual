@@ -813,6 +813,12 @@ variable be provided to the container:
 Other environment variables can be provided to adjust the behavior of the
 TOTP authentication extension.
 
+:::{important}
+The duration and/or hash algorithm are not settable in some widely used autenticator
+apps. Setting these values to something other than the defaults might make the codes
+unusable if your authenticator app does not support setting these parameters.
+:::
+
 `TOTP_ISSUER`
 : The human-readable name of the entity issuing user accounts. If not specified, 
   "Apache Guacamole" will be used by default.
@@ -828,12 +834,6 @@ TOTP authentication extension.
 `TOTP_MODE`
 : The hash algorithm that should be used to generate TOTP codes. Legal values are
   "sha1", "sha256", and "sha512". By default, "sha1" is used.
-
-:::{important}
-The duration and/or hash algorithm are not settable in some widely used autenticator
-apps. Setting these value to something other than the defaults might make the codes
-unusable if your authenticator app does not support setting these parameters.
-:::
 
 (guacamole-docker-history-recording-storage)=
 
