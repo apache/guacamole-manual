@@ -340,8 +340,8 @@ a `.tar.gz` archive which you can extract
 from the command line:
 
 ```console
-$ tar -xzf guacamole-server-1.5.3.tar.gz
-$ cd guacamole-server-1.5.3/
+$ tar -xzf guacamole-server-1.5.4.tar.gz
+$ cd guacamole-server-1.5.4/
 $
 ```
 
@@ -400,7 +400,7 @@ checking whether build environment is sane... yes
 ...
 
 ------------------------------------------------
-guacamole-server version 1.5.3
+guacamole-server version 1.5.4
 ------------------------------------------------
 
    Library status:
@@ -581,8 +581,8 @@ consumption. Source downloaded from the project web site will take the form of
 a `.tar.gz` archive which you can extract from the command line:
 
 ```console
-$ tar -xzf guacamole-client-1.5.3.tar.gz
-$ cd guacamole-client-1.5.3/
+$ tar -xzf guacamole-client-1.5.4.tar.gz
+$ cd guacamole-client-1.5.4/
 $
 ```
 
@@ -649,7 +649,7 @@ $ mvn package
 [INFO] guacamole-playback-example                                         [war]
 ...
 [INFO] ------------------------------------------------------------------------
-[INFO] Reactor Summary for guacamole-client 1.5.3:
+[INFO] Reactor Summary for guacamole-client 1.5.4:
 [INFO] 
 [INFO] guacamole-client ................................... SUCCESS [ 11.879 s]
 [INFO] guacamole-common ................................... SUCCESS [ 15.140 s]
@@ -721,7 +721,7 @@ from the name of the `.war` file, you will likely want to rename this to simply
 `guacamole.war` while copying:
 
 ```console
-# cp guacamole/target/guacamole-1.5.3.war /var/lib/tomcat/webapps/guacamole.war
+# cp guacamole/target/guacamole-1.5.4.war /var/lib/tomcat/webapps/guacamole.war
 #
 ```
 
@@ -742,7 +742,7 @@ Stopping Tomcat... OK
 Starting Tomcat... OK
 # /etc/init.d/guacd start
 Starting guacd: SUCCESS
-guacd[6229]: INFO:  Guacamole proxy daemon (guacd) version 1.5.3 started
+guacd[6229]: INFO:  Guacamole proxy daemon (guacd) version 1.5.4 started
 #
 ```
 
