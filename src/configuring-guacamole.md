@@ -924,6 +924,22 @@ are not configured, NLA-based connections will fail.
   know that the server's certificate cannot be validated (for example, if it
   is self-signed).
 
+`cert-tofu`
+: If set to "true", this enables FreeRDP's "Trust on First Use" (TOFU)
+  policy for certificate management, where an unknown certificate will be
+  trusted the first time and added to FreeRDP's list of known hosts, and,
+  on subsequent connections, the certificate will be checked to validate
+  a match. This is similar to SSH client behavior.
+
+`cert-fingerprints`
+: A comma-separated list of certificate fingerprint and hash combinations
+  that will be checked against upon connection. If the fingerprint and hash
+  of the remote server's certificate matches one of those present in this
+  option, the connection will be allowed. Otherwise, if this option is
+  specified, and the fingerprint and hash do not match, the connection
+  will be denied. The fingerprint and hash value is identical to the
+  format used by the xfreerdp command line option "/cert:fingerprint".
+
 `disable-auth`
 : If set to "true", authentication will be disabled. Note that this refers
   to authentication that takes place while connecting. Any authentication
