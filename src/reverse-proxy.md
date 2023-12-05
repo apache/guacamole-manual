@@ -85,7 +85,7 @@ and is configured in the `conf/server.xml` file, in the `<Host>` section:
 
 ```xml
 <Valve className="org.apache.catalina.valves.RemoteIpValve"
-               internalProxies="127.0.0.1"
+               internalProxies="127\.0\.0\.1"
                remoteIpHeader="x-forwarded-for"
                remoteIpProxiesHeader="x-forwarded-by"
                protocolHeader="x-forwarded-proto" />
@@ -96,7 +96,25 @@ and all reverse proxy servers that will be accessing this Tomcat instance
 directly. Often it is run on the same system that runs Tomcat, but in other
 cases (for example, when running Docker), it may be on a different
 system/container and may need to be set to the actual IP address of the reverse
-proxy system. Only proxy servers listed in the `internalProxies` or
+proxy system.
+
+Note that, in situations where both IPv4 and IPv6 are enabled, you may experience
+inconsistency in Guacamole being able to retrieve the client IP address if you
+fail to account for both IP versions in the `internalProxies` regex. This is
+true even if your proxy is running on the same system as Tomcat and you only
+have loopback addresses listed, but you fail to account for both IPv4 and
+IPv6. Here is an example `RemoteIpValve` configuration that handles both
+localhost addresses:
+
+```xml
+<Valve className="org.apache.catalina.valves.RemoteIpValve"
+               internalProxies="127\.0\.0\.1|0:0:0:0:0:0:0:1"
+               remoteIpHeader="x-forwarded-for"
+               remoteIpProxiesHeader="x-forwarded-by"
+               protocolHeader="x-forwarded-proto" />
+```
+
+ Only proxy servers listed in the `internalProxies` or
 `trustedProxies` parameters will be allowed to manipulate the remote IP address
 information. The other parameters in this configuration line allow you to
 control which headers coming from the proxy server(s) are used for various
