@@ -76,7 +76,7 @@ versions of Guacamole here: <http://guacamole.apache.org/releases/>.
 
 The LDAP authentication extension is packaged as a `.tar.gz` file containing:
 
-`guacamole-auth-ldap-1.5.4.jar`
+`guacamole-auth-ldap-1.5.5.jar`
 : The Guacamole LDAP support extension itself, which must be placed in
   `GUACAMOLE_HOME/extensions`.
 
@@ -209,7 +209,7 @@ extension, you must:
 1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
    exist.
 
-2. Copy `guacamole-auth-ldap-1.5.4.jar` within `GUACAMOLE_HOME/extensions`.
+2. Copy `guacamole-auth-ldap-1.5.5.jar` within `GUACAMOLE_HOME/extensions`.
 
 3. Configure Guacamole to use LDAP authentication, as described below.
 
