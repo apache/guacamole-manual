@@ -104,7 +104,7 @@ release notes for that version. You can find the release notes for current
 versions of Guacamole here: <http://guacamole.apache.org/releases/>.
 
 The TOTP authentication extension is packaged as a `.tar.gz` file containing
-only the extension itself, `guacamole-auth-totp-1.5.4.jar`, which must
+only the extension itself, `guacamole-auth-totp-1.5.5.jar`, which must
 ultimately be placed in `GUACAMOLE_HOME/extensions`.
 
 (installing-totp-auth)=
@@ -119,7 +119,7 @@ extension, you must:
 1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
    exist.
 
-2. Copy `guacamole-auth-totp-1.5.4.jar` within `GUACAMOLE_HOME/extensions`.
+2. Copy `guacamole-auth-totp-1.5.5.jar` within `GUACAMOLE_HOME/extensions`.
 
 3. Configure Guacamole to use TOTP authentication, as described below.
 

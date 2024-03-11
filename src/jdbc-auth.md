@@ -59,7 +59,7 @@ driver must be downloaded separately from the database vendor and placed within
 :::{list-table}
 :stub-columns: 1
 * - Guacamole extension
-  - `mysql/guacamole-auth-jdbc-mysql-1.5.4.jar`
+  - `mysql/guacamole-auth-jdbc-mysql-1.5.5.jar`
 * - SQL schema scripts
   - `mysql/schema/`
 * - JDBC driver
@@ -79,7 +79,7 @@ If using the JDBC driver from MySQL, the required `.jar` will be within a
 :::{list-table}
 :stub-columns: 1
 * - Guacamole extension
-  - `postgresql/guacamole-auth-jdbc-postgresql-1.5.4.jar`
+  - `postgresql/guacamole-auth-jdbc-postgresql-1.5.5.jar`
 * - SQL schema scripts
   - `postgresql/schema/`
 * - JDBC driver
@@ -91,7 +91,7 @@ If using the JDBC driver from MySQL, the required `.jar` will be within a
 :::{list-table}
 :stub-columns: 1
 * - Guacamole extension
-  - `sqlserver/guacamole-auth-jdbc-sqlserver-1.5.4.jar`
+  - `sqlserver/guacamole-auth-jdbc-sqlserver-1.5.5.jar`
 * - SQL schema scripts
   - `sqlserver/schema/`
 * - JDBC driver
@@ -340,9 +340,9 @@ authentication extension, you must:
 1. Create the `GUACAMOLE_HOME/extensions` and `GUACAMOLE_HOME/lib` directories,
    if they do not already exist.
 
-2. Copy `guacamole-auth-jdbc-mysql-1.5.4.jar` *or*
-   `guacamole-auth-jdbc-postgresql-1.5.4.jar` *or*
-   `guacamole-auth-jdbc-sqlserver-1.5.4.jar` within
+2. Copy `guacamole-auth-jdbc-mysql-1.5.5.jar` *or*
+   `guacamole-auth-jdbc-postgresql-1.5.5.jar` *or*
+   `guacamole-auth-jdbc-sqlserver-1.5.5.jar` within
    `GUACAMOLE_HOME/extensions`, depending on whether you are using
    MySQL/MariaDB, PostgreSQL, or SQL Server.
 

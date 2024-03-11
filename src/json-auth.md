@@ -20,7 +20,7 @@ release notes for that version. You can find the release notes for current
 versions of Guacamole here: <http://guacamole.apache.org/releases/>.
 
 The JSON authentication extension is packaged as a `.tar.gz` file containing
-only the extension itself, `guacamole-auth-json-1.5.4.jar`, which must
+only the extension itself, `guacamole-auth-json-1.5.5.jar`, which must
 ultimately be placed in `GUACAMOLE_HOME/extensions`.
 
 (installing-json-auth)=
@@ -38,7 +38,7 @@ To install the JSON authentication extension, you must:
 1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
    exist.
 
-2. Copy `guacamole-auth-json-1.5.4.jar` within `GUACAMOLE_HOME/extensions`.
+2. Copy `guacamole-auth-json-1.5.5.jar` within `GUACAMOLE_HOME/extensions`.
 
 3. Configure Guacamole to use JSON authentication, as described below.
 
