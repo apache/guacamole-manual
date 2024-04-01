@@ -2644,6 +2644,29 @@ will produce the below tokens that can be used in connection parameters:
 * `${LDAP_MOBILE}`
 * `${LDAP_MAIL}`
 
+(oidc-tokens)=
+
+##### OIDC Extension Tokens
+
+The OIDC extension could extract claims provided by the IdP server when a user
+is authenticated and will make those claims available as tokens. The IdP
+server must be specifically configured to release certain claims to the
+client (Guacamole), and configuration of that is outside the scope of this
+document. The claims retrieved for a user are configured using the 
+`openid-attributes-claim-type` parameter. The token name will be prepended 
+with the `OIDC_` prefix. Multi-valued claims will not be unrolled.
+As an example, configuring the following line in `guacamole.properties`:
+
+```
+openid-attributes-claim-type: firstname, lastname, email, mobile
+```
+
+will produce the below tokens that can be used in connection parameters:
+* `${OIDC_FIRSTNAME}`
+* `${OIDC_LASTNAME}`
+* `${OIDC_EMAIL}`
+* `${OIDC_MOBILE}`
+
 ### Parameter prompting
 
 In certain situations Guacamole may determine that additional information is
