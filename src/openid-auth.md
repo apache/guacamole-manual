@@ -120,6 +120,10 @@ aspects of the conversation with the identity provider:
   the authenticated user is a member. By default, the "`groups`" claim type is
   used.
 
+`openid-attributes-claim-type`
+: The list of claims, separated by commas, that should be extracted from the JWT
+   token and exposed as `OIDC_` attributes to use in connections. Empty by default.
+
 `openid-scope`
 : The space-separated list of OpenID scopes to request. OpenID scopes determine
   the information returned within the OpenID token, and thus affect what values
