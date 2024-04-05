@@ -44,7 +44,7 @@ you must:
 1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
    exist.
 
-2. Copy `ksm/guacamole-vault-ksm-1.5.4.jar` within `GUACAMOLE_HOME/extensions`.
+2. Copy `ksm/guacamole-vault-ksm-1.5.5.jar` within `GUACAMOLE_HOME/extensions`.
 
 3. Configure Guacamole to use KSM to retrieve secrets, as described below.
 
