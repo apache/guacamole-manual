@@ -1013,6 +1013,19 @@ priority can be overridden with the `EXTENSION_PRIORITY` environment variable.
   ...
   ```
 
+(guacamole-logging-docker)=
+
+### Logging with the Guacamole Container
+
+In the event that you need to debug something associated with the
+Guacamole container, you can adjust the verbosity of logging by
+using the `LOGBACK_LEVEL` environment variable:
+
+`LOGBACK_LEVEL`
+: The verbosity level of the logging that will be done by
+  the web application running in the guacamole container,
+  as documented in the [section on webapp logging.](webapp-logging)
+
 (verifying-guacamole-docker)=
 
 ### Verifying the Guacamole install
