@@ -485,6 +485,16 @@ as well as username and password authentication.
 : The password to use when attempting authentication, if any. This parameter
   is optional.
 
+These credentials may be requested by one of several different underlying
+authentication schemes, depending on the server configuration. The libvncclient
+library supports several of these, depending on the version of the library
+present on the system running guacd. Notably, the MSLogonII authentication
+protocol is only supported the most recent libvncclient release. If in
+doubt, or you encounter issues trying to log on to certain VNC servers,
+check the version of libvncclient that you're building guacd against and
+make sure it includes support for the authentication scheme of the
+server to which you're trying to connect.
+
 (vnc-display-settings)=
 
 #### Display settings
@@ -543,6 +553,19 @@ available to work around such issues.
   updates. If set to "true", lossy compression will not be used. This
   parameter is optional. By default, lossy compression will be used when
   heuristics determine that it would likely outperform lossless compression.
+
+`compress-level`
+: Controls the level of compression requested of the VNC server when either
+  tight or zlib encoding is in use, on a scale of 0 to 9, with 0 being no
+  compression and 9 being the highest level of compression. Note that this
+  is negotiated with the server, and ultimately the decision on the amount
+  of compression that is done is up to the VNC server.
+
+`quality-level`
+: Sets the JPEG qualit level, on a scale of 0 to 9, when the tight encoding
+  is in use, with 0 being the lowest image quality (but likely improved
+  compression and speed) and 9 being the highest image quality but with
+  reduced compression and speed.
 
 #### VNC Repeater
 
