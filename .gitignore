@@ -1,3 +1,10 @@
 /build
 *~
 __pycache__
+
+# Documentation generated using generate-conf-docs.pl
+*.properties.md
+*.environment.md
+*.example.properties
+*.example.yml
+*.example.txt
