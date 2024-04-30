@@ -53,19 +53,20 @@ Building the Guacamole manual from source requires:
  * [sphinx-rtd-theme](https://pypi.org/project/sphinx-rtd-theme/) (the
    ReadTheDocs theme for Sphinx),
  * [sphinx-inline-tabs](https://pypi.org/project/sphinx-inline-tabs/)
+ * [sphinx-copybutton](https://pypi.org/project/sphinx-copybutton/)
  * [myst-parser](https://pypi.org/project/myst-parser/)
 
 The required Python packages can be installed using the "pip" package manager:
 
 ```console
-$ pip install sphinx sphinx-rtd-theme sphinx-inline-tabs myst-parser
+$ pip install sphinx sphinx-rtd-theme sphinx-inline-tabs sphinx-copybutton myst-parser
 ```
 
 On some systems, the Python 3 version of "pip" may instead be named "pip3", to
 maintain compatability with users and scripts that expect Python 2:
 
 ```console
-$ pip3 install sphinx sphinx-rtd-theme sphinx-inline-tabs myst-parser
+$ pip3 install sphinx sphinx-rtd-theme sphinx-inline-tabs sphinx-copybutton myst-parser
 ```
 
 Building the manual
