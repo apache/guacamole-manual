@@ -30,6 +30,7 @@ FROM sphinxdoc/sphinx AS builder
 RUN pip3 install           \
         jinjanator         \
         myst-parser        \
+        sphinx-copybutton  \
         sphinx-inline-tabs \
         sphinx-rtd-theme
 

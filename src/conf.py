@@ -40,6 +40,7 @@ sys.path.insert(0, os.path.abspath('ext'))
 extensions = [
     'guac',
     'myst_parser',
+    'sphinx_copybutton',
     'sphinx.ext.ifconfig',
     'sphinx.ext.extlinks',
     'sphinx_inline_tabs'
@@ -58,6 +59,10 @@ exclude_patterns = [ 'include/**' ]
 
 # Do not highlight source unless a Pygments lexer name is explicitly provided
 highlight_language = 'none'
+
+# Exclude prompts and output lines from content copied using the copy button
+copybutton_prompt_text = "$ "
+copybutton_line_continuation_character = "\\"
 
 myst_enable_extensions = [
     "colon_fence",
