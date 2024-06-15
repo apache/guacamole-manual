@@ -158,6 +158,12 @@ All other configuration properties are optional.
   the KSM vault support itself, it is unlikely that you need to set this
   property.**
 
+`ksm-api-call-interval`
+: Specify the minimum number of milliseconds between calls to the KSM API. The
+  API allows a limited number of calls per month, and calls over the included
+  amount generate additional cost. Setting this property allows you to
+  limit Guacamole's impact on that cost.
+
 (completing-vault-install)=
 
 ### Completing the installation
