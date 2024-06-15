@@ -106,6 +106,18 @@ the scope of this document, and will vary widely based on the IdP in use.
   management within Guacamole Client, particularly when layered with other
   authentication modules. This property is optional, and defaults to "groups".
 
+`saml-x509-cert-path`
+: The path to a certificate that will be used to sign SAML requests before
+  they are sent to the IdP, enhancing the integrity of the SAML authentication
+  process. This property is optional, and, if not present, SAML requests
+  will not be signed.
+
+`saml-private-key-path`
+: The path to a private key file to use to encrypt SAML requests sent to the
+  IdP, enhancing the confidentiality and integrity of the authentication
+  process. This property is optional, and, if not present, SAML requests
+  will not be encrypted before they are sent to the IdP.
+
 ### Controlling login behavior
 
 ```{include} include/sso-login-behavior.md
