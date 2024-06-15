@@ -2496,6 +2496,15 @@ remote host prior to attempting to establish a connection with the host. The
 below parameters control the behavior of this functionality, which is disabled
 by default.
 
+When this functionality is enabled, Guacamole will attempt to connect to the
+specified hostname or IP and the TCP port number used in the connection prior
+to sending the WoL packet. If the connection succeeds, the host is determined
+to be up, and the WoL packet will not be sent. After the initial WoL packet
+is sent, Guacamole will wait the amount of time specified by `wol-wait-time`,
+retry the connection to the host, and then send another WoL packet. This
+loop will be repeated up to five times to attempt to wake the host, or
+the connection will fail.
+
 :::{important}
 There are several factors that can impact the ability of Wake-on-LAN (WoL) to
 function correctly, many of which are outside the scope of Guacamole
