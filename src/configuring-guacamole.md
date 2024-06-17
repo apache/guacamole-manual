@@ -2218,10 +2218,15 @@ $
 ```
 
 :::{important}
-Guacamole will never overwrite an existing recording. If necessary, a numeric
-suffix like ".1", ".2", ".3", etc. will be appended to <NAME> to avoid
+By default, Guacamole will not overwrite an existing recording, unless you have
+enabled it to do so by use of the `recording-write-existing` connection
+paramter. When the `recording-write-existing` connection parameter is not enabled,
+a numeric suffix like ".1", ".2", ".3", etc. will be appended to <NAME> to avoid
 overwriting an existing recording. If even appending a numeric suffix does not
 help, the session will simply not be recorded.
+
+If the `recording-write-existing` parameter is enabled, then Guacamole will
+overwrite the existing recording.
 :::
 
 `recording-path`
@@ -2284,6 +2289,19 @@ help, the session will simply not be recorded.
   the `recording-path` is not specified, graphical session recording will be
   disabled, and this parameter will be ignored.
 
+`recording-write-exiting`
+: If set to "true", instead of insisting on creation of a new file, and
+  appending numbers until a non-existing file is found, Guacamole will
+  simply write to the existing recording file, overwriting data that
+  may already be present. While overwriting recordings is not generally
+  desirable, this parameter is useful in situations where you want to
+  try to write to a named pipe, FIFO buffer, or other special device
+  that may be sending the recording data elsewhere.
+
+  This parameter only has an effect if graphical recording is enabled. If
+  the `recording-path` is not specified, graphical session recording will
+  be disabled, and this parameter will be ignored.
+
 (typescripts)=
 
 #### Text session recording (typescripts)
@@ -2305,10 +2323,14 @@ $ scriptreplay NAME.timing NAME
 ```
 
 :::{important}
-Guacamole will never overwrite an existing recording. If necessary, a numeric
-suffix like ".1", ".2", ".3", etc. will be appended to `NAME` to avoid
-overwriting an existing recording. If even appending a numeric suffix does not
-help, the session will simply not be recorded.
+By default, Guacamole will not overwrite an existing typescript recordings;
+instead, it will append a numeric suffix like ".1", ".2", ".3", etc., to
+`NAME` to avoid overwriting an existing recording. If even appending a
+numeric suffix does not help, the session will simply not be recorded.
+
+However, if the `typescript-write-existing` parameter is enabled, then
+Guacamole will be allowed to use the existing recording file, potentially
+ovewriting any data in that file.
 :::
 
 `typescript-path`
@@ -2343,6 +2365,20 @@ help, the session will simply not be recorded.
   the raw text data, and {samp}`{NAME}.timing`, which contains timing
   information, where `NAME` is the value provided for the `typescript-name`
   parameter.
+
+  This parameter only has an effect if typescript recording is enabled. If
+  the `typescript-path` is not specified, recording of typescripts will be
+  disabled, and this parameter will be ignored.
+
+`typescript-write-existing`
+: If this parameter is set to "true", instead of attempting to generate
+  unique file names by appending incremental numbers to the typescript name,
+  Guacamole will be allowed to write to an existing typescript file,
+  potentially ovewriting any data in that file. While this is not
+  desirable in most cases, it may be necessary in situations where the
+  typescript recording is being sent to a named pipe, FIFO buffer, or
+  other special device that is processing the data and sending it
+  elsewhere.
 
   This parameter only has an effect if typescript recording is enabled. If
   the `typescript-path` is not specified, recording of typescripts will be
