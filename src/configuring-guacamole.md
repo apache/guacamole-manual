@@ -519,6 +519,19 @@ available to work around such issues.
   value is chosen here, if a particular update uses less than 256 colors,
   Guacamole will always send that update as a 256-color PNG.
 
+`disable-server-input`
+: Whether or not the VNC client should ask the VNC server to disable local
+  input devices when the client connects. Some VNC servers support this
+  feature in order to give preference to input from the client, and to
+  avoid situations where the local keyboard and/or mouse may be "fighting"
+  with the remote keyboard and/or mouse for control. Note that this
+  requires the remote VNC server to have this feature supported and
+  enabled, and there is no guarantee that the remote system will honor
+  the request. Setting this parameter to "true" will request that the
+  VNC server disable the local input devices; leaving it blank or
+  setting to false will not make that request. This parameter is
+  optional.
+
 `swap-red-blue`
 : If the colors of your display appear wrong (blues appear orange or red,
   etc.), it may be that your VNC server is sending image data incorrectly,
