@@ -262,6 +262,18 @@ is required:
   the `-D` option. Your servlet container will provide some means of specifying
   startup options for the JVM.
 
+`ldap-ssl-protocol`
+: Configures the SSL/TLS protocol version that will be used to contact the
+  LDAP server, if LDAP encryption is enabled. Legal values are "SSLv3" for
+  (legacy) SSL version 3 encryption, and "TLSv1", "TLSv1.1", "TLSv1.2", or
+  "TLSv1.3" for the various versions of TLS, version 1.0 - 1.3. The default
+  is to use the latest, TLSv1.3.
+
+  Please note that the legacy versions of SSLv3 and TLSv1 and TLSv1.1 have
+  many known vulnerabilities and attack vectors, and you should use the
+  latest possible TLS version that your LDAP servers support in order
+  to best protect communication between Guacamole and your LDAP servers.
+
 `ldap-max-search-results`
 : The maximum number of search results that can be returned by a single LDAP
   query. LDAP queries which exceed this maximum will fail. *This property is
