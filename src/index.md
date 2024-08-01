@@ -49,6 +49,7 @@ openid-auth
 saml-auth
 radius-auth
 adhoc-connections
+ban-auth
 using-guacamole
 recording-playback
 administration
