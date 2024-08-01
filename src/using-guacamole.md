@@ -112,12 +112,20 @@ along with some basic instructions:
 > Text copied/cut within Guacamole will appear here. Changes to the text below
 > will affect the remote clipboard.
 
-The text area functions as an interface between the remote clipboard and the
-local clipboard. Text from the local clipboard can be pasted into the text
-area, causing that text to be sent to the clipboard of the remote desktop.
-Similarly, if you copy or cut text within the remote desktop, you will see that
-text within the text area, and can manually copy it into the local clipboard if
-desired.
+If the clipboard API is enabled, the contents of the local clipboard will
+automatically be synchronized to Guacamole, and ultimately to the clipboards
+of the remote systems (assuming the functionality has not been disabled. The
+text area, here, functions as a manual interface to the clipboard, allowing
+text to be manually manipulated - text that you type, or paste into the text
+area will be available to the remote clipboard, and text that is placed on
+the remote clipboard it can be seen in this text area.
+
+For privacy and security reasons, the contents of the clipboard are hidden from
+view until the text area is clicked, and replaced with the following text:
+
+> Click to view clipboard data...
+
+Upon clicking the text area the actual text contents of the local 
 
 (client-connection-menu)=
 
