@@ -64,6 +64,16 @@ recording and allows it to be played back:
 
 ![In-browser player interface](images/recording-player-in-use.png)
 
+Version 1.6.0 of Guacamole introduces a feature that allows for key events
+in the recording to be displayed in a format similar to the guaclog utility,
+making it easy for administrators to scroll or search through the output
+for key events. The amount and type of data shown in this output will
+depend upon the options selected when recording is enabled - for example,
+keystrokes will not be available if keystroke logging has not been
+enabled for a connection.
+
+![Display and search key events](images/player-key-events.png)
+
 (playback-downloading)=
 
 Downloading the recording storage extension
