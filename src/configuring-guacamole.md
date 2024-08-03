@@ -1689,6 +1689,12 @@ by prompting the user directly.
   parameter is not provided, the user will be prompted for the passphrase
   upon connecting.
 
+`public-key`
+: If SSH is using certificate-based authentication, this field allows
+  you to provide the Base64-encoded CA certificate that will be used
+  to validate the certificate of the user. This parameter is optional
+  and there is no default value.
+
 (ssh-command)=
 
 #### Running a command (instead of a shell)
