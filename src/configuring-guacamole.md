@@ -499,10 +499,16 @@ server to which you're trying to connect.
 
 #### Display settings
 
-VNC servers do not allow the client to request particular display sizes, so you
-are at the mercy of your VNC server with respect to display width and height.
-However, to reduce bandwidth usage, you may request that the VNC server reduce
-its color depth. Guacamole will automatically detect 256-color images, but this
+Many VNC servers do not allow the client to request or change the display
+size, though there are some that support dynamic display size updates. However,
+unlike RDP, there is no strict requirement that the VNC server honor or
+support those updates, so you are at the mercy of your VNC server with respect
+to display width and height and whether or not it matches that of your client.
+Guacamole, by default, attempts to negotiate this support with the VNC
+server and send the client (browser) display dimensions to the VNC server.
+
+To reduce bandwidth usage, you may request that the VNC server reduce its
+color depth. Guacamole will automatically detect 256-color images, but this
 can be guaranteed for absolutely all graphics sent over the connection by
 forcing the color depth to 8-bit. Color depth is otherwise dictated by the VNC
 server.
@@ -531,6 +537,21 @@ available to work around such issues.
   VNC server disable the local input devices; leaving it blank or
   setting to false will not make that request. This parameter is
   optional.
+
+`disable-display-resize`
+: Whether or not the VNC client should *not* attempt to update the
+  remote (server) display with its size. By default, when Guacamole
+  connects to a VNC server, it will check for server support for
+  configuring the remote display size, and will attempt to send the
+  size of the browser area to the server to set the remote display
+  to the same size as the browser. Also, if the browser window is
+  resized, Guacamole will detect the resize and send the updated
+  size to the server. If the server supports dynamic resizing, it
+  may adjust the display size to match the browser. If this option
+  is set to true, Guacamole will disable the client-side display
+  updates, and the size of the desktop will not be sent to the
+  VNC server, either during initial connection or when the browser
+  is resized.
 
 `swap-red-blue`
 : If the colors of your display appear wrong (blues appear orange or red,
