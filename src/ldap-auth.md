@@ -76,7 +76,7 @@ versions of Guacamole here: <http://guacamole.apache.org/releases/>.
 
 The LDAP authentication extension is packaged as a `.tar.gz` file containing:
 
-`guacamole-auth-ldap-1.5.4.jar`
+`guacamole-auth-ldap-1.5.5.jar`
 : The Guacamole LDAP support extension itself, which must be placed in
   `GUACAMOLE_HOME/extensions`.
 
@@ -209,7 +209,7 @@ extension, you must:
 1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
    exist.
 
-2. Copy `guacamole-auth-ldap-1.5.4.jar` within `GUACAMOLE_HOME/extensions`.
+2. Copy `guacamole-auth-ldap-1.5.5.jar` within `GUACAMOLE_HOME/extensions`.
 
 3. Configure Guacamole to use LDAP authentication, as described below.
 
@@ -261,6 +261,18 @@ is required:
   *not* a Guacamole property; it must be specified when starting the JVM using
   the `-D` option. Your servlet container will provide some means of specifying
   startup options for the JVM.
+
+`ldap-ssl-protocol`
+: Configures the SSL/TLS protocol version that will be used to contact the
+  LDAP server, if LDAP encryption is enabled. Legal values are "SSLv3" for
+  (legacy) SSL version 3 encryption, and "TLSv1", "TLSv1.1", "TLSv1.2", or
+  "TLSv1.3" for the various versions of TLS, version 1.0 - 1.3. The default
+  is to use the latest, TLSv1.3.
+
+  Please note that the legacy versions of SSLv3 and TLSv1 and TLSv1.1 have
+  many known vulnerabilities and attack vectors, and you should use the
+  latest possible TLS version that your LDAP servers support in order
+  to best protect communication between Guacamole and your LDAP servers.
 
 `ldap-max-search-results`
 : The maximum number of search results that can be returned by a single LDAP

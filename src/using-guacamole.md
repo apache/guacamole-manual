@@ -507,3 +507,10 @@ The choices available mirror those within the Guacamole menu discussed earlier
 in this chapter, and changing these settings will affect the default values
 selected within the Guacamole menu of future connections.
 
+### Recent connection settings
+
+The user interface can be configured with regard to whether recent connections
+are displayed and how many are tracked. The default setting is to track the most
+recent 6 connections, but you can use the checkbox to disable the recent
+connections area altogether, or you can adjust the number of recent
+connections kept in history from the default of 6.

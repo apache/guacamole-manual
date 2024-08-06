@@ -175,10 +175,10 @@ that are always available for use:
   ```
   ...
   23:32:06.467 [main] INFO  o.a.g.extension.ExtensionModule - Multiple extensions are installed and will be loaded in order of decreasing priority:
-  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [postgresql] "PostgreSQL Authentication" (/etc/guacamole/extensions/guacamole-auth-jdbc-postgresql-1.5.4.jar)
-  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [ldap] "LDAP Authentication" (/etc/guacamole/extensions/guacamole-auth-ldap-1.5.4.jar)
-  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [openid] "OpenID Authentication Extension" (/etc/guacamole/extensions/guacamole-auth-sso-openid-1.5.4.jar)
-  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [saml] "SAML Authentication Extension" (/etc/guacamole/extensions/guacamole-auth-sso-saml-1.5.4.jar)
+  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [postgresql] "PostgreSQL Authentication" (/etc/guacamole/extensions/guacamole-auth-jdbc-postgresql-1.5.5.jar)
+  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [ldap] "LDAP Authentication" (/etc/guacamole/extensions/guacamole-auth-ldap-1.5.5.jar)
+  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [openid] "OpenID Authentication Extension" (/etc/guacamole/extensions/guacamole-auth-sso-openid-1.5.5.jar)
+  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [saml] "SAML Authentication Extension" (/etc/guacamole/extensions/guacamole-auth-sso-saml-1.5.5.jar)
   23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule - To change this order, set the "extension-priority" property or rename the extension files. The default priority of extensions is dictated by the sort order of their filenames.
   ...
   ```
@@ -485,14 +485,30 @@ as well as username and password authentication.
 : The password to use when attempting authentication, if any. This parameter
   is optional.
 
+These credentials may be requested by one of several different underlying
+authentication schemes, depending on the server configuration. The libvncclient
+library supports several of these, depending on the version of the library
+present on the system running guacd. Notably, the MSLogonII authentication
+protocol is only supported the most recent libvncclient release. If in
+doubt, or you encounter issues trying to log on to certain VNC servers,
+check the version of libvncclient that you're building guacd against and
+make sure it includes support for the authentication scheme of the
+server to which you're trying to connect.
+
 (vnc-display-settings)=
 
 #### Display settings
 
-VNC servers do not allow the client to request particular display sizes, so you
-are at the mercy of your VNC server with respect to display width and height.
-However, to reduce bandwidth usage, you may request that the VNC server reduce
-its color depth. Guacamole will automatically detect 256-color images, but this
+Many VNC servers do not allow the client to request or change the display
+size, though there are some that support dynamic display size updates. However,
+unlike RDP, there is no strict requirement that the VNC server honor or
+support those updates, so you are at the mercy of your VNC server with respect
+to display width and height and whether or not it matches that of your client.
+Guacamole, by default, attempts to negotiate this support with the VNC
+server and send the client (browser) display dimensions to the VNC server.
+
+To reduce bandwidth usage, you may request that the VNC server reduce its
+color depth. Guacamole will automatically detect 256-color images, but this
 can be guaranteed for absolutely all graphics sent over the connection by
 forcing the color depth to 8-bit. Color depth is otherwise dictated by the VNC
 server.
@@ -508,6 +524,34 @@ available to work around such issues.
   If specified, this must be either 8, 16, 24, or 32. Regardless of what
   value is chosen here, if a particular update uses less than 256 colors,
   Guacamole will always send that update as a 256-color PNG.
+
+`disable-server-input`
+: Whether or not the VNC client should ask the VNC server to disable local
+  input devices when the client connects. Some VNC servers support this
+  feature in order to give preference to input from the client, and to
+  avoid situations where the local keyboard and/or mouse may be "fighting"
+  with the remote keyboard and/or mouse for control. Note that this
+  requires the remote VNC server to have this feature supported and
+  enabled, and there is no guarantee that the remote system will honor
+  the request. Setting this parameter to "true" will request that the
+  VNC server disable the local input devices; leaving it blank or
+  setting to false will not make that request. This parameter is
+  optional.
+
+`disable-display-resize`
+: Whether or not the VNC client should *not* attempt to update the
+  remote (server) display with its size. By default, when Guacamole
+  connects to a VNC server, it will check for server support for
+  configuring the remote display size, and will attempt to send the
+  size of the browser area to the server to set the remote display
+  to the same size as the browser. Also, if the browser window is
+  resized, Guacamole will detect the resize and send the updated
+  size to the server. If the server supports dynamic resizing, it
+  may adjust the display size to match the browser. If this option
+  is set to true, Guacamole will disable the client-side display
+  updates, and the size of the desktop will not be sent to the
+  VNC server, either during initial connection or when the browser
+  is resized.
 
 `swap-red-blue`
 : If the colors of your display appear wrong (blues appear orange or red,
@@ -543,6 +587,19 @@ available to work around such issues.
   updates. If set to "true", lossy compression will not be used. This
   parameter is optional. By default, lossy compression will be used when
   heuristics determine that it would likely outperform lossless compression.
+
+`compress-level`
+: Controls the level of compression requested of the VNC server when either
+  tight or zlib encoding is in use, on a scale of 0 to 9, with 0 being no
+  compression and 9 being the highest level of compression. Note that this
+  is negotiated with the server, and ultimately the decision on the amount
+  of compression that is done is up to the VNC server.
+
+`quality-level`
+: Sets the JPEG qualit level, on a scale of 0 to 9, when the tight encoding
+  is in use, with 0 being the lowest image quality (but likely improved
+  compression and speed) and 9 being the highest image quality but with
+  reduced compression and speed.
 
 #### VNC Repeater
 
@@ -923,6 +980,22 @@ are not configured, NLA-based connections will fail.
   universally trust the server and your connection to the server, and you
   know that the server's certificate cannot be validated (for example, if it
   is self-signed).
+
+`cert-tofu`
+: If set to "true", this enables FreeRDP's "Trust on First Use" (TOFU)
+  policy for certificate management, where an unknown certificate will be
+  trusted the first time and added to FreeRDP's list of known hosts, and,
+  on subsequent connections, the certificate will be checked to validate
+  a match. This is similar to SSH client behavior.
+
+`cert-fingerprints`
+: A comma-separated list of certificate fingerprint and hash combinations
+  that will be checked against upon connection. If the fingerprint and hash
+  of the remote server's certificate matches one of those present in this
+  option, the connection will be allowed. Otherwise, if this option is
+  specified, and the fingerprint and hash do not match, the connection
+  will be denied. The fingerprint and hash value is identical to the
+  format used by the xfreerdp command line option "/cert:fingerprint".
 
 `disable-auth`
 : If set to "true", authentication will be disabled. Note that this refers
@@ -1637,6 +1710,12 @@ by prompting the user directly.
   parameter is not provided, the user will be prompted for the passphrase
   upon connecting.
 
+`public-key`
+: If SSH is using certificate-based authentication, this field allows
+  you to provide the Base64-encoded CA certificate that will be used
+  to validate the certificate of the user. This parameter is optional
+  and there is no default value.
+
 (ssh-command)=
 
 #### Running a command (instead of a shell)
@@ -2171,7 +2250,7 @@ the interpreted events:
 
 ```console
 $ guaclog /path/to/recording/NAME
-guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.5.4
+guaclog: INFO: Guacamole input log interpreter (guaclog) version 1.5.5
 guaclog: INFO: 1 input file(s) provided.
 guaclog: INFO: Writing input events from "/path/to/recording/NAME" to "/path/to/recording/NAME.txt" ...
 guaclog: INFO: All files interpreted successfully.
@@ -2179,10 +2258,15 @@ $
 ```
 
 :::{important}
-Guacamole will never overwrite an existing recording. If necessary, a numeric
-suffix like ".1", ".2", ".3", etc. will be appended to <NAME> to avoid
+By default, Guacamole will not overwrite an existing recording, unless you have
+enabled it to do so by use of the `recording-write-existing` connection
+paramter. When the `recording-write-existing` connection parameter is not enabled,
+a numeric suffix like ".1", ".2", ".3", etc. will be appended to <NAME> to avoid
 overwriting an existing recording. If even appending a numeric suffix does not
 help, the session will simply not be recorded.
+
+If the `recording-write-existing` parameter is enabled, then Guacamole will
+overwrite the existing recording.
 :::
 
 `recording-path`
@@ -2245,6 +2329,19 @@ help, the session will simply not be recorded.
   the `recording-path` is not specified, graphical session recording will be
   disabled, and this parameter will be ignored.
 
+`recording-write-exiting`
+: If set to "true", instead of insisting on creation of a new file, and
+  appending numbers until a non-existing file is found, Guacamole will
+  simply write to the existing recording file, overwriting data that
+  may already be present. While overwriting recordings is not generally
+  desirable, this parameter is useful in situations where you want to
+  try to write to a named pipe, FIFO buffer, or other special device
+  that may be sending the recording data elsewhere.
+
+  This parameter only has an effect if graphical recording is enabled. If
+  the `recording-path` is not specified, graphical session recording will
+  be disabled, and this parameter will be ignored.
+
 (typescripts)=
 
 #### Text session recording (typescripts)
@@ -2266,10 +2363,14 @@ $ scriptreplay NAME.timing NAME
 ```
 
 :::{important}
-Guacamole will never overwrite an existing recording. If necessary, a numeric
-suffix like ".1", ".2", ".3", etc. will be appended to `NAME` to avoid
-overwriting an existing recording. If even appending a numeric suffix does not
-help, the session will simply not be recorded.
+By default, Guacamole will not overwrite an existing typescript recordings;
+instead, it will append a numeric suffix like ".1", ".2", ".3", etc., to
+`NAME` to avoid overwriting an existing recording. If even appending a
+numeric suffix does not help, the session will simply not be recorded.
+
+However, if the `typescript-write-existing` parameter is enabled, then
+Guacamole will be allowed to use the existing recording file, potentially
+ovewriting any data in that file.
 :::
 
 `typescript-path`
@@ -2304,6 +2405,20 @@ help, the session will simply not be recorded.
   the raw text data, and {samp}`{NAME}.timing`, which contains timing
   information, where `NAME` is the value provided for the `typescript-name`
   parameter.
+
+  This parameter only has an effect if typescript recording is enabled. If
+  the `typescript-path` is not specified, recording of typescripts will be
+  disabled, and this parameter will be ignored.
+
+`typescript-write-existing`
+: If this parameter is set to "true", instead of attempting to generate
+  unique file names by appending incremental numbers to the typescript name,
+  Guacamole will be allowed to write to an existing typescript file,
+  potentially ovewriting any data in that file. While this is not
+  desirable in most cases, it may be necessary in situations where the
+  typescript recording is being sent to a named pipe, FIFO buffer, or
+  other special device that is processing the data and sending it
+  elsewhere.
 
   This parameter only has an effect if typescript recording is enabled. If
   the `typescript-path` is not specified, recording of typescripts will be
@@ -2456,6 +2571,15 @@ Guacamole implements the support to send a "magic wake-on-lan packet" to a
 remote host prior to attempting to establish a connection with the host. The
 below parameters control the behavior of this functionality, which is disabled
 by default.
+
+When this functionality is enabled, Guacamole will attempt to connect to the
+specified hostname or IP and the TCP port number used in the connection prior
+to sending the WoL packet. If the connection succeeds, the host is determined
+to be up, and the WoL packet will not be sent. After the initial WoL packet
+is sent, Guacamole will wait the amount of time specified by `wol-wait-time`,
+retry the connection to the host, and then send another WoL packet. This
+loop will be repeated up to five times to attempt to wake the host, or
+the connection will fail.
 
 :::{important}
 There are several factors that can impact the ability of Wake-on-LAN (WoL) to
@@ -2627,6 +2751,29 @@ will produce the below tokens that can be used in connection parameters:
 * `${LDAP_SN}`
 * `${LDAP_MOBILE}`
 * `${LDAP_MAIL}`
+
+(oidc-tokens)=
+
+##### OIDC Extension Tokens
+
+The OIDC extension could extract claims provided by the IdP server when a user
+is authenticated and will make those claims available as tokens. The IdP
+server must be specifically configured to release certain claims to the
+client (Guacamole), and configuration of that is outside the scope of this
+document. The claims retrieved for a user are configured using the 
+`openid-attributes-claim-type` parameter. The token name will be prepended 
+with the `OIDC_` prefix. Multi-valued claims will not be unrolled.
+As an example, configuring the following line in `guacamole.properties`:
+
+```
+openid-attributes-claim-type: firstname, lastname, email, mobile
+```
+
+will produce the below tokens that can be used in connection parameters:
+* `${OIDC_FIRSTNAME}`
+* `${OIDC_LASTNAME}`
+* `${OIDC_EMAIL}`
+* `${OIDC_MOBILE}`
 
 ### Parameter prompting
 

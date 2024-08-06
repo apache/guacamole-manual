@@ -59,7 +59,7 @@ driver must be downloaded separately from the database vendor and placed within
 :::{list-table}
 :stub-columns: 1
 * - Guacamole extension
-  - `mysql/guacamole-auth-jdbc-mysql-1.5.4.jar`
+  - `mysql/guacamole-auth-jdbc-mysql-1.5.5.jar`
 * - SQL schema scripts
   - `mysql/schema/`
 * - JDBC driver
@@ -79,7 +79,7 @@ If using the JDBC driver from MySQL, the required `.jar` will be within a
 :::{list-table}
 :stub-columns: 1
 * - Guacamole extension
-  - `postgresql/guacamole-auth-jdbc-postgresql-1.5.4.jar`
+  - `postgresql/guacamole-auth-jdbc-postgresql-1.5.5.jar`
 * - SQL schema scripts
   - `postgresql/schema/`
 * - JDBC driver
@@ -91,7 +91,7 @@ If using the JDBC driver from MySQL, the required `.jar` will be within a
 :::{list-table}
 :stub-columns: 1
 * - Guacamole extension
-  - `sqlserver/guacamole-auth-jdbc-sqlserver-1.5.4.jar`
+  - `sqlserver/guacamole-auth-jdbc-sqlserver-1.5.5.jar`
 * - SQL schema scripts
   - `sqlserver/schema/`
 * - JDBC driver
@@ -340,9 +340,9 @@ authentication extension, you must:
 1. Create the `GUACAMOLE_HOME/extensions` and `GUACAMOLE_HOME/lib` directories,
    if they do not already exist.
 
-2. Copy `guacamole-auth-jdbc-mysql-1.5.4.jar` *or*
-   `guacamole-auth-jdbc-postgresql-1.5.4.jar` *or*
-   `guacamole-auth-jdbc-sqlserver-1.5.4.jar` within
+2. Copy `guacamole-auth-jdbc-mysql-1.5.5.jar` *or*
+   `guacamole-auth-jdbc-postgresql-1.5.5.jar` *or*
+   `guacamole-auth-jdbc-sqlserver-1.5.5.jar` within
    `GUACAMOLE_HOME/extensions`, depending on whether you are using
    MySQL/MariaDB, PostgreSQL, or SQL Server.
 
@@ -580,6 +580,19 @@ to the database server:
 : The password to use to access the client certificate store, if one is
   required. By default no password will be used.
 
+`mysql-track-external-connection-history`
+: Whether connection history records should be created for connections not
+  defined in the database. By default, external connection history will be
+  tracked unless this is explicitly disabled by setting this to "false".
+
+`mysql-enforce-access-windows-for-active-sessions`
+: Whether time-based access windows should be enforced for active user sessions.
+  By default, users will be logged out when an access window closes, even if
+  they are currently logged in. To allow logged-in users to continue to use the
+  application after an access window closes, set this to "false". Users will
+  always be prevented from logging in outside of access windows regardless of
+  this setting.
+
 `mysql-batch-size`
 : Controls how many objects may be retrieved from the database in a single
   query. If more objects than this number are requested, retrieval of those
@@ -665,6 +678,19 @@ to the database server:
   abort queries that take too long. A value of 0 (the default) means the
   timeout is disabled.
 
+`postgresql-track-external-connection-history`
+: Whether connection history records should be created for connections not
+  defined in the database. By default, external connection history will be
+  tracked unless this is explicitly disabled by setting this to "false".
+
+`postgresql-enforce-access-windows-for-active-sessions`
+: Whether time-based access windows should be enforced for active user sessions.
+  By default, users will be logged out when an access window closes, even if
+  they are currently logged in. To allow logged-in users to continue to use the
+  application after an access window closes, set this to "false". Users will
+  always be prevented from logging in outside of access windows regardless of
+  this setting.
+
 `postgresql-batch-size`
 : Controls how many objects may be retrieved from the database in a single
   query. If more objects than this number are requested, retrieval of those
@@ -704,6 +730,19 @@ to the database server:
   the SQL Server installation. This property is optional, and most installations
   should work without the need to specify an instance name.
 
+`sqlserver-track-external-connection-history`
+: Whether connection history records should be created for connections not
+  defined in the database. By default, external connection history will be
+  tracked unless this is explicitly disabled by setting this to "false".
+
+`sqlserver-enforce-access-windows-for-active-sessions`
+: Whether time-based access windows should be enforced for active user sessions.
+  By default, users will be logged out when an access window closes, even if
+  they are currently logged in. To allow logged-in users to continue to use the
+  application after an access window closes, set this to "false". Users will
+  always be prevented from logging in outside of access windows regardless of
+  this setting.
+
 `sqlserver-batch-size`
 : Controls how many objects may be retrieved from the database in a single
   query. If more objects than this number are requested, retrieval of those
@@ -711,7 +750,6 @@ to the database server:
   queries.
 
   By default, SQL Server queries will retrieve no more than 500 objects.
-:::
 
 #### Enforcing password policies
 

@@ -106,7 +106,12 @@ provided to do this.
 
 Once the Guacamole image is running, Guacamole will be accessible at
 {samp}`http://{HOSTNAME}:8080/guacamole/`, where `HOSTNAME` is the hostname or
-address of the machine hosting Docker.
+address of the machine hosting Docker. To set the path Guacamole is accessible from,
+use the `WEBAPP_CONTEXT` environment variable:
+
+`WEBAPP_CONTEXT`
+: The path Guacamole should be accessible from. If set to `ROOT` Guacamole
+will accessible from {samp}`http://{HOSTNAME}:8080`.
 
 (guacamole-docker-config-via-env)=
 
@@ -1000,26 +1005,39 @@ priority can be overridden with the `EXTENSION_PRIORITY` environment variable.
   ```
   ...
   23:32:06.467 [main] INFO  o.a.g.extension.ExtensionModule - Multiple extensions are installed and will be loaded in order of decreasing priority:
-  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [postgresql] "PostgreSQL Authentication" (/etc/guacamole/extensions/guacamole-auth-jdbc-postgresql-1.5.4.jar)
-  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [ldap] "LDAP Authentication" (/etc/guacamole/extensions/guacamole-auth-ldap-1.5.4.jar)
-  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [openid] "OpenID Authentication Extension" (/etc/guacamole/extensions/guacamole-auth-sso-openid-1.5.4.jar)
-  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [saml] "SAML Authentication Extension" (/etc/guacamole/extensions/guacamole-auth-sso-saml-1.5.4.jar)
+  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [postgresql] "PostgreSQL Authentication" (/etc/guacamole/extensions/guacamole-auth-jdbc-postgresql-1.5.5.jar)
+  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [ldap] "LDAP Authentication" (/etc/guacamole/extensions/guacamole-auth-ldap-1.5.5.jar)
+  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [openid] "OpenID Authentication Extension" (/etc/guacamole/extensions/guacamole-auth-sso-openid-1.5.5.jar)
+  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [saml] "SAML Authentication Extension" (/etc/guacamole/extensions/guacamole-auth-sso-saml-1.5.5.jar)
   23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule - To change this order, set the "extension-priority" property or rename the extension files. The default priority of extensions is dictated by the sort order of their filenames.
   ...
   ```
+
+(guacamole-logging-docker)=
+
+### Logging with the Guacamole Container
+
+In the event that you need to debug something associated with the
+Guacamole container, you can adjust the verbosity of logging by
+using the `LOGBACK_LEVEL` environment variable:
+
+`LOGBACK_LEVEL`
+: The verbosity level of the logging that will be done by
+  the web application running in the guacamole container,
+  as documented in the [section on webapp logging.](webapp-logging)
 
 (verifying-guacamole-docker)=
 
 ### Verifying the Guacamole install
 
 Once the Guacamole image is running, Guacamole should be accessible at
-{samp}`http://{HOSTNAME}:8080/guacamole/`, where `HOSTNAME` is the hostname or
-address of the machine hosting Docker, and you *should* see a login screen. If
-using MySQL or PostgreSQL, the database initialization scripts will have
-created a default administrative user called "`guacadmin`" with the password
-"`guacadmin`". *You should log in and change your password immediately.* If
-using LDAP, you should be able to log in as any valid user within your LDAP
-directory.
+{samp}`http://{HOSTNAME}:8080/guacamole/` (or the path you set with
+`WEBAPP_CONTEXT`), where `HOSTNAME` is the hostname or address of the machine
+hosting Docker, and you *should* see a login screen. If using MySQL or
+PostgreSQL, the database initialization scripts will have created a default
+administrative user called "`guacadmin`" with the password "`guacadmin`".
+*You should log in and change your password immediately.* If using LDAP, you
+should be able to log in as any valid user within your LDAP directory.
 
 If you cannot access Guacamole, or you do not see a login screen, check
 Docker's logs using the `docker logs` command to determine if something is

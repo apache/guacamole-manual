@@ -25,7 +25,7 @@ Downloading the OpenID Connect authentication extension
 ```
 
 The extension for the desired SSO method, in this case
-`guacamole-auth-sso-openid-1.5.4.jar` from within the `openid/` subdirectory,
+`guacamole-auth-sso-openid-1.5.5.jar` from within the `openid/` subdirectory,
 must ultimately be placed in `GUACAMOLE_HOME/extensions`.
 
 (installing-openid-auth)=
@@ -43,7 +43,7 @@ To install the OpenID Connect authentication extension, you must:
 1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
    exist.
 
-2. Copy `guacamole-auth-sso-openid-1.5.4.jar` within
+2. Copy `guacamole-auth-sso-openid-1.5.5.jar` within
    `GUACAMOLE_HOME/extensions`.
 
 3. Configure Guacamole to use OpenID Connect authentication, as described
@@ -119,6 +119,10 @@ aspects of the conversation with the identity provider:
 : The claim type within any valid JWT that contains the list of groups of which
   the authenticated user is a member. By default, the "`groups`" claim type is
   used.
+
+`openid-attributes-claim-type`
+: The list of claims, separated by commas, that should be extracted from the JWT
+   token and exposed as `OIDC_` attributes to use in connections. Empty by default.
 
 `openid-scope`
 : The space-separated list of OpenID scopes to request. OpenID scopes determine

@@ -44,7 +44,7 @@ you must:
 1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
    exist.
 
-2. Copy `ksm/guacamole-vault-ksm-1.5.4.jar` within `GUACAMOLE_HOME/extensions`.
+2. Copy `ksm/guacamole-vault-ksm-1.5.5.jar` within `GUACAMOLE_HOME/extensions`.
 
 3. Configure Guacamole to use KSM to retrieve secrets, as described below.
 
@@ -157,6 +157,12 @@ All other configuration properties are optional.
   if they cannot be verified. **Unless you are a developer testing changes to
   the KSM vault support itself, it is unlikely that you need to set this
   property.**
+
+`ksm-api-call-interval`
+: Specify the minimum number of milliseconds between calls to the KSM API. The
+  API allows a limited number of calls per month, and calls over the included
+  amount generate additional cost. Setting this property allows you to
+  limit Guacamole's impact on that cost.
 
 (completing-vault-install)=
 

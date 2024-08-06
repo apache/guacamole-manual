@@ -19,7 +19,7 @@ Downloading the SAML authentication extension
 ```
 
 The extension for the desired SSO method, in this case
-`guacamole-auth-sso-saml-1.5.4.jar` from within the `saml/` subdirectory,
+`guacamole-auth-sso-saml-1.5.5.jar` from within the `saml/` subdirectory,
 must ultimately be placed in `GUACAMOLE_HOME/extensions`.
 
 (installing-saml-auth)=
@@ -37,7 +37,7 @@ To install the SAML authentication extension, you must:
 1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
    exist.
 
-2. Copy `guacamole-auth-sso-saml-1.5.4.jar` within `GUACAMOLE_HOME/extensions`.
+2. Copy `guacamole-auth-sso-saml-1.5.5.jar` within `GUACAMOLE_HOME/extensions`.
 
 3. Configure Guacamole to use SAML authentication, as described below.
 
@@ -105,6 +105,18 @@ the scope of this document, and will vary widely based on the IdP in use.
   membership of the user logging in, which can be used for permissions
   management within Guacamole Client, particularly when layered with other
   authentication modules. This property is optional, and defaults to "groups".
+
+`saml-x509-cert-path`
+: The path to a certificate that will be used to sign SAML requests before
+  they are sent to the IdP, enhancing the integrity of the SAML authentication
+  process. This property is optional, and, if not present, SAML requests
+  will not be signed.
+
+`saml-private-key-path`
+: The path to a private key file to use to encrypt SAML requests sent to the
+  IdP, enhancing the confidentiality and integrity of the authentication
+  process. This property is optional, and, if not present, SAML requests
+  will not be encrypted before they are sent to the IdP.
 
 ### Controlling login behavior
 
