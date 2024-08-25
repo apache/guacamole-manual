@@ -120,12 +120,15 @@ text to be manually manipulated - text that you type, or paste into the text
 area will be available to the remote clipboard, and text that is placed on
 the remote clipboard it can be seen in this text area.
 
-For privacy and security reasons, the contents of the clipboard are hidden from
-view until the text area is clicked, and replaced with the following text:
+For privacy and security reasons, the contents of the clipboard are initially
+hidden when the Guacamole menu is opened. Instead, a banner with further
+instructions is displayed:
 
-> Click to view clipboard data...
+> Click to view clipboard contents.
 
-Upon clicking the text area the actual text contents of the local 
+Upon clicking the text area, the contents of the clipboard will be shown and
+may be edited or replaced. The clipboard will remain visible until the
+Guacamole menu is closed.
 
 (client-connection-menu)=
 
