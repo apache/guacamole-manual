@@ -460,6 +460,13 @@ fail outright, and you will need to install the missing dependency. If, after
 running `configure`, you find support for something you wanted is missing,
 simply install the corresponding dependencies and run `configure` again.
 
+During the configure process, the script will attempt to detect the version of
+FreeRDP installed on your system. It will first look for FreeRDP version 3,
+indicated as `freerdp3 ............ yes`. If FreeRDP version 3 is not found, it will
+then check for FreeRDP version 2, which would be shown as
+`freerdp2 ............ yes`. The output will reflect the specific version found,
+ensuring that the build process aligns with the available FreeRDP library.
+
 :::{important}
 All protocols that require a terminal (Kubernetes, SSH, and telnet) require
 that fonts are installed on the Guacamole server in order to function, as
@@ -767,4 +774,3 @@ it will immediately and transparently fall back to using HTTP.
 WebSocket is supported in Guacamole for Tomcat 7.0.37 or higher, Jetty 8 or
 higher, and any servlet container supporting JSR 356, the standardized Java API
 for WebSocket.
-
