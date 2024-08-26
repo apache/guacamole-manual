@@ -72,6 +72,9 @@ depend upon the options selected when recording is enabled - for example,
 keystrokes will not be available if keystroke logging has not been
 enabled for a connection.
 
+Additionally, heatmaps of screen update activity and key events (if captured)
+will be displayed when the progress bar is hovered.
+
 ![Display and search key events](images/player-key-events.png)
 
 (playback-downloading)=
