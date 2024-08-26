@@ -1052,6 +1052,34 @@ sqlserver-auto-create-accounts: true
 ```
 :::
 
+### Access window enforcment
+
+Guacamole supports the use of access windows to limit the time periods
+during which users are allowed to access the system. Prior to version
+1.6.0, this would only restrict the times when a user could log on,
+but would not impact actively running sessions - that is, a user
+could continue an active session after their access window had expired.
+Starting in version 1.6.0, Guacamole will, by default, forcible log
+users off of the system as soon as the access window expires. This
+behavior can be changed if the prior behavior is desired, by disabling
+the enforcement of this policy during active sessions.
+
+:::{tab} MySQL
+```
+mysql-enforce-access-windows-for-active-sessions: false
+```
+
+:::{tab} PostgreSQL
+```
+postgresql-enforce-access-windows-for-active-sessions: false
+```
+
+:::{tab} SQL Server
+```
+sqlserver-enforce-access-windows-for-active-sessions: false
+```
+:::
+
 ### Completing the installation
 
 Guacamole will only reread `guacamole.properties` and load newly-installed
