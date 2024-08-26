@@ -189,12 +189,13 @@ be pulled using the `ksm-config` global KSM config, it will always be used.
 Failing that, if a secret is available using the connection grop config, that
 value will be used. Only when neither the global or containing connection group
 KSM configs define a secret will the user KSM config be used. Note also that
-user KSM configs will be disabled unless `ksm-allow-user-config` is set to true.
+user KSM configs will be disabled unless the global `ksm-allow-user-config` and
+per-connection `ksm-user-config-enabled` attribute are both set to true.
 
-These KSM config values can be set directly in the webapp, on the connection
-group edit page, and on the user preferences page. Unlike the `ksm-config`
-global configuration, either the base64-encoded configuration provided by
-Keeper Commander can be used, or the one-time token can be used directly.
+These KSM config values can be set directly in the webapp, on the [connection
+group edit page](connection-group-management), and on the [user preferences page](preferences).
+Unlike the `ksm-config` global configuration, either the base64-encoded configuration
+provided by Keeper Commander can be used, or the one-time token can be used directly.
 
 (completing-vault-install)=
 
