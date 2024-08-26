@@ -164,6 +164,12 @@ All other configuration properties are optional.
   amount generate additional cost. Setting this property allows you to
   limit Guacamole's impact on that cost.
 
+`ksm-strip-windows-domains`
+: Whether or not the Windows domain should be stripped off of the username
+  when usernames are retrieved from the KSM vault and placed into its own
+  secret. This is optional, and by default it is false - domains will
+  not be stripped from the username.
+
 (completing-vault-install)=
 
 ### Completing the installation
@@ -262,6 +268,12 @@ The following `SECRET` types are supported:
 : The username specified by the record's "login" field. If the field is a
   custom field, the label must contain the word "username" (case-insensitive)
   and must be a "text" or "hidden" field.
+
+`DOMAIN`
+: The domain name of the record, either retrieved directly from the vault, or
+  split out from the username if so configured in the vault. Typically this
+  will apply when the username is associated with an Active Directory
+  domain.
 
 `PASSWORD`
 : The password specified by the record's "password" or "hidden" field. If the
