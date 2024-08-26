@@ -53,6 +53,7 @@ ban-auth
 using-guacamole
 recording-playback
 administration
+batch-import
 troubleshooting
 :::
 
