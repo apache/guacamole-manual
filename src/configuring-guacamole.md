@@ -1712,9 +1712,12 @@ by prompting the user directly.
 
 `public-key`
 : If SSH is using certificate-based authentication, this field allows
-  you to provide the Base64-encoded CA certificate that will be used
-  to validate the certificate of the user. This parameter is optional
-  and there is no default value.
+  you to provide the Base64-encoded public key rather than having it
+  extracted from the provided private key. This parameter is optional
+  and there is no default value. If a value is provided it will take
+  precendence, requiring that the private key match the provided
+  public key, and a mis-match will result in a failure to authenticate
+  using the provided private key.
 
 (ssh-command)=
 
@@ -2184,6 +2187,15 @@ transfer features.
 : The passphrase to use to decrypt the private key for use in public key
   authentication. This parameter is not needed if the private key does not
   require a passphrase.
+
+`sftp-public-key`
+: If the SFTP connection is using key-based authentication, this field
+  allows you to specify the Base64-encoded public key rather than having
+  it extracted from the provided private key. This parameter is optional
+  and there is no default value. If a value is provided it will take
+  precendence, requiring that the private key match the provided
+  public key, and a mis-match will result in a failure to authenticate
+  using the provided private key.
 
 `sftp-directory`
 : The directory to upload files to if they are simply dragged and dropped,
