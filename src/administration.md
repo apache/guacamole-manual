@@ -235,6 +235,9 @@ the new connection or connection group, you must [edit that user](user-managemen
 or [a user group that the user is a member of](user-group-management), checking
 the box corresponding to the connection or connection group you created.
 
+Connections and connection groups can also be imported en masse from files - see
+the documentation for the [batch import feature](batch-import).
+
 ![Connection management interface](images/manage-connections.png)
 
 Editing connections, sharing profiles, and connection groups works identically
