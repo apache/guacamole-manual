@@ -115,6 +115,10 @@ question should be able to access.
 
    ![Application creation confirmation dialog showing the generated one-time token.](images/vault-ksm-004-generate-token.png)
 
+   This token can be used to generate a base64-encoded configuration blob as
+   described in the following step, or it can be used directly to set a KSM
+   config for a user or connection, as described in [the following section](guac-vault-config).
+
 5. Copy the provided one-time token using [the KSM CLI tool](https://docs.keeper.io/secrets-manager/secrets-manager/secrets-manager-command-line-interface/init-command)
    to obtain the base64-encoded configuration that must be provided to
    Guacamole with [the `ksm-config` property](guac-vault-config). **This token
@@ -169,6 +173,29 @@ All other configuration properties are optional.
   when usernames are retrieved from the KSM vault and placed into its own
   secret. This is optional, and by default it is false - domains will
   not be stripped from the username.
+
+`ksm-allow-user-config`
+: Whether or not users should be allowed to set their own KSM configuration,
+  which will be used to pull secrets _only_ when not already provided by the
+  global or connection-group-level KSM configuration. I.E. a user-level KSM
+  configuration will never be used if a matching secret is otherwise available.
+
+#### User and Connection Group KSM Configuration
+
+In addition to the required global `ksm-config` configuration blob, Guacamole
+can also be configured with user or connection group KSM configuration, which
+will pull additional secrets _only_ when not already available. If a secret can
+be pulled using the `ksm-config` global KSM config, it will always be used.
+Failing that, if a secret is available using the connection grop config, that
+value will be used. Only when neither the global or containing connection group
+KSM configs define a secret will the user KSM config be used. Note also that
+user KSM configs will be disabled unless the global `ksm-allow-user-config` and
+per-connection `ksm-user-config-enabled` attribute are both set to true.
+
+These KSM config values can be set directly in the webapp, on the [connection
+group edit page](connection-group-management), and on the [user preferences page](preferences).
+Unlike the `ksm-config` global configuration, either the base64-encoded configuration
+provided by Keeper Commander can be used, or the one-time token can be used directly.
 
 (completing-vault-install)=
 
