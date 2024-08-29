@@ -150,6 +150,81 @@ should connect to the Duo service:
   credentials and possibly revalidate their identity with Duo. By default,
   login attempts are allowed to take up to 5 minutes.
 
+`duo-bypass-hosts`
+: By default, when the Duo module is enabled, Duo-based MFA will be enforced
+  for all users, from all clients, that attempt to log in to Guacamole.
+  This option allows for the Duo requirement to be bypassed for users logging
+  in from a specified set of hosts. This option can contain a comma-separated
+  list of IP addresses and/or subnets, in CIDR notation, for which Duo
+  MFA should not be required. This may be useful in scenarios where a single
+  Guacamole instance is used by both users inside and outside a network
+  boundary such that the users inside the boundary (VPN or Firewall) have
+  already achieved a certain level of authentication and do not need the
+  second layer of security, whereas users outside that boundary still
+  require the additional authentication layer.
+
+  This property is optional, and there is no default value. If no value
+  is specified, the Duo module will require that all users from all sources
+  complete the secondary authentication.
+
+`duo-enforce-hosts`
+: Similar to the `duo-bypass-hosts` option above, this option specifies
+  hosts for which the Duo MFA must absolutely be enforced. This option
+  helps provide flexibility in environments where you know that untrusted
+  connections will be coming in from a certain IP address or subnet so
+  that you can enforce the secondary authentication for those sources.
+  This value is optional with no default value.
+
+:::{important}
+  There are two items that are important to note about the above options
+  for either bypassing or enforcing Duo logins based on IP address. First,
+  it is important that Tomcat and any upstream proxies (Nginx, Apache, etc.)
+  be properly configured to present the client IP address that will be used
+  to determine "trusted" vs. "untrusted" clients. This means configuring
+  Tomcat and the upstream proxies in such a way as to correctly forward
+  the client IP address information through to Guacamole, as documented
+  in the chapter on [](reverse-proxy).
+
+  Second, it's important to understand the various behaviors of these
+  options as they interact with each other. There are four possible
+  scenarios:
+
+  1. Neither option is specified. In this case, the Duo module
+     enforces secondary authentication for all clients.
+     This is, obviously, the most secure scenario.
+
+  2. You specify a list of IP addresses or subnets in the
+     `duo-bypass-hosts` property and do not specify any in the
+     `duo-enforce-hosts` property. In this scenario, Duo will
+     only bypass enforcement of the second authentication
+     mechanism for users logging in from hosts that fall
+     in the provided list, and will enforce second factor
+     authentication for users from all other clients.
+
+  3. You do not specify any hosts or subnets in the
+     `duo-bypass-hosts` property, but you specify one or more
+     hosts or subnets in the `duo-enforce-hosts` property.
+     In this scenario, Duo will ONLY enforce second factor
+     authentication for the hosts that fall into the list of
+     enforced hosts, and users from all other clients will
+     be able to log on without the second authentication
+     factor.
+
+  4. You specify values for both the bypass and the enforce
+     lists, in which case only hosts listed in the enforce
+     list will actually have second factor authentication
+     enforced, and the bypass list will essentially be
+     meangingless, as all other hosts will be bypassed.
+
+     The one item to note in this scenario is what happens
+     if there is an overlap between the bypass list and the
+     enforce list, where a host is either specified in both
+     lists or is specified in one list but falls into a CIDR
+     range specified in the other list. In these cases,
+     the enforce list will always take precendence over
+     the bypass list, and Duo MFA will be enforced.
+:::
+
 (completing-duo-install)=
 
 ### Completing the installation
