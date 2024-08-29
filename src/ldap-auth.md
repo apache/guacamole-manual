@@ -76,7 +76,7 @@ versions of Guacamole here: <http://guacamole.apache.org/releases/>.
 
 The LDAP authentication extension is packaged as a `.tar.gz` file containing:
 
-`guacamole-auth-ldap-1.5.5.jar`
+`guacamole-auth-ldap-1.6.0.jar`
 : The Guacamole LDAP support extension itself, which must be placed in
   `GUACAMOLE_HOME/extensions`.
 
@@ -209,7 +209,7 @@ extension, you must:
 1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
    exist.
 
-2. Copy `guacamole-auth-ldap-1.5.5.jar` within `GUACAMOLE_HOME/extensions`.
+2. Copy `guacamole-auth-ldap-1.6.0.jar` within `GUACAMOLE_HOME/extensions`.
 
 3. Configure Guacamole to use LDAP authentication, as described below.
 
@@ -603,6 +603,30 @@ logs of your servlet container. If properly configured, you will be able to log
 in as any user within the defined ldap-user-base-dn.
 
 (ldap-auth-schema)=
+
+(guac-ldap-tokens)=
+
+Parameter tokens
+----------------
+
+In addition to [the standard parameter tokens](parameter-tokens) and the
+parameter tokens from other extensions, authenticating with LDAP makes the
+following tokens available for use within connection configurations:
+
+{samp}`$\{LDAP_{ATTRIBUTE}\}`
+: The value of the `ATTRIBUTE` attribute of the current user's LDAP account.
+  This token will only be defined for users that have the relevant attribute
+  set, and only if that attribute was explicitly configured using [the
+  `ldap-user-attributes` property](guac-ldap-config).
+
+`${LDAP_DOMAIN}`
+: The domain of the LDAP user account of the current user. This token will be
+  defined only for users that have authenticated with LDAP, and only for users
+  that authenticated with a down-level login (`DOMAIN\username`) or a UPN-style
+  login (`username@domain`).
+
+Usage of parameter tokens is discussed in more detail in
+[](configuring-guacamole) in [](parameter-tokens).
 
 The LDAP schema
 ---------------

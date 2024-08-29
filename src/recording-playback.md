@@ -89,7 +89,7 @@ release notes for that version. You can find the release notes for current
 versions of Guacamole here: http://guacamole.apache.org/releases/.
 
 The recording storage extension is packaged as a `.tar.gz` file containing only
-the extension itself, `guacamole-history-recording-storage-1.5.5.jar`, which
+the extension itself, `guacamole-history-recording-storage-1.6.0.jar`, which
 must ultimately be placed in `GUACAMOLE_HOME/extensions`.
 
 (installing-recording-storage)=
@@ -104,7 +104,7 @@ extension, you must:
 1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
    exist.
 
-2. Copy `guacamole-history-recording-storage-1.5.5.jar` within
+2. Copy `guacamole-history-recording-storage-1.6.0.jar` within
    `GUACAMOLE_HOME/extensions`.
 
 3. [Configure your connections to store their recordings within the path

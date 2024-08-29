@@ -195,7 +195,7 @@ carefully before deciding not to install an optional dependency.
   :::{list-table}
   :stub-columns: 1
   * - Debian / Ubuntu package
-    - `freerdp2-dev`
+    - `freerdp2-dev` or `freerdp3-dev`
   * - Fedora / CentOS / RHEL package
     - `freerdp-devel`
   :::
@@ -340,8 +340,8 @@ a `.tar.gz` archive which you can extract
 from the command line:
 
 ```console
-$ tar -xzf guacamole-server-1.5.5.tar.gz
-$ cd guacamole-server-1.5.5/
+$ tar -xzf guacamole-server-1.6.0.tar.gz
+$ cd guacamole-server-1.6.0/
 $
 ```
 
@@ -400,12 +400,12 @@ checking whether build environment is sane... yes
 ...
 
 ------------------------------------------------
-guacamole-server version 1.5.5
+guacamole-server version 1.6.0
 ------------------------------------------------
 
    Library status:
 
-     freerdp2 ............ yes
+     freerdp ............. yes (3.x)
      pango ............... yes
      libavcodec .......... yes
      libavformat ......... yes
@@ -435,6 +435,7 @@ guacamole-server version 1.5.5
       guacenc .... yes
       guaclog .... yes
 
+   FreeRDP plugins: /usr/lib/pkgconfig/../../lib/freerdp3
    Init scripts: /etc/init.d
    Systemd units: no
 
@@ -588,8 +589,8 @@ consumption. Source downloaded from the project web site will take the form of
 a `.tar.gz` archive which you can extract from the command line:
 
 ```console
-$ tar -xzf guacamole-client-1.5.5.tar.gz
-$ cd guacamole-client-1.5.5/
+$ tar -xzf guacamole-client-1.6.0.tar.gz
+$ cd guacamole-client-1.6.0/
 $
 ```
 
@@ -656,7 +657,7 @@ $ mvn package
 [INFO] guacamole-playback-example                                         [war]
 ...
 [INFO] ------------------------------------------------------------------------
-[INFO] Reactor Summary for guacamole-client 1.5.5:
+[INFO] Reactor Summary for guacamole-client 1.6.0:
 [INFO] 
 [INFO] guacamole-client ................................... SUCCESS [ 11.879 s]
 [INFO] guacamole-common ................................... SUCCESS [ 15.140 s]
@@ -728,7 +729,7 @@ from the name of the `.war` file, you will likely want to rename this to simply
 `guacamole.war` while copying:
 
 ```console
-# cp guacamole/target/guacamole-1.5.5.war /var/lib/tomcat/webapps/guacamole.war
+# cp guacamole/target/guacamole-1.6.0.war /var/lib/tomcat/webapps/guacamole.war
 #
 ```
 
@@ -749,7 +750,7 @@ Stopping Tomcat... OK
 Starting Tomcat... OK
 # /etc/init.d/guacd start
 Starting guacd: SUCCESS
-guacd[6229]: INFO:  Guacamole proxy daemon (guacd) version 1.5.5 started
+guacd[6229]: INFO:  Guacamole proxy daemon (guacd) version 1.6.0 started
 #
 ```
 
