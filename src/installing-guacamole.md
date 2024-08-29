@@ -195,7 +195,7 @@ carefully before deciding not to install an optional dependency.
   :::{list-table}
   :stub-columns: 1
   * - Debian / Ubuntu package
-    - `freerdp2-dev`
+    - `freerdp2-dev` or `freerdp3-dev`
   * - Fedora / CentOS / RHEL package
     - `freerdp-devel`
   :::
@@ -405,7 +405,7 @@ guacamole-server version 1.5.5
 
    Library status:
 
-     freerdp2 ............ yes
+     freerdp ............. yes (3.x)
      pango ............... yes
      libavcodec .......... yes
      libavformat ......... yes
@@ -435,6 +435,7 @@ guacamole-server version 1.5.5
       guacenc .... yes
       guaclog .... yes
 
+   FreeRDP plugins: /usr/lib/pkgconfig/../../lib/freerdp3
    Init scripts: /etc/init.d
    Systemd units: no
 
