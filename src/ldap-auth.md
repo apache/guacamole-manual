@@ -604,6 +604,30 @@ in as any user within the defined ldap-user-base-dn.
 
 (ldap-auth-schema)=
 
+(guac-ldap-tokens)=
+
+Parameter tokens
+----------------
+
+In addition to [the standard parameter tokens](parameter-tokens) and the
+parameter tokens from other extensions, authenticating with LDAP makes the
+following tokens available for use within connection configurations:
+
+{samp}`$\{LDAP_{ATTRIBUTE}\}`
+: The value of the `ATTRIBUTE` attribute of the current user's LDAP account.
+  This token will only be defined for users that have the relevant attribute
+  set, and only if that attribute was explicitly configured using [the
+  `ldap-user-attributes` property](guac-ldap-config).
+
+`${LDAP_DOMAIN}`
+: The domain of the LDAP user account of the current user. This token will be
+  defined only for users that have authenticated with LDAP, and only for users
+  that authenticated with a down-level login (`DOMAIN\username`) or a UPN-style
+  login (`username@domain`).
+
+Usage of parameter tokens is discussed in more detail in
+[](configuring-guacamole) in [](parameter-tokens).
+
 The LDAP schema
 ---------------
 
