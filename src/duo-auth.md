@@ -50,7 +50,7 @@ notes for current versions of Guacamole here:
 <http://guacamole.apache.org/releases/>.
 
 The Duo authentication extension is packaged as a `.tar.gz` file
-containing only the extension itself, `guacamole-auth-duo-1.5.5.jar`,
+containing only the extension itself, `guacamole-auth-duo-1.6.0.jar`,
 which must ultimately be placed in `GUACAMOLE_HOME/extensions`.
 
 (installing-duo-auth)=
@@ -65,7 +65,7 @@ authentication extension, you must:
 1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
    exist.
 
-2. Copy `guacamole-auth-duo-1.5.5.jar` within `GUACAMOLE_HOME/extensions`.
+2. Copy `guacamole-auth-duo-1.6.0.jar` within `GUACAMOLE_HOME/extensions`.
 
 3. Configure Guacamole to use Duo authentication, as described below.
 
