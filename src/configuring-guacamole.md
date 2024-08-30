@@ -890,6 +890,10 @@ are not using port 3389.
   default port for VMConnect (2179) will be used, depending on the security
   mode selected.
 
+`timeout`
+: The timeout, in seconds, to wait for the RDP server to respond before
+  giving up and aborting the connection. The default is 10 seconds.
+
 (rdp-authentication)=
 
 #### Authentication and security
@@ -1650,6 +1654,10 @@ standard port.
 : The port the SSH server is listening on, usually 22. This parameter is
   optional. If this is not specified, the default of 22 will be used.
 
+`timeout`
+: The timeout, in seconds, to wait for the SSH server to respond before
+  giving up and aborting the connection. The default is 10 seconds.
+
 `host-key`
 : The known hosts entry for the SSH server. This parameter is optional, and,
   if not provided, no verification of host identity will be done. If the
@@ -1872,6 +1880,10 @@ port if you are not using the standard port.
 `port`
 : The port the telnet server is listening on, usually 23. This parameter is
   optional. If this is not specified, the default of 23 will be used.
+
+`timeout`
+: The timeout, in seconds, to wait for the telnet server to respond before
+  giving up and aborting the connecion. The default is 10 seconds.
 
 (telnet-authentication)=
 
@@ -2154,6 +2166,10 @@ transfer features.
 `sftp-port`
 : The port the SSH server providing SFTP is listening on, usually 22. This
   parameter is optional. If omitted, the standard port of 22 will be used.
+
+`sftp-timeout`
+: The timeout, in seconds, to wait for the SFTP server to respond before
+  giving up and aborting the connection. The default is 10 seconds.
 
 `sftp-host-key`
 : The known hosts entry for the SFTP server. This parameter is optional,
