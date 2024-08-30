@@ -669,6 +669,27 @@ those provided by `groupOfNames`:
 
   This attribute can be given multiple times for the same connection.
 
+`guacConfigProxyHostname`
+: The host name or IP address to use for connecting to guacd in order to
+  establish the connection to the server. This attribute is optional and,
+  if not provided, will default to the system-level configuration for
+  connecting to guacd, either the default of `localhost` or the value
+  defined by `guacd-hostname` in `guacamole.properties`. This attribute may
+  only be specified once per connection.
+
+`guacConfigProxyPort`
+: The TCP port to use in order to connect to guacd to establish the
+  connection to the server. This attribute is optional, and, like the
+  `guacConfigProxyHostname` attribute, will default to the system-level
+  configuration. This attribute may be specified at most once per connection.
+
+`guacConfigProxyEncryption`
+: The encryption method that should be used to connect to guacd in order
+  to establish the connection to the server. This attribute is optional
+  and will default to the system-level configuration for connecting to
+  guacd. Valid values for this are `NONE` or `SSL`. This attribute may
+  be specified at most once per connection.
+
 For example, to create a new VNC connection which connects to "localhost" at
 port 5900, while granting access to `user1` and `user2`, you could create an
 `.ldif` file like the following:
