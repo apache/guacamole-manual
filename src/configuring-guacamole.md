@@ -2741,6 +2741,27 @@ following tokens:
 * `${CAS_EMAIL}`
 * `${CAS_MOBILE}`
 
+(jdbc-tokens)=
+
+##### JDBC Extension Tokens
+
+The JDBC extension provides tokens based on various details of the connection
+that is in use. These tokens are based on data that should be present
+for any connection in the system:
+
+* `${JDBC_CONNECTION_ID}` - The identifier of the connection as stored in the
+  database.
+* `${JDBC_CONNECTION_NAME}` - The name of the connection as displayed in the
+  Guacamole interface.
+* `${JDBC_HOSTNAME}` - The hostname or IP address of the connection.
+* `${JDBC_PROTOCOL}` - The protocol of the connection.
+* `${JDBC_STARTDATE}` - The date at which the connection is established. The
+  value of this field should match exactly the date that is subsequently stored
+  in the connection history table.
+* `${JDBC_STARTTIME}` - The time at which the connection is established. As
+  with the date field, this field should match exactly the time that is
+  subsequently stored in the connection history table.
+
 (ldap-tokens)=
 
 ##### LDAP Extension Tokens
