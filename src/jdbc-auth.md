@@ -1787,14 +1787,19 @@ The `guacamole_system_permission` table contains the following columns:
   or user group owning this permission.
 
 `permission`
-: The permission being granted. This column can have one of six possible 
-  values: `ADMINISTER`, which grants the ability to administer the entire 
-  system (essentially a wildcard permission), `CREATE_CONNECTION`, which 
-  grants the ability to create connections, `CREATE_CONNECTION_GROUP`, which
-  grants the ability to create connections groups, `CREATE_SHARING_PROFILE`,
-  which grants the ability to create sharing profiles, `CREATE_USER`, which 
-  grants the ability to create users, or `CREATE_USER_GROUP`, which grants 
-  the ability to create user groups.
+: The permission being granted. This column can have one of seven possible 
+  values:
+  * `ADMINISTER`, which grants the ability to administer the entire 
+  system (essentially a wildcard permission).
+  * `AUDIT`, which allows a user to see login records and connection
+    history across the entire system.
+  * `CREATE_CONNECTION`, which grants the ability to create connections.
+  * `CREATE_CONNECTION_GROUP`, which grants the ability to create connections
+    groups.
+  * `CREATE_SHARING_PROFILE`, which grants the ability to create sharing
+    profiles.
+  * `CREATE_USER`, which grants the ability to create users.
+  * `CREATE_USER_GROUP`, which grants the ability to create user groups.
 
 (jdbc-auth-schema-user-permissions)=
 
