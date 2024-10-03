@@ -99,6 +99,15 @@ the scope of this document, and will vary widely based on the IdP in use.
   property is optional and will default to true (compression will be
   requested).
 
+`saml-case-sensitive-usernames"
+: "true" if the SAML module will treat usernames as case-sensitive, otherwise
+  "false". The default value for this is taken from the
+  [global Guacamole configuration for username case-sensitivity](global-case-sensitive-usernames).
+
+  Please note that changing this option will not impact how the SAML IdP
+  treats usernames, so it is important that you configure this option to
+  match the expected behavior of the IdP with respect to usernames and case.
+
 `saml-group-attribute`
 : The name of the attribute provided by the SAML IdP that contains group
   membership of the user. These groups will be parsed and used to map group

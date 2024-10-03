@@ -57,7 +57,7 @@ their identity has been confirmed:
 : The URI to redirect back to upon successful authentication. Normally this
   will be the full URL of your Guacamole installation.
 
-Additional optional properties are available to control how CAS tokens are
+Additional optional properties are available to control how CAS-related data is
 processed, including whether [CAS ClearPass](cas-clearpass) should be used and
 how user group memberships should be derived:
 
@@ -97,6 +97,16 @@ how user group memberships should be derived:
   represent the group name.
 
   This property has no effect if cas-group-format is not `ldap`.
+
+`cas-case-sensitive-usernames`
+: "true" if the CAS extension should be configured to treat usernames as
+  case-sensitive, otherwise false. By default this will pull the
+  [global configuration value for case-sensitivity for Guacamole usernames](global-case-sensitive-usernames).
+
+  Please note that changing the value of this option will not change
+  how the CAS server itself processes usernames, so it is important
+  to make sure that this value matches how you expect the CAS server
+  to treat usernames with respect to case.
 
 (cas-login)=
 
