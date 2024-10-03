@@ -84,7 +84,7 @@ Because the extension tracks authentication failures based on the client
 IP address, it is important to make sure that Guacamole is receiving the
 correct IP addresses for the clients. This is particularly noteworthy
 when Guacamole is behind a reverse proxy. See the manual page on
-[proxying Guacamole](proxying-guacamole) for more details on configuring
+[proxying Guacamole](reverse-proxy) for more details on configuring
 Guacamole behind a proxy.
 :::
 

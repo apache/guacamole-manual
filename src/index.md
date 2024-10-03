@@ -50,6 +50,7 @@ saml-auth
 radius-auth
 adhoc-connections
 auth-ban
+auth-restrict
 using-guacamole
 recording-playback
 administration
