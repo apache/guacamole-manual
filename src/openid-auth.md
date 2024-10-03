@@ -115,6 +115,16 @@ aspects of the conversation with the identity provider:
 : The claim type within any valid JWT that contains the authenticated user's
   username. By default, the "`email`" claim type is used.
 
+`openid-case-sensitive-usernames`
+: "true" if the OpenID module should treat usernames as case-sensitive,
+  otherwise "false". The default for this value derives from the
+  [global Guacamole configuration for case-sensitive usernames](global-case-sensitive-usernames).
+
+  Please note that changing this value does not change how the OpenID Identity
+  Provider (IdP) processes usernames, so it is important that you make sure
+  that the configured value for this module matches how the OpenID server will
+  treat username case.
+
 `openid-groups-claim-type`
 : The claim type within any valid JWT that contains the list of groups of which
   the authenticated user is a member. By default, the "`groups`" claim type is

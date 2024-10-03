@@ -131,6 +131,32 @@ that are always available for use:
   them, nor will they be used automatically based on local browser language.
   If omitted, all defined languages will be available.
 
+(global-case-sensitive-usernames)=
+`case-sensitive-usernames`
+: If set to "true", Guacamole will treat usernames as case-sensitive, and
+  comparisons between usernames will take differences in case into account -
+  for example, "john_smith" will be considered a different user than
+  "John_Smith". If set to "false", Guacamole will not take case into
+  account when processing and comparing usernames.
+
+  In keeping with the behavior of Guacamole prior to the introduction of this
+  configuration property, this will default to "true", and case differences
+  in usernames will be considered.
+
+  This option sets the global/default setting across the entire Guacamole
+  install, but many of the extensions that provide an authentication mechanism
+  for users have matching options that can override this behavior on a per-
+  extension basis. See the documentation for the various authentication
+  extensions for the exact property for the extension.
+
+  Finally, whether or not various authentication systems actually process
+  usernames in a case-sensitive manner is somewhat out of the control
+  of Guacamole. For example, most LDAP directories do not factor case
+  into usernames, and setting this option to true will not suddenly force
+  your LDAP directory into case-sensitive comparisons. This option controls
+  how Guacamole handles usernames of various cases, not necessarily the
+  underlying authentication mechanism.
+
 `enable-environment-properties`
 : If set to "true", Guacamole will first evaluate its environment to obtain
   the value for any given configuration property, before using a value

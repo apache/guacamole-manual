@@ -236,6 +236,19 @@ These items will need to be configured in the
   specified, the RADIUS extension attempts to automatically determine the IP
   address of the system on which Guacamole is running and uses that value.
 
+`radius-case-sensitive-usernames`
+: "true" if the RADIUS authentication extension should treat usernames as
+  case sensitive, otherwise "false". The default for this value is inherited
+  from
+  [Guacamole's global configuration for case-sensitivity](global-case-sensitive-usernames),
+  and this property can be used to override that setting specifically for the
+  RADIUS extension.
+
+  It is important to note that changing this setting will not impact how
+  the RADIUS server processes usernames with respect to case-(in)sensitivity,
+  so the setting should be set to match your particular RADIUS server
+  configuration.
+
 (completing-radius-install)=
 
 Completing the installation
