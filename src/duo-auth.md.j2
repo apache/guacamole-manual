@@ -1,0 +1,111 @@
+{# vim: set filetype=markdown.jinja : #}
+{%- import 'include/ext-macros.md.j2' as ext with context -%}
+
+Duo two-factor authentication
+=============================
+
+Guacamole's Duo authentication extension allows the third-party Duo service to
+be used as an additional authentication factor for users of your Guacamole
+installation. If installed, users that attempt to authenticate against
+Guacamole will be sent to Duo's service for further verification.
+
+```{include} include/warn-config-changes.md
+```
+
+(duo-architecture)=
+
+How Duo works with Guacamole
+----------------------------
+
+Duo is strictly a service for verifying the identities of users that have
+already been partially verified through another authentication method. Thus,
+for Guacamole to make use of Duo, at least one other authentication mechanism
+will need be configured, such as [a supported database](jdbc-auth) or
+[LDAP](ldap-auth).
+
+When a user attempts to log into Guacamole, other installed authentication
+methods will be queried first:
+
+![](images/duo-auth-factor-1.png)
+
+Only after authentication has succeeded with one of those methods will
+Guacamole reach out to Duo to obtain additional verification of user
+identity:
+
+![](images/duo-auth-factor-2.png)
+
+If both the initial authentication attempt and verification through Duo
+succeed, the user will be allowed in. If either mechanism fails, access
+to Guacamole is denied.
+
+Adding Guacamole to Duo
+-----------------------
+
+Duo does not provide a specific integration option for Guacamole, but
+Guacamole's Duo extension uses Duo's generic authentication API which
+they refer to as the "Web SDK". To use Guacamole with Duo, you will need
+to add it as a new "Web SDK" application from within the "Applications"
+tab of the admin panel of your Duo account:
+
+![](images/duo-add-guacamole.png)
+
+Within the settings of the newly-added application, rename the
+application to something more representative than "Web SDK". This
+application name is what will be presented to your users when they are
+prompted by Duo for additional authentication:
+
+![](images/duo-rename-guacamole.png)
+
+Once you've finished adding Guacamole as a "Web SDK" application, the
+information required to configure Guacamole is listed within the application's
+"Details" section. You will need to copy the client ID, secret, and API
+hostname - they will later be specified within Guacamole's configuration:
+
+![](images/duo-copy-details.png)
+
+(duo-downloading)=
+
+Downloading and Installing the Duo extension
+--------------------------------------------
+
+{{ ext.install('DUO', 'guacamole-auth-duo') }}
+
+(guac-duo-config)=
+
+Configuring Guacamole for Duo
+-----------------------------
+
+{{ ext.config('duo', required=True) }}
+
+### Bypass/Enforce Duo for Specific Hosts
+
+{% call ext.config('duo-bypass-enforce') %}
+By default, when the Duo module is enabled, Duo-based MFA will be enforced for
+all users that attempt to log in to Guacamole, regardless of where they are
+connecting from. Depending on your use case, it may be necessary to narrow this
+behavior and only enforce Duo-based MFA for certain hosts and bypass it for
+others.
+
+```{include} include/ext-client-ips.md
+```
+
+Duo-based MFA can be explicitly bypassed or enforced on a per-host basis by
+providing the relevant, exhaustive list of addresses/networks using either of
+the following {{ ext.properties() }}:
+{% endcall %}
+
+### Additional Configuration Options
+
+{% call ext.config('duo-optional') %}
+The following additional, optional {{ ext.properties() }} may be set as desired
+to tailor the behavior of the Duo support:
+{% endcall %}
+
+(completing-duo-install)=
+
+Completing the Installation
+---------------------------
+
+```{include} include/ext-completing.md
+```
+
