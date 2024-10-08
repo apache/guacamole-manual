@@ -73,7 +73,9 @@ myst_enable_extensions = [
 ]
 
 myst_substitutions = {
-    "version" : version
+    "version" : version,
+    "native_tab_title" : "Native Webapp (Tomcat)",
+    "container_tab_title" : "Container (Docker)"
 }
 
 #
