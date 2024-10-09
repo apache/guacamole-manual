@@ -40,6 +40,7 @@ sys.path.insert(0, os.path.abspath('ext'))
 extensions = [
     'guac',
     'myst_parser',
+    'sphinx_copybutton',
     'sphinx.ext.ifconfig',
     'sphinx.ext.extlinks',
     'sphinx_inline_tabs'

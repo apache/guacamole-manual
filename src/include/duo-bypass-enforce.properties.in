@@ -1,0 +1,28 @@
+#
+# A comma-separated list of all IP addresses and/or subnets (in CIDR notation)
+# that SHOULD NOT be required to verify themselves with Duo when
+# authenticating. All other hosts in this list will required to verify against
+# Duo.
+#
+# **If both bypass and enforce lists are provided, the enforce list takes
+# priority and this property is effectively ignored.**
+#
+# This property is optional. By default, verification against Duo will be
+# required for all users regardless of their IP address (Duo is not bypassed
+# for any addresses).
+#
+duo-bypass-hosts: 10.10.0.0/8, 10.11.0.2
+
+#
+# A comma-separated list of all IP addresses and/or subnets (in CIDR notation)
+# that SHOULD be required to verify themselves with Duo when authenticating.
+# All other hosts will not be required to verify against Duo.
+#
+# **If both bypass and enforce lists are provided, the enforce list takes
+# priority and the bypass list is effectively ignored.**
+#
+# This property is optional. By default, verification against Duo will be
+# required for all users regardless of their IP address (Duo is enforced for
+# all addresses).
+#
+duo-enforce-hosts: 10.12.0.0/8
