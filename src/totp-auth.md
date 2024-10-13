@@ -1,3 +1,9 @@
+---
+myst:
+  substitutions:
+    extMachineName: guacamole-auth-totp
+---
+
 TOTP two-factor authentication
 ==============================
 
@@ -8,12 +14,8 @@ enrollment](totp-prerequisites) are met. The TOTP authentication extension
 allows users to be additionally verified against a user-specific and secret key
 generated during [enrollment of their authentication device](totp-enrollment).
 
-:::{important}
-This chapter involves modifying the contents of `GUACAMOLE_HOME` - the
-Guacamole configuration directory. If you are unsure where `GUACAMOLE_HOME` is
-located on your system, please consult [](configuring-guacamole) before
-proceeding.
-:::
+```{include} include/warn-config-changes.md
+```
 
 (totp-prerequisites)=
 
@@ -120,46 +122,16 @@ disabled for any members of the group.
 
 (totp-downloading)=
 
-Downloading the TOTP extension
-------------------------------
+Downloading and Installing the TOTP extension
+---------------------------------------------
 
-The TOTP authentication extension is available separately from the main
-`guacamole.war`. The link for this and all other officially-supported and
-compatible extensions for a particular version of Guacamole are provided on the
-release notes for that version. You can find the release notes for current
-versions of Guacamole here: <http://guacamole.apache.org/releases/>.
-
-The TOTP authentication extension is packaged as a `.tar.gz` file containing
-only the extension itself, `guacamole-auth-totp-1.6.0.jar`, which must
-ultimately be placed in `GUACAMOLE_HOME/extensions`.
-
-(installing-totp-auth)=
-
-Installing TOTP authentication
-------------------------------
-
-Guacamole extensions are self-contained `.jar` files which are located within
-the `GUACAMOLE_HOME/extensions` directory. To install the TOTP authentication
-extension, you must:
-
-1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
-   exist.
-
-2. Copy `guacamole-auth-totp-1.6.0.jar` within `GUACAMOLE_HOME/extensions`.
-
-3. Configure Guacamole to use TOTP authentication, as described below.
-
-:::{important}
-You will need to restart Guacamole by restarting your servlet container in
-order to complete the installation. Doing this will disconnect all active
-users, so be sure that it is safe to do so prior to attempting installation. If
-you do not configure the TOTP authentication properly, Guacamole will not start
-up again until the configuration is fixed.
-:::
+```{include} include/ext-download.md
+```
 
 (guac-totp-config)=
 
-### Configuring Guacamole for TOTP
+Configuring Guacamole for TOTP
+------------------------------
 
 With the exception of [the storage and permission requirements described
 above](totp-prerequisites), the TOTP extension should work out-of-the-box
@@ -167,122 +139,105 @@ without any additional configuration. Defaults have been chosen for all
 configuration parameters such that the TOTP extension will be compatible with
 Google Authenticator and similar, popular TOTP implementations.
 
-If your intended authentication application or device has different
-requirements, or you wish to override the defaults, additional properties may
-be specified within `guacamole.properties`:
-
-`totp-issuer`
-: The human-readable name of the entity issuing user accounts. If not
-  specified, "Apache Guacamole" will be used by default.
-
-`totp-digits`
-: The number of digits which should be included in each generated TOTP code.
-  Legal values are 6, 7, or 8. By default, 6-digit codes are generated.
-
-`totp-period`
-: The duration that each generated code should remain valid, in seconds. By
-  default, each code remains valid for 30 seconds.
-
-`totp-mode`
-: The hash algorithm that should be used to generate TOTP codes. Legal values
-  are "sha1", "sha256", and "sha512". By default, "sha1" is used.
-
-`totp-bypass-hosts`
-: By default, when the TOTP module is enabled, TOTP-based MFA will be enforced
-  for all users, from all clients, that attempt to log in to Guacamole.
-  This property allows for the TOTP requirement to be bypassed for users logging
-  in from a specified set of hosts. This option can contain a comma-separated
-  list of IP addresses and/or subnets, in CIDR notation, for which TOTP
-  MFA should not be required. This may be useful in scenarios where a single
-  Guacamole instance is used by both users inside and outside a network
-  boundary such that the users inside the boundary (VPN or Firewall) have
-  already achieved a certain level of authentication and do not need the
-  second layer of security, whereas users outside that boundary still
-  require the additional authentication layer.
-
-  This property is optional, and there is no default value. If no value
-  is specified, the TOTP module will require that all users from all sources
-  complete the secondary authentication.
-
-`totp-enforce-hosts`
-: Similar to the `totp-bypass-hosts` option above, this option specifies
-  hosts for which the TOTP MFA must absolutely be enforced. This option
-  helps provide flexibility in environments where you know that untrusted
-  connections will be coming in from a certain IP address or subnet so
-  that you can enforce the secondary authentication for those sources.
-  This value is optional with no default value.
-
-:::{important}
-  There are two items that are important to note about the above options
-  for either bypassing or enforcing TOTP logins based on IP address. First,
-  it is important that Tomcat and any upstream proxies (Nginx, Apache, etc.)
-  be properly configured to present the client IP address that will be used
-  to determine "trusted" vs. "untrusted" clients. This means configuring
-  Tomcat and the upstream proxies in such a way as to correctly forward
-  the client IP address information through to Guacamole, as documented
-  in the chapter on [](reverse-proxy).
-
-  Second, it's important to understand the various behaviors of these
-  options as they interact with each other. There are four possible
-  scenarios:
-
-  1. Neither option is specified. In this case, the TOTP module
-     enforces secondary authentication for all clients.
-     This is, obviously, the most secure scenario.
-
-  2. You specify a list of IP addresses or subnets in the
-     `totp-bypass-hosts` property and do not specify any in the
-     `totp-enforce-hosts` property. In this scenario, TOTP will
-     only bypass enforcement of the second authentication
-     mechanism for users logging in from hosts that fall
-     in the provided list, and will enforce second factor
-     authentication for users from all other clients.
-
-  3. You do not specify any hosts or subnets in the
-     `totp-bypass-hosts` property, but you specify one or more
-     hosts or subnets in the `totp-enforce-hosts` property.
-     In this scenario, TOTP will ONLY enforce second factor
-     authentication for the hosts that fall into the list of
-     enforced hosts, and users from all other clients will
-     be able to log on without the second authentication
-     factor.
-
-  4. You specify values for both the bypass and the enforce
-     lists, in which case only hosts listed in the enforce
-     list will actually have second factor authentication
-     enforced, and the bypass list will essentially be
-     meangingless, as all other hosts will be bypassed.
-
-     The one item to note in this scenario is what happens
-     if there is an overlap between the bypass list and the
-     enforce list, where a host is either specified in both
-     lists or is specified in one list but falls into a CIDR
-     range specified in the other list. In these cases,
-     the enforce list will always take precendence over
-     the bypass list, and TOTP MFA will be enforced.
+:::{warning}
+Some TOTP applications *assume these defaults* and *silently ignore any other
+values*. **Google Authenticator is such an application.** Be sure your
+authenticator application supports the values you intend to use before
+overriding the defaults.
 :::
 
+```{eval-rst}
+.. tab:: Native Webapp (Tomcat)
+
+   If your intended authentication application or device has different
+   requirements, or you wish to override the defaults, additional properties
+   may be specified within ``guacamole.properties``:
+
+   .. include:: include/totp.properties.md
+      :parser: myst_parser.sphinx_
+
+.. tab:: Container (Docker)
+
+   If deploying Guacamole using Docker Compose, you will need to add at least
+   one TOTP environment variable to the ``environment`` section of your
+   ``guacamole/guacamole`` container, such as the ``TOTP_ENABLED`` environment
+   variable:
+
+   .. code-block:: yaml
+
+      TOTP_ENABLED: "true"
+
+   If instead deploying Guacamole by running ``docker run`` manually, this same
+   environment variable will need to be provided using the ``-e`` option. For
+   example:
+
+   .. code-block:: console
+
+      $ docker run --name some-guacamole \
+          -e TOTP_ENABLED="true" \
+          -d -p 8080:8080 guacamole/guacamole
+
+   If your intended authentication application or device has different
+   requirements, or you wish to override the defaults, additional environment
+   variables may be set:
+
+   .. include:: include/totp.environment.md
+      :parser: myst_parser.sphinx_
+
+   You can also explicitly enable/disable use of TOTP support by setting the
+   ``TOTP_ENABLED`` environment variable to ``true`` or ``false``:
+
+   ``TOTP_ENABLED``
+      Explicitly enables or disables use of the TOTP extension. By default, the
+      TOTP extension will be installed only if at least one TOTP-related
+      environment variable is set.
+
+      If set to ``true``, the TOTP extension will be installed regardless of any
+      other environment variables. If set to ``false``, the TOTP extension will
+      NOT be installed, even if other TOTP-related environment variables have
+      been set.
+```
+
+### Bypass/Enforce TOTP for Specific Hosts
+
+By default, when the TOTP module is enabled, TOTP-based MFA will be enforced for
+all users that attempt to log in to Guacamole, regardless of where they are
+connecting from. Depending on your use case, it may be necessary to narrow this
+behavior and only enforce TOTP-based MFA for certain hosts and bypass it for
+others.
+
+:::{important}
+If bypassing or enforcing TOTP only for specific hosts, **Tomcat and any
+upstream proxies (Nginx, Apache, etc.) MUST be properly configured to forward
+the client IP address**, as documented in [](reverse-proxy).
+:::
+
+```{eval-rst}
+.. tab:: Native Webapp (Tomcat)
+
+   TOTP-based MFA can be explicitly bypassed or enforced on a per-host basis by
+   providing the relevant, exhaustive list of addresses/networks using either
+   of the following properties:
+
+   .. include:: include/totp-bypass-enforce.properties.md
+      :parser: myst_parser.sphinx_
+
+.. tab:: Container (Docker)
+
+   TOTP-based MFA can be explicitly bypassed or enforced on a per-host basis by
+   providing the relevant, exhaustive list of addresses/networks using either
+   of the following environment variables:
+
+   .. include:: include/totp-bypass-enforce.environment.md
+      :parser: myst_parser.sphinx_
+
+```
 
 (completing-totp-install)=
 
-### Completing the installation
+Completing the installation
+---------------------------
 
-Guacamole will only reread `guacamole.properties` and load newly-installed
-extensions during startup, so your servlet container will need to be restarted
-before TOTP authentication will take effect.  Restart your servlet container
-and give the new authentication a try.
+```{include} include/ext-completing.md
+```
 
-:::{important}
-You only need to restart your servlet container. *You do not need to restart
-guacd*.
-
-guacd is completely independent of the web application and does not deal with
-`guacamole.properties` or the authentication system in any way. Since you are
-already restarting the servlet container, restarting guacd as well technically
-won't hurt anything, but doing so is completely pointless.
-:::
-
-If Guacamole does not come back online after restarting your servlet container,
-check the logs. Problems in the configuration of the TOTP extension may prevent
-Guacamole from starting up, and any such errors will be recorded in the logs of
-your servlet container.
