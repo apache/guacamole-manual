@@ -1,83 +1,81 @@
-Securing Guacamole against brute force attacks
+---
+myst:
+  substitutions:
+    extMachineName: guacamole-auth-ban
+---
+
+Securing Guacamole against brute-force attacks
 ==============================================
 
 Version 1.6.0 of Guacamole introduces an extension that allows you to detect
-and block brute-force login attacks. The extension, `guacamole-auth-ban`, can
-be installed alongside any of Guacamole's other extensions that provide user
-authentication, and will track the IP address of failed authentication attempts
-and, once the threshold of failed logins is reached, will block further logins
-from that IP address for a given amount of time.
+and block brute-force login attacks. When installed, the extension will track
+the IP addresses of failed authentication attempts. Once the threshold of
+failed logins is reached for a particular IP address, further logins from that
+address will be temporarily banned:
 
-:::{important}
-This chapter involves modifying the contents of `GUACAMOLE_HOME` - the
-Guacamole configuration directory. If you are unsure where `GUACAMOLE_HOME` is
-located on your system, please consult [](configuring-guacamole) before
-proceeding.
-:::
+![](images/too-many-failed-logins.png)
 
-Downloading the auth-ban extension
-----------------------------------
 
-The guacamole-auth-ban extension is available separately from the main
-`guacamole.war`. The link for this and all other officially-supported and
-compatible extensions for a particular version of Guacamole are provided on the
-release notes for that version. You can find the release notes for current
-versions of Guacamole here: http://guacamole.apache.org/releases/.
+```{include} include/warn-config-changes.md
+```
 
-The extension is packaged as a `.tar.gz` file containing only the extension
-itself, `guacamole-auth-ban-1.6.0.jar`, which must ultimately be placed in
-`GUACAMOLE_HOME/extensions`.
+Downloading and installing brute-force authentication detection
+---------------------------------------------------------------
 
-(installing-auth-ban)=
-
-Installing the auth-ban extension
----------------------------------
-
-Guacamole extensions are self-contained `.jar` files which are located within
-the `GUACAMOLE_HOME/extensions` directory. To install the guacamole-auth-ban
-extension, you must:
-
-1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
-   exist.
-
-2. Copy `guacamole-auth-ban-1.6.0.jar` within `GUACAMOLE_HOME/extensions`.
-
-3. [Configure the auth-ban extension thresholds, as described below](auth-ban-config),
-   if want parameters other than the defaults (also noted below).
-
-:::{important}
-You will need to restart Guacamole by restarting your servlet container in
-order to complete the installation. Doing this will disconnect all active
-users, so be sure that it is safe to do so prior to attempting installation.
-:::
+```{include} include/ext-download.md
+```
 
 (auth-ban-config)=
 
-### Configuring Guacamole for authentication failure protection
+Configuring Guacamole for brute-force authentication detection
+--------------------------------------------------------------
 
-This extension has no required properties, and, so long as you are satisfied
-with the default threshold noted below, requires no configuration beyond the
-installation of the extension and reload of the web application.
+This extension has no required properties. So long as you are satisfied with
+the default threshold and limits noted below, this extension requires no
+configuration beyond installation.
 
-If you wish to adjust the thresholds for how Guacamole handles protection
-against brute force authentication attacks, the following properties are
-available to you to configure the auth-ban extension:
+:::{list-table} Default brute-force authentication detection threshold and limits
+:stub-columns: 1
+* - Maximum invalid attempts (authentication failures)
+  - 5
+* - Address ban duration
+  - 300 (5 minutes)
+* - Maximum addresses tracked
+  - 10485670
+:::
 
-`ban-max-invalid-attempts`
-: The number of authentication failures ater which the extension will block
-  further logins from the client IP address. This property is optional and
-  the default is 5.
 
-`ban-address-duration`
-: The length of time for which a client IP address will be denied logins
-  after the maximum authentication failures, in seconds. This property is
-  optional and has a default value of 300 seconds (five minutes).
+```{eval-rst}
+.. tab:: Native Webapp (Tomcat)
 
-`ban-max-addresses`
-: The maximum number of client IP addresses that the extension will track
-  in-memory before the oldest client IP is discarded in a Least-Recently
-  Used (LRU) fashion. This property is optional and has a default value
-  of 10485670 (1 million IP addresses).
+   If you wish to override the defaults, additional properties may be specified
+   within ``guacamole.properties``:
+
+   .. include:: include/ban.properties.md
+      :parser: myst_parser.sphinx_
+
+.. tab:: Container (Docker)
+
+   **Brute-force authentication detection is enabled by default when using the
+   Docker image.** If you wish to override the defaults, additional environment
+   variables may be set:
+
+   .. include:: include/ban.environment.md
+      :parser: myst_parser.sphinx_
+
+   You can also explicitly enable/disable use of brute-force authentication
+   detection by setting the ``BAN_ENABLED`` environment variable to ``true`` or
+   ``false``:
+
+   ``BAN_ENABLED``
+      Explicitly enables or disables use of brute-force authentication
+      detection. By default, brute-force authentication detection is enabled.
+
+      If set to ``true``, the brute-force authentication detection extension
+      will be installed regardless of any other environment variables. If set
+      to ``false``, the brute-force authentication detection extension will NOT
+      be installed, regardless of any other environment variables.
+```
 
 :::{important}
 Because the extension tracks authentication failures based on the client
@@ -90,19 +88,9 @@ Guacamole behind a proxy.
 
 (completing-auth-ban-install)=
 
-### Completing the installation
+Completing the installation
+---------------------------
 
-Guacamole will only reread `guacamole.properties` and load newly-installed
-extensions during startup, so your servlet container will need to be restarted
-before installation of the auth-ban extension will take effect.
+```{include} include/ext-completing.md
+```
 
-(using-auth-ban)=
-
-### Using the extension
-
-Once the extension is installed and the web application restarted, Guacamole
-will immediately begin tracking login failures and blocking login attempts
-from systems that reach the maximum failure threshold. Once an IP address is
-blocked you'll see a message on the login page:
-
-![](images/too-many-failed-logins.png)
