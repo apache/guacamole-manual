@@ -187,9 +187,9 @@ those hostnames is consistent.
 :::
 
 As an example, suppose that you have a group of users that you'd like to
-restrict logins such that they can only log in from a specific internal subnet
-- let's say 192.168.123.0/24. You would simply put that subnet in the allowed
-hosts box, and Guacamole would allow access for users to log in from IP
+restrict logins such that they can only log in from a specific internal
+subnet - let's say 192.168.123.0/24. You would simply put that subnet in the
+allowed hosts box, and Guacamole would allow access for users to log in from IP
 addresses within that subnet, but block access from all other subnets:
 
 ![](images/auth-restrict-login-local-subnet.png)
