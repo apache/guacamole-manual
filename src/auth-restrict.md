@@ -1,3 +1,9 @@
+---
+myst:
+  substitutions:
+    extMachineName: guacamole-auth-restrict
+---
+
 Enforcing Advanced Login and Connection Restrictions
 ====================================================
 
@@ -19,73 +25,62 @@ connections, and connection groups. Currently the only extension provided
 by the Guacamole project that is capable of doing this is the
 [JDBC authentication extension](jdbc-auth).
 
-:::{important}
-This chapter involves modifying the contents of `GUACAMOLE_HOME` - the
-Guacamole configuration directory. If you are unsure where `GUACAMOLE_HOME` is
-located on your system, please consult [](configuring-guacamole) before
-proceeding.
-:::
-
-Downloading the auth-restrict extension
----------------------------------------
-
-The guacamole-auth-restrict extension is available separately from the main
-`guacamole.war`. The link for this and all other officially-supported and
-compatible extensions for a particular version of Guacamole are provided on the
-release notes for that version. You can find the release notes for current
-versions of Guacamole here: http://guacamole.apache.org/releases/.
-
-The extension is packaged as a `.tar.gz` file containing only the extension
-itself, `guacamole-auth-restrict-1.6.0.jar`, which must ultimately be placed
-in `GUACAMOLE_HOME/extensions`.
+```{include} include/warn-config-changes.md
+```
 
 (installing-auth-restrict)=
 
-Installing the auth-restrict extension
---------------------------------------
+Downloading and installing auth-restrict extension
+--------------------------------------------------
 
-Guacamole extensions are self-contained `.jar` files which are located within
-the `GUACAMOLE_HOME/extensions` directory. To install the
-guacamole-auth-restrict extension, you must:
-
-1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
-   exist.
-
-2. Copy `guacamole-auth-restrict-1.6.0.jar` within `GUACAMOLE_HOME/extensions`.
-
-3. [As noted below](using-auth-restrict), apply additional restrictions to 
-   users, user groups, connections, and/or connection groups.
-
-:::{important}
-You will need to restart Guacamole by restarting your servlet container in
-order to complete the installation. Doing this will disconnect all active
-users, so be sure that it is safe to do so prior to attempting installation.
-:::
+```{include} include/ext-download.md
+```
 
 (auth-restrict-config)=
 
 ### Configuring Guacamole for advanced restrictions
 
-There are no guacamole.properties parameters that need to be configured
-in order to begin using the auth-restrict extension.
+```{eval-rst}
+.. tab:: Native Webapp (Tomcat)
 
-:::{important}
-However, because the extension is capable of restricting access to logins and
-connections based on the client's IP address, it is important to make sure
-that Guacamole is receiving the correct IP address(es) for clients. This is
-particularly noteworthy when Guacamole is behind a reverse proxy, as
-documented in the [proxying Guacamole](reverse-proxy) manual page, but
-administrators should validate any potential network component that may filter
-or modify the IP address that Guacamole receives for client connections.
-:::
+   There are no configuration options that need to be set within
+   ``guacamole.properties`` in order to use this extension. Simply placing the
+   extension within ``GUACAMOLE_HOME/extensions`` is sufficient to make use of
+   its functionality.
+
+.. tab:: Container (Docker)
+
+   If deploying Guacamole using Docker Compose, you will need to add the
+   ``RESTRICT_ENABLED`` environment variable to the ``environment`` section of
+   your ``guacamole/guacamole`` container, setting its value to ``"true"``:
+
+   .. code-block:: yaml
+
+      RESTRICT_ENABLED: "true"
+
+   If instead deploying Guacamole by running ``docker run`` manually, this same
+   environment variable will need to be provided using the ``-e`` option. For
+   example:
+
+   .. code-block:: console
+
+      $ docker run --name some-guacamole \
+          -e RESTRICT_ENABLED="true" \
+          -d -p 8080:8080 guacamole/guacamole
+
+   There are no other configuration options required to make use of this
+   extension.
+```
+
+```{include} include/ext-client-ips.md
+```
 
 (completing-auth-restrict-install)=
 
 ### Completing the installation
 
-Guacamole will only reread `guacamole.properties` and load newly-installed
-extensions during startup, so your servlet container will need to be restarted
-before installation of the auth-restrict extension will take effect.
+```{include} include/ext-completing.md
+```
 
 (using-auth-restrict)=
 
