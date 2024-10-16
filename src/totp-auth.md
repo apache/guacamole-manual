@@ -206,11 +206,8 @@ connecting from. Depending on your use case, it may be necessary to narrow this
 behavior and only enforce TOTP-based MFA for certain hosts and bypass it for
 others.
 
-:::{important}
-If bypassing or enforcing TOTP only for specific hosts, **Tomcat and any
-upstream proxies (Nginx, Apache, etc.) MUST be properly configured to forward
-the client IP address**, as documented in [](reverse-proxy).
-:::
+```{include} include/ext-client-ips.md
+```
 
 ```{eval-rst}
 .. tab:: Native Webapp (Tomcat)

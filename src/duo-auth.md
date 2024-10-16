@@ -82,10 +82,11 @@ Configuring Guacamole for Duo
 ```{eval-rst}
 .. tab:: Native Webapp (Tomcat)
 
+   If deploying Guacamole natively, you will need to add a section to your
+   ``guacamole.properties`` that looks like the following:
+
    .. literalinclude:: include/duo.example.properties
       :language: ini
-      :caption: An example ``guacamole.properties`` file containing
-        placeholders for all required properties for Duo.
 
    The properties that must be set in all cases for any Guacamole installation
    using Duo are:
@@ -124,11 +125,8 @@ connecting from. Depending on your use case, it may be necessary to narrow this
 behavior and only enforce Duo-based MFA for certain hosts and bypass it for
 others.
 
-:::{important}
-If bypassing or enforcing Duo only for specific hosts, **Tomcat and any
-upstream proxies (Nginx, Apache, etc.) MUST be properly configured to forward
-the client IP address**, as documented in [](reverse-proxy).
-:::
+```{include} include/ext-client-ips.md
+```
 
 ```{eval-rst}
 .. tab:: Native Webapp (Tomcat)
