@@ -1,3 +1,6 @@
+{# vim: set filetype=markdown.jinja : #}
+{%- import 'include/ext-macros.md.j2' as ext with context -%}
+
 Encrypted JSON authentication
 =============================
 
@@ -8,71 +11,35 @@ contains [all information describing the user being authenticated](#json-format)
 as well as any connections they have access to, and is accepted only if the
 configured secret key was used to sign and encrypt the data.
 
+```{include} include/warn-config-changes.md
+```
+
 (json-downloading)=
 
-Downloading the JSON authentication extension
----------------------------------------------
+Downloading and installing the JSON authentication extension
+------------------------------------------------------------
 
-The JSON authentication extension is available separately from the main
-`guacamole.war`. The link for this and all other officially-supported and
-compatible extensions for a particular version of Guacamole are provided on the
-release notes for that version. You can find the release notes for current
-versions of Guacamole here: <http://guacamole.apache.org/releases/>.
-
-The JSON authentication extension is packaged as a `.tar.gz` file containing
-only the extension itself, `guacamole-auth-json-1.6.0.jar`, which must
-ultimately be placed in `GUACAMOLE_HOME/extensions`.
-
-(installing-json-auth)=
-
-Installing JSON authentication
-------------------------------
-
-Guacamole extensions are self-contained `.jar` files which are located within
-the `GUACAMOLE_HOME/extensions` directory. *If you are unsure where
-`GUACAMOLE_HOME` is located on your system, please consult
-[](configuring-guacamole) before proceeding.*
-
-To install the JSON authentication extension, you must:
-
-1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
-   exist.
-
-2. Copy `guacamole-auth-json-1.6.0.jar` within `GUACAMOLE_HOME/extensions`.
-
-3. Configure Guacamole to use JSON authentication, as described below.
+{{ ext.install('JSON', 'guacamole-auth-json') }}
 
 (json-config)=
 
-### Configuring Guacamole to accept encrypted JSON
+Configuring Guacamole to accept encrypted JSON
+----------------------------------------------
 
+{% call ext.config('json', required=True) %}
 To verify and decrypt the received signed and encrypted JSON, a secret key must
 be generated which will be shared by both the Guacamole server and systems that
 will generate the JSON data. As guacamole-auth-json uses 128-bit AES, this key
 must be 128 bits.
-
-An easy way of generating such a key is to echo a passphrase through the
-"md5sum" utility. This is the technique OpenSSL itself uses to generate 128-bit
-keys from passphrases. For example:
-
-    $ echo -n "ThisIsATest" | md5sum
-    4c0b569e4c96df157eee1b65dd0e4d41  -
-
-The generated key must then be saved within [`guacamole.properties`](initial-setup)
-as the full 32-digit hex value using the `json-secret-key` property:
-
-    json-secret-key: 4c0b569e4c96df157eee1b65dd0e4d41
+{% endcall %}
 
 (completing-json-install)=
 
-### Completing the installation
+Completing the installation
+---------------------------
 
-Guacamole will only reread `guacamole.properties` and load newly-installed
-extensions during startup, so your servlet container will need to be restarted
-before JSON authentication can be used.  *Doing this will disconnect all active
-users, so be sure that it is safe to do so prior to attempting installation.*
-When ready, restart your servlet container and give the new authentication a
-try.
+```{include} include/ext-completing.md
+```
 
 (json-format)=
 
@@ -217,14 +184,13 @@ Generating encrypted JSON
 -------------------------
 
 To authenticate a user with the above JSON format, the JSON must be both signed
-and encrypted using the same 128-bit secret key specified with the
-`json-secret-key` within `guacamole.properties`:
+and encrypted using the same 128-bit secret key specified within Guacamole's
+configuration:
 
 1. Generate JSON in the format described above
 2. Sign the JSON using the secret key (the same 128-bit key stored within
-   `guacamole.properties` with the `json-secret-key` property) with
-   **HMAC/SHA-256**. Prepend the binary result of the signing process to the
-   plaintext JSON that was signed.
+   Guacamole's configuration) with **HMAC/SHA-256**. Prepend the binary result
+   of the signing process to the plaintext JSON that was signed.
 3. Encrypt the result of (2) above using **AES in CBC mode**, with the initial
    vector (IV) set to all zero bytes.
 4. Encode the encrypted result using base64.
