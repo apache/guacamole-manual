@@ -1,3 +1,9 @@
+---
+myst:
+  substitutions:
+    extMachineName: guacamole-auth-header
+---
+
 HTTP header authentication
 ==========================
 
@@ -7,67 +13,97 @@ authenticated user. This authentication method must be layered on top of some
 other authentication extension, such as those available from the main project
 website, in order to provide access to actual connections.
 
-:::{important}
-All external requests must be properly sanitized if this extension is used. The
-chosen HTTP header must be stripped from untrusted requests, such that the
-authentication service is the only possible source of that header. *If such
-sanitization is not performed, it will be trivial for malicious users to add
-this header manually, and thus gain unrestricted access.*
+:::{danger}
+**All external requests must be properly sanitized if this extension is used.**
+The chosen HTTP header must be stripped from untrusted requests, such that the
+authentication service is the _only_ possible source of that header.
+
+**If such sanitization is not performed, it will be trivial for malicious users
+to add this header manually, and thus gain unrestricted access.**
 :::
+
+
+```{include} include/warn-config-changes.md
+```
 
 (header-downloading)=
 
-Downloading the HTTP header authentication extension
-----------------------------------------------------
+Downloading and installing the HTTP header authentication extension
+-------------------------------------------------------------------
 
-The HTTP header authentication extension is available separately from the main
-`guacamole.war`. The link for this and all other officially-supported and
-compatible extensions for a particular version of Guacamole are provided on the
-release notes for that version. You can find the release notes for current
-versions of Guacamole here: <http://guacamole.apache.org/releases/>.
-
-The HTTP header authentication extension is packaged as a `.tar.gz` file
-containing only the extension itself, `guacamole-auth-header-1.6.0.jar`, which
-must ultimately be placed in `GUACAMOLE_HOME/extensions`.
-
-(installing-header-auth)=
-
-Installing HTTP header authentication
--------------------------------------
-
-Guacamole extensions are self-contained `.jar` files which are located within
-the `GUACAMOLE_HOME/extensions` directory. *If you are unsure where
-`GUACAMOLE_HOME` is located on your system, please consult
-[](configuring-guacamole) before proceeding.*
-
-To install the HTTP header authentication extension, you must:
-
-1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
-   exist.
-
-2. Copy `guacamole-auth-header-1.6.0.jar` within `GUACAMOLE_HOME/extensions`.
-
-3. Configure Guacamole to use HTTP header authentication, as described below.
+```{include} include/ext-download.md
+```
 
 (guac-header-config)=
 
 ### Configuring Guacamole for HTTP header authentication
 
-The HTTP header authentication extension provides only one configuration
-property, and it is optional. By default, the extension will pull the username
-of the authenticated user from the `REMOTE_USER` header, if present. If your
-authentication system uses a different HTTP header, you will need to override
-this by specifying the `http-auth-header` property within
-[`guacamole.properties`](initial-setup).
+This extension has no required properties. So long as you are satisfied with
+the default values noted below, this extension requires no configuration beyond
+installation.
+
+:::{list-table} Default HTTP header authentication configuration
+:stub-columns: 1
+* - HTTP header name
+  - `REMOTE_USER`
+:::
+
+```{eval-rst}
+.. tab:: Native Webapp (Tomcat)
+
+   If you wish to override the defaults, additional properties may be specified
+   within ``guacamole.properties``:
+
+   .. include:: include/http-auth.properties.md
+      :parser: myst_parser.sphinx_
+
+.. tab:: Container (Docker)
+
+   If deploying Guacamole using Docker Compose, you will need to add at least
+   one HTTP header authentication-related environment variable to the
+   ``environment`` section of your ``guacamole/guacamole`` container, such as
+   the ``HTTP_AUTH_ENABLED`` environment variable:
+
+   .. code-block:: yaml
+
+      HTTP_AUTH_ENABLED: "true"
+
+   If instead deploying Guacamole by running ``docker run`` manually, this same
+   environment variable will need to be provided using the ``-e`` option. For
+   example:
+
+   .. code-block:: console
+
+      $ docker run --name some-guacamole \
+          -e HTTP_AUTH_ENABLED="true" \
+          -d -p 8080:8080 guacamole/guacamole
+
+   If you wish to override the defaults, additional environment variables may
+   be set:
+
+   .. include:: include/http-auth.environment.md
+      :parser: myst_parser.sphinx_
+
+   You can also explicitly enable/disable use of HTTP header authentication by
+   setting the ``HTTP_AUTH_ENABLED`` environment variable to ``true`` or
+   ``false``:
+
+   ``HTTP_AUTH_ENABLED``
+      Explicitly enables or disables use of the HTTP header authentication
+      extension. By default, the header authentication extension will be
+      installed only if at least one HTTP header-related environment variable
+      is set.
+
+      If set to ``true``, the HTTP header authentication extension will be
+      installed regardless of any other environment variables. If set to
+      ``false``, the extension will NOT be installed, even if other HTTP
+      header-related environment variables have been set.
+```
 
 (completing-header-install)=
 
 ### Completing the installation
 
-Guacamole will only reread `guacamole.properties` and load newly-installed
-extensions during startup, so your servlet container will need to be restarted
-before HTTP header authentication can be used.  *Doing this will disconnect all
-active users, so be sure that it is safe to do so prior to attempting
-installation.* When ready, restart your servlet container and give the new
-authentication a try.
+```{include} include/ext-completing.md
+```
 
