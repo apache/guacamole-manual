@@ -1,0 +1,16 @@
+#
+# The 128-bit value to use to decrypt and verify the signatures of received
+# JSON data. This value must be expressed as a 32-digit hexadecimal value.
+#
+# Any 32-digit hexadecimal value will suffice as long as it is random enough to
+# be impractical for a malicious user to guess. An easy way to generate such a
+# key is to echo a secure passphrase through the `md5sum` utility. This is the
+# technique OpenSSL itself uses to generate 128-bit keys from passphrases. For
+# example:
+#
+# ```console
+# $ echo -n "ThisIsATest" | md5sum
+# 4c0b569e4c96df157eee1b65dd0e4d41
+# ```
+#
+json-secret-key: 4c0b569e4c96df157eee1b65dd0e4d41

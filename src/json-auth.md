@@ -1,3 +1,9 @@
+---
+myst:
+  substitutions:
+    extMachineName: guacamole-auth-json
+---
+
 Encrypted JSON authentication
 =============================
 
@@ -8,71 +14,107 @@ contains [all information describing the user being authenticated](#json-format)
 as well as any connections they have access to, and is accepted only if the
 configured secret key was used to sign and encrypt the data.
 
+```{include} include/warn-config-changes.md
+```
+
 (json-downloading)=
 
-Downloading the JSON authentication extension
----------------------------------------------
+Downloading and installing the JSON authentication extension
+------------------------------------------------------------
 
-The JSON authentication extension is available separately from the main
-`guacamole.war`. The link for this and all other officially-supported and
-compatible extensions for a particular version of Guacamole are provided on the
-release notes for that version. You can find the release notes for current
-versions of Guacamole here: <http://guacamole.apache.org/releases/>.
-
-The JSON authentication extension is packaged as a `.tar.gz` file containing
-only the extension itself, `guacamole-auth-json-1.6.0.jar`, which must
-ultimately be placed in `GUACAMOLE_HOME/extensions`.
-
-(installing-json-auth)=
-
-Installing JSON authentication
-------------------------------
-
-Guacamole extensions are self-contained `.jar` files which are located within
-the `GUACAMOLE_HOME/extensions` directory. *If you are unsure where
-`GUACAMOLE_HOME` is located on your system, please consult
-[](configuring-guacamole) before proceeding.*
-
-To install the JSON authentication extension, you must:
-
-1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
-   exist.
-
-2. Copy `guacamole-auth-json-1.6.0.jar` within `GUACAMOLE_HOME/extensions`.
-
-3. Configure Guacamole to use JSON authentication, as described below.
+```{include} include/ext-download.md
+```
 
 (json-config)=
 
-### Configuring Guacamole to accept encrypted JSON
+Configuring Guacamole to accept encrypted JSON
+----------------------------------------------
 
 To verify and decrypt the received signed and encrypted JSON, a secret key must
 be generated which will be shared by both the Guacamole server and systems that
 will generate the JSON data. As guacamole-auth-json uses 128-bit AES, this key
 must be 128 bits.
 
-An easy way of generating such a key is to echo a passphrase through the
-"md5sum" utility. This is the technique OpenSSL itself uses to generate 128-bit
-keys from passphrases. For example:
+```{eval-rst}
+.. tab:: Native Webapp (Tomcat)
 
-    $ echo -n "ThisIsATest" | md5sum
-    4c0b569e4c96df157eee1b65dd0e4d41  -
+   If deploying Guacamole natively, you will need to add a section to your
+   ``guacamole.properties`` that looks like the following:
 
-The generated key must then be saved within [`guacamole.properties`](initial-setup)
-as the full 32-digit hex value using the `json-secret-key` property:
+   .. literalinclude:: include/json.example.properties
+      :language: ini
 
-    json-secret-key: 4c0b569e4c96df157eee1b65dd0e4d41
+   There is only a single property that must be set in all cases for any
+   Guacamole installation using the encrypted JSON authentication extension:
+
+   .. include:: include/json.properties.md
+      :parser: myst_parser.sphinx_
+
+.. tab:: Container (Docker)
+
+   If deploying Guacamole using Docker Compose, you will need to add a set of
+   environment varibles to the ``environment`` section of your
+   ``guacamole/guacamole`` container that looks like the following 
+
+   .. literalinclude:: include/json.example.yml
+      :language: yaml
+
+   If instead deploying Guacamole by running ``docker run`` manually, these
+   same environment variables will need to be provided using the ``-e`` option.
+   For example:
+
+   .. literalinclude:: include/json.example.txt
+      :language: console
+
+   There is only a single environment variable that must be set in all cases
+   for any Guacamole installation using the encrypted JSON authentication
+   extension:
+
+   .. include:: include/json.environment.md
+      :parser: myst_parser.sphinx_
+```
+
+### Additional Configuration Options
+
+```{eval-rst}
+.. tab:: Native Webapp (Tomcat)
+
+   The following additional, optional properties may be set as desired to
+   tailor the behavior of the encrypted JSON authentication:
+
+   .. include:: include/json-optional.properties.md
+      :parser: myst_parser.sphinx_
+
+.. tab:: Container (Docker)
+
+   The following additional, optional environment variables may be set as
+   desired to tailor the encrypted JSON authentication:
+
+   .. include:: include/json-optional.environment.md
+      :parser: myst_parser.sphinx_
+
+   You can also explicitly enable/disable use of encrypted JSON authentication
+   by setting the ``JSON_ENABLED`` environment variable to ``true`` or
+   ``false``:
+
+   ``JSON_ENABLED``
+      Explicitly enables or disables use of the encrypted JSON authentication
+      extension. By default, the encrypted JSON extension will be installed
+      only if at least one related environment variable is set.
+
+      If set to ``true``, the encrypted JSON extension will be installed
+      regardless of any other environment variables. If set to ``false``, the
+      encrypted JSON extension will NOT be installed, even if other related
+      environment variables have been set.
+```
 
 (completing-json-install)=
 
-### Completing the installation
+Completing the installation
+---------------------------
 
-Guacamole will only reread `guacamole.properties` and load newly-installed
-extensions during startup, so your servlet container will need to be restarted
-before JSON authentication can be used.  *Doing this will disconnect all active
-users, so be sure that it is safe to do so prior to attempting installation.*
-When ready, restart your servlet container and give the new authentication a
-try.
+```{include} include/ext-completing.md
+```
 
 (json-format)=
 
