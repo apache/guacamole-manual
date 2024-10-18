@@ -248,6 +248,11 @@ possible will help avoid these situations.
 This extension allows for the restricting the use of specific connections and/or
 connection groups (of the balancing variety) based on the same criteria by
 which you can restrict user logins - day/time of week and/or client address.
+Connections and Connection Groups also support additional restrictions that
+allow for limiting a connection to absolute dates before and after which the
+connection will be unavailable:
+
+![](images/auth-restrict-connections.png)
 
 The examples given above for user logins can be slightly updated to see some
 use-cases for connections. You might host an application through Guacamole that
