@@ -1,7 +1,8 @@
 ---
 myst:
   substitutions:
-    extMachineName: guacamole-auth-totp
+    extArchiveName: guacamole-auth-totp
+    extJarName:     guacamole-auth-totp
 ---
 
 TOTP two-factor authentication

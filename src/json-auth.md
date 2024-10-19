@@ -1,7 +1,8 @@
 ---
 myst:
   substitutions:
-    extMachineName: guacamole-auth-json
+    extArchiveName: guacamole-auth-json
+    extJarName:     guacamole-auth-json
 ---
 
 Encrypted JSON authentication

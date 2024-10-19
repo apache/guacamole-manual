@@ -1,7 +1,8 @@
 ---
 myst:
   substitutions:
-    extMachineName: guacamole-auth-restrict
+    extArchiveName: guacamole-auth-restrict
+    extJarName:     guacamole-auth-restrict
 ---
 
 Enforcing Advanced Login and Connection Restrictions

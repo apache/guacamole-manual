@@ -1,7 +1,8 @@
 ---
 myst:
   substitutions:
-    extMachineName: guacamole-auth-duo
+    extArchiveName: guacamole-auth-duo
+    extJarName:     guacamole-auth-duo
 ---
 
 Duo two-factor authentication

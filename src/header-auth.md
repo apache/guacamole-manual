@@ -1,7 +1,8 @@
 ---
 myst:
   substitutions:
-    extMachineName: guacamole-auth-header
+    extArchiveName: guacamole-auth-header
+    extJarName:     guacamole-auth-header
 ---
 
 HTTP header authentication

@@ -1,7 +1,8 @@
 ---
 myst:
   substitutions:
-    extMachineName: guacamole-auth-quickconnect
+    extArchiveName: guacamole-auth-quickconnect
+    extJarName:     guacamole-auth-quickconnect
 ---
 
 Ad-hoc Connections

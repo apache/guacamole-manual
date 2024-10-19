@@ -1,7 +1,8 @@
 ---
 myst:
   substitutions:
-    extMachineName: guacamole-auth-ban
+    extArchiveName: guacamole-auth-ban
+    extJarName:     guacamole-auth-ban
 ---
 
 Securing Guacamole against brute-force attacks

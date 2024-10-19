@@ -9,14 +9,14 @@ If you have installed Guacamole natively under [Apache Tomcat](https://tomcat.ap
   and may need to be created first.
 
   1. Download {{ '<code class="docutils literal notranslate">' +
-     extMachineName + '-' + version + '.tar.gz</code>' }} from {{ '<a
+     extArchiveName + '-' + version + '.tar.gz</code>' }} from {{ '<a
      href="https://guacamole.apache.org/releases/' + version + '/">the release
      notes</a>' }} and extract it.
 
   2. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
      exist.
 
-  3. Copy the {{ '<code class="docutils literal notranslate">' + extMachineName +
+  3. Copy the {{ '<code class="docutils literal notranslate">' + extJarName +
      '-' + version + '.jar</code>' }} file from the contents of the archive to
      `GUACAMOLE_HOME/extensions/`.
 
