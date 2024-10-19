@@ -1,0 +1,24 @@
+#
+# Whether unverified server certificates should be accepted. If set to `true`,
+# the server certificate for connections to the KSM service will be accepted even
+# if they cannot be verified. **Unless you are a developer testing changes to
+# the KSM vault support itself, it is unlikely that you need to set this
+# property.**
+#
+ksm-allow-unverified-cert: false
+
+#
+# Specify the minimum number of milliseconds between calls to the KSM API. The
+# API allows a limited number of calls per month, and calls over the included
+# amount generate additional cost. Setting this property allows you to
+# limit Guacamole's impact on that cost.
+#
+ksm-api-call-interval: 300000
+
+#
+# Whether or not the Windows domain should be stripped off of the username
+# when usernames are retrieved from the KSM vault and placed into its own
+# secret. This is optional, and by default it is false - domains will
+# not be stripped from the username.
+#
+ksm-strip-windows-domains: false

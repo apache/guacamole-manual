@@ -1,0 +1,7 @@
+#
+# The base64-encoded configuration information generated for the application
+# you created within KSM to represent Apache Guacamole. The easiest way to
+# obtain this value is using [the KSM CLI tool](https://docs.keeper.io/secrets-manager/secrets-manager/secrets-manager-command-line-interface/init-command).
+# as described above. *This value is required.*
+#
+ksm-config: ewogICJjbGllbnRJZCI6ICJTR1ZzYkc4Z2RHaGxjbVVoSUZSb1pYTmxJSEJ5YjNC...

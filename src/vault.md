@@ -1,3 +1,10 @@
+---
+myst:
+  substitutions:
+    extArchiveName: guacamole-vault
+    extJarName:     ksm/guacamole-vault-ksm
+---
+
 Retrieving secrets from a vault
 ===============================
 
@@ -8,53 +15,17 @@ properties via an additional, vault-specific configuration file analogous to
 `guacamole.properties`. This support is intended with multiple vault providers
 in mind and currently supports [Keeper Secrets Manager (KSM)](https://www.keepersecurity.com/secrets-manager.html).
 
-:::{important}
-This chapter involves modifying the contents of `GUACAMOLE_HOME` - the
-Guacamole configuration directory. If you are unsure where `GUACAMOLE_HOME` is
-located on your system, please consult [](configuring-guacamole) before
-proceeding.
-:::
+
+```{include} include/warn-config-changes.md
+```
 
 (vault-downloading)=
 
-Downloading the vault extension
--------------------------------
+Downloading and installing the vault extension
+----------------------------------------------
 
-The vault extension is available separately from the main `guacamole.war`. The
-link for this and all other officially-supported and compatible extensions for
-a particular version of Guacamole are provided on the release notes for that
-version. You can find the release notes for current versions of Guacamole here:
-<http://guacamole.apache.org/releases/>.
-
-The vault extension is packaged as a `.tar.gz` file containing directories
-specific to vault implementations (currently only `ksm/` for the KSM
-implementation). Each vault-specific directory contains a `.jar` file (the
-actual Guacamole extension). The Guacamole extension `.jar` will ultimately
-need to be placed within `GUACAMOLE_HOME/extensions`.
-
-(installing-vault-support)=
-
-Installing key vault support
-----------------------------
-
-Guacamole extensions are self-contained `.jar` files which are located within
-the `GUACAMOLE_HOME/extensions` directory. To install the KSM vault extension,
-you must:
-
-1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
-   exist.
-
-2. Copy `ksm/guacamole-vault-ksm-1.6.0.jar` within `GUACAMOLE_HOME/extensions`.
-
-3. Configure Guacamole to use KSM to retrieve secrets, as described below.
-
-:::{important}
-You will need to restart Guacamole by restarting your servlet container in
-order to complete the installation. Doing this will disconnect all active
-users, so be sure that it is safe to do so prior to attempting installation. If
-you do not configure the vault support properly, Guacamole will not start up
-again until the configuration is fixed.
-:::
+```{include} include/ext-download.md
+```
 
 (adding-guac-to-ksm)=
 
@@ -141,7 +112,8 @@ question should be able to access.
 
 (guac-vault-config)=
 
-### Configuring Guacamole for KSM
+Configuring Guacamole for KSM
+-----------------------------
 
 Guacamole requires only a single configuration property to configure secret
 retrieval from KSM, `ksm-config`, which must be provided the base64
@@ -149,77 +121,160 @@ configuration value retrieved from KSM using the one-time token [obtained when
 Guacamole was registered with KSM as an application as described above](adding-guac-to-ksm).
 All other configuration properties are optional.
 
-`ksm-config`
-: The base64-encoded configuration information generated for the application
-  you created within KSM to represent Apache Guacamole. The easiest way to
-  obtain this value is using [the KSM CLI tool](https://docs.keeper.io/secrets-manager/secrets-manager/secrets-manager-command-line-interface/init-command).
-  as described above. *This value is required.*
+```{eval-rst}
+.. tab:: Native Webapp (Tomcat)
 
-`ksm-allow-unverified-cert`
-: Whether unverified server certificates should be accepted. If set to `true`,
-  the server certificate for connections to the KSM service will be accepted even
-  if they cannot be verified. **Unless you are a developer testing changes to
-  the KSM vault support itself, it is unlikely that you need to set this
-  property.**
+   If deploying Guacamole natively, you will need to add a section to your
+   ``guacamole.properties`` that looks like the following:
 
-`ksm-api-call-interval`
-: Specify the minimum number of milliseconds between calls to the KSM API. The
-  API allows a limited number of calls per month, and calls over the included
-  amount generate additional cost. Setting this property allows you to
-  limit Guacamole's impact on that cost.
+   .. literalinclude:: include/ksm.example.properties
+      :language: ini
 
-`ksm-strip-windows-domains`
-: Whether or not the Windows domain should be stripped off of the username
-  when usernames are retrieved from the KSM vault and placed into its own
-  secret. This is optional, and by default it is false - domains will
-  not be stripped from the username.
+   There is only a single property that must be set in all cases for any
+   Guacamole installation using KSM:
 
-`ksm-allow-user-config`
-: Whether or not users should be allowed to set their own KSM configuration,
-  which will be used to pull secrets _only_ when not already provided by the
-  global or connection-group-level KSM configuration. I.E. a user-level KSM
-  configuration will never be used if a matching secret is otherwise available.
+   .. include:: include/ksm.properties.md
+      :parser: myst_parser.sphinx_
 
-#### User and Connection Group KSM Configuration
+.. tab:: Container (Docker)
 
-In addition to the required global `ksm-config` configuration blob, Guacamole
-can also be configured with user or connection group KSM configuration, which
-will pull additional secrets _only_ when not already available. If a secret can
-be pulled using the `ksm-config` global KSM config, it will always be used.
-Failing that, if a secret is available using the connection grop config, that
-value will be used. Only when neither the global or containing connection group
-KSM configs define a secret will the user KSM config be used. Note also that
-user KSM configs will be disabled unless the global `ksm-allow-user-config` and
-per-connection `ksm-user-config-enabled` attribute are both set to true.
+   If deploying Guacamole using Docker Compose, you will need to add a set of
+   environment varibles to the ``environment`` section of your
+   ``guacamole/guacamole`` container that looks like the following 
 
-These KSM config values can be set directly in the webapp, on the [connection
-group edit page](connection-group-management), and on the [user preferences page](preferences).
-Unlike the `ksm-config` global configuration, either the base64-encoded configuration
-provided by Keeper Commander can be used, or the one-time token can be used directly.
+   .. literalinclude:: include/ksm.example.yml
+      :language: yaml
+
+   If instead deploying Guacamole by running ``docker run`` manually, these
+   same environment variables will need to be provided using the ``-e`` option.
+   For example:
+
+   .. literalinclude:: include/ksm.example.txt
+      :language: console
+
+   There is only a single environment variable that must be set in all cases
+   for any Guacamole installation using KSM:
+
+   .. include:: include/ksm.environment.md
+      :parser: myst_parser.sphinx_
+```
+
+### Additional vaults for users and connection groups
+
+In addition to the required, application-wide vault, Guacamole can be
+configured to additionally pull secrets from separate vaults that are declared
+at the user or connection group level. The configuration information for these
+vaults can be set directly in the webapp, on the [connection group edit
+page](connection-group-management) and on the [user preferences
+page](preferences).
+
+:::{hint}
+Unlike the application-wide vault (which must always be configured using a
+lengthy blob of base64-encoded data), a one-time token obtained from KSM can be
+used in these cases.
+:::
+
+```{eval-rst}
+.. tab:: Native Webapp (Tomcat)
+
+   Because it is not necessarily desirable that users be able to provide their own
+   secrets for use within connections, administrators must explicitly enable this
+   functionality by:
+
+   1. Setting the property ``ksm-allow-user-config`` property to ``true``, as
+      described below.
+   2. Checking the "Allow user-provided KSM configuration" box on any
+      connection that should be allowed to consume user-specific secrets.
+
+   **Secrets from a user-specific vault will not be used unless both of the
+   above conditions are true.**
+
+   .. include:: include/ksm-user-vaults.properties.md
+      :parser: myst_parser.sphinx_
+
+.. tab:: Container (Docker)
+
+   Because it is not necessarily desirable that users be able to provide their own
+   secrets for use within connections, administrators must explicitly enable this
+   functionality by:
+
+   1. Setting the property ``KSM_ALLOW_USER_CONFIG`` environment variable to
+      ``true``, as described below.
+   2. Checking the "Allow user-provided KSM configuration" box on any
+      connection that should be allowed to consume user-specific secrets.
+
+   **Secrets from a user-specific vault will not be used unless both of the
+   above conditions are true.**
+
+   .. include:: include/ksm-user-vaults.environment.md
+      :parser: myst_parser.sphinx_
+
+```
+
+#### Priorities of multiple vaults
+
+When multiple vaults apply to any connection attempt, secrets are pulled and
+applied in a specific order of priority that is intended to ensure the
+administrator always has ultimate control over the behavior of a connection:
+
+1. **Application-wide vault:** Secrets are always pulled from the
+   application-wide vault first (the vault provided with the `ksm-config`
+   property).
+
+2. **Connection group vault:** If a particular secret is not available within
+   the application-wide vault, but the connection is within a connection group
+   that has been configured with a KSM vault, the vault configured for that
+   connection group is used to reattempt retrieving the secret.
+
+3. **User-specific vault:** If a particular secret is not available within
+   any other administator-controlled vault, the connection in question has
+   been configured to allow user-specific vault use, and the current user has
+   configured such a vault, that vault will be used to reattempt retrieving the
+   secret.
+
+By design, the application-wide vault always has the highest priority, and any
+administrator-controlled vault always has priority over user-controlled vaults.
+
+### Additional Configuration Options
+
+```{eval-rst}
+.. tab:: Native Webapp (Tomcat)
+
+   The following additional, optional properties may be set as desired to
+   tailor the behavior of the KSM support:
+
+   .. include:: include/ksm-optional.properties.md
+      :parser: myst_parser.sphinx_
+
+.. tab:: Container (Docker)
+
+   The following additional, optional environment variables may be set as
+   desired to tailor the KSM support:
+
+   .. include:: include/ksm-optional.environment.md
+      :parser: myst_parser.sphinx_
+
+   You can also explicitly enable/disable use of KSM by setting the
+   ``KSM_ENABLED`` environment variable to ``true`` or ``false``:
+
+   ``KSM_ENABLED``
+      Explicitly enables or disables use of the KSM extension. By default, the
+      KSM extension will be installed only if at least one related environment
+      variable is set.
+
+      If set to ``true``, the KSM extension will be installed regardless of any
+      other environment variables. If set to ``false``, the KSM extension will
+      NOT be installed, even if other related environment variables have been set.
+```
+
 
 (completing-vault-install)=
 
-### Completing the installation
+Completing the installation
+---------------------------
 
-Guacamole will only reread `guacamole.properties` and load newly-installed
-extensions during startup, so your servlet container will need to be restarted
-before the newly-installed vault support will take effect. Restart your servlet
-container and give the vault support a try.
-
-:::{important}
-You only need to restart your servlet container. *You do not need to restart
-guacd*.
-
-guacd is completely independent of the web application and does not deal with
-`guacamole.properties` or the authentication system in any way. Since you are
-already restarting the servlet container, restarting guacd as well technically
-won't hurt anything, but doing so is completely pointless.
-:::
-
-If Guacamole does not come back online after restarting your servlet container,
-check the logs. Problems in the configuration of installed vault support
-extensions may prevent Guacamole from starting up, and any such errors will be
-recorded in the logs of your servlet container.
+```{include} include/ext-completing.md
+```
 
 (vault-connection-secrets)=
 
