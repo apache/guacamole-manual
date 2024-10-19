@@ -1,0 +1,7 @@
+#
+# Whether or not users should be allowed to set their own KSM configuration,
+# which will be used to pull secrets _only_ when not already provided by the
+# global or connection-group-level KSM configuration. A user-level KSM
+# configuration will never be used if a matching secret is otherwise available.
+#
+ksm-allow-user-config: false
