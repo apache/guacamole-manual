@@ -2755,6 +2755,21 @@ supported:
 `UPPER`
 : Convert the entire value of the token to upper-case.
 
+`OPTIONAL`
+: Typically when tokens are specified as part of a connection parameter,
+  if the token is undefined, the literal value of the token will be placed
+  in the connection parameter. This modifier marks a token as "optional",
+  which means that an undefined token will not be added as a literal and
+  will simply be skipped as if the token is not entered.
+
+  In some cases this will simply result in a string lacking the information
+  that would otherwise be in the token; however, in other cases this may
+  result in Guacamole generating prompts. For example, if you specify the
+  token `${GUAC_PASSWORD:OPTIONAL}` for the password field in a connection,
+  but you sign in with an SSO extension such that the user does not have a
+  `${GUAC_PASSWORD}` token, Guacamole may prompt you for the password as
+  if it had not been provided at all.
+
 (extension-tokens)=
 
 #### Extension-specific tokens
