@@ -1,0 +1,18 @@
+#
+# An optional list of parameters that are allowed to be used by connections
+# that are created and accessed via the quickconnect extension. If this
+# property is present, only parameters in this list will be allowed. If this
+# property is absent, any/all parameters will be allowed unless explicitly
+# denied using the `quickconnect-denied-parameters` property.
+#
+quickconnect-allowed-parameters: hostname, port
+
+#
+# An optional list of parameters that are explicitly denied from being used by
+# connections created and accessed via the quickconnect extension. If this
+# property is present, any parameters in this list will be removed from the
+# connection configuration when it is created, *even if those parameter are
+# listed above in the `quickconnect-allowed-parameters` property.* If this
+# property is not present, no connection parameters will be explicitly denied.
+#
+quickconnect-denied-parameters: enable-drive, drive-path

@@ -1,0 +1,20 @@
+#
+# The HTTP header containing the username of the authenticated user.
+#
+# This property is optional. If not specified, `REMOTE_USER` will be used by
+# default. If your authentication system uses a different HTTP header you can
+# use this option to override it and specify the header for Guacamole to
+# expect.
+#
+http-auth-header: REMOTE_USER
+
+#
+# Whether the HTTP header authentication module should treat usernames as case
+# sensitive.
+#
+# If not specified, this option defaults to the [global default set for the
+# entire Guacamole installation](global-case-sensitive-usernames). If the
+# global setting is also not specified, the default behavior for Guacmole is to
+# consider usernames to be case-sensitive.
+#
+http-auth-case-sensitive-usernames: false

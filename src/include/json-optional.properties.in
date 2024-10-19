@@ -1,0 +1,23 @@
+#
+# A comma-separated list of IP addresses or subnets (in CIDR notation) that
+# should be allowed to authenticate using encrypted JSON authentication. If
+# set, _only_ machines with IP addresses that match the addresses/subnets in
+# this list will be allowed to authenticate in this way. All other attempts to
+# authenticate with encrypted JSON authentication will fail, regardless of
+# whether the JSON is correctly signed and encrypted.
+#
+# By default, no restriction is placed on which machines may attempt to use
+# encrypted JSON authentication.
+#
+json-trusted-networks: 10.10.0.0/8, 10.11.0.2
+
+#
+# Whether the encrypted JSON authentication module should treat usernames as
+# case sensitive.
+#
+# If not specified, this option defaults to the [global default set for the
+# entire Guacamole installation](global-case-sensitive-usernames). If the
+# global setting is also not specified, the default behavior for Guacmole is to
+# consider usernames to be case-sensitive.
+#
+json-case-sensitive-usernames: false
