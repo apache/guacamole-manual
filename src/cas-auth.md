@@ -1,3 +1,10 @@
+---
+myst:
+  substitutions:
+    extArchiveName: guacamole-auth-sso
+    extJarName:     cas/guacamole-auth-sso-cas
+---
+
 CAS Authentication
 ==================
 
@@ -10,38 +17,14 @@ connection information, as it only provides user authentication.
 
 (cas-downloading)=
 
-Downloading the CAS authentication extension
---------------------------------------------
+Downloading and installing the CAS authentication extension
+-----------------------------------------------------------
 
-```{include} include/sso-download.md
+```{include} include/ext-download.md
 ```
 
-The extension for the desired SSO method, in this case
-`guacamole-auth-sso-cas-1.6.0.jar` from within the `cas/` subdirectory, must
-ultimately be placed in `GUACAMOLE_HOME/extensions`.
-
-(installing-cas-auth)=
-
-Installing CAS authentication
------------------------------
-
-Guacamole extensions are self-contained `.jar` files which are located within
-the `GUACAMOLE_HOME/extensions` directory. *If you are unsure where
-`GUACAMOLE_HOME` is located on your system, please consult
-[](configuring-guacamole) before proceeding.*
-
-To install the CAS authentication extension, you must:
-
-1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
-   exist.
-
-2. Copy `guacamole-auth-sso-cas-1.6.0.jar` within `GUACAMOLE_HOME/extensions`.
-
-3. Configure Guacamole to use CAS authentication, as described below.
-
-(guac-cas-config)=
-
-### Configuring Guacamole for CAS Authentication
+Configuring Guacamole for CAS Authentication
+--------------------------------------------
 
 Guacamole's CAS support requires specifying two properties that describe the
 CAS authentication server and the Guacamole deployment. These properties are
@@ -49,56 +32,79 @@ CAS authentication server and the Guacamole deployment. These properties are
 connect to the CAS and how CAS should redirect users back to Guacamole once
 their identity has been confirmed:
 
-`cas-authorization-endpoint`
-: The URL of the CAS authentication server. This should be the full path to the
-  base of the CAS installation.
 
-`cas-redirect-uri`
-: The URI to redirect back to upon successful authentication. Normally this
-  will be the full URL of your Guacamole installation.
+```{eval-rst}
+.. tab:: Native Webapp (Tomcat)
 
-Additional optional properties are available to control how CAS-related data is
-processed, including whether [CAS ClearPass](cas-clearpass) should be used and
-how user group memberships should be derived:
+   If deploying Guacamole natively, you will need to add a section to your
+   ``guacamole.properties`` that looks like the following:
 
-`cas-clearpass-key`
-: If using CAS ClearPass to pass the SSO password to Guacamole, this parameter
-  specifies the private key file to use to decrypt the password. See [the section
-  on ClearPass](cas-clearpass) below.
+   .. literalinclude:: include/cas.example.properties
+      :language: ini
 
-`cas-group-attribute`
-: The CAS attribute that determines group membership, typically "memberOf".
-  This parameter is only required if using CAS to define user group memberships.
-  If omitted, groups aren't retrieved from CAS, and all other group-related
-  properties for CAS are ignored.
+   The properties that must be set in all cases for any Guacamole installation
+   using CAS are:
 
-`cas-group-format`
-: The format that CAS will use for its group names. Possible values are
-  `plain`, for groups that are simple text names, or `ldap`, for groups that are
-  represented as LDAP DNs. If set to `ldap`, group names are always determined
-  from the last (leftmost) attribute of the DN. If omitted, `plain` is used by
-  default.
+   .. include:: include/cas.properties.md
+      :parser: myst_parser.sphinx_
 
-  This property has no effect if cas-group-attribute is not set.
+.. tab:: Container (Docker)
 
-`cas-group-ldap-base-dn`
-: The base DN to require for LDAP-formatted CAS groups. If specified, only CAS
-  groups beneath this DN will be included, and all other CAS groups will be
-  ignored.
+   If deploying Guacamole using Docker Compose, you will need to add a set of
+   environment varibles to the ``environment`` section of your
+   ``guacamole/guacamole`` container that looks like the following 
 
-  This property has no effect if cas-group-format is not `ldap`.
+   .. literalinclude:: include/cas.example.yml
+      :language: yaml
 
-`cas-group-ldap-attribute`
-: The LDAP attribute to require for LDAP-formatted CAS groups. If specified,
-  only CAS groups that use this attribute for the name of the group will be
-  included. Note that LDAP group names are *always determined from the last
-  (leftmost) attribute of the DN*. Specifying this property will only have the
-  effect of ignoring any groups that do not use the specified attribute to
-  represent the group name.
+   If instead deploying Guacamole by running ``docker run`` manually, these
+   same environment variables will need to be provided using the ``-e`` option.
+   For example:
 
-  This property has no effect if cas-group-format is not `ldap`.
+   .. literalinclude:: include/cas.example.txt
+      :language: console
 
-(cas-login)=
+   The environment variables that must be set in all cases for any Docker-based
+   Guacamole installation using CAS are:
+
+   .. include:: include/cas.environment.md
+      :parser: myst_parser.sphinx_
+```
+
+### Additional Configuration Options
+
+```{eval-rst}
+.. tab:: Native Webapp (Tomcat)
+
+   Additional optional properties are available to control how CAS-related data
+   is processed, including whether [CAS ClearPass](cas-clearpass) should be used
+   and how user group memberships should be derived:
+
+   .. include:: include/cas-optional.properties.md
+      :parser: myst_parser.sphinx_
+
+.. tab:: Container (Docker)
+
+   Additional optional environment variables are available to control how
+   CAS-related data is processed, including whether [CAS ClearPass](cas-clearpass)
+   should be used and how user group memberships should be derived:
+
+   .. include:: include/cas-optional.environment.md
+      :parser: myst_parser.sphinx_
+
+   You can also explicitly enable/disable use of CAS support by setting the
+   ``CAS_ENABLED`` environment variable to ``true`` or ``false``:
+
+   ``CAS_ENABLED``
+      Explicitly enables or disables use of the CAS extension. By default, the
+      CAS extension will be installed only if at least one CAS-related
+      environment variable is set.
+
+      If set to ``true``, the CAS extension will be installed regardless of any
+      other environment variables. If set to ``false``, the CAS extension will
+      NOT be installed, even if other CAS-related environment variables have
+      been set.
+```
 
 ### Controlling login behavior
 
@@ -127,18 +133,16 @@ extension-priority: *, cas
 
 (completing-cas-install)=
 
-### Completing the installation
+Completing the installation
+---------------------------
 
-Guacamole will only reread `guacamole.properties` and load newly-installed
-extensions during startup, so your servlet container will need to be restarted
-before CAS authentication can be used. *Doing this will disconnect all active
-users, so be sure that it is safe to do so prior to attempting installation.*
-When ready, restart your servlet container and give the new authentication a
-try.
+```{include} include/ext-completing.md
+```
 
 (cas-clearpass)=
 
-### Using CAS ClearPass
+Using CAS ClearPass
+-------------------
 
 CAS has a function called ClearPass that can be used to cache the password used
 for SSO authentication and make that available to services at a later time.
@@ -149,6 +153,6 @@ more information can be found on the Apereo CAS wiki at the following URL:
 Once you have CAS configured for credential caching, you need to configure the
 service with a keypair for passing the credential securely. The public key gets
 installed on the CAS server, while the private key gets configured with the
-cas-clearpass-key property. The private key file needs to be in RSA PKCS8
+`cas-clearpass-key property`. The private key file needs to be in RSA PKCS8
 format.
 
