@@ -55,26 +55,10 @@ To install the HTTP header authentication extension, you must:
 
 The HTTP header authentication extension provides only one configuration
 property, and it is optional. By default, the extension will pull the username
-of the authenticated user from the `REMOTE_USER` header, if present. The header
-module has a couple of options available to help configure it to suit your
-particular environment:
-If your
+of the authenticated user from the `REMOTE_USER` header, if present. If your
 authentication system uses a different HTTP header, you will need to override
 this by specifying the `http-auth-header` property within
-[`guacamole.properties`](initial-setup):
-
-`http-auth-header`
-: The HTTP header containing the username of the authenticated user.  This
-  property is optional. If not specified, `REMOTE_USER` will be used by
-  default. If your authentication system uses a different HTTP header you
-  can use this option to override it and specify the header for Guacamole
-  to expect.
-
-`http-auth-case-sensitive-usernames`
-: Whether or not the header module, specifically, should treat usernames as
-  case sensitive or not. This option defaults to the
-  [global default set for the entire Guacamole installation](global-case-sensitive-usernames),
-  but can be overridden for the header module, if desired.
+[`guacamole.properties`](initial-setup).
 
 (completing-header-install)=
 

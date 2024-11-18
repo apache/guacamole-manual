@@ -98,16 +98,6 @@ how user group memberships should be derived:
 
   This property has no effect if cas-group-format is not `ldap`.
 
-`cas-case-sensitive-usernames`
-: "true" if the CAS extension should be configured to treat usernames as
-  case-sensitive, otherwise false. By default this will pull the
-  [global configuration value for case-sensitivity for Guacamole usernames](global-case-sensitive-usernames).
-
-  Please note that changing the value of this option will not change
-  how the CAS server itself processes usernames, so it is important
-  to make sure that this value matches how you expect the CAS server
-  to treat usernames with respect to case.
-
 (cas-login)=
 
 ### Controlling login behavior
