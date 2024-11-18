@@ -386,15 +386,6 @@ querying the database:
   database.  This is given as "guacamole_user" in the examples given in this
   chapter.
 
-`mysql-case-sensitive-usernames`
-: "true" if the MySQL extension should evaluate usernames in a case-sensitive
-  fashion, otherwise false. This defaults to the overall
-  [global setting of the Guacamole install](global-case-sensitive-usernames).
-  It is worth noting, however, that MySQL's default database collation does
-  not support case-sensitive string comparisons, which means that additional
-  configuration would be required on the database to truly make this
-  extension behave in case-sensitive manner.
-
 `mysql-password`
 : The password Guacamole should provide when authenticating with the database.
   This is given as "some_password" in the examples given in this chapter.
@@ -413,15 +404,6 @@ querying the database:
   database.  This is given as "guacamole_user" in the examples given in this
   chapter.
 
-`postgresql-case-sensitive-usernames`
-: "true" if the PostgreSQL extension should evaluate usernames in a case-sensitive
-  fashion, otherwise false. This will default to the overall
-  [global setting of the Guacamole install](global-case-sensitive-usernames).
-  By default the PostgreSQL database performs case-sensitive string comparisons,
-  so, if this is set to "true", either explicitly or because the Guacamole
-  global setting is "true", the PostgreSQL extension will honor case when
-  authenticating users.
-
 `postgresql-password`
 : The password Guacamole should provide when authenticating with the database.
   This is given as "some_password" in the examples given in this chapter.
@@ -439,15 +421,6 @@ querying the database:
 : The username of the user that Guacamole should use to connect to the
   database.  This is given as "guacamole_user" in the examples given in this
   chapter.
-
-`sqlserver-case-sensitive-usernames`
-: "true" if the SQL Server module should take case into account when
-  checking usernames, otherwise "false". This will default to the overall
-  [global setting for username case sensitivity](global-case-sensitive-usernames).
-  Please note that, by default, SQL Server databases use a collation that does
-  not take case into account when comparing strings, so, even if this option
-  is set to "true", additional configuration may be required on the SQL
-  database to make it behave in a case-sensitive manner.
 
 `sqlserver-password`
 : The password Guacamole should provide when authenticating with the database.

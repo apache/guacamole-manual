@@ -401,17 +401,6 @@ is required:
   be granted privileges in Guacamole. *If this property is omitted the default of
   `(objectClass=*)` will be used.*
 
-`ldap-case-sensitive-usernames`
-: "true" if the LDAP module should be configured to compare and interpret usernames
-  in a case-sensitive manner, otherwise "false". This will default to the
-  [global value configured for the entire Guacamole installation](global-case-sensitive-usernames).
-  
-  Note that, while this configures how the LDAP extension behaves with respect
-  to usernames, it cannot impact how the underlying LDAP server handles
-  usernames and whether or not it interprets them case-(in)sensitively. It is
-  a good idea to understand how your LDAP server handles this, and then
-  configure the Guacamole LDAP extension to match.
-
 `ldap-config-base-dn`
 : The base of the DN for all Guacamole configurations. *This property is
   optional.* If omitted, the configurations of Guacamole connections will
