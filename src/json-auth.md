@@ -63,16 +63,6 @@ as the full 32-digit hex value using the `json-secret-key` property:
 
     json-secret-key: 4c0b569e4c96df157eee1b65dd0e4d41
 
-The JSON module also supports the `json-case-sensitive-usernames` property,
-which, if set to "true", will tell the JSON module to treat usernames processed
-through the module in a case-sensitive manner. If set to "false", the module
-will not consider case differences when comparing usernames. It's important
-to note that the underlying system sending the JSON data may or may not treat
-usernames as case-sensitive, so the configuration of this property should
-match the expected behavior of the authentication system. The default for this
-value is inherited from the
-[global Guacamole case-sensitivity setting](global-case-sensitive-usernames).
-
 (completing-json-install)=
 
 ### Completing the installation
