@@ -1549,6 +1549,17 @@ desired.
   this parameter, as glyph caching support is not considered stable by FreeRDP
   as of the FreeRDP 2.0.0 release. See: {jira}`GUACAMOLE-1191`.**
 
+`disable-gfx`
+: Version 1.6.0 of Guacamole introduces RDP support for the Graphics Pipeline
+  Extension, or GFX, which is a way to encode remote display data that
+  significantly accelerates the display of that data on the client, resulting
+  in applications that are much more responsive on RDP clients. The GFX
+  extension is enabled by default, as most common RDP servers support it,
+  and a few actually require it. If, for some reason, you're connecting
+  to a server that does not support it, or you find it causing problems,
+  this connection parameter allows you to disable support for it, falling
+  back to the more basic implementation for sending graphics over RDP.
+
 (rdp-remoteapp)=
 
 #### RemoteApp
