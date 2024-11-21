@@ -463,6 +463,10 @@ VNC support for Guacamole is provided by the libguac-client-vnc library, which
 will be installed as part of guacamole-server if the required dependencies are
 present during the build.
 
+VNC by itself does not provide file transfer, so you must use sftp (as
+described in [](common-sftp)) if you want to provide file upload or
+download in Guacamole.
+
 :::{note}
 In addition to the VNC-specific parameters below, Guacamole's VNC support also
 accepts the parameters of several features that Guacamole provides for multiple
@@ -834,6 +838,12 @@ perform the best with Guacamole. If you are okay with having a desktop that can
 only be accessed via VNC, one of these is likely your best choice. Both
 optimize window movement and (depending on the application) scrolling, giving a
 very responsive user experience.
+
+On Ubuntu Linux version 18.04, the package
+`tigervnc-standalone-server` does not support clipboard (copy/paste)
+functionality.  The `tigervncserver` packages provided by the TigerVNC
+project (https://sourceforge.net/projects/tigervnc/files/stable/) do
+support clipboard operations.
 
 ##### TightVNC
 
