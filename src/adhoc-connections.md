@@ -1,3 +1,10 @@
+---
+myst:
+  substitutions:
+    extArchiveName: guacamole-auth-quickconnect
+    extJarName:     guacamole-auth-quickconnect
+---
+
 Ad-hoc Connections
 ==================
 
@@ -32,71 +39,82 @@ well-understood by administrators prior to implementing it:
   sensitive system files by allowing access to them.
 :::
 
+```{include} include/warn-config-changes.md
+```
+
 (quickconnect-downloading)=
 
-Downloading the quickconnect extension
---------------------------------------
+Downloading and installing the quickconnect extension
+-----------------------------------------------------
 
-The quickconnect extension is available separately from the main
-`guacamole.war`. The link for this and all other officially-supported and
-compatible extensions for a particular version of Guacamole are provided in the
-release notes for that version. You can find the release notes for current
-versions of Guacamole here: <http://guacamole.apache.org/releases/>.
-
-The quickconnect extension is packaged as a `.tar.gz` file containing only the
-extension itself, `guacamole-auth-quickconnect-1.6.0.jar`, which must
-ultimately be placed in `GUACAMOLE_HOME/extensions`.
-
-(installing-quickconnect)=
-
-Installing the quickconnect extension
--------------------------------------
-
-Guacamole extensions are self-contained `.jar` files which are located within
-the `GUACAMOLE_HOME/extensions` directory. *If you are unsure where
-`GUACAMOLE_HOME` is located on your system, please consult
-[](configuring-guacamole) before proceeding.*
-
-To install the extension, you must:
-
-1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
-   exist.
-
-2. Place the `guacamole-auth-quickconnect-1.6.0.jar` file in the
-   `GUACAMOLE_HOME/extensions` directory.
+```{include} include/ext-download.md
+```
 
 (guac-quickconnect-config)=
 
-### Configuring Guacamole for the quickconnect extension
+Configuring Guacamole for the quickconnect extension
+----------------------------------------------------
 
-The quickconnect extension has two configuration properties that allow for
-controlling what connection parameters can be used in the URIs that are opened
-with the quickconnect extension:
+```{eval-rst}
+.. tab:: Native Webapp (Tomcat)
 
-`quickconnect-allowed-parameters`
-: An optional list of parameters that are allowed to be used by connections
-  that are created and accessed via the quickconnect extension. If this
-  property is present, only parameters in this list will be allowed. If this
-  property is absent, any/all parameters will be allowed unless explicitly
-  denied using the `quickconnect-denied-parameters` property.
+   The quickconnect extension has two configuration properties that allow for
+   controlling what connection parameters can be used in the URIs that are
+   opened with the quickconnect extension:
 
-`quickconnect-denied-parameters`
-: An optional list of parameters that are explicitly denied from being used by
-  connections created and accessed via the quickconnect extension. If this
-  property is present, any parameters in this list will be removed from the
-  connection configuration when it is created, *even if those parameter are
-  listed above in the `quickconnect-allowed-parameters` property.* If this
-  property is not present, no connection parameters will be explicitly denied.
+   .. include:: include/quickconnect.properties.md
+      :parser: myst_parser.sphinx_
+
+.. tab:: Container (Docker)
+
+   If deploying Guacamole using Docker Compose, you will need to add at least
+   one quickconnect-related environment variable to the ``environment`` section
+   of your ``guacamole/guacamole`` container, such as the ``QUICKCONNECT_ENABLED``
+   environment variable:
+
+   .. code-block:: yaml
+
+      QUICKCONNECT_ENABLED: "true"
+
+   If instead deploying Guacamole by running ``docker run`` manually, this same
+   environment variable will need to be provided using the ``-e`` option. For
+   example:
+
+   .. code-block:: console
+
+      $ docker run --name some-guacamole \
+          -e QUICKCONNECT_ENABLED="true" \
+          -d -p 8080:8080 guacamole/guacamole
+
+   The quickconnect extension has two environment variables that allow for
+   controlling what connection parameters can be used in the URIs that are
+   opened with the quickconnect extension:
+
+   .. include:: include/quickconnect.environment.md
+      :parser: myst_parser.sphinx_
+
+   You can also explicitly enable/disable use of the quickconnect extension by
+   setting the ``QUICKCONNECT_ENABLED`` environment variable to ``true`` or
+   ``false``:
+
+   ``QUICKCONNECT_ENABLED``
+      Explicitly enables or disables use of the quickconnect extension. By
+      default, the quickconnect extension will be installed only if at least
+      one quickconnect-related environment variable is set.
+
+      If set to ``true``, the quickconnect extension will be installed
+      regardless of any other environment variables. If set to ``false``, the
+      quickconnect extension will NOT be installed, even if other
+      quickconnect-related environment variables have been set.
+```
 
 (completing-quickconnect-install)=
 
-### Completing the installation
+Completing the installation
+---------------------------
 
-Guacamole will only load newly-installed extensions during startup, so your
-servlet container will need to be restarted before the quickconnect extension
-can be used. *Doing this will disconnect all active users, so be sure that it
-is safe to do so prior to attempting installation.* When ready, restart your
-servlet container and give the extension a try.
+```{include} include/ext-completing.md
+```
 
 (using-quickconnect)=
 
