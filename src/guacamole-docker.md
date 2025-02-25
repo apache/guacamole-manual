@@ -842,6 +842,21 @@ unusable if your authenticator app does not support setting these parameters.
 
 (guacamole-docker-history-recording-storage)=
 
+### Other authentication methods
+
+In addition to the authentication methods explicitly documented above, the
+guacamole-server Docker image is built containing multiple other authentication
+extensions, such as [](openid-auth).
+
+These authentication connections can also be configured using environment
+properties, similar to the examples above. There is nothing special about the
+authentication methods listed above that makes them work with the Docker
+image.
+
+Environment properties are discussed in [](configuring-guacamole), but to
+give a brief example, the `openid-authorization-endpoint` property can be set
+by setting the `OPENID_AUTHORIZATION_ENDPOINT` environment variable.
+
 ### History Recording Storage Extension
 
 The extension that enables viewing historical recordings from within the
