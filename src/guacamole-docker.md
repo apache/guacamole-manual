@@ -178,28 +178,37 @@ not be able to start up, and you will see an error.
 
 (guacamole-docker-ipv6)=
 
-### Configure Guacamole to prefer IPv6 for outbound connections
+### Configure Guacamole Client to use IPv6 for outbound connections
 
-By default, Guacamole will use IPv4 for all outbound connections, where an
-A record is present in DNS. IPv6 will be used only if there are only AAAA
-records in DNS, or if an IPv6 address is hard-coded.
+:::{note}
+This section only applies to traffic originated by Gucamole Client,
+e.g. connections from Guacamole Client to guacd, or to authentication
+servers.
 
-Additionally, Guacamole will only attempt to make one connection to a single
-IP address, so if the IPv4 connection fails, it will not fall back to IPv6.
-This can be problematic for IPv6-only deployments, where such connections may
-fail with a "Network is unreachable" error.
+Guacamole Client does not connect directly to RDP, VNC or SSH servers,
+this is done by guacd.
+:::
+
+By default, Guacamole Client will use IPv4 for outbound connections.
+IPv6 will only be used when configuring a raw IPv6 address, or when
+configuring a hostname that has no A records in DNS. If DNS contains
+both AAAA and A records, the A record will be used.
+
+Guacamole Client will not re-try connections using IPv6 if the first
+connection though IPv4 fails. This can be problematic for IPv6-only
+deployments, and may manifest as a "Network is unreachable" error,
+e.g. for sites that have no native IPv4 connectivity and rely on NAT64
+and DNS64.
 
 To override this, set the `JAVA_OPTS` environment variable to
 `-Djava.net.preferIPv6Addresses=true`.
 
-This does not affect which protocol guacd uses to connect to servers.
-
-This will however affect the protocol used by guacamole to connect to guacd, to
-use IPv6 if available. By default, guacd listens to IPv4 connections only. You'll
-also need to [configure guacd to listen to IPv6 connections](#guacd-docker-ipv6).
-
-This will also affect other outbound connections from guacamole-server, such as
-connections to connect to a JWKS endpoint, as used by the OIDC extension.
+:::{note}
+By default, the guacd docker container listens to IPv4 connections only.
+You'll likely also need to
+[configure guacd to listen to IPv6 connections](#guacd-docker-ipv6),
+if you configure Guacamole Client to connect using IPv6 by default.
+:::
 
 (guacamole-docker-mysql)=
 
