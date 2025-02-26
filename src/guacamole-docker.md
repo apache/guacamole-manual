@@ -176,6 +176,40 @@ detail in the sections below. If the required configuration options for at
 least one authentication mechanism are not provided, the Guacamole image will
 not be able to start up, and you will see an error.
 
+(guacamole-docker-ipv6)=
+
+### Configure Guacamole Client to use IPv6 for outbound connections
+
+:::{note}
+This section only applies to traffic originated by Gucamole Client,
+e.g. connections from Guacamole Client to guacd, the database, or to
+authentication servers.
+
+Guacamole Client does not connect directly to RDP, VNC or SSH servers,
+this is done by guacd.
+:::
+
+By default, Guacamole Client will use IPv4 for outbound connections.
+IPv6 will only be used when configuring a raw IPv6 address, or when
+configuring a hostname that has no A records in DNS. If DNS contains
+both AAAA and A records, the A record will be used.
+
+Guacamole Client will not re-try connections using IPv6 if the first
+connection though IPv4 fails. This can be problematic for IPv6-only
+deployments, and may manifest as a "Network is unreachable" error,
+e.g. for sites that have no native IPv4 connectivity and rely on NAT64
+and DNS64.
+
+To override this, set the `JAVA_OPTS` environment variable to
+`-Djava.net.preferIPv6Addresses=true`.
+
+:::{note}
+By default, the guacd docker container listens to IPv4 connections only.
+You'll likely also need to
+[configure guacd to listen to IPv6 connections](#guacd-docker-ipv6),
+if you configure Guacamole Client to connect using IPv6 by default.
+:::
+
 (guacamole-docker-mysql)=
 
 ### MySQL authentication
