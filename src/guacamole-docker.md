@@ -182,8 +182,8 @@ not be able to start up, and you will see an error.
 
 :::{note}
 This section only applies to traffic originated by Gucamole Client,
-e.g. connections from Guacamole Client to guacd, or to authentication
-servers.
+e.g. connections from Guacamole Client to guacd, the database, or to
+authentication servers.
 
 Guacamole Client does not connect directly to RDP, VNC or SSH servers,
 this is done by guacd.
