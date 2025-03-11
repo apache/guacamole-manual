@@ -1,3 +1,6 @@
+{# vim: set filetype=markdown.jinja : #}
+{%- import 'include/ext-macros.md.j2' as ext with context -%}
+
 Viewing session recordings in-browser
 =====================================
 
@@ -17,12 +20,8 @@ benefits:
 This chapter of the documentation covers installing and using the extension
 that allows recordings stored on disk to be played back in the browser.
 
-:::{important}
-This chapter involves modifying the contents of `GUACAMOLE_HOME` - the
-Guacamole configuration directory. If you are unsure where `GUACAMOLE_HOME` is
-located on your system, please consult [](configuring-guacamole) before
-proceeding.
-:::
+```{include} include/warn-config-changes.md
+```
 
 (playback-architecture)=
 
@@ -77,46 +76,12 @@ will be displayed when the progress bar is hovered.
 
 ![Display and search key events](images/player-key-events.png)
 
-(playback-downloading)=
-
-Downloading the recording storage extension
--------------------------------------------
-
-The recording storage extension is available separately from the main
-`guacamole.war`. The link for this and all other officially-supported and
-compatible extensions for a particular version of Guacamole are provided on the
-release notes for that version. You can find the release notes for current
-versions of Guacamole here: http://guacamole.apache.org/releases/.
-
-The recording storage extension is packaged as a `.tar.gz` file containing only
-the extension itself, `guacamole-history-recording-storage-1.6.0.jar`, which
-must ultimately be placed in `GUACAMOLE_HOME/extensions`.
-
-(installing-recording-storage)=
+(playback-installing)=
 
 Installing the recording storage extension
 ------------------------------------------
 
-Guacamole extensions are self-contained `.jar` files which are located within
-the `GUACAMOLE_HOME/extensions` directory. To install the recording storage
-extension, you must:
-
-1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
-   exist.
-
-2. Copy `guacamole-history-recording-storage-1.6.0.jar` within
-   `GUACAMOLE_HOME/extensions`.
-
-3. [Configure your connections to store their recordings within the path
-   searched by the recording storage extension, as described below.](recording-storage-connection-config)
-
-:::{important}
-You will need to restart Guacamole by restarting your servlet container in
-order to complete the installation. Doing this will disconnect all active
-users, so be sure that it is safe to do so prior to attempting installation. If
-you do not configure the recording storage extension properly, Guacamole will not
-start up again until the configuration is fixed.
-:::
+{{ ext.install('RECORDING', 'guacamole-history-recording-storage') }}
 
 (prepare-recording-storage)=
 
@@ -175,49 +140,37 @@ drwxr-s---. 1 guacd tomcat 0 Feb  5 05:43 /var/lib/guacamole/recordings/
 $
 ```
 
+:::{note}
+If using this extension within a Docker container, you will need to use volumes
+to make an external directory available to **both** the `guacamole/guacd`
+container and the `guacamole/guacamole` container.
+
+Regardless of what users and groups are already present on the host system, the
+UID and GID values that apply to permissions in this case will be the UIDs and
+GIDs used by the containers. The UIDs and GIDs used by the provided Docker
+images are as follows:
+
+Image name            | User     | UID  | Group    | GID
+--------------------- | -------- | ---- | ---------| ----
+`guacamole/guacamole` | `tomcat` | 1000 | `tomcat` | 1000
+`guacamole/guacd`     | `guacd`  | 1001 | `guacd`  | 1001
+
+The UID and GID values used by the containers will not necessarily align with
+the values already used by your system.
+:::
+
 (recording-storage-config)=
 
-### Configuring Guacamole for recording storage
+### Configuration options
 
-The recording storage extension has no required properties and typically does
-not need to be configured beyond (1) creating the storage directory [as
-described above](prepare-recording-storage) and (2) configuring connections to
-use that storage directory [as described below](recording-storage-connection-config).
-Configuration is only necessary if you wish to use a storage location other
-than the default `/var/lib/guacamole/recordings`.
-
-If you wish to use a different storage location than
-`/var/lib/guacamole/recordings`, the following property must be added to
-`guacamole.properties`:
-
-`recording-search-path`
-: The directory to search for associated session recordings. This property is
-  optional. By default, `/var/lib/guacamole/recordings` will be used.
+{{ ext.config('recording-playback') }}
 
 (completing-recording-storage-install)=
 
-### Completing the installation
+### Completing installation
 
-Guacamole will only reread `guacamole.properties` and load newly-installed
-extensions during startup, so your servlet container will need to be restarted
-before installation of the recording storage extension will take effect.
-Restart your servlet container, configure a connection to use the new storage,
-and give in-browser playback a try.
-
-:::{important}
-You only need to restart your servlet container. *You do not need to restart
-guacd*.
-
-guacd is completely independent of the web application and does not deal with
-`guacamole.properties` or extensions in any way. Since you are already
-restarting the servlet container, restarting guacd as well technically won't
-hurt anything, but doing so is completely pointless.
-:::
-
-If Guacamole does not come back online after restarting your servlet container,
-check the logs. Problems in the configuration of the recording storage
-extension may prevent Guacamole from starting up, and any such errors will be
-recorded in the logs of your servlet container.
+```{include} include/ext-completing.md
+```
 
 (recording-storage-connection-config)=
 
