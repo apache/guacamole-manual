@@ -27,7 +27,11 @@ ARG HTTPD_VERSION=2.4
 
 # Perform the build itself using Python+Sphinx
 FROM sphinxdoc/sphinx AS builder
-RUN pip3 install sphinx-rtd-theme sphinx-inline-tabs myst-parser
+RUN pip3 install           \
+        jinjanator         \
+        myst-parser        \
+        sphinx-inline-tabs \
+        sphinx-rtd-theme
 
 # Set the working directory for the remainder of the build process
 WORKDIR /manual

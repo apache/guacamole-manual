@@ -37,8 +37,10 @@ reStructuredText is occasionally necessary because:
  * The MyST solution to supporting docstrings is [embedding blocks of
    reStructuredText](https://myst-parser.readthedocs.io/en/latest/using/howto.html#use-sphinx-ext-autodoc-in-markdown-files).
 
-The build process involves running the Guacamole manual source through the
-tooling provided by the Sphinx project, in particular "sphinx-build".
+The build process involves filtering any `.j2` files through Jinja2, generating
+configuration documentation from `.properties.in` snippets, and finally running
+the Guacamole manual source through the tooling provided by the Sphinx project
+(`sphinx-build`).
 
 
 Build requirements
@@ -54,18 +56,20 @@ Building the Guacamole manual from source requires:
    ReadTheDocs theme for Sphinx),
  * [sphinx-inline-tabs](https://pypi.org/project/sphinx-inline-tabs/)
  * [myst-parser](https://pypi.org/project/myst-parser/)
+ * [jinjanator](https://pypi.org/project/jinjanator/) or
+   [j2cli](https://pypi.org/project/j2cli/)
 
 The required Python packages can be installed using the "pip" package manager:
 
 ```console
-$ pip install sphinx sphinx-rtd-theme sphinx-inline-tabs myst-parser
+$ pip install sphinx sphinx-rtd-theme sphinx-inline-tabs myst-parser jinjanator
 ```
 
 On some systems, the Python 3 version of "pip" may instead be named "pip3", to
 maintain compatability with users and scripts that expect Python 2:
 
 ```console
-$ pip3 install sphinx sphinx-rtd-theme sphinx-inline-tabs myst-parser
+$ pip3 install sphinx sphinx-rtd-theme sphinx-inline-tabs myst-parser jinjanator
 ```
 
 Building the manual
