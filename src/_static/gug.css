@@ -64,3 +64,8 @@
     vertical-align:top
 }
 
+/* Meld gray border at bottom of tab bar into the borders of the tabs
+ * themselves */
+.tab-set > label {
+    margin-bottom: 0;
+}
