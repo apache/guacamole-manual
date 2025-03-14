@@ -30,9 +30,9 @@ FROM sphinxdoc/sphinx AS builder
 RUN pip3 install           \
         jinjanator         \
         myst-parser        \
+        sphinx-book-theme  \
         sphinx-copybutton  \
-        sphinx-inline-tabs \
-        sphinx-rtd-theme
+        sphinx-inline-tabs
 
 # Set the working directory for the remainder of the build process
 WORKDIR /manual

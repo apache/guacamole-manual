@@ -17,55 +17,9 @@
  * under the License.
  */
 
-/* Do not include border/background around code literals */
-.rst-content code {
-    border: none;
-    background: transparent;
-    padding: 0;
-}
-
-/* Use header font size for code literals in headers */
-.rst-content h1 code.literal,
-.rst-content h2 code.literal,
-.rst-content h3 code.literal,
-.rst-content h4 code.literal,
-.rst-content h5 code.literal,
-.rst-content h6 code.literal {
-    font-size: 100%;
-}
-
-/* Add border/background around replacable parts of code literals */
-.rst-content code.samp em {
-    background: #fff;
-    border: 1px solid #e1e4e5;
-    padding: 2px;
-    font-style: normal;
-    font-weight: bold;
-}
-
-/* Allow links containing code to be differentiated from normal text containing
- * code */
-.rst-content a[href] code.literal {
-    color: inherit;
-}
-
-/* Allow text within tables to wrap across multiple lines, rather than
- * potentially require horizontal scrolling */
-.wy-table-responsive table td {
-    white-space: normal;
-}
-
-/* Align table content with top of cell, rather than middle, so that it's
- * easier to see the text of adjacent table cells when one or more cells are
- * taller than the rest (due to word wrapping) */
-.rst-content table.docutils td,
-.rst-content table.field-list td,
-.wy-table td {
-    vertical-align:top
-}
-
-/* Meld gray border at bottom of tab bar into the borders of the tabs
- * themselves */
-.tab-set > label {
-    margin-bottom: 0;
+/* Hide "Back to top" button when printing the documentation */
+@media print {
+    #pst-back-to-top {
+        display: none !important;
+    }
 }

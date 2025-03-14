@@ -82,7 +82,7 @@ myst_substitutions = {
 # HTML output options
 #
 
-html_theme = 'sphinx_rtd_theme'
+html_theme = 'sphinx_book_theme'
 html_title = u'Apache Guacamole Manual v%s' % version
 
 html_static_path = [ '_static' ]
@@ -92,3 +92,10 @@ html_context = {
     'copyright_year' : year
 }
 
+html_theme_options = {
+
+    # The set of download links include the Markdown source, but without
+    # substituting any included templates, making the download nearly useless
+    'use_download_button': False
+
+}

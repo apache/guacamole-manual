@@ -52,8 +52,7 @@ Building the Guacamole manual from source requires:
  * An implementation of "make", such as [GNU
    Make](https://www.gnu.org/software/make/)
  * [Sphinx](https://pypi.org/project/Sphinx/)
- * [sphinx-rtd-theme](https://pypi.org/project/sphinx-rtd-theme/) (the
-   ReadTheDocs theme for Sphinx),
+ * [sphinx-book-theme](https://pypi.org/project/sphinx-book-theme/)
  * [sphinx-inline-tabs](https://pypi.org/project/sphinx-inline-tabs/)
  * [sphinx-copybutton](https://pypi.org/project/sphinx-copybutton/)
  * [myst-parser](https://pypi.org/project/myst-parser/)
@@ -63,14 +62,14 @@ Building the Guacamole manual from source requires:
 The required Python packages can be installed using the "pip" package manager:
 
 ```console
-$ pip install sphinx sphinx-rtd-theme sphinx-inline-tabs sphinx-copybutton myst-parser jinjanator
+$ pip install sphinx sphinx-book-theme sphinx-inline-tabs sphinx-copybutton myst-parser jinjanator
 ```
 
 On some systems, the Python 3 version of "pip" may instead be named "pip3", to
 maintain compatability with users and scripts that expect Python 2:
 
 ```console
-$ pip3 install sphinx sphinx-rtd-theme sphinx-inline-tabs sphinx-copybutton myst-parser jinjanator
+$ pip3 install sphinx sphinx-book-theme sphinx-inline-tabs sphinx-copybutton myst-parser jinjanator
 ```
 
 Building the manual
