@@ -3,6 +3,18 @@
 {%- set tabContext = namespace(docker=False, native=False) -%}
 
 {##
+ # Produces a download link for the copy of the given extension from the
+ # current release.
+ #
+ # @param extArchiveName
+ #     The base name of the .tar.gz archive containing the extension .jar file,
+ #     excluding version number suffix.
+ #}
+{%- macro downloadLink(extName) -%}
+[`{{ extName }}-{{ version }}.tar.gz`](https://apache.org/dyn/closer.lua/guacamole/{{ version }}/binary/{{ extName }}-{{ version }}.tar.gz?action=download)
+{%- endmacro -%}
+
+{##
  # Documents the download/installation procedures for an extension having the
  # given name. NOTE: This file must be imported with context to ensure the
  # version variable is inherited from declared MyST substitutions.
@@ -35,8 +47,9 @@ or similar are configured by modifying the contents of `GUACAMOLE_HOME`
 ([Guacamole's configuration directory](guacamole-home)), which is located at
 `/etc/guacamole` by default and may need to be created first:
 
-1. Download `{{ extArchiveName }}-{{ version }}.tar.gz` from [the release
-   notes](https://guacamole.apache.org/releases/{{ version }}) and extract it.
+1. Download {{ downloadLink(extArchiveName) }} from [the release page for
+   Apache Guacamole {{ version }}](https://guacamole.apache.org/releases/{{ version }})
+   and extract it.
 
 2. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
    exist.
