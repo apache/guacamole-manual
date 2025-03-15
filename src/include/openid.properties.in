@@ -1,0 +1,52 @@
+#
+# The authorization endpoint (URI) of the OpenID service.
+#
+# This value should be provided to you by the identity provider. For identity
+# providers that implement [OpenID Connect Discovery](https://openid.net/specs/openid-connect-discovery-1_0.html),
+# this value can be retrieved from the `authorization_endpoint` property of the
+# JSON file hosted at {samp}`{https://identity-provider}/.well-known/openid-configuration`, where
+# `https://identity-provider` is the base URL of the identity provider.
+#
+openid-authorization-endpoint: https://identity-provider/auth
+
+#
+# The endpoint (URI) of the JWKS service which defines how received ID tokens
+# ([JSON Web Tokens](https://jwt.io/) or JWTs) shall be validated.
+#
+# This value should be provided to you by the identity provider. For
+# identity providers that implement [OpenID Connect
+# Discovery](https://openid.net/specs/openid-connect-discovery-1_0.html),
+# this value can be retrieved from the `jwks_uri` property of the JSON
+# file hosted at
+# {samp}`{https://identity-provider}/.well-known/openid-configuration`, where
+# `https://identity-provider` is the base URL of the identity provider.
+#
+openid-jwks-endpoint: https://identity-provider/jwks
+
+#
+# The issuer to expect for all received ID tokens.
+#
+# This value should be provided to you by the identity provider. For
+# identity providers that implement [OpenID Connect
+# Discovery](https://openid.net/specs/openid-connect-discovery-1_0.html),
+# this value can be retrieved from the `issuer` property of the JSON
+# file hosted at
+# {samp}`{https://identity-provider}/.well-known/openid-configuration`, where
+# `https://identity-provider` is the base URL of the identity provider.
+#
+openid-issuer: identity-provider
+
+#
+# The OpenID client ID which should be submitted to the OpenID service when
+# necessary. This value is typically provided to you by the OpenID service when
+# OpenID credentials are generated for your application.
+#
+openid-client-id: my-client-id
+
+#
+# The URI that should be submitted to the OpenID service such that they
+# can redirect the authenticated user back to Guacamole after the
+# authentication process is complete. This must be the full URL that a user
+# would enter into their browser to access Guacamole.
+#
+openid-redirect-uri: https://example.net/guacamole
