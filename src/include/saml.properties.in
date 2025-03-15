@@ -1,0 +1,89 @@
+#
+# The URI of the XML metadata file from the SAML Identity Provider that
+# contains all of the information the SAML extension needs in order to know how
+# to authenticate with the IdP. This URI can either be a remote server (e.g.
+# `https://`) or a local file on the filesystem (e.g. `file://`). Often the
+# metadata file contains most of the required properties for SAML
+# authentication and the other parameters are not required.
+#
+saml-idp-metadata-url: file:///etc/guacamole/saml-metadata.xml
+
+#
+# The base URL of the SAML IdP. This is the URL that the SAML authentication
+# extension will use to redirect when requesting SAML authentication. If the
+# `saml-idp-metadata-url` property is provided, this parameter will be ignored.
+# If the metadata file is not provided this property is required.
+#
+saml-idp-url: https://myidp.example.net
+
+#
+# The entity ID of the Guacamole SAML client, which is generally the URL of the
+# Guacamole server, but is not required to be so. This property is required if
+# either the `saml-idp-metadata-url` property is not specified, or if the
+# provided metadata file does not contain the SAML SP Entity ID for the
+# Guacamole Client.
+#
+saml-entity-id: https://guac.example.net
+
+#
+# The URL that the IdP will use once authentication has succeeded to return to
+# the Guacamole web application and provide the authentication details to the
+# SAML extension. The SAML extension currently only supports callback as a POST
+# operation to this callback URL. This property is required.
+#
+saml-callback-url: https://guac.example.net
+
+#
+# Require strict security checks during SAML logins. This will insure that
+# valid certificates are present for all interactions with SAML servers and
+# fail SAML authentication if security restrictions are violated. This property
+# is optional, and will default to true, requiring strict security checks. This
+# property should only be set to false in non-production environments during
+# testing of SAML authentication.
+#
+saml-strict: true
+
+#
+# Enable additional logging within the supporting SAML library that can assist
+# in tracking down issues during SAML logins. This property is optional, and
+# will default to false (no debugging).
+#
+saml-debug: false
+
+#
+# Enable compression of the HTTP requests sent to the SAML IdP. This property
+# is optional and will default to true (compression enabled).
+#
+saml-compress-request: true
+
+#
+# Request that the SAML response returned by the IdP be compressed. This
+# property is optional and will default to true (compression will be
+# requested).
+#
+saml-compress-response: true
+
+#
+# The name of the attribute provided by the SAML IdP that contains group
+# membership of the user. These groups will be parsed and used to map group
+# membership of the user logging in, which can be used for permissions
+# management within Guacamole Client, particularly when layered with other
+# authentication modules. This property is optional, and defaults to "groups".
+#
+saml-group-attribute: groups
+
+#
+# The path to a certificate that will be used to sign SAML requests before
+# they are sent to the IdP, enhancing the integrity of the SAML authentication
+# process. This property is optional, and, if not present, SAML requests
+# will not be signed.
+#
+saml-x509-cert-path: /etc/guacamole/myidp.crt
+
+#
+# The path to a private key file to use to encrypt SAML requests sent to the
+# IdP, enhancing the confidentiality and integrity of the authentication
+# process. This property is optional, and, if not present, SAML requests
+# will not be encrypted before they are sent to the IdP.
+#
+saml-private-key-path: /etc/guacamole/saml-private.key
