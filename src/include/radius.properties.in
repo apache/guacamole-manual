@@ -1,0 +1,112 @@
+#
+# The RADIUS server to authenticate against. If not specified, localhost will
+# be used.
+#
+radius-hostname: localhost
+
+#
+# The RADIUS authentication port on which the RADIUS service is is listening.
+# If not specified, the default of 1812 will be used.
+#
+radius-auth-port: 1812
+
+#
+# The shared secret to use when talking to the RADIUS server. This parameter is
+# required and the extension will not load if this is not specified.
+#
+radius-shared-secret: some-shared-secret
+
+#
+# The authentication protocol to use when talking to the RADIUS server. This
+# parameter is required for the extension to operate. Supported values are:
+# pap, chap, mschapv1, mschapv2, eap-md5, eap-tls, and eap-ttls. Support for
+# PEAP is implemented inside the extension, but, due to a regression in the
+# JRadius implementation, it is currently broken. Also, if you specify eap-ttls
+# you will also need to specify the `radius-eap-ttls-inner-protocol` parameter
+# in order to properly configure the protocol used inside the EAP TTLS tunnel.
+#
+radius-auth-protocol: eap-tls
+
+#
+# The combination certificate and private key pair to use for TLS-based RADIUS
+# protocols that require a client-side certificate. This parameter should specify
+# the absolute path to the file. By default the extension will look for a file
+# called `radius.key` in the `GUACAMOLE_HOME` directory.
+#
+radius-key-file: /etc/guacamole/radius.key
+
+#
+# The file type of the keystore specified by the `radius-key-file` parameter.
+# Valid keystore types are pem, jceks, jks, and pkcs12. If not specified, this
+# defaults to pkcs12, the default used by the JRadius library.
+#
+radius-key-type: pkcs12
+
+#
+# The password of the private key specified in the `radius-key-file` parameter.
+# By default the extension will not use any password when trying to open the
+# key file.
+#
+radius-key-password: some-password
+
+#
+# The absolute path to the file that stores the certificate authority
+# certificates for encrypted connections to the RADIUS server. By default a
+# file with the name ca.crt in the `GUACAMOLE_HOME` directory will be used.
+#
+radius-ca-file: /etc/guacamole/ca.crt
+
+#
+# The file type of the keystore used for the certificate authority. Valid
+# formats are pem, jceks, jks, and pkcs12. If not specified this defaults to
+# pem.
+#
+radius-ca-type: pem
+
+#
+# The password used to protect the certificate authority store, if any.  If
+# unspecified the extension will attempt to read the CA store without any
+# password.
+#
+radius-ca-password: some-password
+
+#
+# This parameter controls whether or not the RADIUS extension should trust all
+# certificates or verify them against known good certificate authorities. Set
+# to true to allow the RADIUS server to connect without validating
+# certificates. The default is false, which causes certificates to be
+# validated.
+#
+radius-trust-all: false
+
+#
+# The number of times the client will retry the connection to the RADIUS server
+# and not receive a response before giving up. By default the client will try
+# the connection at most 5 times.
+#
+radius-retries: 5
+
+#
+# The timeout for a RADIUS connection in seconds. By default the client will
+# wait for a response from the server for at most 60 seconds.
+#
+radius-timeout: 60
+
+#
+# When EAP-TTLS is used, this parameter specifies the inner (tunneled) protocol
+# to use talking to the RADIUS server. It is required when the
+# `radius-auth-protocol` parameter is set to eap-ttls. If the
+# `radius-auth-protocol` value is set to something other than eap-ttls, this
+# parameter has no effect and will be ignored. Valid options for this are any of
+# the values for `radius-auth-protocol`, except for eap-ttls.
+#
+radius-eap-ttls-inner-protocol: chap
+
+#
+# This property allows the server administrator to manually set an IP address
+# that will be sent to the RADIUS server to identify this RADIUS client, known
+# as the "Network Access Server" (NAS) IP address. When this property is not
+# specified, the RADIUS extension attempts to automatically determine the IP
+# address of the system on which Guacamole is running and uses that value.
+#
+radius-nas-ip: 10.11.0.1
