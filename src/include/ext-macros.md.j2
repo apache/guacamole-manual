@@ -147,6 +147,10 @@ $ docker run --name some-guacamole \
  # given name. NOTE: This file must be imported with context to ensure the
  # version variable is inherited from declared MyST substitutions.
  #
+ # If invoked using Jinja's "call" feature, the body of the call replaces the
+ # step-by-step instructions for downloading and installing the extension for a
+ # native install of Guacamole.
+ #
  # @param extVarPrefix
  #     The prefix of Docker environment variables used by the extension.
  #
@@ -175,6 +179,9 @@ or similar are configured by modifying the contents of `GUACAMOLE_HOME`
 ([Guacamole's configuration directory](guacamole-home)), which is located at
 `/etc/guacamole` by default and may need to be created first:
 
+{%- if caller is defined %}
+{{ caller() }}
+{%- else %}
 1. Download {{ downloadLink(extArchiveName) }} from [the release page for
    Apache Guacamole {{ version }}](https://guacamole.apache.org/releases/{{ version }})
    and extract it.
@@ -188,6 +195,7 @@ or similar are configured by modifying the contents of `GUACAMOLE_HOME`
 4. Proceed with the configuring Guacamole for the newly installed extension as
    described below. The extension will be loaded after Guacamole has been
    restarted.
+{%- endif %}
 
 :::{note}
 Download and documentation links for all officially supported extensions for a

@@ -1,0 +1,165 @@
+{# vim: set filetype=markdown.jinja : #}
+{%- import 'include/ext-macros.md.j2' as ext with context -%}
+{%- import 'include/jdbc-macros.md.j2' as jdbc with context -%}
+
+Database setup for SQL Server
+=============================
+
+To use Guacamole with a SQL Server database, you will need:
+
+1. An instance of the SQL Server database server.
+
+2. Sufficient permission to create new databases, to create new users, and to
+   grant those users permissions.
+
+3. Network access to the database from the Guacamole server.
+
+If this is not the case, you will need to install SQL Server before continuing
+or use a different database. Guacamole additionally supports:
+
+* [MariaDB / MySQL](mysql-auth)
+* [PostgreSQL](postgresql-auth)
+
+```{include} include/warn-config-changes.md
+```
+
+(sqlserver-auth-database-creation)=
+
+Creating the Guacamole database
+-------------------------------
+
+It is best practice to use a dedicated database and user for the Guacamole web
+application, and these instructions cover only this method.
+
+To create the database within SQL Server, execute a `CREATE DATABASE` command
+with the `sqlcmd` client:
+
+```console
+$ /opt/mssql-tools/bin/sqlcmd -S localhost -U SA
+Password:
+1> CREATE DATABASE guacamole_db;
+2> GO
+1> quit
+```
+
+### Initializing the database
+
+::::{tab} {{ native_tab_title }}
+The schema scripts necessary to initialize the SQL Server version of Guacamole's
+database are provided within the `sqlserver/schema/` directory of {{ ext.downloadLink('guacamole-auth-jdbc') }},
+which must be downloaded from [the release page for Apache Guacamole {{ version }}](https://guacamole.apache.org/releases/{{ version }})
+and extracted first.
+
+Running each the two scripts in the `sqlserver/schema/` directory against the
+newly created database will initialize it with Guacamole's schema. You can run
+these scripts using the standard `sqlcmd` client:
+
+```console
+$ /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -d guacamole_db -i schema/001-create-schema.sql
+Password:
+Rule bound to data type.
+The new rule has been bound to column(s) of the specified user data type.
+Rule bound to data type.
+The new rule has been bound to column(s) of the specified user data type.
+$ /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -d guacamole_db -i schema/002-create-admin-user.sql
+Password:
+
+(1 rows affected)
+
+(3 rows affected)
+
+(5 rows affected)
+$
+```
+::::
+
+::::{tab} {{ container_tab_title }}
+The schema scripts necessary to initialize the SQL Server version of Guacamole's
+database are provided within the `/opt/guacamole/extensions/guacamole-auth-jdbc/sqlserver/schema`
+directory of the `guacamole/guacamole` image.
+
+Additionally, an `initdb.sh` script is provided at `/opt/guacamole/bin/initdb.sh`
+that can be used to extract the required schema initialization script:
+
+```console
+$ docker run --rm guacamole/guacamole /opt/guacamole/bin/initdb.sh --sqlserver > initdb.sql
+```
+
+The resulting script can then be run using the `sqlcmd` client:
+
+```console
+$ /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -d guacamole_db -i initdb.sql
+```
+::::
+
+Granting Guacamole access to the database
+-----------------------------------------
+
+For Guacamole to be able to execute queries against the database, you must
+create a new user for the database and grant that user sufficient privileges to
+manage the contents of all tables in the database.
+
+The user created for Guacamole needs only `SELECT`, `UPDATE`, `INSERT`, and
+`DELETE` permissions on all tables in the Guacamole database. These can
+permissions can be easily granted in SQL Server using the `db_datawriter` and
+`db_datareader` roles:
+
+```console
+$ /opt/mssql-tools/bin/sqlcmd -S localhost -U SA
+Password:
+1> CREATE LOGIN guacamole_user WITH PASSWORD = 'some_password';
+2> GO
+1> USE guacamole_db;
+2> GO
+1> CREATE USER guacamole_user;
+2> GO
+1> ALTER ROLE db_datawriter ADD MEMBER guacamole_user;
+2> ALTER ROLE db_datareader ADD MEMBER guacamole_user;
+3> GO
+1> quit
+$
+```
+
+(sqlserver-auth-installation)=
+
+Upgrading an existing Guacamole database
+----------------------------------------
+
+{{ jdbc.upgrade('sqlserver') }}
+
+Installing database authentication
+----------------------------------
+
+{% call jdbc.install('sqlserver') %}
+Any of the following TDS-compatible JDBC drivers are supported for connecting
+Guacamole to SQL Server:
+
+* [Microsoft JDBC Driver for SQL Server](https://docs.microsoft.com/en-us/sql/connect/jdbc/download-microsoft-jdbc-driver-for-sql-server)
+* [jTDS](http://jtds.sourceforge.net/)
+* [Progress DataDirect’s JDBC Driver for SQL Server](https://www.progress.com/jdbc/microsoft-sql-server)
+* Microsoft SQL Server 2000 JDBC Driver (legacy)
+
+If you do not have a specific reason to use one driver over the other, it's
+recommended that you use the JDBC driver provided by your database vendor.
+{% endcall %}
+
+{#
+ # Configuration section (template includes all required headers)
+ # --------------------------------------------------------------
+ #}
+{{ jdbc.config('sqlserver') }}
+
+Completing the installation
+---------------------------
+
+```{include} include/ext-completing.md
+```
+
+(sqlserver-auth-default-user)=
+
+Logging in
+----------
+
+```{include} include/jdbc-default-user.md
+```
+

@@ -1,0 +1,196 @@
+{# vim: set filetype=markdown.jinja : #}
+{%- import 'include/ext-macros.md.j2' as ext with context -%}
+{%- import 'include/jdbc-macros.md.j2' as jdbc with context -%}
+
+Database setup for MariaDB / MySQL
+==================================
+
+To use Guacamole with a MariaDB or MySQL database, you will need:
+
+1. An instance of the MariaDB or MySQL database server.
+
+2. Sufficient permission to create new databases, to create new users, and to
+   grant those users permissions.
+
+3. Network access to the database from the Guacamole server.
+
+If this is not the case, install your database of choice now. Most
+distributions will provide a convenient MariaDB or MySQL package which will set
+up everything for you. If you prefer Docker, the [`mysql`](https://hub.docker.com/_/mysql)
+and [`mariadb`](https://hub.docker.com/_/mariadb) Docker images are also
+reasonable options. If you don't wish to use MariaDB or MySQL, Guacamole
+additionally supports:
+
+* [PostgreSQL](postgresql-auth)
+* [SQL Server](sqlserver-auth)
+
+
+```{include} include/warn-config-changes.md
+```
+
+(mysql-auth-database-creation)=
+
+Creating a new database for Guacamole
+-------------------------------------
+
+It is best practice to use a dedicated database and user for the Guacamole web
+application, and these instructions cover only this method.
+
+If using the [`mariadb`](https://hub.docker.com/_/mariadb) or [`mysql`](https://hub.docker.com/_/mysql) Docker images:
+: Set the `MARIADB_DATABASE` or `MYSQL_DATABASE` environment variables
+  respectively to the desired name of the database. The Docker image will
+  automatically create this database when the container starts for the first
+  time.
+
+If using a native installation of MariaDB or MySQL:
+: Manually create a database for MySQL and MariaDB by executing a
+  `CREATE DATABASE` query with the `mysql` client:
+
+  ```mysql
+  CREATE DATABASE guacamole_db;
+  ```
+
+### Initializing the database
+
+::::{tab} {{ native_tab_title }}
+The schema scripts necessary to initialize the MySQL version of Guacamole's
+database are provided within the `mysql/schema/` directory of {{ ext.downloadLink('guacamole-auth-jdbc') }},
+which must be downloaded from [the release page for Apache Guacamole {{ version }}](https://guacamole.apache.org/releases/{{ version }})
+and extracted first.
+
+Running each of these scripts against the newly created database will
+initialize it with Guacamole's schema. You can run these scripts using the
+standard `mysql` client, but the method of running `mysql` varies depending on
+whether you are using Docker to provide your database.
+
+If using the [`mariadb`](https://hub.docker.com/_/mariadb) or [`mysql`](https://hub.docker.com/_/mysql) Docker images:
+: The schema initialization scripts should be run against the newly created
+  database by running the standard `mysql` command-line client _within the
+  container_:
+
+  ```console
+  $ cat schema/*.sql | docker exec -i some-mysql \
+      sh -c 'mysql -u root -p"$MYSQL_ROOT_PASSWORD" guacamole_db'
+  ```
+
+If using a native installation of MariaDB or MySQL:
+: The schema initialization scripts should be run against the newly created
+  database using the standard `mysql` client directly from the command-line:
+
+  ```console
+  $ cat schema/*.sql | mysql -u root -p guacamole_db
+  Enter password:
+  $
+  ```
+::::
+
+::::{tab} {{ container_tab_title }}
+The schema scripts necessary to initialize the MySQL version of Guacamole's
+database are provided within the `/opt/guacamole/extensions/guacamole-auth-jdbc/mysql/schema`
+directory of the `guacamole/guacamole` image.
+
+Additionally, an `initdb.sh` script is provided at `/opt/guacamole/bin/initdb.sh`
+that can be used to extract the required schema initialization script:
+
+```console
+$ docker run --rm guacamole/guacamole /opt/guacamole/bin/initdb.sh --mysql > initdb.sql
+```
+
+If using the [`mariadb`](https://hub.docker.com/_/mariadb) or [`mysql`](https://hub.docker.com/_/mysql) Docker images via Docker Compose:
+{% filter defListEntry %}
+{{ jdbc.volumeInitdb('mysql') }}
+{% endfilter %}
+
+If using the [`mariadb`](https://hub.docker.com/_/mariadb) or [`mysql`](https://hub.docker.com/_/mysql) Docker images _without_ Docker Compose:
+: Use the `initdb.sh` script included with the `guacamole/guacamole` image to
+  send the required initialization script to the standard `mysql` command-line
+  client _within the database container_:
+
+  ```console
+  $ docker run --rm guacamole/guacamole /opt/guacamole/bin/initd.sh --mysql | \
+      docker exec -i some-mysql sh -c 'mysql -u root -p"$MYSQL_ROOT_PASSWORD" guacamole_db'
+  ```
+
+If using a native installation of MariaDB or MySQL:
+: Use the `initdb.sh` script included with the `guacamole/guacamole` image to
+  automatically produce the SQL required to initialize an existing database:
+
+  ```console
+  $ docker run --rm guacamole/guacamole /opt/guacamole/bin/initd.sh --mysql | \
+      mysql -u root -p guacamole_db
+  ```
+::::
+
+### Granting Guacamole access to the database
+
+For Guacamole to be able to execute queries against the database, you must
+create a new user for the database and grant that user sufficient privileges to
+manage the contents of all tables in the database.
+
+If using the [`mariadb`](https://hub.docker.com/_/mariadb) or [`mysql`](https://hub.docker.com/_/mysql) Docker images:
+: Set the `MARIADB_USER` or `MYSQL_USER` environment variables respectively to
+  the desired name of the dedicated user, and the `MARIADB_PASSWORD` (or
+  `MYSQL_PASSWORD`) environment variable to the desired password. The Docker
+  image will automatically create this user when the container starts and grant
+  them full access to the Guacamole database.
+
+If using a native installation of MariaDB or MySQL:
+: The dedicated user for Guacamole must be manually created and granted
+  sufficient privileges. The user created for Guacamole needs only `SELECT`,
+  `UPDATE`, `INSERT`, and `DELETE` permissions on all tables in the Guacamole
+  database.
+
+  ```mysql
+  CREATE USER 'guacamole_user' IDENTIFIED BY 'some_password';
+  GRANT SELECT,INSERT,UPDATE,DELETE ON guacamole_db.* TO 'guacamole_user';
+  FLUSH PRIVILEGES;
+  ```
+
+(mysql-auth-installation)=
+
+Upgrading an existing Guacamole database
+----------------------------------------
+
+{{ jdbc.upgrade('mysql') }}
+
+Installing database authentication
+----------------------------------
+
+{% call jdbc.install('mysql') %}
+Either of the following MySQL-compatible JDBC drivers are supported
+for connecting Guacamole with MariaDB or MySQL:
+
+* [MariaDB Connector/J](https://mariadb.com/kb/en/about-mariadb-connector-j/)
+* [MySQL Connector/J](http://dev.mysql.com/downloads/connector/j/) (the required `.jar` will be within a `.tar.gz` archive)
+
+If you do not have a specific reason to use one driver over the other, it's
+recommended that you use the JDBC driver provided by your database vendor.
+{% endcall %}
+
+:::{important}
+**Older versions of MySQL Connector/J have known issues with SSL
+verification.** If you experience problems connecting to SSL-secured MySQL
+databases, it is recommended that you update to a current version of the
+driver.
+:::
+
+{#
+ # Configuration section (template includes all required headers)
+ # --------------------------------------------------------------
+ #}
+{{ jdbc.config('mysql') }}
+
+Completing the installation
+---------------------------
+
+```{include} include/ext-completing.md
+```
+
+(mysql-auth-default-user)=
+
+Logging in
+----------
+
+```{include} include/jdbc-default-user.md
+```
+

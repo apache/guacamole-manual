@@ -1,0 +1,37 @@
+#
+# The maximum number of concurrent connections to allow to any one connection,
+# regardless of which user is accessing the connection, where zero denotes
+# unlimited. By default, overall concurrent access to individual connections is
+# not limited.
+#
+somesql-default-max-connections: 0
+
+#
+# The maximum number of concurrent connections to allow to any one connection
+# group, regardless of which user is accessing the connection group, where zero
+# denotes unlimited. By default, overall concurrent access to individual
+# connection groups is not limited.
+#
+somesql-default-max-group-connections: 0
+
+#
+# The maximum number of concurrent connections to allow to any one connection
+# by the same user, where zero denotes unlimited. By default, per-user
+# concurrent access to individual connections is not limited.
+#
+somesql-default-max-connections-per-user: 0
+
+#
+# The maximum number of concurrent connections to allow to any one connection
+# group by the same user, where zero denotes unlimited. By default, per-user
+# concurrent access to connection groups is limited to one user.
+#
+somesql-default-max-group-connections-per-user: 1
+
+#
+# The maximum number of concurrent connections to allow overall, regardless of
+# which connection or connection group is used and regardless of which user is
+# accessing the connection/group, where zero denotes unlimited. By default,
+# overall concurrent access to Guacamole is not limited.
+#
+somesql-absolute-max-connections: 0
