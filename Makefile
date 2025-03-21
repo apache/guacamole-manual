@@ -114,12 +114,12 @@ build/in/%: src/%
 build/in/myst_substitutions.json: src/conf.py
 	$(GEN) $(ODIR) ./src/generate-j2-data.py > $@
 
-# NOTE: The complex usage of dirname, basename, and PWD here is necessary to
-# ensure filenames included/imported within Jinja templates are interpreted
-# relative to the location of the template, rather than relative to the
-# location of the entire build
+# NOTE: The complex usage of relative paths here is necessary to ensure
+# filenames included/imported within Jinja templates are always consistently
+# interpreted relative to the top-level document root, regardless of whether
+# the template is evaluated within "src/" or "build/in/".
 build/in/%: src/%.j2 build/in/myst_substitutions.json
-	$(JINJA) $(ODIR) cd `dirname $<` && $(J2) -o $(PWD)/$@ `basename $<` $(PWD)/build/in/myst_substitutions.json
+	$(JINJA) $(ODIR) cd src && $(J2) -o ../$@ ../$< ../build/in/myst_substitutions.json
 
 #
 # HTML manual build
