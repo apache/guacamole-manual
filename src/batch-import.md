@@ -1,4 +1,3 @@
-(batch-import)=
 Connection Batch Import
 ==============
 
