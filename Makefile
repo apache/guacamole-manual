@@ -24,16 +24,10 @@ V?=0
 
 # All files which the build depends on
 J2_FILES=$(shell find "./src" -name "*.j2")
-PROPERTIES_TEMPLATES=$(shell find "./src" -name "*.properties.in")
 OTHER_FILES=$(shell find ./src/ -name "__pycache__" -prune -o -type f -not -name "*.j2" -not -name "*.properties.in" -print)
 
 # Files that will ultimately be processed by Sphinx
 SPHINX_INPUT += $(J2_FILES:./src/%.j2=build/in/%)
-SPHINX_INPUT += $(PROPERTIES_TEMPLATES:./src/%.properties.in=build/in/%.properties.md)
-SPHINX_INPUT += $(PROPERTIES_TEMPLATES:./src/%.properties.in=build/in/%.environment.md)
-SPHINX_INPUT += $(PROPERTIES_TEMPLATES:./src/%.properties.in=build/in/%.example.properties)
-SPHINX_INPUT += $(PROPERTIES_TEMPLATES:./src/%.properties.in=build/in/%.example.yml)
-SPHINX_INPUT += $(PROPERTIES_TEMPLATES:./src/%.properties.in=build/in/%.example.txt)
 SPHINX_INPUT += $(OTHER_FILES:./src/%=build/in/%)
 
 #
@@ -44,7 +38,6 @@ SPHINX_INPUT += $(OTHER_FILES:./src/%=build/in/%)
 #
 
 ifeq ($(V), 0)
-GEN=@echo     "  GEN    " $@;
 CP=@echo      "  CP     " $@;
 JINJA=@echo   "  JINJA  " $@;
 SPHINX=@echo  "  SPHINX " $@;
@@ -82,25 +75,6 @@ clean:
 	$(RM) -R build/
 
 #
-# Automatic generation of property documentation/examples
-#
-
-build/in/%.properties.md: src/%.properties.in
-	$(GEN) $(ODIR) ./generate-conf-docs.pl --mode=property-docs $< > $@
-
-build/in/%.environment.md: src/%.properties.in
-	$(GEN) $(ODIR) ./generate-conf-docs.pl --mode=environment-docs $< > $@
-
-build/in/%.example.properties: src/%.properties.in
-	$(GEN) $(ODIR) ./generate-conf-docs.pl --mode=property-example $< > $@
-
-build/in/%.example.yml: src/%.properties.in
-	$(GEN) $(ODIR) ./generate-conf-docs.pl --mode=docker-compose-example $< > $@
-
-build/in/%.example.txt: src/%.properties.in
-	$(GEN) $(ODIR) ./generate-conf-docs.pl --mode=docker-command-example $< > $@
-
-#
 # Copy any source files that don't require additional processing to build input
 #
 
@@ -119,7 +93,7 @@ build/in/myst_substitutions.json: src/conf.py
 # interpreted relative to the top-level document root, regardless of whether
 # the template is evaluated within "src/" or "build/in/".
 build/in/%: src/%.j2 build/in/myst_substitutions.json
-	$(JINJA) $(ODIR) cd src && $(J2) -o ../$@ ../$< ../build/in/myst_substitutions.json
+	$(JINJA) $(ODIR) cd src && $(J2) --filters ../src/jinja-filters.py -o ../$@ ../$< ../build/in/myst_substitutions.json
 
 #
 # HTML manual build

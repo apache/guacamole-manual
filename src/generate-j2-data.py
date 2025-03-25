@@ -29,7 +29,7 @@
 import json
 
 # Pull in the contents of the Sphinx conf.py
-exec(compile(open('conf.py', 'rb').read(), 'conf.py', 'exec'))
+exec(compile(open('src/conf.py', 'rb').read(), 'src/conf.py', 'exec'))
 
 # Dump all MyST Parser substitutions as JSON for consumption by
 # jinjanator/j2cli

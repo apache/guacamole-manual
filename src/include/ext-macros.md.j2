@@ -3,6 +3,134 @@
 {%- set tabContext = namespace(docker=False, native=False) -%}
 
 {##
+ # Generates a Markdown definition list (MyST format) that lists each property
+ # within the given properties file template, where the property name is used
+ # as the term and the content of all adjacent comments above that property are
+ # used as the definition. Markdown formatting within the comment will be
+ # preserved. If a property is commented out, that property will still be
+ # included in the documentation.
+ #
+ # @param filename
+ #     The properties file template to read.
+ #}
+{%- macro propertyDocs(filename) -%}
+
+    {%- set docs | splitPropertyTemplate -%}
+    {%- include filename -%}
+    {%- endset -%}
+
+    {%- for doc in docs %}
+`{{ doc.name }}`
+{{ doc.documentation | defListEntry }}
+    {%- endfor -%}
+
+{%- endmacro -%}
+
+{##
+ # Generates an example "guacamole.properties" snippet that lists each
+ # individual property in the given properties file template, including the
+ # value provided for that property in the input file. Documentation from
+ # comments related to the property are omitted from the output. If a property
+ # is commented out, that property will still be included in the output snippet
+ # in commented-out form.
+ #
+ # @param filename
+ #     The properties file template to read.
+ #}
+{%- macro propertyExample(filename) -%}
+
+    {%- set docs | splitPropertyTemplate -%}
+    {%- include filename -%}
+    {%- endset -%}
+
+```ini
+    {%- for doc in docs %}
+{{ (doc.commented and '#') or '' }}{{ doc.name }}: {{ doc.value }}
+    {%- endfor %}
+```
+
+{%- endmacro -%}
+
+{##
+ # Generates a Markdown definition list (MyST format) that lists each property
+ # within the given properties file template, where the property's
+ # corresponding environment variable name is used as the term and the content
+ # of all adjacent comments above that property are used as the definition.
+ # Markdown formatting within the comment will be preserved. If a property is
+ # commented out, the environment variable for that property will still be
+ # included in the documentation.
+ #
+ # @param filename
+ #     The properties file template to read.
+ #}
+{%- macro environmentDocs(filename) -%}
+
+    {%- set docs | splitPropertyTemplate -%}
+    {%- include filename -%}
+    {%- endset -%}
+
+    {%- for doc in docs %}
+`{{ doc.name | environmentName }}`
+{{ doc.documentation | defListEntry }}
+    {%- endfor %}
+
+{%- endmacro -%}
+
+{##
+ # Generates an example docker-compose.yml snippet that lists the environment
+ # variables that correspond to each individual property in the given
+ # properties file template, including the value provided for that property in
+ # the input file. Documentation from comments related to the property are
+ # omitted from the output. If a property is commented out, the environment
+ # variable corresponding to that property will still be included in the output
+ # snippet in commented-out form.
+ #
+ # @param filename
+ #     The properties file template to read.
+ #}
+{%- macro dockerComposeExample(filename) -%}
+
+    {%- set docs | splitPropertyTemplate -%}
+    {%- include filename -%}
+    {%- endset -%}
+
+```yaml
+    {%- for doc in docs %}
+{{ (doc.commented and '#') or '' }}{{ doc.name | environmentName }}: {{ doc.value | dockerComposeStr }}
+    {%- endfor %}
+```
+
+{%- endmacro -%}
+
+{##
+ # Generates an example "docker run" command that shows "-e" options for each
+ # of the environment variables that correspond to each individual property in
+ # the given properties file template, including the value provided for that
+ # property in the input file.  Documentation from comments related to the
+ # property are omitted from the output. If a property is commented out, the
+ # environment variable corresponding to that property will be omitted from the
+ # output snippet.
+ #
+ # @param filename
+ #     The properties file template to read.
+ #}
+{%- macro dockerCommandExample(filename) -%}
+
+    {%- set docs | splitPropertyTemplate -%}
+    {%- include filename -%}
+    {%- endset -%}
+
+```console
+$ docker run --name some-guacamole \
+    {%- for doc in docs %}
+    -e {{ doc.name | environmentName }}={{ doc.value | shellStr }} \
+    {%- endfor %}
+    -d -p 8080:8080 guacamole/guacamole
+```
+
+{%- endmacro -%}
+
+{##
  # Produces a download link for the copy of the given extension from the
  # current release.
  #
@@ -155,33 +283,29 @@ at least _one_ related environment variable is set.
  #}
 {%- macro config(extInclude, required=False) -%}
 ::::{tab} {{ native_tab_title }}
+    {%- set tabContext.native = True -%}
     {%- if caller is defined %}
-        {%- set tabContext.native = True -%}
 {{ caller() }}
-        {%- set tabContext.native = False -%}
     {%- endif %}
 
     {%- if required %}
 If deploying Guacamole natively, you will need to add a section to your
 `guacamole.properties` that looks like the following:
 
-```{literalinclude} include/{{ extInclude }}.example.properties
-:language: ini
-```
+{{ propertyExample('include/' + extInclude + '.properties.in') }}
 
 The properties that must be set in all cases for any Guacamole installation
 using this extension are:
     {%- endif %}
 
-```{include} include/{{ extInclude }}.properties.md
-```
+{{ propertyDocs('include/' + extInclude + '.properties.in') }}
+    {%- set tabContext.native = False -%}
 ::::
 
 ::::{tab} {{ container_tab_title }}
+    {%- set tabContext.docker = True -%}
     {%- if caller is defined %}
-        {%- set tabContext.docker = True -%}
 {{ caller() }}
-        {%- set tabContext.docker = False -%}
     {%- endif %}
 
     {%- if required %}
@@ -189,24 +313,20 @@ If deploying Guacamole using Docker Compose, you will need to add a set of
 environment variables to the `environment` section of your
 `guacamole/guacamole` container that looks like the following:
 
-```{literalinclude} include/{{ extInclude }}.example.yml
-:language: yaml
-```
+{{ dockerComposeExample('include/' + extInclude + '.properties.in') }}
 
 If instead deploying Guacamole by running `docker run` manually, these same
 environment variables will need to be provided using the `-e` option.  For
 example:
 
-```{literalinclude} include/{{ extInclude }}.example.txt
-:language: console
-```
+{{ dockerCommandExample('include/' + extInclude + '.properties.in') }}
 
 The environment variables that must be set in all cases for any Docker-based
 Guacamole installation using this extension are:
     {%- endif %}
 
-```{include} include/{{ extInclude }}.environment.md
-```
+{{ environmentDocs('include/' + extInclude + '.properties.in') }}
+    {%- set tabContext.docker = False -%}
 ::::
 {%- endmacro -%}
 
