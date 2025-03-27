@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 #
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
@@ -17,64 +18,66 @@
 # under the License.
 #
 
+from jinja2 import Environment, BaseLoader
+from pathlib import Path
 import re
 
-def environmentName(str):
+def environmentName(value):
     """
     Transforms the given Guacamole property to its corresponding environment
     variable name.
 
-    :param str:
+    :param value:
         The property name to filter.
 
     :return string:
         The name of the environment variable that corresponds to the given
         property.
     """
-    return str.upper().replace('-', '_')
+    return value.upper().replace('-', '_')
 
-def defListEntry(str):
+def defListEntry(value):
     """
     Creates a definition list entry (the description of a term) from the given
     Markdown content.
 
-    :param str:
+    :param value:
         The string to filter.
 
     :return string:
         A definition list entry containing all of the given Markdown content.
     """
-    return ': ' + '\n  '.join(str.split('\n')) + '\n'
+    return ': ' + '\n  '.join(value.split('\n')) + '\n'
 
-def dockerComposeStr(str):
+def dockerComposeStr(value):
     """
     Formats the given value as a string that can be used within the YAML
     provided to Docker Compose. Characters within the string will be escaped as
     necessary.
 
-    :param str:
+    :param value:
         The string to filter.
 
     :return string:
         A properly escaped YAML string containing the provied value.
     """
-    return "'" + str.replace("'", "''") + "'"
+    return "'" + value.replace("'", "''") + "'"
 
-def shellStr(str):
+def shellStr(value):
     """
     Formats the given value as a string that can be used within the arguments
     of a shell command.  Characters within the string will be escaped as
     necessary.
 
-    :param str:
+    :param value:
         The string to filter.
 
     :return string:
         A properly escaped shell string containing the provied value.
     """
-    return '"' + re.sub(r'([\$`"\\])', r'\\\1', str) + '"'
+    return '"' + re.sub(r'([\$`"\\])', r'\\\1', value) + '"'
 
-def splitPropertyTemplate(str):
+def splitPropertyTemplate(value):
     """
     Splits the provided property template (guacamole.properties snippet
     containing documentation for each property in comments) into a list of each
@@ -96,7 +99,7 @@ def splitPropertyTemplate(str):
     "commented"
       Whether the property was commented-out within the template.
 
-    :param str:
+    :param value:
         The string to filter.
 
     :return string:
@@ -106,7 +109,7 @@ def splitPropertyTemplate(str):
     result = []
     property_docs = ''
 
-    for line in str.splitlines():
+    for line in value.splitlines():
 
         # Gradually accumulate documentation from comments that precede a
         # property/value pair
@@ -141,4 +144,55 @@ def splitPropertyTemplate(str):
             property_docs = ''
 
     return result 
+
+class WorkingDirectoryFileSystemLoader(BaseLoader):
+    """
+    Jinja2 template loader that simply reads any requested template directly
+    from the filesystem, interpreting the template name as a path relative to
+    the current working directory.
+    """
+
+    def get_source(self, environment, template):
+        """
+        Retrieves the source for a requested template. The definition of this
+        function is dictated by the BaseLoader class.
+
+        See: https://jinja.palletsprojects.com/en/stable/api/#jinja2.BaseLoader.get_source
+        """
+
+        # Determine original template modification time (required for
+        # implementing the final part of the resulting tuple: a function that
+        # returns whether the template is up-to-date)
+        templatePath = Path(template)
+        templateModTime = templatePath.stat().st_mtime
+
+        return (
+            templatePath.read_text(encoding='utf-8'),
+            template,
+            lambda: templateModTime >= templatePath.stat().st_mtime
+        )
+
+# Read conf.py such that we have access to myst_substitutions for later
+# inclusion in the template context
+exec(compile(open('conf.py', 'rb').read(), 'conf.py', 'exec'))
+
+env = Environment(autoescape=False,
+                  loader=WorkingDirectoryFileSystemLoader())
+
+# Add custom filters to Jinja environment
+env.filters.update({
+    'environmentName' : environmentName,
+    'defListEntry' : defListEntry,
+    'dockerComposeStr' : dockerComposeStr,
+    'shellStr' : shellStr,
+    'splitPropertyTemplate' : splitPropertyTemplate
+})
+
+input_file = sys.argv[1]
+output_file = sys.argv[2]
+
+# Filter provided document(s)
+template = env.get_template(input_file)
+Path(output_file).write_text(template.render(myst_substitutions),
+                             encoding='utf-8')
 

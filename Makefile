@@ -44,19 +44,6 @@ SPHINX=@echo  "  SPHINX " $@;
 SPHINX_FLAGS?=-q
 endif
 
-#
-# The behavior between j2cli and jinjanator is slightly different, with
-# jinjanator now outputting build information to STDERR unless --quiet is
-# provided. Detect the available application and set the options appropriately
-# (unless the J2 environment variable is overridden from the command line).
-#
-
-ifeq (, $(shell command -v jinjanate))
-J2?=j2
-else
-J2?=jinjanate --quiet
-endif
-
 # Handy macro-like variable that automatically creates the parent directory for
 # the output file of a target
 ODIR=mkdir -p `dirname $@` &&
@@ -85,15 +72,12 @@ build/in/%: src/%
 # Automatic filtering of documentation using Jinja2
 #
 
-build/in/myst_substitutions.json: src/conf.py
-	$(GEN) $(ODIR) ./src/generate-j2-data.py > $@
-
 # NOTE: The complex usage of relative paths here is necessary to ensure
 # filenames included/imported within Jinja templates are always consistently
 # interpreted relative to the top-level document root, regardless of whether
 # the template is evaluated within "src/" or "build/in/".
-build/in/%: src/%.j2 build/in/myst_substitutions.json
-	$(JINJA) $(ODIR) cd src && $(J2) --filters ../src/jinja-filters.py -o ../$@ ../$< ../build/in/myst_substitutions.json
+build/in/%: src/%.j2 src/conf.py
+	$(JINJA) $(ODIR) cd src && ./filter-j2.py ../$< ../$@
 
 #
 # HTML manual build

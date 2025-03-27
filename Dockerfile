@@ -28,7 +28,7 @@ ARG HTTPD_VERSION=2.4
 # Perform the build itself using Python+Sphinx
 FROM sphinxdoc/sphinx AS builder
 RUN pip3 install           \
-        jinjanator         \
+        Jinja2             \
         myst-parser        \
         sphinx-book-theme  \
         sphinx-copybutton  \

@@ -56,20 +56,19 @@ Building the Guacamole manual from source requires:
  * [sphinx-inline-tabs](https://pypi.org/project/sphinx-inline-tabs/)
  * [sphinx-copybutton](https://pypi.org/project/sphinx-copybutton/)
  * [myst-parser](https://pypi.org/project/myst-parser/)
- * [jinjanator](https://pypi.org/project/jinjanator/) or
-   [j2cli](https://pypi.org/project/j2cli/)
+ * [Jinja2](https://pypi.org/project/Jinja2/)
 
 The required Python packages can be installed using the "pip" package manager:
 
 ```console
-$ pip install sphinx sphinx-book-theme sphinx-inline-tabs sphinx-copybutton myst-parser jinjanator
+$ pip install sphinx sphinx-book-theme sphinx-inline-tabs sphinx-copybutton myst-parser Jinja2 
 ```
 
 On some systems, the Python 3 version of "pip" may instead be named "pip3", to
 maintain compatability with users and scripts that expect Python 2:
 
 ```console
-$ pip3 install sphinx sphinx-book-theme sphinx-inline-tabs sphinx-copybutton myst-parser jinjanator
+$ pip3 install sphinx sphinx-book-theme sphinx-inline-tabs sphinx-copybutton myst-parser Jinja2 
 ```
 
 Building the manual
