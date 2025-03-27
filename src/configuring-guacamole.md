@@ -2890,6 +2890,19 @@ Currently the only parameters that will trigger this prompt to the user are
 authentication requests for the RDP and VNC protocols where authenticators were
 not provided as part of the connection configuration.
 
+For RDP sessions, Guacamole will by default only prompt for missing credentials,
+if the connection security type does not allow a graphical session to be
+established without providing credentials. This is true for connections using
+NLA, for example. In such a case, Guacamole will present a web form for the user
+to provide their credentials. Otherwise, Guacamole will establish a graphical
+session and allow the user to enter their credentials through the graphical
+session instead.
+
+If this is not desired, the setting "Prompt for credentials in browser form"
+may be set on the connection. This will make Guacamole prompt for missing
+credentials using this browser form, irrespective of the security method
+used.
+
 :::{important}
 It is important to note that requests for parameters will only be generated in
 the case where that information has not already been provided as part of the
