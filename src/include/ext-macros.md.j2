@@ -1,7 +1,5 @@
 {# vim: set filetype=markdown.jinja : #}
 
-{%- set tabContext = namespace(docker=False, native=False) -%}
-
 {##
  # Generates a Markdown definition list (MyST format) that lists each property
  # within the given properties file template, where the property name is used
@@ -291,7 +289,7 @@ at least _one_ related environment variable is set.
  #}
 {%- macro config(extInclude, required=False) -%}
 ::::{tab} {{ native_tab_title }}
-    {%- set tabContext.native = True -%}
+    {{- beginTab('native') -}}
     {%- if caller is defined %}
 {{ caller() }}
     {%- endif %}
@@ -307,11 +305,11 @@ using this extension are:
     {%- endif %}
 
 {{ propertyDocs('include/' + extInclude + '.properties.in') }}
-    {%- set tabContext.native = False -%}
+    {{- endTab('native') -}}
 ::::
 
 ::::{tab} {{ container_tab_title }}
-    {%- set tabContext.docker = True -%}
+    {{- beginTab('docker') -}}
     {%- if caller is defined %}
 {{ caller() }}
     {%- endif %}
@@ -334,7 +332,7 @@ Guacamole installation using this extension are:
     {%- endif %}
 
 {{ environmentDocs('include/' + extInclude + '.properties.in') }}
-    {%- set tabContext.docker = False -%}
+    {{- endTab('docker') -}}
 ::::
 {%- endmacro -%}
 
@@ -355,10 +353,10 @@ Guacamole installation using this extension are:
  #}
 {%- macro container(yes='', no='') -%}
     {%- if caller is defined %}
-        {%- if tabContext.docker %}
+        {%- if isTab('docker') %}
 {{ caller() }}
         {%- endif %}
-    {%- elif tabContext.docker %}
+    {%- elif isTab('docker') %}
 {{ yes }}
     {%- else %}
 {{ no }}
@@ -382,10 +380,10 @@ Guacamole installation using this extension are:
  #}
 {%- macro native(yes='', no='') -%}
     {%- if caller is defined -%}
-        {%- if tabContext.native -%}
+        {%- if isTab('native') -%}
 {{ caller() }}
         {%- endif -%}
-    {%- elif tabContext.native -%}
+    {%- elif isTab('native') -%}
 {{ yes }}
     {%- else -%}
 {{ no }}

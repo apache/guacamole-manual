@@ -22,6 +22,58 @@ from jinja2 import Environment, BaseLoader
 from pathlib import Path
 import re
 
+# The current stack of tabs, as dictated by prior calls to beginTab() and
+# endTab(). If we are in a tab, the current tab is the last element of this
+# list. If we are not in any tabs, this list is empty.
+tabStack = []
+
+def beginTab(tabName):
+    """
+    Notifies that we are entering the context of a tab having the given name.
+    There is no requirement for tab naming except that names must be
+    consistent.
+
+    :param tabName:
+        The name of the tab.
+
+    :return string:
+        Always an empty string.
+    """
+    global tabStack
+    tabStack.append(tabName)
+    return ''
+
+def isTab(tabName):
+    """
+    Returns whether we are currently within a tab having the given name, as
+    dictated by prior calls to beginTab() and endTab().
+
+    :param tabName:
+        The name of the tab to test.
+
+    :return bool:
+        True if we are currently within the tab having the given name, False
+        otherwise.
+    """
+    global tabStack
+    return tabStack[-1] == tabName
+
+def endTab(tabName):
+    """
+    Notifies that we are leaving the context of a tab having the given name.
+    There is no requirement for tab naming except that names must be
+    consistent.
+
+    :param tabName:
+        The name of the tab.
+
+    :return string:
+        Always an empty string.
+    """
+    global tabStack
+    assert tabName == tabStack.pop()
+    return ''
+
 def environmentName(value):
     """
     Transforms the given Guacamole property to its corresponding environment
@@ -186,6 +238,12 @@ env.filters.update({
     'dockerComposeStr' : dockerComposeStr,
     'shellStr' : shellStr,
     'splitPropertyTemplate' : splitPropertyTemplate
+})
+
+env.globals.update({
+    'beginTab' : beginTab,
+    'isTab' : isTab,
+    'endTab' : endTab
 })
 
 input_file = sys.argv[1]
