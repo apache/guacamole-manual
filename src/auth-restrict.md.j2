@@ -1,7 +1,7 @@
 {# vim: set filetype=markdown.jinja : #}
 {%- import 'include/ext-macros.md.j2' as ext with context -%}
 
-Enforcing Advanced Login and Connection Restrictions
+Enforcing advanced login and connection restrictions
 ====================================================
 
 A feature of Guacamole as of version 1.6.0 is an extension that allows you to
@@ -27,22 +27,23 @@ by the Guacamole project that is capable of doing this is the
 
 (installing-auth-restrict)=
 
-Downloading and installing auth-restrict extension
---------------------------------------------------
+Installing/Enabling support for advanced restrictions
+-----------------------------------------------------
 
 {{ ext.install('RESTRICT', 'guacamole-auth-restrict') }}
 
 (completing-auth-restrict-install)=
 
-### Completing the installation
+Completing installation
+-----------------------
 
 ```{include} include/ext-completing.md
 ```
 
 (using-auth-restrict)=
 
-Using the auth-restrict extension
----------------------------------
+Using advanced restrictions
+---------------------------
 
 Once the extension is installed and the web application restarted, an additional
 section of options will appear in the administrative pages of Guacamole that

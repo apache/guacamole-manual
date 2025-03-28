@@ -153,8 +153,8 @@ Upgrading an existing Guacamole database
 
 {{ jdbc.upgrade('mysql') }}
 
-Installing database authentication
-----------------------------------
+Installing/Enabling support for MariaDB/MySQL
+---------------------------------------------
 
 {% call jdbc.install('mysql') %}
 Either of the following MySQL-compatible JDBC drivers are supported
@@ -180,8 +180,8 @@ driver.
  #}
 {{ jdbc.config('mysql') }}
 
-Completing the installation
----------------------------
+Completing installation
+-----------------------
 
 ```{include} include/ext-completing.md
 ```

@@ -127,8 +127,8 @@ Upgrading an existing Guacamole database
 
 {{ jdbc.upgrade('sqlserver') }}
 
-Installing database authentication
-----------------------------------
+Installing/Enabling support for SQL Server
+------------------------------------------
 
 {% call jdbc.install('sqlserver') %}
 Any of the following TDS-compatible JDBC drivers are supported for connecting
@@ -149,8 +149,8 @@ recommended that you use the JDBC driver provided by your database vendor.
  #}
 {{ jdbc.config('sqlserver') }}
 
-Completing the installation
----------------------------
+Completing installation
+-----------------------
 
 ```{include} include/ext-completing.md
 ```

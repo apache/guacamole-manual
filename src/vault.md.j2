@@ -17,8 +17,8 @@ in mind and currently supports [Keeper Secrets Manager (KSM)](https://www.keeper
 
 (vault-downloading)=
 
-Downloading and installing the vault extension
-----------------------------------------------
+Installing/Enabling the vault extension
+---------------------------------------
 
 {{ ext.install('KSM', 'guacamole-vault', 'ksm/guacamole-vault-ksm') }}
 
@@ -107,8 +107,8 @@ question should be able to access.
 
 (guac-vault-config)=
 
-Configuring Guacamole for KSM
------------------------------
+Required configuration
+----------------------
 
 {% call ext.config('ksm', required=True) %}
 Guacamole requires only a single configuration property to configure secret
@@ -118,7 +118,8 @@ Guacamole was registered with KSM as an application as described above](adding-g
 All other {{ ext.properties() }} are optional.
 {% endcall %}
 
-### Additional vaults for users and connection groups
+Additional vaults for users and connection groups
+-------------------------------------------------
 
 {% call ext.config('ksm-user-vaults') %}
 In addition to the required, application-wide vault, Guacamole can be
@@ -146,7 +147,7 @@ functionality by:
 conditions are true.**
 {% endcall %}
 
-#### Priorities of multiple vaults
+### Priorities of multiple vaults
 
 When multiple vaults apply to any connection attempt, secrets are pulled and
 applied in a specific order of priority that is intended to ensure the
@@ -179,8 +180,8 @@ to tailor the behavior of the KSM support:
 
 (completing-vault-install)=
 
-Completing the installation
----------------------------
+Completing installation
+-----------------------
 
 ```{include} include/ext-completing.md
 ```

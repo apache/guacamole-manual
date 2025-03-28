@@ -65,8 +65,8 @@ or connection storage is covered in [](jdbc-auth) and later in this chapter in
 
 (ldap-downloading)=
 
-Downloading the LDAP extension
-------------------------------
+Intalling/Enabling the LDAP extension
+-------------------------------------
 
 {{ ext.install('LDAP', 'guacamole-auth-ldap') }}
 
@@ -155,8 +155,8 @@ dn: cn={4}guacConfigGroup,cn=schema,cn=config
 
 (ldap-and-database)=
 
-Associating LDAP with a database
---------------------------------
+Associating LDAP with a database (recommended)
+----------------------------------------------
 
 If you install both the LDAP authentication as well as support for a database
 (following the instructions in [](jdbc-auth)), Guacamole will automatically
@@ -184,12 +184,13 @@ with those users or groups directly.
 
 (guac-ldap-config)=
 
-Configuring Guacamole for LDAP
-------------------------------
+Required configuration
+----------------------
 
 {{ ext.config('ldap', required=True) }}
 
-### Additional configuration
+Additional configuration (optional)
+-----------------------------------
 
 {% call ext.config('ldap-optional') %}
 Additional properties may be added to `guacamole.properties` to describe how
@@ -302,7 +303,8 @@ a particular LDAP server, this can be specified with a list of patterns for
     - (.*)@b\.example\.net
 ```
 
-### Completing the installation
+Completing installation
+-----------------------
 
 ```{include} include/ext-completing.md
 ```

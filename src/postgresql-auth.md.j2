@@ -161,8 +161,8 @@ GRANT SELECT,USAGE ON ALL SEQUENCES IN SCHEMA public TO guacamole_user;
 ```
 :::
 
-Installing database authentication
-----------------------------------
+Installing/Enabling support for PostgreSQL
+------------------------------------------
 
 {% call jdbc.install('postgresql') %}
 For PostgreSQL, the proper driver is [the JDBC driver provided by the
@@ -175,8 +175,8 @@ PostgreSQL project](https://jdbc.postgresql.org/download/#latest-versions).
  #}
 {{ jdbc.config('postgresql') }}
 
-Completing the installation
----------------------------
+Completing installation
+-----------------------
 
 ```{include} include/ext-completing.md
 ```

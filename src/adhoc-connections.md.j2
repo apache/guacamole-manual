@@ -1,8 +1,8 @@
 {# vim: set filetype=markdown.jinja : #}
 {%- import 'include/ext-macros.md.j2' as ext with context -%}
 
-Ad-hoc Connections
-==================
+Creating ad-hoc connections
+===========================
 
 The quickconnect extension provides a connection bar on the Guacamole Client
 home page that allows users to type in the URI of a server to which they want
@@ -40,14 +40,15 @@ well-understood by administrators prior to implementing it:
 
 (quickconnect-downloading)=
 
-Installing the quickconnect extension
--------------------------------------
+Installing/Enabling the quickconnect extension
+----------------------------------------------
 
 {{ ext.install('QUICKCONNECT', 'guacamole-auth-quickconnect') }}
 
 (guac-quickconnect-config)=
 
-### Configuration options
+Configuration (optional)
+------------------------
 
 {% call ext.config('quickconnect') %}
 {{ ext.nothingRequired() }}
@@ -55,7 +56,8 @@ Installing the quickconnect extension
 
 (completing-quickconnect-install)=
 
-### Completing installation
+Completing installation
+-----------------------
 
 ```{include} include/ext-completing.md
 ```

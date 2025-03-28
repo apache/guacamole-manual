@@ -1,8 +1,8 @@
 {# vim: set filetype=markdown.jinja : #}
 {%- import 'include/ext-macros.md.j2' as ext with context -%}
 
-CAS Authentication
-==================
+Using CAS for single sign-on
+============================
 
 CAS is an open-source Single Sign On (SSO) provider that allows multiple
 applications and services to authenticate against it and brokers those
@@ -13,13 +13,13 @@ connection information, as it only provides user authentication.
 
 (cas-downloading)=
 
-Downloading and installing the CAS authentication extension
------------------------------------------------------------
+Installing/Enabling the CAS authentication extension
+----------------------------------------------------
 
 {{ ext.install('CAS', 'guacamole-auth-sso', 'cas/guacamole-auth-sso-cas') }}
 
-Configuring Guacamole for CAS Authentication
---------------------------------------------
+Required configuration
+----------------------
 
 {% call ext.config('cas', required=True) %}
 Guacamole's CAS support requires specifying two {{ ext.properties() }} that
@@ -29,7 +29,8 @@ dictate how Guacamole should connect to CAS and how CAS should redirect users
 back to Guacamole once their identity has been confirmed.
 {% endcall %}
 
-### Additional Configuration Options
+Additional configuration (optional)
+-----------------------------------
 
 {% call ext.config('cas-optional') %}
 Additional optional {{ ext.properties() }} are available to control how
@@ -64,8 +65,8 @@ extension-priority: *, cas
 
 (completing-cas-install)=
 
-Completing the installation
----------------------------
+Completing installation
+-----------------------
 
 ```{include} include/ext-completing.md
 ```

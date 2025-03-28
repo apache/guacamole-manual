@@ -16,15 +16,15 @@ configured secret key was used to sign and encrypt the data.
 
 (json-downloading)=
 
-Downloading and installing the JSON authentication extension
-------------------------------------------------------------
+Installing/Enabling the JSON authentication extension
+-----------------------------------------------------
 
 {{ ext.install('JSON', 'guacamole-auth-json') }}
 
 (json-config)=
 
-Configuring Guacamole to accept encrypted JSON
-----------------------------------------------
+Configuration
+-------------
 
 {% call ext.config('json', required=True) %}
 To verify and decrypt the received signed and encrypted JSON, a secret key must
@@ -35,8 +35,8 @@ must be 128 bits.
 
 (completing-json-install)=
 
-Completing the installation
----------------------------
+Completing installation
+-----------------------
 
 ```{include} include/ext-completing.md
 ```

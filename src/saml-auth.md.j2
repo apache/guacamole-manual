@@ -1,8 +1,8 @@
 {# vim: set filetype=markdown.jinja : #}
 {%- import 'include/ext-macros.md.j2' as ext with context -%}
 
-SAML Authentication
-===================
+Using SAML for single sign-on
+=============================
 
 SAML is a widely implemented and used Single Sign On (SSO) provider that allows
 applications and services to authenticate in a standard way, and brokers those
@@ -15,14 +15,15 @@ management.
 
 (saml-downloading)=
 
-Downloading and installing the SAML authentication extension
-------------------------------------------------------------
+Installing/Enabling the SAML authentication extension
+-----------------------------------------------------
 
 {{ ext.install('SAML', 'guacamole-auth-sso', 'saml/guacamole-auth-sso-saml') }}
 
 (guac-saml-config)=
 
-### Configuring Guacamole for SAML Authentication
+Configuration
+-------------
 
 {% call ext.config('saml') %}
 The SAML authentication extension provides several configuration properties to
@@ -58,7 +59,8 @@ extension-priority: *, saml
 
 (completing-saml-install)=
 
-### Completing the installation
+Completing installation
+-----------------------
 
 ```{include} include/ext-completing.md
 ```

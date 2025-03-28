@@ -15,15 +15,15 @@ address will be temporarily banned:
 ```{include} include/warn-config-changes.md
 ```
 
-Downloading and installing brute-force authentication detection
----------------------------------------------------------------
+Installing/Enabling brute-force authentication detection
+--------------------------------------------------------
 
 {{ ext.install('BAN', 'guacamole-auth-ban', dockerDefault=True) }}
 
 (auth-ban-config)=
 
-Configuring Guacamole for brute-force authentication detection
---------------------------------------------------------------
+Configuration (optional)
+------------------------
 
 {% call ext.config('ban') %}
 {{ ext.nothingRequired() }}
@@ -50,8 +50,8 @@ Guacamole behind a proxy.
 
 (completing-auth-ban-install)=
 
-Completing the installation
----------------------------
+Completing installation
+-----------------------
 
 ```{include} include/ext-completing.md
 ```

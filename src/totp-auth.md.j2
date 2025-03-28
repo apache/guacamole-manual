@@ -1,8 +1,8 @@
 {# vim: set filetype=markdown.jinja : #}
 {%- import 'include/ext-macros.md.j2' as ext with context -%}
 
-TOTP two-factor authentication
-==============================
+Using TOTP for multi-factor authentication
+==========================================
 
 Guacamole supports TOTP as a second authentication factor, layered on top of
 any other authentication extension, including those available from the main
@@ -119,15 +119,15 @@ group.
 
 (totp-downloading)=
 
-Downloading and Installing the TOTP extension
----------------------------------------------
+Installing/Enabling the TOTP extension
+--------------------------------------
 
 {{ ext.install('TOTP', 'guacamole-auth-totp') }}
 
 (guac-totp-config)=
 
-Configuring Guacamole for TOTP
-------------------------------
+Configuration (optional)
+------------------------
 
 {% call ext.config('totp') %}
 With the exception of [the storage and permission requirements described
@@ -163,8 +163,8 @@ of the following {{ ext.properties() }}:
 
 (completing-totp-install)=
 
-Completing the installation
----------------------------
+Completing installation
+-----------------------
 
 ```{include} include/ext-completing.md
 ```

@@ -1,8 +1,8 @@
 {# vim: set filetype=markdown.jinja : #}
 {%- import 'include/ext-macros.md.j2' as ext with context -%}
 
-Duo two-factor authentication
-=============================
+Using Duo for multi-factor authentication
+=========================================
 
 Guacamole's Duo authentication extension allows the third-party Duo service to
 be used as an additional authentication factor for users of your Guacamole
@@ -65,17 +65,25 @@ hostname - they will later be specified within Guacamole's configuration:
 
 (duo-downloading)=
 
-Downloading and Installing the Duo extension
---------------------------------------------
+Installing/Enabling the Duo extension
+-------------------------------------
 
 {{ ext.install('DUO', 'guacamole-auth-duo') }}
 
 (guac-duo-config)=
 
-Configuring Guacamole for Duo
------------------------------
+Required configuration
+----------------------
 
 {{ ext.config('duo', required=True) }}
+
+Additional configuration (optional)
+-----------------------------------
+
+{% call ext.config('duo-optional') %}
+The following additional, optional {{ ext.properties() }} may be set as desired
+to tailor the behavior of the Duo support:
+{% endcall %}
 
 ### Bypass/Enforce Duo for Specific Hosts
 
@@ -94,17 +102,10 @@ providing the relevant, exhaustive list of addresses/networks using either of
 the following {{ ext.properties() }}:
 {% endcall %}
 
-### Additional Configuration Options
-
-{% call ext.config('duo-optional') %}
-The following additional, optional {{ ext.properties() }} may be set as desired
-to tailor the behavior of the Duo support:
-{% endcall %}
-
 (completing-duo-install)=
 
-Completing the Installation
----------------------------
+Completing installation
+-----------------------
 
 ```{include} include/ext-completing.md
 ```
