@@ -8,24 +8,13 @@ After installing Guacamole, you need to configure users and connections before
 Guacamole will work. This chapter covers general configuration of Guacamole and
 the use of its default authentication method.
 
-Guacamole's default authentication method reads all users and connections from
-a single file called `user-mapping.xml`. This authentication method is intended
-to be:
-
-1. Sufficient for small deployments of Guacamole.
-
-2. A relatively-easy means of verifying that Guacamole has been properly set
-   up.
-
-Other, more complex authentication methods which use backend databases, LDAP,
-etc. are discussed in a separate, dedicated chapters.
-
 Regardless of the authentication method you use, Guacamole's configuration
-always consists of two main pieces: a directory referred to as
-`GUACAMOLE_HOME`, which is the primary search location for configuration files,
-and `guacamole.properties`, the main configuration file used by Guacamole and
-its extensions. If using [the Docker images](guacamole-docker), these same
-configuration aspects are largely driven by environment variables.
+always consists of two main pieces: [a directory referred to as
+`GUACAMOLE_HOME`](guacamole-home), which is the primary search location for
+configuration files, and [`guacamole.properties`](initial-setup), the main
+configuration file used by Guacamole and its extensions. If using [the Docker
+images](guacamole-docker), these same configuration aspects are largely driven
+by environment variables.
 
 (guacamole-home)=
 
