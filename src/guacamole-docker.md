@@ -55,13 +55,13 @@ When run in this manner, guacd will be listening on its default port 4822, but
 this port will only be available via the dedicated Docker network,
 `some-network`.
 
-The log level of guacd can be controlled with the `GUACD_LOG_LEVEL` environment
+The log level of guacd can be controlled with the `LOG_LEVEL` environment
 variable. The default value is `info`, and can be set to any of the valid
 settings for the guacd log flag (`-L`).
 
 ```console
 $ docker run --network=some-network --name some-guacd \
-    -e GUACD_LOG_LEVEL=debug -d guacamole/guacd
+    -e LOG_LEVEL=debug -d guacamole/guacd
 ```
 
 (guacd-docker-external)=
@@ -259,19 +259,6 @@ template while leaving its contents untouched. The web application will be
 pointed at a temporary location whose contents have been non-destructively
 copied/linked from the files you have provided. **The image does not need write
 access to any custom configuration files/directories.**
-
-(guacamole-logging-docker)=
-
-### Logging with the Guacamole Container
-
-In the event that you need to debug something associated with the
-Guacamole container, you can adjust the verbosity of logging by
-using the `LOGBACK_LEVEL` environment variable:
-
-`LOGBACK_LEVEL`
-: The verbosity level of the logging that will be done by
-  the web application running in the guacamole container,
-  as documented in the [section on webapp logging.](webapp-logging)
 
 (verifying-guacamole-docker)=
 

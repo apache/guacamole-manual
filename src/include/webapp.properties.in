@@ -136,6 +136,19 @@ guacd-port: 4822
 guacd-ssl: false
 
 #
+# The most verbose level of log message that should be visible in the web
+# application logs. By default, the highest level of verbosity that will be
+# logged is `info`. In order of increasing verbosity, the available log levels
+# are: `error`, `warn`, `info`, `debug`, and `trace`.
+#
+# This can also be configured by [supplying a `logback.xml`
+# file](webapp-logging), which provides greater flexibility and control. It is
+# unusual to need that level of flexibility, and this simpler configuration
+# option is typically sufficient.
+#
+log-level: info
+
+#
 # A comma-separated list of the identifiers of authentication providers that
 # should be allowed to fail internally without aborting the authentication
 # process. For example, to request that Guacamole ignore failures due to the
