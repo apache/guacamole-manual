@@ -1,0 +1,155 @@
+{# vim: set filetype=jproperties.jinja : #}
+{%- import 'include/ext-macros.md.j2' as ext with context -%}
+
+#
+# The amount of time, in minutes, to allow Guacamole sessions
+# (authentication tokens) to remain valid despite inactivity. If omitted,
+# Guacamole sessions will expire after 60 minutes of inactivity.
+#
+api-session-timeout: 60
+
+#
+# The maximum number of bytes to accept within the entity body of any
+# particular HTTP request, where 0 indicates that no limit should be
+# applied. If omitted, requests will be limited to 2097152 bytes (2 MB) by
+# default. This limit does not apply to file uploads.
+#
+# If using a reverse proxy for SSL termination, *keep in mind that reverse
+# proxies may enforce their own limits independently of this*. For example,
+# [Nginx will enforce a 1 MB request size limit by
+# default](nginx-file-upload-size).
+#
+api-max-request-size: 2097152
+
+#
+# A comma-separated whitelist of language keys to allow as display language
+# choices within the Guacamole interface. For example, to restrict Guacamole
+# to only English and German, you would specify: `en, de`.
+#
+# As English is the fallback language, used whenever a translation key is
+# missing from the chosen language, English should only be omitted from this
+# list if you are absolutely positive that no strings are missing.
+#
+# The corresponding JSON of any built-in languages not listed here will
+# still be available over HTTP, but the Guacamole interface will not use
+# them, nor will they be used automatically based on local browser language.
+# If omitted, all defined languages will be available.
+#
+allowed-languages: en, de
+
+#
+# This option allows an administrator to configure how Guacamole will
+# handle case comparisons between different types of identifiers. There
+# are four possible values for this setting: `enabled`, `usernames`,
+# `group-names`, and `disabled`.
+#
+# Setting this to `enabled` means that Guacamole will treat both usernames
+# and group names as case-sensitive. The `usernames` setting will cause
+# Guacamole to treat usernames as case-sensitive, but group names as
+# case-insensitive. The `group-names` setting will cause Guacamole to treat
+# usernames as case-insensitive, while group names will be treated as case-
+# sensitive. Finally, `disabled` will configure Guacamole to treat both
+# usernames and group names as case-insensitive.
+#
+# In keeping with the behavior of Guacamole prior to the introduction of this
+# configuration property, this will default to `enabled`, and case differences
+# will be considered for both usernames and group names.
+#
+# Finally, whether or not various authentication systems actually process
+# usernames in a case-sensitive manner is somewhat out of the control
+# of Guacamole. For example, most LDAP directories do not factor case
+# into queries for either usernames or group names, and enabling case-
+# sensitivity in Guacamole for either usernames, group names, or both, will
+# not suddenly force your LDAP directory to perform case-sensitive
+# comparisons. This option controls how Guacamole handles usernames and/or
+# group names of various cases, not the underlying authentication system.
+#
+case-sensitivity: enabled
+
+{% call ext.native() -%}
+#
+# If set to "true", Guacamole will first evaluate its environment to obtain
+# the value for any given configuration property, before using a value
+# specified in `guacamole.properties` or falling back to a default value. By
+# enabling this option, you can easily override any other configuration
+# property using an environment variable.
+#
+# When searching for a configuration property in the environment, the name
+# of the property is first transformed by converting all lower case
+# characters to their upper case equivalents, and by replacing all hyphen
+# characters (`-`) with underscore characters (`_`). For example, the
+# `guacd-hostname` property would be transformed to `GUACD_HOSTNAME` when
+# searching the environment.
+#
+enable-environment-properties: false
+{%- endcall %}
+
+#
+# A comma-separated list of the namespaces of all extensions that should be
+# loaded in a specific order. The special value `*` can be used in lieu of a
+# namespace to represent all extensions that are not listed. All extensions
+# explicitly listed will be sorted in the order given, while all extensions
+# not explicitly listed will be sorted by their filenames.
+#
+# For example, to ensure support for SAML is loaded _first_, set this value to
+# `saml`. To ensure support for SAML is loaded _last_, set this value to `*,
+# saml`.
+#
+# If unsure which namespaces apply or the order that your extensions are
+# loaded, check the Guacamole logs. The namespaces and load order of all
+# installed extensions are logged by Guacamole during startup:
+#
+# ```
+# ...
+# 23:32:06.467 [main] INFO  o.a.g.extension.ExtensionModule - Multiple extensions are installed and will be loaded in order of decreasing priority:
+# 23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [postgresql] "PostgreSQL Authentication" (/etc/guacamole/extensions/guacamole-auth-jdbc-postgresql-{{ version }}.jar)
+# 23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [ldap] "LDAP Authentication" (/etc/guacamole/extensions/guacamole-auth-ldap-{{ version }}.jar)
+# 23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [openid] "OpenID Authentication Extension" (/etc/guacamole/extensions/guacamole-auth-sso-openid-{{ version }}.jar)
+# 23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [saml] "SAML Authentication Extension" (/etc/guacamole/extensions/guacamole-auth-sso-saml-{{ version }}.jar)
+# 23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule - To change this order, set the "extension-priority" property or rename the extension files. The default priority of extensions is dictated by the sort order of their filenames.
+# ...
+# ```
+#
+extension-priority: ldap, postgresql, *, saml
+
+#
+# The host the Guacamole proxy daemon (guacd) is listening on. If omitted,
+# Guacamole will assume guacd is listening on localhost.
+#
+guacd-hostname: localhost
+
+#
+# The port the Guacamole proxy daemon (guacd) is listening on. If omitted,
+# Guacamole will assume guacd is listening on port 4822.
+#
+guacd-port: 4822
+
+#
+# If set to "true", Guacamole will require SSL/TLS encryption between the
+# web application and guacd. By default, communication between the web
+# application and guacd will be unencrypted.
+#
+# Note that if you enable this option, you must also configure guacd to use
+# SSL via command line options. These options are documented in the manpage
+# of guacd. You will need an SSL certificate and private key.
+#
+guacd-ssl: false
+
+#
+# A comma-separated list of the identifiers of authentication providers that
+# should be allowed to fail internally without aborting the authentication
+# process. For example, to request that Guacamole ignore failures due to the
+# LDAP directory or MySQL server being unexpectedly down, allowing other
+# authentication providers to continue functioning, set this value to
+# `mysql, ldap`.
+#
+# By default, Guacamole takes a conservative approach to internal failures,
+# aborting the authentication process if an internal error occurs within any
+# authentication provider. Depending on the nature of the error, this may
+# mean that no users can log in until the cause of the failure is dealt
+# with. This configuration option may be used to explicitly inform Guacamole
+# that one or more underlying systems are expected to occasionally experience
+# failures, and that other functioning systems should be relied upon if they do
+# fail.
+#
+skip-if-unavailable: ldap

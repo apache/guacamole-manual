@@ -1,3 +1,6 @@
+{# vim: set filetype=markdown.jinja : #}
+{%- import 'include/ext-macros.md.j2' as ext with context -%}
+
 Configuring Guacamole
 =====================
 
@@ -21,7 +24,8 @@ Regardless of the authentication method you use, Guacamole's configuration
 always consists of two main pieces: a directory referred to as
 `GUACAMOLE_HOME`, which is the primary search location for configuration files,
 and `guacamole.properties`, the main configuration file used by Guacamole and
-its extensions.
+its extensions. If using [the Docker images](guacamole-docker), these same
+configuration aspects are largely driven by environment variables.
 
 (guacamole-home)=
 
@@ -38,6 +42,12 @@ files:
 : The main Guacamole configuration file. Properties within this file dictate
   how Guacamole will connect to guacd, and may configure the behavior of
   installed authentication extensions.
+
+  When using the Docker image, or if the `enable-environment-properties`
+  property has been set to `true`, properties that would normally need to be
+  provided through this file can be instead provided through environment
+  variables. Those environment variables are named by taking the property name,
+  transforming it to uppercase, and replacing all the dashes with underscores.
 
 `logback.xml`
 : Guacamole uses a logging system called Logback for all messages. By
@@ -74,188 +84,27 @@ location can be overridden through any of the following methods:
 
 (initial-setup)=
 
-`guacamole.properties`
-------------------------
+Standard configuration options / `guacamole.properties`
+-------------------------------------------------------
 
 The Guacamole web application uses one main configuration file called
 `guacamole.properties`. This file is the common location for all configuration
 properties read by Guacamole or any extension of Guacamole, including
-authentication providers.
+authentication providers. If using [the Docker images](guacamole-docker), these
+same properties are also configurable with environment variables. Both methods
+of configuring Guacamole are documented here.
 
-In previous releases, this file had to be in the classpath of your servlet
-container. Now, the location of `guacamole.properties` can be explicitly
-defined with environment variables or system properties, and the classpath is
-only used as a last resort. When searching for `guacamole.properties`,
-Guacamole will check, in order:
+The `guacamole.properties` file is technically optional, but in practice will
+always be used for at least some configuration options, either explicitly or
+implicitly through the use of Docker images and environment variables. It is
+used to provide additional configuration information for extensions, or to
+reconfigure Guacamole's standard options in situations where the defaults are
+insufficient.
 
-1. Within `GUACAMOLE_HOME`, as defined above.
+There are several standard configuration options that are always available for
+use:
 
-2. The classpath of the servlet container.
-
-The `guacamole.properties` file is optional and is used to configure Guacamole
-in situations where the defaults are insufficient, or to provide additional
-configuration information for extensions. There are several standard properties
-that are always available for use:
-
-`api-session-timeout`
-: The amount of time, in minutes, to allow Guacamole sessions
-  (authentication tokens) to remain valid despite inactivity. If omitted,
-  Guacamole sessions will expire after 60 minutes of inactivity.
-
-`api-max-request-size`
-: The maximum number of bytes to accept within the entity body of any
-  particular HTTP request, where 0 indicates that no limit should be
-  applied. If omitted, requests will be limited to 2097152 bytes (2 MB) by
-  default. This limit does not apply to file uploads.
-
-  If using a reverse proxy for SSL termination, *keep in mind that reverse
-  proxies may enforce their own limits independently of this*. For example,
-  [Nginx will enforce a 1 MB request size limit by
-  default](nginx-file-upload-size).
-
-`allowed-languages`
-: A comma-separated whitelist of language keys to allow as display language
-  choices within the Guacamole interface. For example, to restrict Guacamole
-  to only English and German, you would specify:
-
-  ```
-  allowed-languages: en, de
-  ```
-
-  As English is the fallback language, used whenever a translation key is
-  missing from the chosen language, English should only be omitted from this
-  list if you are absolutely positive that no strings are missing.
-
-  The corresponding JSON of any built-in languages not listed here will
-  still be available over HTTP, but the Guacamole interface will not use
-  them, nor will they be used automatically based on local browser language.
-  If omitted, all defined languages will be available.
-
-(global-case-sensitivity)=
-`case-sensitivity`
-: This option allows an administrator to configure how Guacamole will
-  handle case comparisons between different types of identifiers. There
-  are four possible values for this setting: `enabled`, `usernames`,
-  `group-names`, and `disabled`.
-
-  Setting this to `enabled` means that Guacamole will treat both usernames
-  and group names as case-sensitive. The `usernames` setting will cause
-  Guacamole to treat usernames as case-sensitive, but group names as
-  case-insensitive. The `group-names` setting will cause Guacamole to treat
-  usernames as case-insensitive, while group names will be treated as case-
-  sensitive. Finally, `disabled` will configure Guacamole to treat both
-  usernames and group names as case-insensitive.
-
-  In keeping with the behavior of Guacamole prior to the introduction of this
-  configuration property, this will default to `enabled`, and case differences
-  will be considered for both usernames and group names.
-
-  Finally, whether or not various authentication systems actually process
-  usernames in a case-sensitive manner is somewhat out of the control
-  of Guacamole. For example, most LDAP directories do not factor case
-  into queries for either usernames or group names, and enabling case-
-  sensitivity in Guacamole for either usernames, group names, or both, will
-  not suddenly force your LDAP directory to perform case-sensitive
-  comparisons. This option controls how Guacamole handles usernames and/or
-  group names of various cases, not the underlying authentication system.
-
-`enable-environment-properties`
-: If set to "true", Guacamole will first evaluate its environment to obtain
-  the value for any given configuration property, before using a value
-  specified in `guacamole.properties` or falling back to a default value. By
-  enabling this option, you can easily override any other configuration
-  property using an environment variable.
-
-  ```
-  enable-environment-properties: true
-  ```
-
-  When searching for a configuration property in the environment, the name
-  of the property is first transformed by converting all lower case
-  characters to their upper case equivalents, and by replacing all hyphen
-  characters (`-`) with underscore characters (`_`). For example, the
-  `guacd-hostname` property would be transformed to `GUACD_HOSTNAME` when
-  searching the environment.
-
-`extension-priority`
-: A comma-separated list of the namespaces of all extensions that should be
-  loaded in a specific order. The special value `*` can be used in lieu of a
-  namespace to represent all extensions that are not listed. All extensions
-  explicitly listed will be sorted in the order given, while all extensions
-  not explicitly listed will be sorted by their filenames.
-
-  For example, to ensure support for SAML is loaded _first_:
-
-  ```
-  extension-priority: saml
-  ```
-
-  Or to ensure support for SAML is loaded _last_:
-
-  ```
-  extension-priority: *, saml
-  ```
-
-  If unsure which namespaces apply or the order that your extensions are
-  loaded, check the Guacamole logs. The namespaces and load order of all
-  installed extensions are logged by Guacamole during startup:
-
-  ```
-  ...
-  23:32:06.467 [main] INFO  o.a.g.extension.ExtensionModule - Multiple extensions are installed and will be loaded in order of decreasing priority:
-  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [postgresql] "PostgreSQL Authentication" (/etc/guacamole/extensions/guacamole-auth-jdbc-postgresql-1.6.0.jar)
-  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [ldap] "LDAP Authentication" (/etc/guacamole/extensions/guacamole-auth-ldap-1.6.0.jar)
-  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [openid] "OpenID Authentication Extension" (/etc/guacamole/extensions/guacamole-auth-sso-openid-1.6.0.jar)
-  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule -  - [saml] "SAML Authentication Extension" (/etc/guacamole/extensions/guacamole-auth-sso-saml-1.6.0.jar)
-  23:32:06.468 [main] INFO  o.a.g.extension.ExtensionModule - To change this order, set the "extension-priority" property or rename the extension files. The default priority of extensions is dictated by the sort order of their filenames.
-  ...
-  ```
-
-`guacd-hostname`
-: The host the Guacamole proxy daemon (guacd) is listening on. If omitted,
-  Guacamole will assume guacd is listening on localhost.
-
-`guacd-port`
-: The port the Guacamole proxy daemon (guacd) is listening on. If omitted,
-  Guacamole will assume guacd is listening on port 4822.
-
-`guacd-ssl`
-: If set to "true", Guacamole will require SSL/TLS encryption between the
-  web application and guacd. By default, communication between the web
-  application and guacd will be unencrypted.
-
-  Note that if you enable this option, you must also configure guacd to use
-  SSL via command line options. These options are documented in the manpage
-  of guacd. You will need an SSL certificate and private key.
-
-`skip-if-unavailable`
-: A comma-separated list of the identifiers of authentication providers that
-  should be allowed to fail internally without aborting the authentication
-  process. For example, to request that Guacamole ignore failures due to the
-  LDAP directory or MySQL server being unexpectedly down, allowing other
-  authentication providers to continue functioning:
-
-  ```
-  skip-if-unavailable: mysql, ldap
-  ```
-
-  By default, Guacamole takes a conservative approach to internal failures,
-  aborting the authentication process if an internal error occurs within any
-  authentication provider. Depending on the nature of the error, this may
-  mean that no users can log in until the cause of the failure is dealt
-  with. The `skip-if-unavailable` property may be used to explicitly inform
-  Guacamole that one or more underlying systems are expected to occasionally
-  experience failures, and that other functioning systems should be relied
-  upon if they do fail.
-
-A typical `guacamole.properties` that defines explicit values for the
-`guacd-hostname` and `guacd-port` properties would look like:
-
-```
-# Hostname and port of guacamole proxy
-guacd-hostname: localhost
-guacd-port:     4822
-```
+{{ ext.config('webapp') }}
 
 (webapp-logging)=
 
@@ -264,7 +113,10 @@ Logging within the web application
 
 By default, Guacamole logs all messages to the console. Servlet containers like
 Tomcat will automatically redirect these messages to a log file, `catalina.out`
-in the case of Tomcat, which you can read through while Guacamole runs.
+in the case of Tomcat, which you can read through while Guacamole runs. When
+using [the Docker images](guacamole-docker), the same logs are visible in the
+Docker logs using the `docker logs` command.
+
 Messages are logged at four different log levels, depending on message
 importance and severity:
 
@@ -2702,14 +2554,14 @@ means of forwarding authentication information without storing that information
 in the connection configuration itself, so long as the remote desktop
 connection uses the same credentials as Guacamole.
 
-Each token is of the form {samp}`$\{{TOKEN_NAME}\}` or
-{samp}`$\{{TOKEN_NAME}:{MODIFIER}\}`, where `TOKEN_NAME` is some descriptive
+Each token is of the form {samp}`{{ '$\{{TOKEN_NAME}\}' }}` or
+{samp}`{{ '$\{{TOKEN_NAME}:{MODIFIER}\}' }}`, where `TOKEN_NAME` is some descriptive
 name for the value the token represents, and the optional `MODIFIER` is one of
 the modifiers documented below to dynamically modify the token.  Tokens with no
 corresponding value will never be replaced, but should you need such text
 within your connection parameters, and wish to guarantee that this text will
 not be replaced with a token value, you can escape the token by adding an
-additional leading "$", as in "{samp}`$$\{{TOKEN_NAME}\}`".
+additional leading "$", as in "{samp}`{{ '$$\{{TOKEN_NAME}\}' }}`".
 
 `${GUAC_USERNAME}`
 : The username of the current Guacamole user. When a user accesses a
@@ -2757,8 +2609,8 @@ connection parameters.
 At times it can be useful to use the value provided by a token, but with slight
 modifications. These modifers are optionally specified at the end of the token,
 separated from the token name by a colon (`:`), in the format
-{samp}`$\{{TOKEN_NAME}:{MODIFIER}\}`. The following modifiers are currently
-supported:
+{samp}`{{ '$\{{TOKEN_NAME}:{MODIFIER}\}' }}`. The following modifiers are
+currently supported:
 
 `LOWER`
 : Convert the entire value of the token to lower-case. This can be useful in
