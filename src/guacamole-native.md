@@ -389,9 +389,73 @@ script and all other necessary build files, and thus do not require GNU
 Autotools to be installed on the build machine.
 :::
 
-Once you run `configure`, you can see what a listing of what libraries were
-found and what it has determined should be built:
+Once you run `configure`, you can see a listing of what libraries were found
+and what it has determined should be built. Startup scripts and unit files are
+provided for both traditional SysV init and systemd:
 
+::::{tab} systemd
+```console
+$ ./configure --with-systemd-dir=/usr/local/lib/systemd/system
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether build environment is sane... yes
+...
+
+------------------------------------------------
+guacamole-server version 1.6.0
+------------------------------------------------
+
+   Library status:
+
+     freerdp ............. yes (3.x)
+     pango ............... yes
+     libavcodec .......... yes
+     libavformat ......... yes
+     libavutil ........... yes
+     libssh2 ............. yes
+     libssl .............. yes
+     libswscale .......... yes
+     libtelnet ........... yes
+     libVNCServer ........ yes
+     libvorbis ........... yes
+     libpulse ............ yes
+     libwebsockets ....... yes
+     libwebp ............. yes
+     wsock32 ............. no
+
+   Protocol support:
+
+      Kubernetes .... yes
+      RDP ........... yes
+      SSH ........... yes
+      Telnet ........ yes
+      VNC ........... yes
+
+   Services / tools:
+
+      guacd ...... yes
+      guacenc .... yes
+      guaclog .... yes
+
+   FreeRDP plugins: /usr/lib/pkgconfig/../../lib/freerdp3
+   Init scripts: no
+   Systemd units: /usr/local/lib/systemd/system
+
+Type "make" to compile guacamole-server.
+
+$
+```
+
+The `--with-systemd-dir=/usr/local/lib/systemd/system` shown above prepares the
+build to install a systemd unit file for guacd into the
+`/usr/local/lib/systemd/system` directory, such that we can later easily
+configure guacd to start automatically on boot. If you do not wish guacd to
+start automatically at boot, leave off the `--with-systemd-dir` option.  If the
+directory used by your distribution for systemd unit files differs from the
+common directory shown in the example above, replace it with the proper
+directory here.  You may need to consult your distribution's documentation.
+::::
+
+::::{tab} Traditional init (SysV)
 ```console
 $ ./configure --with-init-dir=/etc/init.d
 checking for a BSD-compatible install... /usr/bin/install -c
@@ -451,6 +515,7 @@ If the directory containing your distribution's startup scripts differs from
 the common `/etc/init.d`, replace `/etc/init.d` with the proper directory here.
 You may need to consult your distribution's documentation, or do a little
 digging in `/etc`, to determine the proper location.
+::::
 
 Here, `configure` has found everything, including all optional libraries, and
 will build all protocol support, even support for Ogg Vorbis sound in RDP. If
@@ -736,14 +801,28 @@ if it isn't running already. The command to restart Tomcat and guacd will vary
 by distribution. Typically, you can do this by running the corresponding init
 scripts with the "restart" option:
 
+::::{tab} systemd
 ```console
-# /etc/init.d/tomcat7 restart
-Stopping Tomcat... OK
-Starting Tomcat... OK
-# /etc/init.d/guacd start
-Starting guacd: SUCCESS
-guacd[6229]: INFO:  Guacamole proxy daemon (guacd) version 1.6.0 started
-#
+# systemctl restart tomcat9
+# systemctl start guacd
+```
+
+:::{important}
+If you want Guacamole to start on boot, you will need to configure
+the Tomcat and guacd services to run automatically. With systemd, this is done
+using the "enable" command:
+
+```console
+# systemctl enable tomcat9
+# systemctl enable guacd
+```
+:::
+::::
+
+::::{tab} Traditional init (SysV)
+```console
+# service tomcat9 restart
+# service guacd start
 ```
 
 :::{important}
@@ -751,6 +830,7 @@ If you want Guacamole to start on boot, you will need to configure
 the Tomcat and guacd services to run automatically. Your distribution
 will provide documentation for doing this.
 :::
+::::
 
 After restarting Tomcat and starting guacd, Guacamole is successfully
 installed, though it will not be fully running. In its current state, it is
