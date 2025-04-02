@@ -12,6 +12,13 @@ Guacamole will be sent to Duo's service for further verification.
 ```{include} include/warn-config-changes.md
 ```
 
+:::{note}
+Guacamole's Duo support cannot currently be used alongside [single sign-on](sso). If
+you use Duo and need both [MFA](mfa) and [SSO](sso) support for Guacamole, you
+will need to either use your SSO provider's own Duo integration or use
+[TOTP](totp-auth) instead of Duo.
+:::
+
 (duo-architecture)=
 
 How Duo works with Guacamole
