@@ -669,7 +669,7 @@ $
 Unlike guacamole-server, even if you grab the code from the git repositories,
 you won't need to run anything before building. There are no scripts that need
 to be generated before building - all Maven needs is the `pom.xml` file
-provided with the source.
+provided with the source and internet access for downloading dependencies.
 
 To build guacamole-client, just run "`mvn package`". This will invoke Maven
 to automatically build and package all components, producing a single `.war`
