@@ -529,8 +529,8 @@ simply install the corresponding dependencies and run `configure` again.
 All protocols that require a terminal (Kubernetes, SSH, and telnet) require
 that fonts are installed on the Guacamole server in order to function, as
 output from the terminal cannot be rendered otherwise. Support for these
-protocols will build just fine if fonts are not installed, but it will fail to
-connect when used:
+protocols will build just fine if fonts are not installed, but it will render
+incorrectly or fail to connect when used:
 
 ```
 Aug 23 14:09:45 my-server guacd[5606]: Unable to get font "monospace"
