@@ -1,5 +1,5 @@
-Proxying Guacamole
-==================
+Using a reverse proxy for SSL termination
+=========================================
 
 Like most web applications, Guacamole can be placed behind a reverse proxy. For
 production deployments of Guacamole, this is *highly recommended*. It provides

@@ -1,5 +1,11 @@
-Administration
-==============
+Guacamole's administrative interface
+====================================
+
+:::{toctree}
+:hidden:
+
+Importing connections <batch-import>
+:::
 
 Users, user groups, connections, and active sessions can be administered from
 within the web interface if the underlying authentication module supports this.

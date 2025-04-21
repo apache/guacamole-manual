@@ -1,0 +1,23 @@
+#
+# The human-readable name of the entity issuing user accounts. If not
+# specified, "Apache Guacamole" will be used by default.
+#
+totp-issuer: Apache Guacamole
+
+#
+# The number of digits which should be included in each generated TOTP code.
+# Legal values are 6, 7, or 8. By default, 6-digit codes are generated.
+#
+totp-digits: 6
+
+#
+# The duration that each generated code should remain valid, in seconds. By
+# default, each code remains valid for 30 seconds.
+#
+totp-period: 30
+
+#
+# The hash algorithm that should be used to generate TOTP codes. Legal values
+# are "sha1", "sha256", and "sha512". By default, "sha1" is used.
+#
+totp-mode: sha1

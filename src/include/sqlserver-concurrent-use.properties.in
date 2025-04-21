@@ -1,0 +1,5 @@
+{# vim: set filetype=jproperties.jinja : #}
+
+{%- filter replace('somesql-', 'sqlserver-') -%}
+{%- include 'include/jdbc-concurrent-use.properties.in' -%}
+{%- endfilter -%}

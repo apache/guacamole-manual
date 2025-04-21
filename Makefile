@@ -19,6 +19,35 @@
 
 .PHONY: all clean html
 
+# Whether build should be verbose (default to non-verbose)
+V?=0
+
+# All files which the build depends on
+J2_FILES=$(shell find "./src" -name "*.j2")
+OTHER_FILES=$(shell find ./src/ -name "__pycache__" -prune -o -type f -not -name "*.j2" -not -name "*.properties.in" -print)
+
+# Files that will ultimately be processed by Sphinx
+SPHINX_INPUT += $(J2_FILES:./src/%.j2=build/in/%)
+SPHINX_INPUT += $(OTHER_FILES:./src/%=build/in/%)
+
+#
+# If not explicitly overridden by setting V=1, define a series of macros that
+# hide the lengthy commands that are part of the build. These macros
+# intentionally mimic the clean output that we get in the guacamole-server
+# build via GNU Autotools and AM_SILENT_RULES().
+#
+
+ifeq ($(V), 0)
+CP=@echo      "  CP     " $@;
+JINJA=@echo   "  JINJA  " $@;
+SPHINX=@echo  "  SPHINX " $@;
+SPHINX_FLAGS?=-q
+endif
+
+# Handy macro-like variable that automatically creates the parent directory for
+# the output file of a target
+ODIR=mkdir -p `dirname $@` &&
+
 #
 # Build entire manual
 #
@@ -32,10 +61,23 @@ all: html
 clean:
 	$(RM) -R build/
 
-# All files which the build depends on
-MD_FILES=$(shell find "./src" -name "*.md")
-RST_FILES=$(shell find "./src" -name "*.rst")
-PNG_FILES=$(shell find "./src" -name "*.png")
+#
+# Copy any source files that don't require additional processing to build input
+#
+
+build/in/%: src/%
+	$(CP) $(ODIR) cp $< $@
+
+#
+# Automatic filtering of documentation using Jinja2
+#
+
+# NOTE: The complex usage of relative paths here is necessary to ensure
+# filenames included/imported within Jinja templates are always consistently
+# interpreted relative to the top-level document root, regardless of whether
+# the template is evaluated within "src/" or "build/in/".
+build/in/%: src/%.j2 src/conf.py
+	$(JINJA) $(ODIR) cd src && ./filter-j2.py ../$< ../$@
 
 #
 # HTML manual build
@@ -43,6 +85,6 @@ PNG_FILES=$(shell find "./src" -name "*.png")
 
 html: build/html/index.html
 
-build/html/index.html: $(PNG_FILES) $(RST_FILES) $(MD_FILES)
-	sphinx-build -b html -d build/doctrees src/ build/html
+build/html/index.html: $(SPHINX_INPUT)
+	$(SPHINX) sphinx-build $(SPHINX_FLAGS) -b html -d build/doctrees build/in/ build/html
 

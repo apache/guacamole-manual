@@ -1,0 +1,23 @@
+#
+# Whether a user account within the database is required for authentication to
+# succeed, even if the user has been authenticated via another extension. By
+# default, successful authentication via any extension is sufficient, and
+# database user accounts are not strictly required.
+#
+somesql-user-required: true
+
+#
+# Whether to automatically create user accounts in the database for users who
+# have successfully authenticate through another extension. Users that are
+# automatically created are granted `READ` permission on their own user account
+# and no other explicit permissions. By default users will not be automatically
+# created.
+#
+somesql-auto-create-accounts: true
+
+#
+# Whether connection history records should be created for connections not
+# defined in the database. By default, external connection history will be
+# tracked unless this is explicitly disabled by setting this to "false".
+#
+somesql-track-external-connection-history: true

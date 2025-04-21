@@ -1,0 +1,70 @@
+{# vim: set filetype=markdown.jinja : #}
+{%- import 'include/ext-macros.md.j2' as ext with context -%}
+
+Using SAML for single sign-on
+=============================
+
+SAML is a widely implemented and used Single Sign On (SSO) provider that allows
+applications and services to authenticate in a standard way, and brokers those
+authentication requests to one or more back-end authentication providers. The
+SAML authentication extension allows Guacamole to redirect to a SAML Identity
+Provider (IdP) for authentication and user services. This module does not
+provide any capability for storing or retrieving connections, and must be
+layered with other authentication extensions that provide connection
+management.
+
+```{include} include/warn-config-changes.md
+```
+
+(saml-downloading)=
+
+Installing/Enabling the SAML authentication extension
+-----------------------------------------------------
+
+{{ ext.install('SAML', 'guacamole-auth-sso', 'saml/guacamole-auth-sso-saml') }}
+
+(guac-saml-config)=
+
+Configuration
+-------------
+
+{% call ext.config('saml') %}
+The SAML authentication extension provides several configuration properties to
+set it up to talk to the IdP. The SAML IdP also must be configured with
+Guacamole as a Service Provider (SP). Configuration of the SAML IdP is beyond
+the scope of this document, and will vary widely based on the IdP in use.
+{% endcall %}
+
+### Controlling login behavior
+
+```{include} include/sso-login-behavior.md
+```
+
+#### Automatically redirecting all unauthenticated users
+
+To ensure users are redirected to the SAML identity provider immediately
+(without a Guacamole login screen), ensure the SAML extension has priority over
+all others:
+
+```
+extension-priority: saml
+```
+
+#### Presenting unauthenticated users with a login screen
+
+To ensure users are given a normal Guacamole login screen and have the option
+to log in with traditional credentials _or_ with SAML, ensure the SAML
+extension does not have priority:
+
+```
+extension-priority: *, saml
+```
+
+(completing-saml-install)=
+
+Completing installation
+-----------------------
+
+```{include} include/ext-completing.md
+```
+

@@ -1,0 +1,106 @@
+#
+# The hostname or IP address of the server hosting your database. If not
+# specified, "localhost" will be used by default.
+#
+postgresql-hostname: localhost
+
+#
+# The port number of the PostgreSQL database to connect to. If not specified,
+# the standard PostgreSQL port 5432 will be used.
+#
+postgresql-port: 5432
+
+#
+# This property sets the SSL mode that the JDBC extension will attempt to use
+# when communicating with the remote PostgreSQL server. The values for this
+# property match the standard values supported by the PostgreSQL JDBC driver:
+#
+# disable
+# : Do not use SSL, and fail if the server requires it.
+#
+# allow
+# : If the server requires encryption use it, otherwise prefer unencrypted
+#   connections.
+#
+# prefer
+# : Try SSL connections, first, but allow unencrypted connections if the server
+#   does not support SSL or if SSL negotiations fail. This is the
+#   default.
+#
+# require
+# : Require SSL connections, but implicitly trust all server certificates and
+#   authorities.
+#
+# verify-ca
+# : Require SSL connections, and verify that the server certificate is issued
+#   by a known certificate authority.
+#
+# verify-full
+# : Require SSL connections, verifying that the server certificate is issued
+#   by a known authority, and that the name on the certificate matches the name
+#   of the server.
+#
+postgresql-ssl-mode: prefer
+
+#
+# The file containing the client certificate to be used when making an
+# SSL-encrtyped connection to the PostgreSQL server, in PEM format. This
+# property is optional, and will be ignored if the SSL mode is set to disable.
+#
+postgresql-ssl-cert-file: /etc/guacamole/postgresql.crt
+
+#
+# The file containing the client private key to be used when making an
+# SSL-encrypted connection to the PostgreSQL server, in PEM format. This
+# property is optional, and will be ignored if the SSL mode is set to disable.
+#
+postgresql-ssl-key-file: /etc/guacamole/postgresql.key
+
+#
+# The file containing the root and intermedidate certificates against which the
+# server certificate will be verified when making an SSL-encrypted connection
+# to the PostgreSQL server. This file should contain one or more PEM-formatted
+# authority certificates. This property is optional, and will only be used if
+# SSL mode is set to verify-ca or verify-full.
+#
+# If SSL is set to one of the verification modes and this property is not
+# specified, the JDBC driver will attempt to use the `.postgresql/root.crt`
+# file from the home directory of the user running the web application server
+# (e.g. Tomcat). If this property is not specified and the default file does
+# not exist, the PostgreSQL JDBC driver will fail to connect to the server.
+#
+postgresql-ssl-root-cert-file: /etc/guacamole/postgresql-root.crt
+
+#
+# The password that will be used to access the client private key file, if the
+# client private key is encrypted. This property is optional, and is only used
+# if the `postgresql-ssl-key-file` property is set and SSL is enabled.
+#
+postgresql-ssl-key-password: some-password
+
+#
+# The number of seconds the driver will wait for a response from the database,
+# before aborting the query. A value of 0 (the default) means the timeout is
+# disabled.
+#
+postgresql-default-statement-timeout: 0
+
+#
+# The number of seconds to wait for socket read operations. If reading from the
+# server takes longer than this value, the connection will be closed. This can
+# be used to handle network problems such as a dropped connection to the
+# database. Similar to `postgresql-default-statement-timeout`, it will also
+# abort queries that take too long. A value of 0 (the default) means the
+# timeout is disabled.
+#
+postgresql-socket-timeout: 0
+
+#
+# Controls how many objects may be retrieved from the database in a single
+# query. If more objects than this number are requested, retrieval of those
+# objects will be automatically and transparently split across multiple
+# queries.
+#
+# By default, PostgreSQL queries will retrieve no more than 5000 objects.
+#
+postgresql-batch-size: 5000

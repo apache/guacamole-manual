@@ -1,0 +1,46 @@
+#
+# If using CAS ClearPass to pass the SSO password to Guacamole, this parameter
+# specifies the private key file to use to decrypt the password. See [the section
+# on ClearPass](cas-clearpass) below.
+#
+cas-clearpass-key: /path/to/private-key.pem
+
+#
+# The CAS attribute that determines group membership, typically "memberOf".
+# This parameter is only required if using CAS to define user group memberships.
+# If omitted, groups aren't retrieved from CAS, and all other group-related
+# properties for CAS are ignored.
+#
+cas-group-attribute: memberOf
+
+#
+# The format that CAS will use for its group names. Possible values are
+# `plain`, for groups that are simple text names, or `ldap`, for groups that are
+# represented as LDAP DNs. If set to `ldap`, group names are always determined
+# from the last (leftmost) attribute of the DN. If omitted, `plain` is used by
+# default.
+#
+# This property has no effect if cas-group-attribute is not set.
+#
+cas-group-format: plain
+
+#
+# The base DN to require for LDAP-formatted CAS groups. If specified, only CAS
+# groups beneath this DN will be included, and all other CAS groups will be
+# ignored.
+#
+# This property has no effect if cas-group-format is not `ldap`.
+#
+cas-group-ldap-base-dn: ou=groups,dc=example,dc=net
+
+#
+# The LDAP attribute to require for LDAP-formatted CAS groups. If specified,
+# only CAS groups that use this attribute for the name of the group will be
+# included. Note that LDAP group names are *always determined from the last
+# (leftmost) attribute of the DN*. Specifying this property will only have the
+# effect of ignoring any groups that do not use the specified attribute to
+# represent the group name.
+#
+# This property has no effect if cas-group-format is not `ldap`.
+#
+cas-group-ldap-attribute: cn

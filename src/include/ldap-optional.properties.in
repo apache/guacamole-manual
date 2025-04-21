@@ -1,0 +1,267 @@
+#
+# The hostname of your LDAP server. If omitted, "localhost" will be used by
+# default. You will need to use a different value if your LDAP server is
+# located elsewhere.
+#
+ldap-hostname: localhost
+
+#
+# The port your LDAP server listens on. If omitted, the standard LDAP or LDAPS
+# port will be used, depending on the encryption method specified with
+# `ldap-encryption-method` (if any). Unencrypted LDAP uses the standard port of
+# 389, while LDAPS uses port 636. Unless you manually configured your LDAP
+# server to do otherwise, your LDAP server probably listens on port 389.
+#
+ldap-port: 389
+
+#
+# The encryption mechanism that Guacamole should use when communicating with
+# your LDAP server. Legal values are "none" for unencrypted LDAP, "ssl" for
+# LDAP over SSL/TLS (commonly known as LDAPS), or "starttls" for STARTTLS. If
+# omitted, encryption will not be used.
+#
+# If you do use encryption when connecting to your LDAP server, you will need
+# to ensure that its certificate chain can be verified using the certificates
+# in Java's trust store, often referred to as `cacerts`. If this is not the
+# case, you will need to use Java's `keytool` utility to either add the
+# necessary certificates or to create a new trust store containing those
+# certificates.
+#
+# If you will be using your own trust store and not the default `cacerts`, you
+# will need to specify the full path to that trust store using the system
+# property `javax.net.ssl.trustStore`. Note that this is a system property and
+# *not* a Guacamole property; it must be specified when starting the JVM using
+# the `-D` option. Your servlet container will provide some means of specifying
+# startup options for the JVM.
+#
+ldap-encryption-method: none
+
+#
+# Configures the SSL/TLS protocol version that will be used to contact the
+# LDAP server, if LDAP encryption is enabled. Legal values are "SSLv3" for
+# (legacy) SSL version 3 encryption, and "TLSv1", "TLSv1.1", "TLSv1.2", or
+# "TLSv1.3" for the various versions of TLS, version 1.0 - 1.3. The default
+# is to use the latest, TLSv1.3.
+#
+# Please note that the legacy versions of SSLv3 and TLSv1 and TLSv1.1 have
+# many known vulnerabilities and attack vectors, and you should use the
+# latest possible TLS version that your LDAP servers support in order
+# to best protect communication between Guacamole and your LDAP servers.
+#
+ldap-ssl-protocol: TLSv1.3
+
+#
+# The maximum number of search results that can be returned by a single LDAP
+# query. LDAP queries which exceed this maximum will fail. *This property is
+# optional.* If omitted, each LDAP query will be limited to a maximum of 1000
+# results.
+#
+ldap-max-search-results: 1000
+
+#
+# The DN (Distinguished Name) of the user to bind as when authenticating users
+# that are attempting to log in. If specified, Guacamole will query the LDAP
+# directory to determine the DN of each user that logs in. If omitted, each
+# user's DN will be derived directly using the base DN specified with
+# `ldap-user-base-dn`.
+#
+# :::{important}
+# **The search DN is used only to resolve a user's username to their
+# fully qualified DN during authentication.** Any further LDAP queries for
+# retrieving objects like users, groups, and connection configurations will be
+# done _using the LDAP credentials of the user that logged in_.
+# :::
+#
+ldap-search-bind-dn: uid=guacamole,dc=example,dc=net
+
+#
+# The password to provide to the LDAP server when binding as
+# `ldap-search-bind-dn` to authenticate other users. This property is only used
+# if ldap-search-bind-dn is specified. If omitted, but `ldap-search-bind-dn` is
+# specified, Guacamole will attempt to bind with the LDAP server without a
+# password.
+#
+ldap-search-bind-password: some-password
+
+#
+# The attribute or attributes which contain the username within all Guacamole
+# user objects in the LDAP directory. Usually, and by default, this will simply
+# be "uid". If your LDAP directory contains users whose usernames are dictated
+# by different attributes, multiple attributes can be specified here, separated
+# by commas, but beware: *doing so requires that a search DN be provided with
+# `ldap-search-bind-dn`*.
+#
+# If a search DN *is not* provided, then the single username attribute
+# specified here will be used together with the user base DN to directly derive
+# the full DN of each user. For example, if `ldap-user-base-dn` is
+# "`ou=people,dc=example,dc=net`", and `ldap-username-attribute` is "uid", then
+# a person attempting to login as "`user`" would be mapped to the following
+# full DN: "`uid=user,ou=people,dc=example,dc=net`".
+#
+ldap-username-attribute: uid
+
+#
+# The attribute which contains the members within all group objects in the LDAP
+# directory. Usually, and by default, this will simply be "member". If your
+# LDAP directory contains groups whose members are dictated by a different
+# attribute, it can be specified here.
+#
+ldap-member-attribute: member
+
+#
+# Specify whether the attribute defined in `ldap-member-attribute` (Usually
+# "member") identifies a group member by DN or by username.  Possible values:
+# "dn" (the default, if not specified) or "uid".
+#
+# Example: an LDAP server may present groups using the `groupOfNames`
+# scheme:
+#
+# ```
+# dn: cn=group1,ou=Groups,dc=example,dc=net
+# objectClass: groupOfNames
+# cn: group1
+# gidNumber: 12345
+# member: uid=user1,ou=People,dc=example,dc=net
+# member: uid=user2,ou=People,dc=example,dc=net
+# ```
+#
+# `ldap-member-attribute` is `member` and `ldap-member-attribute-type` is `dn`.
+#
+# Example: an LDAP server may present groups using the `posixGroup`
+# scheme:
+#
+# ```
+# dn: cn=group1,ou=Groups,dc=example,dc=net
+# objectClass: posixGroup
+# cn: group1
+# gidNumber: 12345
+# memberUid: user1
+# memberUid: user2
+# ```
+#
+# `ldap-member-attribute` is `memberUid` and `ldap-member-attribute-type` is
+# `uid`
+#
+ldap-member-attribute-type: uid
+
+#
+# The attribute or attributes to retrieve from the LDAP directory for the
+# currently logged-in user, separated by commas. If specified, the attributes
+# listed here are retrieved from each authenticated user and dynamically
+# applied to the parameters of that user's connections as [parameter
+# tokens](parameter-tokens) with the prefix "`LDAP_`". If omitted, LDAP user
+# attributes will not be used for parameter tokens.
+#
+# When a user authenticates with LDAP and accesses a particular Guacamole
+# connection, the values of these tokens will be the values of their
+# corresponding attributes at the time of authentication. If the attribute has
+# no value for the current user, then the corresponding token is not applied.
+# If the attribute has multiple values, then the first value of the attribute
+# is used.
+#
+# When converting an LDAP attribute name into a parameter token name, the name
+# of the attribute is transformed into uppercase with each word separated by
+# underscores, a naming convention referred to as "uppercase with underscores"
+# or "[screaming snake case](https://en.wikipedia.org/wiki/Naming_convention_(programming)#Multiple-word_identifiers)".
+#
+# For example:
+#
+# | LDAP Attribute                     | Parameter Token                                |
+# | ---------------------------------- | ---------------------------------------------- |
+# | `lowercase-with-dashes`            | `${LDAP_LOWERCASE_WITH_DASHES}`                |
+# | `CamelCase`                        | `${LDAP_CAMEL_CASE}`                           |
+# | `headlessCamelCase`                | `${LDAP_HEADLESS_CAMEL_CASE}`                  |
+# | `lettersAndNumbers1234`            | `${LDAP_LETTERS_AND_NUMBERS_1234}`             |
+# | `aRANDOM_mixOf-3NAMINGConventions` | `${LDAP_A_RANDOM_MIX_OF_3_NAMING_CONVENTIONS}` |
+#
+# Usage of parameter tokens is discussed in more detail in
+# [](configuring-guacamole) in [](parameter-tokens).
+#
+ldap-user-attributes: email, employeeNumber
+
+#
+# The search filter used to query the LDAP tree for users that can log into and
+# be granted privileges in Guacamole. *If this property is omitted the default of
+# `(objectClass=*)` will be used.*
+#
+ldap-user-search-filter: (objectClass=*)
+
+#
+# The base of the DN for all Guacamole configurations. *This property is
+# optional.* If omitted, the configurations of Guacamole connections will
+# simply not be queried from the LDAP directory. If specified, this base DN
+# will be used when querying the configurations accessible by a user once they
+# have successfully logged in.
+#
+# Each configuration is analogous to a connection. Within Guacamole's LDAP
+# support, each configuration functions as a group, having user members (via
+# the `member` attribute) and optionally group members (via the `seeAlso`
+# attribute), where each member of a particular configuration group will have
+# access to the connection defined by that configuration.
+#
+ldap-config-base-dn: ou=Guacamole Connections,dc=example,dc=net
+
+#
+# The base of the DN for all user groups that may be used by other extensions
+# to define permissions or that may referenced within Guacamole configurations
+# using the standard seeAlso attribute. All groups which will be used to
+# control access to Guacamole configurations must be descendents of this base
+# DN. *If this property is omitted, LDAP groups will have no impact on
+# Guacamole group memberships, and the `seeAlso` attribute will have no effect
+# on Guacamole configurations.*
+#
+ldap-group-base-dn: ou=groups,dc=example,dc=net
+
+#
+# The attribute or attributes which define the unique name of user groups in
+# the LDAP directory. Usually, and by default, this will simply be "cn". If
+# your LDAP directory contains groups whose names are dictated by different
+# attributes, multiple attributes can be specified here, separated by commas.
+#
+ldap-group-name-attribute: cn
+
+#
+# The search filter used to query the LDAP tree for groups that may be used by
+# other extensions to define permissions. *If this property is omitted the
+# default of `(objectClass=*)` will be used.*
+#
+# This has an effect only if `ldap-group-base-dn` is specified.
+#
+ldap-group-search-filter: (objectClass=*)
+
+#
+# Whether the LDAP connection follows (dereferences) aliases as it searches the
+# tree. Possible values for this property are "never" (the default) so that
+# aliases will never be followed, "searching" to dereference during search
+# operations after the base object is located, "finding" to dereference in
+# order to locate the search base, but not during the actual search, and
+# "always" to always dereference aliases.
+#
+ldap-dereference-aliases: never
+
+#
+# Whether the LDAP module follows referrals when processing search results from
+# an LDAP search. Referrals can be pointers to other parts of an LDAP tree, or
+# to a different server/connection altogether.  This is a boolean parameter,
+# with valid options of "true" or "false." The default is false. When disabled,
+# LDAP referrals will be ignored when encountered by the Guacamole LDAP client
+# and the client will move on to the next result.  When enabled, the LDAP
+# client will follow the referral and process results within the referral,
+# subject to the maximum hops parameter below.
+#
+ldap-follow-referrals: false
+
+#
+# The maximum number of referrals that will be processed before the LDAP client
+# refuses to follow any more referrals. The default is 5. If the
+# `ldap-follow-referrals` property is set to false (the default), this option
+# has no effect. If the `ldap-follow-referrals` option is set to true, this
+# will limit the depth of referrals followed to the number specified.
+#
+ldap-max-referral-hops: 5
+
+#
+# The timeout, in seconds, of any single LDAP operation. The default is 30
+# seconds. When this timeout is reached LDAP operations will be aborted.
+#
+ldap-operation-timeout: 30

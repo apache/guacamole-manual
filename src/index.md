@@ -20,42 +20,42 @@ specific language governing permissions and limitations under the License.
 :::
 
 :::{toctree}
-:caption: Overview
-:name: overview
+:caption: Getting Started
+:name: getting-started
 :maxdepth: 1
 
 introduction
+guacamole-architecture
+installing-guacamole
+Database setup <jdbc-auth>
+security
 :::
 
 :::{toctree}
-:caption: User's Guide
+:caption: Using Guacamole
 :name: users-guide
 :maxdepth: 1
 
-guacamole-architecture
-installing-guacamole
-guacamole-docker
-reverse-proxy
-configuring-guacamole
-jdbc-auth
-ldap-auth
-vault
-duo-auth
-totp-auth
-header-auth
-json-auth
-cas-auth
-openid-auth
-saml-auth
-radius-auth
-adhoc-connections
-auth-ban
-auth-restrict
-using-guacamole
-recording-playback
-administration
-batch-import
+Configuration <configuring-guacamole>
+General usage <using-guacamole>
+Administration <administration>
 troubleshooting
+:::
+
+:::{toctree}
+:caption: Extensions
+:name: extensions
+:maxdepth: 1
+
+Active Directory / LDAP <ldap-auth>
+mfa
+Single sign-on <sso>
+vault
+external-auth
+RADIUS <radius-auth>
+Ad-hoc connections <adhoc-connections>
+Login / Connection restrictions <auth-restrict>
+Session recording player <recording-playback>
 :::
 
 :::{toctree}
@@ -80,5 +80,6 @@ writing-you-own-guacamole-app
 :maxdepth: 1
 
 protocol-reference
+jdbc-auth-schema
 :::
 
