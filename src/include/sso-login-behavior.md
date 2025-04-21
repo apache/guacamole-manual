@@ -15,6 +15,6 @@ If a non-SSO extension has priority:
 
 The default priority of extensions is dictated by their filenames, with
 extensions that sort earlier alphabetically having higher priority than others.
-This can be overridden [by setting the `extension-priority` property within
-`guacamole.properties`](initial-setup).
+This can be overridden by [explicitly setting the extension
+priority](initial-setup).
 

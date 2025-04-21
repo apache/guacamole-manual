@@ -1,0 +1,5 @@
+#
+# The directory to search for associated session recordings. This property is
+# optional. By default, `/var/lib/guacamole/recordings` will be used.
+#
+recording-search-path: /var/lib/guacamole/recordings

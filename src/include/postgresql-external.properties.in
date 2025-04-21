@@ -1,0 +1,5 @@
+{# vim: set filetype=jproperties.jinja : #}
+
+{%- filter replace('somesql-', 'postgresql-') -%}
+{%- include 'include/jdbc-external.properties.in' -%}
+{%- endfilter -%}

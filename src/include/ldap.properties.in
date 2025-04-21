@@ -1,0 +1,16 @@
+#
+# The base of the DN for all Guacamole users. *This property is absolutely
+# required in all cases.* All Guacamole users must be descendents of this base
+# DN.
+#
+# If a search DN is provided (via `ldap-search-bind-dn`), then Guacamole users
+# need only be somewhere within the subtree of the specified user base DN.
+#
+# If a search DN *is not* provided, then all Guacamole users must be *direct
+# descendents* of this base DN, as the base DN will be appended to the username
+# to derive the user's DN. For example, if `ldap-user-base-dn` is
+# "`ou=people,dc=example,dc=net`", and `ldap-username-attribute` is "uid", then
+# a person attempting to login as "`user`" would be mapped to the following
+# full DN: "`uid=user,ou=people,dc=example,dc=net`".
+#
+ldap-user-base-dn: ou=people,dc=example,dc=net

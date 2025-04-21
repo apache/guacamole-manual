@@ -1,0 +1,112 @@
+{# vim: set filetype=markdown.jinja : #}
+{%- import 'include/ext-macros.md.j2' as ext with context -%}
+
+RADIUS authentication
+=====================
+
+Guacamole supports delegating authentication to a RADIUS service, such as
+FreeRADIUS, to validate username and password combinations, and to support
+multi-factor authentication. This authentication method must be layered on top
+of some other authentication extension, such as those available from the main
+project website, in order to provide access to actual connections.
+
+```{include} include/warn-config-changes.md
+```
+
+(radius-downloading)=
+
+Building the RADIUS authentication extension
+--------------------------------------------
+
+The RADIUS extension depends on software that is covered by a LGPL license,
+which is incompatible with the Apache 2.0 license under which Guacamole is
+licensed. Due to this dependency, the Guacamole project cannot distribute
+binary versions of the RADIUS extension. If you want to use this extension you
+will need to build the RADIUS extension from source, either by [building
+guacamole-client from source using Maven](building-guacamole-client) or by
+manually building the guacamole-client Docker image.
+
+::::{tab} {{ native_tab_title }}
+
+The RADIUS extension must be explicitly enabled during build time in order to
+generate the binaries and resulting JAR file. This is done by adding the flag
+`-Plgpl-extensions` to the Maven command line during the build, and should
+result in the output below:
+
+:::{code-block} console
+:emphasize-lines: 10,19
+$ mvn -Plgpl-extensions clean package
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] guacamole-client                                                   [pom]
+[INFO] guacamole-common                                                   [jar]
+[INFO] guacamole-ext                                                      [jar]
+...
+[INFO] guacamole-auth-radius                                              [jar]
+...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for guacamole-client {{ version }}:
+[INFO] 
+[INFO] guacamole-client ................................... SUCCESS [ 12.839 s]
+[INFO] guacamole-common ................................... SUCCESS [ 15.446 s]
+[INFO] guacamole-ext ...................................... SUCCESS [ 19.988 s]
+...
+[INFO] guacamole-auth-radius .............................. SUCCESS [ 10.806 s]
+...
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  04:36 min
+[INFO] Finished at: 2023-01-10T17:27:11-08:00
+[INFO] ------------------------------------------------------------------------
+$
+:::
+
+After the build completes successfully, the extension will be in the
+`extensions/guacamole-auth-radius/target/` directory, and will be called
+`guacamole-auth-radius-{{ version }}.jar`.
+
+To install the RADIUS authentication extension, you must:
+
+1. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
+   exist.
+
+2. Copy `guacamole-auth-radius-{{ version }}.jar` into `GUACAMOLE_HOME/extensions`.
+
+3. Configure Guacamole to use RADIUS authentication, as described below.
+::::
+
+::::{tab} {{ container_tab_title }}
+To build a copy of the `guacamole/guacamole` Docker image with RADIUS support,
+the `-Plgpl-extensions` option must be passed to the Docker build process using
+the `MAVEN_ARGUMENTS` build argument. The `-DskipTests=true` argument must also
+be included, as the build otherwise performs several JavaScript unit tests that
+cannot run in a containerized environment:
+
+```console
+$ docker build \
+    --build-arg MAVEN_ARGUMENTS="-Plgpl-extensions -DskipTests=true" \
+    -t guacamole/guacamole .
+```
+
+Once the build completes, you can use your copy of the `guacamole/guacamole`
+image as you would the standard image provided with each Guacamole release.
+::::
+
+(guac-radius-config)=
+
+Configuration
+-------------
+
+{{ ext.config('radius') }}
+
+(completing-radius-install)=
+
+Completing installation
+-----------------------
+
+```{include} include/ext-completing.md
+```
+
