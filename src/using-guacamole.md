@@ -1,5 +1,5 @@
-Using Guacamole
-===============
+Guacamole's user interface
+==========================
 
 Guacamole provides access to much of the functionality of a desktop from within
 your web browser. Although most people use remote desktop tools only when

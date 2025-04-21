@@ -1,0 +1,18 @@
+#
+# The name of the database that you created for Guacamole. This is given as
+# "guacamole_db" in the examples given in this chapter.
+#
+somesql-database: guacamole_db
+
+#
+# The username of the user that Guacamole should use to connect to the
+# database.  This is given as "guacamole_user" in the examples given in this
+# chapter.
+#
+somesql-username: guacamole_user
+
+#
+# The password Guacamole should provide when authenticating with the database.
+# This is given as "some_password" in the examples given in this chapter.
+#
+somesql-password: some_password

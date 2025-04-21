@@ -1,0 +1,8 @@
+#
+# The maximum amount of time to wait for a user to finish authenticating with
+# Duo, in minutes. Any authentication attempt that takes longer than this
+# amount of time will be rejected, requiring the user to reenter their
+# credentials and possibly revalidate their identity with Duo. By default,
+# login attempts are allowed to take up to 5 minutes.
+#
+duo-auth-timeout: 5

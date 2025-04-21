@@ -1,0 +1,93 @@
+{# vim: set filetype=markdown.jinja : #}
+{%- import 'include/ext-macros.md.j2' as ext with context -%}
+
+Using CAS for single sign-on
+============================
+
+CAS is an open-source Single Sign On (SSO) provider that allows multiple
+applications and services to authenticate against it and brokers those
+authentication requests to a back-end authentication provider. This module
+allows Guacamole to redirect to CAS for authentication and user services. This
+module must be layered on top of other authentication extensions that provide
+connection information, as it only provides user authentication.
+
+```{include} include/warn-config-changes.md
+```
+
+(cas-downloading)=
+
+Installing/Enabling the CAS authentication extension
+----------------------------------------------------
+
+{{ ext.install('CAS', 'guacamole-auth-sso', 'cas/guacamole-auth-sso-cas') }}
+
+Required configuration
+----------------------
+
+{% call ext.config('cas', required=True) %}
+Guacamole's CAS support requires specifying two {{ ext.properties() }} that
+describe the CAS authentication server and the Guacamole deployment.
+These {{ ext.properties() }} are *absolutely required in all cases*, as they
+dictate how Guacamole should connect to CAS and how CAS should redirect users
+back to Guacamole once their identity has been confirmed.
+{% endcall %}
+
+Additional configuration (optional)
+-----------------------------------
+
+{% call ext.config('cas-optional') %}
+Additional optional {{ ext.properties() }} are available to control how
+CAS-related data is processed, including whether [CAS ClearPass](cas-clearpass)
+should be used and how user group memberships should be derived:
+{% endcall %}
+
+### Controlling login behavior
+
+```{include} include/sso-login-behavior.md
+```
+
+#### Automatically redirecting all unauthenticated users
+
+To ensure users are redirected to the CAS identity provider immediately
+(without a Guacamole login screen), ensure the CAS extension has priority over
+all others:
+
+```
+extension-priority: cas
+```
+
+#### Presenting unauthenticated users with a login screen
+
+To ensure users are given a normal Guacamole login screen and have the option
+to log in with traditional credentials _or_ with CAS, ensure the CAS extension
+does not have priority:
+
+```
+extension-priority: *, cas
+```
+
+(completing-cas-install)=
+
+Completing installation
+-----------------------
+
+```{include} include/ext-completing.md
+```
+
+(cas-clearpass)=
+
+Using CAS ClearPass
+-------------------
+
+CAS has a function called ClearPass that can be used to cache the password used
+for SSO authentication and make that available to services at a later time.
+Configuring the CAS server for ClearPass is beyond the scope of this article -
+more information can be found on the Apereo CAS wiki at the following URL:
+<https://apereo.github.io/cas>.
+
+Once you have CAS configured for credential caching, you need to configure the
+service with a keypair for passing the credential securely. The public key gets
+installed on the CAS server, while the private key gets configured with the
+`cas-clearpass-key property`. The private key file needs to be in RSA PKCS8
+format.
+

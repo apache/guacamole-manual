@@ -1,0 +1,48 @@
+{# vim: set filetype=markdown.jinja : #}
+{%- import 'include/ext-macros.md.j2' as ext with context -%}
+
+HTTP header authentication
+==========================
+
+Guacamole supports delegating authentication to an arbitrary external service,
+relying on the presence of an HTTP header which contains the username of the
+authenticated user. This authentication method must be layered on top of some
+other authentication extension, such as those available from the main project
+website, in order to provide access to actual connections.
+
+:::{danger}
+**All external requests must be properly sanitized if this extension is used.**
+The chosen HTTP header must be stripped from untrusted requests, such that the
+authentication service is the _only_ possible source of that header.
+
+**If such sanitization is not performed, it will be trivial for malicious users
+to add this header manually, and thus gain unrestricted access.**
+:::
+
+```{include} include/warn-config-changes.md
+```
+
+(header-downloading)=
+
+Installing/Enabling HTTP header authentication
+----------------------------------------------
+
+{{ ext.install('HTTP_AUTH', 'guacamole-auth-header') }}
+
+(guac-header-config)=
+
+Configuration (optional)
+------------------------
+
+{% call ext.config('http-auth') %}
+{{ ext.nothingRequired() }}
+{% endcall %}
+
+(completing-header-install)=
+
+Completing installation
+-----------------------
+
+```{include} include/ext-completing.md
+```
+

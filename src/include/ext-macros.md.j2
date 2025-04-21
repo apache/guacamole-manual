@@ -1,0 +1,409 @@
+{# vim: set filetype=markdown.jinja : #}
+
+{##
+ # Generates a Markdown definition list (MyST format) that lists each property
+ # within the given properties file template, where the property name is used
+ # as the term and the content of all adjacent comments above that property are
+ # used as the definition. Markdown formatting within the comment will be
+ # preserved. If a property is commented out, that property will still be
+ # included in the documentation.
+ #
+ # @param filename
+ #     The properties file template to read.
+ #}
+{%- macro propertyDocs(filename) -%}
+
+    {%- set docs | splitPropertyTemplate -%}
+    {%- include filename -%}
+    {%- endset -%}
+
+    {%- for doc in docs %}
+`{{ doc.name }}`
+{{ doc.documentation | defListEntry }}
+    {%- endfor -%}
+
+{%- endmacro -%}
+
+{##
+ # Generates an example "guacamole.properties" snippet that lists each
+ # individual property in the given properties file template, including the
+ # value provided for that property in the input file. Documentation from
+ # comments related to the property are omitted from the output. If a property
+ # is commented out, that property will still be included in the output snippet
+ # in commented-out form.
+ #
+ # @param filename
+ #     The properties file template to read.
+ #}
+{%- macro propertyExample(filename) -%}
+
+    {%- set docs | splitPropertyTemplate -%}
+    {%- include filename -%}
+    {%- endset -%}
+
+```ini
+    {%- for doc in docs %}
+{{ (doc.commented and '#') or '' }}{{ doc.name }}: {{ doc.value }}
+    {%- endfor %}
+```
+
+{%- endmacro -%}
+
+{##
+ # Generates a Markdown definition list (MyST format) that lists each property
+ # within the given properties file template, where the property's
+ # corresponding environment variable name is used as the term and the content
+ # of all adjacent comments above that property are used as the definition.
+ # Markdown formatting within the comment will be preserved. If a property is
+ # commented out, the environment variable for that property will still be
+ # included in the documentation.
+ #
+ # @param filename
+ #     The properties file template to read.
+ #}
+{%- macro environmentDocs(filename) -%}
+
+    {%- set docs | splitPropertyTemplate -%}
+    {%- include filename -%}
+    {%- endset -%}
+
+    {%- for doc in docs %}
+`{{ doc.name | environmentName }}`
+{{ doc.documentation | defListEntry }}
+    {%- endfor %}
+
+{%- endmacro -%}
+
+{##
+ # Generates an example docker-compose.yml snippet that lists the environment
+ # variables that correspond to each individual property in the given
+ # properties file template, including the value provided for that property in
+ # the input file. Documentation from comments related to the property are
+ # omitted from the output. If a property is commented out, the environment
+ # variable corresponding to that property will still be included in the output
+ # snippet in commented-out form.
+ #
+ # @param filename
+ #     The properties file template to read.
+ #}
+{%- macro dockerComposeExample(filename) -%}
+
+    {%- set docs | splitPropertyTemplate -%}
+    {%- include filename -%}
+    {%- endset -%}
+
+```yaml
+    {%- for doc in docs %}
+{{ (doc.commented and '#') or '' }}{{ doc.name | environmentName }}: {{ doc.value | dockerComposeStr }}
+    {%- endfor %}
+```
+
+{%- endmacro -%}
+
+{##
+ # Generates an example "docker run" command that shows "-e" options for each
+ # of the environment variables that correspond to each individual property in
+ # the given properties file template, including the value provided for that
+ # property in the input file.  Documentation from comments related to the
+ # property are omitted from the output. If a property is commented out, the
+ # environment variable corresponding to that property will be omitted from the
+ # output snippet.
+ #
+ # @param filename
+ #     The properties file template to read.
+ #}
+{%- macro dockerCommandExample(filename) -%}
+
+    {%- set docs | splitPropertyTemplate -%}
+    {%- include filename -%}
+    {%- endset -%}
+
+```console
+$ docker run --name some-guacamole \
+    {%- for doc in docs %}
+    -e {{ doc.name | environmentName }}={{ doc.value | shellStr }} \
+    {%- endfor %}
+    -d -p 8080:8080 guacamole/guacamole
+```
+
+{%- endmacro -%}
+
+{##
+ # Produces a download link for the copy of the given extension from the
+ # current release.
+ #
+ # @param extArchiveName
+ #     The base name of the .tar.gz archive containing the extension .jar file,
+ #     excluding version number suffix.
+ #}
+{%- macro downloadLink(extName) -%}
+[`{{ extName }}-{{ version }}.tar.gz`](https://apache.org/dyn/closer.lua/guacamole/{{ version }}/binary/{{ extName }}-{{ version }}.tar.gz?action=download)
+{%- endmacro -%}
+
+{##
+ # Documents the download/installation procedures for an extension having the
+ # given name. NOTE: This file must be imported with context to ensure the
+ # version variable is inherited from declared MyST substitutions.
+ #
+ # If invoked using Jinja's "call" feature, the body of the call replaces the
+ # step-by-step instructions for downloading and installing the extension for a
+ # native install of Guacamole.
+ #
+ # @param extVarPrefix
+ #     The prefix of Docker environment variables used by the extension.
+ #
+ # @param extArchiveName
+ #     The base name of the .tar.gz archive containing the extension .jar file,
+ #     excluding version number suffix.
+ #
+ # @param [extJarName=extArchiveName]
+ #     The base name of the extension .jar file within the archive, including
+ #     any relative path but excluding version number suffix. This value is
+ #     required only if the base name of the .jar file differs from the base
+ #     name of the archive.
+ #
+ # @param [dockerDefault=False]
+ #     Whether the extension is enabled by default within the Guacamole Docker
+ #     image.
+ #}
+{%- macro install(extVarPrefix, extArchiveName, extJarName=extArchiveName, dockerDefault=False) -%}
+Guacamole is configured differently depending on whether Guacamole was
+[installed natively](installing-guacamole) or [using the provided Docker
+images](guacamole-docker). The documentation here covers both methods.
+
+::::{tab} {{ native_tab_title }}
+Native installations of Guacamole under [Apache Tomcat](https://tomcat.apache.org/)
+or similar are configured by modifying the contents of `GUACAMOLE_HOME`
+([Guacamole's configuration directory](guacamole-home)), which is located at
+`/etc/guacamole` by default and may need to be created first:
+
+{%- if caller is defined %}
+{{ caller() }}
+{%- else %}
+1. Download {{ downloadLink(extArchiveName) }} from [the release page for
+   Apache Guacamole {{ version }}](https://guacamole.apache.org/releases/{{ version }})
+   and extract it.
+
+2. Create the `GUACAMOLE_HOME/extensions` directory, if it does not already
+   exist.
+
+3. Copy the `{{ extJarName }}-{{ version }}.jar` file from the contents of the
+   archive to `GUACAMOLE_HOME/extensions/`.
+
+4. Proceed with the configuring Guacamole for the newly installed extension as
+   described below. The extension will be loaded after Guacamole has been
+   restarted.
+{%- endif %}
+
+:::{note}
+Download and documentation links for all officially supported extensions for a
+particular version of Guacamole are always provided in the release notes for
+that version. The copy of the documentation you are reading now is from [Apache
+Guacamole {{ version }}](https://guacamole.apache.org/releases/{{ version }}).
+
+**If you are using a different version of Guacamole, please locate that version
+within [the release archives](https://guacamole.apache.org/releases/) and
+consult the documentation for that release instead.**
+:::
+::::
+
+::::{tab} {{ container_tab_title }}
+    {%- if dockerDefault %}
+**This extension is enabled by default when using the Docker image.** You do
+not need to do anything to use this extension with Docker unless you wish to
+override the default behavior. If you _don't_ wish to use this extension, you
+can disable it by setting `{{ extVarPrefix }}_ENABLED` to `false`.
+
+If deploying Guacamole using Docker Compose:
+: This is accomplished by adding the `{{ extVarPrefix }}_ENABLED` environment
+  variable to the `environment` section of your `guacamole/guacamole` container:
+
+  ```yaml
+  {{ extVarPrefix }}_ENABLED: "false"
+  ```
+
+If instead deploying Guacamole by running `docker run` manually:
+: This extension can be disabled by providing the same environment variable
+  using the `-e` option. For example:
+
+  ```console
+  $ docker run --name some-guacamole \
+      -e {{ extVarPrefix }}_ENABLED="false" \
+      -d -p 8080:8080 guacamole/guacamole
+  ```
+    {%- else %}
+Docker installations of Guacamole include a bundled copy of [Apache
+Tomcat](https://tomcat.apache.org/) and are configured using environment
+variables. The startup process of the Docker image automatically populates
+`GUACAMOLE_HOME` ([Guacamole's configuration directory](guacamole-home)) based
+on the values of these variables.
+
+If deploying Guacamole using Docker Compose:
+: You will need to add at least one relevant environment variable to the
+  `environment` section of your `guacamole/guacamole` container, such as the
+  `{{ extVarPrefix }}_ENABLED` environment variable:
+
+  ```yaml
+  {{ extVarPrefix }}_ENABLED: "true"
+  ```
+
+If instead deploying Guacamole by running `docker run` manually:
+: The same environment variable(s) will need to be provided using the `-e`
+  option. For example:
+
+  ```console
+  $ docker run --name some-guacamole \
+      -e {{ extVarPrefix }}_ENABLED="true" \
+      -d -p 8080:8080 guacamole/guacamole
+  ```
+    {%- endif %}
+
+If `{{ extVarPrefix }}_ENABLED` is set to `false`, the extension will NOT be
+installed, even if other related environment variables have been set. This can
+be used to temporarily disable usage of an extension without needing to remove
+all other related configuration.
+
+You don't strictly need to set `{{ extVarPrefix }}_ENABLED` if other related
+environment variables are provided, but the extension will be installed only if
+at least _one_ related environment variable is set.
+::::
+{%- endmacro -%}
+
+{##
+ # Adds documentation for an extensions properties or environment variables as
+ # derived from the .properties.in templates within the "include/" directory.
+ # Both container-based and native installation mechanisms are covered by
+ # duplicating any provided content. If the content itself must vary by whether
+ # it is in a location specific to containerized or native installs, the
+ # container() and native() macros may be used, respectively.
+ #
+ # If invoked using Jinja's "call" feature, the body of the call is included
+ # before the documentation for properties and environment variables.
+ #
+ # @param extInclude
+ #     The base filename of the .properties.in template within "include/".
+ #
+ # @param [required=False]
+ #     Whether the properties/variables documented here are absolutely required
+ #     in all cases.
+ #}
+{%- macro config(extInclude, required=False) -%}
+::::{tab} {{ native_tab_title }}
+    {{- beginTab('native') -}}
+    {%- if caller is defined %}
+{{ caller() }}
+    {%- endif %}
+
+    {%- if required %}
+If deploying Guacamole natively, you will need to add a section to your
+`guacamole.properties` that looks like the following:
+
+{{ propertyExample('include/' + extInclude + '.properties.in') }}
+
+The properties that must be set in all cases for any Guacamole installation
+using this extension are:
+    {%- endif %}
+
+{{ propertyDocs('include/' + extInclude + '.properties.in') }}
+    {{- endTab('native') -}}
+::::
+
+::::{tab} {{ container_tab_title }}
+    {{- beginTab('docker') -}}
+    {%- if caller is defined %}
+{{ caller() }}
+    {%- endif %}
+
+    {%- if required %}
+If deploying Guacamole using Docker Compose, you will need to add a set of
+environment variables to the `environment` section of your
+`guacamole/guacamole` container that looks like the following:
+
+{{ dockerComposeExample('include/' + extInclude + '.properties.in') }}
+
+If instead deploying Guacamole by running `docker run` manually, these same
+environment variables will need to be provided using the `-e` option.  For
+example:
+
+{{ dockerCommandExample('include/' + extInclude + '.properties.in') }}
+
+The environment variables that must be set in all cases for any Docker-based
+Guacamole installation using this extension are:
+    {%- endif %}
+
+{{ environmentDocs('include/' + extInclude + '.properties.in') }}
+    {{- endTab('docker') -}}
+::::
+{%- endmacro -%}
+
+{##
+ # Displays the provided content depending on whether the current location is
+ # within generated documentation for using an extension with a containerized
+ # deployment of Guacamole. If this macro is invoked using Jinja's "call"
+ # feature, the parameters are ignored and the content of the call is displayed
+ # only if the current location is specific to containerized installs.
+ #
+ # @param [yes='']
+ #     The content to display if the current location is specific to
+ #     containerized installs.
+ #
+ # @param [no='']
+ #     The content to display if the current location is NOT specific to
+ #     containerized installs.
+ #}
+{%- macro container(yes='', no='') -%}
+    {%- if caller is defined %}
+        {%- if isTab('docker') %}
+{{ caller() }}
+        {%- endif %}
+    {%- elif isTab('docker') %}
+{{ yes }}
+    {%- else %}
+{{ no }}
+    {%- endif %}
+{%- endmacro -%}
+
+{##
+ # Displays the provided content depending on whether the current location is
+ # within generated documentation for using an extension with a native
+ # deployment of Guacamole. If this macro is invoked using Jinja's "call"
+ # feature, the parameters are ignored and the content of the call is displayed
+ # only if the current location is specific to native installs.
+ #
+ # @param [yes='']
+ #     The content to display if the current location is specific to
+ #     native installs.
+ #
+ # @param [no='']
+ #     The content to display if the current location is NOT specific to
+ #     native installs.
+ #}
+{%- macro native(yes='', no='') -%}
+    {%- if caller is defined -%}
+        {%- if isTab('native') -%}
+{{ caller() }}
+        {%- endif -%}
+    {%- elif isTab('native') -%}
+{{ yes }}
+    {%- else -%}
+{{ no }}
+    {%- endif -%}
+{%- endmacro -%}
+
+{##
+ # Displays either "properties" or "environment variables" depending on the
+ # current context of the content of a call to config().
+ #}
+{%- macro properties() -%}
+{{ native('properties', 'environment variables') }}
+{%- endmacro -%}
+
+{##
+ # Documents that the current extension has no required configuration options.
+ # This macro should only be used within the content of a call to config().
+ #}
+{%- macro nothingRequired() -%}
+This extension has no required {{ properties() }}. So long as you are satisfied
+with the default behavior/values noted below, this extension requires no
+configuration beyond installation.
+{%- endmacro -%}
