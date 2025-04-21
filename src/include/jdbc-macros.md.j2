@@ -1,0 +1,297 @@
+{# vim: set filetype=markdown.jinja : #}
+{%- import 'include/ext-macros.md.j2' as ext with context -%}
+
+{##
+ # Documents the installation procedures for the JDBC extension for the
+ # database having the given name.
+ #
+ # This macro must be invoked using Jinja's "call" feature, with the body of
+ # the call being guidance on available JDBC drivers.
+ #
+ # @param dbName
+ #     The name used for this database within all relevant configuration
+ #     properties and directories.
+ #}
+{%- macro install(dbName) -%}
+{%- set outerCaller = caller() -%}
+
+{% call ext.install(dbName | environmentName, 'guacamole-auth-jdbc', dbName + '/guacamole-auth-jdbc-' + dbName) %}
+1. You should have a copy of {{ ext.downloadLink('guacamole-auth-jdbc') }} from
+   earlier when you [created and initialized the database]({{ dbName }}-auth-database-creation).
+
+2. Create the `GUACAMOLE_HOME/extensions` and `GUACAMOLE_HOME/lib` directories,
+   if they do not already exist.
+
+3. Copy `{{ dbName }}/guacamole-auth-jdbc-{{ dbName }}-{{ version }}.jar`
+   within `GUACAMOLE_HOME/extensions`.
+
+4. Copy the JDBC driver for your database to `GUACAMOLE_HOME/lib`. {{ outerCaller | indent(3) }}
+
+5. Configure Guacamole to use database authentication, as described below.
+{% endcall %}
+{%- endmacro -%}
+
+{##
+ # Documents the usage of a shared, named "initdb" volume to easily initialize
+ # Guacamole's database when using Docker Compose.
+ #
+ # @param dbName
+ #     The name used for this database within all relevant configuration
+ #     properties and directories.
+ #}
+{%- macro volumeInitdb(dbName) -%}
+The easiest way to initialize Guacamole's database is to use a volume mount to
+map the bundled schema initialization scripts from the Guacamole container into
+the database container. For example, if using Docker Compose:
+
+1. Declare a named volume at the root level of your `docker-compose.yml`:
+
+   ```yaml
+   volumes:
+       initdb:
+   ```
+
+2. Reference the named volume within your Guacamole service, effectively
+   pulling the schema initialization scripts from that container and into the
+   volume:
+
+   ```yaml
+   volumes:
+       - "initdb:/opt/guacamole/extensions/guacamole-auth-jdbc/{{ dbName }}/schema:ro"
+   ```
+
+3. Reference the named volume within your database service, bringing the
+   schema initialization scripts into the directory used by the database
+   image for one-time initialization:
+
+   ```yaml
+   volumes:
+       - "initdb:/docker-entrypoint-initdb.d:ro"
+   ```
+{%- endmacro -%}
+
+{##
+ # Documents the general schema upgrade procedures for the database having the
+ # given name.
+ #
+ # @param dbName
+ #     The name used for this database within all relevant configuration
+ #     properties and directories.
+ #}
+{%- macro upgrade(dbName) -%}
+If you are upgrading from a version of Guacamole older than {{version}}, you
+may need to run one or more database schema upgrade scripts located within the
+`{{dbName}}/schema/upgrade/` directory of {{ ext.downloadLink('guacamole-auth-jdbc') }}
+(available from [the release page for Apache Guacamole
+{{ version }}](https://guacamole.apache.org/releases/{{ version }})).
+
+Each of these scripts is named {samp}`upgrade-pre-{VERSION}.sql` where
+`VERSION` is the version of Guacamole where those changes were introduced. They
+need to be run when you are upgrading from a version of Guacamole older than
+`VERSION`.
+
+If there are no {samp}`upgrade-pre-{VERSION}.sql` scripts present in the
+`schema/upgrade/` directory which apply to your existing Guacamole database,
+then the schema has not changed between your version and the version your are
+installing, and there is no need to run any database upgrade scripts.
+
+These scripts are incremental and, when relevant, *must be run in order*. For
+example, if you are upgrading an existing database from version
+0.9.13-incubating to version 1.0.0, you would need to run the
+`upgrade-pre-0.9.14.sql` script (because 0.9.13-incubating is older than
+0.9.14), followed by the `upgrade-pre-1.0.0.sql` script (because
+0.9.13-incubating is also older than 1.0.0).
+{%- endmacro -%}
+
+{##
+ # Generates the configuration documentation for a JDBC authentication
+ # extension, such as the extensions for MySQL or PostgreSQL. Property
+ # documentation is read from several different daatabase-specific property
+ # templates, many of which are inherited from more generic templates.
+ #
+ # @param dbName
+ #     The name used for this database within all relevant configuration
+ #     properties and directories.
+ #}
+{%- macro config(dbName) -%}
+
+({{ dbName }}-auth-configuration)=
+
+Required configuration
+----------------------
+
+Additional configuration options must be specified for Guacamole to properly
+connect to your database. These options are specific to the database being
+used, and must be set correctly for authentication to work.
+
+The options absolutely required by the database authentication extension are
+relatively few and self-explanatory, describing only which database will be
+used and how Guacamole will authenticate when querying that database:
+
+{{ ext.config(dbName, required=True) }}
+
+:::{hint}
+**Double-check these values.** You will not be able to sign into Guacamole
+after installation if these parameters do not match the correct database name,
+username, and password.
+:::
+
+Additional configuration (optional)
+-----------------------------------
+
+Additional options are available to control how Guacamole connects to the
+database server:
+
+{{ ext.config(dbName + '-optional') }}
+
+### Enforcing password policies
+
+Configuration options are available for enforcing rules intended to encourage
+password complexity and regular changing of passwords. None of these options
+are enabled by default, but can be selectively enabled as needed.
+
+#### Password complexity
+
+Administrators can require that passwords have a certain level of complexity,
+such as having both uppercase and lowercase letters ("multiple case"), at least
+one digit, or at least one symbol, and can prohibit passwords from containing
+the user's own username.
+
+With respect to password content, the database authentication defines a "digit"
+as any numeric character and a "symbol" is any non-alphanumeric character. This
+takes non-English languages into account, thus a digit is not simply "0"
+through "9" but rather [any character defined in Unicode as
+numeric](https://en.wikipedia.org/wiki/Numerals_in_Unicode), and a symbol is
+any character which Unicode does not define as alphabetic or numeric.
+
+The check for whether a password contains the user's own username is performed
+in a case-insensitive manner. For example, if the user's username is "phil",
+the passwords "ch!0roPhil" and "PHIL-o-dendr0n" would still be prohibited.
+
+{{ ext.config(dbName + '-password-complexity') }}
+
+#### Password age / expiration
+
+"Password age" refers to two separate concepts:
+
+1. Requiring users to change their password after a certain amount of time has
+   elapsed since the last password change (maximum password age).
+
+2. Preventing users from changing their password too frequently (minimum
+   password age).
+
+While it may seem strange to prevent users from changing their password too
+frequently, it does make sense if you are concerned that rapid password changes
+may defeat password expiration (users could immediately change the password
+back) or tracking of password history (users could cycle through passwords
+until the history is exhausted and their old password is usable again).
+
+By default, the database authentication does not apply any limits to password
+age, and users with permission to change their passwords may do so as
+frequently or infrequently as they wish. Password age limits can be enabled
+using a pair of configuration options, each accepting values given in units of
+days:
+
+{{ ext.config(dbName + '-password-age') }}
+
+:::{important}
+So that administrators can always intervene in the case that a password needs
+to be reset despite restrictions, the minimum age restriction does not apply to
+any user with permission to administer the system.
+:::
+
+#### Preventing password reuse
+
+If desired, Guacamole can keep track of each user's most recently used
+passwords, and will prohibit reuse of those passwords until the password has
+been changed sufficiently many times. By default, Guacamole will not keep track
+of old passwords.
+
+Note that these passwords are hashed in the same manner as each user's current
+password. When a user's password is changed, the hash, salt, etc. currently
+stored for that user is actually just copied verbatim (along with a timestamp)
+into a list of historical passwords, with older entries from this list being
+automatically deleted.
+
+{{ ext.config(dbName + '-password-reuse') }}
+
+({{ dbName }}-auth-concurrency)=
+
+### Concurrent use of Guacamole connections
+
+The database authentication module provides configuration options to restrict
+concurrent use of connections and connection groups. Concurrent use can be
+restricted broadly or to ensure that each individual user may only maintain a
+limited number of active connections to any one connection or group.
+
+By default, concurrent usage is unrestricted except that each user may only
+have a single active connection to each connection group. This is intended to
+avoid the case that a single user is able to exhaust the contents of a
+connection group and effectively block others from using the same resources.
+
+If you wish to impose an absolute limit on the number of active connections
+that can be established through Guacamole, ignoring which users or connections
+are involved, this can be done as well.
+
+The default policy set through these options can be overridden later on a
+per-connection basis using the administrative interface.
+
+{{ ext.config(dbName + '-concurrent-use') }}
+
+({{ dbName }}-auth-restrict)=
+
+### External users and connections
+
+When [combining LDAP with a database](ldap-and-database), or using a single
+sign-on system like [OpenID Connect](openid-auth) or [SAML](saml-auth), user
+accounts are not purely defined by Guacamole's database. They are additionally
+defined by the relevant external system. In some cases, such as the [LDAP
+extension's capability to retrieve connection information from the LDAP
+directory](ldap-schema-changes), connections are not purely defined by
+Guacamole's database either.
+
+In these cases, it may be desirable to:
+
+* Limit use of Guacamole to only those users that _do_ already exist in the
+  database.
+
+* Automatically create users in the database when they have successfully
+  authenticated through other means, such that extensions requiring storage
+  like TOTP can be used alongside SSO solutions.
+
+* Control whether the database logs connection usage history for connections
+  that are not maintained by the database.
+
+By default, users will be allowed access to Guacamole as long as they are
+authenticated by at least one extension, no extension denies/vetoes access, and
+the database will record connection history entries for all connections
+regardless of whether they are maintained by the database.
+
+:::{note}
+In all cases, users will only be able to see or interact with resources that
+they have been given permission to access. This is true whether those
+permissions are granted explicitly or through inheritance (from user groups).
+:::
+
+{{ ext.config(dbName + '-external') }}
+
+### Access window enforcment
+
+Guacamole supports the use of access windows to limit the time periods during
+which users are allowed to access the system. By default, users will be
+forcibly logged out from Guacamole as soon as the access window expires,
+disconnecting them from any active connections.
+
+If you would prefer users to be allowed to remain logged in, this behavior can
+be overridden using the configuration option below.
+
+:::{note}
+Prior to [Apache Guacamole 1.6.0](https://guacamole.apache.org/releases/1.6.0),
+access windows were enforced only during the login process. Access windows
+restricted only when a user could log in, not whether they could remain logged
+in.
+:::
+
+{{ ext.config(dbName + '-access-window') }}
+
+{% endmacro %}

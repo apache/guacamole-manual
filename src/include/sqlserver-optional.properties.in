@@ -1,0 +1,50 @@
+#
+# The hostname or IP address of the server hosting your database. If not
+# specified, "localhost" will be used by default.
+#
+sqlserver-hostname: localhost
+
+#
+# The port number of the SQL Server database to connect to. If not specified,
+# the standard SQL Server port 1433 will be used.
+#
+sqlserver-port: 1433
+
+#
+# The specific TDS-compatible JDBC driver to expect to have been installed.
+# Multiple JDBC drivers are available that support SQL Server. If not using the
+# Microsoft driver, this property must be specified to define the driver that
+# will be used. Possible values are:
+#
+# microsoft2005
+# : The current [Microsoft JDBC Driver for SQL Server](https://docs.microsoft.com/en-us/sql/connect/jdbc/download-microsoft-jdbc-driver-for-sql-server),
+#   supporting SQL Server 2005 and later. This is the default.
+#
+# microsoft
+# : The legacy Microsoft driver for SQL Server 2000.
+#
+# jtds
+# : The open source [jTDS](http://jtds.sourceforge.net/) driver.
+#
+# datadirect
+# : [Progress DataDirect’s JDBC Driver for SQL Server](https://www.progress.com/jdbc/microsoft-sql-server).
+#
+sqlserver-driver: microsoft2005
+
+#
+# The instance name that the SQL Server driver should attempt to connect to, if
+# not the default SQL Server instance. This instance name is configured during
+# the SQL Server installation. This property is optional, and most installations
+# should work without the need to specify an instance name.
+#
+sqlserver-instance: MSSQLSERVER
+
+#
+# Controls how many objects may be retrieved from the database in a single
+# query. If more objects than this number are requested, retrieval of those
+# objects will be automatically and transparently split across multiple
+# queries.
+#
+# By default, SQL Server queries will retrieve no more than 500 objects.
+#
+sqlserver-batch-size: 500

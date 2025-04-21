@@ -1,0 +1,9 @@
+#
+# Whether time-based access windows should be enforced for active user sessions.
+# By default, users will be logged out when an access window closes, even if
+# they are currently logged in. To allow logged-in users to continue to use the
+# application after an access window closes, set this to "false". Users will
+# always be prevented from logging in outside of access windows regardless of
+# this setting.
+#
+somesql-enforce-access-windows-for-active-sessions: true

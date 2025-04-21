@@ -1,0 +1,11 @@
+#
+# The URL of the CAS authentication server. This should be the full path to the
+# base of the CAS installation.
+#
+cas-authorization-endpoint: https://cas.example.net
+
+#
+# The URI to redirect back to upon successful authentication. Normally this
+# will be the full URL of your Guacamole installation.
+#
+cas-redirect-uri: https://guac.example.net

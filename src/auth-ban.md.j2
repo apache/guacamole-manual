@@ -1,0 +1,58 @@
+{# vim: set filetype=markdown.jinja : #}
+{%- import 'include/ext-macros.md.j2' as ext with context -%}
+
+Securing Guacamole against brute-force attacks
+==============================================
+
+Version 1.6.0 of Guacamole introduces an extension that allows you to detect
+and block brute-force login attacks. When installed, the extension will track
+the IP addresses of failed authentication attempts. Once the threshold of
+failed logins is reached for a particular IP address, further logins from that
+address will be temporarily banned:
+
+![](images/too-many-failed-logins.png)
+
+```{include} include/warn-config-changes.md
+```
+
+Installing/Enabling brute-force authentication detection
+--------------------------------------------------------
+
+{{ ext.install('BAN', 'guacamole-auth-ban', dockerDefault=True) }}
+
+(auth-ban-config)=
+
+Configuration (optional)
+------------------------
+
+{% call ext.config('ban') %}
+{{ ext.nothingRequired() }}
+
+:::{list-table} Default brute-force authentication detection threshold and limits
+:stub-columns: 1
+* - Maximum invalid attempts (authentication failures)
+  - 5
+* - Address ban duration
+  - 300 (5 minutes)
+* - Maximum addresses tracked
+  - 10485670
+:::
+{% endcall %}
+
+:::{important}
+Because the extension tracks authentication failures based on the client
+IP address, it is important to make sure that Guacamole is receiving the
+correct IP addresses for the clients. This is particularly noteworthy
+when Guacamole is behind a reverse proxy. See the manual page on
+[proxying Guacamole](reverse-proxy) for more details on configuring
+Guacamole behind a proxy.
+:::
+
+(completing-auth-ban-install)=
+
+Completing installation
+-----------------------
+
+```{include} include/ext-completing.md
+```
+

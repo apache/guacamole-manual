@@ -1,6 +1,5 @@
-(batch-import)=
-Connection Batch Import
-==============
+Importing connections from CSV, JSON, or YAML
+=============================================
 
 Administrators may batch import connections and connection groups from a file,
 if the underlying authentication module supports dynamic connection/group creation.
@@ -33,8 +32,8 @@ parsing the file into a list of connections at all.
 ![Batch Import Failure](images/batch-import-failure.png)
 
 (batch-import-file-format)=
-Import File Format
------------------
+Import file format
+------------------
 
 Three file types are supported for connection import: CSV, JSON, and YAML.
 The same data may be specified by each file type. This must include the
