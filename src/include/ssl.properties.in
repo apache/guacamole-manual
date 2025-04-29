@@ -1,0 +1,13 @@
+#
+# The URI that should be used to authenticate users with SSL/TLS client
+# authentication. This must be a URI that points to THIS instance of Guacamole,
+# but behind SSL termination that requires SSL/TLS client authentication.
+#
+ssl-auth-uri: https://*.auth.guac.example.net
+
+#
+# The URI of this instance without SSL/TLS client authentication required. This
+# must be a URI that points to THIS instance of Guacamole, but behind SSL
+# termination that DOES NOT require or request SSL/TLS client authentication.
+#
+ssl-auth-primary-uri: https://guac.example.net

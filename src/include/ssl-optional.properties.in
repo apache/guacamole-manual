@@ -1,0 +1,84 @@
+#
+# The name of the header to use to retrieve the URL-encoded client certificate
+# from an HTTP request received from an SSL termination service providing
+# SSL/TLS client authentication. The certificate must be in PEM format.
+#
+# By default, the `X-Client-Certificate` header will be used.
+#
+ssl-auth-client-certificate-header: X-Client-Certificate
+
+#
+# The name of the header to use to retrieve the verification status of the
+# certificate an HTTP request received from an SSL termination service
+# providing SSL/TLS client authentication.
+#
+# The value of this header must be "SUCCESS" (all uppercase) if the certificate
+# was successfully verified. The full set of accepted values that your reverse
+# proxy should submit for this header is:
+#
+# `SUCCESS`
+# : Client certificate verification succeeded.
+#
+# {samp}`FAILED: {reason}`
+# : Client certificate verification failed for the given reason (a
+#   human-readable description).
+#
+# `NONE`
+# : No client certificate was present.
+#
+# This matches the values used by both the Apache HTTP Server and Nginx. Any
+# value not shown above is interpreted as an authentication failure.
+#
+# By default, the `X-Client-Verified` header will be used.
+#
+ssl-auth-client-verified-header: X-Client-Verified
+
+#
+# The amount of time that a temporary authentication token for SSL/TLS
+# authentication may remain valid, in minutes.
+#
+# This token is used to represent the user's asserted identity after it has
+# been verified by the SSL termination service. This interval must be long
+# enough to allow for network delays in receiving the token, but short enough
+# that unused tokens do not consume unnecessary server resources and cannot
+# potentially be guessed while the token is still valid. These tokens are
+# 256-bit secure random values.
+#
+# By default, tokens are valid for 5 minutes.
+#
+ssl-auth-max-token-validity: 5
+
+#
+# The LDAP attribute or attributes that may be used to represent a username
+# within the subject DN of a user's X.509 certificate. If the least-significant
+# attribute of the subject DN is not one of these attributes, the certificate
+# will be rejected.
+#
+# By default, any attribute is accepted (the least-significant attribute of the
+# subject DN is used as the username, regardless of what attribute that may
+# be).
+#
+ssl-auth-subject-username-attribute: cn, uid
+
+#
+# The base DN containing all valid subject DNs. If specified, only certificates
+# asserting subject DNs beneath this base DN will be accepted.
+#
+# By default, all DNs are accepted.
+#
+ssl-auth-subject-base-dn: ou=Users,dn=example,dn=net
+
+#
+# The amount of time that the temporary, unique subdomain generated for SSL/TLS
+# authentication may remain valid, in minutes. This subdomain is used to ensure
+# each SSL/TLS authentication attempt is fresh and does not potentially reuse a
+# previous authentication attempt that was cached by the browser or OS. This
+# interval must be long enough to allow for network delays in authenticating
+# the user with the SSL termination service that enforces SSL/TLS client
+# authentication, but short enough that an unused domain does not consume
+# unnecessary server resources and cannot potentially be guessed while that
+# subdomain is still valid. These subdomains are 128-bit secure random values.
+#
+# By default, generated domains are valid for 5 minutes.
+#
+ssl-auth-max-domain-validity: 5
