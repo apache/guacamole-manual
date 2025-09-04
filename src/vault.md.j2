@@ -102,7 +102,7 @@ question should be able to access.
    ZENCdmJtVWdjMlZsYlhNZ2RHOGdZbVV1IiwKICAiYXBwS2V5IjogIlYyVnNZMjl0WlNFZ1JXNXFi
    M2tnUVhCaFkyaGxJRWQxWVdOaGJXOXNaU0U9IiwKICAiaG9zdG5hbWUiOiAia2VlcGVyc2VjdXJp
    dHkuY29tIiwKICAic2VydmVyUHVibGljS2V5SWQiOiAiMTAiCn0K
-   $   
+   $
    ```
 
 (guac-vault-config)=
@@ -163,7 +163,7 @@ administrator always has ultimate control over the behavior of a connection:
    connection group is used to reattempt retrieving the secret.
 
 3. **User-specific vault:** If a particular secret is not available within
-   any other administator-controlled vault, the connection in question has
+   any other administrator-controlled vault, the connection in question has
    been configured to allow user-specific vault use, and the current user has
    configured such a vault, that vault will be used to reattempt retrieving the
    secret.
@@ -244,10 +244,29 @@ The following `CRITERIA` names are supported:
   the `hostname` parameter of the connection. If the record has no "login" field,
   a "text" or "password" custom field will be used if the label of that field
   contains the word "hostname", "address", or "IP address" (case-insensitive,
-  ignoring any spaces between "IP" and "address").
+  ignoring any spaces between "IP" and "address"). If the record is a KeeperPAM
+  resource with linked credentials, it will use the linked administrative credentials.
+
+`SERVER_ADMIN`
+: The administrative credentials record linked from a KeeperPAM resource record
+  whose "Hostname or IP Address" field contains a hostname that matches the
+  value of the `hostname` parameter of the connection.
+
+`SERVER_LAUNCH`
+: The launch credentials record linked from a KeeperPAM resource record
+  whose "Hostname or IP Address" field contains a hostname that matches the
+  value of the `hostname` parameter of the connection.
 
 `GATEWAY`
 : Identical to `SERVER`, except that the value of the `gateway-hostname`
+  parameter is used. This is only applicable to RDP connections.
+
+`GATEWAY_ADMIN`
+: Identical to `SERVER_ADMIN`, except that the value of the `gateway-hostname`
+  parameter is used. This is only applicable to RDP connections.
+
+`GATEWAY_LAUNCH`
+: Identical to `SERVER_LAUNCH`, except that the value of the `gateway-hostname`
   parameter is used. This is only applicable to RDP connections.
 
 `GATEWAY_USER`
