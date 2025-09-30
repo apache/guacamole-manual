@@ -22,17 +22,26 @@ well-understood by administrators prior to implementing it:
 * Connections created with this extension are not accessible to other users,
   and cannot be shared with other users.
 
-* This extension provides no functionality for authenticating users - it does
-  not allow anonymous logins, and requires that users are successfully
+* This extension provides no functionality for authenticating users. It does
+  not allow anonymous logins, and it requires that users are successfully
   authenticated by another authentication module before it can be used.
 
-* The extension provides users the ability not only to establish connections,
-  but also to set any of the parameters for a connection. There are security
-  implications for this - for example, RDP file sharing can be used to pass
-  through any directory available on the server running guacd to the remote
-  desktop. This should be taken into consideration when enabling this extension
-  and making sure that guacd is configured in a way that does not compromise
-  sensitive system files by allowing access to them.
+* This extension provides users the ability not only to establish connections,
+  but also set any of the parameters for a connection. This has security
+  implications. Examples include:
+
+  * RDP file sharing can be used to pass any directory available on the
+    server running guacd through to the remote desktop.
+
+  * Guacamole's time-of-first-use certificate feature allows one user
+    to accept a certificate on behalf of another user, since Guacamole
+    stores certificate fingerprints globally.
+
+  These and other factors should be taken into consideration when enabling
+  this extension. You should combine your configuration of the parameters
+  allowed by this extension with features of the host system—such
+  as filesystem permissions, firewalls, and so on—to achieve your
+  security needs.
 :::
 
 ```{include} include/warn-config-changes.md
@@ -52,7 +61,16 @@ Configuration (optional)
 
 {% call ext.config('quickconnect') %}
 {{ ext.nothingRequired() }}
+Alternatively, you may change the default behavior by defining the
+following properties in `guacamole.properties`.
 {% endcall %}
+
+Defining a list of included parameters (`quickconnect-allowed-parameters`)
+is generally preferable to defining a list of excluded parameters
+(`quickconnect-denied-parameters`) if you are trying to meet security
+goals. Two reasons for this are that an exclusion list does not consider
+parameters Guacamole might support in the future and administrators
+sometimes underestimate the impact of a given parameter.
 
 (completing-quickconnect-install)=
 

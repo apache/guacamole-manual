@@ -364,9 +364,11 @@ If libguac-client-rdp cannot load this plugin, support for any features which
 leverage static virtual channels will not work, and the reason will be logged.
 A likely explanation is that libguac-client-rdp was built from source, and the
 directory specified for FreeRDP's installation location was incorrect. For
-FreeRDP to be able to find plugins, those plugins must be placed in the
-`freerdp2/` subdirectory of whichever directory contains the `libfreerdp2.so`
-library.
+FreeRDP to be able to find plugins, those plugins must be placed in the correct
+subdirectory relative to the version of FreeRDP installed. For FreeRDP 2, plugins
+should be placed within the `freerdp2/` subdirectory of whichever directory
+contains `libfreerdp2.so`, and similarly, for FreeRDP 3, plugins should be placed
+in the `freerdp3/` subdirectory of whichever directory contains `libfreerdp3.so`.
 
 #### Server requested unsupported clipboard data type
 
@@ -539,4 +541,3 @@ an instruction to have a length prefix, which must be composed entirely of
 numeric characters (digits 0 through 9). If a non-numeric character is read,
 then something has gone wrong during transmission. This usually indicates a bug
 in the client plugin in use, guacd, or libguac.
-
