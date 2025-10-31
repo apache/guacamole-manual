@@ -265,3 +265,11 @@ ldap-max-referral-hops: 5
 # seconds. When this timeout is reached LDAP operations will be aborted.
 #
 ldap-operation-timeout: 30
+
+#
+# Whether the LDAP connection resolves nested groups to determine membership.
+# This relies on [LDAP_MATCHING_RULE_IN_CHAIN](https://ldapwiki.com/wiki/Wiki.jsp?page=LDAP_MATCHING_RULE_IN_CHAIN) OID support and likely does not
+# work with non-Active Directory LDAP servers.
+#
+ldap-nested-groups: false
+
