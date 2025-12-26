@@ -1,3 +1,5 @@
+{# vim: set filetype=markdown.jinja : #}
+
 guacamole-ext
 =============
 
@@ -134,7 +136,7 @@ checks. The most minimal `guac-manifest.json` will look something like this:
 
 ```json
 {
-    "guacamoleVersion" : "1.6.0",
+    "guacamoleVersion" : "{{ version }}",
     "name" : "My Extension",
     "namespace" : "my-extension"
 }
@@ -148,7 +150,7 @@ extension providing theming or branding would be more involved:
 ```json
 {
 
-    "guacamoleVersion" : "1.6.0",
+    "guacamoleVersion" : "{{ version }}",
 
     "name"      : "My Extension",
     "namespace" : "my-extension",
