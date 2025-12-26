@@ -7,7 +7,7 @@
     <groupId>org.apache.guacamole</groupId>
     <artifactId>guacamole-tutorial</artifactId>
     <packaging>war</packaging>
-    <version>1.6.0</version>
+    <version>1.6.1</version>
     <name>guacamole-tutorial</name>
 
     <properties>
@@ -62,7 +62,7 @@
         <dependency>
             <groupId>org.apache.guacamole</groupId>
             <artifactId>guacamole-common</artifactId>
-            <version>1.6.0</version>
+            <version>1.6.1</version>
             <scope>compile</scope>
         </dependency>
 
@@ -70,7 +70,7 @@
         <dependency>
             <groupId>org.apache.guacamole</groupId>
             <artifactId>guacamole-common-js</artifactId>
-            <version>1.6.0</version>
+            <version>1.6.1</version>
             <type>zip</type>
             <scope>runtime</scope>
         </dependency>
