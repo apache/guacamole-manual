@@ -88,6 +88,25 @@ guacd will now be listening on port 4822, and Docker will expose this port on
 the same server hosting Docker. Other services, such as an instance of Tomcat
 running outside of Docker, will be able to connect to guacd directly.
 
+(guacd-docker-ipv6)=
+
+### Enabling listening for IPv6 connections
+
+By default, guacd will bind to `0.0.0.0`, which means guacd will respond to
+IPv4 connections only.
+
+To allow guacd to also respond to IPv6 connections, the `LISTEN_ADDRESS`
+environment variable can be changed to `::`.
+
+Setting this variable to anything other than `0.0.0.0` (for IPv4-only) or
+`::` (for IPv4 and IPv6) is not supported. (And if you try, you'll probably
+break the health check, which is hardcoded to `127.0.0.1` and is not
+configurable.)
+
+This environment variable does not affect guacd's ability to connect to
+IPv6 servers, e.g. over RDP over SSH. It only affects the ability of
+guacamole-client to connect to guacd.
+
 (guacamole-docker-image)=
 
 The Guacamole Docker image
