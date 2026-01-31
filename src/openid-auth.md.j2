@@ -87,9 +87,9 @@ extension-priority: *, openid
 
 By default, logging out of Guacamole will only terminate the Guacamole session,
 leaving the user's session with the OpenID Connect identity provider intact. If
-the user logs back in without the identity provider session having expired,
-they will be automatically logged back in without needing to re-enter their
-credentials.
+the user logs back in to Guacamole without the identity provider session
+having expired, they will be transparently logged in to Guacamole without
+needing to re-enter their credentials.
 
 To enable Single Logout, configure the `openid-logout-endpoint` property with
 the identity provider's logout endpoint. When configured, logging out of
@@ -126,4 +126,3 @@ Completing installation
 
 ```{include} include/ext-completing.md
 ```
-
