@@ -81,6 +81,44 @@ extension does not have priority:
 extension-priority: *, openid
 ```
 
+(openid-single-logout)=
+
+### Single Logout (SLO)
+
+By default, logging out of Guacamole will only terminate the Guacamole session,
+leaving the user's session with the OpenID Connect identity provider intact. If
+the user logs back in to Guacamole without the identity provider session
+having expired, they will be transparently logged in to Guacamole without
+needing to re-enter their credentials.
+
+To enable Single Logout, configure the `openid-logout-endpoint` property with
+the identity provider's logout endpoint. When configured, logging out of
+Guacamole will redirect the user to the identity provider's logout endpoint,
+terminating both the Guacamole session and the identity provider session.
+
+#### Single Logout flow
+
+When Single Logout is enabled, the logout flow proceeds as follows:
+
+1. User initiates logout in Guacamole
+2. Guacamole terminates the local session
+3. User is redirected to the identity provider's logout endpoint
+4. Identity provider terminates the SSO session
+5. User is redirected back to the URI specified by
+   `openid-post-logout-redirect-uri` (or `openid-redirect-uri` if not specified)
+
+The logout request to the identity provider includes either the user's ID token
+(as the `id_token_hint` parameter) or the client ID (as the `client_id`
+parameter) to identify the session to terminate, along with the
+`post_logout_redirect_uri` parameter specifying where to redirect after logout.
+
+:::{important}
+The `openid-post-logout-redirect-uri` (or `openid-redirect-uri` if used as the
+fallback) must be registered with your identity provider as an allowed
+post-logout redirect URI. Failure to register this URI will typically result in
+an error from the identity provider or a redirect loop.
+:::
+
 (completing-openid-install)=
 
 Completing installation
@@ -88,4 +126,3 @@ Completing installation
 
 ```{include} include/ext-completing.md
 ```
-

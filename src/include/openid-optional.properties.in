@@ -49,3 +49,28 @@ openid-max-token-validity: 300
 # default, each generated nonce expires after 10 minutes.
 #
 openid-max-nonce-validity: 10
+
+#
+# The logout endpoint (URI) of the OpenID Connect identity provider. When
+# configured, users will be redirected to this endpoint when they log out from
+# Guacamole, allowing them to also log out from the identity provider (Single
+# Logout). If not set, logout will only terminate the Guacamole session without
+# affecting the identity provider session.
+#
+# This value should be provided to you by the identity provider. For identity
+# providers that implement [OpenID Connect
+# Discovery](https://openid.net/specs/openid-connect-discovery-1_0.html), this
+# value can be retrieved from the `end_session_endpoint` property of the JSON
+# file hosted at
+# {samp}`{https://identity-provider}/.well-known/openid-configuration`, where
+# `https://identity-provider` is the base URL of the identity provider.
+#
+openid-logout-endpoint: https://identity-provider/logout
+
+#
+# The URI that the OpenID Connect identity provider should redirect to after
+# logout is complete. This must be registered with your identity provider as an
+# allowed post-logout redirect URI. If not specified, the value of
+# `openid-redirect-uri` will be used.
+#
+openid-post-logout-redirect-uri: https://example.net/guacamole
