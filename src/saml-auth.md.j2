@@ -60,6 +60,44 @@ extension does not have priority:
 extension-priority: *, saml
 ```
 
+(saml-single-logout)=
+
+### Single Logout (SLO)
+
+By default, logging out of Guacamole will only terminate the Guacamole session,
+leaving the user's session with the SAML Identity Provider intact. If the user
+logs back in to Guacamole without the Identity Provider session having expired,
+they will be transparently logged in to Guacamole without needing to re-enter
+their credentials.
+
+To enable Single Logout, configure the `saml-logout-endpoint` property with the
+Identity Provider's logout endpoint. When configured, logging out of Guacamole
+will redirect the user to the Identity Provider's logout endpoint, terminating
+both the Guacamole session and the Identity Provider session.
+
+#### Single Logout flow
+
+When Single Logout is enabled, the logout flow proceeds as follows:
+
+1. User initiates logout in Guacamole
+2. Guacamole terminates the local session
+3. User is redirected to the Identity Provider's logout endpoint
+4. Identity Provider terminates the SSO session
+5. User is redirected back to the URI specified by
+   `saml-post-logout-redirect-uri` (or `saml-callback-url` if not specified)
+
+The logout request to the Identity Provider includes the post-logout redirect
+URI as the `RelayState` parameter, allowing the Identity Provider to redirect
+the user back to Guacamole after the logout process is complete.
+
+:::{important}
+The `saml-post-logout-redirect-uri` (or `saml-callback-url` if used as the
+fallback) may need to be registered with your Identity Provider as an allowed
+post-logout redirect URI, depending on your IdP's requirements. Failure to
+register this URI may result in an error from the Identity Provider or prevent
+the redirect back to Guacamole after logout.
+:::
+
 (completing-saml-install)=
 
 Completing installation
