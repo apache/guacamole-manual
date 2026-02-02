@@ -32,6 +32,13 @@ Installing/Enabling support for advanced restrictions
 
 {{ ext.install('RESTRICT', 'guacamole-auth-restrict') }}
 
+Configuration (optional)
+------------------------
+
+{% call ext.config('restrict') %}
+{{ ext.nothingRequired() }}
+{% endcall %}
+
 (completing-auth-restrict-install)=
 
 Completing installation
