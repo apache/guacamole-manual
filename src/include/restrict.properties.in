@@ -1,0 +1,9 @@
+#
+# Whether or not login restrictions configured with this extension should
+# apply to Guacamole accounts with the System Administration permission.
+# If set to false, the default, admin accounts will be exempt from login
+# restrictions (though connection-specific limits will still apply). If
+# set to true, login restrictions applied to admin accounts, either directly
+# or via group membership will be enforced.
+#
+restrict-admin-accounts: false
