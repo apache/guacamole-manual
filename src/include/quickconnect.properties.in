@@ -3,6 +3,13 @@
 # that are created and accessed via the quickconnect extension. If provided,
 # only parameters in this list will be allowed.
 #
+# Example: tightly restrict the extension to allow only
+# hostnames and ports in URIs:
+#
+# ```
+# quickconnect-allowed-parameters: hostname, port
+# ```
+#
 quickconnect-allowed-parameters: hostname, port
 
 #
