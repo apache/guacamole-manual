@@ -282,26 +282,32 @@ Guacamole, will authenticate a user and grant them access to the connections
 described in the JSON (at least until the expires timestamp is reached, at
 which point the JSON will no longer be accepted).
 
-In summary, after obtaining the `base64` data of your encrypted, signed JSON, you can authenticate using one of the following methods:
+After obtaining the `base64` data of your encrypted, signed JSON, you need
+to URL-encode the data. There are a wide variety of ways to accomplish this
+with most programming languages providing mechanisms for URL-encoding data.
+The following is an example of a one-line Python command:
+```
+python3 -c "import urllib.parse; print(urllib.parse.quote('{your_base64_encoded_data}', safe=''))"
+```
 
-1. **URL Encoding Method**: Pass the URL-encoded base64 data directly in the URL, like so:  
-   `{DOMAIN}/guacamole/?data={your_url_encoded_data}`  
-   You can obtain the URL-encoded data using the following Python command:  
-   `python3 -c "import urllib.parse; print(urllib.parse.quote('XXXX', safe=''))"`
-   replace `XXXX` with your base64.
-  
-    Alternatively, you can use an online tool to encode it.
-2. **POST Request Method**: As shown in the `curl` example above, you can also make a POST request to `/api/tokens` with the `data` parameter in the request body, 
-    where the value is the raw base64-encoded encrypted JSON:
-    ```json
-    {
-      "method": "POST",
-      "data": "{YOUR_BASE64}"
-    }
+The URL-encoded data can then be sent to Guacamole using either a `GET`
+or a `POST` request:
+
+1. **GET Request Method**: Pass the URL-encoded data in the `data` URL
+    parameter to the Guacamole web application:
+    `http://localhost:8080/guacamole/?data={your_url_encoded_data}`  
+
+2. **POST Request Method**: As shown in the `curl` example above, you can
+    make a POST request to the `api/tokens` endpoint of your Guacamole Client
+    install with the URL-encoded data in the `data` parameter of the request
+    body:
+    ```html
+    data={your_url_encoded_data}
     ```
-    The API will return a JSON object containing an auth-token. Use the value of this token to authenticate via the following URL:
-    `{DOMAIN}/guacamole/?token={auth_token}`.
 
-**NOTE**: When passing the base64 data, make sure the base64 string is continuous in one line—do not add line breaks or extra spaces.
+**NOTE**: When passing the URL-encoded data, make sure the string is continuous
+in one line - do not add line breaks or extra spaces.
 
-
+Both of the methods above should result in a response containing a JSON object
+that can be used to make subsequent calls to the Guacamole REST API:
+    `http://localhost:8080/guacamole/?token={auth_token}`.
