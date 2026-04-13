@@ -10,14 +10,21 @@ OAuth](https://oauth.net/articles/authentication/), which is *not* an
 authentication protocol, OpenID Connect defines an authentication protocol in
 the form of a simple identity layer on top of OAuth 2.0.
 
-Guacamole's OpenID Connect support implements the "[implicit
+Guacamole's OpenID Connect supports both "[implicit
 flow](https://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth)"
+and [code
+flow](https://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth)"
 of the OpenID Connect standard, and allows authentication of Guacamole users to
 be delegated to an identity provider which implements OpenID Connect, removing
 the need for users to log into Guacamole directly. This module must be layered
 on top of other authentication extensions that provide connection information,
 such as the [database authentication extension](jdbc-auth), as it only provides
 user authentication.
+
+[OAuth 2.0 Implicit Grants](https://oauth.net/2/grant-types/implicit/) are
+considered to be deprecated due to the inherent risks of returning access
+tokens in an HTTP redirect without confirmation that it has been received by
+the client.
 
 ```{include} include/warn-config-changes.md
 ```
