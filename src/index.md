@@ -50,7 +50,7 @@ troubleshooting
 Active Directory / LDAP <ldap-auth>
 mfa
 Single sign-on <sso>
-vault
+Vault token injection<vault>
 external-auth
 RADIUS <radius-auth>
 Ad-hoc connections <adhoc-connections>
