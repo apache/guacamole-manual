@@ -369,7 +369,8 @@ validate OTPs via **PAM (Pluggable Authentication Modules)**.
 ```
 :::{note}
 This line tells PAM to use the `verify_otp.sh` script to validate OTPs. The
-`expose_authtok` option passes the OTP to the script.
+`expose_authtok` option passes the OTP to the script. This is only an example
+and should be adapted to your specific PAM installation.
 :::
 
 2. **Create the OTP Verification Script** (`/usr/local/bin/verify_otp.sh`):
@@ -419,8 +420,13 @@ Vault **rotates its own LDAP password** automatically. For this reason, it is
 1. **Generate a Password Hash**:
 For modern LDAP servers (e.g., OpenLDAP with Argon2 support), generate a password hash like this:
 
+```bash
+slappasswd -o module-load=argon2.so -h '{ARGON2}' -s your_secret_password_here
 ```
-$ slappasswd -o module-load=argon2.so -h '{ARGON2}' -s your_secret_password_here
+
+which returns a password hash like
+
+```
 {ARGON2}$argon2id$v=19$m=7168,t=5,p=1$4JbzrJjMiH8x6Qfe5WsNtA$n5tzU8dGW2lFE+KDJRCLImKK+feE+mZaBmDP7nE9fyI
 ```
 
@@ -467,7 +473,7 @@ olcAccess: {0}to attrs=userPassword
 
 :::{warning}
 Extreme care must be taken when modifying the permissions to access the LDAP.
-The risk of removing all administrative access the the LDAP server exists.
+The risk of removing all administrative access for the LDAP server exists.
 Please respect any existing olcAccess attributes and double check any changes
 you make.
 :::
@@ -558,11 +564,11 @@ curl -s \
   --request POST \
   --data '{"type": "ldap"}' \
   http://127.0.0.1:8200/v1/sys/mounts/ldap
-``
+```
 
 4. **Configure the LDAP Connection in Vault**:
 
-  ```bash
+```bash
    curl -s \
      --header "X-Vault-Token: $VAULT_TOKEN" \
      --header "Content-Type: application/json" \
@@ -578,7 +584,7 @@ curl -s \
        "insecure_tls": false
      }' \
      http://127.0.0.1:8200/v1/ldap/config
-  ```
+```
 :::{warning}
 The `insecure_tls: false` option is **not secure** for production. Instead:
 - Ensure your LDAP server uses **TLS with a valid certificate**.
@@ -785,7 +791,7 @@ curl -s \
 {% endraw %}
 ```
 
-5. Test the Dynamic Role
+5. **Test the Dynamic Role**
 
 After creating the role, test it by **requesting a dynamic LDAP credential**
 from Vault:
