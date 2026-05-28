@@ -22,7 +22,7 @@ unless a distinction is required.
 Installing/Enabling the Vault Extension
 ---------------------------------------
 
-{{ ext.install('openbao', 'guacamole-vault', 'openbao/guacamole-vault-openbao') }}
+{{ ext.install('HV', 'guacamole-vault', 'hv/guacamole-vault-hv') }}
 
 (adding-guac-to-vlt)=
 
@@ -87,7 +87,7 @@ path "kv/guacamole/*" {
 }
 
 # Allow SSH certificate signing for Guacamole
-path "ssh/sign/guacamole_cert" {
+path "ssh/sign/guacamole_cert/*" {
   capabilities = ["update"]
 }
 
@@ -98,7 +98,7 @@ path "ssh/creds/guacamole_otp" {
 
 # Read/Update for LDAP service credentials
 path "ldap/library/guacamole/*" {
-  capabilities = ["read", "update"]
+  capabilities = ["update"]
 }
 
 # Read static/dynamic LDAP credentials
@@ -1151,7 +1151,7 @@ Therefore, the user is responsible for the rotation of this password.
 Required configuration
 ----------------------
 
-{% call ext.config('openbao', required=True) %}
+{% call ext.config('hashicorp', required=True) %}
 
 Strictly speaking, Guacamole requires only `vault-uri`, the address of the Vault
 server. The property `vault-token` can be replaced by `vault-username` and
@@ -1161,11 +1161,61 @@ server. The property `vault-token` can be replaced by `vault-username` and
 
 ### Additional Configuration Options
 
-{% call ext.config('openbao-optional') %}
+{% call ext.config('hashicorp-optional') %}
 The following additional, optional {{ ext.properties() }} may be set as desired
 to tailor the behavior of the Vault support:
 {% endcall %}
 
+
+Additional vaults for users and connection groups
+-------------------------------------------------
+
+{% call ext.config('hashicorp-user-vaults') %}
+In addition to the required, application-wide vault, Guacamole can be
+configured to pull secrets from separate vaults that are declared at the user
+or connection group level. The configuration information for these vaults can
+be set directly in the webapp, on the [connection group edit
+page](connection-group-management) and on the [user management
+page](user-management).
+
+Because it is not necessarily desirable that users be able to provide their own
+secrets for use within connections, administrators must explicitly enable this
+functionality by:
+
+1. Setting the relevant property to `true`, as described below.
+2. Checking the "Allow user-provided KSM configuration" box on any connection
+   that should be allowed to consume user-specific secrets.
+3. Configuring the Vault on the user management page.
+
+**Secrets from a user-specific vault will not be used unless all of the above
+conditions are true.**
+{% endcall %}
+
+### Priorities of multiple vaults
+
+When multiple vaults apply to any connection attempt, secrets are pulled and
+applied in a specific order of priority that is intended to ensure the
+administrator always has ultimate control over the behavior of a connection:
+
+1. **Application-wide vault:** Secrets are always pulled from the
+   application-wide vault first (the vault provided with the `vault-uri`,
+   `vault-token`, etc properties).
+
+2. **Connection group vault:** If a particular secret is not available within
+   the application-wide vault, but the connection is within a connection group
+   that has been configured with a Vault, the vault configured for that
+   connection group is used to reattempt retrieving the secret.
+
+3. **User-specific vault:** If a particular secret is not available within
+   any other administrator-controlled vault, the connection in question has
+   been configured to allow user-specific vault use, and the administrator 
+   has configured a vault for the current user, that vault will be used to
+   reattempt retrieving the secret.
+
+By design, the user-specific vault always has the lowest priority, and the
+administrator-controlled vaults always have priority. As the user vault
+configuration is also controlled by the admminstrator, the user only has 
+any control of the pulled secrets if the administrator allows this.
 
 (completing-vault-install)=
 

@@ -1,12 +1,11 @@
 Retrieving secrets from a vault
 ===============================
 
-
 :::{toctree}
 :hidden:
 
 Keeper Secret Manager<keeper>
-OpenBao or Hashicorp Vault<openbao>
+OpenBao or Hashicorp Vault<hashicorp>
 :::
 
 Guacamole supports reading secrets such as connection-specific passwords from a
@@ -21,13 +20,13 @@ properties via an additional, vault-specific configuration file analogous to
   and injects credentials (API keys, passwords, certificates) into applications
   and CI/CD pipelines with strong encryption and zero-knowledge architecture.
   
-[Hashicorp Vault](openbao)
+[Hashicorp Vault](hashicorp)
 : [HashiCorp Vault](https://www.hashicorp.com/products/vault) is a widely used
   secrets management platform that provides secure storage, dynamic secrets
   generation, encryption as a service, and fine-grained access control for
   protecting sensitive data in modern infrastructure.
 
-[OpenBao](openbao)
+[OpenBao](hashicorp)
 : [OpenBao](https://openbao.org) is an open-source, community-driven fork of
   HashiCorp Vault designed to provide similar secrets management capabilities
   (secure storage, dynamic secrets, encryption) under a fully open governance
