@@ -6,14 +6,14 @@ Retrieving Secrets from a Vault
 
 Guacamole supports retrieving secrets—such as connection-specific passwords,
 private keys, certificates, and credentials—from a **Vault**. These secrets are
-injected automatically into connection configurations using **parameter tokens**
-or into Guacamole configuration properties via an additional Vault-specific
-configuration file analogous to `guacamole.properties`.
+injected automatically into connection configurations using **parameter
+tokens** or into Guacamole configuration properties via an additional
+Vault-specific configuration file analogous to `guacamole.properties`.
 
 This extension supports both **[OpenBao](https://openbao.org)** and
-**[HashiCorp Vault](https://www.hashicorp.com/products/vault)**. Throughout this
-document, the generic term **Vault** is used to refer to either implementation
-unless a distinction is required.
+**[HashiCorp Vault](https://www.hashicorp.com/products/vault)**. Throughout
+this document, the generic term **Vault** is used to refer to either
+implementation unless a distinction is required.
 
 ```{include} include/warn-config-changes.md
 ```
@@ -35,7 +35,8 @@ to access secrets stored in a Vault, the following steps are required:
 1. **Enable the required secret engines** (e.g., KV, SSH, LDAP, Database).
 2. **Create appropriate mount paths** for each secret engine.
 3. **Define access policies** to restrict Guacamole’s permissions.
-4. **Configure authentication credentials** for Guacamole to authenticate with Vault.
+4. **Configure authentication credentials** for Guacamole to authenticate with
+  Vault.
 
 :::{note}
 This document **does not** cover general Vault administration. For details on
@@ -56,8 +57,10 @@ Hashicorp Vault.
 
 Guacamole requires the following to connect to a Vault server:
 
-- The **network address** of the Vault server (e.g., `https://vault.example.com:8200`).
-- **Valid authentication credentials** (e.g., token, username/password, or file-based).
+- The **network address** of the Vault server (e.g.,
+  `https://vault.example.com:8200`).
+- **Valid authentication credentials** (e.g., token, username/password, or
+  file-based).
 
 Vault exposes a standard **HTTP REST API**, and a typical Vault URI looks like:
 
@@ -73,9 +76,9 @@ Guacamole requires the following permissions in Vault:
 - **Limited write access** for certain secret engines (e.g., SSH certificate signing).
 
 For **security and auditability**, it is **strongly recommended** to create a
-**dedicated Vault policy** for Guacamole. Below is an example policy that grants
-Guacamole access to supported secret engines, restricted to `guacamole` roles
-in each engine.
+**dedicated Vault policy** for Guacamole. Below is an example policy that
+grants Guacamole access to supported secret engines, restricted to `guacamole`
+roles in each engine.
 
 #### Example Policy (`guacamole.hcl`)
 
@@ -132,19 +135,25 @@ curl -sS \
 ```
 
 :::{note}
-- The variable `VAULT_TOKEN`, here and below, contains a valid Vault token having **administrative access**.
+- The variable `VAULT_TOKEN`, here and below, contains a valid Vault token
+  having **administrative access**.
 - Replace `127.0.0.1:8200` with the address of your Vault server.
-- The mount paths in the policy (e.g., `kv/guacamole/*`) are **examples** and should be adapted to match your actual paths.
+- The mount paths in the policy (e.g., `kv/guacamole/*`) are **examples** and
+  should be adapted to match your actual paths.
 :::
 
 ## Configuring Secret Engines for Guacamole
 
 Guacamole supports the following Vault secret engines:
 
-- **[Key-Value (KV)](https://openbao.org/docs/secrets/kv/kv-v2)**: For static secrets like passwords, certificates, and unmanaged account credentials.
-- **[SSH](https://openbao.org/docs/secrets/ssh)**: For signed SSH certificates or one-time passwords (OTP).
-- **[LDAP](https://openbao.org/docs/secrets/ldap)**: For dynamic or static LDAP credentials.
-- **[Database](https://openbao.org/docs/secrets/databases)**: For dynamic database credentials.
+- **[Key-Value (KV)](https://openbao.org/docs/secrets/kv/kv-v2)**: For static
+  secrets like passwords, certificates, and unmanaged account credentials.
+- **[SSH](https://openbao.org/docs/secrets/ssh)**: For signed SSH certificates
+  or one-time passwords (OTP).
+- **[LDAP](https://openbao.org/docs/secrets/ldap)**: For dynamic or static
+  LDAP credentials.
+- **[Database](https://openbao.org/docs/secrets/databases)**: For dynamic
+  database credentials.
 
 Below are detailed instructions for configuring each engine.
 
@@ -156,11 +165,13 @@ secrets in Vault. It can store arbitrary key-value pairs, such as usernames,
 passwords, or certificates. The KV engine comes in two versions:
 
 - **KV v1**: Stores only the latest values.
-- **KV v2**: Stores metadata (e.g., version history, last modified time) alongside the values.
+- **KV v2**: Stores metadata (e.g., version history, last modified time)
+  alongside the values.
 
 :::{warning}
-The KV secret engine **does not support secret rotation**. If you use it to store passwords,
-you are **entirely responsible** for adhering to corporate password policies (e.g., manual rotation).
+The KV secret engine **does not support secret rotation**. If you use it to
+store passwords, you are **entirely responsible** for adhering to corporate
+password policies (e.g., manual rotation).
 :::
 
 #### Enabling the KV v1 Secret Engine
@@ -208,7 +219,8 @@ curl -s \
 Here:
 
 - The **path** of the secret is `guacamole/batman`.
-- The stored secrets are `username` and `password`. You can use any keys you like.
+- The stored secrets are `username` and `password`. You can use any keys you
+  like.
 
 #### Adding a Secret to KV v2
 
@@ -242,7 +254,8 @@ The **SSH secret engine** allows Vault to generate:
 1. **Signed SSH certificates** (recommended).
 2. **One-time passwords (OTP)**.
 
-Guacamole supports both methods, but **signed certificates** are the more modern and secure approach.
+Guacamole supports both methods, but **signed certificates** are the more
+modern and secure approach.
 
 #### Enabling the SSH Secret Engine
 
@@ -318,10 +331,12 @@ curl -sS \
 ```
 
 :::{note}
-- `max_ttl`: Limits the lifetime of signed certificates to **30 minutes**. Adjust this value based on:
+- `max_ttl`: Limits the lifetime of signed certificates to **30 minutes**.
+  Adjust this value based on:
   - Network latency between Guacamole and the target machines.
   - Clock drift between the Vault server and SSH clients.
-- `permit-pty`: Required for Guacamole to allocate a pseudo-terminal (PTY) for SSH sessions.
+- `permit-pty`: Required for Guacamole to allocate a pseudo-terminal (PTY) for
+  SSH sessions.
 :::
 
 #### Creating an OTP Role for Guacamole
@@ -363,7 +378,8 @@ curl -s \
 To use **OTP authentication**, the target machines must be configured to
 validate OTPs via **PAM (Pluggable Authentication Modules)**.
 
-1. Modify `/etc/pam.d/sshd` to include the following line at the **top** of the file:
+1. Modify `/etc/pam.d/sshd` to include the following line at the **top** of the
+  file:
 ```
  auth sufficient pam_exec.so expose_authtok /usr/local/bin/verify_otp.sh
 ```
@@ -418,7 +434,8 @@ Vault **rotates its own LDAP password** automatically. For this reason, it is
 #### Prerequisites for LDAP
 
 1. **Generate a Password Hash**:
-For modern LDAP servers (e.g., OpenLDAP with Argon2 support), generate a password hash like this:
+For modern LDAP servers (e.g., OpenLDAP with Argon2 support), generate a
+password hash like this:
 
 ```bash
 slappasswd -o module-load=argon2.so -h '{ARGON2}' -s your_secret_password_here
@@ -430,13 +447,15 @@ which returns a password hash like
 {ARGON2}$argon2id$v=19$m=7168,t=5,p=1$4JbzrJjMiH8x6Qfe5WsNtA$n5tzU8dGW2lFE+KDJRCLImKK+feE+mZaBmDP7nE9fyI
 ```
 
-Replace `your_secret_password_here` with the actual password for the Vault LDAP account.
+Replace `your_secret_password_here` with the actual password for the Vault LDAP
+account.
 
 2. **Create a Dedicated LDAP Account for Vault (file: adduser.ldif)**:
   - This account should have permissions to:
     - **Read** user attributes (for static roles).
     - **Modify passwords** (for dynamic roles or static roles with rotation).
-  - Example LDIF for creating a Vault LDAP account (using the above Argon2 password hash):
+  - Example LDIF for creating a Vault LDAP account (using the above Argon2
+    password hash):
 ```ldif
 dn: uid=vault,ou=users,dc=example,dc=com
 objectClass: top
