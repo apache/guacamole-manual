@@ -483,7 +483,9 @@ ldapmodify x -D "cn=admin,cn=config" -W -f userpassword.ldif
 ```
 :::{warning}
 The above rule grants the Vault server **write access to all passwords** in
-the `ou=users,dc=example,dc=com` subtree. **This is not secure for production!**
+the `ou=users,dc=example,dc=com` subtree. **This is not secure for
+production!**
+
 **Best Practice**: Isolate Vault-managed accounts in a **dedicated DN**
 (e.g., `ou=vault,dc=example,dc=com`) and restrict write permissions to this DN
 only. Example:
@@ -499,7 +501,8 @@ olcAccess: {0}to dn.subtree="ou=vault,dc=example,dc=com" attrs=userPassword
   by * none
 ```
 
-This rule **must appear before** any generic `userPassword` rules to take effect.
+This rule **must appear before** any generic `userPassword` rules to take
+effect.
 :::
 
 5. **For Dynamic LDAP Roles**:
@@ -555,7 +558,7 @@ curl -s --header "X-Vault-Token: $VAULT_TOKEN"  \
 
 3. **Enable the LDAP secrets engine**:
 
-To enable the database secret engine on a mount path named `db`:
+To enable the LDAP secret engine on a mount path named `ldap`:
 
 ```bash
 curl -s \
@@ -588,7 +591,8 @@ curl -s \
 :::{warning}
 The `insecure_tls: false` option is **not secure** for production. Instead:
 - Ensure your LDAP server uses **TLS with a valid certificate**.
-- Specify the CA certificate using the `tls_ca_cert` or `tls_ca_cert_file` options.
+- Specify the CA certificate using the `tls_ca_cert` or `tls_ca_cert_file`
+  options.
 :::
 
 5. **Test the LDAP Connection**:
@@ -662,7 +666,8 @@ your LDAP directory:
 
 - **creation.ldif**: Defines how new accounts are created.
 - **deletion.ldif**: Defines how accounts are deleted.
-- **rollback.ldif**: Defines how to revert changes if account creation fails (often identical to `deletion.ldif`).
+- **rollback.ldif**: Defines how to revert changes if account creation fails
+  (often identical to `deletion.ldif`).
 
 :::{note}
 The exact content of these files **depends on your LDAP schema and directory
@@ -697,15 +702,16 @@ userPassword: {{.Password}}
 - `{% raw %}{{.Username}}{% endraw %}` and `{% raw %}{{.Password}}{% endraw %}` are **placeholders** that Vault
   replaces with dynamically generated values.
 - The `uidNumber` attribute is **intentionally omitted** in this example.
-  Vault **does not** automatically increment `uidNumber` values. If you need unique
-  `uidNumber` values, consider:
+  Vault **does not** automatically increment `uidNumber` values. If you need
+  unique `uidNumber` values, consider:
   - Using the `autonumber` overlay in OpenLDAP to auto-assign `uidNumber`.
   - Pre-defining a `uidNumber` value knowing all dynamic accounts will reuse it.
 :::
 
 :::{warning}
 - The `userPassword` field is provided in **plaintext** in this LDIF file. To
-  ensure the password is **hashed before storage**, configure your LDAP server with:
+  ensure the password is **hashed before storage**, configure your LDAP server
+  with:
 
 ```ldif
 olcPPolicyHashCleartext: TRUE
@@ -734,8 +740,8 @@ changetype: delete
 :::{note}
 - The `changetype: delete` directive tells LDAP to **remove the entire
   entry** matching the `dn`.
-- The `{% raw %}{{.Username}}{% endraw %}` placeholder is replaced with the username of the
-  account to delete.
+- The `{% raw %}{{.Username}}{% endraw %}` placeholder is replaced with the
+  username of the account to delete.
 :::
 
 3. **Configure LDAP Permissions for Dynamic Roles**
@@ -809,8 +815,8 @@ The response will include:
 - The **TTL** (time-to-live) of the credential.
 
 :::{note}
-- The account will be **automatically deleted** from LDAP after the `default_ttl`
-  (1 hour in the example).
+- The account will be **automatically deleted** from LDAP after the
+  `default_ttl` (1 hour in the example).
 - You can **manually revoke** the credential by deleting its lease in Vault.
 :::
 
@@ -865,10 +871,10 @@ Vault.
 :::
 
 :::{warning}
-At the moment Guacamole does not guarantee that the account will be checked in 
+At the moment Guacamole does not guarantee that the account will be checked in
 when the connection is terminated, though it does attempt to do so. The pool of
-service accounts available should take this into account and assume the check-in
-will happen at the end of the 2 hours TTL.
+service accounts available should take this into account and assume the
+check-in will happen at the end of the 2 hours TTL
 :::
 
 ### Creating a Database Secret Engine for Guacamole
@@ -895,8 +901,8 @@ GRANT CREATE ON DATABASE guacamole_db TO vault_admin;
 GRANT USAGE ON SCHEMA public TO vault_admin;
 ```
 
-if and only if vault_admin is owner of the tables in the database. Otherwise the
-role needs to be a `superuser` and created like
+if and only if vault_admin is owner of the tables in the database. Otherwise
+the role needs to be a `superuser` and created like
 
 ```sql
 CREATE ROLE vault_admin WITH LOGIN PASSWORD 'secure_password_here' SUPERUSER NOINHERIT;
@@ -1042,13 +1048,14 @@ Guacamole supports the following authentication methods to Vault:
 Guacamole can authenticate to Vault using a **static token**. This token must:
 
 - Use a **role with the `guacamole` policy** (as defined earlier).
-- **Not expire** (set `ttl: 0`), or Guacamole may lose access after network issues or reboots.
+- **Not expire** (set `ttl: 0`), or Guacamole may lose access after network
+  issues or reboots.
 
 If expiring tokens are used, Guacamole will renew the token on expiration.
 However, in case of network problems this renewal might not succeed in time.
 Also, there is a hard limit on the maximum TTL of renewable tokens, that is by
-default configured as 32 days in the Vault. After this period the token will fail
-to be renewed
+default configured as 32 days in the Vault. After this period the token will
+fail to be renewed
 
 #### Creating a Non-Expiring Token for Guacamole
 
@@ -1085,10 +1092,12 @@ token is about to expire.
 
 #### How It Works
 
-1. The `vault_token` property of **Guacamole** is configured with a location of a file.
+1. The `vault_token` property of **Guacamole** is configured with a location of
+  a file.
 2. **Vault Agent** authenticates to Vault (e.g., using AppRole) and writes a
   token to this file (e.g., `/etc/guacamole/vault-token`).
-3. **Guacamole** reads this file at startup and whenever the token is about to expire.
+3. **Guacamole** reads this file at startup and whenever the token is about to
+  expire.
 4. **Vault Agent** automatically renews the token as needed.
 
 :::{note}
@@ -1153,9 +1162,9 @@ Required configuration
 
 {% call ext.config('hashicorp', required=True) %}
 
-Strictly speaking, Guacamole requires only `vault-uri`, the address of the Vault
-server. The property `vault-token` can be replaced by `vault-username` and
-`vault-password`.
+Strictly speaking, Guacamole requires only `vault-uri`, the address of the
+Vault server. The property `vault-token` can be replaced by `vault-username`
+and `vault-password`.
 {% endcall %}
 
 
@@ -1202,8 +1211,8 @@ administrator always has ultimate control over the behavior of a connection:
    `vault-token`, etc properties).
 
 2. **Connection group vault:** If a particular secret is not available within
-   the application-wide vault, but the connection is within a connection group
-   that has been configured with a Vault, the vault configured for that
+   the application-wide vault, but the connection is within a connection
+   group that has been configured with a Vault, the vault configured for that
    connection group is used to reattempt retrieving the secret.
 
 3. **User-specific vault:** If a particular secret is not available within
@@ -1214,7 +1223,7 @@ administrator always has ultimate control over the behavior of a connection:
 
 By design, the user-specific vault always has the lowest priority, and the
 administrator-controlled vaults always have priority. As the user vault
-configuration is also controlled by the admminstrator, the user only has 
+configuration is also controlled by the admminstrator, the user only has
 any control of the pulled secrets if the administrator allows this.
 
 (completing-vault-install)=
@@ -1235,16 +1244,17 @@ by Vault all take the form {samp}`$\{vault://\{MOUNT_PATH\}/\{PATH\}/\{SECRET\}\
 - `{PATH}`: The path to the secret record.
 - `{SECRET}`: The key within the secret record (e.g., `username`, `password`).
 
-Guacamole generally uses the values for `{MOUNT_PATH}` and `{PATH}` as used by the
-Vault itself. For example if the OpenBao command used to recover a secret record is
+Guacamole generally uses the values for `{MOUNT_PATH}` and `{PATH}` as used by
+the Vault itself. For example if the OpenBao command used to recover a secret
+record is
 
 ```bash
 bao read kv2/guacamole/myaccount
 ```
 
 the **parameter token** in Guacamole will start with `vault://kv2/guacamole/myaccount`.
-The exception to this rule is for LDAP service accounts, where OpenBao would check
-out the account with the command
+The exception to this rule is for LDAP service accounts, where OpenBao would
+check out the account with the command
 
 ```bash
 bao write -f ldap/library/guacamole/myteam/check-out
@@ -1291,7 +1301,7 @@ Guacamole **automatically detects** the mount path and type of secret engine
 used from the token the token itself, using the path-help functionality of the
 Vault.
 
-Guacamole make no attempt to do the detction itself but relies and the values
+Guacamole make no attempt to do the detection itself but relies on the values
 that Vault itself returns.
 
 ### Secret Engines and Paths Supported
@@ -1300,10 +1310,14 @@ The following Vault secret engines are supported by Guacamole:
 
 #### LDAP Secret Engine
 
-The Vault LDAP secret engine supports both **open-source LDAP servers** (e.g., OpenLDAP) and **Microsoft Active Directory**. There are three types of LDAP accounts in Vault:
+The Vault LDAP secret engine supports both **open-source LDAP servers** (e.g.,
+OpenLDAP) and **Microsoft Active Directory**. There are three types of LDAP
+accounts in Vault:
 
-1. **Static roles**: Use a **fixed username** (e.g., `guacamole`). Vault rotates the password automatically.
-2. **Dynamic roles**: Vault **creates and deletes** an account for each request.
+1. **Static roles**: Use a **fixed username** (e.g., `guacamole`). Vault
+  rotates the password automatically.
+2. **Dynamic roles**: Vault **creates and deletes** an account for each
+  request.
 3. **Service roles**: Vault manages a **pool of accounts** that can be reused.
 
 Guacamole simplifies the token format for LDAP paths as follows:
@@ -1380,7 +1394,7 @@ OTP authentication requires **client-side configuration** (e.g., PAM and the
 Tokens for signed certificates take the form:
 
 ```
-${vault://{MOUNT_PATH}/sign/{ROLE}/{public/private}}
+${vault://{MOUNT_PATH}/sign/{ROLE}/{public|private|unsigned}}
 ```
 
 Example:
@@ -1398,7 +1412,7 @@ Instead, it **signs** certificates using a CA stored in Vault. The creation
 of the temporary certificates is performed by Guacamole itself.
 
 The username of the connection is a necessary field for the generated
-certificate. It can be an explicit value or another token, that will be 
+certificate. It can be an explicit value or another token, that will be
 resolved before inclusion in the ssh certificate.
 :::
 
@@ -1486,8 +1500,8 @@ is interpreted as `{SUB_TOKEN}`. The allowed sub-token values are:
   `gateway-username` of the connection must not be empty or itself include a
   token.
 
-For example {samp}`$\{vault://ldap/org/example/\{SERVER\}/\{USERNAME\}/password` is
-a valid **paramater token**.
+For example {samp}`$\{vault://ldap/org/example/\{SERVER\}/\{USERNAME\}/password`
+is a valid **paramater token**.
 
 ### Manual Mapping of Secrets
 
