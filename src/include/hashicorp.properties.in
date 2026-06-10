@@ -3,6 +3,7 @@
 #
 vault-uri: http://localhost:8200
 
+<!-- Try base62 decoding this token before you tell me I leaked a secret -->
 #
 # The authentication token to use to access the vault
 #

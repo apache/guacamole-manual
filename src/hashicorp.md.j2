@@ -5,7 +5,7 @@ Retrieving Secrets from a Vault
 ===============================
 
 Guacamole supports retrieving secrets—such as connection-specific passwords,
-private keys, certificates, and credentials—from a **Vault**. These secrets are
+private keys, certificates, and credentials from a **Vault**. These secrets are
 injected automatically into connection configurations using **parameter
 tokens** or into Guacamole configuration properties via an additional
 Vault-specific configuration file analogous to `guacamole.properties`.
@@ -68,6 +68,9 @@ Vault exposes a standard **HTTP REST API**, and a typical Vault URI looks like:
 https://vault.example.com:8200
 ```
 
+The means of [authenticating to the Vault](authententicing-to-vault) is
+discussed below.
+
 ### Setting Up a Guacamole Access Policy
 
 Guacamole requires the following permissions in Vault:
@@ -89,12 +92,12 @@ path "kv/guacamole/*" {
   capabilities = ["read"]
 }
 
-# Allow SSH certificate signing for Guacamole
+# Allow SSH certificate signing for guacamole_cert role
 path "ssh/sign/guacamole_cert/*" {
   capabilities = ["update"]
 }
 
-# Allow SSH one-time password generation
+# Allow SSH one-time password generation for guacmole_otp role
 path "ssh/creds/guacamole_otp" {
   capabilities = ["update"]
 }
@@ -140,6 +143,8 @@ curl -sS \
 - Replace `127.0.0.1:8200` with the address of your Vault server.
 - The mount paths in the policy (e.g., `kv/guacamole/*`) are **examples** and
   should be adapted to match your actual paths.
+- The policy name is determined by the URI. Here the policy is named
+  `guacamole`.
 :::
 
 ## Configuring Secret Engines for Guacamole
@@ -156,7 +161,6 @@ Guacamole supports the following Vault secret engines:
   database credentials.
 
 Below are detailed instructions for configuring each engine.
-
 
 ### Creating a Key-Value Store for Guacamole
 
@@ -218,6 +222,7 @@ curl -s \
 
 Here:
 
+- The **mount path** of the secret is `kv1`.
 - The **path** of the secret is `guacamole/batman`.
 - The stored secrets are `username` and `password`. You can use any keys you
   like.
@@ -290,14 +295,14 @@ curl -s \
 ```
 
 The response will include a `public_key`. **Save this key** to
-`/etc/ssh/trusted_user_ca.pem` on all target machines where Guacamole will
+`/etc/ssh/trusted_user_ca` on all target machines where Guacamole will
 connect via SSH.
 
 #### Configuring SSH to Trust the CA
 
 1. On each target machine, add the following line to `/etc/ssh/sshd_config`:
 ```
- TrustedUserCAKeys /etc/ssh/trusted_user_ca.pem
+ TrustedUserCAKeys /etc/ssh/trusted_user_ca
 ```
 2. Reload the SSH daemon to apply the changes:
 ```bash
@@ -591,21 +596,21 @@ curl -s \
 4. **Configure the LDAP Connection in Vault**:
 
 ```bash
-   curl -s \
-     --header "X-Vault-Token: $VAULT_TOKEN" \
-     --header "Content-Type: application/json" \
-     --request PUT \
-     --data '{
-       "schema": "openldap",
-       "url": "ldaps://ldap.example.com",
-       "binddn": "uid=vault,ou=users,dc=example,dc=com",
-       "bindpass": "your_secret_password_here",
-       "userdn": "ou=users,dc=example,dc=com",
-       "userattr": "uid",
-       "password_policy": "ldap-policy",
-       "insecure_tls": false
-     }' \
-     http://127.0.0.1:8200/v1/ldap/config
+curl -s \
+  --header "X-Vault-Token: $VAULT_TOKEN" \
+  --header "Content-Type: application/json" \
+  --request PUT \
+  --data '{
+    "schema": "openldap",
+    "url": "ldaps://ldap.example.com",
+    "binddn": "uid=vault,ou=users,dc=example,dc=com",
+    "bindpass": "your_secret_password_here",
+    "userdn": "ou=users,dc=example,dc=com",
+    "userattr": "uid",
+    "password_policy": "ldap-policy",
+    "insecure_tls": false
+  }' \
+  http://127.0.0.1:8200/v1/ldap/config
 ```
 :::{warning}
 The `insecure_tls: false` option is **not secure** for production. Instead:
@@ -1052,6 +1057,7 @@ curl -s \
   `vault_admin`).
 :::
 
+(authententicing-to-vault)=
 ## Authenticating Guacamole to Vault
 
 Guacamole supports the following authentication methods to Vault:
@@ -1398,10 +1404,10 @@ ${vault://{MOUNT_PATH}/creds/{ROLE}/{username|password}}
 Example:
 
 ```
-${vault://ssh/otp/myaccount/username}
+${vault://ssh/creds/guacamole_otp/username}
 ```
 
-Here, `{ROLE}` is `myaccount`.
+Here, `{ROLE}` is `guacamole_otp`.
 
 :::{note}
 OTP authentication requires **client-side configuration** (e.g., PAM and the
@@ -1428,7 +1434,8 @@ use for authentication.
 :::{note}
 The SSH secret engine **does not support** generating certificates directly.
 Instead, it **signs** certificates using a CA stored in Vault. The creation
-of the temporary certificates is performed by Guacamole itself.
+of the temporary certificates is performed by Guacamole itself, and only the
+public certificate is passed to Vault for signature.
 
 The username of the connection is a necessary field for the generated
 certificate. It can be an explicit value or another token, that will be
@@ -1519,7 +1526,7 @@ is interpreted as `{SUB_TOKEN}`. The allowed sub-token values are:
   `gateway-username` of the connection must not be empty or itself include a
   token.
 
-For example {samp}`$\{vault://ldap/org/example/\{SERVER\}/\{USERNAME\}/password`
+For example {samp}`$\{vault://ldap/org/example/\{SERVER\}/\{USERNAME\}/password}`
 is a valid **paramater token**.
 
 ### Manual Mapping of Secrets
