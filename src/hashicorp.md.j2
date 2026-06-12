@@ -1416,11 +1416,27 @@ OTP authentication requires **client-side configuration** (e.g., PAM and the
 
 ##### Tokens for Signed Certificates
 
-Tokens for signed certificates take the form:
+Tokens for signed certificates can take two forms. Either :
 
 ```
 ${vault://{MOUNT_PATH}/sign/{ROLE}/{public|private|unsigned}}
 ```
+
+or:
+
+```
+${vault://{MOUNT_PATH}/issue/{ROLE}/{public|private}}
+```
+
+The difference between these two forms is a matter of where the SSH certificate
+is issued. In the first form, the SSH secret engine **does not generate** the
+certificates directly. Instead, it **signs** certificates using a CA stored in
+Vault. The creation of the temporary certificates is performed by Guacamole
+itself, and only the public certificate is passed to Vault for signature. This
+is arguably better security as the private key doe not need to be exchanged.
+
+In the second form it is the Vault itself that issues the certificate. This
+might be useful if Guacamole can not generate the desired certificate type.
 
 Example:
 
@@ -1432,15 +1448,34 @@ This token returns a **signed SSH public certificate** that Guacamole can
 use for authentication.
 
 :::{note}
-The SSH secret engine **does not support** generating certificates directly.
-Instead, it **signs** certificates using a CA stored in Vault. The creation
-of the temporary certificates is performed by Guacamole itself, and only the
-public certificate is passed to Vault for signature.
-
 The username of the connection is a necessary field for the generated
 certificate. It can be an explicit value or another token, that will be
 resolved before inclusion in the ssh certificate.
 :::
+
+###### SSH Signed Certificate Query Parameters
+
+The option `vault-ssh-type` allows the default SSH certificate type to be
+configured globally. However, if a handful of older clients only support older
+encryption it is not a good idea to reduce the security by globally using an
+out-of-date encryption scheme. For this reason the SSH tokens support the use
+of query parameters that can modify the type of ssh certificate generated for a
+particular token. The following query parameters are supported
+
+- **key_type** : Valid values are `ed25519`, `ec` and `rsa`. This query parameter
+  is supported by both signed and issued certificates
+- **key_bits** : Valid values are `4096` and `2048` for RSA certificates and
+  `256`, `384` and `521` for ECDSA certificates. This query parameter is only
+  supported for issued certificates
+
+Invalid values or unknown query parameters are ignored. An example of the use
+of these query parameters might be
+
+```
+${vault://ssh/issue/guacamole_cert/public?key_type=rsa&key_bits=2048}
+```
+
+which generates a 2048-bit RSA signed public certificate.
 
 #### Database Secret Engine
 
