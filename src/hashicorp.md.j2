@@ -1433,7 +1433,7 @@ is issued. In the first form, the SSH secret engine **does not generate** the
 certificates directly. Instead, it **signs** certificates using a CA stored in
 Vault. The creation of the temporary certificates is performed by Guacamole
 itself, and only the public certificate is passed to Vault for signature. This
-is arguably better security as the private key doe not need to be exchanged.
+is arguably better security as the private key does not need to be exchanged.
 
 In the second form it is the Vault itself that issues the certificate. This
 might be useful if Guacamole can not generate the desired certificate type.
