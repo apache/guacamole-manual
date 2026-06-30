@@ -1510,6 +1510,7 @@ protocols:
 * [](graphical-recording)
 * [](typescripts)
 * [](stdin-pipe)
+* [](text-output)
 * [](terminal-behavior)
 * [](terminal-display-settings)
 * [](wake-on-lan)
@@ -1763,6 +1764,7 @@ multiple protocols:
 * [](graphical-recording)
 * [](typescripts)
 * [](stdin-pipe)
+* [](text-output)
 * [](terminal-behavior)
 * [](terminal-display-settings)
 * [](wake-on-lan)
@@ -1913,6 +1915,7 @@ for multiple protocols:
 * [](graphical-recording)
 * [](typescripts)
 * [](stdin-pipe)
+* [](text-output)
 * [](terminal-behavior)
 * [](terminal-display-settings)
 * [](wake-on-lan)
@@ -2460,6 +2463,55 @@ writer.sendText("world");
 // Close writer and stream
 writer.sendEnd();
 ```
+
+(text-output)=
+
+##### Receiving raw terminal output directly
+
+By default, Guacamole's terminal-based protocols (SSH, telnet, and Kubernetes)
+render all terminal output graphically: the server runs a terminal emulator and
+draws each glyph, sending only graphical instructions to the client. No
+character codepoints reach the client, so a non-graphical (native/CLI) client
+cannot recover the text of the session.
+
+Setting the `text-output` parameter to "true" enables an *opt-in* raw
+text-output mode. When enabled, the exact remote terminal (PTY) byte stream —
+including all ANSI/escape sequences, verbatim — is teed to an outbound pipe
+stream named "STDOUT", *in addition to* the normal graphical display. The
+graphical display continues to function unchanged, so browser-based clients are
+unaffected. This is the complement of the inbound [STDIN pipe](stdin-pipe), and
+allows a native client to present the session as a true in-terminal text
+experience.
+
+`text-output`
+: If set to "true", the raw terminal byte stream is teed, verbatim, to an
+  outbound "STDOUT" pipe stream in addition to the graphical display. This
+  parameter is optional and disabled by default. It is honored only when
+  copying from the terminal is permitted; if [`disable-copy`](disable-clipboard)
+  is set to "true", text-output is effectively a copy/exfiltration channel and
+  is therefore ignored (a warning is logged).
+
+The raw output can be received within JavaScript by handling the `onpipe` event
+of [`Guacamole.Client`](http://guacamole.apache.org/doc/guacamole-common-js/Guacamole.Client.html)
+and watching for an inbound pipe stream named "STDOUT":
+
+```javascript
+client.onpipe = function pipeReceived(stream, mimetype, name) {
+    if (name === 'STDOUT') {
+        var reader = new Guacamole.StringReader(stream);
+        reader.ontext = function textReceived(text) {
+            // "text" is the raw terminal output, including ANSI/escape sequences
+        };
+    }
+};
+```
+
+:::{important}
+The raw stream may contain echoed secrets (passwords, tokens) exactly as they
+appear in the terminal. As with any clipboard/copy channel, enable `text-output`
+only for connections where exposing the full terminal output to the client is
+acceptable.
+:::
 
 (terminal-display-settings)=
 
