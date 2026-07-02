@@ -1751,12 +1751,15 @@ PulseAudio or PipeWire inside the guest.
   disabled.
 
 `disable-audio-opus`
-: If set to "true", the Opus audio codec will be disabled, causing the
-  connection to negotiate the legacy CELT codec instead. This is only useful
-  for compatibility with SPICE servers whose Opus support is missing or
-  unreliable, and it does not improve audio quality — for lossless audio,
-  configure the SPICE server as described above rather than setting this
-  option. By default, Opus is used whenever both guacd and the SPICE server
+: If set to "true", the Opus audio codec will be disabled. guacd stops
+  advertising Opus to the SPICE server, which then falls back to its next
+  available audio mode: raw (uncompressed, lossless) on modern servers — which
+  no longer support the legacy CELT codec — or CELT on older servers. On a LAN,
+  disabling Opus is therefore a simple way to obtain lossless raw audio from the
+  client side, at the cost of higher bandwidth (roughly 1.5 Mbps for 48 kHz
+  stereo). On older servers that still provide CELT, disabling Opus instead
+  selects that lossy codec, so this option is only beneficial where raw is the
+  fallback. By default, Opus is used whenever both guacd and the SPICE server
   support it.
 
 (spice-file-transfer)=
