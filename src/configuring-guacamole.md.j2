@@ -1750,6 +1750,15 @@ PulseAudio or PipeWire inside the guest.
   SPICE audio input channel. By default, audio input support within SPICE is
   disabled.
 
+`disable-audio-opus`
+: If set to "true", the Opus audio codec will be disabled, causing the
+  connection to negotiate the legacy CELT codec instead. This is only useful
+  for compatibility with SPICE servers whose Opus support is missing or
+  unreliable, and it does not improve audio quality — for lossless audio,
+  configure the SPICE server as described above rather than setting this
+  option. By default, Opus is used whenever both guacd and the SPICE server
+  support it.
+
 (spice-file-transfer)=
 
 #### Native file transfer
