@@ -940,7 +940,7 @@ Client handshake instructions
     This is the first instruction sent during the handshake phase.
 
     :arg string identifier:
-        The name of the protocol to use, such as "vnc" or "rdp", or the ID of
+        The name of the protocol to use, such as "vnc", "rdp", or "spice", or the ID of
         the active connection to be joined, as returned via the `ready
         instruction <#ready-instruction>`__.
 
@@ -1096,7 +1096,7 @@ Server control instructions
         An arbitrary, unique identifier for the current connection. This
         identifier must be unique from all existing and future connections,
         and may not match the name of any installed protocol support (such as
-        "vnc" or "rdp").
+        "vnc", "rdp", or "spice").
 
 Input/Event instructions
 ------------------------

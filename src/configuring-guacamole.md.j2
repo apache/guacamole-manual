@@ -1489,6 +1489,361 @@ the features of Guacamole's authentication API, you will be able to add a new
 RDP connection easily and intuitively using the administration interface built
 into Guacamole. You will not need to edit configuration files.
 
+### SPICE
+
+The SPICE (Simple Protocol for Independent Computing Environments) protocol
+provides remote display and device-sharing capabilities primarily used with
+virtual machines managed by QEMU, KVM, or libvirt. Compared to VNC, SPICE
+offers higher-performance display updates, native audio support, and a richer
+set of device channels including clipboard, file transfer, and USB redirection.
+
+SPICE support for Guacamole is provided by the libguac-client-spice library,
+which will be installed as part of guacamole-server if the required
+dependencies are present during the build.
+
+:::{note}
+In addition to the SPICE-specific parameters below, Guacamole's SPICE support
+also accepts the parameters of several features that Guacamole provides for
+multiple protocols:
+
+* [](disable-clipboard)
+* [](common-sftp)
+* [](graphical-recording)
+* [](wake-on-lan)
+:::
+
+(spice-network-parameters)=
+
+#### Network parameters
+
+SPICE connections require the hostname or IP address of the SPICE server and
+the port number on which the SPICE server is listening. SPICE servers are
+commonly exposed by QEMU virtual machines; the default port is 5900.
+
+`hostname`
+: The hostname or IP address of the SPICE server Guacamole should connect to.
+
+`port`
+: The port the SPICE server is listening on. This parameter is optional. If
+  omitted, the default SPICE port (5900) will be used.
+
+`tls-port`
+: The port to use for TLS-encrypted SPICE connections. If specified,
+  Guacamole will attempt to upgrade the connection to TLS after the initial
+  plaintext handshake. This parameter is optional.
+
+`tls`
+: If set to "true", the connection to the SPICE server will be established
+  over TLS (Transport Layer Security), providing an encrypted channel. This
+  parameter is optional. By default, connections are made without encryption.
+
+`proxy`
+: The hostname and port of a SPICE proxy server through which the connection
+  should be routed, in the form `hostname:port`. This parameter is optional.
+
+(spice-authentication)=
+
+#### Authentication
+
+SPICE uses a ticket-based authentication mechanism. The password specified
+here corresponds to the SPICE ticket configured on the server (for example,
+via the `-spice password=...` QEMU option or the equivalent libvirt XML
+setting). A username may also be provided, though SPICE does not use it for
+authentication — it is retained mainly for logging and auditing purposes.
+
+`username`
+: The username to associate with this connection. This parameter is optional.
+  Note that SPICE does not use the username for authentication; it is
+  retained for logging and auditing purposes only.
+
+`password`
+: The SPICE ticket (password) to use when authenticating with the SPICE
+  server. This parameter is optional. If the SPICE server is configured
+  without a ticket, this parameter may be omitted.
+
+(spice-tls)=
+
+#### TLS and certificate settings
+
+When connecting to a SPICE server over TLS, Guacamole can optionally verify
+the server's certificate against a known CA or a pinned public key. If none of
+the verification parameters below are specified, no certificate verification is
+performed.
+
+`ca-cert`
+: The PEM-encoded certificate of the Certificate Authority (CA) that signed
+  the SPICE server's TLS certificate. If provided, the server's certificate
+  will be verified against this CA, and the connection will be rejected if
+  verification fails. This parameter is optional.
+
+`cert-subject`
+: The expected subject string of the SPICE server's TLS certificate. If
+  provided, Guacamole will verify that the server's certificate subject
+  matches this value. This parameter is optional.
+
+`pubkey`
+: The Base64-encoded DER-format public key of the SPICE server, used for
+  public-key pinning. If provided, the server's public key is verified
+  against this value, and the connection will be rejected if the keys do not
+  match. This parameter is optional.
+
+`ignore-cert`
+: If set to "true", the TLS certificate returned by the server will be
+  ignored, even if that certificate cannot be validated. This is useful if
+  the server uses a self-signed certificate and you universally trust the
+  server and your connection to it. This parameter is optional.
+
+(spice-display-settings)=
+
+#### Display settings
+
+`color-depth`
+: The color depth to request, in bits-per-pixel. This parameter is optional.
+  If specified, this must be either 8, 16, 24, or 32. Regardless of what
+  value is chosen here, if a particular update uses less than 256 colors,
+  Guacamole will always send that update as a 256-color PNG.
+
+`swap-red-blue`
+: If the colors of your display appear wrong (blues appear orange or red,
+  etc.), it may be that the SPICE server is sending image data with the red
+  and blue components swapped. If this is the case, set this parameter to
+  "true" to work around the problem. This parameter is optional.
+
+`preferred-compression`
+: The preferred image compression algorithm to request from the SPICE server.
+  This parameter is optional. If omitted, the server and client will
+  negotiate an algorithm automatically.
+
+  Possible values are:
+
+  off
+  : Request that no image compression be used. This requires the most
+    bandwidth but imposes the least CPU overhead.
+
+  auto-glz
+  : Automatically select GLZ (Global LZ) compression based on image content.
+    This is a good general-purpose default.
+
+  auto-lz
+  : Automatically select LZ compression based on image content.
+
+  quic
+  : Use the QUIC (Quick Image Compression) algorithm.
+
+  glz
+  : Use GLZ (Global LZ) compression.
+
+  lz
+  : Use LZ compression.
+
+  lz4
+  : Use LZ4 compression, which offers very fast compression and decompression
+    at the cost of compression ratio.
+
+`read-only`
+: Whether this connection should be read-only. If set to "true", no input
+  will be accepted on the connection at all. Users will only see the desktop
+  and whatever other users sharing that same desktop are doing. This
+  parameter is optional.
+
+`disable-display-resize`
+: Whether or not Guacamole should refrain from sending display size updates
+  to the SPICE server. By default, Guacamole sends the client's display
+  dimensions to the SPICE server when the connection is established and
+  whenever the browser window is resized. If this option is set to "true",
+  display size updates will not be sent, and the desktop will remain at
+  whatever size the SPICE server has configured. This parameter is optional.
+
+(spice-keyboard)=
+
+#### Keyboard settings
+
+`server-layout`
+: The server-side keyboard layout used by the SPICE server. This is the
+  layout of the remote desktop and has nothing to do with the keyboard layout
+  in use on the client. *The Guacamole client is independent of keyboard
+  layout.* SPICE, however, is *not* independent of keyboard layout, and
+  Guacamole needs to know the keyboard layout of the server in order to send
+  the correct key events when a user is typing.
+
+  The value must match one of the keyboard layout names bundled with
+  libguac-client-spice. Possible values generally follow the format
+  {samp}`{LANGUAGE}-{REGION}-{VARIANT}`:
+
+  | Keyboard layout                | Parameter value        |
+  | ------------------------------ | ---------------------- |
+  | Brazilian (Portuguese)         | `pt-br-qwerty`         |
+  | English (UK)                   | `en-gb-qwerty`         |
+  | English (US)                   | `en-us-qwerty`         |
+  | French                         | `fr-fr-azerty`         |
+  | French (Belgian)               | `fr-be-azerty`         |
+  | French (Swiss)                 | `fr-ch-qwertz`         |
+  | German                         | `de-de-qwertz`         |
+  | German (Swiss)                 | `de-ch-qwertz`         |
+  | Hungarian                      | `hu-hu-qwertz`         |
+  | Italian                        | `it-it-qwerty`         |
+  | Japanese                       | `ja-jp-qwerty`         |
+  | Norwegian                      | `no-no-qwerty`         |
+  | Spanish                        | `es-es-qwerty`         |
+  | Spanish (Latin American)       | `es-latam-qwerty`      |
+  | Swedish                        | `sv-se-qwerty`         |
+  | Turkish-Q                      | `tr-tr-qwerty`         |
+
+  If the server's keyboard layout is not listed above, the `failsafe` value
+  may be used to force all input to be sent as Unicode events; however, this
+  may prevent keyboard shortcuts from working as expected.
+
+(spice-clipboard)=
+
+#### Clipboard settings
+
+In addition to the common `disable-copy` and `disable-paste` parameters
+described in [](disable-clipboard), SPICE provides the following
+clipboard-specific parameters:
+
+`disable-clipboard`
+: If set to "true", the SPICE clipboard channel will be disabled entirely,
+  preventing all clipboard synchronization between the client and the remote
+  desktop. This is a stronger restriction than `disable-copy` and
+  `disable-paste`, as it disables the clipboard at the protocol level rather
+  than just suppressing individual directions of transfer. This parameter is
+  optional. By default, the clipboard channel is enabled.
+
+`clipboard-buffer-size`
+: The maximum size, in bytes, of the buffer used when exchanging clipboard
+  data with the SPICE server. This parameter is optional. If omitted, a
+  default buffer size will be used. Increasing this value may be necessary
+  when copying very large amounts of text.
+
+(spice-audio)=
+
+#### Audio
+
+SPICE natively supports audio output and audio input through dedicated SPICE
+channels. Enabling audio allows the guest's sound to be streamed to the user's
+browser; enabling audio input allows the user's microphone to be forwarded to
+the guest.
+
+:::{note}
+For best audio quality over a LAN, configure the SPICE server (QEMU/libvirt)
+to avoid the legacy CELT lossy codec. For example, when launching QEMU
+directly, pass `-spice ...,playback-compression=off` to use raw (lossless)
+audio, or ensure that Opus is negotiated between the SPICE server and guacd.
+Note that guacd forwards whatever audio codec the SPICE server negotiates and
+cannot change the server-side codec selection; this must be configured on the
+SPICE server itself.
+
+Additionally, browsers enforce an autoplay policy that suppresses audio until
+the user interacts with the session. Guest audio also requires that the virtual
+machine have an emulated sound device and a running sound server such as
+PulseAudio or PipeWire inside the guest.
+:::
+
+`enable-audio`
+: If set to "true", audio output support will be enabled, and the guest's
+  audio will be streamed to the user's browser over the SPICE audio channel.
+  By default, audio support within SPICE is disabled.
+
+`enable-audio-input`
+: If set to "true", audio input support (microphone) will be enabled,
+  allowing the user's microphone to be forwarded to the SPICE guest over the
+  SPICE audio input channel. By default, audio input support within SPICE is
+  disabled.
+
+(spice-file-transfer)=
+
+#### Native file transfer
+
+SPICE provides a native file transfer channel that allows files to be shared
+between the Guacamole server and the SPICE guest. When enabled, users can
+transfer files as described in [](using-guacamole). This mechanism is
+separate from the SFTP file transfer described in [](common-sftp).
+
+`enable-drive`
+: If set to "true", native SPICE file transfer will be enabled, allowing
+  users to transfer files to and from the SPICE guest. Files will be stored
+  in the directory specified by the `drive-path` parameter, which is required
+  if file transfer is enabled. By default, file transfer is disabled.
+
+`drive-path`
+: The directory on the Guacamole server in which transferred files should be
+  stored. This directory must be accessible by guacd and both readable and
+  writable by the user that runs guacd. *This parameter does not refer to a
+  directory inside the SPICE guest.*
+
+  If file transfer is not enabled, this parameter is ignored.
+
+`drive-read-only`
+: If set to "true", the shared drive presented to the SPICE guest will be
+  read-only. Users will be able to download files from the guest but will not
+  be able to upload files to the drive. This parameter is optional. By
+  default, the shared drive is read-write.
+
+  If file transfer is not enabled, this parameter is ignored.
+
+`file-transfer`
+: If set to "true", in-session file transfer via the SPICE file transfer
+  channel is enabled. This parameter is optional.
+
+`file-directory`
+: The directory within the SPICE file transfer channel to use for file
+  operations. This parameter is optional.
+
+`file-transfer-create-folder`
+: If set to "true", and file transfer is enabled, the directory specified by
+  the `file-directory` parameter will automatically be created if it does not
+  yet exist. Only the final directory in the path will be created — if other
+  directories earlier in the path do not exist, automatic creation will fail,
+  and an error will be logged. This parameter is optional.
+
+`file-transfer-ro`
+: If set to "true", file transfer via the SPICE file transfer channel will be
+  read-only. This parameter is optional.
+
+`disable-download`
+: If set to "true", downloads from the remote system to the client (browser)
+  will be disabled. This includes downloads done via the Guacamole menu as
+  well as through the shared drive. The default is false, which means that
+  downloads will be allowed.
+
+  If file transfer is not enabled, this parameter is ignored.
+
+`disable-upload`
+: If set to "true", uploads from the client (browser) to the remote system
+  will be disabled. The default is false, which means that uploads will be
+  allowed if file transfer is enabled.
+
+  If file transfer is not enabled, this parameter is ignored.
+
+(adding-spice)=
+
+#### Adding a SPICE connection
+
+If you are using the default authentication built into Guacamole, and you wish
+to grant access to a SPICE connection to a particular user, you need to locate
+the `<authorize>` section for that user within your `user-mapping.xml`, and add
+a section like the following within it:
+
+```xml
+<connection name="Unique Name">
+    <protocol>spice</protocol>
+    <param name="hostname">localhost</param>
+    <param name="port">5900</param>
+</connection>
+```
+
+If added exactly as above, a new connection named "`Unique Name`" will be
+available to the user associated with the `<authorize>` section containing it.
+The connection will use SPICE to connect to localhost at port 5900. Naturally,
+you will want to change some or all of these values.
+
+If your SPICE server requires a ticket (password), add a `password` parameter
+accordingly. Other authentication methods will provide documentation describing
+how to configure new connections. If the authentication method in use fully
+implements the features of Guacamole's authentication API, you will be able to
+add a new SPICE connection easily and intuitively using the administration
+interface built into Guacamole. You will not need to edit configuration files.
+
 ### SSH
 
 Unlike VNC or RDP, SSH is a text protocol. Its implementation in Guacamole is
