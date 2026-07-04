@@ -1640,6 +1640,51 @@ performed.
   : Use LZ4 compression, which offers very fast compression and decompression
     at the cost of compression ratio.
 
+`preferred-video-codec`
+: The video codec that the SPICE server should be asked to prefer when
+  encoding regions of the screen that it detects as video, such as a playing
+  video. This parameter is optional. If omitted, guacd sends no preference and
+  the SPICE server uses its own default, which is typically MJPEG.
+
+  Requesting an efficient codec such as H.264 can significantly reduce the
+  bandwidth used by video content, but note the following requirements:
+
+  - The host running guacd must have the corresponding GStreamer decoder
+    plugins installed (for example `gstreamer1.0-libav` and
+    `gstreamer1.0-plugins-good`, which provide the H.264, VP8, and VP9
+    decoders). Without them, guacd cannot decode the codec and the SPICE
+    server falls back to sending those regions as ordinary image updates.
+    MJPEG is decoded natively and requires no additional plugins.
+
+  - The SPICE server must be built with GStreamer support, have the matching
+    GStreamer *encoder* plugins installed, and have video streaming enabled
+    (for example, using the QEMU `-spice streaming-video=filter` option).
+
+  :::{important}
+  Some SPICE server versions crash when a client requests a preferred video
+  codec while a video stream is active (see [SPICE issue
+  99](https://gitlab.freedesktop.org/spice/spice/-/issues/99)). For this
+  reason, this parameter is unset by default; only enable it against a SPICE
+  server that is known to include the fix. When it is unset, guacd sends no
+  preference and the server's safe default (MJPEG) is used.
+  :::
+
+  Possible values are:
+
+  h264
+  : Prefer H.264, falling back to MJPEG if it is unavailable. H.264 generally
+    offers the best compression for video content.
+
+  vp9
+  : Prefer VP9, falling back to MJPEG if it is unavailable.
+
+  vp8
+  : Prefer VP8, falling back to MJPEG if it is unavailable.
+
+  mjpeg
+  : Explicitly prefer MJPEG. This is the most widely supported codec and the
+    safest choice.
+
 `read-only`
 : Whether this connection should be read-only. If set to "true", no input
   will be accepted on the connection at all. Users will only see the desktop
