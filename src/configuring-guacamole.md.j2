@@ -1872,6 +1872,43 @@ separate from the SFTP file transfer described in [](common-sftp).
 
   If file transfer is not enabled, this parameter is ignored.
 
+##### Accessing the shared folder from the guest
+
+The directory shared with `enable-drive` / `drive-path` is exposed to the guest
+over the SPICE **WebDAV** channel (backed by libphodav on the guacd side). For
+it to appear inside the guest, two things are required on the virtual-machine
+and guest side:
+
+* **The VM must expose the SPICE WebDAV port** (`org.spice-space.webdav.0`).
+  This is a per-VM setting on the hypervisor. For example, with Proxmox VE:
+
+  ```
+  qm set VMID --spice_enhancements foldersharing=1
+  ```
+
+  (the VM must be powered off and on for the channel to be added). Under
+  libvirt, add a matching `<channel type='spiceport'>` with
+  `<target name='org.spice-space.webdav.0'/>`.
+
+* **The guest must run `spice-webdavd`** (packaged as `spice-webdavd` on most
+  distributions). This daemon bridges the SPICE WebDAV channel to a local WebDAV
+  endpoint, by default `http://localhost:9843/`.
+
+Once both are in place and a Guacamole SPICE connection with `enable-drive`
+active, the shared folder becomes available inside the guest:
+
+* On GNOME-based desktops it appears automatically in the file manager as
+  *Spice client folder* (via the GVFS WebDAV backend).
+* From the command line it can be mounted with davfs2, for example:
+
+  ```
+  sudo mount -t davfs http://localhost:9843/ /mnt/shared
+  ```
+
+Files placed in `drive-path` on the Guacamole server are then visible in the
+guest; unless `drive-read-only` is set, the share is read-write and files the
+guest writes appear back in `drive-path`.
+
 (adding-spice)=
 
 #### Adding a SPICE connection
