@@ -1699,6 +1699,21 @@ performed.
   display size updates will not be sent, and the desktop will remain at
   whatever size the SPICE server has configured. This parameter is optional.
 
+`secondary-monitors`
+: The maximum number of *secondary* monitors (in addition to the primary
+  monitor) that a client may request for this connection. The default is 0,
+  which disables multi-monitor support. When set to a positive value, a
+  multi-monitor–capable Guacamole client may open that many additional monitor
+  windows; Guacamole requests the corresponding monitor layout from the guest,
+  and each monitor is rendered as a region of the single combined display.
+
+  :::{important}
+  Multi-monitor support requires a guest that can activate additional heads on
+  request — in practice, a QXL virtual GPU with the SPICE guest agent
+  (`spice-vdagent`) running. The number of monitors is also limited by the
+  guest's graphics configuration (for QXL, typically up to four heads).
+  :::
+
 (spice-keyboard)=
 
 #### Keyboard settings
