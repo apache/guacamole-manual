@@ -1783,6 +1783,11 @@ performed.
 
 #### Clipboard settings
 
+SPICE clipboard synchronization is bidirectional and supports both plain text
+(UTF-8) and images (PNG, BMP, JPEG, and TIFF), provided the guest is running the
+SPICE guest agent (`spice-vdagent`). Image clipboard requires an image-capable
+Guacamole client; PNG is used as the baseline image format.
+
 In addition to the common `disable-copy` and `disable-paste` parameters
 described in [](disable-clipboard), SPICE provides the following
 clipboard-specific parameters:
@@ -1799,7 +1804,9 @@ clipboard-specific parameters:
 : The maximum size, in bytes, of the buffer used when exchanging clipboard
   data with the SPICE server. This parameter is optional. If omitted, a
   default buffer size will be used. Increasing this value may be necessary
-  when copying very large amounts of text.
+  when copying very large amounts of text, or when copying images (which are
+  typically much larger than text and will be truncated if they exceed the
+  buffer size).
 
 (spice-audio)=
 
@@ -2775,6 +2782,15 @@ overwrite the existing recording.
   recording can subsequently be passed through the {program}`guaclog` utility
   to produce a human-readable interpretation of the keys pressed during the
   session. *This parameter is optional.* If omitted, key events will be not
+  included in the recording.
+
+  This parameter only has an effect if graphical recording is enabled. If
+  the `recording-path` is not specified, graphical session recording will be
+  disabled, and this parameter will be ignored.
+
+`recording-include-clipboard`
+: If set to "true", clipboard state changes will be included in the recording.
+  *This parameter is optional.* If omitted, clipboard events will not be
   included in the recording.
 
   This parameter only has an effect if graphical recording is enabled. If
