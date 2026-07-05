@@ -2789,9 +2789,13 @@ overwrite the existing recording.
   disabled, and this parameter will be ignored.
 
 `recording-include-clipboard`
-: If set to "true", clipboard state changes will be included in the recording.
-  *This parameter is optional.* If omitted, clipboard events will not be
-  included in the recording.
+: If set to "true", clipboard state changes will be included in the recording,
+  in both directions (data copied out of the guest as well as data pasted into
+  it), including images. Each recorded clipboard transfer is annotated with its
+  direction — `guest-to-client` (data leaving the guest, i.e. the
+  data-exfiltration direction) or `client-to-guest` — so that recordings can be
+  audited for clipboard-based data movement. *This parameter is optional.* If
+  omitted, clipboard events will not be included in the recording.
 
   This parameter only has an effect if graphical recording is enabled. If
   the `recording-path` is not specified, graphical session recording will be
