@@ -1859,10 +1859,51 @@ PulseAudio or PipeWire inside the guest.
 
 #### Native file transfer
 
-SPICE provides a native file transfer channel that allows files to be shared
-between the Guacamole server and the SPICE guest. When enabled, users can
-transfer files as described in [](using-guacamole). This mechanism is
-separate from the SFTP file transfer described in [](common-sftp).
+SPICE offers two native mechanisms for moving files between the client and the
+guest, each with a different reach. Both are separate from the SFTP file
+transfer described in [](common-sftp).
+
+* **Shared folder (WebDAV)** — *bidirectional.* A directory on the Guacamole
+  server is exposed to the guest over the SPICE WebDAV channel and to the user
+  through the on-screen Guacamole file browser. Users can browse, **download**,
+  and upload files. This requires the guest to mount the share (see
+  [](#accessing-the-shared-folder-from-the-guest)).
+
+* **Direct upload to guest (SPICE agent)** — *client-to-guest only.* Files
+  dragged or uploaded onto the session are pushed straight into the guest by the
+  SPICE agent (`spice-vdagent`), which saves them to the logged-in user's
+  download/desktop location (per the guest's XDG configuration — typically
+  *Downloads*, falling back to the *Desktop*). This needs no mount and works
+  out-of-the-box on any vdagent-enabled guest, but it cannot retrieve files
+  *from* the guest.
+
+Because a Guacamole session has a single upload gesture, exactly one mechanism
+receives dragged/uploaded files. The `file-transfer-mode` parameter selects
+which:
+
+`file-transfer-mode`
+: Selects how files are transferred to the guest. One of:
+
+  * `none` — File transfer is disabled (the default when this parameter and the
+    legacy `file-transfer` parameter are both unset).
+  * `agent` — Uploaded files are pushed into the guest via the SPICE agent,
+    which saves them to the logged-in user's download/desktop location.
+    Upload-only; no file browser is shown.
+  * `drive` — The bidirectional WebDAV shared folder. Uploaded files land in the
+    shared folder, which the user also browses and downloads from. Requires
+    `file-directory` (and typically `enable-drive` / `drive-path`).
+  * `both` — The shared folder provides browsing and downloads, while the
+    drag-and-drop upload gesture is routed to the SPICE agent (guest Downloads).
+    This is the only configuration in which enabling the agent adds a capability
+    the shared folder does not already provide.
+
+  For backwards compatibility, when `file-transfer-mode` is left blank the mode
+  is derived from the legacy `file-transfer` parameter: `drive` if it is "true",
+  otherwise `none`.
+
+  If `file-transfer-mode` is `agent` (or `both`) and the SPICE guest agent is
+  not connected, the upload is rejected and an error is logged — files are never
+  silently discarded.
 
 `enable-drive`
 : If set to "true", native SPICE file transfer will be enabled, allowing
