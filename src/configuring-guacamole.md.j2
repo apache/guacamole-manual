@@ -1714,6 +1714,32 @@ performed.
   guest's graphics configuration (for QXL, typically up to four heads).
   :::
 
+  :::{important}
+  With QXL, all monitors are composited into a **single combined framebuffer**
+  (the primary surface), so the QXL device must have enough framebuffer memory
+  for the *sum* of all monitors. This memory is the QXL `vgamem_mb` setting —
+  **not** `ram_size`/`vram_size`, which serve other purposes and do **not**
+  raise the maximum resolution. The primary surface requires roughly
+
+  ```
+  vgamem_mb ≳ (total_width × total_height × 4 bytes) / 1 MiB + headroom
+  ```
+
+  For example, two 2560×1600 monitors side by side form a 5120×1600 combined
+  surface (~32 MiB), which exceeds the common default of 16 MiB. If `vgamem_mb`
+  is too small the guest cannot build the wide surface and silently falls back
+  to **mirroring** the monitors (all heads at the same origin) instead of
+  extending them. Increase it before using multi-monitor at high resolution.
+
+  On **Proxmox VE**, set this via the display memory option, e.g.
+  `vga: qxl2,memory=128` (the `memory=` value maps to `vgamem_mb`). Note that
+  selecting `qxl2`/`qxl3`/`qxl4` alone does **not** raise `vgamem_mb`, so the
+  `memory=` option must be set explicitly for high-resolution multi-monitor.
+  With `libvirt`/`virt-manager`, set `<video><model type='qxl' vgamem='131072'/>`
+  (in KiB). A value of 64–128 MiB comfortably supports four high-resolution
+  heads.
+  :::
+
 (spice-keyboard)=
 
 #### Keyboard settings
