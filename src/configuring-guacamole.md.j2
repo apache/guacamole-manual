@@ -2757,6 +2757,42 @@ guaclog: INFO: All files interpreted successfully.
 $
 ```
 
+(guacclip)=
+
+If recording of clipboard events is explicitly enabled using the
+`recording-include-clipboard` parameter, recordings can also be processed with
+the {program}`guacclip` utility to recover the clipboard text and images
+exchanged during the session. Unlike {program}`guacenc` and {program}`guaclog`,
+which cover video and keystrokes respectively, {program}`guacclip` is the tool
+that recovers clipboard activity, writing each clipboard transfer to an
+individual file alongside a `manifest.json` describing every item's transfer
+direction, mimetype, byte count, and SHA-256 digest:
+
+```console
+$ guacclip /path/to/recording/NAME
+guacclip: INFO: Guacamole clipboard artifact extractor (guacclip) version {{ version }}
+guacclip: INFO: 1 input file(s) provided.
+guacclip: INFO: Extracting clipboard artifacts from "/path/to/recording/NAME" into "/path/to/recording/NAME.clipboard" ...
+guacclip: INFO: All files interpreted successfully.
+$
+```
+
+By default, extracted items and the manifest are written to
+{samp}`{NAME}.clipboard`, alongside the recording. Each recorded transfer is
+annotated with its direction — `guest-to-client` (data copied out of the
+guest, i.e. the data-exfiltration direction) or `client-to-guest` (data pasted
+into the guest) — so recordings can be audited for clipboard-based data
+movement in either direction.
+
+The {program}`guacclip` utility has additional options for overriding the
+output location, filtering by direction or content type, capping per-item
+size, and handling duplicate items, which are documented in detail within the
+manpage:
+
+```console
+$ man guacclip
+```
+
 :::{important}
 By default, Guacamole will not overwrite an existing recording, unless you have
 enabled it to do so by use of the `recording-write-existing` connection
