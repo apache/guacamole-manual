@@ -1,40 +1,21 @@
 #
-# The authorization endpoint (URI) of the OpenID service.
+# The OpenID Connect Discovery endpoint
 #
-# This value should be provided to you by the identity provider. For identity
-# providers that implement [OpenID Connect Discovery](https://openid.net/specs/openid-connect-discovery-1_0.html),
-# this value can be retrieved from the `authorization_endpoint` property of the
-# JSON file hosted at {samp}`{https://identity-provider}/.well-known/openid-configuration`, where
-# `https://identity-provider` is the base URL of the identity provider.
+# For identity providers that implement [OpenID Connect
+# Discovery](https://openid.net/specs/openid-connect-discovery-1_0.html), this
+# endpoint can be used to automatically discover the other needed configuration
+# parameters, including {samp}`openid-issuer`, {samp}`openid-token-endpoint`
+# {samp}`openid-authorization-endpoint` and {samp}`openid-jwks-endpoint`.
+# This parameter is not strictly required, but if absent must be replaced with
+# these four parameters.
 #
-openid-authorization-endpoint: https://identity-provider/auth
-
+# Please note that an outgoing http connection from Guacamole is used in the
+# discovery, and as with all network connections it might fail. This extension
+# will make several attempts during the two minutes after startup to discover
+# the configuration. Please check your logs if an error occurs during login
+# attempts.
 #
-# The endpoint (URI) of the JWKS service which defines how received ID tokens
-# ([JSON Web Tokens](https://jwt.io/) or JWTs) shall be validated.
-#
-# This value should be provided to you by the identity provider. For
-# identity providers that implement [OpenID Connect
-# Discovery](https://openid.net/specs/openid-connect-discovery-1_0.html),
-# this value can be retrieved from the `jwks_uri` property of the JSON
-# file hosted at
-# {samp}`{https://identity-provider}/.well-known/openid-configuration`, where
-# `https://identity-provider` is the base URL of the identity provider.
-#
-openid-jwks-endpoint: https://identity-provider/jwks
-
-#
-# The issuer to expect for all received ID tokens.
-#
-# This value should be provided to you by the identity provider. For
-# identity providers that implement [OpenID Connect
-# Discovery](https://openid.net/specs/openid-connect-discovery-1_0.html),
-# this value can be retrieved from the `issuer` property of the JSON
-# file hosted at
-# {samp}`{https://identity-provider}/.well-known/openid-configuration`, where
-# `https://identity-provider` is the base URL of the identity provider.
-#
-openid-issuer: identity-provider
+openid-well-known-endpoint: https://identity-provider/.well-known/openid-configuration
 
 #
 # The OpenID client ID which should be submitted to the OpenID service when

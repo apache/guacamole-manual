@@ -112,7 +112,7 @@ Required configuration
 
 {% call ext.config('ksm', required=True) %}
 Guacamole requires only a single configuration property to configure secret
-retrieval from KSM, `ksm-config`, which must be provided the base64
+retrieval from a Vault, `vault-config`, which must be provided the base64
 configuration value retrieved from KSM using the one-time token [obtained when
 Guacamole was registered with KSM as an application as described above](adding-guac-to-ksm).
 All other {{ ext.properties() }} are optional.
