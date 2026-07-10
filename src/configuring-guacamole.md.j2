@@ -2222,6 +2222,12 @@ activate the chassis identify LED, view the most recent System Event Log (SEL)
 entries, and send a serial break. Destructive power actions require
 confirmation. Press any key to dismiss command output and return to the console.
 
+Each out-of-band operation opens a brief management session with the BMC, which
+can take a few seconds to establish. These operations run in the background, so
+the serial console remains responsive while a command is in progress; a
+`working...` message is shown until the result is available. Only one operation
+runs at a time, and menu keystrokes are ignored until the current one completes.
+
 (adding-ipmi)=
 
 #### Adding an IPMI connection
