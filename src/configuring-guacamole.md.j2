@@ -1489,6 +1489,544 @@ the features of Guacamole's authentication API, you will be able to add a new
 RDP connection easily and intuitively using the administration interface built
 into Guacamole. You will not need to edit configuration files.
 
+### SPICE
+
+The SPICE (Simple Protocol for Independent Computing Environments) protocol
+provides remote display and device-sharing capabilities primarily used with
+virtual machines managed by QEMU, KVM, or libvirt. Compared to VNC, SPICE
+offers higher-performance display updates, native audio support, and a richer
+set of device channels including clipboard, file transfer, and USB redirection.
+
+SPICE support for Guacamole is provided by the libguac-client-spice library,
+which will be installed as part of guacamole-server if the required
+dependencies are present during the build.
+
+:::{note}
+In addition to the SPICE-specific parameters below, Guacamole's SPICE support
+also accepts the parameters of several features that Guacamole provides for
+multiple protocols:
+
+* [](disable-clipboard)
+* [](common-sftp)
+* [](graphical-recording)
+* [](wake-on-lan)
+:::
+
+(spice-network-parameters)=
+
+#### Network parameters
+
+SPICE connections require the hostname or IP address of the SPICE server and
+the port number on which the SPICE server is listening. SPICE servers are
+commonly exposed by QEMU virtual machines; the default port is 5900.
+
+`hostname`
+: The hostname or IP address of the SPICE server Guacamole should connect to.
+
+`port`
+: The port the SPICE server is listening on. This parameter is optional. If
+  omitted, the default SPICE port (5900) will be used.
+
+`tls-port`
+: The port to use for TLS-encrypted SPICE connections. If specified,
+  Guacamole will attempt to upgrade the connection to TLS after the initial
+  plaintext handshake. This parameter is optional.
+
+`tls`
+: If set to "true", the connection to the SPICE server will be established
+  over TLS (Transport Layer Security), providing an encrypted channel. This
+  parameter is optional. By default, connections are made without encryption.
+
+`proxy`
+: The hostname and port of a SPICE proxy server through which the connection
+  should be routed, in the form `hostname:port`. This parameter is optional.
+
+(spice-authentication)=
+
+#### Authentication
+
+SPICE uses a ticket-based authentication mechanism. The password specified
+here corresponds to the SPICE ticket configured on the server (for example,
+via the `-spice password=...` QEMU option or the equivalent libvirt XML
+setting). A username may also be provided, though SPICE does not use it for
+authentication — it is retained mainly for logging and auditing purposes.
+
+`username`
+: The username to associate with this connection. This parameter is optional.
+  Note that SPICE does not use the username for authentication; it is
+  retained for logging and auditing purposes only.
+
+`password`
+: The SPICE ticket (password) to use when authenticating with the SPICE
+  server. This parameter is optional. If the SPICE server is configured
+  without a ticket, this parameter may be omitted.
+
+(spice-tls)=
+
+#### TLS and certificate settings
+
+When connecting to a SPICE server over TLS, Guacamole can optionally verify
+the server's certificate against a known CA or a pinned public key. If none of
+the verification parameters below are specified, no certificate verification is
+performed.
+
+`ca-cert`
+: The PEM-encoded certificate of the Certificate Authority (CA) that signed
+  the SPICE server's TLS certificate. If provided, the server's certificate
+  will be verified against this CA, and the connection will be rejected if
+  verification fails. This parameter is optional.
+
+`cert-subject`
+: The expected subject string of the SPICE server's TLS certificate. If
+  provided, Guacamole will verify that the server's certificate subject
+  matches this value. This parameter is optional.
+
+`pubkey`
+: The Base64-encoded DER-format public key of the SPICE server, used for
+  public-key pinning. If provided, the server's public key is verified
+  against this value, and the connection will be rejected if the keys do not
+  match. This parameter is optional.
+
+`ignore-cert`
+: If set to "true", the TLS certificate returned by the server will be
+  ignored, even if that certificate cannot be validated. This is useful if
+  the server uses a self-signed certificate and you universally trust the
+  server and your connection to it. This parameter is optional.
+
+(spice-display-settings)=
+
+#### Display settings
+
+`color-depth`
+: The color depth to request, in bits-per-pixel. This parameter is optional.
+  If specified, this must be either 8, 16, 24, or 32. Regardless of what
+  value is chosen here, if a particular update uses less than 256 colors,
+  Guacamole will always send that update as a 256-color PNG.
+
+`swap-red-blue`
+: If the colors of your display appear wrong (blues appear orange or red,
+  etc.), it may be that the SPICE server is sending image data with the red
+  and blue components swapped. If this is the case, set this parameter to
+  "true" to work around the problem. This parameter is optional.
+
+`preferred-compression`
+: The preferred image compression algorithm to request from the SPICE server.
+  This parameter is optional. If omitted, the server and client will
+  negotiate an algorithm automatically.
+
+  Possible values are:
+
+  off
+  : Request that no image compression be used. This requires the most
+    bandwidth but imposes the least CPU overhead.
+
+  auto-glz
+  : Automatically select GLZ (Global LZ) compression based on image content.
+    This is a good general-purpose default.
+
+  auto-lz
+  : Automatically select LZ compression based on image content.
+
+  quic
+  : Use the QUIC (Quick Image Compression) algorithm.
+
+  glz
+  : Use GLZ (Global LZ) compression.
+
+  lz
+  : Use LZ compression.
+
+  lz4
+  : Use LZ4 compression, which offers very fast compression and decompression
+    at the cost of compression ratio.
+
+`preferred-video-codec`
+: The video codec that the SPICE server should be asked to prefer when
+  encoding regions of the screen that it detects as video, such as a playing
+  video. This parameter is optional. If omitted, guacd sends no preference and
+  the SPICE server uses its own default, which is typically MJPEG.
+
+  Requesting an efficient codec such as H.264 can significantly reduce the
+  bandwidth used by video content, but note the following requirements:
+
+  - The host running guacd must have the corresponding GStreamer decoder
+    plugins installed (for example `gstreamer1.0-libav` and
+    `gstreamer1.0-plugins-good`, which provide the H.264, VP8, and VP9
+    decoders). Without them, guacd cannot decode the codec and the SPICE
+    server falls back to sending those regions as ordinary image updates.
+    MJPEG is decoded natively and requires no additional plugins.
+
+  - The SPICE server must be built with GStreamer support, have the matching
+    GStreamer *encoder* plugins installed, and have video streaming enabled
+    (for example, using the QEMU `-spice streaming-video=filter` option).
+
+  :::{important}
+  Some SPICE server versions crash when a client requests a preferred video
+  codec while a video stream is active (see [SPICE issue
+  99](https://gitlab.freedesktop.org/spice/spice/-/issues/99)). For this
+  reason, this parameter is unset by default; only enable it against a SPICE
+  server that is known to include the fix. When it is unset, guacd sends no
+  preference and the server's safe default (MJPEG) is used.
+  :::
+
+  Possible values are:
+
+  h264
+  : Prefer H.264, falling back to MJPEG if it is unavailable. H.264 generally
+    offers the best compression for video content.
+
+  vp9
+  : Prefer VP9, falling back to MJPEG if it is unavailable.
+
+  vp8
+  : Prefer VP8, falling back to MJPEG if it is unavailable.
+
+  mjpeg
+  : Explicitly prefer MJPEG. This is the most widely supported codec and the
+    safest choice.
+
+`read-only`
+: Whether this connection should be read-only. If set to "true", no input
+  will be accepted on the connection at all. Users will only see the desktop
+  and whatever other users sharing that same desktop are doing. This
+  parameter is optional.
+
+`disable-display-resize`
+: Whether or not Guacamole should refrain from sending display size updates
+  to the SPICE server. By default, Guacamole sends the client's display
+  dimensions to the SPICE server when the connection is established and
+  whenever the browser window is resized. If this option is set to "true",
+  display size updates will not be sent, and the desktop will remain at
+  whatever size the SPICE server has configured. This parameter is optional.
+
+`secondary-monitors`
+: The maximum number of *secondary* monitors (in addition to the primary
+  monitor) that a client may request for this connection. The default is 0,
+  which disables multi-monitor support. When set to a positive value, a
+  multi-monitor–capable Guacamole client may open that many additional monitor
+  windows; Guacamole requests the corresponding monitor layout from the guest,
+  and each monitor is rendered as a region of the single combined display.
+
+  :::{important}
+  Multi-monitor support requires a guest that can activate additional heads on
+  request — in practice, a QXL virtual GPU with the SPICE guest agent
+  (`spice-vdagent`) running. The number of monitors is also limited by the
+  guest's graphics configuration (for QXL, typically up to four heads).
+  :::
+
+  :::{important}
+  With QXL, all monitors are composited into a **single combined framebuffer**
+  (the primary surface), so the QXL device must have enough framebuffer memory
+  for the *sum* of all monitors. This memory is the QXL `vgamem_mb` setting —
+  **not** `ram_size`/`vram_size`, which serve other purposes and do **not**
+  raise the maximum resolution. The primary surface requires roughly
+
+  ```
+  vgamem_mb ≳ (total_width × total_height × 4 bytes) / 1 MiB + headroom
+  ```
+
+  For example, two 2560×1600 monitors side by side form a 5120×1600 combined
+  surface (~32 MiB), which exceeds the common default of 16 MiB. If `vgamem_mb`
+  is too small the guest cannot build the wide surface and silently falls back
+  to **mirroring** the monitors (all heads at the same origin) instead of
+  extending them. Increase it before using multi-monitor at high resolution.
+
+  On **Proxmox VE**, set this via the display memory option, e.g.
+  `vga: qxl2,memory=128` (the `memory=` value maps to `vgamem_mb`). Note that
+  selecting `qxl2`/`qxl3`/`qxl4` alone does **not** raise `vgamem_mb`, so the
+  `memory=` option must be set explicitly for high-resolution multi-monitor.
+  With `libvirt`/`virt-manager`, set `<video><model type='qxl' vgamem='131072'/>`
+  (in KiB). A value of 64–128 MiB comfortably supports four high-resolution
+  heads.
+  :::
+
+(spice-keyboard)=
+
+#### Keyboard settings
+
+`server-layout`
+: The server-side keyboard layout used by the SPICE server. This is the
+  layout of the remote desktop and has nothing to do with the keyboard layout
+  in use on the client. *The Guacamole client is independent of keyboard
+  layout.* SPICE, however, is *not* independent of keyboard layout, and
+  Guacamole needs to know the keyboard layout of the server in order to send
+  the correct key events when a user is typing.
+
+  The value must match one of the keyboard layout names bundled with
+  libguac-client-spice. Possible values generally follow the format
+  {samp}`{LANGUAGE}-{REGION}-{VARIANT}`:
+
+  | Keyboard layout                | Parameter value        |
+  | ------------------------------ | ---------------------- |
+  | Brazilian (Portuguese)         | `pt-br-qwerty`         |
+  | English (UK)                   | `en-gb-qwerty`         |
+  | English (US)                   | `en-us-qwerty`         |
+  | French                         | `fr-fr-azerty`         |
+  | French (Belgian)               | `fr-be-azerty`         |
+  | French (Swiss)                 | `fr-ch-qwertz`         |
+  | German                         | `de-de-qwertz`         |
+  | German (Swiss)                 | `de-ch-qwertz`         |
+  | Hungarian                      | `hu-hu-qwertz`         |
+  | Italian                        | `it-it-qwerty`         |
+  | Japanese                       | `ja-jp-qwerty`         |
+  | Norwegian                      | `no-no-qwerty`         |
+  | Spanish                        | `es-es-qwerty`         |
+  | Spanish (Latin American)       | `es-latam-qwerty`      |
+  | Swedish                        | `sv-se-qwerty`         |
+  | Turkish-Q                      | `tr-tr-qwerty`         |
+
+  If the server's keyboard layout is not listed above, the `failsafe` value
+  may be used to force all input to be sent as Unicode events; however, this
+  may prevent keyboard shortcuts from working as expected.
+
+(spice-clipboard)=
+
+#### Clipboard settings
+
+SPICE clipboard synchronization is bidirectional and supports both plain text
+(UTF-8) and images (PNG, BMP, JPEG, and TIFF), provided the guest is running the
+SPICE guest agent (`spice-vdagent`). Image clipboard requires an image-capable
+Guacamole client; PNG is used as the baseline image format.
+
+In addition to the common `disable-copy` and `disable-paste` parameters
+described in [](disable-clipboard), SPICE provides the following
+clipboard-specific parameters:
+
+`disable-clipboard`
+: If set to "true", the SPICE clipboard channel will be disabled entirely,
+  preventing all clipboard synchronization between the client and the remote
+  desktop. This is a stronger restriction than `disable-copy` and
+  `disable-paste`, as it disables the clipboard at the protocol level rather
+  than just suppressing individual directions of transfer. This parameter is
+  optional. By default, the clipboard channel is enabled.
+
+`clipboard-buffer-size`
+: The maximum size, in bytes, of the buffer used when exchanging clipboard
+  data with the SPICE server. This parameter is optional. If omitted, a
+  default buffer size will be used. Increasing this value may be necessary
+  when copying very large amounts of text, or when copying images (which are
+  typically much larger than text and will be truncated if they exceed the
+  buffer size).
+
+(spice-audio)=
+
+#### Audio
+
+SPICE natively supports audio output and audio input through dedicated SPICE
+channels. Enabling audio allows the guest's sound to be streamed to the user's
+browser; enabling audio input allows the user's microphone to be forwarded to
+the guest.
+
+:::{note}
+For best audio quality over a LAN, configure the SPICE server (QEMU/libvirt)
+to avoid the legacy CELT lossy codec. For example, when launching QEMU
+directly, pass `-spice ...,playback-compression=off` to use raw (lossless)
+audio, or ensure that Opus is negotiated between the SPICE server and guacd.
+Note that guacd forwards whatever audio codec the SPICE server negotiates and
+cannot change the server-side codec selection; this must be configured on the
+SPICE server itself.
+
+Additionally, browsers enforce an autoplay policy that suppresses audio until
+the user interacts with the session. Guest audio also requires that the virtual
+machine have an emulated sound device and a running sound server such as
+PulseAudio or PipeWire inside the guest.
+:::
+
+`enable-audio`
+: If set to "true", audio output support will be enabled, and the guest's
+  audio will be streamed to the user's browser over the SPICE audio channel.
+  By default, audio support within SPICE is disabled.
+
+`enable-audio-input`
+: If set to "true", audio input support (microphone) will be enabled,
+  allowing the user's microphone to be forwarded to the SPICE guest over the
+  SPICE audio input channel. By default, audio input support within SPICE is
+  disabled.
+
+`disable-audio-opus`
+: If set to "true", the Opus audio codec will be disabled. guacd stops
+  advertising Opus to the SPICE server, which then falls back to its next
+  available audio mode: raw (uncompressed, lossless) on modern servers — which
+  no longer support the legacy CELT codec — or CELT on older servers. On a LAN,
+  disabling Opus is therefore a simple way to obtain lossless raw audio from the
+  client side, at the cost of higher bandwidth (roughly 1.5 Mbps for 48 kHz
+  stereo). On older servers that still provide CELT, disabling Opus instead
+  selects that lossy codec, so this option is only beneficial where raw is the
+  fallback. By default, Opus is used whenever both guacd and the SPICE server
+  support it.
+
+(spice-file-transfer)=
+
+#### Native file transfer
+
+SPICE offers two native mechanisms for moving files between the client and the
+guest, each with a different reach. Both are separate from the SFTP file
+transfer described in [](common-sftp).
+
+* **Shared folder (WebDAV)** — *bidirectional.* A directory on the Guacamole
+  server is exposed to the guest over the SPICE WebDAV channel and to the user
+  through the on-screen Guacamole file browser. Users can browse, **download**,
+  and upload files. This requires the guest to mount the share (see
+  [](#accessing-the-shared-folder-from-the-guest)).
+
+* **Direct upload to guest (SPICE agent)** — *client-to-guest only.* Files
+  dragged or uploaded onto the session are pushed straight into the guest by the
+  SPICE agent (`spice-vdagent`), which saves them to the logged-in user's
+  download/desktop location (per the guest's XDG configuration — typically
+  *Downloads*, falling back to the *Desktop*). This needs no mount and works
+  out-of-the-box on any vdagent-enabled guest, but it cannot retrieve files
+  *from* the guest.
+
+Because a Guacamole session has a single upload gesture, exactly one mechanism
+receives dragged/uploaded files. The `file-transfer-mode` parameter selects
+which:
+
+`file-transfer-mode`
+: Selects how files are transferred to the guest. One of:
+
+  * `none` — File transfer is disabled (the default when this parameter and the
+    legacy `file-transfer` parameter are both unset).
+  * `agent` — Uploaded files are pushed into the guest via the SPICE agent,
+    which saves them to the logged-in user's download/desktop location.
+    Upload-only; no file browser is shown.
+  * `drive` — The bidirectional WebDAV shared folder. Uploaded files land in the
+    shared folder, which the user also browses and downloads from. Requires
+    `file-directory` (and typically `enable-drive` / `drive-path`).
+  * `both` — The shared folder provides browsing and downloads, while the
+    drag-and-drop upload gesture is routed to the SPICE agent (guest Downloads).
+    This is the only configuration in which enabling the agent adds a capability
+    the shared folder does not already provide.
+
+  For backwards compatibility, when `file-transfer-mode` is left blank the mode
+  is derived from the legacy `file-transfer` parameter: `drive` if it is "true",
+  otherwise `none`.
+
+  If `file-transfer-mode` is `agent` (or `both`) and the SPICE guest agent is
+  not connected, the upload is rejected and an error is logged — files are never
+  silently discarded.
+
+`enable-drive`
+: If set to "true", native SPICE file transfer will be enabled, allowing
+  users to transfer files to and from the SPICE guest. Files will be stored
+  in the directory specified by the `drive-path` parameter, which is required
+  if file transfer is enabled. By default, file transfer is disabled.
+
+`drive-path`
+: The directory on the Guacamole server in which transferred files should be
+  stored. This directory must be accessible by guacd and both readable and
+  writable by the user that runs guacd. *This parameter does not refer to a
+  directory inside the SPICE guest.*
+
+  If file transfer is not enabled, this parameter is ignored.
+
+`drive-read-only`
+: If set to "true", the shared drive presented to the SPICE guest will be
+  read-only. Users will be able to download files from the guest but will not
+  be able to upload files to the drive. This parameter is optional. By
+  default, the shared drive is read-write.
+
+  If file transfer is not enabled, this parameter is ignored.
+
+`file-transfer`
+: If set to "true", in-session file transfer via the SPICE file transfer
+  channel is enabled. This parameter is optional.
+
+`file-directory`
+: The directory within the SPICE file transfer channel to use for file
+  operations. This parameter is optional.
+
+`file-transfer-create-folder`
+: If set to "true", and file transfer is enabled, the directory specified by
+  the `file-directory` parameter will automatically be created if it does not
+  yet exist. Only the final directory in the path will be created — if other
+  directories earlier in the path do not exist, automatic creation will fail,
+  and an error will be logged. This parameter is optional.
+
+`file-transfer-ro`
+: If set to "true", file transfer via the SPICE file transfer channel will be
+  read-only. This parameter is optional.
+
+`disable-download`
+: If set to "true", downloads from the remote system to the client (browser)
+  will be disabled. This includes downloads done via the Guacamole menu as
+  well as through the shared drive. The default is false, which means that
+  downloads will be allowed.
+
+  If file transfer is not enabled, this parameter is ignored.
+
+`disable-upload`
+: If set to "true", uploads from the client (browser) to the remote system
+  will be disabled. The default is false, which means that uploads will be
+  allowed if file transfer is enabled.
+
+  If file transfer is not enabled, this parameter is ignored.
+
+##### Accessing the shared folder from the guest
+
+The directory shared with `enable-drive` / `drive-path` is exposed to the guest
+over the SPICE **WebDAV** channel (backed by libphodav on the guacd side). For
+it to appear inside the guest, two things are required on the virtual-machine
+and guest side:
+
+* **The VM must expose the SPICE WebDAV port** (`org.spice-space.webdav.0`).
+  This is a per-VM setting on the hypervisor. For example, with Proxmox VE:
+
+  ```
+  qm set VMID --spice_enhancements foldersharing=1
+  ```
+
+  (the VM must be powered off and on for the channel to be added). Under
+  libvirt, add a matching `<channel type='spiceport'>` with
+  `<target name='org.spice-space.webdav.0'/>`.
+
+* **The guest must run `spice-webdavd`** (packaged as `spice-webdavd` on most
+  distributions). This daemon bridges the SPICE WebDAV channel to a local WebDAV
+  endpoint, by default `http://localhost:9843/`.
+
+Once both are in place and a Guacamole SPICE connection with `enable-drive`
+active, the shared folder becomes available inside the guest:
+
+* On GNOME-based desktops it appears automatically in the file manager as
+  *Spice client folder* (via the GVFS WebDAV backend).
+* From the command line it can be mounted with davfs2, for example:
+
+  ```
+  sudo mount -t davfs http://localhost:9843/ /mnt/shared
+  ```
+
+Files placed in `drive-path` on the Guacamole server are then visible in the
+guest; unless `drive-read-only` is set, the share is read-write and files the
+guest writes appear back in `drive-path`.
+
+(adding-spice)=
+
+#### Adding a SPICE connection
+
+If you are using the default authentication built into Guacamole, and you wish
+to grant access to a SPICE connection to a particular user, you need to locate
+the `<authorize>` section for that user within your `user-mapping.xml`, and add
+a section like the following within it:
+
+```xml
+<connection name="Unique Name">
+    <protocol>spice</protocol>
+    <param name="hostname">localhost</param>
+    <param name="port">5900</param>
+</connection>
+```
+
+If added exactly as above, a new connection named "`Unique Name`" will be
+available to the user associated with the `<authorize>` section containing it.
+The connection will use SPICE to connect to localhost at port 5900. Naturally,
+you will want to change some or all of these values.
+
+If your SPICE server requires a ticket (password), add a `password` parameter
+accordingly. Other authentication methods will provide documentation describing
+how to configure new connections. If the authentication method in use fully
+implements the features of Guacamole's authentication API, you will be able to
+add a new SPICE connection easily and intuitively using the administration
+interface built into Guacamole. You will not need to edit configuration files.
+
 ### SSH
 
 Unlike VNC or RDP, SSH is a text protocol. Its implementation in Guacamole is
@@ -2219,6 +2757,42 @@ guaclog: INFO: All files interpreted successfully.
 $
 ```
 
+(guacclip)=
+
+If recording of clipboard events is explicitly enabled using the
+`recording-include-clipboard` parameter, recordings can also be processed with
+the {program}`guacclip` utility to recover the clipboard text and images
+exchanged during the session. Unlike {program}`guacenc` and {program}`guaclog`,
+which cover video and keystrokes respectively, {program}`guacclip` is the tool
+that recovers clipboard activity, writing each clipboard transfer to an
+individual file alongside a `manifest.json` describing every item's transfer
+direction, mimetype, byte count, and SHA-256 digest:
+
+```console
+$ guacclip /path/to/recording/NAME
+guacclip: INFO: Guacamole clipboard artifact extractor (guacclip) version {{ version }}
+guacclip: INFO: 1 input file(s) provided.
+guacclip: INFO: Extracting clipboard artifacts from "/path/to/recording/NAME" into "/path/to/recording/NAME.clipboard" ...
+guacclip: INFO: All files interpreted successfully.
+$
+```
+
+By default, extracted items and the manifest are written to
+{samp}`{NAME}.clipboard`, alongside the recording. Each recorded transfer is
+annotated with its direction — `guest-to-client` (data copied out of the
+guest, i.e. the data-exfiltration direction) or `client-to-guest` (data pasted
+into the guest) — so recordings can be audited for clipboard-based data
+movement in either direction.
+
+The {program}`guacclip` utility has additional options for overriding the
+output location, filtering by direction or content type, capping per-item
+size, and handling duplicate items, which are documented in detail within the
+manpage:
+
+```console
+$ man guacclip
+```
+
 :::{important}
 By default, Guacamole will not overwrite an existing recording, unless you have
 enabled it to do so by use of the `recording-write-existing` connection
@@ -2286,6 +2860,19 @@ overwrite the existing recording.
   to produce a human-readable interpretation of the keys pressed during the
   session. *This parameter is optional.* If omitted, key events will be not
   included in the recording.
+
+  This parameter only has an effect if graphical recording is enabled. If
+  the `recording-path` is not specified, graphical session recording will be
+  disabled, and this parameter will be ignored.
+
+`recording-include-clipboard`
+: If set to "true", clipboard state changes will be included in the recording,
+  in both directions (data copied out of the guest as well as data pasted into
+  it), including images. Each recorded clipboard transfer is annotated with its
+  direction — `guest-to-client` (data leaving the guest, i.e. the
+  data-exfiltration direction) or `client-to-guest` — so that recordings can be
+  audited for clipboard-based data movement. *This parameter is optional.* If
+  omitted, clipboard events will not be included in the recording.
 
   This parameter only has an effect if graphical recording is enabled. If
   the `recording-path` is not specified, graphical session recording will be

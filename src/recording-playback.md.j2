@@ -76,6 +76,17 @@ will be displayed when the progress bar is hovered.
 
 ![Display and search key events](images/player-key-events.png)
 
+If clipboard events were captured (`recording-include-clipboard`), the
+in-browser player surfaces each clipboard transfer inline within the key-event
+log, showing text previews, image thumbnails, and the direction of each
+transfer. To recover the underlying clipboard artifacts themselves — the text
+and image files — for offline review or auditing, including which direction
+each transfer moved (`guest-to-client`, data copied out of the guest, i.e. the
+data-exfiltration direction, or `client-to-guest`, data pasted into the guest),
+process the recording with [the `guacclip` utility](guacclip), which extracts
+each transfer to its own file alongside a manifest describing its direction,
+mimetype, size, and SHA-256 digest.
+
 (playback-installing)=
 
 Installing/Enabling the recording storage extension

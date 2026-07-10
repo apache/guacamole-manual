@@ -152,6 +152,10 @@ as well as any additional features of those protocols:
 * VNC support depends on the libvncclient library, which is part of
   libVNCServer.
 
+* SPICE support depends on the spice-client-glib library (version 0.38 or
+  higher), which is part of spice-gtk. The optional shared-folder / WebDAV
+  feature additionally depends on libphodav.
+
 * RDP support depends on a recent version of FreeRDP (2.0.0 or higher, but
   please *not a non-release version from git*).
 
@@ -200,6 +204,32 @@ carefully before deciding not to install an optional dependency.
     - `freerdp2-dev`
   * - Fedora / CentOS / RHEL package
     - `freerdp-devel`
+  :::
+
+[spice-gtk](https://www.spice-space.org/spice-gtk.html)
+: spice-gtk provides spice-client-glib (0.38 or later), which is required for
+  SPICE support. If you do not wish to build SPICE support, this library is not
+  needed.
+
+  :::{list-table}
+  :stub-columns: 1
+  * - Debian / Ubuntu package
+    - `libspice-client-glib-2.0-dev`
+  * - Fedora / CentOS / RHEL package
+    - `spice-glib-devel`
+  :::
+
+[libphodav](https://gitlab.gnome.org/GNOME/phodav)
+: libphodav is optionally used by SPICE to provide the shared-folder (WebDAV)
+  feature. If it is not present, SPICE support will still build, but the
+  shared-folder feature will be unavailable.
+
+  :::{list-table}
+  :stub-columns: 1
+  * - Debian / Ubuntu package
+    - `libphodav-2.0-dev`
+  * - Fedora / CentOS / RHEL package
+    - `phodav-devel`
   :::
 
 [Pango](http://www.pango.org/)
@@ -418,6 +448,8 @@ guacamole-server version {{ version }}
      libswscale .......... yes
      libtelnet ........... yes
      libVNCServer ........ yes
+     spice-gtk ........... yes
+     libphodav ........... yes
      libvorbis ........... yes
      libpulse ............ yes
      libwebsockets ....... yes
@@ -431,12 +463,14 @@ guacamole-server version {{ version }}
       SSH ........... yes
       Telnet ........ yes
       VNC ........... yes
+      SPICE ......... yes
 
    Services / tools:
 
       guacd ...... yes
       guacenc .... yes
       guaclog .... yes
+      guacclip ... yes
 
    FreeRDP plugins: /usr/lib/freerdp2
    Init scripts: no
@@ -480,6 +514,8 @@ guacamole-server version {{ version }}
      libswscale .......... yes
      libtelnet ........... yes
      libVNCServer ........ yes
+     spice-gtk ........... yes
+     libphodav ........... yes
      libvorbis ........... yes
      libpulse ............ yes
      libwebsockets ....... yes
@@ -493,12 +529,14 @@ guacamole-server version {{ version }}
       SSH ........... yes
       Telnet ........ yes
       VNC ........... yes
+      SPICE ......... yes
 
    Services / tools:
 
       guacd ...... yes
       guacenc .... yes
       guaclog .... yes
+      guacclip ... yes
 
    FreeRDP plugins: /usr/lib/freerdp2
    Init scripts: /etc/init.d
