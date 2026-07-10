@@ -1,21 +1,20 @@
 {# vim: set filetype=markdown.jinja : #}
 {%- import 'include/ext-macros.md.j2' as ext with context -%}
 
-Retrieving secrets from a vault
-===============================
+Retrieving secrets from a Keeper Secret Manager
+===============================================
 
 Guacamole supports reading secrets such as connection-specific passwords from a
+[Keeper Secret Manager (KSM)](https://www.keepersecurity.com/secrets-manager.html)
 key vault, automatically injecting those secrets into connection configurations
-using [parameter tokens](parameter-tokens) or Guacamole configuration
-properties via an additional, vault-specific configuration file analogous to
-`guacamole.properties`. This support is intended with multiple vault providers
-in mind and currently supports [Keeper Secrets Manager (KSM)](https://www.keepersecurity.com/secrets-manager.html).
-
+using [parameter tokens](parameter-tokens) or Guacamole configuration properties
+via an additional, vault-specific configuration file analogous to
+`guacamole.properties`.
 
 ```{include} include/warn-config-changes.md
 ```
 
-(vault-downloading)=
+(keeper-downloading)=
 
 Installing/Enabling the vault extension
 ---------------------------------------
@@ -83,11 +82,11 @@ question should be able to access.
 
    This token can be used to generate a base64-encoded configuration blob as
    described in the following step, or it can be used directly to set a KSM
-   config for a user or connection, as described in [the following section](guac-vault-config).
+   config for a user or connection, as described in [the following section](guac-keeper-config).
 
 5. Copy the provided one-time token using [the KSM CLI tool](https://docs.keeper.io/secrets-manager/secrets-manager/secrets-manager-command-line-interface/init-command)
    to obtain the base64-encoded configuration that must be provided to
-   Guacamole with [the `ksm-config` property](guac-vault-config). **This token
+   Guacamole with [the `ksm-config` property](guac-keeper-config). **This token
    can only be used once, but the base64 configuration can be used indefinitely
    unless manually revoked within KSM:**
 
@@ -105,7 +104,7 @@ question should be able to access.
    $
    ```
 
-(guac-vault-config)=
+(guac-keeper-config)=
 
 Required configuration
 ----------------------
@@ -178,7 +177,7 @@ The following additional, optional {{ ext.properties() }} may be set as desired
 to tailor the behavior of the KSM support:
 {% endcall %}
 
-(completing-vault-install)=
+(completing-keeper-install)=
 
 Completing installation
 -----------------------
