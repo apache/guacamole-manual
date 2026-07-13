@@ -1894,6 +1894,208 @@ the Guacamole *client* will be encrypted, but communication between guacd and
 the telnet server will still be unencrypted. You should not use telnet unless
 the network between guacd and the telnet server is trusted.
 
+### Database terminals (MySQL, PostgreSQL, SQL Server, MongoDB, Oracle)
+
+Guacamole can provide interactive, shell-style access to several databases
+directly within the browser. As with SSH and telnet, a terminal is emulated on
+the server side and rendered to the Guacamole client's display, so all of
+Guacamole's session logging facilities (typescripts and graphical session
+recording) apply to database sessions, too. Rather than launching a
+command-line client like `mysql` or `psql` on a remote machine, guacd connects
+to the database server directly using the database's own client library, and
+presents a prompt at which statements can be typed, edited, and executed.
+
+Database support for Guacamole is provided by the libguac-client-mysql,
+libguac-client-postgresql, libguac-client-mssql, libguac-client-mongodb, and
+libguac-client-oracle libraries, each of which will be installed as part of
+guacamole-server if the required client library is present during the build.
+
+:::{note}
+In addition to the database-specific parameters below, Guacamole's database
+support also accepts the parameters of several features that Guacamole
+provides for multiple protocols:
+
+* [](disable-clipboard)
+* [](graphical-recording)
+* [](typescripts)
+* [](stdin-pipe)
+* [](terminal-behavior)
+* [](terminal-display-settings)
+* [](wake-on-lan)
+:::
+
+(database-shell)=
+
+#### The database shell
+
+Each line typed at the prompt is edited locally within guacd, with support for
+cursor movement (Left/Right/Home/End), in-memory command history (Up/Down),
+and the common control shortcuts Ctrl+A, Ctrl+E, Ctrl+K, Ctrl+U, Ctrl+W, and
+Ctrl+L. History is kept only in memory and is discarded when the session ends.
+
+Input is sent to the database only once a complete statement has been entered.
+For the SQL databases, statements end with a semicolon (`;`), with two
+additions matching the conventions of the native clients: SQL Server also
+accepts a line containing only `GO` as a batch separator, and Oracle PL/SQL
+blocks (statements beginning with `DECLARE`, `BEGIN`, or `CREATE` of a
+procedural object) end only with a line containing only a slash (`/`). For
+MongoDB, each statement is a single JSON document, which may span several
+lines until its braces balance.
+
+Pressing Ctrl+C cancels the statement currently being entered. If a statement
+is already executing, Ctrl+C requests cancellation of that statement where the
+database supports it (see the per-database notes below). The session ends when
+`\q`, `quit`, or `exit` is entered, or when Ctrl+D is pressed at an empty
+prompt, and `\h` displays the available shell commands.
+
+(database-common-parameters)=
+
+#### Common parameters
+
+All database protocols accept the following connection parameters:
+
+`hostname`
+: The hostname or IP address of the database server Guacamole should connect
+  to. This parameter is required.
+
+`port`
+: The port the database server is listening on. If omitted, the standard port
+  of the database in question will be used (3306 for MySQL, 5432 for
+  PostgreSQL, 1433 for SQL Server, 27017 for MongoDB, and 1521 for Oracle).
+
+`username`
+: The username to authenticate as. If omitted, the user will be prompted for
+  a username within the terminal when the connection is opened (except for
+  MongoDB, where omitting the username results in an unauthenticated
+  connection).
+
+`password`
+: The password to authenticate with. If omitted and the database requires a
+  password, the user will be prompted for the password within the terminal,
+  with the typed characters displayed as asterisks.
+
+`database`
+: The name of the database to use initially. This parameter is optional for
+  all databases except Oracle, which uses `service-name` instead. For MongoDB,
+  this selects the database that commands are directed to, which may later be
+  changed with the `\use` shell command.
+
+`timeout`
+: The number of seconds to wait for the connection to the database server to
+  be established before giving up. If omitted, the default of 10 seconds will
+  be used. This parameter currently has no effect for Oracle connections,
+  where connection timeouts are governed by Oracle Net configuration.
+
+(mysql-protocol-parameters)=
+
+#### MySQL / MariaDB
+
+MySQL support is implemented using MariaDB Connector/C, which can connect to
+both MySQL and MariaDB servers. The non-blocking API of MariaDB Connector/C is
+required; Oracle's libmysqlclient cannot be used. While a statement is
+executing, Ctrl+C cancels it by issuing `KILL QUERY` over a separate,
+short-lived connection, exactly as the `mysql` command-line client does. For
+security reasons, `LOAD DATA LOCAL INFILE` is unconditionally disabled; the
+database server can never read files local to guacd.
+
+`ssl-mode`
+: The TLS behavior of the connection: one of `disabled`, `preferred`,
+  `required`, `verify-ca`, or `verify-identity`. If omitted, TLS is used if
+  available but is not required, and the server certificate is not verified.
+
+`ssl-ca-file`
+: The path, *on the server hosting guacd*, of the certificate authority file
+  used to verify the database server certificate.
+
+(postgresql-protocol-parameters)=
+
+#### PostgreSQL
+
+PostgreSQL support is implemented using libpq. Statement splitting understands
+PostgreSQL dollar-quoted string literals (`$tag$ ... $tag$`) and nested block
+comments, so functions and procedures can be entered directly. Server notices
+(such as those produced by `RAISE NOTICE`) are displayed within the terminal
+as they arrive, and Ctrl+C cancels a running statement using PostgreSQL's
+native cancellation mechanism.
+
+`ssl-mode`
+: The libpq `sslmode` of the connection: one of `disable`, `allow`, `prefer`,
+  `require`, `verify-ca`, or `verify-full`. If omitted, libpq's default
+  (`prefer`) applies.
+
+`ssl-ca-file`
+: The path, *on the server hosting guacd*, of the certificate authority file
+  used to verify the database server certificate (libpq's `sslrootcert`).
+
+(mssql-protocol-parameters)=
+
+#### SQL Server
+
+SQL Server support is implemented using the CT-Library interface of FreeTDS.
+In addition to semicolons, a line containing only `GO` (case-insensitive)
+submits the current batch, as in `sqlcmd`. Messages raised by the server,
+including `PRINT` output, are displayed within the terminal. Ctrl+C cancels a
+running statement by sending a TDS attention, as `sqlcmd` and `sqsh` do.
+
+Whether the TDS connection itself is encrypted is governed by the FreeTDS
+configuration (`freetds.conf`) of the server hosting guacd; see the FreeTDS
+documentation for the `encryption` setting.
+
+`tds-version`
+: The TDS protocol version to use: one of `7.1`, `7.2`, `7.3`, or `7.4`. If
+  omitted, the version is negotiated automatically.
+
+(mongodb-protocol-parameters)=
+
+#### MongoDB
+
+MongoDB support is implemented using the MongoDB C Driver (libmongoc). Unlike
+the SQL databases, the MongoDB shell does not accept a query language of its
+own: each statement is a [MongoDB database
+command](https://www.mongodb.com/docs/manual/reference/command/) written as a
+JSON document, giving access to everything the server supports. For example:
+
+```
+mongodb> {"find": "users", "filter": {"age": {"$gt": 30}}}
+mongodb> {"insert": "users", "documents": [{"name": "guac"}]}
+mongodb> {"aggregate": "events", "pipeline": [{"$group": {"_id": "$type", "n": {"$sum": 1}}}], "cursor": {}}
+```
+
+Replies are displayed as indented, relaxed Extended JSON. When a command
+returns a cursor (such as `find` or `aggregate`), the shell automatically
+issues `getMore` commands until the cursor is exhausted. The shell additionally
+provides `\use <db>` to switch the database commands are directed to, and
+`\show dbs` / `\show collections` to list databases and collections.
+Cancellation of a running command with Ctrl+C is not supported by the MongoDB
+C Driver; the session's socket timeouts bound how long a command can run.
+
+`auth-database`
+: The database to authenticate against (`authSource`), if different from the
+  connected database.
+
+`use-ssl`
+: If set to "true", TLS is used for the connection to the MongoDB server.
+
+`ssl-ca-file`
+: The path, *on the server hosting guacd*, of the certificate authority file
+  used to verify the database server certificate.
+
+(oracle-protocol-parameters)=
+
+#### Oracle Database
+
+Oracle support is implemented using the Oracle Call Interface (OCI) and is
+built only when guacamole-server is explicitly configured with the Oracle
+Instant Client SDK (see [](installing-guacamole)). Plain SQL statements end
+with a semicolon, while PL/SQL blocks end with a line containing only `/`, as
+in SQL*Plus. Statements are committed upon successful execution. Ctrl+C
+cancels a running statement using `OCIBreak()`.
+
+`service-name`
+: The service name of the database to connect to, as would appear in an
+  EZConnect string (`//hostname:port/service-name`). This parameter is
+  required; the `database` parameter is not used by Oracle connections.
+
 ### Kubernetes
 
 Kubernetes provides an API for attaching to the console of a container over the
