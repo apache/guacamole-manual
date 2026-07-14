@@ -1894,6 +1894,223 @@ the Guacamole *client* will be encrypted, but communication between guacd and
 the telnet server will still be unencrypted. You should not use telnet unless
 the network between guacd and the telnet server is trusted.
 
+### Serial
+
+Guacamole's `serial` protocol provides browser-based access to a device's
+asynchronous serial console — the local management port found on network
+switches, routers, firewalls, PDUs, and similar equipment. As with SSH and
+telnet, Guacamole's serial support emulates a terminal on the server side
+which renders to the Guacamole client's display, so the full set of terminal
+features (color schemes, fonts, session recording, and typescripts) and
+clipboard access are available exactly as they are for SSH and telnet
+sessions.
+
+Serial support for Guacamole is provided by the libguac-client-serial
+library, which will be installed as part of guacamole-server if the required
+dependencies are present during the build.
+
+Two connection modes are available: `local`, where guacd opens a serial
+device (e.g. `/dev/ttyUSB0`) attached directly to the guacd host, and
+`network`, where guacd connects over TCP to a serial-to-network gateway such
+as [ser2net](https://github.com/cminyard/ser2net). See [Configuring Serial
+Console Access](serial-console-configuration.md) for a complete walkthrough
+of both modes, including local device permissions and a ready-to-use
+ser2net configuration.
+
+:::{note}
+In addition to the serial-specific parameters below, Guacamole's serial
+support also accepts the parameters of several features that Guacamole
+provides for multiple protocols:
+
+* [](disable-clipboard)
+* [](graphical-recording)
+* [](typescripts)
+* [](stdin-pipe)
+* [](terminal-behavior)
+* [](terminal-display-settings)
+:::
+
+(serial-connection-parameters)=
+
+#### Connection mode
+
+`serial-type`
+: The connection mode to use: `local`, to open a serial device attached
+  directly to the guacd host, or `network`, to connect over TCP to a
+  serial-to-network gateway such as ser2net. This parameter is optional. If
+  not specified, `local` is used.
+
+(serial-local-mode)=
+
+#### Local mode
+
+This parameter applies when `serial-type` is `local`.
+
+`device`
+: The path to the serial device to open, e.g. `/dev/ttyUSB0` or, preferably,
+  a stable path beneath `/dev/serial/by-id/`. *This parameter is required
+  when `serial-type` is `local`.*
+
+  For guacd to be permitted to open the device, and for guidance on
+  restricting which devices may be opened, see [Configuring Serial Console
+  Access](serial-console-configuration.md).
+
+(serial-network-mode)=
+
+#### Network mode
+
+These parameters apply when `serial-type` is `network`.
+
+`network-protocol`
+: The protocol to speak to the serial-to-network gateway: `raw`, a plain
+  byte pipe with no in-band signaling, or `rfc2217`, the Telnet COM Port
+  Control extension ([RFC 2217](https://www.rfc-editor.org/rfc/rfc2217)),
+  which additionally allows the serial line settings (baud rate, parity,
+  etc.) to be negotiated remotely and allows the [Send
+  Break](serial-send-break) signal to reach the device. This parameter is
+  optional. If not specified, `raw` is used.
+
+  A `raw` connection cannot transmit a Send Break signal, as a plain TCP
+  stream has no mechanism for carrying out-of-band signals; use `rfc2217` if
+  Send Break is required.
+
+`hostname`
+: The hostname or IP address of the serial-to-network gateway. *This
+  parameter is required when `serial-type` is `network`.*
+
+`port`
+: The TCP port on which the gateway is listening for the selected
+  `network-protocol`. *This parameter is required when `serial-type` is
+  `network`.*
+
+`timeout`
+: The timeout, in seconds, to wait for the gateway to respond when
+  establishing the connection before giving up and aborting. This parameter
+  is optional. If not specified, the default of 10 seconds is used.
+
+(serial-line-settings)=
+
+#### Serial line settings
+
+These parameters describe the framing and flow control of the serial line
+itself. In `local` mode they configure the device directly. In `network`
+mode they are only applied to the remote line if `network-protocol` is
+`rfc2217`; with `raw`, the gateway's own configured line settings are used
+instead, and these parameters have no effect on the remote device.
+
+The default of 9600 baud, 8 data bits, 1 stop bit, no parity — commonly
+written "9600 8N1" — is the standard console setting for the vast majority
+of network equipment, including Cisco, Juniper, Arista, Fortinet, and APC
+devices, and is normally correct without needing to be specified.
+
+`baud-rate`
+: The baud rate of the serial line. This parameter is optional. If not
+  specified, the default of `9600` is used.
+
+`data-bits`
+: The number of data bits per character: `5`, `6`, `7`, or `8`. This
+  parameter is optional. If not specified, the default of `8` is used.
+
+`stop-bits`
+: The number of stop bits: `1` or `2`. This parameter is optional. If not
+  specified, the default of `1` is used.
+
+`parity`
+: The parity checking mode: `none`, `odd`, `even`, `mark`, or `space`. This
+  parameter is optional. If not specified, the default of `none` is used.
+
+`flow-control`
+: The flow control mode: `none`, `rts-cts` (hardware flow control), or
+  `xon-xoff` (software flow control). This parameter is optional. If not
+  specified, the default of `none` is used.
+
+  Enabling flow control, if supported by the device, can prevent dropped
+  characters when a large amount of text — such as a pasted configuration
+  file — is sent to the device faster than it can process it. See also
+  `paste-delay`, below.
+
+(serial-send-break-param)=
+
+#### Sending a Break signal
+
+Many devices use a serial Break signal to interrupt the boot process or
+enter a recovery mode — for example, to drop a Cisco device into ROMMON, or
+to interrupt U-Boot on embedded systems, for password recovery or low-level
+diagnostics. See [Sending a Break signal](serial-send-break) for a full
+explanation of how and when a Break can be delivered.
+
+`break-duration`
+: The duration, in milliseconds, that the Break condition is held on the
+  line when triggered. This parameter is optional. If not specified, the
+  default of `500` is used.
+
+#### Paste delay
+
+`paste-delay`
+: The delay, in milliseconds, inserted between each chunk of text sent to
+  the serial line when text is pasted into the terminal. This parameter is
+  optional. If not specified, the default of `0` (no delay) is used.
+  Increasing this value can help avoid dropped or garbled characters on
+  devices or links that lack flow control and cannot keep up with pasted
+  text, such as when pasting a large configuration file.
+
+(serial-security)=
+
+#### Restricting accessible devices
+
+`allowed-devices`
+: A comma-separated allowlist of serial device paths that guacd is
+  permitted to open in `local` mode. This is configured on the guacd side
+  (in `guacd.conf` or via the equivalent command-line option; see
+  [](guacd.conf)), not as a per-connection parameter, and applies to all
+  `local`-mode serial connections handled by that guacd instance. If
+  configured, any connection whose `device` parameter is not present in the
+  list is refused. If not configured, guacd will attempt to open any device
+  path it is given, subject only to filesystem permissions.
+
+  See [Configuring Serial Console Access](serial-console-configuration.md)
+  for guidance on setting up this allowlist alongside the necessary
+  filesystem permissions.
+
+(adding-serial)=
+
+#### Adding a serial connection
+
+If you are using the default authentication built into Guacamole, and you
+wish to grant access to a serial connection to a particular user, you need
+to locate the `<authorize>` section for that user within your
+`user-mapping.xml`, and add a section like the following within it:
+
+```xml
+<connection name="Unique Name">
+    <protocol>serial</protocol>
+    <param name="serial-type">local</param>
+    <param name="device">/dev/serial/by-id/usb-FTDI...</param>
+    <param name="baud-rate">9600</param>
+</connection>
+```
+
+If added exactly as above, a new connection named "`Unique Name`" will be
+available to the user associated with the `<authorize>` section containing
+it. The connection will open the specified serial device directly on the
+guacd host at 9600 8N1. Naturally, you will want to change some or all of
+these values.
+
+To instead connect through a network gateway such as ser2net:
+
+```xml
+<connection name="Unique Name">
+    <protocol>serial</protocol>
+    <param name="serial-type">network</param>
+    <param name="network-protocol">rfc2217</param>
+    <param name="hostname">ser2net.example.net</param>
+    <param name="port">2001</param>
+</connection>
+```
+
+See [Configuring Serial Console Access](serial-console-configuration.md) for
+full setup instructions for both modes.
+
 ### Kubernetes
 
 Kubernetes provides an API for attaching to the console of a container over the

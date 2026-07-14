@@ -37,6 +37,7 @@ security
 :maxdepth: 1
 
 Configuration <configuring-guacamole>
+Serial console configuration <serial-console-configuration>
 General usage <using-guacamole>
 Administration <administration>
 troubleshooting
