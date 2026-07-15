@@ -30,6 +30,27 @@ Juniper, Arista, Fortinet, and APC devices. In most cases you will not need
 to change the serial line settings at all.
 :::
 
+(serial-auto-reconnect)=
+
+## Staying connected through a reboot: automatic reconnection
+
+Rebooting the attached device — or, in network mode, a ser2net TCP reset —
+normally drops the underlying serial connection out from under guacd. By
+default, Guacamole does **not** treat this as a fatal error: the Guacamole
+session stays open, the terminal and its scrollback are preserved exactly as
+they were, and guacd quietly retries the connection roughly every 2 seconds
+in the background, showing a brief "reconnecting" banner in the terminal
+while it does so. As soon as the device's console comes back — or the
+gateway accepts a new TCP connection — output resumes in the same window.
+
+This is controlled by the `auto-reconnect` connection parameter (see
+[](serial-connection-parameters)) and is enabled by default. Its main value
+is during a reboot: you can trigger a power cycle, leave the Guacamole
+window open, and watch the entire boot sequence — ROMMON, U-Boot, GRUB, and
+finally the operating system itself — scroll by as the console reappears,
+rather than having to notice the drop and manually reconnect partway through
+boot.
+
 ## Local mode: guacd on the same host as the device
 
 In local mode, guacd opens the `device` given in the connection parameters
@@ -214,7 +235,14 @@ or VPN, and restrict access with firewall rules.
 
 (serial-send-break)=
 
-## Sending a Break signal
+## Control lines: Break, DTR, and RTS
+
+Many devices respond to the serial control lines, not just the data bytes
+sent over them. Guacamole exposes control of these lines both through the
+web client, live, during a session, and through connection parameters that
+apply automatically.
+
+### Sending a Break signal
 
 A serial Break is a sustained line condition — not a character — held for a
 brief period. Many devices watch for it during boot in order to interrupt
@@ -228,18 +256,69 @@ text command `break` to this pipe causes guacd to assert a Break condition
 on the line for the duration configured by the `break-duration` connection
 parameter (500 ms by default).
 
-### Sending a break from the browser
-
-The web client exposes this as a **Send Break** action in the connection's
-menu while a serial session is active. Selecting it writes the `break`
-command to the `serial-control` pipe on your behalf, so in normal use you
-send a break from the menu rather than writing to the pipe directly.
-
 Break delivery requires guacd to have direct control of the line: it works
 in local mode, and in network mode when `network-protocol` is `rfc2217`. A
 `raw` network connection is a plain byte stream with no channel for
 out-of-band signals, so **Send Break has no effect over a `raw` connection**
 — use `rfc2217` if you need it.
+
+### DTR and RTS from the browser
+
+Alongside **Send Break**, the web client's serial connection menu provides
+**DTR** and **RTS** toggles, letting you raise or lower those control lines
+on demand while a session is active — useful, for example, to manually
+reset a device that watches DTR, or to unstick flow control that has left
+the device believing it is still being told to pause. Selecting one of
+these menu actions writes `dtr-on`, `dtr-off`, `rts-on`, or `rts-off` to the
+`serial-control` pipe, the same mechanism used by Send Break.
+
+Like Send Break, these toggles require guacd to have direct control of the
+line: local mode (via `TIOCMBIS`/`TIOCMBIC`) or network mode with
+`network-protocol` set to `rfc2217`. They have no effect over a `raw`
+network connection.
+
+### Resetting the device when the session closes
+
+Separately from the live DTR toggle, the `hangup-on-close` connection
+parameter (see [](serial-connection-parameters)) controls whether guacd
+drops DTR automatically when the Guacamole session itself closes — a UNIX
+"hangup" (`HUPCL`). Many devices treat a DTR drop as a reset signal, so
+enabling this parameter causes disconnecting from Guacamole to reset the
+attached device. It is disabled by default, so that closing the browser tab
+does not disturb whatever the device is doing.
+
+## Diagnosing connection problems
+
+(serial-status-banner)=
+
+### The connection status banner
+
+Each time a serial session connects — including after an automatic
+reconnect (see [](serial-auto-reconnect)) — the terminal prints a one-line
+status banner describing the endpoint and line settings currently in use
+(for example, an rfc2217 gateway at `9600 8N1`), along with a reminder to
+press Enter if the console appears blank. Before assuming a device is
+unreachable or misbehaving, check this banner first: a surprising baud rate
+or endpoint here is often the entire problem.
+
+### Busy, refused, and reset errors
+
+guacd distinguishes a handful of connection failure modes rather than
+reporting a single generic error, and logs the specific reason each time a
+serial connection is established or dropped:
+
+* In local mode, a device already opened exclusively by another process
+  (`TIOCEXCL`) is reported as **busy**, distinct from a permission error.
+* In network mode, a gateway that actively refuses the TCP connection, or
+  resets it after accepting, is reported distinctly from a timeout.
+
+If two Guacamole connections (or a Guacamole connection and something else)
+both need the same port, guacd does not attempt to forcibly take it over —
+in local mode it simply reports the device as busy. Forcibly stealing a busy
+*network*-mode port from a previous session is a policy decision made by the
+gateway, not by guacd; with ser2net, this is the `kickolduser` option shown
+in [the example above](serial-network-mode-setup), which disconnects the
+previous session when a new client connects.
 
 ## Common pitfalls
 
@@ -263,6 +342,20 @@ Characters dropped when pasting a large configuration
   Enable `flow-control` (`rts-cts` or `xon-xoff`, if the device supports
   it), or, if flow control isn't available, increase `paste-delay` to pace
   the paste out over time instead.
+
+Pasted configuration does nothing, or lines are duplicated or skipped
+: The device's console is expecting a different line terminator than the
+  one being sent. `line-ending` defaults to `cr`, which suits most network
+  equipment (Cisco, Juniper, and similar), but some devices instead expect
+  `lf` or `crlf`. If pasted text has no effect, or every other line seems to
+  vanish or repeat, try a different `line-ending` value.
+
+Typed characters appear doubled
+: `local-echo` is enabled against a device that already echoes what you
+  type, so each character is shown twice — once by Guacamole, once by the
+  device. Disable `local-echo`. Conversely, if you are typing "blind", with
+  nothing appearing until you press Enter, the device does *not* echo, and
+  enabling `local-echo` will fix it.
 
 The console appears completely silent
 : Serial consoles do not announce themselves — unlike SSH or telnet, nothing

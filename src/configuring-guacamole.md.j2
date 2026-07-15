@@ -1917,6 +1917,13 @@ Console Access](serial-console-configuration.md) for a complete walkthrough
 of both modes, including local device permissions and a ready-to-use
 ser2net configuration.
 
+On connect, and after any automatic reconnect, the terminal displays a
+one-line status banner reporting the endpoint and line settings in use (for
+example, an rfc2217 gateway at `9600 8N1`), along with a reminder to press
+Enter if the console appears blank. See [Diagnosing connection
+problems](serial-status-banner) for more on using this banner, and guacd's
+own logging, to troubleshoot a connection.
+
 :::{note}
 In addition to the serial-specific parameters below, Guacamole's serial
 support also accepts the parameters of several features that Guacamole
@@ -1988,6 +1995,23 @@ These parameters apply when `serial-type` is `network`.
   establishing the connection before giving up and aborting. This parameter
   is optional. If not specified, the default of 10 seconds is used.
 
+(serial-reconnection)=
+
+#### Automatic reconnection
+
+`auto-reconnect`
+: Whether guacd should automatically retry the underlying serial connection
+  if it is lost — a device reboot, a console cable/USB drop, or a ser2net
+  TCP reset — rather than ending the Guacamole session. This parameter is
+  optional. If not specified, `true` is used.
+
+  While reconnecting, the terminal and its scrollback are preserved and a
+  brief "reconnecting" banner is shown; guacd retries approximately every 2
+  seconds until the connection succeeds or the session is closed. See
+  [Staying connected through a reboot](serial-auto-reconnect) for why this
+  matters. Set this parameter to `false` to have the session end immediately
+  instead when the underlying connection is lost.
+
 (serial-line-settings)=
 
 #### Serial line settings
@@ -2029,22 +2053,30 @@ devices, and is normally correct without needing to be specified.
   file — is sent to the device faster than it can process it. See also
   `paste-delay`, below.
 
-(serial-send-break-param)=
+(serial-input-handling)=
 
-#### Sending a Break signal
+#### Terminal input handling
 
-Many devices use a serial Break signal to interrupt the boot process or
-enter a recovery mode — for example, to drop a Cisco device into ROMMON, or
-to interrupt U-Boot on embedded systems, for password recovery or low-level
-diagnostics. See [Sending a Break signal](serial-send-break) for a full
-explanation of how and when a Break can be delivered.
+`line-ending`
+: The line terminator sent when Enter is pressed or text is pasted: `cr`,
+  `lf`, or `crlf`. This parameter is optional. If not specified, the
+  default of `cr` is used, as CR alone is what the console UART of most
+  network equipment (Cisco, Juniper, and similar) expects.
 
-`break-duration`
-: The duration, in milliseconds, that the Break condition is held on the
-  line when triggered. This parameter is optional. If not specified, the
-  default of `500` is used.
+  If a pasted device configuration appears to do nothing, or lines appear
+  duplicated or skipped, the device's console likely expects a different
+  terminator than the one configured — try `lf` or `crlf`.
 
-#### Paste delay
+`local-echo`
+: Whether characters typed into the terminal are echoed locally by
+  Guacamole, in addition to whatever the remote device echoes (if
+  anything). This parameter is optional. If not specified, the default of
+  `false` is used.
+
+  Enable this for devices or bootloaders that do not echo typed characters
+  themselves, otherwise you are typing "blind", with nothing appearing on
+  screen until you press Enter. Enabling `local-echo` against a device that
+  *does* echo will instead cause every character to appear doubled.
 
 `paste-delay`
 : The delay, in milliseconds, inserted between each chunk of text sent to
@@ -2053,6 +2085,34 @@ explanation of how and when a Break can be delivered.
   Increasing this value can help avoid dropped or garbled characters on
   devices or links that lack flow control and cannot keep up with pasted
   text, such as when pasting a large configuration file.
+
+(serial-send-break-param)=
+
+#### Control lines: Break, DTR, and RTS
+
+Many devices respond to the serial control lines, not just the data bytes
+sent over them. See [Control lines: Break, DTR, and RTS](serial-send-break)
+for a full explanation of what each signal is used for, and how the web
+client's Send Break, DTR, and RTS actions relate to the `serial-control`
+pipe.
+
+`break-duration`
+: The duration, in milliseconds, that a Break condition is held on the line
+  when triggered. This parameter is optional. If not specified, the default
+  of `500` is used.
+
+`hangup-on-close`
+: Whether guacd should drop DTR (a UNIX "hangup", `HUPCL`) when the serial
+  session is closed. This parameter is optional. If not specified, the
+  default of `false` is used. Many devices treat a DTR drop as a reset
+  signal; enable this if closing the Guacamole connection should reset the
+  attached device, and leave it disabled if the device should keep running
+  undisturbed after you disconnect.
+
+  Direct control of the DTR and RTS lines, whether via `hangup-on-close` or
+  the web client's live toggles, requires guacd to have direct access to
+  line signaling: local mode, or network mode with `network-protocol` set
+  to `rfc2217`. Neither has any effect over a `raw` network connection.
 
 (serial-security)=
 
