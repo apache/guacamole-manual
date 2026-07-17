@@ -1894,6 +1894,307 @@ the Guacamole *client* will be encrypted, but communication between guacd and
 the telnet server will still be unencrypted. You should not use telnet unless
 the network between guacd and the telnet server is trusted.
 
+### Serial
+
+Guacamole's `serial` protocol provides browser-based access to a device's
+asynchronous serial console — the local management port found on network
+switches, routers, firewalls, PDUs, and similar equipment. As with SSH and
+telnet, Guacamole's serial support emulates a terminal on the server side
+which renders to the Guacamole client's display, so the full set of terminal
+features (color schemes, fonts, session recording, and typescripts) and
+clipboard access are available exactly as they are for SSH and telnet
+sessions.
+
+Serial support for Guacamole is provided by the libguac-client-serial
+library, which will be installed as part of guacamole-server if the required
+dependencies are present during the build.
+
+Two connection modes are available: `local`, where guacd opens a serial
+device (e.g. `/dev/ttyUSB0`) attached directly to the guacd host, and
+`network`, where guacd connects over TCP to a serial-to-network gateway such
+as [ser2net](https://github.com/cminyard/ser2net). See [Configuring Serial
+Console Access](serial-console-configuration.md) for a complete walkthrough
+of both modes, including local device permissions and a ready-to-use
+ser2net configuration.
+
+On connect, and after any automatic reconnect, the terminal displays a
+one-line status banner reporting the endpoint and line settings in use (for
+example, an rfc2217 gateway at `9600 8N1`), along with a reminder to press
+Enter if the console appears blank. See [Diagnosing connection
+problems](serial-status-banner) for more on using this banner, and guacd's
+own logging, to troubleshoot a connection.
+
+:::{note}
+In addition to the serial-specific parameters below, Guacamole's serial
+support also accepts the parameters of several features that Guacamole
+provides for multiple protocols:
+
+* [](disable-clipboard)
+* [](graphical-recording)
+* [](typescripts)
+* [](stdin-pipe)
+* [](terminal-behavior)
+* [](terminal-display-settings)
+:::
+
+(serial-connection-parameters)=
+
+#### Connection mode
+
+`serial-type`
+: The connection mode to use: `local`, to open a serial device attached
+  directly to the guacd host, or `network`, to connect over TCP to a
+  serial-to-network gateway such as ser2net. This parameter is optional. If
+  not specified, `local` is used.
+
+(serial-local-mode)=
+
+#### Local mode
+
+This parameter applies when `serial-type` is `local`.
+
+`device`
+: The path to the serial device to open, e.g. `/dev/ttyUSB0` or, preferably,
+  a stable path beneath `/dev/serial/by-id/`. *This parameter is required
+  when `serial-type` is `local`.*
+
+  For guacd to be permitted to open the device, and for guidance on
+  restricting which devices may be opened, see [Configuring Serial Console
+  Access](serial-console-configuration.md).
+
+(serial-network-mode)=
+
+#### Network mode
+
+These parameters apply when `serial-type` is `network`.
+
+`network-protocol`
+: The protocol to speak to the serial-to-network gateway: `raw`, a plain
+  byte pipe with no in-band signaling, or `rfc2217`, the Telnet COM Port
+  Control extension ([RFC 2217](https://www.rfc-editor.org/rfc/rfc2217)),
+  which additionally allows the serial line settings (baud rate, parity,
+  etc.) to be negotiated remotely and allows the [Send
+  Break](serial-send-break) signal to reach the device. This parameter is
+  optional. If not specified, `raw` is used.
+
+  A `raw` connection cannot transmit a Send Break signal, as a plain TCP
+  stream has no mechanism for carrying out-of-band signals; use `rfc2217` if
+  Send Break is required.
+
+`hostname`
+: The hostname or IP address of the serial-to-network gateway. *This
+  parameter is required when `serial-type` is `network`.*
+
+`port`
+: The TCP port on which the gateway is listening for the selected
+  `network-protocol`. *This parameter is required when `serial-type` is
+  `network`.*
+
+`timeout`
+: The timeout, in seconds, to wait for the gateway to respond when
+  establishing the connection before giving up and aborting. This parameter
+  is optional. If not specified, the default of 10 seconds is used.
+
+(serial-reconnection)=
+
+#### Automatic reconnection
+
+`auto-reconnect`
+: Whether guacd should automatically retry the underlying serial connection
+  if it is lost — a device reboot, a console cable/USB drop, or a ser2net
+  TCP reset — rather than ending the Guacamole session. This parameter is
+  optional. If not specified, `true` is used.
+
+  While reconnecting, the terminal and its scrollback are preserved and a
+  brief "reconnecting" banner is shown; guacd retries approximately every 2
+  seconds until the connection succeeds or the session is closed. See
+  [Staying connected through a reboot](serial-auto-reconnect) for why this
+  matters. Set this parameter to `false` to have the session end immediately
+  instead when the underlying connection is lost.
+
+(serial-line-settings)=
+
+#### Serial line settings
+
+These parameters describe the framing and flow control of the serial line
+itself. In `local` mode they configure the device directly. In `network`
+mode they are only applied to the remote line if `network-protocol` is
+`rfc2217`; with `raw`, the gateway's own configured line settings are used
+instead, and these parameters have no effect on the remote device.
+
+The default of 9600 baud, 8 data bits, 1 stop bit, no parity — commonly
+written "9600 8N1" — is the standard console setting for the vast majority
+of network equipment, including Cisco, Juniper, Arista, Fortinet, and APC
+devices, and is normally correct without needing to be specified.
+
+`baud-rate`
+: The baud rate of the serial line. This parameter is optional. If not
+  specified, the default of `9600` is used.
+
+`data-bits`
+: The number of data bits per character: `5`, `6`, `7`, or `8`. This
+  parameter is optional. If not specified, the default of `8` is used.
+
+`stop-bits`
+: The number of stop bits: `1` or `2`. This parameter is optional. If not
+  specified, the default of `1` is used.
+
+`parity`
+: The parity checking mode: `none`, `odd`, `even`, `mark`, or `space`. This
+  parameter is optional. If not specified, the default of `none` is used.
+
+`flow-control`
+: The flow control mode: `none`, `rts-cts` (hardware flow control), or
+  `xon-xoff` (software flow control). This parameter is optional. If not
+  specified, the default of `none` is used.
+
+  Enabling flow control, if supported by the device, can prevent dropped
+  characters when a large amount of text — such as a pasted configuration
+  file — is sent to the device faster than it can process it. See also
+  `paste-delay`, below.
+
+(serial-input-handling)=
+
+#### Terminal input handling
+
+`line-ending`
+: The line terminator sent when Enter is pressed or text is pasted: `cr`,
+  `lf`, or `crlf`. This parameter is optional. If not specified, the
+  default of `cr` is used, as CR alone is what the console UART of most
+  network equipment (Cisco, Juniper, and similar) expects.
+
+  If a pasted device configuration appears to do nothing, or lines appear
+  duplicated or skipped, the device's console likely expects a different
+  terminator than the one configured — try `lf` or `crlf`.
+
+`local-echo`
+: Whether characters typed into the terminal are echoed locally by
+  Guacamole, in addition to whatever the remote device echoes (if
+  anything). This parameter is optional. If not specified, the default of
+  `false` is used.
+
+  Enable this for devices or bootloaders that do not echo typed characters
+  themselves, otherwise you are typing "blind", with nothing appearing on
+  screen until you press Enter. Enabling `local-echo` against a device that
+  *does* echo will instead cause every character to appear doubled.
+
+`paste-delay`
+: The delay, in milliseconds, inserted between each chunk of text sent to
+  the serial line when text is pasted into the terminal. This parameter is
+  optional. If not specified, the default of `0` (no delay) is used.
+  Increasing this value can help avoid dropped or garbled characters on
+  devices or links that lack flow control and cannot keep up with pasted
+  text, such as when pasting a large configuration file.
+
+(serial-send-break-param)=
+
+#### Control lines: Break, DTR, and RTS
+
+Many devices respond to the serial control lines, not just the data bytes
+sent over them. See [Control lines: Break, DTR, and RTS](serial-send-break)
+for a full explanation of what each signal is used for, and how the web
+client's Send Break, DTR, and RTS actions relate to the `serial-control`
+pipe.
+
+`break-duration`
+: The duration, in milliseconds, that a Break condition is held on the line
+  when triggered. This parameter is optional. If not specified, the default
+  of `500` is used.
+
+`hangup-on-close`
+: Whether guacd should drop DTR (a UNIX "hangup", `HUPCL`) when the serial
+  session is closed. This parameter is optional. If not specified, the
+  default of `false` is used. Many devices treat a DTR drop as a reset
+  signal; enable this if closing the Guacamole connection should reset the
+  attached device, and leave it disabled if the device should keep running
+  undisturbed after you disconnect.
+
+  Direct control of the DTR and RTS lines, whether via `hangup-on-close` or
+  the web client's live toggles, requires guacd to have direct access to
+  line signaling: local mode, or network mode with `network-protocol` set
+  to `rfc2217`. Neither has any effect over a `raw` network connection.
+
+(serial-display-settings)=
+
+#### Display settings
+
+The serial protocol renders output using the same terminal emulator as the SSH,
+telnet, and Kubernetes protocols, and accepts the same [terminal display
+settings](terminal-display-settings) — `color-scheme`, `font-name`, `font-size`,
+and `scrollback` — plus:
+
+`backspace`
+: The ASCII code to send when the backspace key is pressed. This parameter is
+  optional. If not specified, the default of `127` (DEL) is used; set it to `8`
+  if the attached device expects a literal backspace.
+
+Because guacd — not the browser — rasterizes the terminal, **`font-name` must
+name a font that is installed on the guacd host**. The value is resolved by
+fontconfig on the server (verify with, for example, `fc-match "DejaVu Sans
+Mono"`), and an unrecognized name silently falls back to the default. That
+default, `monospace`, itself requires at least one monospace font to be
+installed on the guacd host; if fontconfig cannot resolve any font, guacd logs
+`Unable to get font "monospace"` and the terminal fails to render. On a minimal
+server this often means installing a font package such as `dejavu-fonts` (or
+`fonts-dejavu-core` on Debian/Ubuntu) alongside `fontconfig`.
+
+(serial-security)=
+
+#### Restricting accessible devices
+
+`allowed-devices`
+: A comma-separated allowlist of serial device paths that guacd is
+  permitted to open in `local` mode. This is configured on the guacd side
+  (in `guacd.conf` or via the equivalent command-line option; see
+  [](guacd.conf)), not as a per-connection parameter, and applies to all
+  `local`-mode serial connections handled by that guacd instance. If
+  configured, any connection whose `device` parameter is not present in the
+  list is refused. If not configured, guacd will attempt to open any device
+  path it is given, subject only to filesystem permissions.
+
+  See [Configuring Serial Console Access](serial-console-configuration.md)
+  for guidance on setting up this allowlist alongside the necessary
+  filesystem permissions.
+
+(adding-serial)=
+
+#### Adding a serial connection
+
+If you are using the default authentication built into Guacamole, and you
+wish to grant access to a serial connection to a particular user, you need
+to locate the `<authorize>` section for that user within your
+`user-mapping.xml`, and add a section like the following within it:
+
+```xml
+<connection name="Unique Name">
+    <protocol>serial</protocol>
+    <param name="serial-type">local</param>
+    <param name="device">/dev/serial/by-id/usb-FTDI...</param>
+    <param name="baud-rate">9600</param>
+</connection>
+```
+
+If added exactly as above, a new connection named "`Unique Name`" will be
+available to the user associated with the `<authorize>` section containing
+it. The connection will open the specified serial device directly on the
+guacd host at 9600 8N1. Naturally, you will want to change some or all of
+these values.
+
+To instead connect through a network gateway such as ser2net:
+
+```xml
+<connection name="Unique Name">
+    <protocol>serial</protocol>
+    <param name="serial-type">network</param>
+    <param name="network-protocol">rfc2217</param>
+    <param name="hostname">ser2net.example.net</param>
+    <param name="port">2001</param>
+</connection>
+```
+
+See [Configuring Serial Console Access](serial-console-configuration.md) for
+full setup instructions for both modes.
+
 ### Kubernetes
 
 Kubernetes provides an API for attaching to the console of a container over the
@@ -2465,10 +2766,11 @@ writer.sendEnd();
 
 #### Terminal display settings
 
-Guacamole's terminal emulator (used by SSH, telnet, and Kubernetes support)
-provides options for configuring the font used and its size. In this case, *the
-chosen font must be installed on the server*, as it is the server that will
-handle rendering of characters to the terminal display, not the client.
+Guacamole's terminal emulator (used by SSH, telnet, Kubernetes, and serial
+console support) provides options for configuring the font used and its size. In
+this case, *the chosen font must be installed on the server*, as it is the
+server that will handle rendering of characters to the terminal display, not the
+client.
 
 `color-scheme`
 : The color scheme to use for the terminal session. It consists of a
