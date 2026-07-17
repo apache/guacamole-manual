@@ -2099,11 +2099,6 @@ to. IPMI-over-LAN is standardized to use UDP port 623, and this is always used.
 `hostname`
 : The hostname or IP address of the BMC Guacamole should connect to.
 
-`port`
-: The RMCP port of the BMC. IPMI-over-LAN is fixed at 623/UDP by the underlying
-  FreeIPMI libraries; this parameter is accepted for forward compatibility and
-  informational purposes only, and the default of 623 should be used.
-
 `timeout`
 : The timeout, in seconds, to wait for the BMC to respond when establishing the
   IPMI session before giving up and aborting the connection. This parameter is
@@ -2153,7 +2148,7 @@ connect otherwise.
 
   * `required` — (default) only cipher suites that provide confidentiality
     (payload encryption) are allowed. If the configured `cipher-suite` does not
-    encrypt (suites 0, 1, 2, 6, 7, 8, 11, and 15), the connection is refused.
+    encrypt (suites 0, 1, 2, 6, 7, 11, 15, and 16), the connection is refused.
   * `preferred` — a non-encrypting suite is permitted, but a warning is logged.
   * `none` — any cipher suite is permitted, including those providing no
     confidentiality.
