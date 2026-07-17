@@ -2114,6 +2114,30 @@ pipe.
   line signaling: local mode, or network mode with `network-protocol` set
   to `rfc2217`. Neither has any effect over a `raw` network connection.
 
+(serial-display-settings)=
+
+#### Display settings
+
+The serial protocol renders output using the same terminal emulator as the SSH,
+telnet, and Kubernetes protocols, and accepts the same [terminal display
+settings](terminal-display-settings) — `color-scheme`, `font-name`, `font-size`,
+and `scrollback` — plus:
+
+`backspace`
+: The ASCII code to send when the backspace key is pressed. This parameter is
+  optional. If not specified, the default of `127` (DEL) is used; set it to `8`
+  if the attached device expects a literal backspace.
+
+Because guacd — not the browser — rasterizes the terminal, **`font-name` must
+name a font that is installed on the guacd host**. The value is resolved by
+fontconfig on the server (verify with, for example, `fc-match "DejaVu Sans
+Mono"`), and an unrecognized name silently falls back to the default. That
+default, `monospace`, itself requires at least one monospace font to be
+installed on the guacd host; if fontconfig cannot resolve any font, guacd logs
+`Unable to get font "monospace"` and the terminal fails to render. On a minimal
+server this often means installing a font package such as `dejavu-fonts` (or
+`fonts-dejavu-core` on Debian/Ubuntu) alongside `fontconfig`.
+
 (serial-security)=
 
 #### Restricting accessible devices
@@ -2742,10 +2766,11 @@ writer.sendEnd();
 
 #### Terminal display settings
 
-Guacamole's terminal emulator (used by SSH, telnet, and Kubernetes support)
-provides options for configuring the font used and its size. In this case, *the
-chosen font must be installed on the server*, as it is the server that will
-handle rendering of characters to the terminal display, not the client.
+Guacamole's terminal emulator (used by SSH, telnet, Kubernetes, and serial
+console support) provides options for configuring the font used and its size. In
+this case, *the chosen font must be installed on the server*, as it is the
+server that will handle rendering of characters to the terminal display, not the
+client.
 
 `color-scheme`
 : The color scheme to use for the terminal session. It consists of a

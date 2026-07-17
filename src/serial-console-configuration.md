@@ -327,6 +327,13 @@ Permission denied opening the device
   [](serial-allowed-devices) above — add the user to `dialout`/`uucp` and
   restart guacd.
 
+Blank terminal, and guacd logs `Unable to get font "monospace"`
+: The guacd host has no usable font installed, so the terminal emulator cannot
+  render any output. Install `fontconfig` and a monospace font on the guacd
+  host — for example `dejavu-fonts` (or `fonts-dejavu-core` on Debian/Ubuntu) —
+  then reconnect. See [](serial-display-settings) for the `font-name` parameter
+  and how fonts are resolved on the server.
+
 Garbage / mojibake output
 : The configured serial line settings don't match the device. This is
   almost always a baud rate mismatch — 9600 and 115200 are the two most
