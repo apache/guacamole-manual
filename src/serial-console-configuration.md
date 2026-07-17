@@ -257,10 +257,10 @@ to originate outbound connections.
 For these, set `reverse-connect` to `true`. guacd then **binds a local TCP port
 and waits for the device to connect to it**, rather than dialing out. The first
 inbound connection is accepted and bridged to the terminal exactly as an
-ordinary network connection: `network-protocol` (`raw` or `rfc2217`) still
-selects the framing, and the automatic reconnection behavior described above
-still applies — on disconnect, guacd resumes listening for the next inbound
-connection.
+ordinary network connection: `network-protocol` (`raw`, `rfc2217`, or
+`telnet`) still selects the framing, and the automatic reconnection behavior
+described above still applies — on disconnect, guacd resumes listening for the
+next inbound connection.
 
 | Parameter | Description |
 | --------- | ----------- |
