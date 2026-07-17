@@ -233,6 +233,73 @@ dedicated management network, or place it behind an SSH tunnel, `stunnel`,
 or VPN, and restrict access with firewall rules.
 :::
 
+(serial-reverse-mode)=
+
+## Reverse mode: letting the device connect to guacd
+
+In the network mode described above, guacd is the TCP client: it dials out to
+a gateway that is already listening. Some environments invert this — the
+device or hypervisor is configured to *dial out* to a collector, and nothing is
+listening for guacd to connect to. Common examples are QEMU/KVM and VMware
+virtual serial ports pointed at a remote host, and console servers configured
+to originate outbound connections.
+
+For these, set `reverse-connect` to `true`. guacd then **binds a local TCP port
+and waits for the device to connect to it**, rather than dialing out. The first
+inbound connection is accepted and bridged to the terminal exactly as an
+ordinary network connection: `network-protocol` (`raw` or `rfc2217`) still
+selects the framing, and the automatic reconnection behavior described above
+still applies — on disconnect, guacd resumes listening for the next inbound
+connection.
+
+| Parameter | Description |
+| --------- | ----------- |
+| `reverse-connect` | `true` to make guacd listen for an inbound connection instead of dialing out. Only meaningful in network mode; it is ignored for local connections. Defaults to `false`. |
+| `port` | The TCP port guacd listens on. Required. |
+| `bind-address` | The local address guacd binds to. Defaults to `127.0.0.1`, which accepts connections only from the same host. Set it to a specific management-interface address (or `0.0.0.0`/`::` for any interface) to accept connections from other hosts. |
+| `listen-timeout` | How long, in seconds, to wait for an inbound connection before the session fails. Defaults to `60`; a value of `0` waits indefinitely. |
+
+In reverse mode `hostname` is not used and may be omitted — guacd is the
+listener, so there is no remote host to name.
+
+### Example: a QEMU virtual serial port
+
+Point a guest's serial port at the guacd host with a socket character device in
+client mode. This dials out to guacd and keeps retrying until guacd is
+listening:
+
+```
+-chardev socket,id=serrev,host=guacd.example.net,port=4000,server=off,reconnect-ms=2000 \
+-serial chardev:serrev
+```
+
+The matching Guacamole connection tells guacd to listen on that port:
+
+```xml
+<connection name="VM console (reverse)">
+    <protocol>serial</protocol>
+    <param name="serial-type">network</param>
+    <param name="network-protocol">raw</param>
+    <param name="reverse-connect">true</param>
+    <param name="port">4000</param>
+    <param name="bind-address">0.0.0.0</param>
+    <param name="listen-timeout">120</param>
+</connection>
+```
+
+Open the connection in Guacamole first, so guacd begins listening, then start
+(or restart) the guest; its console appears in the terminal as soon as it
+connects.
+
+:::{warning}
+A reverse-mode listener accepts whichever endpoint connects to it first, and —
+like ser2net — the connection is unauthenticated and unencrypted. Keep the
+default `127.0.0.1` bind address unless you specifically need a remote device to
+connect; when you do, bind to a dedicated management interface and restrict
+access with firewall rules. Anyone who can reach the port can drive the console
+and read anything typed at it.
+:::
+
 (serial-send-break)=
 
 ## Control lines: Break, DTR, and RTS
