@@ -149,7 +149,7 @@ its behalf. [ser2net](https://github.com/cminyard/ser2net) is the most
 common such gateway and the one documented here, but any gateway speaking
 plain TCP or RFC 2217 will work.
 
-### `raw` vs `rfc2217`
+### `raw`, `rfc2217`, and `telnet`
 
 Guacamole's `network-protocol` parameter selects how the connection to the
 gateway is framed:
@@ -171,6 +171,16 @@ gateway is framed:
   rate, data bits, stop bits, parity, flow control) with the gateway, and to
   deliver a **Send Break** signal to the device. Prefer `rfc2217` whenever
   the gateway supports it.
+
+`telnet`
+: Base Telnet framing ([RFC 854](https://www.rfc-editor.org/rfc/rfc854)) —
+  the same in-band IAC escaping as `rfc2217` but **without** the COM Port
+  Control option, so the serial line settings are not negotiated (they are
+  informational, as with `raw`). Use it for endpoints that speak plain Telnet
+  rather than RFC 2217, such as QEMU/KVM `telnet:` serial ports and VMware
+  ESXi `telnet://` virtual serial ports. A **Send Break** is delivered as the
+  Telnet `BRK` command; whether it reaches the serial line depends on the
+  remote end.
 
 ### A complete ser2net example
 
