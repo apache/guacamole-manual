@@ -2475,10 +2475,14 @@ character codepoints reach the client, so a non-graphical (native/CLI) client
 cannot recover the text of the session.
 
 The `text-output` parameter enables an *opt-in* raw text-output mode. When
-enabled, the exact remote terminal (PTY) byte stream — including all ANSI/escape
-sequences, verbatim — is teed to an outbound pipe stream named "STDOUT". This is
-the complement of the inbound [STDIN pipe](stdin-pipe), and allows a native
-client to present the session as a true in-terminal text experience.
+enabled, the remote terminal (PTY) byte stream — including ANSI/escape sequences
+— is teed to an outbound pipe stream named "STDOUT". This is the complement of
+the inbound [STDIN pipe](stdin-pipe), and allows a native client to present the
+session as a true in-terminal text experience. Consumers must acknowledge each
+blob promptly; in tee mode, output is best-effort under client backpressure so a
+stalled consumer cannot block graphical users sharing the same connection. In
+"raw" headless mode, backpressure overflow fails the connection instead of
+silently corrupting the byte stream.
 
 The parameter accepts two enabled values, which differ in whether the graphical
 terminal display is also rendered:
@@ -2496,28 +2500,35 @@ terminal display is also rendered:
   native/CLI client.
 
 `text-output`
-: Enables raw text-output mode, teeing the raw terminal byte stream, verbatim,
-  to an outbound "STDOUT" pipe stream. Set to "true" to keep rendering the
-  graphical display as well (*tee* mode), or "raw" to skip graphical rendering
-  entirely (*headless* mode, for native/CLI-only connections). This parameter is
-  optional and disabled by default; any other value, including "false", leaves
-  it disabled. It is honored only when copying from the terminal is permitted;
-  if [`disable-copy`](disable-clipboard) is set to "true", text-output is
+: Enables raw text-output mode, teeing the terminal byte stream to an outbound
+  "STDOUT" pipe stream. Set to "true" to keep rendering the graphical display
+  as well (*tee* mode), or "raw" to skip graphical rendering entirely
+  (*headless* mode, for native/CLI-only connections). This parameter is optional
+  and disabled by default; any other value, including "false", leaves it
+  disabled. It is honored only when copying from the terminal is permitted; if
+  [`disable-copy`](disable-clipboard) is set to "true", text-output is
   effectively a copy/exfiltration channel and is therefore ignored (a warning is
   logged).
 
 The raw output can be received within JavaScript by handling the `onpipe` event
 of [`Guacamole.Client`](http://guacamole.apache.org/doc/guacamole-common-js/Guacamole.Client.html)
-and watching for an inbound pipe stream named "STDOUT":
+and watching for an inbound pipe stream named "STDOUT" with mimetype
+`application/octet-stream`. Handle the stream as bytes, not as text, and send an
+ACK for each blob so server-side flow control can continue delivering output:
 
 ```javascript
 client.onpipe = function pipeReceived(stream, mimetype, name) {
-    if (name === 'STDOUT') {
-        var reader = new Guacamole.StringReader(stream);
-        reader.ontext = function textReceived(text) {
-            // "text" is the raw terminal output, including ANSI/escape sequences
-        };
-    }
+    if (name !== 'STDOUT' || mimetype !== 'application/octet-stream')
+        return;
+
+    stream.onblob = function rawOutputReceived(data) {
+        var bytes = Guacamole.Base64.decode(data);
+
+        // "bytes" contains raw terminal output, including ANSI/escape sequences.
+        // Decode to text only if your application has chosen the target charset.
+
+        stream.sendAck('OK', Guacamole.Status.Code.SUCCESS);
+    };
 };
 ```
 
