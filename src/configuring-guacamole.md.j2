@@ -2481,8 +2481,9 @@ the inbound [STDIN pipe](stdin-pipe), and allows a native client to present the
 session as a true in-terminal text experience. Consumers must acknowledge each
 blob promptly; in tee mode, output is best-effort under client backpressure so a
 stalled consumer cannot block graphical users sharing the same connection. In
-"raw" headless mode, backpressure overflow fails the connection instead of
-silently corrupting the byte stream.
+"raw" headless mode there is no graphical display to protect, so a slow consumer
+is throttled instead, preserving the byte stream; a consumer that stops
+acknowledging altogether is disconnected.
 
 The parameter accepts two enabled values, which differ in whether the graphical
 terminal display is also rendered:
