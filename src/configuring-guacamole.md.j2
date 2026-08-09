@@ -2050,6 +2050,210 @@ available to the user associated with the `<authorize>` section containing it.
 The connection will connect to the Kubernetes server running on localhost and
 attach to the first container of the pod "mypod".
 
+### IPMI
+
+IPMI (the Intelligent Platform Management Interface) provides out-of-band access
+to a server's Baseboard Management Controller (BMC), independent of the host
+operating system. Guacamole's IPMI support connects to the BMC over IPMI 2.0
+(RMCP+) and attaches to its **Serial-over-LAN (SOL)** console, emulating a
+terminal on the server side which renders to the Guacamole client's display —
+much like SSH and telnet, but presenting the machine's *serial* console
+(BIOS/UEFI, the bootloader, and the operating system console). In addition to
+the console, the connection provides out-of-band chassis power control and
+diagnostics through an in-terminal control menu.
+
+IPMI support for Guacamole is provided by the libguac-client-ipmi library, which
+will be installed as part of guacamole-server if the required dependencies
+(libipmiconsole and libfreeipmi, from [FreeIPMI](https://www.gnu.org/software/freeipmi/))
+are present during the build.
+
+:::{important}
+Before a connection can succeed, IPMI-over-LAN and Serial-over-LAN must be
+enabled on the BMC, and you must use a cipher suite the BMC accepts. This is
+configured on the BMC, not in Guacamole, and the exact steps and cipher suite
+differ by vendor. See [Configuring BMCs for IPMI Serial-over-LAN](ipmi-bmc-configuration.md)
+for validated, per-vendor procedures (Dell iDRAC, Lenovo XCC, Supermicro) and
+ready-to-use connection examples.
+:::
+
+:::{note}
+In addition to the IPMI-specific parameters below, Guacamole's IPMI support
+also accepts the parameters of several features that Guacamole provides for
+multiple protocols:
+
+* [](disable-clipboard)
+* [](graphical-recording)
+* [](typescripts)
+* [](stdin-pipe)
+* [](terminal-behavior)
+* [](terminal-display-settings)
+
+The connection also accepts the common `read-only` parameter, which disables
+all input and lets users only observe the session.
+:::
+
+(ipmi-network-parameters)=
+
+#### Network parameters
+
+IPMI connections require a hostname or IP address defining the BMC to connect
+to. IPMI-over-LAN is standardized to use UDP port 623, and this is always used.
+
+`hostname`
+: The hostname or IP address of the BMC Guacamole should connect to.
+
+`timeout`
+: The timeout, in seconds, to wait for the BMC to respond when establishing the
+  IPMI session before giving up and aborting the connection. This parameter is
+  optional. If not specified, the default of 60 seconds is used.
+
+(ipmi-authentication)=
+
+#### Authentication and encryption
+
+IPMI 2.0 authenticates using a username and password, optionally strengthened
+with a per-BMC key (K_g), and negotiates cryptography using a numeric cipher
+suite. By default, Guacamole requires an encrypting cipher suite and refuses to
+connect otherwise.
+
+`username`
+: The username to authenticate with. This parameter is optional. If not
+  specified, the BMC's anonymous/null user is used, if permitted by the BMC.
+
+`password`
+: The password to authenticate with. This parameter is optional.
+
+`k-g`
+: The BMC key (K_g) used for two-key authentication, if the BMC is configured to
+  require one. This parameter is optional. The value may be given as a plain
+  passphrase, or, to supply a binary key (which may contain NUL bytes), as a
+  hexadecimal string prefixed with `0x` (for example, `0xA1B2C3...`). If not
+  specified, the password is used as the BMC key, per the IPMI specification.
+
+`privilege-level`
+: The maximum IPMI privilege level to authenticate with: `user`, `operator`, or
+  `admin`. This parameter is optional. If not specified, `admin` is used. Note
+  that establishing a SOL session and performing chassis power control generally
+  require the `admin` (Administrator) privilege.
+
+`cipher-suite`
+: The IPMI 2.0 RMCP+ cipher suite ID determining the authentication, integrity,
+  and confidentiality algorithms used. This parameter is optional. If not
+  specified, suite **3** (HMAC-SHA1 / HMAC-SHA1-96 / AES-CBC-128) is used, which
+  is the most widely supported encrypting suite. Suite **17** (HMAC-SHA256 /
+  HMAC-SHA256-128 / AES-CBC-128) is required by some hardened BMCs (such as
+  Lenovo XCC and HPE iLO in high-security mode). Suite `0` provides no
+  authentication, integrity, or encryption and is refused by default (see
+  `encryption-policy`).
+
+`encryption-policy`
+: The policy governing whether a non-encrypting cipher suite is permitted:
+
+  * `required` — (default) only cipher suites that provide confidentiality
+    (payload encryption) are allowed. If the configured `cipher-suite` does not
+    encrypt (suites 0, 1, 2, 6, 7, 11, 15, and 16), the connection is refused.
+  * `preferred` — a non-encrypting suite is permitted, but a warning is logged.
+  * `none` — any cipher suite is permitted, including those providing no
+    confidentiality.
+
+  This parameter is optional and should be left at `required` unless the BMC is
+  on an isolated, trusted network and cannot offer an encrypting suite.
+
+`workaround-flags`
+: A comma-separated list of FreeIPMI workaround flags and/or vendor presets to
+  apply to the IPMI session, for BMCs that deviate from the IPMI 2.0
+  specification. This parameter is optional; by default no workarounds are
+  applied. Accepted presets are `none`, `supermicro`, `intel`, `sun`, `dell`,
+  `hpe`, and `lenovo`; these may be combined with individual flag tokens such as
+  `supermicro20`, `opensesspriv`, or `integritycheckvalue`. See
+  [](ipmi-workaround-flags) in the BMC configuration chapter for the full list
+  and the tokens each preset expands to.
+
+(ipmi-serial-over-lan)=
+
+#### Serial-over-LAN session
+
+`sol-payload-instance`
+: The SOL payload instance to activate, from 1 to 15. This parameter is
+  optional. If not specified, instance 1 is used, which is correct for virtually
+  all BMCs (only a few multi-node systems expose additional instances).
+
+`keepalive-interval`
+: The interval, in seconds, at which SOL keepalive packets are sent to prevent
+  an idle BMC from silently dropping the session. This parameter is optional. If
+  not specified or set to 0, the FreeIPMI default is used. Setting an explicit
+  interval (for example, `30`) is recommended for BMCs known to drop idle
+  sessions, such as some Supermicro models.
+
+(ipmi-power-management)=
+
+#### Power management and boot control
+
+Chassis power state and one-time boot device overrides can be applied
+automatically when the connection is established, and are also available on
+demand through the in-terminal control menu.
+
+`power-on-connect`
+: A chassis power action to perform automatically once the SOL session is
+  established: `none`, `on`, `reset`, or `cycle`. This parameter is optional and
+  defaults to `none`. Applying the action *after* the console has attached
+  allows the machine to be observed from the earliest stages of boot. Use with
+  care — `reset` and `cycle` are disruptive to a running system.
+
+`boot-device`
+: A boot device override to apply before any `power-on-connect` action: `none`,
+  `pxe`, `disk` (or `hd`), `cdrom` (or `cd`), or `bios` (or `setup`, to enter
+  the firmware setup utility). This parameter is optional and defaults to
+  `none`, leaving the BMC's configured boot order unchanged.
+
+`boot-device-persistent`
+: Whether the `boot-device` override persists across all subsequent boots rather
+  than applying only to the next boot. This parameter is optional and defaults
+  to `false` (the override applies to the next boot only, after which the normal
+  boot order resumes).
+
+Once connected, pressing **Ctrl + ]** opens an in-terminal control menu, drawn
+on the terminal's alternate screen so it does not disturb the console. From this
+menu you can power the system on, off, cycle, or hard-reset it, initiate a soft
+shutdown, pulse a diagnostic interrupt (NMI), query the current power status,
+activate the chassis identify LED, view the most recent System Event Log (SEL)
+entries, and send a serial break. Destructive power actions require
+confirmation. Press any key to dismiss command output and return to the console.
+
+Each out-of-band operation opens a brief management session with the BMC, which
+can take a few seconds to establish. These operations run in the background, so
+the serial console remains responsive while a command is in progress; a
+`working...` message is shown until the result is available. Only one operation
+runs at a time, and menu keystrokes are ignored until the current one completes.
+
+(adding-ipmi)=
+
+#### Adding an IPMI connection
+
+If you are using the default authentication built into Guacamole, and you wish
+to grant access to an IPMI connection to a particular user, you need to locate
+the `<authorize>` section for that user within your `user-mapping.xml`, and add
+a section like the following within it:
+
+```xml
+<connection name="Unique Name">
+    <protocol>ipmi</protocol>
+    <param name="hostname">10.0.0.1</param>
+    <param name="username">ADMIN</param>
+    <param name="password">secret</param>
+    <param name="cipher-suite">3</param>
+    <param name="encryption-policy">required</param>
+</connection>
+```
+
+If added exactly as above, a new connection named "`Unique Name`" will be
+available to the user associated with the `<authorize>` section containing it.
+The connection will attach to the serial console of the BMC at 10.0.0.1 using an
+encrypted IPMI 2.0 session. Naturally, you will want to change some or all of
+these values, and the correct `cipher-suite` and any required `workaround-flags`
+depend on your BMC vendor — see
+[Configuring BMCs for IPMI Serial-over-LAN](ipmi-bmc-configuration.md).
+
 ### Common configuration options
 
 (disable-clipboard)=
