@@ -34,7 +34,7 @@ provide confidentiality (payload encryption):
 | **17**       | HMAC-SHA256    | SHA256-128| AES-CBC-128     | ✅         |
 
 Guacamole defaults to **cipher suite 3** and to `encryption-policy=required`,
-which refuses any non-encrypting suite (0, 1, 2, 6, 7, 8, 11, 15). Different
+which refuses any non-encrypting suite (0, 1, 2, 6, 7, 11, 15, 16). Different
 vendors support different suites — see each vendor below.
 
 :::{warning}
@@ -162,6 +162,7 @@ and/or individual **flag tokens**:
 
 | Preset         | Expands to |
 | -------------- | ---------- |
+| `none`         | _(empty; applies no workarounds)_ |
 | `supermicro`   | `supermicro20,opensesspriv,integritycheckvalue,solpayloadsize,solport,solstatus` |
 | `intel`        | `intel20,opensesspriv,integritycheckvalue` |
 | `sun`          | `sun20,authcap,opensesspriv,solpayloadsize` |

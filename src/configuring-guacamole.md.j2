@@ -2087,6 +2087,9 @@ multiple protocols:
 * [](stdin-pipe)
 * [](terminal-behavior)
 * [](terminal-display-settings)
+
+The connection also accepts the common `read-only` parameter, which disables
+all input and lets users only observe the session.
 :::
 
 (ipmi-network-parameters)=
@@ -2160,8 +2163,8 @@ connect otherwise.
 : A comma-separated list of FreeIPMI workaround flags and/or vendor presets to
   apply to the IPMI session, for BMCs that deviate from the IPMI 2.0
   specification. This parameter is optional; by default no workarounds are
-  applied. Accepted presets are `supermicro`, `intel`, `sun`, `dell`, `hpe`, and
-  `lenovo`; these may be combined with individual flag tokens such as
+  applied. Accepted presets are `none`, `supermicro`, `intel`, `sun`, `dell`,
+  `hpe`, and `lenovo`; these may be combined with individual flag tokens such as
   `supermicro20`, `opensesspriv`, or `integritycheckvalue`. See
   [](ipmi-workaround-flags) in the BMC configuration chapter for the full list
   and the tokens each preset expands to.
