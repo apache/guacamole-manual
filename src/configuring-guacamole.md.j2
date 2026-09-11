@@ -1983,8 +1983,7 @@ All database protocols accept the following connection parameters:
 `timeout`
 : The number of seconds to wait for the connection to the database server to
   be established before giving up. If omitted, the default of 10 seconds will
-  be used. This parameter currently has no effect for Oracle connections,
-  where connection timeouts are governed by Oracle Net configuration.
+  be used.
 
 (mysql-protocol-parameters)=
 
@@ -2043,7 +2042,8 @@ documentation for the `encryption` setting.
 
 `tds-version`
 : The TDS protocol version to use: one of `7.1`, `7.2`, `7.3`, or `7.4`. If
-  omitted, the version is negotiated automatically.
+  omitted, `7.4` is requested, and the server negotiates the version down as
+  needed.
 
 (mongodb-protocol-parameters)=
 
@@ -2065,9 +2065,10 @@ Replies are displayed as indented, relaxed Extended JSON. When a command
 returns a cursor (such as `find` or `aggregate`), the shell automatically
 issues `getMore` commands until the cursor is exhausted. The shell additionally
 provides `\use <db>` to switch the database commands are directed to, and
-`\show dbs` / `\show collections` to list databases and collections.
-Cancellation of a running command with Ctrl+C is not supported by the MongoDB
-C Driver; the session's socket timeouts bound how long a command can run.
+`\show dbs` / `\show collections` to list databases and collections. Ctrl+C
+cancels a running command by issuing `killOp` over a separate, short-lived
+connection, as `mongosh` does; MongoDB allows users to kill their own
+operations without any additional privilege.
 
 `auth-database`
 : The database to authenticate against (`authSource`), if different from the
