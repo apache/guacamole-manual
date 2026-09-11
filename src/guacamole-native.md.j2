@@ -204,9 +204,9 @@ carefully before deciding not to install an optional dependency.
 
 [Pango](http://www.pango.org/)
 : Pango is a text layout library which Guacamole uses to render text for
-  protocols that require a terminal (Kubernetes, SSH, and telnet). If you do
-  not wish to build any terminal-based protocol support, this library is not
-  needed.
+  protocols that require a terminal (Kubernetes, SSH, telnet, and the
+  database protocols). If you do not wish to build any terminal-based
+  protocol support, this library is not needed.
 
   :::{list-table}
   :stub-columns: 1
@@ -263,6 +263,65 @@ carefully before deciding not to install an optional dependency.
   * - Fedora / CentOS / RHEL package
     - `libwebsockets-devel`
   :::
+
+[MariaDB Connector/C](https://mariadb.com/kb/en/mariadb-connector-c/)
+: MariaDB Connector/C is required for the MySQL protocol, and can connect to
+  both MySQL and MariaDB servers. Its non-blocking API is required; Oracle's
+  libmysqlclient cannot be used instead. If you do not wish to build MySQL
+  support, this library is not needed.
+
+  :::{list-table}
+  :stub-columns: 1
+  * - Debian / Ubuntu package
+    - `libmariadb-dev`
+  * - Fedora / CentOS / RHEL package
+    - `mariadb-connector-c-devel`
+  :::
+
+[libpq](https://www.postgresql.org/docs/current/libpq.html)
+: libpq is required for the PostgreSQL protocol. If you do not wish to build
+  PostgreSQL support, this library is not needed.
+
+  :::{list-table}
+  :stub-columns: 1
+  * - Debian / Ubuntu package
+    - `libpq-dev`
+  * - Fedora / CentOS / RHEL package
+    - `libpq-devel`
+  :::
+
+[FreeTDS](https://www.freetds.org/)
+: FreeTDS provides the CT-Library interface required for the SQL Server
+  protocol. If you do not wish to build SQL Server support, this library is
+  not needed.
+
+  :::{list-table}
+  :stub-columns: 1
+  * - Debian / Ubuntu package
+    - `freetds-dev`
+  * - Fedora / CentOS / RHEL package
+    - `freetds-devel`
+  :::
+
+[MongoDB C Driver](https://mongoc.org/)
+: The MongoDB C Driver (libmongoc) is required for the MongoDB protocol. If
+  you do not wish to build MongoDB support, this library is not needed.
+
+  :::{list-table}
+  :stub-columns: 1
+  * - Debian / Ubuntu package
+    - `libmongoc-dev`
+  * - Fedora / CentOS / RHEL package
+    - `mongo-c-driver-devel`
+  :::
+
+[Oracle Instant Client SDK](https://www.oracle.com/database/technologies/instant-client.html)
+: The Oracle Call Interface (OCI) of the Oracle Instant Client is required
+  for the Oracle Database protocol. As the Instant Client is proprietary
+  software which cannot be redistributed with Guacamole, Oracle support is
+  never built by default: download the Instant Client "Basic" (or "Basic
+  Light") and "SDK" packages from Oracle, unzip both to the same directory,
+  and pass that directory to `configure` via `--with-oracle=<path>`.
 
 [PulseAudio](http://www.freedesktop.org/wiki/Software/PulseAudio/)
 : PulseAudio provides libpulse, which is used by Guacamole's VNC support to
@@ -413,10 +472,15 @@ guacamole-server version {{ version }}
      libavcodec .......... yes
      libavformat ......... yes
      libavutil ........... yes
+     freetds ............. yes
+     libmariadb .......... yes
+     libmongoc ........... yes
+     libpq ............... yes
      libssh2 ............. yes
      libssl .............. yes
      libswscale .......... yes
      libtelnet ........... yes
+     oracle (OCI) ........ no
      libVNCServer ........ yes
      libvorbis ........... yes
      libpulse ............ yes
@@ -427,6 +491,11 @@ guacamole-server version {{ version }}
    Protocol support:
 
       Kubernetes .... yes
+      MongoDB ....... yes
+      MySQL ......... yes
+      Oracle ........ no
+      PostgreSQL .... yes
+      SQL Server .... yes
       RDP ........... yes
       SSH ........... yes
       Telnet ........ yes
@@ -475,10 +544,15 @@ guacamole-server version {{ version }}
      libavcodec .......... yes
      libavformat ......... yes
      libavutil ........... yes
+     freetds ............. yes
+     libmariadb .......... yes
+     libmongoc ........... yes
+     libpq ............... yes
      libssh2 ............. yes
      libssl .............. yes
      libswscale .......... yes
      libtelnet ........... yes
+     oracle (OCI) ........ no
      libVNCServer ........ yes
      libvorbis ........... yes
      libpulse ............ yes
@@ -489,6 +563,11 @@ guacamole-server version {{ version }}
    Protocol support:
 
       Kubernetes .... yes
+      MongoDB ....... yes
+      MySQL ......... yes
+      Oracle ........ no
+      PostgreSQL .... yes
+      SQL Server .... yes
       RDP ........... yes
       SSH ........... yes
       Telnet ........ yes
