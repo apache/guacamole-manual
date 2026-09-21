@@ -1,0 +1,9 @@
+#
+# Whether or not by user Vault configurations should be enabled. The vault
+# is configuration is not supplied by the user themselves but in the user
+# configuration by the adminsitrator. The pulled secrets from the user 
+# Vault are only used if the secret is not already provided by the global
+# connection-group-level Vault configuration. A user-level Vault configuration
+# will never be used if a matching secret is otherwise available.
+#
+vault-allow-user-config: false
