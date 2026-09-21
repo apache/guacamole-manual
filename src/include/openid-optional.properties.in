@@ -138,8 +138,6 @@ openid-max-token-validity: 300
 # OpenID request can result in successful authentication within Guacamole. By
 # default, each generated nonce expires after 10 minutes.
 #
-# This value is only used with *Implicit Flow*.
-#
 openid-max-nonce-validity: 10
 
 #
