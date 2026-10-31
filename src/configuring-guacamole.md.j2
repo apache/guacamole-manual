@@ -1959,7 +1959,7 @@ This parameter applies when `serial-type` is `local`.
   when `serial-type` is `local`.*
 
   For guacd to be permitted to open the device, and for guidance on
-  restricting which devices may be opened, see [Configuring Serial Console
+  limiting which devices guacd can open, see [Configuring Serial Console
   Access](serial-console-configuration.md).
 
 (serial-network-mode)=
@@ -1970,30 +1970,59 @@ These parameters apply when `serial-type` is `network`.
 
 `network-protocol`
 : The protocol to speak to the serial-to-network gateway: `raw`, a plain
-  byte pipe with no in-band signaling, or `rfc2217`, the Telnet COM Port
+  byte pipe with no in-band signaling; `rfc2217`, the Telnet COM Port
   Control extension ([RFC 2217](https://www.rfc-editor.org/rfc/rfc2217)),
   which additionally allows the serial line settings (baud rate, parity,
   etc.) to be negotiated remotely and allows the [Send
-  Break](serial-send-break) signal to reach the device. This parameter is
-  optional. If not specified, `raw` is used.
+  Break](serial-send-break) signal to reach the device; or `telnet`, base
+  Telnet framing ([RFC 854](https://www.rfc-editor.org/rfc/rfc854)) without
+  the COM Port Control option, for endpoints such as QEMU/KVM and VMware
+  virtual serial ports that speak plain Telnet. This parameter is optional.
+  If not specified, `raw` is used.
 
   A `raw` connection cannot transmit a Send Break signal, as a plain TCP
   stream has no mechanism for carrying out-of-band signals; use `rfc2217` if
-  Send Break is required.
+  Send Break is required. A `telnet` connection sends Send Break as the
+  Telnet `BRK` command, which reaches the serial line only if the remote end
+  translates it.
+
+  The `rfc2217` and `telnet` protocols require guacamole-server to have been
+  built with libtelnet. If it was not, connections requesting either are
+  refused.
 
 `hostname`
 : The hostname or IP address of the serial-to-network gateway. *This
-  parameter is required when `serial-type` is `network`.*
+  parameter is required when `serial-type` is `network`, unless
+  `reverse-connect` is enabled.*
 
 `port`
 : The TCP port on which the gateway is listening for the selected
-  `network-protocol`. *This parameter is required when `serial-type` is
+  `network-protocol` or, if `reverse-connect` is enabled, the TCP port on
+  which guacd listens. *This parameter is required when `serial-type` is
   `network`.*
 
 `timeout`
 : The timeout, in seconds, to wait for the gateway to respond when
   establishing the connection before giving up and aborting. This parameter
   is optional. If not specified, the default of 10 seconds is used.
+
+`reverse-connect`
+: Whether guacd should listen for an inbound connection from the device
+  (reverse mode) instead of dialing out to a gateway. This parameter is
+  optional. If not specified, `false` is used. It has no effect on `local`
+  connections. See [Reverse mode](serial-reverse-mode) for details and an
+  example.
+
+`listen-timeout`
+: In reverse mode, how long, in seconds, guacd waits for an inbound
+  connection before the session fails. A value of `0` waits indefinitely.
+  This parameter is optional. If not specified, the default of 60 seconds
+  is used.
+
+`bind-address`
+: In reverse mode, the local address guacd binds to while listening. This
+  parameter is optional. If not specified, `127.0.0.1` is used, which
+  accepts connections only from the guacd host itself.
 
 (serial-reconnection)=
 
@@ -2109,10 +2138,10 @@ pipe.
   attached device, and leave it disabled if the device should keep running
   undisturbed after you disconnect.
 
-  Direct control of the DTR and RTS lines, whether via `hangup-on-close` or
-  the web client's live toggles, requires guacd to have direct access to
-  line signaling: local mode, or network mode with `network-protocol` set
-  to `rfc2217`. Neither has any effect over a `raw` network connection.
+  `hangup-on-close` applies only in `local` mode, where guacd controls the
+  device directly. The web client's live DTR and RTS toggles work in local
+  mode and in network mode with `network-protocol` set to `rfc2217`; they
+  have no effect over a `raw` or `telnet` network connection.
 
 (serial-display-settings)=
 
@@ -2128,6 +2157,13 @@ and `scrollback` — plus:
   optional. If not specified, the default of `127` (DEL) is used; set it to `8`
   if the attached device expects a literal backspace.
 
+`terminal-type`
+: The terminal type whose key sequences Guacamole's terminal emulator should
+  emit, as described under [](terminal-behavior). A serial line has no way to
+  advertise this value to the device, so it affects only the sequences sent
+  for special keys. This parameter is optional. If not specified, `linux` is
+  used.
+
 Because guacd — not the browser — rasterizes the terminal, **`font-name` must
 name a font that is installed on the guacd host**. The value is resolved by
 fontconfig on the server (verify with, for example, `fc-match "DejaVu Sans
@@ -2137,24 +2173,6 @@ installed on the guacd host; if fontconfig cannot resolve any font, guacd logs
 `Unable to get font "monospace"` and the terminal fails to render. On a minimal
 server this often means installing a font package such as `dejavu-fonts` (or
 `fonts-dejavu-core` on Debian/Ubuntu) alongside `fontconfig`.
-
-(serial-security)=
-
-#### Restricting accessible devices
-
-`allowed-devices`
-: A comma-separated allowlist of serial device paths that guacd is
-  permitted to open in `local` mode. This is configured on the guacd side
-  (in `guacd.conf` or via the equivalent command-line option; see
-  [](guacd.conf)), not as a per-connection parameter, and applies to all
-  `local`-mode serial connections handled by that guacd instance. If
-  configured, any connection whose `device` parameter is not present in the
-  list is refused. If not configured, guacd will attempt to open any device
-  path it is given, subject only to filesystem permissions.
-
-  See [Configuring Serial Console Access](serial-console-configuration.md)
-  for guidance on setting up this allowlist alongside the necessary
-  filesystem permissions.
 
 (adding-serial)=
 

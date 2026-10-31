@@ -57,6 +57,8 @@ In local mode, guacd opens the `device` given in the connection parameters
 (e.g. `/dev/ttyUSB0`) as though it were any other process on the host. This
 means the usual UNIX device-file permission rules apply.
 
+(serial-device-permissions)=
+
 ### Granting guacd access to the device
 
 Serial devices are normally owned by `root` and a group such as `dialout`
@@ -115,29 +117,29 @@ Use the `by-id` path (e.g.
 `/dev/serial/by-id/usb-FTDI_TTL232R-3V3_FTGH1234-if00-port0`) as the `device`
 connection parameter rather than `/dev/ttyUSB0`.
 
-(serial-allowed-devices)=
+(serial-limiting-devices)=
 
-### Restricting which devices can be opened
+### Limiting which devices guacd can open
 
-Because the `device` parameter is ultimately just a filesystem path that
-guacd honors directly, guacd should be configured with an explicit allowlist
-of serial devices it is permitted to open, so that a Guacamole connection
-cannot be used to open arbitrary device files on the guacd host. Configure
-the allowlist on the guacd side (`guacd.conf`, or the equivalent
-command-line option — see [](guacd.conf)) as a comma-separated list of
-permitted device paths, for example:
+The `device` parameter is a filesystem path that guacd opens directly, so
+anyone allowed to create or edit serial connections can point one at any
+device file that guacd's user can read and write. guacd does not maintain a
+separate allowlist of serial devices; the operating system's permissions are
+what limit which devices a connection can open.
+
+Run guacd as an unprivileged user, never as root, and grant that user access
+only to the serial devices it needs. Rather than adding guacd's user to a
+broad group such as `dialout`, which typically covers every serial port on
+the host, you can use a udev rule to place only the intended adapters in a
+dedicated group. For example, matching a single adapter by its serial
+number:
 
 ```
-[serial]
-
-allowed_devices = /dev/serial/by-id/usb-FTDI_TTL232R-3V3_FTGH1234-if00-port0,/dev/serial/by-id/usb-FTDI_TTL232R-3V3_FTGH5678-if00-port0
+SUBSYSTEM=="tty", ATTRS{serial}=="FTGH1234", GROUP="guacd-serial", MODE="0660"
 ```
 
-With an allowlist configured, any connection whose `device` parameter is not
-present in the list is refused, regardless of filesystem permissions. This,
-combined with running guacd as an unprivileged user restricted to the
-`dialout`/`uucp` group rather than root, keeps a compromised or misconfigured
-connection from reading or writing arbitrary device files on the guacd host.
+With guacd's user a member of `guacd-serial` only, a connection that names
+any other device fails with a permission error.
 
 (serial-network-mode-setup)=
 
@@ -147,7 +149,7 @@ In network mode, guacd does not open a local device at all; instead it
 connects over TCP to a serial-to-network gateway that has the device open on
 its behalf. [ser2net](https://github.com/cminyard/ser2net) is the most
 common such gateway and the one documented here, but any gateway speaking
-plain TCP or RFC 2217 will work.
+plain TCP, RFC 2217, or Telnet will work.
 
 ### `raw`, `rfc2217`, and `telnet`
 
@@ -337,7 +339,9 @@ Break delivery requires guacd to have direct control of the line: it works
 in local mode, and in network mode when `network-protocol` is `rfc2217`. A
 `raw` network connection is a plain byte stream with no channel for
 out-of-band signals, so **Send Break has no effect over a `raw` connection**
-— use `rfc2217` if you need it.
+— use `rfc2217` if you need it. Over a `telnet` connection, guacd sends the
+Telnet `BRK` command instead; whether that produces a Break on the serial
+line depends on the remote end.
 
 ### DTR and RTS from the browser
 
@@ -351,15 +355,15 @@ these menu actions writes `dtr-on`, `dtr-off`, `rts-on`, or `rts-off` to the
 
 Like Send Break, these toggles require guacd to have direct control of the
 line: local mode (via `TIOCMBIS`/`TIOCMBIC`) or network mode with
-`network-protocol` set to `rfc2217`. They have no effect over a `raw`
-network connection.
+`network-protocol` set to `rfc2217`. They have no effect over a `raw` or
+`telnet` network connection.
 
 ### Resetting the device when the session closes
 
 Separately from the live DTR toggle, the `hangup-on-close` connection
 parameter (see [](serial-connection-parameters)) controls whether guacd
 drops DTR automatically when the Guacamole session itself closes — a UNIX
-"hangup" (`HUPCL`). Many devices treat a DTR drop as a reset signal, so
+"hangup" (`HUPCL`). It applies only in local mode. Many devices treat a DTR drop as a reset signal, so
 enabling this parameter causes disconnecting from Guacamole to reset the
 attached device. It is disabled by default, so that closing the browser tab
 does not disturb whatever the device is doing.
@@ -401,7 +405,7 @@ previous session when a new client connects.
 
 Permission denied opening the device
 : guacd's user is not a member of the device's owning group. See
-  [](serial-allowed-devices) above — add the user to `dialout`/`uucp` and
+  [](serial-device-permissions) above — add the user to `dialout`/`uucp` and
   restart guacd.
 
 Blank terminal, and guacd logs `Unable to get font "monospace"`
