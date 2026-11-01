@@ -2131,10 +2131,14 @@ connect otherwise.
   specified, the password is used as the BMC key, per the IPMI specification.
 
 `privilege-level`
-: The maximum IPMI privilege level to authenticate with: `user`, `operator`, or
-  `admin`. This parameter is optional. If not specified, `admin` is used. Note
-  that establishing a SOL session and performing chassis power control generally
-  require the `admin` (Administrator) privilege.
+: The IPMI privilege level to request for the session: `user`, `operator`, or
+  `admin`. This parameter is optional. If not specified, `operator` is used,
+  which is the level the IPMI specification requires for chassis power and boot
+  control; `user` is commonly refused SOL activation. The privilege required
+  for SOL is configurable on the BMC, and some vendors require `admin`; if SOL
+  activation fails with an "insufficient privilege" error, set this to `admin`.
+  The BMC account must be granted at least the requested level. Any other value
+  is rejected and the connection fails.
 
 `cipher-suite`
 : The IPMI 2.0 RMCP+ cipher suite ID determining the authentication, integrity,
@@ -2211,6 +2215,22 @@ demand through the in-terminal control menu.
   than applying only to the next boot. This parameter is optional and defaults
   to `false` (the override applies to the next boot only, after which the normal
   boot order resumes).
+
+`chassis-timeout`
+: The timeout, in milliseconds, for the brief management sessions opened with
+  the BMC to perform power, boot, status, identify, and System Event Log
+  operations. This parameter is optional. If not specified, the default of 8000
+  milliseconds is used. Unlike `timeout`, which applies to the SOL session and
+  is given in seconds, this value is given in milliseconds.
+
+`chassis-retransmission-timeout`
+: The time, in milliseconds, to wait for a response from the BMC before
+  retransmitting a request during those management sessions. This parameter is
+  optional. If not specified, the default of 1000 milliseconds is used. It must
+  be less than `chassis-timeout`. A value for either parameter that is not a
+  positive number is replaced by its default; if the retransmission timeout is
+  then not less than `chassis-timeout`, both values revert to their defaults. A
+  warning is logged in either case.
 
 Once connected, pressing **Ctrl + ]** opens an in-terminal control menu, drawn
 on the terminal's alternate screen so it does not disturb the console. From this
