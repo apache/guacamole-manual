@@ -1826,7 +1826,7 @@ transfer described in [](common-sftp).
   server is exposed to the guest over the SPICE WebDAV channel and to the user
   through the on-screen Guacamole file browser. Users can browse, **download**,
   and upload files. This requires the guest to mount the share (see
-  [](#accessing-the-shared-folder-from-the-guest)).
+  [](spice-shared-folder-guest)).
 
 * **Direct upload to guest (SPICE agent)** — *client-to-guest only.* Files
   dragged or uploaded onto the session are pushed straight into the guest by the
@@ -1927,6 +1927,8 @@ which:
   allowed if file transfer is enabled.
 
   If file transfer is not enabled, this parameter is ignored.
+
+(spice-shared-folder-guest)=
 
 ##### Accessing the shared folder from the guest
 
