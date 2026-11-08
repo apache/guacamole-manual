@@ -274,7 +274,8 @@ the connections it contains, choosing the connection with the fewest number of
 active users. Unlike organizational groups, clicking on a balancing group
 causes a new connection to be opened. The actual underlying connection used
 depends on which connection has the least load at the time the group was
-clicked, and whether session affinity is enabled on that group.
+clicked, whether session affinity is enabled on that group, plus a small
+randomization factor that helps balance the load amongst all connections.
 
 Enabling session affinity for a balancing group ensures that users are
 consistently routed to the same underlying connections until they log out of
