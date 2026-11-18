@@ -11,7 +11,8 @@ containers, connected over the network:
 
 `guacamole/guacd`
 : Provides the guacd daemon, built from the released guacamole-server source
-  with support for VNC, RDP, SSH, telnet, and Kubernetes.
+  with support for VNC, RDP, SSH, telnet, Kubernetes, and the database
+  terminal protocols (MySQL, PostgreSQL, SQL Server, and MongoDB).
 
 `guacamole/guacamole`
 : Provides the Guacamole web application running within Tomcat 9.x with support
@@ -44,10 +45,19 @@ Running the guacd Docker image
 ------------------------------
 
 The guacd Docker image is built from the released guacamole-server source with
-support for VNC, RDP, SSH, telnet, and Kubernetes. Common pitfalls like
+support for VNC, RDP, SSH, telnet, Kubernetes, and the database terminal
+protocols (MySQL, PostgreSQL, SQL Server, and MongoDB). Common pitfalls like
 installing the required dependencies, installing fonts for SSH, telnet, or
 Kubernetes, and ensuring the FreeRDP plugins are installed to the correct
 location are all taken care of. It will simply just work.
+
+:::{note}
+The Oracle Database protocol is not included in the guacd Docker image, as the
+required Oracle Instant Client is proprietary software which cannot be
+redistributed. To use the Oracle protocol with Docker, build a custom image
+which downloads the Instant Client "Basic" and "SDK" packages and builds
+guacamole-server with `--with-oracle=<path>`.
+:::
 
 (guacd-docker-guacamole)=
 
