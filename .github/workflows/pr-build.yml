@@ -26,4 +26,16 @@ jobs:
       - name: Build Docker container
         shell: sh
         run: |
-          docker build --pull --no-cache --force-rm .
+          docker build --pull --no-cache --tag built-manual-image .
+          docker create --name built-manual-container built-manual-image
+          docker cp built-manual-container:/usr/local/apache2/htdocs "$RUNNER_TEMP/htdocs"
+          docker container rm --force --volumes built-manual-container
+          docker image rm --force built-manual-image
+
+      - name: Upload built manual HTTP root
+        uses: actions/upload-artifact@v4
+        with:
+          name: built-manual
+          path: ${{ runner.temp }}//htdocs
+          retention-days: 1
+
