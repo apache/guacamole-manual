@@ -37,6 +37,7 @@ security
 :maxdepth: 1
 
 Configuration <configuring-guacamole>
+IPMI BMC configuration <ipmi-bmc-configuration>
 General usage <using-guacamole>
 Administration <administration>
 troubleshooting
