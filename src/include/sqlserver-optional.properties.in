@@ -48,3 +48,32 @@ sqlserver-instance: MSSQLSERVER
 # By default, SQL Server queries will retrieve no more than 500 objects.
 #
 sqlserver-batch-size: 500
+
+#
+# The maximum number of database connections that may be in use at once. Each
+# connection counts against the connection limit of the database server, along
+# with every other client of that database.
+#
+# By default, no more than 10 connections will be used.
+#
+sqlserver-pool-max-active: 10
+
+#
+# The maximum number of idle database connections kept open for reuse. Idle
+# connections beyond this number are closed as they are returned to the pool.
+#
+# By default, no more than 5 idle connections will be kept open.
+#
+sqlserver-pool-max-idle: 5
+
+#
+# The number of milliseconds a database connection must have been unused before
+# it is tested with a "SELECT 1" query prior to reuse. Testing connections lets
+# Guacamole detect connections dropped by the database server, but each test is
+# an additional round trip to the database. Raising this value can noticeably
+# improve performance under load, at the cost of the first query on a dropped
+# connection failing if it had been used within this many milliseconds.
+#
+# By default, this is 0, and connections are tested every time they are used.
+#
+sqlserver-pool-ping-not-used-for: 0
